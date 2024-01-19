@@ -30,7 +30,9 @@ const Header = () => {
                         initial={{ opacity: 0, y: -50 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}>
+                        transition={{ duration: 0.5 }}
+                        className='h-screen'
+                        >
                         <div className='flex w-full to-gray-300 justify-between items-center px-8 pt-3 h-24 font-custom-font'>
                             <div>
                                 <img src="src/assets/icon.svg" className='h-10 w-10' alt="" />
@@ -39,13 +41,19 @@ const Header = () => {
                                 <img src="src/assets/close.svg" className='h-9 w-9' alt="" />
                             </button>
                         </div>
-                        <div className='grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-5xl font-bold text-[#F7C144] gap-5 lg:gap-20  w-full bg-white '>
+                        <div className='grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-5xl font-bold text-[#F7C144] gap-5 lg:gap-20 h-screen w-full '>
                             <Link to="/" >Build Your Box</Link>
                             <Link to="/" >Our Story</Link>
                             <Link to="/" >FAQs</Link>
                             <Link to="/" >How It Works</Link>
                             <Link to="/" >Gifts</Link>
                             <Link to="/" >Login</Link>
+                        </div>
+                        <div className='flex justify-center items-center text-xl gap-10 text-[#D36A19]' >
+                            <Link to="/" >Blog</Link>
+                            <Link to="/" >Reviews</Link>
+                            <Link to="/" >Press Kit</Link>
+                            <Link to="/" >Help</Link>
                         </div>
                     </motion.div>
                 </motion.div>
