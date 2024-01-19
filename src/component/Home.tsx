@@ -5,8 +5,8 @@ import SignUp from './SignUp'
 const Home = () => {
   return (
     <div>
-        <Header/>
-        <SignUp/>
+      <Header />
+      <SignUp />
     </div>
   )
 }
