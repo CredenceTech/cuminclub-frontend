@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import {
   createAddressMutation,
+  deleteAddressMutation,
   fetchCustomerInfoQuery,
   getAllProductsQuery,
   graphQLClient,
   registerAccountMutation,
+  sendPasswordResetEmailMutation,
   setDefaultAddressMutation,
   signInMutation,
   updateAddressMutation,
+  updateCustomerInfoMutation,
 } from "../api/graphql";
 
 const SignUp = () => {
@@ -34,8 +37,8 @@ const SignUp = () => {
 
     // const response = await graphQLClient.request(registerAccountMutation, formData);
     // const response = await graphQLClient.request(signInMutation, {
-    //   email: "test@up.com",
-    //   password: "Problem0000",
+    //   email: "anuj@test.com",
+    //   password: "AnujAnuj",
     // });
     // const response = await graphQLClient.request(fetchCustomerInfoQuery, {
     //   customerAccessToken: "323bdbb15344314843aec1c6aa38a7d6",
@@ -57,10 +60,23 @@ const SignUp = () => {
   //   "city": "Hazaribagh",
   //   "zip": "21162"
   // });
-  const response = await graphQLClient.request(setDefaultAddressMutation, {
-    "addressId": "gid://shopify/MailingAddress/8738266677474?model_name=CustomerAddress&customer_access_token=QgfTKrA06VC-G8OuPWWMYTYUzYZSbCs3z8OeIMlOsxIremoovwSnwqCj6UmQGH1vj2RQ-agMlNZuQvrj67HyVaBRmEO8LyPNJudjlg6g5KtgaEx4zLz8Rp5Jtcg-KdheGUMyD7WIhwzdJBOxWGYqGiM8zt7ECTy_i8o6ROUTjrpk47an3FXE5VwY598k6-KEXw1niOuuiYgOlkWIMaGjSnjKTdlU98HReNGsh2tMpnss6Iw6QP7hd2_YLPGaitNw",
-    "customerAccessToken": "323bdbb15344314843aec1c6aa38a7d6",
-  });
+  // const response = await graphQLClient.request(setDefaultAddressMutation, {
+  //   "addressId": "gid://shopify/MailingAddress/8738266677474?model_name=CustomerAddress&customer_access_token=QgfTKrA06VC-G8OuPWWMYTYUzYZSbCs3z8OeIMlOsxIremoovwSnwqCj6UmQGH1vj2RQ-agMlNZuQvrj67HyVaBRmEO8LyPNJudjlg6g5KtgaEx4zLz8Rp5Jtcg-KdheGUMyD7WIhwzdJBOxWGYqGiM8zt7ECTy_i8o6ROUTjrpk47an3FXE5VwY598k6-KEXw1niOuuiYgOlkWIMaGjSnjKTdlU98HReNGsh2tMpnss6Iw6QP7hd2_YLPGaitNw",
+  //   "customerAccessToken": "323bdbb15344314843aec1c6aa38a7d6",
+  // });
+  // const response = await graphQLClient.request(deleteAddressMutation, {
+  //   "addressId": "gid://shopify/MailingAddress/8738266677474?model_name=CustomerAddress&customer_access_token=QgfTKrA06VC-G8OuPWWMYTYUzYZSbCs3z8OeIMlOsxIremoovwSnwqCj6UmQGH1vj2RQ-agMlNZuQvrj67HyVaBRmEO8LyPNJudjlg6g5KtgaEx4zLz8Rp5Jtcg-KdheGUMyD7WIhwzdJBOxWGYqGiM8zt7ECTy_i8o6ROUTjrpk47an3FXE5VwY598k6-KEXw1niOuuiYgOlkWIMaGjSnjKTdlU98HReNGsh2tMpnss6Iw6QP7hd2_YLPGaitNw",
+  //   "customerAccessToken": "323bdbb15344314843aec1c6aa38a7d6",
+  // });
+  // const response = await graphQLClient.request(updateCustomerInfoMutation, {
+  //   "customerAccessToken": "323bdbb15344314843aec1c6aa38a7d6",
+  //   "firstName": "Prahlad",
+  //   "lastName": "Verma"
+  // });
+  // const response = await graphQLClient.request(sendPasswordResetEmailMutation, {
+  //   "email": "test@up.com",
+  // });
+  const response = await graphQLClient.request(getAllProductsQuery);
 
     console.log(response, "Response");
   };
