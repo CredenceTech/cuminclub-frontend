@@ -225,3 +225,267 @@ export const createAddressMutation = gql`
         }
       }
     `;
+
+ export const deleteAddressMutation = gql`
+      mutation DeleteAddress(
+        $customerAccessToken: String!, 
+        $addressId: ID!,
+      ) {
+        customerAddressDelete(
+          customerAccessToken: $customerAccessToken, 
+          id: $addressId
+        ) {
+          deletedCustomerAddressId
+          customerUserErrors {
+            code
+            message
+          }
+          userErrors {
+            message
+          }
+        }
+      }
+    `;
+
+ export const updateCustomerInfoMutation = gql`
+    mutation UpdateCustomerInfo(
+      $customerAccessToken: String!, 
+      $email: String,
+      $firstName: String,
+      $lastName: String,
+      $acceptsMarketing: Boolean,
+    ) {
+      customerUpdate(
+        customerAccessToken: $customerAccessToken,
+        customer: {
+          email: $email, 
+          firstName: $firstName, 
+          lastName: $lastName,
+          acceptsMarketing: $acceptsMarketing
+        }
+      ) {
+        customer {
+          id
+        }
+        customerUserErrors {
+          code
+          message
+        }
+        userErrors {
+          message
+        }
+      }
+    }
+  `;
+
+ export const sendPasswordResetEmailMutation = gql`
+      mutation SendPasswordResetEmail($email: String!) {
+        customerRecover(email: $email) {
+          customerUserErrors {
+            code
+            message
+          }
+          userErrors {
+            message
+          }
+        }
+      }
+    `;
+
+export const createCartMutation = gql`
+  mutation CreateCart($cartInput: CartInput) {
+    cartCreate(input: $cartInput) {
+      cart {
+        id
+        createdAt
+        updatedAt
+        lines(first: 10) {
+          edges {
+            node {
+              id
+              merchandise {
+                ... on ProductVariant {
+                  id
+                }
+              }
+            }
+          }
+        }
+        attributes {
+          key
+          value
+        }
+        estimatedCost {
+          totalAmount {
+            amount
+            currencyCode
+          }
+          subtotalAmount {
+            amount
+            currencyCode
+          }
+          totalTaxAmount {
+            amount
+            currencyCode
+          }
+          totalDutyAmount {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getCartQuery = gql`
+  query GetCart($cartId: ID!) {
+    cart(id: $cartId) {
+      checkoutUrl
+      estimatedCost {
+        totalAmount {
+          amount
+        }
+      }
+      lines(first: 100) {
+        edges {
+          node {
+            quantity
+            estimatedCost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                title
+                id
+                product {
+                  title
+                  featuredImage {
+                    altText
+                    url
+                  }
+                  handle
+                }
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const checkoutShippingAddressUpdateMutation = gql`
+  mutation CheckoutShippingAddressUpdateV2($shippingAddress: MailingAddressInput!, $checkoutId: ID!) {
+    checkoutShippingAddressUpdateV2(shippingAddress: $shippingAddress, checkoutId: $checkoutId) {
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+      checkout {
+        id
+        shippingAddress {
+          firstName
+          lastName
+          address1
+          province
+          country
+          zip
+        }
+      }
+    }
+  }
+`;
+
+export const CheckoutCreateMutation = gql`
+  mutation CheckoutCreate($lineItems: [CheckoutLineItemInput!]!) {
+    checkoutCreate(input: {
+      lineItems: $lineItems
+    }) {
+      checkout {
+        id
+        webUrl
+        lineItems(first: 5) {
+          edges {
+            node {
+              title
+              quantity
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const associateCustomerWithCheckoutMutation = gql`
+  mutation AssociateCustomerWithCheckout($checkoutId: ID!, $customerAccessToken: String!) {
+    checkoutCustomerAssociateV2(checkoutId: $checkoutId, customerAccessToken: $customerAccessToken) {
+      checkout {
+        id
+        lineItems(first: 50) {
+          edges {
+            node {
+              title
+              quantity
+              variant {
+                id
+                image {
+                  url
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+      customer {
+        id
+        firstName
+        lastName
+        email
+        addresses(first: 1) {
+          edges {
+            node {
+              address1
+              address2
+              city
+              country
+              name
+              phone
+              province
+              zip
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getPageByHandleQuery = gql`
+  query GetPageByHandle($handle: String!) {
+    page(handle: $handle) {
+      id
+      title
+      body
+    }
+  }
+`;
