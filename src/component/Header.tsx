@@ -47,7 +47,7 @@ const Header = () => {
                             <Link to="/" >FAQs</Link>
                             <Link to="/" >How It Works</Link>
                             <Link to="/" >Gifts</Link>
-                            <Link to="/" >Login</Link>
+                            <Link to="/login" >Login</Link>
                         </div>
                         <div className='flex justify-center items-center text-xl gap-10 text-[#D36A19]' >
                             <Link to="/" >Blog</Link>
