@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { GraphQLClient, gql } from "graphql-request";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./component/Home";
+import Meal from "./pages/Meal";
 import Login from "./component/Login";
 
 const graphQLClient = new GraphQLClient(
@@ -97,6 +98,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Home />} />
+        <Route path="/meal-section" element={<Meal />} />
       </Routes>
     </Router>
   );
