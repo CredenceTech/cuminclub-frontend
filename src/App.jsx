@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { GraphQLClient, gql } from "graphql-request";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./component/Home";
+import Meal from "./pages/Meal";
 
 const graphQLClient = new GraphQLClient(
   "https://76ac20-2.myshopify.com/api/2024-01/graphql.json",
@@ -42,7 +43,7 @@ const registerAccountMutation = gql`
 `;
 
 function App() {
-  
+
   async function registerAccount({
     email,
     password,
@@ -95,6 +96,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<Home />} />
+        <Route path="/meal-section" element={<Meal />} />
       </Routes>
     </Router>
   );
