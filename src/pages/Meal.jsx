@@ -12,7 +12,7 @@ const Meal = () => {
         setIsSelected(selectValue)
     }
     return (
-        <section className="text-gray-600 backgroundImage min-h-full body-font relative">
+        <section className="text-gray-600 body-font h-96 relative">
             <div className="container px-5 py-24 mx-auto">
                 <div className="lg:w-1/2 md:w-2/3 mx-auto rounded-lg relative bg-white">
                     <div className='flex flex-row pl-6 pt-6 pb-10'>

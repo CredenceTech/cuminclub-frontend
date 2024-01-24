@@ -66,7 +66,7 @@ export const logoutMutation = gql`
 
 export const getAllProductsQuery = gql`
 {
-    products(first: 20, reverse: true) {
+    products(first: 5, reverse: true) {
       edges {
         node {
           id

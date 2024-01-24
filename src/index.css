@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.backgroundImage {
-    background-image: url("./assets/background.svg");
-    object-fit: contain;
-}
-
 .borderInMeal {
     border: 2px dashed #80BC42;
 }
