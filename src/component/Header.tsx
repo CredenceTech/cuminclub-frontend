@@ -6,7 +6,7 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     return (
-        <div >
+        <div>
             <div className='flex flex-col sm:flex-row w-full bg-[#243F2F] justify-between text-xs lg:text-sm items-center lg:px-8 text-white h-auto sm:h-14'>
                 <div className='flex items-center gap-2'>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
