@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         'custom-font': ['GelaTrial', 'sans-serif'],
-      },
+      }, 
     },
   },
   plugins: [],

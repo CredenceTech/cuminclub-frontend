@@ -8,7 +8,10 @@ const Header = () => {
     return (
         <div >
             <div className='flex flex-col sm:flex-row w-full bg-[#243F2F] justify-between text-xs lg:text-sm items-center lg:px-8 text-white h-auto sm:h-14'>
-                <div>
+                <div className='flex items-center gap-2'>
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18C7.75 18 6.57917 17.7625 5.4875 17.2875C4.39583 16.8125 3.44583 16.1708 2.6375 15.3625C1.82917 14.5542 1.1875 13.6042 0.7125 12.5125C0.2375 11.4208 0 10.25 0 9C0 7.75 0.2375 6.57917 0.7125 5.4875C1.1875 4.39583 1.82917 3.44583 2.6375 2.6375C3.44583 1.82917 4.39583 1.1875 5.4875 0.7125C6.57917 0.2375 7.75 0 9 0C10.3667 0 11.6625 0.291667 12.8875 0.875C14.1125 1.45833 15.15 2.28333 16 3.35V1H18V7H12V5H14.75C14.0667 4.06667 13.225 3.33333 12.225 2.8C11.225 2.26667 10.15 2 9 2C7.05 2 5.39583 2.67917 4.0375 4.0375C2.67917 5.39583 2 7.05 2 9C2 10.95 2.67917 12.6042 4.0375 13.9625C5.39583 15.3208 7.05 16 9 16C10.75 16 12.2792 15.4333 13.5875 14.3C14.8958 13.1667 15.6667 11.7333 15.9 10H17.95C17.7 12.2833 16.7208 14.1875 15.0125 15.7125C13.3042 17.2375 11.3 18 9 18ZM11.8 13.2L8 9.4V4H10V8.6L13.2 11.8L11.8 13.2Z" fill="#80BC42" />
+                    </svg>
                     <span>Delivery on Next Day from 10:00 AM to 08:00 PM</span>
                 </div>
                 <div className='flex gap-4 items-center'>
@@ -48,14 +51,29 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex w-full bg-white justify-between items-center px-8 pt-3 h-24'>
+            <div className='flex w-full bg-white justify-between items-center px-8 h-24'>
                 <Link to="/">
                     <img src="src/assets/icon.svg" className='h-20 w-20' alt="Icon Image" />
                 </Link>
 
-                <button onClick={() => setIsMenuOpen(true)}>
-                    <img src="src/assets/hemberger.svg" className='h-10 w-9' alt="Hemberger Button" />
-                </button>
+                <div className='flex gap-7'>
+                    <Link to="/">Our story</Link>
+                    <Link to="/">How it works</Link>
+                    <Link to="/">FAQs </Link>
+                    <Link to="/">Blog</Link>
+                    <Link to="/">Help</Link>
+                    <Link to="/">Press Kit</Link>
+                </div>
+
+                <div className='flex gap-2'>
+                    <button className='flex bg-[#E91D24] items-center gap-2 py-1 text-white px-5 rounded-3xl'>
+                        <img src="src/assets/food.svg" className='h-9 w-9' alt="Hemberger Button" />
+                        <span className='font-medium'>Build Your Meal</span>
+                    </button>
+                    <button >
+                        <img src="src/assets/india.svg" className='h-9 w-9' alt="Hemberger Button" />
+                    </button>
+                </div>
             </div>
 
             {isMenuOpen && (
@@ -86,7 +104,7 @@ const Header = () => {
                             <Link to="/" >FAQs</Link>
                             <Link to="/" >How It Works</Link>
                             <Link to="/" >Gifts</Link>
-                            <Link to="/" >Login</Link>
+                            <Link to="/login" >Login</Link>
                         </div>
                         <div className='flex justify-center items-center text-xl gap-10 text-[#D36A19]' >
                             <Link to="/" >Blog</Link>
