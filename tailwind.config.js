@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'custom-font': ['GelaTrial', 'sans-serif'],
+        'custom-font': ['Outfit', 'sans-serif'],
       }, 
     },
   },
