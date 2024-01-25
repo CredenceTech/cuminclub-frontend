@@ -1,102 +1,31 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-const divFooterStyle = {
-    backgroundImage: 'url("src/assets/Footer.svg")',
-    backgroundSize: 'cover',
-    width: '100%',
-    height: '15vh',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '20px',
+export const Footer = () => {
+  return (
+    <div className="flex w-full flex-col lg:flex-row text-xs lg:text-base bg-[#E91D24] text-white lg:justify-between justify-around items-center px-5 lg:px-48 h-20">
+      <div className="flex items-center gap-2">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 15 15"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.06 6.645C6.0975 6.3975 6.18 6.18 6.285 6C6.51 5.58 6.8925 5.3625 7.41 5.355C7.7475 5.355 8.055 5.505 8.2725 5.7225C8.4825 5.955 8.625 6.2775 8.625 6.6H9.975C9.96 6.2475 9.8925 5.925 9.75 5.625C9.6375 5.34 9.465 5.085 9.24 4.875C8.1525 3.87 6.135 4.0125 5.2125 5.1525C4.245 6.405 4.2225 8.595 5.205 9.8475C6.1125 10.965 8.1 11.1225 9.18 10.125C9.4125 9.9375 9.6 9.705 9.75 9.435C9.87 9.165 9.9525 8.88 9.96 8.5725H8.625C8.625 8.73 8.5725 8.8725 8.505 9C8.4375 9.1425 8.3475 9.255 8.25 9.3525C8.0025 9.5475 7.71 9.6525 7.395 9.6525C7.125 9.645 6.9 9.5925 6.7275 9.48C6.53307 9.37067 6.37818 9.20266 6.285 9C5.91 8.325 5.97 7.3875 6.06 6.645ZM7.5 0C3.375 0 0 3.375 0 7.5C0.3975 17.4525 14.625 17.445 15 7.5C15 3.375 11.625 0 7.5 0ZM7.5 13.5C4.1925 13.5 1.5 10.8075 1.5 7.5C1.83 -0.4575 13.17 -0.4575 13.5 7.5C13.5 10.8075 10.8075 13.5 7.5 13.5Z"
+            fill="white"
+          />
+        </svg>
+
+        <span>2024 Instantly Yours</span>
+      </div>
+      <div className="flex items-center lg:gap-8 gap-4">
+        <Link to="/">Term & Condition</Link>
+        <Link to="/">Privacy</Link>
+        <Link to="/">Refunds</Link>
+        <Link to="/">Accessibility Statement</Link>
+      </div>
+    </div>
+  );
 };
-
-const divStyle = {
-    display: 'flex',
-    // justifyContent: 'flex-start',
-    width: '100%',
-    //  padding: '20px',
-    //  marginTop: '30px',
-    paddingTop: '50px',
-    fontSize: 14
-};
-
-const divStyle1 = {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    paddingRight: '20px'
-};
-
-const divStyle2 = {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    paddingLeft: '20px',
-    marginLeft: '650px'
-};
-
-const linkStyle1 = {
-    paddingRight: '40px',
-}
-
-const linkStyle2 = {
-    //   paddingRight: '20px',
-}
-
-const instantlyStyle = {
-    ...linkStyle2,
-    color: '#80BC42'
-}
-
-
-const Footer = () => {
-    return (
-        <div>
-            <div style={divFooterStyle} >
-                <div style={divStyle} >
-                    <div style={divStyle1}>
-                        <a className='text-lime-50' style={linkStyle1}>Terms & Conditions</a>
-                        <a className='text-lime-50' style={linkStyle1}>Privacy Policy</a>
-                        <a className='text-lime-50' style={linkStyle1}>Refunds</a>
-                        <a className='text-lime-50' style={linkStyle1}>Affiliate Program</a>
-                    </div>
-                    <div style={divStyle2}>
-                        <span className='text-lime-50' style={linkStyle2}>Copyright © 2023</span>
-                        <span className='text-lime-50' style={instantlyStyle}>Instantly Yours.</span>
-                        <span className='text-lime-50' style={linkStyle2}>All Rights Reserved.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        // <div className="Footer" style={{ width: 1500, height: 93, position: 'relative' }}>
-        //     <div className="Rectangle8" style={{ width: 1440, height: 55, left: 30, top: 38, position: 'absolute', background: '#243F2F' }} />
-        //     <div className="Frame" style={{ width: 1500, height: 54.19, paddingTop: 1.18, paddingBottom: 0.09, paddingLeft: 6.94, paddingRight: 5.62, left: 1500, top: 0, position: 'absolute', transform: 'rotate(180deg)', transformOrigin: '0 0', justifyContent: 'center', alignItems: 'center', display: 'inline-flex' }}>
-        //         <div className="Vector" style={{ width: 1487.44, height: 52.91, background: '#80BC42' }}></div>
-        //     </div>
-        //     <div className="Frame" style={{ width: 1500, height: 54.19, paddingTop: 1.18, paddingBottom: 0.09, paddingLeft: 6.94, paddingRight: 5.62, left: 0, top: 1, position: 'absolute', justifyContent: 'center', alignItems: 'center', display: 'inline-flex' }}>
-        //         <div className="Vector" style={{ width: 1487.44, height: 52.91, background: '#243F2F' }}></div>
-        //     </div>
-        //     <div className="TermsConditionsPrivacyPolicyRefundsAffiliateProgram" style={{ left: 55, top: 61, position: 'absolute', color: 'white', fontSize: 14, fontFamily: 'Plus Jakarta Sans', fontWeight: '600', wordWrap: 'break-word' }}>
-        //         Terms & Conditions
-        //         Privacy Policy
-        //         Refunds
-        //         Affiliate Program
-        //     </div>
-        //     <div className="Copyright2023InstantlyYoursAllRightsReserved" style={{ left: 1085, top: 61, position: 'absolute' }}>
-        //         <span style="color: 'white', fontSize: 14, fontFamily: 'Plus Jakarta Sans', fontWeight: '600', wordWrap: 'break-word'">
-        //             Copyright © 2023
-        //         </span>
-        //         <span style="color: '#80BC42', fontSize: 14, fontFamily: 'Plus Jakarta Sans', fontWeight: '600', wordWrap: 'break-word'">
-        //             Instantly Yours
-        //         </span>
-        //         <span style="color: 'white', fontSize: 14, fontFamily: 'Plus Jakarta Sans', fontWeight: '600', wordWrap: 'break-word'">
-        //             All Rights Reserved.
-        //         </span>
-        //     </div>
-        // <div className="Copyright2023InstantlyYoursAllRightsReserved"><span style="text-white text-sm font-semibold font-['Plus Jakarta Sans']">Copyright © 2023 </span><span style="text-lime-500 text-sm font-semibold font-['Plus Jakarta Sans']">Instantly Yours</span><span style="text-white text-sm font-semibold font-['Plus Jakarta Sans']">. All Rights Reserved.</span></div>
-
-        // </div>
-    )
-}
-
-export default Footer

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
+    const [selectedCountry, setSelectedCountry] = React.useState("India");
 
     const openCountryDrawer = () => {
         setIsCountryDrawerOpen(true);
@@ -12,6 +13,11 @@ const Header = () => {
 
     const closeCountryDrawer = () => {
         setIsCountryDrawerOpen(false);
+    };
+
+    const onSelectCountry = (country) => {
+        setSelectedCountry(country);
+        closeCountryDrawer();
     };
 
     return (
@@ -22,10 +28,17 @@ const Header = () => {
                         <img src="src/assets/icon.svg" className='h-24 w-24' alt="Icon Image" />
                     </Link>
                     <button onClick={openCountryDrawer}>
-                        <img src="src/assets/india.svg" className='h-9 w-9' alt="India" />
+                        {selectedCountry === 'India' && (
+                            <img alt="IN" className='h-8 w-8' src="https://d222i9ppxs2fqe.cloudfront.net/India.png" />
+                        )}
+                        {selectedCountry === 'USA' && (
+                            <img alt="US" className='h-8 w-8' src="https://d222i9ppxs2fqe.cloudfront.net/USA.png" />
+                        )}
+                        {selectedCountry === 'Canada' && (
+                            <img alt="CA" className='h-8 w-8' src="https://d222i9ppxs2fqe.cloudfront.net/canada.png" />
+                        )}
                     </button>
-
-                    {isCountryDrawerOpen && <CountryDrawer onClose={closeCountryDrawer} />}
+                    {isCountryDrawerOpen && <CountryDrawer onClose={closeCountryDrawer} onSelectCountry={onSelectCountry} />}
                 </div>
                 <div className='flex gap-3'>
                     <button className='flex bg-[#E91D24] items-center gap-2 py-1 text-white px-3 rounded-xl'>
@@ -84,19 +97,38 @@ const Header = () => {
 export default Header
 
 
-const CountryDrawer = ({ onClose }) => {
+const CountryDrawer = ({ onClose, onSelectCountry }) => {
+    const handleCountrySelect = (country) => {
+        onSelectCountry(country);
+    };
+
     return (
         <motion.div
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.4 }}
-            className="fixed flex text-red-400 inset-0 bg-[#FFF] lg:w-4/12">
-            <div className="flex justify-between items-center w-full px-7 text-red-700 h-16">
+            className="fixed z-50 flex flex-col px-7 text-[#E91D24] inset-0 bg-[#FFF] lg:w-4/12">
+            <div className="flex justify-between items-center w-full  text-red-700 h-16">
                 <img src="src/assets/icon.svg" className='h-24 w-24' alt="Icon Image" />
                 <span onClick={onClose} className='cursor-pointer'>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40px" height="40px"><path fill="#E91D24" d="M21.5 4.5H26.501V43.5H21.5z" transform="rotate(45.001 24 24)" /><path fill="#F44336" d="M21.5 4.5H26.5V43.501H21.5z" transform="rotate(135.008 24 24)" /></svg>
+                    <svg fill='red' viewBox="0 0 24 24" width="24px" height="24px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z" /></svg>
                 </span>
+            </div>
+
+            <div className='flex mt-5 flex-col gap-7'>
+                <button onClick={() => handleCountrySelect('India')} className='flex justify-between items-center px-10 lg:px-20'>
+                    <img alt="IN" className='h-10 w-10' src="https://d222i9ppxs2fqe.cloudfront.net/India.png" />
+                    <span>India</span>
+                </button>
+                <button onClick={() => handleCountrySelect('USA')} className='flex justify-between items-center px-10 lg:px-20'>
+                    <img alt="US" className='h-10 w-10' src="https://d222i9ppxs2fqe.cloudfront.net/USA.png" />
+                    <span>USA</span>
+                </button>
+                <button onClick={() => handleCountrySelect('Canada')} className='flex justify-between items-center px-10 lg:px-20'>
+                    <img alt="CA" className='h-10 w-10' src="https://d222i9ppxs2fqe.cloudfront.net/canada.png" />
+                    <span>Canada</span>
+                </button>
             </div>
         </motion.div>
     );
