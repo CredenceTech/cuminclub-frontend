@@ -1,7 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./component/Login";
 import Header from "./component/Header";
-import Footer from "./component/Footer";
 import Home from "./component/Home";
 import Subscription from "./pages/Subscription";
 
@@ -20,7 +19,6 @@ function App() {
             <Route path="/subscription" element={<Subscription />} />
           </Routes>
         </div>
-        <Footer />
       </div>
     </Router>
   );
