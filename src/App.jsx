@@ -20,7 +20,7 @@ function App() {
             <Route path="/meal-section" element={<Meal />} />
           </Routes>
         </div>
-        <Footer />
+        {window.location.pathname !== "/" && <Footer />} {/* Render Footer if the route is not "/" */}
       </div>
     </Router>
   );
