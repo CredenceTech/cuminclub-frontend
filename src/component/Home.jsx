@@ -1,10 +1,10 @@
 import React from 'react'
-import Meal from '../pages/Meal'
+import MealPackage from '../pages/MealPackage'
 
 const Home = () => {
   return (
     <div>
-      <Meal />
+      <MealPackage />
     </div>
   )
 }
