@@ -1,13 +1,13 @@
 import { GraphQLClient, gql } from 'graphql-request';
 
 export const graphQLClient = new GraphQLClient(
-    "https://76ac20-2.myshopify.com/api/2024-01/graphql.json",
-    {
-        headers: {
-            "X-Shopify-Storefront-Access-Token": import.meta.env
-                .VITE_SHOPIFY_STOREFRONT_KEY,
-        },
-    }
+  "https://76ac20-2.myshopify.com/api/2024-01/graphql.json",
+  {
+    headers: {
+      "X-Shopify-Storefront-Access-Token": import.meta.env
+        .VITE_SHOPIFY_STOREFRONT_KEY,
+    },
+  }
 );
 
 export const registerAccountMutation = gql`
@@ -113,7 +113,7 @@ export const getAllProductsQuery = gql`
   }
   `;
 
- export const fetchCustomerInfoQuery = gql`
+export const fetchCustomerInfoQuery = gql`
       query FetchCustomerInfo($customerAccessToken: String!) {
         customer(customerAccessToken: $customerAccessToken) {
           email
@@ -169,7 +169,7 @@ export const createAddressMutation = gql`
       }
     `;
 
- export const updateAddressMutation = gql`
+export const updateAddressMutation = gql`
       mutation UpdateAddress(
         $addressId: ID!,
         $customerAccessToken: String!,
@@ -204,7 +204,7 @@ export const createAddressMutation = gql`
       }
     `;
 
- export const setDefaultAddressMutation = gql`
+export const setDefaultAddressMutation = gql`
       mutation SetDefaultAddress(
         $customerAccessToken: String!, 
         $addressId: ID!,
@@ -226,7 +226,7 @@ export const createAddressMutation = gql`
       }
     `;
 
- export const deleteAddressMutation = gql`
+export const deleteAddressMutation = gql`
       mutation DeleteAddress(
         $customerAccessToken: String!, 
         $addressId: ID!,
@@ -247,7 +247,7 @@ export const createAddressMutation = gql`
       }
     `;
 
- export const updateCustomerInfoMutation = gql`
+export const updateCustomerInfoMutation = gql`
     mutation UpdateCustomerInfo(
       $customerAccessToken: String!, 
       $email: String,
@@ -278,7 +278,7 @@ export const createAddressMutation = gql`
     }
   `;
 
- export const sendPasswordResetEmailMutation = gql`
+export const sendPasswordResetEmailMutation = gql`
       mutation SendPasswordResetEmail($email: String!) {
         customerRecover(email: $email) {
           customerUserErrors {
@@ -486,6 +486,92 @@ export const getPageByHandleQuery = gql`
       id
       title
       body
+    }
+  }
+`;
+
+
+export const getProductDetailQuery = gql`
+  query {
+    product(id: "gid://shopify/Product/8264167784674") {
+      id
+      title
+      description
+      onlineStoreUrl
+      priceRange {
+          minVariantPrice {
+              amount
+              currencyCode
+          }
+      }
+      featuredImage {
+          altText
+          url
+      }
+      handle
+      variants(first: 10){
+          edges {
+              node {
+                  id
+                  weight
+                  weightUnit
+              }
+          }
+      }
+      metafields(identifiers: 
+          [
+              {namespace: "custom", key: "spice_level"},
+              {namespace: "custom", key: "how_to_prepare"},
+              {namespace: "custom", key: "nutrition_facts"},
+              {namespace: "custom", key: "ingredient"}
+          ]) {
+          value
+          key
+      }
+    }
+  }
+`;
+
+
+
+export const getProductRecommendedQuery = gql`
+  query getProductRecommendations {
+    productRecommendations(productId: "gid://shopify/Product/8264168145122") {
+      id
+      title
+      description
+      variants(first: 5) {
+        edges {
+          cursor
+          node {
+              product {
+                  id
+                  handle
+                  title
+                  description
+                  metafields(identifiers: 
+                      [
+                          {namespace: "custom", key: "spice_level"},
+                          {namespace: "custom", key: "small_descriptions"},
+                      ]) {
+                      value
+                      key
+                  }
+              }
+            id
+            title
+            image {
+              id
+              url
+            }
+            quantityAvailable
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
     }
   }
 `;
