@@ -1,41 +1,91 @@
 import React, { useEffect, useState } from 'react'
-import { getProductDetailQuery, graphQLClient } from "../api/graphql";
+import { getProductDetailQuery, getProductRecommendedQuery, graphQLClient } from "../api/graphql";
 import redChillyImage from "../assets/red-chilly.svg";
 import plusImage from "../assets/plus.svg";
 import minusImage from "../assets/minus.svg";
-
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 
+const metafieldList = [
+    { value: 'spice_level', text: 'Spice Level' },
+    { value: 'ingredient', text: 'Ingredient' },
+    { value: 'nutrition_facts', text: 'Nutrition Facts' },
+    { value: 'how_to_prepare', text: 'How To Prepare' },
+];
+
 
 const ProductDetail = () => {
-    const [detail, setDetail] = useState();
+    var rootElement = document.getElementById('root');
+    rootElement.classList.remove('backgroundImage');
+    rootElement.classList.add('backgroundImage2');
+
+    const [data, setData] = useState(null);
+    const [dataRecommended, setDataRecommended] = useState(null);
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // useEffect(() => {
+    //     apiResponse();
+    // }, []);
 
     useEffect(() => {
-        apiResponse();
+        const fetchData = async () => {
+            try {
+                const response = await graphQLClient.request(getProductDetailQuery);
+                console.log("Product Detail", response);
+                setData(response.product);
+                setLoading(false);
+            } catch (error) {
+                setError(error);
+                setLoading(false);
+            }
+        };
+
+        const fetchProductRecommendedData = async () => {
+            try {
+                const response = await graphQLClient.request(getProductRecommendedQuery);
+                console.log("Product Recommended", response);
+                setDataRecommended(response.productRecommendations);
+            } catch (error) {
+                setError(error);
+            }
+        };
+
+        fetchData();
+        fetchProductRecommendedData();
     }, []);
 
-    const apiResponse = async () => {
-        const response = await graphQLClient.request(getProductDetailQuery);
-        setDetail(response);
-        console.log(detail, "Product Detail");
-        return response;
-    }
+    // const apiResponse = async () => {
+    //     const response = await graphQLClient.request(getProductDetailQuery);
+    //     setDetail(response);
+    //     console.log(detail, "Product Detail");
+    //     return response;
+    // }
+
+    const getMetafieldData = (key, list) => {
+        let metaContent = '';
+        if (list) {
+            let findValue = list.find((x) => x.key === key);
+            if (findValue) {
+                metaContent = findValue.value;
+            }
+        }
+        return metaContent;
+    };
 
     return (
-        <div >
-            <div className="flex flex-wrap w-full ml-20 mt-16">
+        <>
+            <div className="flex flex-wrap ml-20 mt-16">
                 <div className='w-2/3'>
                     <div className="text-center text-lime-600 text-[40px] font-semibold font-['Outfit']">
-                        Palak panir
+                        {data?.title}
                     </div>
-                    <img className="shadow ml-96" src="https://via.placeholder.com/255x240" />
+                    <img className="shadow ml-96 h-[240px] w-[240px]" src={data?.featuredImage?.url} />
                     <div className="w-[425px] ml-72 mt-5 text-center text-zinc-800 text-xl font-normal font-['Outfit'] ">
-                        A beloved Indian menu item all around the world!
-                        This flavorful dish is made with Indian cottage cheese cubes in a smooth spinach base,
-                        with tomatoes providing a tangy twist.<br /><br />
+                        {data?.description}<br /><br />
                     </div>
                     <div className="flex" style={{ marginLeft: '460px' }}>
                         <img src={redChillyImage} alt="chilly" />
@@ -50,81 +100,92 @@ const ProductDetail = () => {
                     </div>
                 </div>
                 <div className="w-1/3 -ml-48 mt-1">
-                    <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }}>
+                    <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
                         <AccordionSummary>
-                            <Typography>Serving Size</Typography>
+                            <Typography>Spice Level</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>Accordion Content</Typography>
+                            <Typography>
+                                <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
+                                    {getMetafieldData('spice_level', data?.metafields)}
+                                </pre>
+                            </Typography>
                         </AccordionDetails>
                     </Accordion>
                     <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
                         <AccordionSummary>
-                            <Typography>Ingredients</Typography>
+                            <Typography>Ingredient</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>Accordion Content Ingredients</Typography>
+                            <Typography>
+                                <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
+                                    {getMetafieldData('ingredient', data?.metafields)}
+                                </pre>
+                            </Typography>
                         </AccordionDetails>
                     </Accordion>
-                    <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }}>
+                    <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
                         <AccordionSummary>
                             <Typography>Nutrition Facts</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography>
-                                <span className="text-zinc-800 text-[15px] font-semibold font-['Outfit']">
-                                    2 Servings per pack<br />
-                                </span>
-                                <span className="text-zinc-800 text-[15px] font-medium font-['Outfit']"><br /></span>
-                                <span className="text-zinc-800 text-[15px] font-semibold font-['Outfit']">
-                                    Per serving nutrition facts:<br />
-                                </span>
-                                <span className="text-zinc-800 text-[15px] font-normal font-['Outfit']">
-                                    Calories 138Kcal, Protein 6g, Total Carbohydrate 6g, Total Fat 10g, Sodium 504mg, Saturated Fat 4g,
-                                    Dietary Fibre 2g, Total Sugars 2g, Added Sugars 1g, Calcium 105mg, Iron 1mg, Potassium 104mg
-                                </span>
+                                <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
+                                    {getMetafieldData('nutrition_facts', data?.metafields)}
+                                </pre>
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-                    <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }}>
+                    <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
                         <AccordionSummary>
                             <Typography>How To Prepare</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>Accordion Content How To Prepare</Typography>
+                            <Typography>
+                                <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
+                                    {getMetafieldData('how_to_prepare', data?.metafields)}
+                                </pre>
+                            </Typography>
                         </AccordionDetails>
                     </Accordion>
+
                 </div>
-            </div>
+            </div >
             <div className="">
                 <div className="text-center text-lime-600 text-[40px] font-semibold font-['Outfit']">
                     Recommended Sides
                 </div>
                 <div className="text-center text-zinc-800 text-xl font-normal font-['Outfit']">
-                    Recommended Sides with Palak Paneer
+                    Recommended Sides with {data?.title}
                 </div>
-                <div className="w-[258px] h-[383px] ml-48 bg-white rounded-2xl shadow border border-stone-300">
-                    <img className="ml-6 mt-2" src="https://via.placeholder.com/204x205" />
-                    <div className="text-center text-lime-600 text-xl font-bold font-['Outfit']">
-                        Shahi Paneer
-                    </div>
-                    <div className="text-center text-zinc-800 text-xs font-normal font-['Outfit']">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    </div>
-                    <div className="flex ml-20 mt-2">
-                        <img src={redChillyImage} alt="chilly" />
-                        <img src={redChillyImage} alt="chilly" />
-                        <img src={redChillyImage} alt="chilly" />
-                        <img src={redChillyImage} alt="chilly" />
-                    </div>
-                    <div className="flex ml-16 mt-4">
-                        <img src={minusImage} alt="minus" />
-                        <input className='w-[40px] h-[30px] ml-3 mr-3 border border-stone-400' name="qty1" />
-                        <img src={plusImage} alt="plus" />
-                    </div>
+                <div className="flex flex-wrap">
+                    {dataRecommended?.map((item, index) => (
+                        <div style={{ width: '22%' }}>
+                            <div className="w-[258px] h-[430px] ml-48 bg-white rounded-2xl shadow border border-stone-300">
+                                <img className="ml-6 mt-2 h-[205px] w-[204px]" src={item?.variants?.edges[0]?.node?.image?.url} />
+                                <div className="text-center text-lime-600 text-xl font-bold font-['Outfit']">
+                                    {item?.title}
+                                </div>
+                                <div className="text-center text-zinc-800 text-xs font-normal font-['Outfit']">
+                                    {item?.description}
+                                </div>
+                                <div className="flex ml-20 mt-2">
+                                    <img src={redChillyImage} alt="chilly" />
+                                    <img src={redChillyImage} alt="chilly" />
+                                    <img src={redChillyImage} alt="chilly" />
+                                    <img src={redChillyImage} alt="chilly" />
+                                </div>
+                                <div className="flex ml-16 mt-4">
+                                    <img src={minusImage} alt="minus" />
+                                    <input className='w-[40px] h-[30px] ml-3 mr-3 border border-stone-400' name="qty1" />
+                                    <img src={plusImage} alt="plus" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-        </div>
+        </>
 
 
     )

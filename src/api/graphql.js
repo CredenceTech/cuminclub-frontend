@@ -531,3 +531,47 @@ export const getProductDetailQuery = gql`
     }
   }
 `;
+
+
+
+export const getProductRecommendedQuery = gql`
+  query getProductRecommendations {
+    productRecommendations(productId: "gid://shopify/Product/8264168145122") {
+      id
+      title
+      description
+      variants(first: 5) {
+        edges {
+          cursor
+          node {
+              product {
+                  id
+                  handle
+                  title
+                  description
+                  metafields(identifiers: 
+                      [
+                          {namespace: "custom", key: "spice_level"},
+                          {namespace: "custom", key: "small_descriptions"},
+                      ]) {
+                      value
+                      key
+                  }
+              }
+            id
+            title
+            image {
+              id
+              url
+            }
+            quantityAvailable
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+`;
