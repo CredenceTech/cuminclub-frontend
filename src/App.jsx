@@ -3,6 +3,7 @@ import Login from "./component/Login";
 import Header from "./component/Header";
 import Home from "./component/Home";
 import Subscription from "./pages/Subscription";
+import WithoutLoginCheckout from "./pages/WithoutLoginCheckout";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="*" element={<Home />} />
             <Route path="/subscription" element={<Subscription />} />
+            <Route path="/without-login-checkout" element={<WithoutLoginCheckout />} />
           </Routes>
         </div>
       </div>
