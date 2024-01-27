@@ -4,8 +4,14 @@ const OrderProduct = ({ item }) => {
     return (
         <div className="p-1 lg:p-2 w-1/2 lg:w-1/3">
             <div className=" py-4 rounded-lg overflow-hidden text-center relative">
-                <div className=' flex justify-center items-center'>
-                    <img className='w-40 h-40' src={item?.dish} alt="dish" />
+                <div className='flex justify-center  items-center'>
+                    <img className='w-40 relative h-40 rounded-full' src={item?.dish} alt="dish" />
+                    {item?.spacel && <div className='absolute top-5 left-5'>
+                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="17.5" cy="17.5" r="17.5" fill="#53940F" />
+                            <path d="M11.5025 10.1506C10.2385 10.1498 9.01287 10.5647 8.0318 11.3256C7.05074 12.0864 6.37417 13.1467 6.11597 14.328C5.85776 15.5092 6.03369 16.7394 6.61415 17.8113C7.1946 18.8832 8.14413 19.7316 9.30293 20.2135V23.0127H24.6998V20.2135C25.922 19.7043 26.9088 18.7885 27.4765 17.6366C28.0443 16.4847 28.1544 15.175 27.7863 13.9514C27.4182 12.7278 26.597 11.6735 25.4755 10.9848C24.354 10.296 23.0086 10.0197 21.6897 10.2073C21.3571 9.27208 20.7261 8.45983 19.8852 7.88459C19.0443 7.30934 18.0358 7 17.0014 7C15.9669 7 14.9584 7.30934 14.1175 7.88459C13.2766 8.45983 12.6456 9.27208 12.313 10.2073C12.0447 10.1695 11.7738 10.1505 11.5025 10.1506ZM24.6976 24.5876H9.30513C9.31613 26.0544 9.39421 26.8576 9.9474 27.3847C10.5919 28 11.6279 28 13.702 28H20.3007C22.3749 28 23.4109 28 24.0553 27.3847C24.6085 26.8576 24.6866 26.0544 24.6976 24.5876Z" fill="white" />
+                        </svg>
+                    </div>}
                 </div>
                 <h1 className="title-font text-xl mt-2 font-medium text-[#53940F]  mb-1">{item?.productTitle}</h1>
                 <p className=" text-gray-700  mb-3">x<span className='text-xl'>{item?.productCount}</span> </p>
@@ -28,7 +34,7 @@ const OrderProduct = ({ item }) => {
                     </span>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
