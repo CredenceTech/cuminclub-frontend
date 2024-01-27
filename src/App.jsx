@@ -1,8 +1,9 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./component/Login";
-import Header from "./component/Header";
 import Home from "./component/Home";
 import Subscription from "./pages/Subscription";
+import Header from "./component/Header"
+import Product from "./pages/Product";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/products" element={<Product />} />
             <Route path="*" element={<Home />} />
             <Route path="/subscription" element={<Subscription />} />
           </Routes>

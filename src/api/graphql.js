@@ -66,44 +66,96 @@ export const logoutMutation = gql`
 
 export const getAllProductsQuery = gql`
 {
-    products(first: 5, reverse: true) {
-      edges {
-        node {
-          id
-          title
-          description
-          onlineStoreUrl
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
+  products(first: 100, reverse: true) {
+    edges {
+      node {
+        id
+        title
+        description
+        onlineStoreUrl
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
           }
-          featuredImage {
+        }
+        featuredImage {
             altText
             url
-          }
-          handle
-          variants(first: 10) {
+        }
+        handle
+        variants(first: 10){
             edges {
-              node {
-                id
-                title 
-                weight
-                weightUnit
-              }
+                node {
+                    id
+                    weight
+                    weightUnit
+                }
             }
-          }
-          metafield(namespace: "custom", key: "spice_level") {
+        }
+        metafields(identifiers: 
+            [
+                {namespace: "custom", key: "spice_level"},
+                {namespace: "custom", key: "small_descriptions"},
+            ]) {
             value
-            type
             key
-          }
-          images(first: 5) {
+        }
+        images(first: 5) {
             edges {
-              node {
-                originalSrc
+                node {
+                    originalSrc
+                    altText
+                }
+            }
+        }
+      }
+    }
+  }
+  }
+  `;
+
+
+export const getProductCollectionsQuery = gql`
+query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
+  collections(first: $first, reverse: $reverse, query: $query) {
+    edges {
+      node {
+        title
+        id
+        description
+        products(first: 15) {
+          edges {
+            node {
+              id
+              title
+              description
+              tags
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              metafields(identifiers: [
+                { namespace: "custom", key: "spice_level" },
+                { namespace: "custom", key: "small_descriptions" },
+              ]) {
+                value
+                key
+              }
+              featuredImage {
                 altText
+                url
+              }
+              variants(first: 1) {
+                edges {
+                  node {
+                    id
+                    weight
+                    weightUnit
+                  }
+                }
               }
             }
           }
@@ -111,7 +163,8 @@ export const getAllProductsQuery = gql`
       }
     }
   }
-  `;
+}
+`;
 
  export const fetchCustomerInfoQuery = gql`
       query FetchCustomerInfo($customerAccessToken: String!) {
