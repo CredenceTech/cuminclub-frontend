@@ -1,5 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
+import mealdata from './mealdata'
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    mealData: mealdata
+  },
 })
