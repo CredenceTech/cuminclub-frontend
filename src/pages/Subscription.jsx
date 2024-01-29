@@ -25,7 +25,7 @@ const Subscription = () => {
     ]
     return (
         <>
-            <Meal data={data} message={'Select Your Subscriptions'} url={"/"} />
+            <Meal data={data} message={'Select Your Subscriptions'} url={"/without-login-checkout"} />
         </>
     )
 }
