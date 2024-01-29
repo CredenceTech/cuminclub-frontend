@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getProductDetailQuery, getProductRecommendedQuery, graphQLClient } from "../api/graphql";
 import redChillyImage from "../assets/red-chilly.svg";
+import whiteChillyImage from "../assets/white-chilli.png";
 import plusImage from "../assets/plus.svg";
 import minusImage from "../assets/minus.svg";
 import Accordion from '@mui/material/Accordion';
@@ -23,13 +24,13 @@ const ProductDetail = () => {
 
     const [data, setData] = useState(null);
     const [dataRecommended, setDataRecommended] = useState(null);
+    const [spiceLevel, setDataSpiceLevel] = useState(null);
+    const [redChilli, setDataRedChilli] = useState([]);
+    const [whiteChilli, setDataWhiteChilli] = useState([]);
+
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    // useEffect(() => {
-    //     apiResponse();
-    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,6 +38,25 @@ const ProductDetail = () => {
                 const response = await graphQLClient.request(getProductDetailQuery);
                 console.log("Product Detail", response);
                 setData(response.product);
+                if (response && response.product && response.product.metafields) {
+                    let spiceLevelData = response.product.metafields.find(x => x.key === 'spice_level');
+                    if (spiceLevelData) {
+                        setDataSpiceLevel(spiceLevelData.value);
+                        let RC = spiceLevelData.value;
+                        let WC = (4 - spiceLevelData.value);
+                        let RCL = [];
+                        let WCL = [];
+                        debugger
+                        for (let i = 1; i <= RC; i++) {
+                            RCL.push(i);
+                        }
+                        for (let i = 1; i <= WC; i++) {
+                            WCL.push(i);
+                        }
+                        setDataRedChilli(RCL);
+                        setDataWhiteChilli(WCL);
+                    }
+                }
                 setLoading(false);
             } catch (error) {
                 setError(error);
@@ -76,6 +96,7 @@ const ProductDetail = () => {
         return metaContent;
     };
 
+
     return (
         <>
             <div className="flex flex-wrap ml-20 mt-16">
@@ -88,10 +109,12 @@ const ProductDetail = () => {
                         {data?.description}<br /><br />
                     </div>
                     <div className="flex" style={{ marginLeft: '460px' }}>
-                        <img src={redChillyImage} alt="chilly" />
-                        <img src={redChillyImage} alt="chilly" />
-                        <img src={redChillyImage} alt="chilly" />
-                        <img src={redChillyImage} alt="chilly" />
+                        {redChilli?.map(item => (
+                            <img src={redChillyImage} alt="chilly" />
+                        ))}
+                        {whiteChilli?.map(item => (
+                            <img src={whiteChillyImage} alt="chilly" style={{ height: '20px' }} />
+                        ))}
                     </div>
                     <div className="flex mt-4" style={{ marginLeft: '445px' }}>
                         <img src={minusImage} alt="minus" />
@@ -148,7 +171,6 @@ const ProductDetail = () => {
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-
                 </div>
             </div >
             <div className="">
@@ -161,7 +183,7 @@ const ProductDetail = () => {
                 <div className="flex flex-wrap">
                     {dataRecommended?.map((item, index) => (
                         <div style={{ width: '22%' }}>
-                            <div className="w-[258px] h-[430px] ml-48 bg-white rounded-2xl shadow border border-stone-300">
+                            <div className="w-[258px] h-[430px] ml-48 mb-3.5 bg-white rounded-2xl shadow border border-stone-300">
                                 <img className="ml-6 mt-2 h-[205px] w-[204px]" src={item?.variants?.edges[0]?.node?.image?.url} />
                                 <div className="text-center text-lime-600 text-xl font-bold font-['Outfit']">
                                     {item?.title}
