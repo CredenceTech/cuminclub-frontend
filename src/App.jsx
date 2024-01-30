@@ -9,6 +9,7 @@ import Accessibility from "./component/Accessibility";
 import Refund from "./component/Refund";
 import TermOfServices from "./component/TermOfServices";
 import PrivacyPolicy from "./component/PrivacyPolicy";
+import ProductDetail from "./component/ProductDetail";
 
 function App() {
   return (
@@ -22,13 +23,14 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/products" element={<Product />} />
-            <Route path="*" element={<Home />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/refund" element={<Refund />} />
             <Route path="/term-of-services" element={<TermOfServices />} />
+            <Route path="/productDetail" element={<ProductDetail />} />
             <Route path="/without-login-checkout" element={<WithoutLoginCheckout />} />
+            <Route path="*" element={<Home />} />
           </Routes>
         </div>
       </div>

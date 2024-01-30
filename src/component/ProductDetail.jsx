@@ -21,16 +21,14 @@ const ProductDetail = () => {
     var rootElement = document.getElementById('root');
     rootElement.classList.remove('backgroundImage');
     rootElement.classList.add('backgroundImage2');
-    const {productId} = useLocation();
+    const location = useLocation();
     const [data, setData] = useState(null);
     const [dataRecommended, setDataRecommended] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    console.log(productId, "Product Id")
-
-    console.log("first")
+    console.log(location.state.id, "Product Id")
 
     // useEffect(() => {
     //     apiResponse();
