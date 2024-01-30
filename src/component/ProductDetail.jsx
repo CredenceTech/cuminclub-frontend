@@ -8,6 +8,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import { useLocation } from 'react-router-dom';
 
 const metafieldList = [
     { value: 'spice_level', text: 'Spice Level' },
@@ -21,7 +22,7 @@ const ProductDetail = () => {
     var rootElement = document.getElementById('root');
     rootElement.classList.remove('backgroundImage');
     rootElement.classList.add('backgroundImage2');
-
+    const {productId} = useLocation();
     const [data, setData] = useState(null);
     const [dataRecommended, setDataRecommended] = useState(null);
     const [productQty, setDataProductQty] = useState(0);
@@ -31,6 +32,14 @@ const ProductDetail = () => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    console.log(productId, "Product Id")
+
+    console.log("first")
+
+    // useEffect(() => {
+    //     apiResponse();
+    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {

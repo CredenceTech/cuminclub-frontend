@@ -546,7 +546,7 @@ export const getPageByHandleQuery = gql`
 
 export const getProductDetailQuery = gql`
   query {
-    product(id: "gid://shopify/Product/8264167784674") {
+    product(id: "gid://shopify/Product/8264166506722") {
       id
       title
       description
