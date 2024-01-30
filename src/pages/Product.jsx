@@ -1,87 +1,122 @@
-import React, { useRef, useState, useEffect } from "react";
-import { getProductCollectionsQuery, graphQLClient } from "../api/graphql";
+import React, { useState, useEffect } from "react";
+import { createCartMutation, getProductCollectionsQuery, graphQLClient } from "../api/graphql";
 import { AnimatePresence, motion } from "framer-motion";
 import { Footer } from "../component/Footer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectMealItems } from "../state/mealdata";
+import mealThreeImage from "../assets/mealThreeImage.png";
+import { useNavigate } from "react-router-dom";
+import { CartDrawer } from "../component/CartComponent";
+import { cartIsOpen, openCart } from "../state/cart";
+import { addCartData, clearCartData } from "../state/cartData";
 
 const filterOptions = [
   {
     id: 1,
     title: "Dietary Need",
     options: [
-      { id: 'Vegan', label: "Vegan" },
-      { id: 'Gluten Free', label: "Gluten Free" },
-      { id: 'No Peanuts', label: "No Peanuts" },
-      { id: 'No Tree Nuts', label: "No Tree Nuts" },
-      { id: 'No Soy', label: "No Soy" },
-      { id: 'High Protein', label: "High Proteins" },
+      { id: "Vegan", label: "Vegan" },
+      { id: "Gluten Free", label: "Gluten Free" },
+      { id: "No Peanuts", label: "No Peanuts" },
+      { id: "No Tree Nuts", label: "No Tree Nuts" },
+      { id: "No Soy", label: "No Soy" },
+      { id: "High Protein", label: "High Proteins" },
     ],
   },
   {
     id: 2,
     title: "Spice Level",
     options: [
-      { id:  'Very Mild', label: "Very Mild" },
-      { id: 'Mild', label: "Mild" },
-      { id: 'Regular', label: "Regular" },
-      { id: 'Hot', label: "Hot" },
+      { id: "Very Mild", label: "Very Mild" },
+      { id: "Mild", label: "Mild" },
+      { id: "Regular", label: "Regular" },
+      { id: "Hot", label: "Hot" },
     ],
   },
   {
     id: 3,
     title: "Equipment",
     options: [
-      { id: 'Microwavable', label: "Microwavable" },
-      { id: 'Does Not Require Instapot/Cooker', label: "Does Not Require Instapot/Cooker" },
+      { id: "Microwavable", label: "Microwavable" },
+      {
+        id: "Does Not Require Instapot/Cooker",
+        label: "Does Not Require Instapot/Cooker",
+      },
     ],
   },
   {
     id: 4,
     title: "Place Of Origin",
     options: [
-      { id: 'Mumbai', label: "Mumbai" },
-      { id: 'Delhi', label: "Delhi" },
-      { id: 'Chennai', label: "Chennai" },
-      { id: 'Gujarat', label: "Gujarat" },
-      { id:  'Panjab', label: "Punjab" },
-      { id: 'Bangalore', label: "Bangalore" },
-      { id: 'Hyderabad', label: "Hyderabad" },
-      { id: 'Kerala', label: "Kerala" },
-      { id: 'Kolkata', label: "Kolkata" },
+      { id: "Mumbai", label: "Mumbai" },
+      { id: "Delhi", label: "Delhi" },
+      { id: "Chennai", label: "Chennai" },
+      { id: "Gujarat", label: "Gujarat" },
+      { id: "Panjab", label: "Punjab" },
+      { id: "Bangalore", label: "Bangalore" },
+      { id: "Hyderabad", label: "Hyderabad" },
+      { id: "Kerala", label: "Kerala" },
+      { id: "Kolkata", label: "Kolkata" },
     ],
   },
 ];
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
-  const [rawResonse, setRawResponse] = useState(null)
+  const [rawResonse, setRawResponse] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
-  const mealData = useSelector(selectMealItems)
+  const mealData = useSelector(selectMealItems);
+  const navigate = useNavigate()
+  const [cartDrawer, setCartDrawer] = useState(false)
+  const dispatch = useDispatch()
+  const isCartOpen = useSelector(cartIsOpen)
 
-  console.log(mealData, "MealData")
+  useEffect(() => {
+    if(cartCount === mealData.no){
+      addToCart()
+      dispatch(openCart())
+    }
+  }, [cartCount])
+
+  const addToCart = async() => {
+   const params =  {
+      "cartInput": {
+        "lines": [
+          ...cartItems
+        ]
+      }
+    }
+    const response = await graphQLClient.request(createCartMutation, params);
+    console.log(response, "Response")
+    dispatch(clearCartData())
+    setTimeout(() => {
+      dispatch(addCartData(response))
+    }, 500); 
+  }
 
   useEffect(() => {
     const handleSelectedOptionsChange = (selectedOptions) => {
       const filteredData = apiResponse?.collections?.edges?.filter((order) => {
         return order.node.products.edges.some((product) => {
           const productTags = product.node.tags;
-          return selectedOptions.every((selectedOption) => productTags.includes(selectedOption));
+          return selectedOptions.every((selectedOption) =>
+            productTags.includes(selectedOption)
+          );
         });
       });
       const newData = {
-        "collections": {
-          "edges": filteredData
-        }
-      }
+        collections: {
+          edges: filteredData,
+        },
+      };
       setFilteredOptions(newData);
       setRawResponse(newData);
     };
-  
+
     handleSelectedOptionsChange(selectedOptions);
   }, [selectedOptions]);
 
@@ -100,7 +135,7 @@ const Product = () => {
         query: "",
       });
       setApiResponse(result);
-      setRawResponse(result)
+      setRawResponse(result);
     };
 
     apiCall();
@@ -193,11 +228,67 @@ const Product = () => {
   };
 
   return (
-    <div className=" bg-white" style={{ height: "90vh" }}>
+    <div
+      className="overflow-y-scroll w-full"
+      style={{
+        height: "90vh",
+      }}
+    >
+      <div className="h-36 overflow-x-hidden w-full flex lg:justify-center gap-10 items-center bg-red-700">
+        <div className="hidden lg:block">
+          <img src={mealThreeImage} alt="" className="h-28 w-64" />
+        </div>
+        <div className="flex flex-col gap-3 lg:px-10 px-2">
+          <div className="flex lg:h-16 gap-5">
+            <div
+              className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
+              style={{ borderWidth: "3px" }}
+            >
+              <div className="flex flex-col items-center font-bold text-xl">
+                <span>{mealData.no}</span>
+                <span>Meals</span>
+              </div>
+              <div className="flex flex-col">
+                <span> {mealData.discountPrice}</span>
+                <strike className="text-gray-300">{mealData.price}</strike>
+              </div>
+            </div>
+            <span
+              className="lg:px-10 text-2xl font-bold text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
+              style={{ borderWidth: "3px" }}
+            >
+              Subscription
+            </span>
+          </div>
+          <div onClick={() => navigate('/')} className="px-3 cursor-pointer text-white gap-3  py-1 w-2/5 border text-sm border-white bg-[#53940F] rounded-lg flex items-center justify-center">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 15 15"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.2207 11.7711L6.77365 11.759L14.5285 4.03297C14.8328 3.72684 15.0003 3.3203 15.0003 2.88783C15.0003 2.45537 14.8328 2.04883 14.5285 1.7427L13.2516 0.458276C12.6429 -0.153973 11.581 -0.150734 10.9771 0.455846L3.2207 8.18346V11.7711ZM12.1131 1.60341L13.3925 2.8854L12.1067 4.16659L10.8298 2.88298L12.1131 1.60341ZM4.83092 8.85888L9.68573 4.02163L10.9626 5.30606L6.10863 10.1417L4.83092 10.1457V8.85888Z"
+                fill="white"
+              />
+              <path
+                d="M1.61022 15H12.8818C13.7698 15 14.492 14.2735 14.492 13.3803V6.36045L12.8818 7.98015V13.3803H4.15276C4.13182 13.3803 4.11009 13.3884 4.08915 13.3884C4.06258 13.3884 4.03602 13.3811 4.00864 13.3803H1.61022V2.04231H7.12281L8.73303 0.422607H1.61022C0.722183 0.422607 0 1.14905 0 2.04231V13.3803C0 14.2735 0.722183 15 1.61022 15Z"
+                fill="white"
+              />
+            </svg>
+            <span>Update Your Plan</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex py-8 justify-center">
+        <span className="font-bold text-4xl text-[#53940F]">Make Your Meal</span>
+      </div>
       {apiResponse ? (
         <>
-          <div className="flex justify-start">
-            <div className="flex items-center gap-2">
+          <div className="flex bg-white justify-start sticky top-0">
+            <div className="flex items-center bg-white gap-2">
               <button
                 onClick={openCountryDrawer}
                 className="bg-[#333333] px-3 py-2 rounded-r-lg"
@@ -216,16 +307,25 @@ const Product = () => {
                 </svg>
               </button>
               {isCountryDrawerOpen && (
-                <FilterDrawer option={selectedOptions} onClose={closeCountryDrawer} onSelectedOptionsChange={handleSelectedOptionsChange} />
+                <FilterDrawer
+                  option={selectedOptions}
+                  onClose={closeCountryDrawer}
+                  onSelectedOptionsChange={handleSelectedOptionsChange}
+                />
               )}
-              <span className="text-xl font-bold">Filter</span>
+              {isCartOpen && (
+                <CartDrawer/>
+              )}
+              <span className="text-xl font-bold hidden lg:visible">
+                Filter
+              </span>
             </div>
-            <div className="flex overflow-x-auto flex-1 justify-around px-9">
+            <div className="flex bg-white overflow-x-auto flex-1 justify-around">
               {apiResponse.collections.edges.map((category) => (
                 <div
                   key={category.node.title}
                   onClick={() => handleCategorySelect(category.node.title)}
-                  className={`cursor-pointer py-1 font-medium px-5 rounded border border-[#333333] ${
+                  className={`cursor-pointer flex items-center lg:py-1 font-medium lg:px-5 rounded border border-[#333333] ${
                     activeTitle === category.node.title
                       ? "bg-[#53940F] text-white border-none"
                       : ""
@@ -239,8 +339,10 @@ const Product = () => {
 
           {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
           <div
-            className="mt-4 bg-white overflow-y-auto"
-            style={{ minHeight: "83.8vh" }}
+            className="mt-4 bg-white"
+            // style={{
+            //   height: "62vh",
+            // }}
           >
             {rawResonse.collections.edges.map((category, index) => (
               // <div key={category.node.title} ref={productSectionsRefs[index]}>
@@ -371,7 +473,7 @@ export default Product;
 
 const FilterDrawer = ({ onClose, onSelectedOptionsChange, option }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
-  
+
   const handleToggleOption = (optionId) => {
     const isSelected = selectedOptions.includes(optionId);
     if (isSelected) {
@@ -415,16 +517,18 @@ const FilterDrawer = ({ onClose, onSelectedOptionsChange, option }) => {
   );
 };
 
-const MultiSelectAccordion = ({ options, onSelectedOptionsChange, option}) => {
+const MultiSelectAccordion = ({ options, onSelectedOptionsChange, option }) => {
   const [selectedOptions, setSelectedOptions] = useState(option);
   const [openCategories, setOpenCategories] = useState([]);
 
-  console.log(selectedOptions, "Selcted Option")
+  console.log(selectedOptions, "Selcted Option");
 
   const toggleOption = (optionId) => {
     const isSelected = selectedOptions.includes(optionId);
     if (isSelected) {
-      const newSelectedOptions = selectedOptions.filter((id) => id !== optionId);
+      const newSelectedOptions = selectedOptions.filter(
+        (id) => id !== optionId
+      );
       setSelectedOptions(newSelectedOptions);
       onSelectedOptionsChange(newSelectedOptions);
     } else {
@@ -444,7 +548,10 @@ const MultiSelectAccordion = ({ options, onSelectedOptionsChange, option}) => {
 
   const categoryVariants = {
     open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
-    closed: { borderBottomRightRadius: '0.375rem', borderBottomLeftRadius: '0.375rem' },
+    closed: {
+      borderBottomRightRadius: "0.375rem",
+      borderBottomLeftRadius: "0.375rem",
+    },
   };
 
   const optionVariants = {
@@ -477,7 +584,10 @@ const MultiSelectAccordion = ({ options, onSelectedOptionsChange, option}) => {
                   animate={{ rotate: 180 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <motion.path d="M6 0L11.1962 9L0.803848 9L6 0Z" fill="#333333" />
+                  <motion.path
+                    d="M6 0L11.1962 9L0.803848 9L6 0Z"
+                    fill="#333333"
+                  />
                 </motion.svg>
               ) : (
                 <motion.svg
@@ -514,7 +624,10 @@ const MultiSelectAccordion = ({ options, onSelectedOptionsChange, option}) => {
                     variants={optionVariants}
                     initial="closed"
                     animate="open"
-                    transition={{ duration: 0.2, delay: index * 0.05 + optionIndex * 0.05 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: index * 0.05 + optionIndex * 0.05,
+                    }}
                   >
                     <label className="flex items-center">
                       <input
