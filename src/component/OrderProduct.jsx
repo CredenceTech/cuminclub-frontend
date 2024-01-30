@@ -5,7 +5,7 @@ const OrderProduct = ({ item }) => {
         <div className="p-1 lg:p-2 w-1/2 lg:w-1/3">
             <div className=" py-4 rounded-lg overflow-hidden text-center relative">
                 <div className='flex justify-center  items-center'>
-                    <img className='w-40 relative h-40 rounded-full' src={item?.dish} alt="dish" />
+                    <img className='w-40 relative h-40 rounded-full' src={item?.node?.merchandise?.product?.featuredImage?.url} alt="dish" />
                     {item?.spacel && <div className='absolute top-5 left-5'>
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="17.5" cy="17.5" r="17.5" fill="#53940F" />
@@ -13,8 +13,8 @@ const OrderProduct = ({ item }) => {
                         </svg>
                     </div>}
                 </div>
-                <h1 className="title-font text-xl mt-2 font-medium text-[#53940F]  mb-1">{item?.productTitle}</h1>
-                <p className=" text-gray-700  mb-3">x<span className='text-xl'>{item?.productCount}</span> </p>
+                <h1 className="title-font text-xl mt-2 font-medium text-[#53940F]  mb-1">{item?.node?.merchandise?.product?.title}</h1>
+                <p className=" text-gray-700  mb-3">x<span className='text-xl'>{item?.node?.quantity}</span> </p>
 
                 <div className="text-center mt-2 leading-none flex justify-center  w-full">
                     <span className="text-gray-400 mr-3 inline-flex items-center leading-none text-sm py-1">
@@ -24,7 +24,7 @@ const OrderProduct = ({ item }) => {
                             </svg>
                         </button>
                     </span>
-                    <p className='text-gray-400 inline-flex rounded border border-slate-950 px-2  items-center leading-none text-3xl' >{item?.productCount}</p>
+                    <p className='text-gray-800 inline-flex rounded border border-slate-950 px-2  items-center leading-none text-3xl' >{item?.node?.quantity}</p>
                     <span className="text-gray-400 inline-flex items-center pl-3 leading-none ">
                         <button>
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">

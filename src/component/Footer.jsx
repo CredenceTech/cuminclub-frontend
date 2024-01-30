@@ -21,10 +21,10 @@ export const Footer = () => {
         <span>2024 Instantly Yours</span>
       </div>
       <div className="flex items-center lg:gap-8 gap-4">
-        <Link to="/">Term & Condition</Link>
-        <Link to="/">Privacy</Link>
-        <Link to="/">Refunds</Link>
-        <Link to="/">Accessibility Statement</Link>
+        <Link to="/term-of-services">Term & Condition</Link>
+        <Link to="/privacy-policy">Privacy</Link>
+        <Link to="/refund">Refunds</Link>
+        <Link to="/accessibility">Accessibility Statement</Link>
       </div>
     </div>
   );
