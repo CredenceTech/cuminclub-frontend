@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getProductDetailQuery, getProductRecommendedQuery, graphQLClient } from "../api/graphql";
 import redChillyImage from "../assets/red-chilly.svg";
-import whiteChillyImage from "../assets/white-chilli.png";
+import whiteChillyImage from "../assets/white-chilli.svg";
 import plusImage from "../assets/plus.svg";
 import minusImage from "../assets/minus.svg";
 import Accordion from '@mui/material/Accordion';
@@ -24,7 +24,7 @@ const ProductDetail = () => {
 
     const [data, setData] = useState(null);
     const [dataRecommended, setDataRecommended] = useState(null);
-    const [spiceLevel, setDataSpiceLevel] = useState(null);
+    const [productQty, setDataProductQty] = useState(0);
     const [redChilli, setDataRedChilli] = useState([]);
     const [whiteChilli, setDataWhiteChilli] = useState([]);
 
@@ -39,14 +39,12 @@ const ProductDetail = () => {
                 console.log("Product Detail", response);
                 setData(response.product);
                 if (response && response.product && response.product.metafields) {
-                    let spiceLevelData = response.product.metafields.find(x => x.key === 'spice_level');
+                    const spiceLevelData = response.product.metafields.find(x => x.key === 'spice_level');
                     if (spiceLevelData) {
-                        setDataSpiceLevel(spiceLevelData.value);
-                        let RC = spiceLevelData.value;
-                        let WC = (4 - spiceLevelData.value);
-                        let RCL = [];
-                        let WCL = [];
-                        debugger
+                        const RC = spiceLevelData.value;
+                        const WC = (4 - spiceLevelData.value);
+                        const RCL = [];
+                        const WCL = [];
                         for (let i = 1; i <= RC; i++) {
                             RCL.push(i);
                         }
@@ -68,22 +66,21 @@ const ProductDetail = () => {
             try {
                 const response = await graphQLClient.request(getProductRecommendedQuery);
                 console.log("Product Recommended", response);
-                setDataRecommended(response.productRecommendations);
+                // const recommendedList = [];
+                response.productRecommendations;
+                let recommendedList = response.productRecommendations.map(data => ({
+                    ...data,
+                    qty: 0,
+                }));
+                console.log("dataRecommended", recommendedList);
+                setDataRecommended(recommendedList);
             } catch (error) {
                 setError(error);
             }
         };
-
         fetchData();
         fetchProductRecommendedData();
     }, []);
-
-    // const apiResponse = async () => {
-    //     const response = await graphQLClient.request(getProductDetailQuery);
-    //     setDetail(response);
-    //     console.log(detail, "Product Detail");
-    //     return response;
-    // }
 
     const getMetafieldData = (key, list) => {
         let metaContent = '';
@@ -96,6 +93,33 @@ const ProductDetail = () => {
         return metaContent;
     };
 
+    const generateImages = (list) => {
+        const listItems = [];
+        if (list) {
+            const spiceLevelData = list.find(x => x.key === 'spice_level');
+            if (spiceLevelData) {
+                const RC = spiceLevelData.value;
+                const WC = (4 - spiceLevelData.value);
+                for (let i = 1; i <= RC; i++) {
+                    listItems.push(<img src={redChillyImage} alt="chilly" />);
+                }
+                for (let i = 1; i <= WC; i++) {
+                    listItems.push(<img src={whiteChillyImage} alt="chilly" />);
+                }
+            }
+        }
+        return listItems;
+    };
+
+    const increaseQuantity = () => {
+        setDataProductQty(productQty + 1);
+    };
+
+    const decreaseQuantity = () => {
+        if (productQty > 0) {
+            setDataProductQty(productQty - 1);
+        }
+    };
 
     return (
         <>
@@ -113,13 +137,13 @@ const ProductDetail = () => {
                             <img src={redChillyImage} alt="chilly" />
                         ))}
                         {whiteChilli?.map(item => (
-                            <img src={whiteChillyImage} alt="chilly" style={{ height: '20px' }} />
+                            <img src={whiteChillyImage} alt="chilly" />
                         ))}
                     </div>
                     <div className="flex mt-4" style={{ marginLeft: '445px' }}>
-                        <img src={minusImage} alt="minus" />
-                        <input className='w-[40px] h-[30px] ml-3 mr-3' name="qty" />
-                        <img src={plusImage} alt="plus" />
+                        <img className={productQty >= 0 ? 'cursor-pointer' : null} src={minusImage} alt="minus" onClick={decreaseQuantity} />
+                        <input className='w-[40px] h-[30px] ml-3 mr-3 text-center' name="qty" id="qty" value={productQty} />
+                        <img className='cursor-pointer' src={plusImage} alt="plus" onClick={increaseQuantity} />
                     </div>
                 </div>
                 <div className="w-1/3 -ml-48 mt-1">
@@ -192,14 +216,11 @@ const ProductDetail = () => {
                                     {item?.description}
                                 </div>
                                 <div className="flex ml-20 mt-2">
-                                    <img src={redChillyImage} alt="chilly" />
-                                    <img src={redChillyImage} alt="chilly" />
-                                    <img src={redChillyImage} alt="chilly" />
-                                    <img src={redChillyImage} alt="chilly" />
+                                    {generateImages(item?.variants?.edges[0]?.node?.product?.metafields)}
                                 </div>
                                 <div className="flex ml-16 mt-4">
                                     <img src={minusImage} alt="minus" />
-                                    <input className='w-[40px] h-[30px] ml-3 mr-3 border border-stone-400' name="qty1" />
+                                    <input name={'qty' + index} value={item?.qty} className='w-[40px] h-[30px] ml-3 mr-3  text-center border border-stone-400' />
                                     <img src={plusImage} alt="plus" />
                                 </div>
                             </div>
@@ -214,4 +235,3 @@ const ProductDetail = () => {
 }
 
 export default ProductDetail
-
