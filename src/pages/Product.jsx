@@ -116,23 +116,23 @@ const Product = () => {
   
 
   const handleAddToCart = (productId) => {
-    // const existingItemIndex = cartItems.findIndex(
-    //   (item) => item.merchandiseId === productId
-    // );
+    const existingItemIndex = cartItems.findIndex(
+      (item) => item.merchandiseId === productId
+    );
 
-    // if (existingItemIndex !== -1) {
-    //   const updatedCart = [...cartItems];
-    //   updatedCart[existingItemIndex] = {
-    //     ...updatedCart[existingItemIndex],
-    //     quantity: updatedCart[existingItemIndex].quantity + 1,
-    //   };
-    //   setCartItems(updatedCart);
-    // } else {
-    //   setCartItems([...cartItems, { merchandiseId: productId, quantity: 1 }]);
-    // }
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cartItems];
+      updatedCart[existingItemIndex] = {
+        ...updatedCart[existingItemIndex],
+        quantity: updatedCart[existingItemIndex].quantity + 1,
+      };
+      setCartItems(updatedCart);
+    } else {
+      setCartItems([...cartItems, { merchandiseId: productId, quantity: 1 }]);
+    }
 
-    // setCartCount((prevCount) => prevCount + 1);
-    dispatch(addProduct({ merchandiseId: productId, quantity: 1 }));
+    setCartCount((prevCount) => prevCount + 1);
+    // dispatch(addProduct({ merchandiseId: productId, quantity: 1 }));
   };
 
   const handleRemoveFromCart = (productId) => {
