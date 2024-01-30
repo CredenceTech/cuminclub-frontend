@@ -545,41 +545,40 @@ export const getPageByHandleQuery = gql`
 
 
 export const getProductDetailQuery = gql`
-  query {
-    product(id: "gid://shopify/Product/8264167784674") {
+  query getProductDetail($productId: ID!) {
+    product(id: $productId) {
       id
       title
       description
       onlineStoreUrl
       priceRange {
-          minVariantPrice {
-              amount
-              currencyCode
-          }
+        minVariantPrice {
+          amount
+          currencyCode
+        }
       }
       featuredImage {
-          altText
-          url
+        altText
+        url
       }
       handle
-      variants(first: 10){
-          edges {
-              node {
-                  id
-                  weight
-                  weightUnit
-              }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
           }
+        }
       }
-      metafields(identifiers: 
-          [
-              {namespace: "custom", key: "spice_level"},
-              {namespace: "custom", key: "how_to_prepare"},
-              {namespace: "custom", key: "nutrition_facts"},
-              {namespace: "custom", key: "ingredient"}
-          ]) {
-          value
-          key
+      metafields(identifiers: [
+        { namespace: "custom", key: "spice_level" },
+        { namespace: "custom", key: "how_to_prepare" },
+        { namespace: "custom", key: "nutrition_facts" },
+        { namespace: "custom", key: "ingredient" }
+      ]) {
+        value
+        key
       }
     }
   }
