@@ -10,6 +10,10 @@
     display: none;
 }
 
+.mealbackground{
+  background-image: url("./assets/mealBackground.svg");
+}
+
 .no-scrollbar {
     -ms-overflow-style: none;
     /* IE and Edge */
@@ -30,4 +34,16 @@
   .scrollbar-hide::-webkit-scrollbar-thumb {
     background-color: #888; /* Change this color as needed */
     border-radius: 8px; /* Adjust the border-radius as needed */
+  }
+
+  /* .home_background{
+    background-image: url("./background.svg");
+      background-color: rgb(162, 12, 12);
+      object-fit: contain;
+  } */
+
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }

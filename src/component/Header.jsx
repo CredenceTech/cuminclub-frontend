@@ -1,11 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { cartIsOpen, closeCart, openCart } from '../state/cart';
+import { useDispatch, useSelector } from 'react-redux';
+import { CartDrawer } from './CartComponent';
+import { cartData } from '../state/cartData';
+import { getCartQuery, graphQLClient } from '../api/graphql';
+import { selectMealItems } from '../state/mealdata';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
     const [selectedCountry, setSelectedCountry] = React.useState("India");
+    const [cartResponse, setCartResponse] = useState(0);
+    const isCartOpen = useSelector(cartIsOpen)
+    const cartDatas = useSelector(cartData);
+    const selectedMealData = useSelector(selectMealItems);
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(cartData !== null){
+            getCartData();
+        }
+      }, [cartDatas]);
+    
+      const getCartData = async () => {
+        const params = {
+          cartId: cartDatas?.cartCreate?.cart?.id,
+        };
+        const response = await graphQLClient.request(getCartQuery, params);
+        setCartResponse(response);
+      };
 
     const openCountryDrawer = () => {
         setIsCountryDrawerOpen(true);
@@ -49,17 +74,16 @@ const Header = () => {
                     {isCountryDrawerOpen && <CountryDrawer onClose={closeCountryDrawer} onSelectCountry={onSelectCountry} />}
                 </div>
                 <div className='flex gap-3'>
-                    <button className='flex bg-[#E91D24] items-center gap-2 py-2 text-white px-3 rounded-xl'>
+                    <button onClick={() => dispatch(openCart())} className='flex bg-[#E91D24] items-center gap-2 py-2 text-white px-3 rounded-xl'>
                         <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 0.942857C0 0.692796 0.0948277 0.452976 0.263622 0.276156C0.432417 0.0993363 0.661351 0 0.900063 0H1.56971C2.70979 0 3.39384 0.803314 3.78386 1.55006C4.04428 2.04789 4.2327 2.62491 4.38031 3.14789C4.42023 3.14458 4.46026 3.14291 4.50031 3.14286H19.499C20.495 3.14286 21.2151 4.14103 20.9415 5.14549L18.7477 13.2025C18.551 13.9252 18.1349 14.561 17.5624 15.0138C16.9898 15.4666 16.2921 15.7116 15.5747 15.7118H8.43659C7.71353 15.7118 7.01047 15.4631 6.43548 15.0038C5.86049 14.5446 5.44538 13.9002 5.25397 13.1698L4.3419 9.68503L2.8298 4.34469L2.8286 4.33463C2.64138 3.62183 2.46617 2.95429 2.20455 2.45646C1.95374 1.97246 1.75212 1.88571 1.57091 1.88571H0.900063C0.661351 1.88571 0.432417 1.78638 0.263622 1.60956C0.0948277 1.43274 0 1.19292 0 0.942857ZM7.80055 22C8.43711 22 9.0476 21.7351 9.49772 21.2636C9.94784 20.7921 10.2007 20.1525 10.2007 19.4857C10.2007 18.8189 9.94784 18.1794 9.49772 17.7078C9.0476 17.2363 8.43711 16.9714 7.80055 16.9714C7.16398 16.9714 6.55349 17.2363 6.10337 17.7078C5.65325 18.1794 5.40038 18.8189 5.40038 19.4857C5.40038 20.1525 5.65325 20.7921 6.10337 21.2636C6.55349 21.7351 7.16398 22 7.80055 22ZM16.2011 22C16.8377 22 17.4482 21.7351 17.8983 21.2636C18.3484 20.7921 18.6013 20.1525 18.6013 19.4857C18.6013 18.8189 18.3484 18.1794 17.8983 17.7078C17.4482 17.2363 16.8377 16.9714 16.2011 16.9714C15.5646 16.9714 14.9541 17.2363 14.504 17.7078C14.0538 18.1794 13.801 18.8189 13.801 19.4857C13.801 20.1525 14.0538 20.7921 14.504 21.2636C14.9541 21.7351 15.5646 22 16.2011 22Z" fill="white" />
                         </svg>
-                        <span className='font-medium'>10/10</span>
+                        <span className='font-medium'>{ cartDatas !== null ? cartResponse?.cart?.lines?.edges?.length : 0}/{selectedMealData.no}</span>
                     </button>
                     <button >
                         <svg width="37" height="31" viewBox="0 0 37 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z" fill="#E91D24" />
                         </svg>
-
                     </button>
                 </div>
             </div>
@@ -103,6 +127,10 @@ const Header = () => {
                     </motion.div>
                 </motion.div>
             )}
+
+            {isCartOpen && (
+                <CartDrawer/>
+              )}
         </div>
     )
 }
