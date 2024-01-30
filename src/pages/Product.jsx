@@ -44,8 +44,8 @@ const Product = () => {
   //   }
   // }, [cartCount])
 
-  const addToCart = async() => {
-   const params =  {
+  const addToCart = async () => {
+    const params = {
       "cartInput": {
         "lines": [
           ...cartItems
@@ -56,7 +56,7 @@ const Product = () => {
     dispatch(clearCartData())
     setTimeout(() => {
       dispatch(addCartData(response))
-    }, 500); 
+    }, 500);
   }
 
   useEffect(() => {
@@ -93,11 +93,11 @@ const Product = () => {
           reverse: false,
           query: "",
         });
-  
+
         const collections = result;;
 
         const bundleIndex = collections.collections.edges.findIndex(item => item.node.title === "Bundles");
-  
+
         if (bundleIndex !== -1) {
           const bundleItem = collections.collections.edges.splice(bundleIndex, 1)[0];
           collections.collections.edges.push(bundleItem);
@@ -110,10 +110,9 @@ const Product = () => {
         console.error("Error fetching data:", error);
       }
     };
-  
     apiCall();
   }, []);
-  
+
 
   const handleAddToCart = (productId) => {
     const existingItemIndex = cartItems.findIndex(
@@ -270,11 +269,10 @@ const Product = () => {
                 <div
                   key={category.node.title}
                   onClick={() => handleCategorySelect(category.node.title)}
-                  className={`cursor-pointer flex items-center lg:py-1 font-medium lg:px-5 rounded border border-[#333333] ${
-                    activeTitle === category.node.title
+                  className={`cursor-pointer flex items-center lg:py-1 font-medium lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
                       ? "bg-[#53940F] text-white border-none"
                       : ""
-                  }`}
+                    }`}
                 >
                   {category.node.title}
                 </div>
@@ -285,9 +283,9 @@ const Product = () => {
           {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
           <div
             className="mt-4 bg-white"
-            // style={{
-            //   height: "62vh",
-            // }}
+          // style={{
+          //   height: "62vh",
+          // }}
           >
             {rawResonse.collections.edges.map((category, index) => (
               // <div key={category.node.title} ref={productSectionsRefs[index]}>
