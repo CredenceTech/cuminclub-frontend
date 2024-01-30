@@ -37,7 +37,9 @@ const ProductDetail = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await graphQLClient.request(getProductDetailQuery);
+                const response = await graphQLClient.request(getProductDetailQuery, {
+                    productId : location.state.id
+                });
                 console.log("Product Detail", response);
                 setData(response.product);
                 setLoading(false);
