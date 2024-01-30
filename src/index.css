@@ -3,47 +3,56 @@
 @tailwind utilities;
 
 .borderInMeal {
-    border: 2px dashed #80BC42;
+  border: 2px dashed #80BC42;
 }
 
 .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
-.mealbackground{
+.mealbackground {
   background-image: url("./assets/mealBackground.svg");
 }
 
 .no-scrollbar {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Style the custom scrollbar track */
-  .scrollbar-hide::-webkit-scrollbar-track {
-    background-color: #f1f1f1; /* Change this color as needed */
-  }
-  
-  /* Style the custom scrollbar thumb */
-  .scrollbar-hide::-webkit-scrollbar-thumb {
-    background-color: #888; /* Change this color as needed */
-    border-radius: 8px; /* Adjust the border-radius as needed */
-  }
+  display: none;
+}
 
-  /* .home_background{
+/* Style the custom scrollbar track */
+.scrollbar-hide::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+  /* Change this color as needed */
+}
+
+/* Style the custom scrollbar thumb */
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background-color: #888;
+  /* Change this color as needed */
+  border-radius: 8px;
+  /* Adjust the border-radius as needed */
+}
+
+/* .home_background{
     background-image: url("./background.svg");
       background-color: rgb(162, 12, 12);
       object-fit: contain;
   } */
 
-  body {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.product-box-Shadow {
+  -webkit-box-shadow: 0 0 7.5px 5.5px #f5f5f5;
+  -moz-box-shadow: 0 0 7.5px 5.5px #f5f5f5;
+  box-shadow: 0 0 7.5px 5.5px #f5f5f5;
+}
