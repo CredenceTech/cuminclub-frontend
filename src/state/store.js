@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import mealdata from './mealdata';
 import cart from './cart';
 import cartData from './cartData';
+import product from './product';
 
 const persistConfig = {
   key: 'root',
@@ -14,7 +15,8 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   mealData: mealdata,
   cart: cart,
-  cartData: cartData
+  cartData: cartData,
+  product: product
 }));
 
 export const store = configureStore({
