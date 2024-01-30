@@ -304,14 +304,11 @@ const Product = () => {
                         alt={product.node.featuredImage.altText}
                         className="w-40 h-40 mb-1 cursor-pointer"
                         onClick={() => {
-                          console.log(product.node.id, "Product")
-                          // history.push(`/productDetail/${product.node.id}`);
                           navigate(`/productDetail`, { productId: product.node.id})
                         }}
                       />
                       <h3 className="text-[#53940F] text-lg font-semibold cursor-pointer"  onClick={() => {
-                          console.log(product.node.id, "Product")
-                          // history.push(`/productDetail/${product.node.id}`);
+                          navigate(`/productDetail`, { productId: product.node.id})
                         }}>
                         {product.node.title}
                       </h3>
