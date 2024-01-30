@@ -584,11 +584,9 @@ export const getProductDetailQuery = gql`
   }
 `;
 
-
-
 export const getProductRecommendedQuery = gql`
-  query getProductRecommendations {
-    productRecommendations(productId: "gid://shopify/Product/8264168145122") {
+  query getProductRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId) {
       id
       title
       description

@@ -17,7 +17,6 @@ const metafieldList = [
     { value: 'how_to_prepare', text: 'How To Prepare' },
 ];
 
-
 const ProductDetail = () => {
     var rootElement = document.getElementById('root');
     rootElement.classList.remove('backgroundImage');
@@ -73,7 +72,9 @@ const ProductDetail = () => {
 
         const fetchProductRecommendedData = async () => {
             try {
-                const response = await graphQLClient.request(getProductRecommendedQuery);
+                const response = await graphQLClient.request(getProductRecommendedQuery, {
+                    productId: location.state.id
+                });
                 console.log("Product Recommended", response);
                 setApiRecommendedResponse(true);
                 let recommendedList = response.productRecommendations.map(data => ({
