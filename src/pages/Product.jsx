@@ -199,7 +199,10 @@ const Product = () => {
               Subscription
             </span>
           </div>
-          <div onClick={() => navigate('/')} className="px-3 cursor-pointer text-white gap-3  py-1 w-2/5 border text-sm border-white bg-[#53940F] rounded-lg flex items-center justify-center">
+          <div
+            onClick={() => navigate("/")}
+            className="px-3 cursor-pointer text-white gap-3  py-1 w-2/5 border text-sm border-white bg-[#53940F] rounded-lg flex items-center justify-center"
+          >
             <svg
               width="15"
               height="15"
@@ -222,7 +225,9 @@ const Product = () => {
       </div>
 
       <div className="flex py-8 justify-center">
-        <span className="font-bold text-4xl text-[#53940F]">Make Your Meal</span>
+        <span className="font-bold text-4xl text-[#53940F]">
+          Make Your Meal
+        </span>
       </div>
       {apiResponse ? (
         <>
@@ -252,9 +257,7 @@ const Product = () => {
                   onSelectedOptionsChange={handleSelectedOptionsChange}
                 />
               )}
-              {isCartOpen && (
-                <CartDrawer/>
-              )}
+              {isCartOpen && <CartDrawer />}
               <span className="text-xl font-bold hidden lg:visible">
                 Filter
               </span>
@@ -291,7 +294,8 @@ const Product = () => {
                 </div>
                 <div
                   key={category.node.title}
-                  ref={productEdgesRef} id={`product-edges-${category.node.title}`}
+                  ref={productEdgesRef}
+                  id={`product-edges-${category.node.title}`}
                   className="flex bg-white justify-center flex-wrap"
                 >
                   {category.node.products.edges.map((product) => (
@@ -304,12 +308,19 @@ const Product = () => {
                         alt={product.node.featuredImage.altText}
                         className="w-40 h-40 mb-1 cursor-pointer"
                         onClick={() => {
-                          navigate(`/productDetail`, { productId: product.node.id})
+                          navigate(`/productDetail`, {
+                            state: { id: product.node.id },
+                          });
                         }}
                       />
-                      <h3 className="text-[#53940F] text-lg font-semibold cursor-pointer"  onClick={() => {
-                          navigate(`/productDetail`, { productId: product.node.id})
-                        }}>
+                      <h3
+                        className="text-[#53940F] text-lg font-semibold cursor-pointer"
+                        onClick={() => {
+                          navigate(`/productDetail`, {
+                            state: { id: product.node.id },
+                          });
+                        }}
+                      >
                         {product.node.title}
                       </h3>
                       <p className="mb-1">
