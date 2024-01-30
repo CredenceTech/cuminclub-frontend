@@ -13,14 +13,14 @@ const Meal = ({ data, message, url }) => {
                 <motion.div initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="lg:w-5/6 md:w-5/6 h-[75vh] flex justify-center items-center  mx-auto rounded-lg bg-white">
+                    className="lg:w-5/6 md:w-5/6 md:h-[75vh] flex justify-center items-center  mx-auto rounded-lg bg-white">
                     <div className='flex flex-col p-4 justify-center '>
-                        <div className='flex justify-center items-center '>
-                            <img src={mealThreeImage} className='h-[100px] md:h-[170px] w-[200px] md:w-[400px]' alt="meal" />
+                        <div className='flex mt-5 md:mt-14 justify-center items-center '>
+                            <img src={mealThreeImage} className='h-[100px] md:h-[170px] w-[200px] md:w-[400px] lg:w-[500px]' alt="meal" />
                         </div>
                         <div className=' mt-6 md:mt-16'>
                             <p className=' text-[#E91D24]'>{message} </p>
-                            <div className="flex flex-row  mx-auto overflow-x-auto w-[300px] lg:w-full no-scrollbar  gap-2  mt-4">
+                            <div className="flex flex-col md:flex-row  mx-auto overflow-x-auto  md:w-[400px] lg:w-full no-scrollbar  gap-2  mt-4">
                                 {
                                     data?.map((item) => {
                                         return (<MealCard key={item?.id} item={item} selected={selected} setSelected={setSelected} />)
@@ -28,7 +28,7 @@ const Meal = ({ data, message, url }) => {
                                 }
                             </div>
                             <div className='mt-4 flex justify-center '>
-                                <Link to={url} className='flex-col cursor-pointer  border border-[#E91D24] hover:bg-[#53940F]  rounded px-5 py-2'>
+                                <Link to={url} className='flex-col cursor-pointer  border border-[#E91D24] hover:bg-[#99e24b]  rounded px-5 py-2'>
                                     <div className='flex flex-row justify-center'>
                                         <p className='pr-2 text-sm text-[#E91D24]'>Next</p>
                                         <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">

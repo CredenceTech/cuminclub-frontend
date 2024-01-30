@@ -628,3 +628,48 @@ export const getProductRecommendedQuery = gql`
     }
   }
 `;
+
+export const getPagePrivacyPolicyQuery = gql`
+query getShopPolicies {
+	shop {
+		privacyPolicy {
+			id
+			body # Policy text, maximum size of 64kb.
+			title
+		}
+	}
+}`;
+
+export const getPageAccessibilityQuery = gql`
+query getPageByHandle($handle: String!) {
+	page(handle: $handle) {
+		id
+		title
+        body
+	}
+}`;
+
+export const getPageRefundQuery = gql`
+query getShopPolicies {
+	shop {
+		refundPolicy {
+			id
+			body # Policy text, maximum size of 64kb.
+			title
+		}
+	}
+}`;
+
+export const getPageTermOfServiceQuery = gql`
+query getShopPolicies {
+	shop {
+		termsOfService {
+			id
+			body # Policy text, maximum size of 64kb.
+			title
+		}
+	}
+}`;
+
+
+

@@ -5,6 +5,10 @@ import Subscription from "./pages/Subscription";
 import WithoutLoginCheckout from "./pages/WithoutLoginCheckout";
 import Header from "./component/Header"
 import Product from "./pages/Product";
+import Accessibility from "./component/Accessibility";
+import Refund from "./component/Refund";
+import TermOfServices from "./component/TermOfServices";
+import PrivacyPolicy from "./component/PrivacyPolicy";
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
             <Route path="/products" element={<Product />} />
             <Route path="*" element={<Home />} />
             <Route path="/subscription" element={<Subscription />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/accessibility" element={<Accessibility />} />
+            <Route path="/refund" element={<Refund />} />
+            <Route path="/term-of-services" element={<TermOfServices />} />
             <Route path="/without-login-checkout" element={<WithoutLoginCheckout />} />
           </Routes>
         </div>
