@@ -15,17 +15,10 @@ const Subscription = () => {
             price: "₹2110.12/meal",
             discountPrice: "₹2510.12/meal"
         },
-        {
-            id: 3,
-            noMeal: "Subscription",
-            price: "₹2110.12/meal",
-            discountPrice: "₹2510.12/meal"
-        },
-
     ]
     return (
         <>
-            <Meal data={data} message={'Select Your Subscriptions'} url={"/without-login-checkout"} />
+            <Meal data={data} message={'Select Your Subscriptions'} url={"/products"} />
         </>
     )
 }
