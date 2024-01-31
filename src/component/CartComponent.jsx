@@ -13,18 +13,17 @@ export const CartDrawer = () => {
   const [openCategorySides, setOpenCategorySides] = useState(null);
   const cartResponse = useSelector(selectCartResponse);
 
+  useEffect(() => {
+    getCartData();
+  }, [cartDatas]);
 
-  // useEffect(() => {
-  //   getCartData();
-  // }, [cartDatas]);
-
-  // const getCartData = async () => {
-  //   const params = {
-  //     cartId: cartDatas?.cartCreate?.cart?.id,
-  //   };
-  //   const response = await graphQLClient.request(getCartQuery, params);
-  //   dispatch(setCartResponse(response));
-  // };
+  const getCartData = async () => {
+    const params = {
+      cartId: cartDatas?.cartCreate?.cart?.id,
+    };
+    const response = await graphQLClient.request(getCartQuery, params);
+    dispatch(setCartResponse(response));
+  };
 
   const categoryVariants = {
     open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
@@ -119,7 +118,7 @@ export const CartDrawer = () => {
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          className="fixed top-20 right-0 w-full shadow-md"
+          className="fixed top-20 right-0 w-full shadow-md z-50"
           style={{
             background: "rgba(255, 255, 255, 0.2)",
             height: "89.8vh",
@@ -281,14 +280,13 @@ export const CartDrawer = () => {
                               <div className="flex items-center gap-3">
                                 <img
                                   src={
-                                    line.node.merchandise.product.featuredImage
-                                      .url
+                                    line?.node?.merchandise?.product?.featuredImage?.url
                                   }
-                                  alt={line.node.merchandise.product.title}
+                                  alt={line?.node?.merchandise?.product?.title}
                                   className="w-20 h-20"
                                 />
                                 <p className="font-semibold text-base">
-                                  {line.node.merchandise.product.title}
+                                  {line?.node?.merchandise?.product?.title}
                                 </p>
                               </div>
                               <div className="flex items-center gap-2">
