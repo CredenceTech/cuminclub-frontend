@@ -457,7 +457,6 @@ mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
 }`;
 
 export const updateCartMutation = gql`
-# This mutation adds lines to existing cart, returns the quantity and product id. This mutation also accepts sellingPlanId 
 mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
   cartLinesAdd(cartId: $cartId, lines: $lines) {
     cart {
@@ -466,6 +465,7 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
             edges
             {
                 node{
+                  id
                     quantity
                     merchandise{
                         ... on ProductVariant {   						
@@ -494,14 +494,12 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
         }
       }   
 }
-
-
     userErrors {
       field
       message
     }
   }
-}`;   
+}`;
 
 export const getCartQuery = gql`
   query GetCart($cartId: ID!) {
@@ -845,51 +843,6 @@ mutation {
           currencyCode
         }
       }
-    }
-  }
-}`;
-
-
-export const updateCartMutation = gql`
-mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
-  cartLinesAdd(cartId: $cartId, lines: $lines) {
-    cart {
-    id
-        lines(first: 10){
-            edges
-            {
-                node{
-                    quantity
-                    merchandise{
-                        ... on ProductVariant {   						
-                            id
-                        }
-                    }
-                }
-            }
-        }
-        cost {
-        totalAmount {
-          amount
-          currencyCode
-        }
-        subtotalAmount {
-          amount
-          currencyCode
-        }
-        totalTaxAmount {
-          amount
-          currencyCode
-        }
-        totalDutyAmount {
-          amount
-          currencyCode
-        }
-      }   
-    }
-    userErrors {
-      field
-      message
     }
   }
 }`;

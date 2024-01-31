@@ -110,16 +110,20 @@ const Product = () => {
       return cartItem.node.merchandise.id === productId;
     });
 
+
     if (productInCart) {
       const quantityInCart = productInCart.node.quantity;
       const  cartId = cartDatas?.cartCreate?.cart?.id
       const id = productInCart?.node?.id
+      console.log(productInCart, "Cart Id")
       updateCartItem(cartId, {id : id, quantity: quantityInCart + 1})
     } else {
       const  cartId = cartDatas?.cartCreate?.cart?.id
       updateCart(cartId, { merchandiseId: productId, quantity: 1 })
     }
   };
+
+  console.log(cartResponse, "Cart Response")
 
   const handleRemoveFromCart = (productId) => {
     const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
@@ -151,7 +155,10 @@ const Product = () => {
       "cartId": cartId,
       "lines": cartItem
     }
+
+    console.log(params, "Params")
     const response = await graphQLClient.request(updateCartItemMutation, params);
+    console.log(response, "Response")
     dispatch(setCartResponse(response.cartLinesUpdate));
   }
 
