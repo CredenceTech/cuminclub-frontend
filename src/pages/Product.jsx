@@ -123,8 +123,6 @@ const Product = () => {
     }
   };
 
-  console.log(cartResponse, "Cart Response")
-
   const handleRemoveFromCart = (productId) => {
     const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
       return cartItem.node.merchandise.id === productId;
