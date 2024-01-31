@@ -234,7 +234,7 @@ const Product = () => {
       {apiResponse ? (
         <>
           <div className="flex bg-white justify-start sticky top-0">
-            <div className="flex items-center bg-white gap-2">
+            <div className="flex items-center  bg-white gap-2">
               <button
                 onClick={openCountryDrawer}
                 className="bg-[#333333] px-3 py-2 rounded-r-lg"
@@ -260,18 +260,18 @@ const Product = () => {
                 />
               )}
               {isCartOpen && <CartDrawer />}
-              <span className="text-xl font-bold hidden lg:visible">
+              <span className="text-xl font-bold hidden lg:block">
                 Filter
               </span>
             </div>
-            <div className="flex bg-white overflow-x-auto flex-1 justify-around">
+            <div className="flex bg-white overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide lg:justify-around">
               {apiResponse.collections.edges.map((category) => (
                 <div
                   key={category.node.title}
                   onClick={() => handleCategorySelect(category.node.title)}
-                  className={`cursor-pointer flex items-center lg:py-1 font-medium lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
-                      ? "bg-[#53940F] text-white border-none"
-                      : ""
+                  className={`cursor-pointer flex items-center py-1 mx-2 lg:mx-4 my-2  font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
+                    ? "bg-[#53940F] text-white border-none"
+                    : ""
                     }`}
                 >
                   {category.node.title}

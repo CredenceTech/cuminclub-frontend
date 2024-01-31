@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from "framer-motion";
 import { getProductDetailQuery, getProductRecommendedQuery, graphQLClient } from "../api/graphql";
 import redChillyImage from "../assets/red-chilly.svg";
-import whiteChillyImage from "../assets/white-chilli.svg";
-import plusImage from "../assets/plus.svg";
-import minusImage from "../assets/minus.svg";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
 
-const metafieldList = [
-    { value: 'spice_level', text: 'Spice Level' },
-    { value: 'ingredient', text: 'Ingredient' },
-    { value: 'nutrition_facts', text: 'Nutrition Facts' },
-    { value: 'how_to_prepare', text: 'How To Prepare' },
-];
+
 
 const ProductDetail = () => {
     var rootElement = document.getElementById('root');
@@ -164,205 +153,43 @@ const ProductDetail = () => {
         }
     };
 
-    return (
-        // <>
-        //     {apiProductResponse ? (
-        //         <div className="flex flex-wrap ml-20 mt-16">
-        //             <div className='w-2/3'>
-        //                 <div className="text-center text-lime-600 text-[40px] font-semibold font-['Outfit']">
-        //                     {data?.title}
-        //                 </div>
-        //                 <img className="shadow ml-96 h-[240px] w-[240px]" src={data?.featuredImage?.url} />
-        //                 <div className="w-[425px] ml-72 mt-5 text-center text-zinc-800 text-xl font-normal font-['Outfit'] ">
-        //                     {data?.description}<br /><br />
-        //                 </div>
-        //                 <div className="flex" style={{ marginLeft: '450px' }}>
-        //                     {redChilli?.map(item => (
-        //                         <img src={redChillyImage} alt="chilly" />
-        //                     ))}
-        //                     {/* {whiteChilli?.map(item => (
-        //                         <img src={whiteChillyImage} alt="chilly" />
-        //                     ))} */}
-        //                 </div>
-        //                 {/* <div className="flex mt-4" style={{ marginLeft: '445px' }}>
-        //                 <img className={productQty >= 0 ? 'cursor-pointer' : null} src={minusImage} alt="minus" onClick={decreaseQuantity} />
-        //                 <input className='w-[40px] h-[30px] ml-3 mr-3 text-center' name="qty" id="qty" value={productQty} />
-        //                 <img className='cursor-pointer' src={plusImage} alt="plus" onClick={increaseQuantity} />
-        //                 </div> */}
-        //                 <div className="flex gap-2 items-center mt-4" style={{ marginLeft: '445px' }}>
-        //                     <button onClick={() =>
-        //                         handleRemoveFromCart(
-        //                             data?.variants?.edges[0]?.node?.id
-        //                         )
-        //                     }>
-        //                         <svg
-        //                             width="18"
-        //                             height="18"
-        //                             viewBox="0 0 18 18"
-        //                             fill="none"
-        //                             xmlns="http://www.w3.org/2000/svg"
-        //                         >
-        //                             <path
-        //                                 d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-        //                                 fill="#333333"
-        //                             />
-        //                         </svg>
-        //                     </button>
-        //                     <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-        //                         {getProductQuantityInCart(
-        //                             data?.variants?.edges[0]?.node?.id
-        //                         )}
-        //                     </span>
-        //                     <button onClick={() =>
-        //                         handleAddToCart(
-        //                             data?.variants?.edges[0]?.node?.id
-        //                         )
-        //                     }>
-        //                         <svg
-        //                             width="18"
-        //                             height="18"
-        //                             viewBox="0 0 18 18"
-        //                             fill="none"
-        //                             xmlns="http://www.w3.org/2000/svg"
-        //                         >
-        //                             <path
-        //                                 d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-        //                                 fill="#333333"
-        //                             />
-        //                         </svg>
-        //                     </button>
-        //                 </div>
-        //             </div>
-        //             <div className="w-1/3 -ml-48 mt-1">
-        //                 <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
-        //                     <AccordionSummary>
-        //                         <Typography>Spice Level</Typography>
-        //                     </AccordionSummary>
-        //                     <AccordionDetails>
-        //                         <Typography>
-        //                             <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
-        //                                 {getMetafieldData('spice_level', data?.metafields)}
-        //                             </pre>
-        //                         </Typography>
-        //                     </AccordionDetails>
-        //                 </Accordion>
-        //                 <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
-        //                     <AccordionSummary>
-        //                         <Typography>Ingredient</Typography>
-        //                     </AccordionSummary>
-        //                     <AccordionDetails>
-        //                         <Typography>
-        //                             <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
-        //                                 {getMetafieldData('ingredient', data?.metafields)}
-        //                             </pre>
-        //                         </Typography>
-        //                     </AccordionDetails>
-        //                 </Accordion>
-        //                 <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
-        //                     <AccordionSummary>
-        //                         <Typography>Nutrition Facts</Typography>
-        //                     </AccordionSummary>
-        //                     <AccordionDetails>
-        //                         <Typography>
-        //                             <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
-        //                                 {getMetafieldData('nutrition_facts', data?.metafields)}
-        //                             </pre>
-        //                         </Typography>
-        //                     </AccordionDetails>
-        //                 </Accordion>
-        //                 <Accordion className='w-[300px]' style={{ background: '#F5F5F5' }} >
-        //                     <AccordionSummary>
-        //                         <Typography>How To Prepare</Typography>
-        //                     </AccordionSummary>
-        //                     <AccordionDetails>
-        //                         <Typography>
-        //                             <pre style={{ whiteSpace: 'pre-wrap', width: '100%' }}>
-        //                                 {getMetafieldData('how_to_prepare', data?.metafields)}
-        //                             </pre>
-        //                         </Typography>
-        //                     </AccordionDetails>
-        //                 </Accordion>
-        //             </div>
-        //         </div >
-        //     ) : (
-        //         <p>Loading...</p>
-        //     )}
-        //     {apiRecommendedResponse ? (
-        //         <div className="">
-        //             <div className="text-center text-lime-600 text-[40px] font-semibold font-['Outfit']">
-        //                 Recommended Sides
-        //             </div>
-        //             <div className="text-center text-zinc-800 text-xl font-normal font-['Outfit']">
-        //                 Recommended Sides with {data?.title}
-        //             </div>
-        //             <div className="flex flex-wrap">
-        //                 {dataRecommended?.map((item, index) => (
-        //                     <div style={{ width: '22%' }}>
-        //                         <div className="w-[258px] h-[430px] ml-48 mb-3.5 bg-white rounded-2xl shadow border border-stone-300">
-        //                             <img className="ml-6 mt-2 h-[205px] w-[204px]" src={item?.variants?.edges[0]?.node?.image?.url} />
-        //                             <div className="text-center text-lime-600 text-xl font-bold font-['Outfit']">
-        //                                 {item?.title}
-        //                             </div>
-        //                             <div className="text-center text-zinc-800 text-xs font-normal font-['Outfit']">
-        //                                 {/* {item?.description} */}
-        //                                 {(item?.variants?.edges[0]?.node?.product?.metafields &&
-        //                                     item?.variants?.edges[0]?.node?.product?.metafields.find(
-        //                                         (metafield) =>
-        //                                             metafield?.key === "small_descriptions"
-        //                                     )?.value) ||
-        //                                     ""}
-        //                             </div>
-        //                             <div className="flex ml-20 mt-2">
-        //                                 {generateImages(item?.variants?.edges[0]?.node?.product?.metafields)}
-        //                             </div>
-        //                             {/* <div className="flex ml-16 mt-4">
-        //                                 <img src={minusImage} alt="minus" />
-        //                                 <input name={'qty' + index} value={item?.qty} className='w-[40px] h-[30px] ml-3 mr-3 text-center border border-stone-400' />
-        //                                 <img src={plusImage} alt="plus" />
-        //                             </div> */}
-        //                             <div className="flex gap-2 items-center ml-16 mt-4">
-        //                                 <button onClick={() =>
-        //                                     handleRemoveFromCart(
-        //                                         item?.variants?.edges[0]?.node?.id
-        //                                     )
-        //                                 }>
-        //                                     <svg width="18" height="18" viewBox="0 0 18 18"
-        //                                         fill="none" xmlns="http://www.w3.org/2000/svg">
-        //                                         <path
-        //                                             d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-        //                                             fill="#333333"
-        //                                         />
-        //                                     </svg>
-        //                                 </button>
-        //                                 <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-        //                                     {getProductQuantityInCart(
-        //                                         item?.variants?.edges[0]?.node?.id
-        //                                     )}
-        //                                 </span>
-        //                                 <button onClick={() =>
-        //                                     handleAddToCart(
-        //                                         item?.variants?.edges[0]?.node?.id
-        //                                     )
-        //                                 }>
-        //                                     <svg width="18" height="18" viewBox="0 0 18 18"
-        //                                         fill="none" xmlns="http://www.w3.org/2000/svg">
-        //                                         <path
-        //                                             d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-        //                                             fill="#333333"
-        //                                         />
-        //                                     </svg>
-        //                                 </button>
-        //                             </div>
-        //                         </div>
-        //                     </div>
-        //                 ))}
-        //             </div>
-        //         </div>
-        //     ) : (
-        //         <p>Loading...</p>
-        //     )}
-        // </>
+    // accordian thing below
+    const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
 
+    const toggleCategoryMeals = (id) => {
+        setOpenCategoryMeals(openCategoryMeals === id ? null : id);
+    };
+
+    const accordianData = [
+        {
+            title: "How To Prepare",
+            description: getMetafieldData('how_to_prepare', data?.metafields),
+            id: 1
+        },
+        {
+            title: "Nutrition Facts",
+            description: getMetafieldData('nutrition_facts', data?.metafields),
+            id: 2
+        },
+        {
+            title: "Ingredient",
+            description: getMetafieldData('ingredient', data?.metafields),
+            id: 3
+        },
+
+    ]
+
+    const categoryVariants = {
+        open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
+        closed: {
+            borderBottomRightRadius: "0.375rem",
+            borderBottomLeftRadius: "0.375rem",
+        },
+    };
+
+    console.log("first accordian data", accordianData)
+
+    return (
         <>
             {apiProductResponse ? (
                 <section className="text-gray-600 body-font">
@@ -432,8 +259,55 @@ const ProductDetail = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
-
+                        <div className="lg:max-w-lg lg:w-full md:w-1/2 mt-4 md:mt-0 w-5/6 mb-10 md:mb-0">
+                            {/*  accordion sadasdasd */}
+                            <div className="accordion-container m-2  text-[#333333]">
+                                {accordianData.map(item => (
+                                    <div key={item.id} className="mb-2">
+                                        <motion.button
+                                            onClick={() => toggleCategoryMeals(item.id)}
+                                            className="px-5 py-2 items-center justify-between flex w-full bg-[#F5F5F5] rounded-lg"
+                                            variants={categoryVariants}
+                                            initial="closed"
+                                            animate={openCategoryMeals === item.id ? "open" : "closed"}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <span className="font-normal text-lg">{item.title}</span>
+                                            <span>
+                                                <motion.svg
+                                                    width="12"
+                                                    height="9"
+                                                    viewBox="0 0 12 9"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    initial={{ rotate: 0 }}
+                                                    animate={{ rotate: openCategoryMeals === item.id ? 180 : 0 }}
+                                                    transition={{ duration: 0.3 }}
+                                                >
+                                                    <motion.path
+                                                        d="M6 9L0.803849 9.2855e-07L11.1962 1.83707e-06L6 9Z"
+                                                        fill="#333333"
+                                                    />
+                                                </motion.svg>
+                                            </span>
+                                        </motion.button>
+                                        <AnimatePresence>
+                                            {openCategoryMeals === item.id && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{ height: "auto", opacity: 1 }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
+                                                >
+                                                    <p className='pt-2  border-t-[1px]  border-gray-600'>
+                                                        {item.description}
+                                                    </p>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <div className='container mx-auto flex px-3 flex-col justify-center items-center'>

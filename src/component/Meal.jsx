@@ -28,7 +28,7 @@ const Meal = ({ data, message, url }) => {
                                 }
                             </div>
                             <div className='mt-4 flex justify-center '>
-                                <Link to={url} className='flex-col cursor-pointer  border border-[#E91D24] hover:bg-[#99e24b]  rounded px-5 py-2'>
+                                <Link to={url} className='flex-col cursor-pointer  border border-[#E91D24]  rounded px-5 py-2'>
                                     <div className='flex flex-row justify-center'>
                                         <p className='pr-2 text-sm text-[#E91D24]'>Next</p>
                                         <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
