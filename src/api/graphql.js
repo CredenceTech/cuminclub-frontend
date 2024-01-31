@@ -352,7 +352,7 @@ export const createCartMutation = gql`
         id
         createdAt
         updatedAt
-        lines(first: 10) {
+        lines(first: 100) {
           edges {
             node {
               id
@@ -391,6 +391,116 @@ export const createCartMutation = gql`
   }
 `;
 
+export const updateCartItemMutation = gql`
+mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+  cartLinesUpdate(
+    cartId: $cartId
+    lines: $lines
+  ) {
+    cart {
+      id
+      lines(first: 100) {
+        edges {
+          node {
+            id
+            quantity
+            estimatedCost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                product {
+                  title
+                  featuredImage {
+                    altText
+                    url
+                  }
+                  handle
+                }
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+      cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+}`;
+
+export const updateCartMutation = gql`
+mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
+  cartLinesAdd(cartId: $cartId, lines: $lines) {
+    cart {
+    id
+        lines(first: 100){
+            edges
+            {
+                node{
+                  id
+                    quantity
+                    merchandise{
+                        ... on ProductVariant {   						
+                            id
+                        }
+                    }
+                }
+            }
+        }
+        cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }   
+}
+    userErrors {
+      field
+      message
+    }
+  }
+}`;
+
 export const getCartQuery = gql`
   query GetCart($cartId: ID!) {
     cart(id: $cartId) {
@@ -403,6 +513,7 @@ export const getCartQuery = gql`
       lines(first: 100) {
         edges {
           node {
+            id
             quantity
             estimatedCost {
               subtotalAmount {
@@ -732,51 +843,6 @@ mutation {
           currencyCode
         }
       }
-    }
-  }
-}`;
-
-
-export const updateCartMutation = gql`
-mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
-  cartLinesAdd(cartId: $cartId, lines: $lines) {
-    cart {
-    id
-        lines(first: 10){
-            edges
-            {
-                node{
-                    quantity
-                    merchandise{
-                        ... on ProductVariant {   						
-                            id
-                        }
-                    }
-                }
-            }
-        }
-        cost {
-        totalAmount {
-          amount
-          currencyCode
-        }
-        subtotalAmount {
-          amount
-          currencyCode
-        }
-        totalTaxAmount {
-          amount
-          currencyCode
-        }
-        totalDutyAmount {
-          amount
-          currencyCode
-        }
-      }   
-    }
-    userErrors {
-      field
-      message
     }
   }
 }`;

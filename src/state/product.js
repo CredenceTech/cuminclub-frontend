@@ -46,5 +46,6 @@ const productSlice = createSlice({
 });
 
 export const { addProduct, clearProduct, removeProduct } = productSlice.actions;
-
+export const productData = state => state.product.items;
+export const productCount = state => state.product.count;
 export default productSlice.reducer;

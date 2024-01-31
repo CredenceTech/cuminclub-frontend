@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { cartIsOpen, closeCart, openCart } from '../state/cart';
+import { cartIsOpen, openCart } from '../state/cart';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartDrawer } from './CartComponent';
-import { cartData } from '../state/cartData';
+import { cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 import { getCartQuery, graphQLClient } from '../api/graphql';
 import { selectMealItems } from '../state/mealdata';
+import { productData } from '../state/product';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
     const [selectedCountry, setSelectedCountry] = React.useState("India");
-    const [cartResponse, setCartResponse] = useState(0);
     const isCartOpen = useSelector(cartIsOpen)
     const cartDatas = useSelector(cartData);
     const selectedMealData = useSelector(selectMealItems);
     const dispatch = useDispatch()
+    const productDatas = useSelector(productData);
+    const cartResponse = useSelector(selectCartResponse);
 
     useEffect(() => {
         if (cartData !== null) {

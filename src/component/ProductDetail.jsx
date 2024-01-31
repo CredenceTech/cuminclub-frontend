@@ -10,7 +10,6 @@ const ProductDetail = () => {
     var rootElement = document.getElementById('root');
     rootElement.classList.remove('backgroundImage');
     rootElement.classList.add('backgroundImage2');
-
     const location = useLocation();
     const [apiProductResponse, setApiProductResponse] = useState(null);
     // const [apiRecommendedResponse, setApiRecommendedResponse] = useState(null);
@@ -21,10 +20,14 @@ const ProductDetail = () => {
     // const [productQty, setDataProductQty] = useState(0);
     // const [whiteChilli, setDataWhiteChilli] = useState([]);
 
-    const [cartItems, setCartItems] = useState([]);
-    const [cartCount, setCartCount] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     console.log(location.state.id, "Product Id")
+
+    // useEffect(() => {
+    //     apiResponse();
+    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,10 +77,17 @@ const ProductDetail = () => {
                 console.log("error getProductRecommendedQuery", error);
             }
         };
+
         fetchData();
         fetchProductRecommendedData();
     }, []);
 
+    // const apiResponse = async () => {
+    //     const response = await graphQLClient.request(getProductDetailQuery);
+    //     setDetail(response);
+    //     console.log(detail, "Product Detail");
+    //     return response;
+    // }
 
     const getMetafieldData = (key, list) => {
         let metaContent = '';
