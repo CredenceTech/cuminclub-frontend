@@ -697,11 +697,9 @@ export const getProductDetailQuery = gql`
   }
 `;
 
-
-
 export const getProductRecommendedQuery = gql`
-  query getProductRecommendations {
-    productRecommendations(productId: "gid://shopify/Product/8264168145122") {
+  query getProductRecommendations($productId: ID!) {
+    productRecommendations(productId: $productId) {
       id
       title
       description
@@ -783,5 +781,115 @@ query getShopPolicies {
 	}
 }`;
 
+export const updateCartItemsQuantityMutation = gql`
+mutation {
+  cartLinesUpdate(
+    cartId: "gid://shopify/Cart/Z2NwLXVzLWNlbnRyYWwxOjAxSE1XWjE4WVNDVjYwSFdXNjdHRUYwODk4"
+    lines: {
+      id: "gid://shopify/CartLine/519c234e-1506-4773-b340-fdf45bae82eb?cart=Z2NwLXVzLWNlbnRyYWwxOjAxSE1XWjE4WVNDVjYwSFdXNjdHRUYwODk4"
+      quantity: 0
+    }
+  ) {
+    cart {
+      id
+      lines(first: 10) {
+        edges {
+          node {
+            id
+            quantity
+            estimatedCost {
+                  subtotalAmount {
+                    amount
+                    currencyCode
+                  }
+                  totalAmount {
+                    amount
+                    currencyCode
+                  }
+                }
+            merchandise {
+              ... on ProductVariant {
+                id
+                product {
+                        title
+                        featuredImage {
+                            altText
+                            url
+                        }
+                        handle
+                    }
+                    priceV2 {
+                      amount
+                      currencyCode
+                    }
+              }
+            }
+          }
+        }
+      }
+      cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }
+    }
+  }
+}`;
 
 
+export const updateCartMutation = gql`
+mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
+  cartLinesAdd(cartId: $cartId, lines: $lines) {
+    cart {
+    id
+        lines(first: 10){
+            edges
+            {
+                node{
+                    quantity
+                    merchandise{
+                        ... on ProductVariant {   						
+                            id
+                        }
+                    }
+                }
+            }
+        }
+        cost {
+        totalAmount {
+          amount
+          currencyCode
+        }
+        subtotalAmount {
+          amount
+          currencyCode
+        }
+        totalTaxAmount {
+          amount
+          currencyCode
+        }
+        totalDutyAmount {
+          amount
+          currencyCode
+        }
+      }   
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}`;

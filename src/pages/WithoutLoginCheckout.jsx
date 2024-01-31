@@ -95,7 +95,7 @@ const WithoutLoginCheckout = () => {
     });
 
     return (
-        <section className="text-gray-600 body-font relative">
+        <section className="text-gray-600 body-font z-[-10] relative">
             <div className="container lg:px-20  mx-auto flex sm:flex-nowrap flex-wrap-reverse">
                 <div className=" md:w-2/6 lg:w-3/6 bg-[#F5F5F5] flex flex-col md:ml-auto w-full mt-5 pt-4 pb-4 px-5 md:mt-0">
                     <h2 className="text-[#53940F] text-lg lg:text-2xl mb-2  mt-2font-medium title-font">Account Details</h2>

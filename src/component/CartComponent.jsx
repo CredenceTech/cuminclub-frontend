@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../state/cart";
-import { addCartData, cartData, selectCartResponse, setCartResponse } from "../state/cartData";
-import { createCartMutation, getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
+import { cartData } from "../state/cartData";
+import { getCartQuery, graphQLClient } from "../api/graphql";
+import { Link } from "react-router-dom";
 
 export const CartDrawer = () => {
   const dispatch = useDispatch();
@@ -510,9 +511,11 @@ export const CartDrawer = () => {
                   </AnimatePresence>
                 </div>
               </div>
-              <button className="fixed rounded-3xl w-3/4 text-white text-xl font-semibold  text-left bottom-0 mb-2 left-1/2 transform -translate-x-1/2 bg-[#53940F] px-10 py-2">
-                Checkout
-              </button>
+              <Link to="/without-login-checkout">
+                <button type="button" onClick={() => { dispatch(closeCart()) }} className="fixed rounded-3xl w-3/4 text-white text-xl font-semibold  text-left bottom-0 mb-2 left-1/2 transform -translate-x-1/2 bg-[#53940F] px-10 py-2">
+                  Checkout
+                </button>
+              </Link>
             </div>
           </div>
         </motion.div>
