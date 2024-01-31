@@ -402,7 +402,7 @@ const ProductDetail = () => {
                                         <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
                                         {/* {getProductQuantityInCart(
                               product.node.variants.edges[0].node.id
-                            )} */}
+                            )} */}0
                                         </span>
                                         <button
                                             onClick={() => {
