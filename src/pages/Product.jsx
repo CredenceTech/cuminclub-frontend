@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { createCartMutation, getProductCollectionsQuery, graphQLClient } from "../api/graphql";
+import { createCartMutation, getCartQuery, getProductCollectionsQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { Footer } from "../component/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMealItems } from "../state/mealdata";
@@ -7,15 +7,12 @@ import mealThreeImage from "../assets/mealThreeImage.png";
 import { useNavigate } from "react-router-dom";
 import { CartDrawer } from "../component/CartComponent";
 import { cartIsOpen, openCart } from "../state/cart";
-import { addCartData, cartData, clearCartData } from "../state/cartData";
+import { addCartData, cartData, clearCartData, selectCartResponse, setCartResponse } from "../state/cartData";
 import { FilterDrawer } from "../component/FilterDrawer";
-import { addProduct } from "../state/product";
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
-  const [cartCount, setCartCount] = useState(0);
   const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
@@ -25,6 +22,19 @@ const Product = () => {
   const isCartOpen = useSelector(cartIsOpen)
   const [activeTitle, setActiveTitle] = useState();
   const cartDatas = useSelector(cartData);
+  const cartResponse = useSelector(selectCartResponse);
+
+  useEffect(() => {
+    getCartData();
+  }, [cartDatas]);
+
+  const getCartData = async () => {
+    const params = {
+      cartId: cartDatas?.cartCreate?.cart?.id,
+    };
+    const response = await graphQLClient.request(getCartQuery, params);
+    dispatch(setCartResponse(response));
+  };
 
   const productEdgesRef = useRef();
 
@@ -36,28 +46,6 @@ const Product = () => {
       productEdgesElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  // useEffect(() => {
-  //   if(cartCount === mealData.no){
-  //     addToCart()
-  //     dispatch(openCart())
-  //   }
-  // }, [cartCount])
-
-  const addToCart = async () => {
-    const params = {
-      "cartInput": {
-        "lines": [
-          ...cartItems
-        ]
-      }
-    }
-    const response = await graphQLClient.request(createCartMutation, params);
-    dispatch(clearCartData())
-    setTimeout(() => {
-      dispatch(addCartData(response))
-    }, 500);
-  }
 
   useEffect(() => {
     const handleSelectedOptionsChange = (selectedOptions) => {
@@ -113,51 +101,76 @@ const Product = () => {
     apiCall();
   }, []);
 
-
   const handleAddToCart = (productId) => {
-    const existingItemIndex = cartItems.findIndex(
-      (item) => item.merchandiseId === productId
-    );
-
-    if (existingItemIndex !== -1) {
-      const updatedCart = [...cartItems];
-      updatedCart[existingItemIndex] = {
-        ...updatedCart[existingItemIndex],
-        quantity: updatedCart[existingItemIndex].quantity + 1,
-      };
-      setCartItems(updatedCart);
-    } else {
-      setCartItems([...cartItems, { merchandiseId: productId, quantity: 1 }]);
+    if(cartDatas === null){
+      addToCart({ merchandiseId: productId, quantity: 1 })
     }
 
-    setCartCount((prevCount) => prevCount + 1);
-    // dispatch(addProduct({ merchandiseId: productId, quantity: 1 }));
+    const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+      return cartItem.node.merchandise.id === productId;
+    });
+
+    if (productInCart) {
+      const quantityInCart = productInCart.node.quantity;
+      const  cartId = cartDatas?.cartCreate?.cart?.id
+      const id = productInCart?.node?.id
+      updateCartItem(cartId, {id : id, quantity: quantityInCart + 1})
+    } else {
+      const  cartId = cartDatas?.cartCreate?.cart?.id
+      updateCart(cartId, { merchandiseId: productId, quantity: 1 })
+    }
   };
 
   const handleRemoveFromCart = (productId) => {
-    const existingItemIndex = cartItems.findIndex(
-      (item) => item.merchandiseId === productId
-    );
+    const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
+      return cartItem.node.merchandise.id === productId;
+    });
 
-    if (existingItemIndex !== -1) {
-      const updatedCart = [...cartItems];
-      updatedCart[existingItemIndex] = {
-        ...updatedCart[existingItemIndex],
-        quantity: Math.max(0, updatedCart[existingItemIndex].quantity - 1),
-      };
-
-      setCartCount((prevCount) => Math.max(0, prevCount - 1));
-      if (updatedCart[existingItemIndex].quantity === 0) {
-        updatedCart.splice(existingItemIndex, 1);
-      }
-
-      setCartItems(updatedCart);
+    if (productInCart) {
+      const quantityInCart = productInCart.node.quantity;
+      const  cartId = cartDatas?.cartCreate?.cart?.id
+      const id = productInCart?.node?.id
+      updateCartItem(cartId, {id : id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1})
     }
   };
 
+  const addToCart = async (cartItems) => {
+    const params = {
+      "cartInput": {
+        "lines": [
+          cartItems
+        ]
+      }
+    }
+    const response = await graphQLClient.request(createCartMutation, params);
+    dispatch(addCartData(response))
+  }
+
+ const updateCartItem = async(cartId, cartItem) => {
+    const params = {
+      "cartId": cartId,
+      "lines": cartItem
+    }
+    const response = await graphQLClient.request(updateCartItemMutation, params);
+    dispatch(setCartResponse(response.cartLinesUpdate));
+  }
+
+  const updateCart = async(cartId, cartItem) => {
+    const params = {
+      "cartId": cartId,
+      "lines": [
+        cartItem
+      ]
+    }
+    const response = await graphQLClient.request(updateCartMutation, params);
+    dispatch(setCartResponse(response.cartLinesAdd));
+  }
+
   const getProductQuantityInCart = (productId) => {
-    const cartItem = cartItems.find((item) => item.merchandiseId === productId);
-    return cartItem ? cartItem.quantity : 0;
+    const productInCart = cartResponse?.cart?.lines?.edges?.find(cartItem => {
+      return cartItem.node.merchandise.id === productId;
+    });
+    return productInCart ? productInCart?.node?.quantity : 0;
   };
 
   const openCountryDrawer = () => {
