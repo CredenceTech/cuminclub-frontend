@@ -1,14 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-import { createCartMutation, getCartQuery, getProductCollectionsQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
+import {
+  createCartMutation,
+  getCartQuery,
+  getProductCollectionsQuery,
+  graphQLClient,
+  updateCartItemMutation,
+  updateCartMutation,
+} from "../api/graphql";
 import { Footer } from "../component/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMealItems } from "../state/mealdata";
 import mealThreeImage from "../assets/mealThreeImage.png";
 import { useNavigate } from "react-router-dom";
 import { CartDrawer } from "../component/CartComponent";
-import { cartIsOpen, openCart } from "../state/cart";
-import { addCartData, cartData, clearCartData, selectCartResponse, setCartResponse } from "../state/cartData";
+import { cartIsOpen } from "../state/cart";
+import {
+  addCartData,
+  cartData,
+  selectCartResponse,
+  setCartResponse,
+} from "../state/cartData";
 import { FilterDrawer } from "../component/FilterDrawer";
+import LoadingAnimation from "../component/Loader";
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -17,9 +30,9 @@ const Product = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState([]);
   const mealData = useSelector(selectMealItems);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const isCartOpen = useSelector(cartIsOpen)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isCartOpen = useSelector(cartIsOpen);
   const [activeTitle, setActiveTitle] = useState();
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
@@ -40,10 +53,12 @@ const Product = () => {
 
   const handleCategorySelect = (title) => {
     setActiveTitle(title);
-    const productEdgesElement = document.getElementById(`product-edges-${title}`);
+    const productEdgesElement = document.getElementById(
+      `product-edges-${title}`
+    );
 
     if (productEdgesElement) {
-      productEdgesElement.scrollIntoView({ behavior: 'smooth' });
+      productEdgesElement.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -82,12 +97,17 @@ const Product = () => {
           query: "",
         });
 
-        const collections = result;;
+        const collections = result;
 
-        const bundleIndex = collections.collections.edges.findIndex(item => item.node.title === "Bundles");
+        const bundleIndex = collections.collections.edges.findIndex(
+          (item) => item.node.title === "Bundles"
+        );
 
         if (bundleIndex !== -1) {
-          const bundleItem = collections.collections.edges.splice(bundleIndex, 1)[0];
+          const bundleItem = collections.collections.edges.splice(
+            bundleIndex,
+            1
+          )[0];
           collections.collections.edges.push(bundleItem);
         }
 
@@ -102,77 +122,78 @@ const Product = () => {
   }, []);
 
   const handleAddToCart = (productId) => {
-    if(cartDatas === null){
-      addToCart({ merchandiseId: productId, quantity: 1 })
+    if (cartDatas === null) {
+      addToCart({ merchandiseId: productId, quantity: 1 });
     }
 
-    const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+    const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
 
-
     if (productInCart) {
       const quantityInCart = productInCart.node.quantity;
-      const  cartId = cartDatas?.cartCreate?.cart?.id
-      const id = productInCart?.node?.id
-      console.log(productInCart, "Cart Id")
-      updateCartItem(cartId, {id : id, quantity: quantityInCart + 1})
+      const cartId = cartDatas?.cartCreate?.cart?.id;
+      const id = productInCart?.node?.id;
+      console.log(productInCart, "Cart Id");
+      updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
     } else {
-      const  cartId = cartDatas?.cartCreate?.cart?.id
-      updateCart(cartId, { merchandiseId: productId, quantity: 1 })
+      const cartId = cartDatas?.cartCreate?.cart?.id;
+      updateCart(cartId, { merchandiseId: productId, quantity: 1 });
     }
   };
 
   const handleRemoveFromCart = (productId) => {
-    const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
+    const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
 
     if (productInCart) {
       const quantityInCart = productInCart.node.quantity;
-      const  cartId = cartDatas?.cartCreate?.cart?.id
-      const id = productInCart?.node?.id
-      updateCartItem(cartId, {id : id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1})
+      const cartId = cartDatas?.cartCreate?.cart?.id;
+      const id = productInCart?.node?.id;
+      updateCartItem(cartId, {
+        id: id,
+        quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+      });
     }
   };
 
   const addToCart = async (cartItems) => {
     const params = {
-      "cartInput": {
-        "lines": [
-          cartItems
-        ]
-      }
-    }
+      cartInput: {
+        lines: [cartItems],
+      },
+    };
     const response = await graphQLClient.request(createCartMutation, params);
-    dispatch(addCartData(response))
-  }
+    dispatch(addCartData(response));
+  };
 
- const updateCartItem = async(cartId, cartItem) => {
+  const updateCartItem = async (cartId, cartItem) => {
     const params = {
-      "cartId": cartId,
-      "lines": cartItem
-    }
+      cartId: cartId,
+      lines: cartItem,
+    };
 
-    console.log(params, "Params")
-    const response = await graphQLClient.request(updateCartItemMutation, params);
-    console.log(response, "Response")
+    console.log(params, "Params");
+    const response = await graphQLClient.request(
+      updateCartItemMutation,
+      params
+    );
+    console.log(response, "Response");
     dispatch(setCartResponse(response.cartLinesUpdate));
-  }
+  };
 
-  const updateCart = async(cartId, cartItem) => {
+  const updateCart = async (cartId, cartItem) => {
     const params = {
-      "cartId": cartId,
-      "lines": [
-        cartItem
-      ]
-    }
+      cartId: cartId,
+      lines: [cartItem],
+    };
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
-  }
+  };
 
   const getProductQuantityInCart = (productId) => {
-    const productInCart = cartResponse?.cart?.lines?.edges?.find(cartItem => {
+    const productInCart = cartResponse?.cart?.lines?.edges?.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
     return productInCart ? productInCart?.node?.quantity : 0;
@@ -187,69 +208,69 @@ const Product = () => {
   };
 
   return (
-    <div
-      className="overflow-y-scroll w-full"
-      style={{
-        height: "90vh",
-      }}
-    >
-      <div className="h-36 overflow-x-hidden w-full flex lg:justify-center gap-10 items-center bg-red-700">
-        <div className="hidden lg:block">
-          <img src={mealThreeImage} alt="" className="h-28 w-64" />
-        </div>
-        <div className="flex flex-col gap-3 lg:px-10 px-2">
-          <div className="flex lg:h-16 gap-5">
-            <div
-              className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
-              style={{ borderWidth: "3px" }}
-            >
-              <div className="flex flex-col items-center font-bold text-xl">
-                <span>{mealData.no}</span>
-                <span>Meals</span>
+    <>
+      {apiResponse ? <div
+        className="overflow-y-scroll w-full"
+        style={{
+          height: "90vh",
+        }}
+      >
+        <div className="h-36 overflow-x-hidden w-full flex lg:justify-center gap-10 items-center bg-red-700">
+          <div className="hidden lg:block">
+            <img src={mealThreeImage} alt="" className="h-28 w-64" />
+          </div>
+          <div className="flex flex-col gap-3 lg:px-10 px-2">
+            <div className="flex lg:h-16 gap-5">
+              <div
+                className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
+                style={{ borderWidth: "3px" }}
+              >
+                <div className="flex flex-col items-center font-bold text-xl">
+                  <span>{mealData.no}</span>
+                  <span>Meals</span>
+                </div>
+                <div className="flex flex-col">
+                  <span> {mealData.discountPrice}</span>
+                  <strike className="text-gray-300">{mealData.price}</strike>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <span> {mealData.discountPrice}</span>
-                <strike className="text-gray-300">{mealData.price}</strike>
-              </div>
+              <span
+                className="lg:px-10 text-2xl font-bold text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
+                style={{ borderWidth: "3px" }}
+              >
+                Subscription
+              </span>
             </div>
-            <span
-              className="lg:px-10 text-2xl font-bold text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
-              style={{ borderWidth: "3px" }}
+            <div
+              onClick={() => navigate("/")}
+              className="px-3 cursor-pointer text-white gap-3  py-1 w-2/5 border text-sm border-white bg-[#53940F] rounded-lg flex items-center justify-center"
             >
-              Subscription
-            </span>
-          </div>
-          <div
-            onClick={() => navigate("/")}
-            className="px-3 cursor-pointer text-white gap-3  py-1 w-2/5 border text-sm border-white bg-[#53940F] rounded-lg flex items-center justify-center"
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 15 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.2207 11.7711L6.77365 11.759L14.5285 4.03297C14.8328 3.72684 15.0003 3.3203 15.0003 2.88783C15.0003 2.45537 14.8328 2.04883 14.5285 1.7427L13.2516 0.458276C12.6429 -0.153973 11.581 -0.150734 10.9771 0.455846L3.2207 8.18346V11.7711ZM12.1131 1.60341L13.3925 2.8854L12.1067 4.16659L10.8298 2.88298L12.1131 1.60341ZM4.83092 8.85888L9.68573 4.02163L10.9626 5.30606L6.10863 10.1417L4.83092 10.1457V8.85888Z"
-                fill="white"
-              />
-              <path
-                d="M1.61022 15H12.8818C13.7698 15 14.492 14.2735 14.492 13.3803V6.36045L12.8818 7.98015V13.3803H4.15276C4.13182 13.3803 4.11009 13.3884 4.08915 13.3884C4.06258 13.3884 4.03602 13.3811 4.00864 13.3803H1.61022V2.04231H7.12281L8.73303 0.422607H1.61022C0.722183 0.422607 0 1.14905 0 2.04231V13.3803C0 14.2735 0.722183 15 1.61022 15Z"
-                fill="white"
-              />
-            </svg>
-            <span>Update Your Plan</span>
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M3.2207 11.7711L6.77365 11.759L14.5285 4.03297C14.8328 3.72684 15.0003 3.3203 15.0003 2.88783C15.0003 2.45537 14.8328 2.04883 14.5285 1.7427L13.2516 0.458276C12.6429 -0.153973 11.581 -0.150734 10.9771 0.455846L3.2207 8.18346V11.7711ZM12.1131 1.60341L13.3925 2.8854L12.1067 4.16659L10.8298 2.88298L12.1131 1.60341ZM4.83092 8.85888L9.68573 4.02163L10.9626 5.30606L6.10863 10.1417L4.83092 10.1457V8.85888Z"
+                  fill="white"
+                />
+                <path
+                  d="M1.61022 15H12.8818C13.7698 15 14.492 14.2735 14.492 13.3803V6.36045L12.8818 7.98015V13.3803H4.15276C4.13182 13.3803 4.11009 13.3884 4.08915 13.3884C4.06258 13.3884 4.03602 13.3811 4.00864 13.3803H1.61022V2.04231H7.12281L8.73303 0.422607H1.61022C0.722183 0.422607 0 1.14905 0 2.04231V13.3803C0 14.2735 0.722183 15 1.61022 15Z"
+                  fill="white"
+                />
+              </svg>
+              <span>Update Your Plan</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex py-8 justify-center">
-        <span className="font-bold text-4xl text-[#53940F]">
-          Make Your Meal
-        </span>
-      </div>
-      {apiResponse ? (
+        <div className="flex py-8 justify-center">
+          <span className="font-bold text-4xl text-[#53940F]">
+            Make Your Meal
+          </span>
+        </div>
         <>
           <div className="flex bg-white justify-start sticky top-0">
             <div className="flex items-center  bg-white gap-2">
@@ -278,19 +299,18 @@ const Product = () => {
                 />
               )}
               {isCartOpen && <CartDrawer />}
-              <span className="text-xl font-bold hidden lg:block">
-                Filter
-              </span>
+              <span className="text-xl font-bold hidden lg:block">Filter</span>
             </div>
             <div className="flex bg-white overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide lg:justify-around">
               {apiResponse.collections.edges.map((category) => (
                 <div
                   key={category.node.title}
                   onClick={() => handleCategorySelect(category.node.title)}
-                  className={`cursor-pointer flex items-center py-1 mx-2 lg:mx-4 my-2  font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
-                    ? "bg-[#53940F] text-white border-none"
-                    : ""
-                    }`}
+                  className={`cursor-pointer flex items-center py-1 mx-2 lg:mx-4 my-2  font-medium px-3 lg:px-5 rounded border border-[#333333] ${
+                    activeTitle === category.node.title
+                      ? "bg-[#53940F] text-white border-none"
+                      : ""
+                  }`}
                 >
                   {category.node.title}
                 </div>
@@ -301,9 +321,9 @@ const Product = () => {
           {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
           <div
             className="mt-4 bg-white"
-          // style={{
-          //   height: "62vh",
-          // }}
+            // style={{
+            //   height: "62vh",
+            // }}
           >
             {rawResonse.collections.edges.map((category, index) => (
               // <div key={category.node.title} ref={productSectionsRefs[index]}>
@@ -445,10 +465,14 @@ const Product = () => {
             <Footer />
           </div>
         </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+      </div> : 
+      <div className="flex justify-center items-center" style={{
+        height: "90vh",
+      }}>
+        <LoadingAnimation/>
+      </div>
+      }
+    </>
   );
 };
 
