@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../state/cart";
-import { cartData } from "../state/cartData";
-import { getCartQuery, graphQLClient } from "../api/graphql";
+import { addCartData, cartData, selectCartResponse, setCartResponse } from "../state/cartData";
+import { getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { Link } from "react-router-dom";
 
 export const CartDrawer = () => {
