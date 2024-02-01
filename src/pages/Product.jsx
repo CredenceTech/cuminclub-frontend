@@ -13,7 +13,7 @@ import { selectMealItems } from "../state/mealdata";
 import mealThreeImage from "../assets/mealThreeImage.png";
 import { useNavigate } from "react-router-dom";
 import { CartDrawer } from "../component/CartComponent";
-import { cartIsOpen } from "../state/cart";
+import { cartIsOpen, openCart } from "../state/cart";
 import {
   addCartData,
   cartData,
@@ -22,6 +22,7 @@ import {
 } from "../state/cartData";
 import { FilterDrawer } from "../component/FilterDrawer";
 import LoadingAnimation from "../component/Loader";
+import { totalQuantity } from "../utils";
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -61,6 +62,12 @@ const Product = () => {
       productEdgesElement.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  // useEffect(() => {
+  //   if(totalQuantity(cartResponse) === 10){
+  //     dispatch(openCart)
+  //   }
+  // }, [cartResponse])
 
   useEffect(() => {
     const handleSelectedOptionsChange = (selectedOptions) => {
@@ -174,12 +181,10 @@ const Product = () => {
       lines: cartItem,
     };
 
-    console.log(params, "Params");
     const response = await graphQLClient.request(
       updateCartItemMutation,
       params
     );
-    console.log(response, "Response");
     dispatch(setCartResponse(response.cartLinesUpdate));
   };
 

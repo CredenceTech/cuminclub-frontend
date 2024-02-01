@@ -110,6 +110,7 @@ export const CartDrawer = () => {
     );
   };
 
+
   return (
     <AnimatePresence>
       <div className="relative">
