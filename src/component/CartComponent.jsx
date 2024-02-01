@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../state/cart";
-import { cartData } from "../state/cartData";
-import { getCartQuery, graphQLClient } from "../api/graphql";
+import { addCartData, cartData, selectCartResponse, setCartResponse } from "../state/cartData";
+import { getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { Link } from "react-router-dom";
 
 export const CartDrawer = () => {
   const dispatch = useDispatch();
-  const [openCategory, setOpenCategory] = useState(null);
   const cartDatas = useSelector(cartData);
-  const [cartResponse, setCartResponse] = useState(null);
   const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
   const [openCategorySides, setOpenCategorySides] = useState(null);
+  const cartResponse = useSelector(selectCartResponse);
 
   useEffect(() => {
     getCartData();
@@ -23,7 +22,7 @@ export const CartDrawer = () => {
       cartId: cartDatas?.cartCreate?.cart?.id,
     };
     const response = await graphQLClient.request(getCartQuery, params);
-    setCartResponse(response);
+    dispatch(setCartResponse(response));
   };
 
   const categoryVariants = {
@@ -33,6 +32,71 @@ export const CartDrawer = () => {
       borderBottomLeftRadius: "0.375rem",
     },
   };
+
+  const handleAddToCart = (productId) => {
+    if(cartDatas === null){
+      addToCart({ merchandiseId: productId, quantity: 1 })
+    }
+
+    const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+      return cartItem.node.merchandise.id === productId;
+    });
+
+    if (productInCart) {
+      const quantityInCart = productInCart.node.quantity;
+      const  cartId = cartDatas?.cartCreate?.cart?.id
+      const id = productInCart?.node?.id
+      updateCartItem(cartId, {id : id, quantity: quantityInCart + 1})
+    } else {
+      const  cartId = cartDatas?.cartCreate?.cart?.id
+      updateCart(cartId, { merchandiseId: productId, quantity: 1 })
+    }
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
+      return cartItem.node.merchandise.id === productId;
+    });
+
+    if (productInCart) {
+      const quantityInCart = productInCart.node.quantity;
+      const  cartId = cartDatas?.cartCreate?.cart?.id
+      const id = productInCart?.node?.id
+      updateCartItem(cartId, {id : id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1})
+    }
+  };
+
+  const addToCart = async (cartItems) => {
+    const params = {
+      "cartInput": {
+        "lines": [
+          cartItems
+        ]
+      }
+    }
+    const response = await graphQLClient.request(createCartMutation, params);
+    dispatch(addCartData(response))
+  }
+
+ const updateCartItem = async(cartId, cartItem) => {
+    const params = {
+      "cartId": cartId,
+      "lines": cartItem
+    }
+    const response = await graphQLClient.request(updateCartItemMutation, params);
+    dispatch(setCartResponse(response.cartLinesUpdate));
+  }
+
+  const updateCart = async(cartId, cartItem) => {
+    const params = {
+      "cartId": cartId,
+      "lines": [
+        cartItem
+      ]
+    }
+    const response = await graphQLClient.request(updateCartMutation, params);
+    dispatch(setCartResponse(response.cartLinesAdd));
+  }
 
   const toggleCategoryMeals = (category) => {
     setOpenCategoryMeals((prevOpenCategory) =>
@@ -54,7 +118,7 @@ export const CartDrawer = () => {
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          className="fixed top-20 right-0 w-full shadow-md"
+          className="fixed top-20 right-0 w-full shadow-md z-50"
           style={{
             background: "rgba(255, 255, 255, 0.2)",
             height: "89.8vh",
@@ -216,14 +280,13 @@ export const CartDrawer = () => {
                               <div className="flex items-center gap-3">
                                 <img
                                   src={
-                                    line.node.merchandise.product.featuredImage
-                                      .url
+                                    line?.node?.merchandise?.product?.featuredImage?.url
                                   }
-                                  alt={line.node.merchandise.product.title}
+                                  alt={line?.node?.merchandise?.product?.title}
                                   className="w-20 h-20"
                                 />
                                 <p className="font-semibold text-base">
-                                  {line.node.merchandise.product.title}
+                                  {line?.node?.merchandise?.product?.title}
                                 </p>
                               </div>
                               <div className="flex items-center gap-2">
@@ -243,12 +306,10 @@ export const CartDrawer = () => {
                                 </span>
                                 <div className="flex gap-2 items-center">
                                   <button
-                                  // onClick={() =>
-                                  //   handleRemoveFromCart(
-                                  //     product.node.variants.edges[0].node.id
-                                  //   )
-                                  // }
-                                  >
+                                   onClick={() =>
+                                    handleRemoveFromCart(
+                                      line.node.merchandise.id)
+                                  }>
                                     <svg
                                       width="18"
                                       height="18"
@@ -269,11 +330,11 @@ export const CartDrawer = () => {
                                     {line.node.quantity}
                                   </span>
                                   <button
-                                  // onClick={() =>
-                                  //   handleAddToCart(
-                                  //     product.node.variants.edges[0].node.id
-                                  //   )
-                                  // }
+                                 onClick={() =>
+                                  handleAddToCart(
+                                    line.node.merchandise.id
+                                  )
+                                }
                                   >
                                     <svg
                                       width="18"

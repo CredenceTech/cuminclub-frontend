@@ -1,24 +1,15 @@
 import React from 'react'
 import Meal from '../component/Meal'
+import { useSelector } from 'react-redux'
+import { selectMealItems } from '../state/mealdata'
 
 const Subscription = () => {
-    const data = [
-        {
-            id: 1,
-            noMeal: "One Time",
-            price: "₹1210.12/meal",
-            discountPrice: "₹1110.12/meal"
-        },
-        {
-            id: 2,
-            noMeal: "Subscription",
-            price: "₹2110.12/meal",
-            discountPrice: "₹2510.12/meal"
-        },
-    ]
+    const mealData = useSelector(selectMealItems)
+
+    console.log(mealData, "Meal Data")
     return (
         <>
-            <Meal data={data} message={'Select Your Subscriptions'} url={"/products"} />
+            <Meal data={mealData.subscriptionType} message={'Select Your Subscriptions'} url={"/products"} />
         </>
     )
 }

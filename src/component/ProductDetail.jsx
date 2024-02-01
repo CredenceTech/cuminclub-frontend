@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "framer-motion";
-import { getProductDetailQuery, getProductRecommendedQuery, graphQLClient } from "../api/graphql";
+import { createCartMutation, getProductDetailQuery, getProductRecommendedQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import redChillyImage from "../assets/red-chilly.svg";
 import { useLocation } from 'react-router-dom';
-
-
+import { addCartData, cartData, selectCartResponse, setCartResponse } from '../state/cartData';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProductDetail = () => {
-    var rootElement = document.getElementById('root');
-    rootElement.classList.remove('backgroundImage');
-    rootElement.classList.add('backgroundImage2');
-
     const location = useLocation();
     const [apiProductResponse, setApiProductResponse] = useState(null);
-    // const [apiRecommendedResponse, setApiRecommendedResponse] = useState(null);
-
+    const dispatch = useDispatch()
     const [data, setData] = useState(null);
     const [dataRecommended, setDataRecommended] = useState(null);
-    // const [redChilli, setDataRedChilli] = useState([]);
-    // const [productQty, setDataProductQty] = useState(0);
-    // const [whiteChilli, setDataWhiteChilli] = useState([]);
-
-    const [cartItems, setCartItems] = useState([]);
-    const [cartCount, setCartCount] = useState(0);
-
-    console.log(location.state.id, "Product Id")
+    const cartDatas = useSelector(cartData);
+    const cartResponse = useSelector(selectCartResponse);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,10 +63,17 @@ const ProductDetail = () => {
                 console.log("error getProductRecommendedQuery", error);
             }
         };
+
         fetchData();
         fetchProductRecommendedData();
     }, []);
 
+    // const apiResponse = async () => {
+    //     const response = await graphQLClient.request(getProductDetailQuery);
+    //     setDetail(response);
+    //     console.log(detail, "Product Detail");
+    //     return response;
+    // }
 
     const getMetafieldData = (key, list) => {
         let metaContent = '';
@@ -108,56 +104,87 @@ const ProductDetail = () => {
         return listItems;
     };
 
-    const getProductQuantityInCart = (productId) => {
-        const cartItem = cartItems.find((item) => item.merchandiseId === productId);
-        return cartItem ? cartItem.quantity : 0;
-    };
-
     const handleAddToCart = (productId) => {
-        const existingItemIndex = cartItems.findIndex(
-            (item) => item.merchandiseId === productId
-        );
-
-        if (existingItemIndex !== -1) {
-            const updatedCart = [...cartItems];
-            updatedCart[existingItemIndex] = {
-                ...updatedCart[existingItemIndex],
-                quantity: updatedCart[existingItemIndex].quantity + 1,
-            };
-            setCartItems(updatedCart);
-        } else {
-            setCartItems([...cartItems, { merchandiseId: productId, quantity: 1 }]);
+        if (cartDatas === null) {
+            addToCart({ merchandiseId: productId, quantity: 1 })
         }
 
-        setCartCount((prevCount) => prevCount + 1);
+        const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+            return cartItem.node.merchandise.id === productId;
+        });
+
+
+        if (productInCart) {
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            const id = productInCart?.node?.id
+            console.log(productInCart, "Cart Id")
+            updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 })
+        } else {
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            updateCart(cartId, { merchandiseId: productId, quantity: 1 })
+        }
     };
 
     const handleRemoveFromCart = (productId) => {
-        const existingItemIndex = cartItems.findIndex(
-            (item) => item.merchandiseId === productId
-        );
+        const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
+            return cartItem.node.merchandise.id === productId;
+        });
 
-        if (existingItemIndex !== -1) {
-            const updatedCart = [...cartItems];
-            updatedCart[existingItemIndex] = {
-                ...updatedCart[existingItemIndex],
-                quantity: Math.max(0, updatedCart[existingItemIndex].quantity - 1),
-            };
-
-            setCartCount((prevCount) => Math.max(0, prevCount - 1));
-            if (updatedCart[existingItemIndex].quantity === 0) {
-                updatedCart.splice(existingItemIndex, 1);
-            }
-
-            setCartItems(updatedCart);
+        if (productInCart) {
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            const id = productInCart?.node?.id
+            updateCartItem(cartId, { id: id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1 })
         }
     };
 
-    // accordian thing below
+    const addToCart = async (cartItems) => {
+        const params = {
+            "cartInput": {
+                "lines": [
+                    cartItems
+                ]
+            }
+        }
+        const response = await graphQLClient.request(createCartMutation, params);
+        dispatch(addCartData(response))
+    }
+
+    const updateCartItem = async (cartId, cartItem) => {
+        const params = {
+            "cartId": cartId,
+            "lines": cartItem
+        }
+
+        console.log(params, "Params")
+        const response = await graphQLClient.request(updateCartItemMutation, params);
+        console.log(response, "Response")
+        dispatch(setCartResponse(response.cartLinesUpdate));
+    }
+
+    const updateCart = async (cartId, cartItem) => {
+        const params = {
+            "cartId": cartId,
+            "lines": [
+                cartItem
+            ]
+        }
+        const response = await graphQLClient.request(updateCartMutation, params);
+        dispatch(setCartResponse(response.cartLinesAdd));
+    }
+
     const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
 
     const toggleCategoryMeals = (id) => {
         setOpenCategoryMeals(openCategoryMeals === id ? null : id);
+    };
+
+    const getProductQuantityInCart = (productId) => {
+        const productInCart = cartResponse?.cart?.lines?.edges?.find(cartItem => {
+            return cartItem.node.merchandise.id === productId;
+        });
+        return productInCart ? productInCart?.node?.quantity : 0;
     };
 
     const accordianData = [
@@ -186,8 +213,6 @@ const ProductDetail = () => {
             borderBottomLeftRadius: "0.375rem",
         },
     };
-
-    console.log("first accordian data", accordianData)
 
     return (
         <>
@@ -342,12 +367,19 @@ const ProductDetail = () => {
                                     </div>
                                     <div className="flex gap-2 items-center">
                                         <button
-                                            onClick={() => {
-                                                handleRemoveFromCart(
-                                                    item?.variants?.edges[0]?.node?.id
-                                                )
-                                            }}>
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        // onClick={() => {
+                                        //     handleRemoveFromCart(
+                                        //         item?.variants?.edges[0]?.node?.id
+                                        //     )
+                                        // }}
+                                        >
+                                            <svg
+                                                width="18"
+                                                height="18"
+                                                viewBox="0 0 18 18"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
                                                 <path
                                                     d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
                                                     fill="#333333"
@@ -355,9 +387,9 @@ const ProductDetail = () => {
                                             </svg>
                                         </button>
                                         <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                            {getProductQuantityInCart(
-                                                item?.variants?.edges[0]?.node?.id
-                                            )}
+                                            {/* {getProductQuantityInCart(
+                              product.node.variants.edges[0].node.id
+                            )} */}0
                                         </span>
                                         <button
                                             onClick={() => {

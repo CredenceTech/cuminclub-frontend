@@ -4,7 +4,7 @@ import MealCard from './MealCard';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion"
 
-const Meal = ({ data, message, url }) => {
+const Meal = ({ data, message, url, buttonTrigger = false }) => {
     const [selected, setSelected] = useState(data[0]);
 
     return (
@@ -23,7 +23,7 @@ const Meal = ({ data, message, url }) => {
                             <div className="flex flex-col md:flex-row  mx-auto overflow-x-auto  md:w-[400px] lg:w-full no-scrollbar  gap-2  mt-4">
                                 {
                                     data?.map((item) => {
-                                        return (<MealCard key={item?.id} item={item} selected={selected} setSelected={setSelected} />)
+                                        return (<MealCard key={item?.id} item={item} selected={selected} setSelected={setSelected} buttonTrigger={buttonTrigger} />)
                                     })
                                 }
                             </div>
