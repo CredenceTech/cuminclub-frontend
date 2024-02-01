@@ -105,74 +105,74 @@ const ProductDetail = () => {
     };
 
     const handleAddToCart = (productId) => {
-        if(cartDatas === null){
-          addToCart({ merchandiseId: productId, quantity: 1 })
+        if (cartDatas === null) {
+            addToCart({ merchandiseId: productId, quantity: 1 })
         }
-    
+
         const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
-          return cartItem.node.merchandise.id === productId;
+            return cartItem.node.merchandise.id === productId;
         });
-    
-    
+
+
         if (productInCart) {
-          const quantityInCart = productInCart.node.quantity;
-          const  cartId = cartDatas?.cartCreate?.cart?.id
-          const id = productInCart?.node?.id
-          console.log(productInCart, "Cart Id")
-          updateCartItem(cartId, {id : id, quantity: quantityInCart + 1})
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            const id = productInCart?.node?.id
+            console.log(productInCart, "Cart Id")
+            updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 })
         } else {
-          const  cartId = cartDatas?.cartCreate?.cart?.id
-          updateCart(cartId, { merchandiseId: productId, quantity: 1 })
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            updateCart(cartId, { merchandiseId: productId, quantity: 1 })
         }
-      };
-    
-      const handleRemoveFromCart = (productId) => {
+    };
+
+    const handleRemoveFromCart = (productId) => {
         const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
-          return cartItem.node.merchandise.id === productId;
+            return cartItem.node.merchandise.id === productId;
         });
-    
+
         if (productInCart) {
-          const quantityInCart = productInCart.node.quantity;
-          const  cartId = cartDatas?.cartCreate?.cart?.id
-          const id = productInCart?.node?.id
-          updateCartItem(cartId, {id : id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1})
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            const id = productInCart?.node?.id
+            updateCartItem(cartId, { id: id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1 })
         }
-      };
-    
-      const addToCart = async (cartItems) => {
+    };
+
+    const addToCart = async (cartItems) => {
         const params = {
-          "cartInput": {
-            "lines": [
-              cartItems
-            ]
-          }
+            "cartInput": {
+                "lines": [
+                    cartItems
+                ]
+            }
         }
         const response = await graphQLClient.request(createCartMutation, params);
         dispatch(addCartData(response))
-      }
-    
-     const updateCartItem = async(cartId, cartItem) => {
+    }
+
+    const updateCartItem = async (cartId, cartItem) => {
         const params = {
-          "cartId": cartId,
-          "lines": cartItem
+            "cartId": cartId,
+            "lines": cartItem
         }
-    
+
         console.log(params, "Params")
         const response = await graphQLClient.request(updateCartItemMutation, params);
         console.log(response, "Response")
         dispatch(setCartResponse(response.cartLinesUpdate));
-      }
-    
-      const updateCart = async(cartId, cartItem) => {
+    }
+
+    const updateCart = async (cartId, cartItem) => {
         const params = {
-          "cartId": cartId,
-          "lines": [
-            cartItem
-          ]
+            "cartId": cartId,
+            "lines": [
+                cartItem
+            ]
         }
         const response = await graphQLClient.request(updateCartMutation, params);
         dispatch(setCartResponse(response.cartLinesAdd));
-      }
+    }
 
     const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
 
@@ -182,15 +182,15 @@ const ProductDetail = () => {
 
     const getProductQuantityInCart = (productId) => {
         const productInCart = cartResponse?.cart?.lines?.edges?.find(cartItem => {
-          return cartItem.node.merchandise.id === productId;
+            return cartItem.node.merchandise.id === productId;
         });
         return productInCart ? productInCart?.node?.quantity : 0;
-      };
+    };
 
     const accordianData = [
         {
-            title: "How To Prepare",
-            description: getMetafieldData('how_to_prepare', data?.metafields),
+            title: "Ingredient",
+            description: getMetafieldData('ingredient', data?.metafields),
             id: 1
         },
         {
@@ -199,8 +199,8 @@ const ProductDetail = () => {
             id: 2
         },
         {
-            title: "Ingredient",
-            description: getMetafieldData('ingredient', data?.metafields),
+            title: "How To Prepare",
+            description: getMetafieldData('how_to_prepare', data?.metafields),
             id: 3
         },
 
@@ -245,13 +245,7 @@ const ProductDetail = () => {
                                             data?.variants?.edges[0]?.node?.id
                                         )
                                     }}>
-                                    <svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
                                             fill="#333333"
@@ -269,17 +263,10 @@ const ProductDetail = () => {
                                             data?.variants?.edges[0]?.node?.id
                                         )
                                     }}>
-                                    <svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                            fill="#333333"
-                                        />
+                                            fill="#333333" />
                                     </svg>
                                 </button>
                             </div>
@@ -380,11 +367,11 @@ const ProductDetail = () => {
                                     </div>
                                     <div className="flex gap-2 items-center">
                                         <button
-                                            // onClick={() => {
-                                            //     handleRemoveFromCart(
-                                            //         item?.variants?.edges[0]?.node?.id
-                                            //     )
-                                            // }}
+                                        // onClick={() => {
+                                        //     handleRemoveFromCart(
+                                        //         item?.variants?.edges[0]?.node?.id
+                                        //     )
+                                        // }}
                                         >
                                             <svg
                                                 width="18"
@@ -400,7 +387,7 @@ const ProductDetail = () => {
                                             </svg>
                                         </button>
                                         <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                        {/* {getProductQuantityInCart(
+                                            {/* {getProductQuantityInCart(
                               product.node.variants.edges[0].node.id
                             )} */}0
                                         </span>
@@ -411,13 +398,7 @@ const ProductDetail = () => {
                                                 )
                                             }}
                                         >
-                                            <svg
-                                                width="18"
-                                                height="18"
-                                                viewBox="0 0 18 18"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
                                                     fill="#333333"
