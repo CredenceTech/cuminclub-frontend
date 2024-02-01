@@ -15,10 +15,10 @@ function App() {
   return (
     <Router>
       <div
-        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        style={{}}
       >
         <Header />
-        <div style={{ flex: 1 }}>
+        <div className="relative top-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

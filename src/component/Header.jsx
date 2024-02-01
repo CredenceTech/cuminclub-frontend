@@ -8,6 +8,7 @@ import { cartData, selectCartResponse, setCartResponse } from '../state/cartData
 import { getCartQuery, graphQLClient } from '../api/graphql';
 import { selectMealItems } from '../state/mealdata';
 import { productData } from '../state/product';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -19,6 +20,8 @@ const Header = () => {
     const dispatch = useDispatch()
     const productDatas = useSelector(productData);
     const cartResponse = useSelector(selectCartResponse);
+    const location = useLocation();
+    const currentUrl = location.pathname;
 
     useEffect(() => {
         if (cartData !== null) {
@@ -49,7 +52,7 @@ const Header = () => {
 
     return (
         <div>
-            <div className='flex w-full bg-white justify-between items-center header-box-shadow px-5 lg:px-48 h-20'>
+            <div className={`flex w-full bg-white justify-between ${currentUrl.includes("products") ? "" : "header-box-shadow"} items-center  fixed z-[1000] px-5 lg:px-48 h-20`}>
                 <div className='flex gap-3'>
                     <Link to="/">
                         <svg width="130" height="50" viewBox="0 0 130 50" fill="none" xmlns="http://www.w3.org/2000/svg" xlinkHref="http://www.w3.org/1999/xlink">

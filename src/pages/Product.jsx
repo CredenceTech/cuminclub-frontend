@@ -209,12 +209,7 @@ const Product = () => {
 
   return (
     <>
-      {apiResponse ? <div
-        className="overflow-y-scroll w-full"
-        style={{
-          height: "90vh",
-        }}
-      >
+      {apiResponse ? <div className="min-h-[78vh] w-full">
         <div className="h-36 overflow-x-hidden w-full flex lg:justify-center gap-10 items-center bg-red-700">
           <div className="hidden lg:block">
             <img src={mealThreeImage} alt="" className="h-28 w-64" />
@@ -272,7 +267,7 @@ const Product = () => {
           </span>
         </div>
         <>
-          <div className="flex bg-white justify-start sticky top-0">
+          <div className="flex bg-white justify-start sticky top-20">
             <div className="flex items-center  bg-white gap-2">
               <button
                 onClick={openCountryDrawer}
@@ -306,11 +301,10 @@ const Product = () => {
                 <div
                   key={category.node.title}
                   onClick={() => handleCategorySelect(category.node.title)}
-                  className={`cursor-pointer flex items-center py-1 mx-2 lg:mx-4 my-2  font-medium px-3 lg:px-5 rounded border border-[#333333] ${
-                    activeTitle === category.node.title
-                      ? "bg-[#53940F] text-white border-none"
-                      : ""
-                  }`}
+                  className={`cursor-pointer flex items-center py-1 mx-2 lg:mx-4 my-2  font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
+                    ? "bg-[#53940F] text-white border-none"
+                    : ""
+                    }`}
                 >
                   {category.node.title}
                 </div>
@@ -321,9 +315,9 @@ const Product = () => {
           {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
           <div
             className="mt-4 bg-white"
-            // style={{
-            //   height: "62vh",
-            // }}
+          // style={{
+          //   height: "62vh",
+          // }}
           >
             {rawResonse.collections.edges.map((category, index) => (
               // <div key={category.node.title} ref={productSectionsRefs[index]}>
@@ -465,12 +459,12 @@ const Product = () => {
             <Footer />
           </div>
         </>
-      </div> : 
-      <div className="flex justify-center items-center" style={{
-        height: "90vh",
-      }}>
-        <LoadingAnimation/>
-      </div>
+      </div> :
+        <div className="flex justify-center items-center" style={{
+          height: "90vh",
+        }}>
+          <LoadingAnimation />
+        </div>
       }
     </>
   );
