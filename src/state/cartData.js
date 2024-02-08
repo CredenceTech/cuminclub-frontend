@@ -16,10 +16,13 @@ const cartDataSlice = createSlice({
     setCartResponse: (state, action) => {
         state.cartResponse = action.payload;
       },  
+    clearCartResponse: state => {
+        state.cartResponse = null;
+      }
   },
 });
 
-export const { addCartData, clearCartData, setCartResponse } = cartDataSlice.actions;
+export const { addCartData, clearCartData, setCartResponse, clearCartResponse } = cartDataSlice.actions;
 
 export const cartData = state => state.cartData.cartItem;
 export const selectCartResponse = (state) => state.cartData.cartResponse;

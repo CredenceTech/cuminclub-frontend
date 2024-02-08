@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../state/cart";
-import { addCartData, cartData, selectCartResponse, setCartResponse } from "../state/cartData";
+import { addCartData, cartData, clearCartData, clearCartResponse, selectCartResponse, setCartResponse } from "../state/cartData";
 import { getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { totalQuantity } from "../utils";
+import { selectMealItems } from "../state/mealdata";
 
 export const CartDrawer = () => {
   const dispatch = useDispatch();
   const cartDatas = useSelector(cartData);
   const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
   const [openCategorySides, setOpenCategorySides] = useState(null);
+  const selectedMealData = useSelector(selectMealItems);
   const cartResponse = useSelector(selectCartResponse);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getCartData();
@@ -119,21 +123,21 @@ export const CartDrawer = () => {
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ type: "spring", stiffness: 200, damping: 25 }}
-          className="fixed top-20 right-0 w-full shadow-md z-50"
+          className="fixed top-0 right-0 w-full shadow-md z-50 "
           style={{
             background: "rgba(255, 255, 255, 0.2)",
-            height: "89.8vh",
+            height: "100%",
           }}
         >
           <div className="relative">
             <div
-              className="lg:w-3/12 w-full"
+              className="lg:w-3/12 w-full overflow-y-scroll"
               style={{
                 background: "rgba(200, 200, 200, 0.7)",
                 backdropFilter: "blur(2px)",
                 position: "fixed",
                 right: "0",
-                height: "100%",
+                height: "93%",
               }}
             >
               <div className="h-20 flex sticky top-0 flex-col justify-around bg-white w-full">
@@ -159,18 +163,23 @@ export const CartDrawer = () => {
                     <span className="text-lg font-bold">Your Meal Box</span>
                   </div>
                   <div className="flex items-center gap-5">
-                    <svg
-                      width="24"
-                      height="23"
-                      viewBox="0 0 24 27"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4.5 27C3.675 27 2.969 26.7065 2.382 26.1195C1.795 25.5325 1.501 24.826 1.5 24V4.5H0V1.5H7.5V0H16.5V1.5H24V4.5H22.5V24C22.5 24.825 22.2065 25.5315 21.6195 26.1195C21.0325 26.7075 20.326 27.001 19.5 27H4.5ZM7.5 21H10.5V7.5H7.5V21ZM13.5 21H16.5V7.5H13.5V21Z"
-                        fill="#C10D13"
-                      />
-                    </svg>
+                    <span className="cursor-pointer" onClick={() => {
+                      dispatch(clearCartData())
+                      dispatch(clearCartResponse())
+                    }}>
+                      <svg
+                        width="24"
+                        height="23"
+                        viewBox="0 0 24 27"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M4.5 27C3.675 27 2.969 26.7065 2.382 26.1195C1.795 25.5325 1.501 24.826 1.5 24V4.5H0V1.5H7.5V0H16.5V1.5H24V4.5H22.5V24C22.5 24.825 22.2065 25.5315 21.6195 26.1195C21.0325 26.7075 20.326 27.001 19.5 27H4.5ZM7.5 21H10.5V7.5H7.5V21ZM13.5 21H16.5V7.5H13.5V21Z"
+                          fill="#C10D13"
+                        />
+                      </svg>
+                    </span>
                     <div className="bg-[#53940F] px-2 gap-2 flex py-0.5 items-center text-white rounded-l-lg">
                       <svg
                         width="21"
@@ -184,7 +193,10 @@ export const CartDrawer = () => {
                           fill="white"
                         />
                       </svg>
-                      <span>4/45</span>
+                      <span>
+                        {cartDatas !== null ? totalQuantity(cartResponse) : 0}/
+                        {selectedMealData.no}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -270,7 +282,7 @@ export const CartDrawer = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="bg-white rounded-b-lg overflow-y-scroll h-96 pb-2"
+                        className="bg-white rounded-b-lg pb-2"
                       >
                         {cartResponse?.cart?.lines?.edges?.map(
                           (line, lineIndex) => (
@@ -281,7 +293,8 @@ export const CartDrawer = () => {
                               <div className="flex items-center gap-3">
                                 <img
                                   src={
-                                    line?.node?.merchandise?.product?.featuredImage?.url
+                                    line?.node?.merchandise?.product
+                                      ?.featuredImage?.url
                                   }
                                   alt={line?.node?.merchandise?.product?.title}
                                   className="w-20 h-20"
@@ -291,7 +304,16 @@ export const CartDrawer = () => {
                                 </p>
                               </div>
                               <div className="flex items-center gap-2">
-                                <span>
+                                <button
+                                  onClick={() => {
+                                    navigate(`/productDetail`, {
+                                      state: {
+                                        id: line?.node?.merchandise.product.id,
+                                      },
+                                    });
+                                    dispatch(closeCart());
+                                  }}
+                                >
                                   <svg
                                     width="20"
                                     height="20"
@@ -304,13 +326,15 @@ export const CartDrawer = () => {
                                       fill="#333333"
                                     />
                                   </svg>
-                                </span>
+                                </button>
                                 <div className="flex gap-2 items-center">
                                   <button
-                                   onClick={() =>
-                                    handleRemoveFromCart(
-                                      line.node.merchandise.id)
-                                  }>
+                                    onClick={() =>
+                                      handleRemoveFromCart(
+                                        line.node.merchandise.id
+                                      )
+                                    }
+                                  >
                                     <svg
                                       width="18"
                                       height="18"
@@ -331,11 +355,9 @@ export const CartDrawer = () => {
                                     {line.node.quantity}
                                   </span>
                                   <button
-                                 onClick={() =>
-                                  handleAddToCart(
-                                    line.node.merchandise.id
-                                  )
-                                }
+                                    onClick={() =>
+                                      handleAddToCart(line.node.merchandise.id)
+                                    }
                                   >
                                     <svg
                                       width="18"
@@ -416,7 +438,7 @@ export const CartDrawer = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="bg-white overflow-y-scroll h-96 rounded-b-lg pb-2"
+                        className="bg-white rounded-b-lg pb-2"
                       >
                         {cartResponse?.cart?.lines?.edges?.map(
                           (line, lineIndex) => (
@@ -510,12 +532,33 @@ export const CartDrawer = () => {
                   </AnimatePresence>
                 </div>
               </div>
-              <Link to="/without-login-checkout">
-                <button type="button" onClick={() => { dispatch(closeCart()) }} className="fixed rounded-3xl w-3/4 text-white text-xl font-semibold  text-left bottom-0 mb-2 left-1/2 transform -translate-x-1/2 bg-[#53940F] px-10 py-2">
-                  Checkout
-                </button>
-              </Link>
             </div>
+          </div>
+
+          <div
+            className="lg:w-3/12 w-full overflow-y-scroll py-5"
+            style={{
+              background: "rgba(200, 200, 200, 0.7)",
+              backdropFilter: "blur(2px)",
+              position: "fixed",
+              bottom: "0",
+              right: "0",
+              height: "7%",
+            }}
+          >
+            <Link
+              to="/without-login-checkout"
+              className="fixed w-2/4 mt-5 rounded-3xl text-white text-xl font-semibold  text-left bottom-0 mb-2 -right-5 transform -translate-x-1/2 bg-[#53940F] px-10 py-2"
+            >
+              <button
+                type="button"
+                onClick={() => {
+                  dispatch(closeCart());
+                }}
+              >
+                Checkout
+              </button>
+            </Link>
           </div>
         </motion.div>
       </div>

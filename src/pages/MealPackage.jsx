@@ -53,7 +53,7 @@ const MealPackage = () => {
 
     return (
         <>
-            <Meal data={data} message={'Select Your Meal Package'} url={"/subscription"} buttonTrigger = {true} />
+            <Meal data={data} message={'Select Your Meal Package'} url={"/products"} buttonTrigger = {true} />
         </>
     )
 }

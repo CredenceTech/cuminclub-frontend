@@ -21,7 +21,6 @@ const ProductDetail = () => {
                 const response = await graphQLClient.request(getProductDetailQuery, {
                     productId: location.state.id
                 });
-                console.log("Product Detail", response);
                 setData(response.product);
                 setApiProductResponse(true);
                 if (response && response.product && response.product.metafields) {
@@ -51,13 +50,10 @@ const ProductDetail = () => {
                 const response = await graphQLClient.request(getProductRecommendedQuery, {
                     productId: location.state.id
                 });
-                console.log("Product Recommended", response);
-                // setApiRecommendedResponse(true);
                 let recommendedList = response.productRecommendations.map(data => ({
                     ...data,
                     qty: 0,
                 }));
-                console.log("dataRecommended", recommendedList);
                 setDataRecommended(recommendedList);
             } catch (error) {
                 console.log("error getProductRecommendedQuery", error);
@@ -66,14 +62,7 @@ const ProductDetail = () => {
 
         fetchData();
         fetchProductRecommendedData();
-    }, []);
-
-    // const apiResponse = async () => {
-    //     const response = await graphQLClient.request(getProductDetailQuery);
-    //     setDetail(response);
-    //     console.log(detail, "Product Detail");
-    //     return response;
-    // }
+    }, [location.state.id]);
 
     const getMetafieldData = (key, list) => {
         let metaContent = '';
@@ -84,24 +73,6 @@ const ProductDetail = () => {
             }
         }
         return metaContent;
-    };
-
-    const generateImages = (list) => {
-        const listItems = [];
-        if (list) {
-            const spiceLevelData = list.find(x => x.key === 'spice_level');
-            if (spiceLevelData) {
-                const RC = spiceLevelData.value;
-                //   const WC = (4 - spiceLevelData.value);
-                for (let i = 1; i <= RC; i++) {
-                    listItems.push(<img src={redChillyImage} alt="chilly" />);
-                }
-                // for (let i = 1; i <= WC; i++) {
-                //     listItems.push(<img src={whiteChillyImage} alt="chilly" />);
-                // }
-            }
-        }
-        return listItems;
     };
 
     const handleAddToCart = (productId) => {
@@ -118,7 +89,6 @@ const ProductDetail = () => {
             const quantityInCart = productInCart.node.quantity;
             const cartId = cartDatas?.cartCreate?.cart?.id
             const id = productInCart?.node?.id
-            console.log(productInCart, "Cart Id")
             updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 })
         } else {
             const cartId = cartDatas?.cartCreate?.cart?.id
@@ -159,7 +129,6 @@ const ProductDetail = () => {
 
         console.log(params, "Params")
         const response = await graphQLClient.request(updateCartItemMutation, params);
-        console.log(response, "Response")
         dispatch(setCartResponse(response.cartLinesUpdate));
     }
 
@@ -322,38 +291,122 @@ const ProductDetail = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='container mx-auto flex px-3 flex-col justify-center items-center'>
+                    <div className='container mx-auto flex  flex-col justify-center items-center'>
                         <h1 className="title-font sm:text-4xl text-3xl font-medium text-center text-[#53940F]">
                             Recommended Sides
                         </h1>
                         <p className="font-medium text-base lg:text-xl">
                             Recommended Sides with {data?.title}
                         </p>
-                        <div className='flex flex-wrap flex-row justify-center items-center'>
+                        <div className='flex bg-white justify-center flex-wrap'>
                             {dataRecommended?.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="m-4 w-56 border product-box-Shadow rounded-2xl border-[#CFCFCF] flex flex-col items-center p-4"
-                                >
-                                    <img
-                                        src={item?.variants?.edges[0]?.node?.image?.url}
-                                        alt={item?.variants?.edges[0]?.node?.image?.altText}
-                                        className="w-40 h-40 mb-1 cursor-pointer"
-                                        onClick={() => { }}
-                                    />
-                                    <h3
-                                        className="text-[#53940F] text-lg font-semibold cursor-pointer"
-                                        onClick={() => { }}
-                                    >
-                                        {item?.title}
-                                    </h3>
-                                    <p className="mb-1 text-center">
-                                        {item?.variants?.edges[0]?.node?.product?.metafields?.find(
+                            //     <div
+                            //         key={index}
+                            //         className="m-4 w-56 border product-box-Shadow rounded-2xl border-[#CFCFCF] flex flex-col items-center p-4"
+                            //     >
+                            //         <img
+                            //             src={item?.variants?.edges[0]?.node?.image?.url}
+                            //             alt={item?.variants?.edges[0]?.node?.image?.altText}
+                            //             className="w-40 h-40 mb-1 cursor-pointer"
+                            //             onClick={() => { }}
+                            //         />
+                            //         <h3
+                            //             className="text-[#53940F] text-lg font-semibold cursor-pointer"
+                            //             onClick={() => { }}
+                            //         >
+                            //             {item?.title}
+                            //         </h3>
+                            //         <p className="mb-1 text-center">
+                            //             {item?.variants?.edges[0]?.node?.product?.metafields?.find(
+                            //                 (metafield) => metafield?.key === "small_descriptions"
+                            //             )?.value}
+                            //         </p>
+                            //         <div className="flex gap-1 mb-2">
+                            //             {Array.from(
+                            //                 {
+                            //                     length:
+                            //                         item?.variants?.edges[0]?.node?.product?.metafields?.find(
+                            //                             (metafield) => metafield?.key === "spice_level"
+                            //                         )?.value || 0,
+                            //                 },
+                            //                 (_, index) => (
+                            //                     <img className='w-6' key={index} src={redChillyImage} alt="chilly" />
+                            //                 )
+                            //             )}
+                            //         </div>
+                            //         <div className="flex gap-2 items-center">
+                            //             <button
+                            //             // onClick={() => {
+                            //             //     handleRemoveFromCart(
+                            //             //         item?.variants?.edges[0]?.node?.id
+                            //             //     )
+                            //             // }}
+                            //             >
+                            //                 <svg
+                            //                     width="18"
+                            //                     height="18"
+                            //                     viewBox="0 0 18 18"
+                            //                     fill="none"
+                            //                     xmlns="http://www.w3.org/2000/svg"
+                            //                 >
+                            //                     <path
+                            //                         d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                            //                         fill="#333333"
+                            //                     />
+                            //                 </svg>
+                            //             </button>
+                            //             <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                            //                 {/* {getProductQuantityInCart(
+                            //   product.node.variants.edges[0].node.id
+                            // )} */}0
+                            //             </span>
+                            //             <button
+                            //                 onClick={() => {
+                            //                     handleAddToCart(
+                            //                         item?.variants?.edges[0]?.node?.id
+                            //                     )
+                            //                 }}
+                            //             >
+                            //                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            //                     <path
+                            //                         d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                            //                         fill="#333333"
+                            //                     />
+                            //                 </svg>
+                            //             </button>
+                            //         </div>
+                            //     </div>
+                            <div
+                            key={index}
+                        className="m-2 w-40 lg:w-56  border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
+                      >
+                        <img
+                           src={item?.variants?.edges[0]?.node?.image?.url}
+                                       alt={item?.variants?.edges[0]?.node?.image?.altText}
+                          className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer"
+                        //   onClick={() => {
+                        //     navigate(`/productDetail`, {
+                        //       state: { id: product.node.id },
+                        //     });
+                        //   }}
+                        />
+                        <h3
+                          className="text-[#53940F] text-sm lg:text-lg font-medium text-center lg:font-semibold cursor-pointer"
+                          onClick={() => {
+                            navigate(`/productDetail`, {
+                              state: { id: product.node.id },
+                            });
+                          }}
+                        >
+                          {item?.title}
+                        </h3>
+                        <p className="text-xs lg:text-base my-2">
+                        {item?.variants?.edges[0]?.node?.product?.metafields?.find(
                                             (metafield) => metafield?.key === "small_descriptions"
                                         )?.value}
-                                    </p>
-                                    <div className="flex gap-1 mb-2">
-                                        {Array.from(
+                        </p>
+                        <div className="flex gap-1 mb-2">
+                        {Array.from(
                                             {
                                                 length:
                                                     item?.variants?.edges[0]?.node?.product?.metafields?.find(
@@ -364,49 +417,55 @@ const ProductDetail = () => {
                                                 <img className='w-6' key={index} src={redChillyImage} alt="chilly" />
                                             )
                                         )}
-                                    </div>
-                                    <div className="flex gap-2 items-center">
-                                        <button
-                                        // onClick={() => {
-                                        //     handleRemoveFromCart(
-                                        //         item?.variants?.edges[0]?.node?.id
-                                        //     )
-                                        // }}
-                                        >
-                                            <svg
-                                                width="18"
-                                                height="18"
-                                                viewBox="0 0 18 18"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                                    fill="#333333"
-                                                />
-                                            </svg>
-                                        </button>
-                                        <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                            {/* {getProductQuantityInCart(
-                              product.node.variants.edges[0].node.id
-                            )} */}0
-                                        </span>
-                                        <button
-                                            onClick={() => {
-                                                handleAddToCart(
-                                                    item?.variants?.edges[0]?.node?.id
-                                                )
-                                            }}
-                                        >
-                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                                    fill="#333333"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            <button
+                            //   onClick={() =>
+                            //     handleRemoveFromCart(
+                            //       product.node.variants.edges[0].node.id
+                            //     )
+                            //   }
+                            >
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 18 18"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                  fill="#333333"
+                                />
+                              </svg>
+                            </button>
+                            <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                              {/* {getProductQuantityInCart(
+                                product.node.variants.edges[0].node.id
+                              )} */}0
+                            </span>
+                            <button
+                            //   onClick={() =>
+                            //     handleAddToCart(
+                            //       product.node.variants.edges[0].node.id
+                            //     )
+                            //   }
+                            >
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 18 18"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                  fill="#333333"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                      </div>
                             ))}
                         </div>
                     </div>
