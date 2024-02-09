@@ -24,7 +24,7 @@ const OrderProduct = ({ item, handleAddToCart, handleRemoveFromCart }) => {
                             </svg>
                         </button>
                     </span>
-                    <p className='text-gray-800 inline-flex rounded border border-slate-950 px-2  items-center leading-none text-3xl' >{item?.node?.quantity}</p>
+                    <p className="border-2 rounded-lg border-[#333333] px-3 py-0.5">{item?.node?.quantity}</p>
                     <span className="text-gray-400 inline-flex items-center pl-3 leading-none ">
                         <button onClick={() => handleAddToCart(item.node.merchandise.id)}>
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
