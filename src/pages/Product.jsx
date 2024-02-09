@@ -63,11 +63,11 @@ const Product = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if(totalQuantity(cartResponse) === 10){
-  //     dispatch(openCart)
-  //   }
-  // }, [cartResponse])
+  useEffect(() => {
+    if (cartResponse && totalQuantity(cartResponse) == mealData.no) {
+      dispatch(openCart());
+    }
+  }, [cartResponse]);
 
   useEffect(() => {
     const handleSelectedOptionsChange = (selectedOptions) => {
@@ -141,7 +141,6 @@ const Product = () => {
       const quantityInCart = productInCart.node.quantity;
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
-      console.log(productInCart, "Cart Id");
       updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
@@ -293,6 +292,9 @@ const Product = () => {
                     option={selectedOptions}
                     onClose={closeCountryDrawer}
                     onSelectedOptionsChange={handleSelectedOptionsChange}
+                    handleClearFilters={() => {
+                      setSelectedOptions([])
+                    }}
                   />
                 )}
                 {isCartOpen && <CartDrawer />}
@@ -404,7 +406,7 @@ const Product = () => {
                         </div>
                         {product.node.title === "Best Seller Bundle" ? (
                           <div>
-                            <button className="bg-[#53940F] px-10 py-1.5 rounded-lg text-xl font-bold text-white">
+                            <button className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white">
                               Add to cart
                             </button>
                           </div>
