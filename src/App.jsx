@@ -1,7 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./component/Login";
 import Home from "./component/Home";
-import Subscription from "./pages/Subscription";
 import WithoutLoginCheckout from "./pages/WithoutLoginCheckout";
 import Header from "./component/Header"
 import Product from "./pages/Product";
@@ -23,7 +22,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/products" element={<Product />} />
-            <Route path="/subscription" element={<Subscription />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/refund" element={<Refund />} />
