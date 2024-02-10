@@ -7,7 +7,6 @@ import {
   updateCartItemMutation,
   updateCartMutation,
 } from "../api/graphql";
-import { Footer } from "../component/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { selectMealItems } from "../state/mealdata";
 import mealThreeImage from "../assets/mealThreeImage.png";
@@ -456,7 +455,6 @@ const Product = () => {
                 </div>
               </div>
             ))}
-            <Footer />
           </div>
         </>
       </div> :

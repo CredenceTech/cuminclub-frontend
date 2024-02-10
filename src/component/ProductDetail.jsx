@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { AnimatePresence, motion } from "framer-motion";
 import { createCartMutation, getProductDetailQuery, getProductRecommendedQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import redChillyImage from "../assets/red-chilly.svg";
 import { useLocation } from 'react-router-dom';
 import { addCartData, cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 import { useDispatch, useSelector } from 'react-redux';
+
+
 
 const ProductDetail = () => {
     const location = useLocation();
@@ -14,6 +16,58 @@ const ProductDetail = () => {
     const [dataRecommended, setDataRecommended] = useState(null);
     const cartDatas = useSelector(cartData);
     const cartResponse = useSelector(selectCartResponse);
+    const [images, setImages] = useState([]);
+    const [currentImage, setCurrentImage] = useState(0);
+    const refs = useRef([]);
+
+    const scrollToImage = (i) => {
+        setCurrentImage(i);
+        if (refs.current[i] && refs.current[i].current) {
+            refs.current[i].current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'start',
+            });
+        }
+    };
+
+    useEffect(() => {
+        scrollToImage(currentImage);
+    }, [currentImage])
+
+    const totalImages = images.length;
+
+    const nextImage = () => {
+        const nextIndex = (currentImage + 1) % totalImages;
+        scrollToImage(nextIndex);
+    };
+
+    const previousImage = () => {
+        const prevIndex = (currentImage - 1 + totalImages) % totalImages;
+        scrollToImage(prevIndex);
+    };
+
+    const sliderControl = (isLeft) => (
+        <button
+            type="button"
+            onClick={isLeft ? previousImage : nextImage}
+            className={`absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-50 ${images.length === 1 ? "hidden" : ""} flex items-center justify-center ${isLeft ? '-left-10' : '-right-10'
+                }`}
+            style={{ top: '40%' }}
+        >
+            <span role="img" className='text-sm' aria-label={`Arrow ${isLeft ? 'left' : 'right'}`}>
+                {isLeft ? '◀' : '▶'}
+            </span>
+        </button>
+    );
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentImage(prevCurrentImage => (prevCurrentImage + 1) % images.length);
+        }, 3000);
+
+        return () => clearInterval(intervalId);
+    }, [images.length]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,6 +77,8 @@ const ProductDetail = () => {
                 });
                 console.log("Product Detail", response);
                 setData(response.product);
+                setImages(response?.product?.images?.edges.map(edge => edge.node?.src))
+                refs.current = response?.product?.images?.edges.map(() => React.createRef());
                 setApiProductResponse(true);
                 if (response && response.product && response.product.metafields) {
                     const spiceLevelData = response.product.metafields.find(x => x.key === 'spice_level');
@@ -45,6 +101,7 @@ const ProductDetail = () => {
                 console.log("error getProductDetailQuery", error);
             }
         };
+
 
         const fetchProductRecommendedData = async () => {
             try {
@@ -221,8 +278,18 @@ const ProductDetail = () => {
                     <div className="container mx-auto flex px-5 py-8 md:flex-row flex-col items-center">
                         <div className="lg:flex-grow md:w-1/2 px-3 lg:px-16  md:px-10 flex flex-col md:text-center items-center text-center">
                             <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-center text-[#53940F]">{data?.title}</h1>
-                            <div className='flex justify-center items-center'>
-                                <img className='h-[200px] w-[200px]' src={data?.featuredImage?.url} alt="dish" />
+                            <div className='flex justify-center items-center relative'>
+                                {images.length > 0 &&
+                                    <>{sliderControl(true)}
+                                        <div className="carousel">
+
+                                            {images.map((img, i) => (
+                                                <div className="w-[200px]  flex-shrink-0" key={i} ref={refs.current[i]}>
+                                                    <img src={img} className="w-[200px] object-contain" alt={`carousel-${i}`} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {sliderControl()}</>}
                             </div>
                             <p className="my-4 px-3 sm:px-10 leading-relaxed">{data?.description}</p>
                             <div className="flex mb-3" >
@@ -410,7 +477,8 @@ const ProductDetail = () => {
                             ))}
                         </div>
                     </div>
-                </section>
+
+                </section >
             ) : (
                 <p>Loading...</p>
             )}
