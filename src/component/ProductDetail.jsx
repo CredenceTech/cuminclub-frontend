@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   createCartMutation,
@@ -28,6 +28,58 @@ const ProductDetail = () => {
   const [dataRecommended, setDataRecommended] = useState(null);
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
+  const [images, setImages] = useState([]);
+    const [currentImage, setCurrentImage] = useState(0);
+    const refs = useRef([]);
+
+    const scrollToImage = (i) => {
+        setCurrentImage(i);
+        if (refs.current[i] && refs.current[i].current) {
+            refs.current[i].current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'start',
+            });
+        }
+    };
+
+    useEffect(() => {
+        scrollToImage(currentImage);
+    }, [currentImage])
+
+    const totalImages = images?.length;
+
+    const nextImage = () => {
+        const nextIndex = (currentImage + 1) % totalImages;
+        scrollToImage(nextIndex);
+    };
+
+    const previousImage = () => {
+        const prevIndex = (currentImage - 1 + totalImages) % totalImages;
+        scrollToImage(prevIndex);
+    };
+
+    const sliderControl = (isLeft) => (
+        <button
+            type="button"
+            onClick={isLeft ? previousImage : nextImage}
+            className={`absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-50 ${images.length === 1 ? "hidden" : ""} flex items-center justify-center ${isLeft ? '-left-10' : '-right-10'
+                }`}
+            style={{ top: '40%' }}
+        >
+            <span role="img" className='text-sm' aria-label={`Arrow ${isLeft ? 'left' : 'right'}`}>
+                {isLeft ? '◀' : '▶'}
+            </span>
+        </button>
+    );
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setCurrentImage(prevCurrentImage => (prevCurrentImage + 1) % images.length);
+        }, 3000);
+
+        return () => clearInterval(intervalId);
+    }, [images?.length]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +89,8 @@ const ProductDetail = () => {
             productId: location.state?.id || productId,
           });
           setData(response.product);
+          setImages(response?.product?.images?.edges.map(edge => edge.node?.src))
+          refs.current = response?.product?.images?.edges.map(() => React.createRef());
           setApiProductResponse(true);
         };
         
@@ -191,12 +245,28 @@ const ProductDetail = () => {
               <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-center text-[#53940F]">
                 {data?.title}
               </h1>
-              <div className="flex justify-center items-center">
-                <img
-                  className="h-[200px] w-[200px]"
-                  src={data?.featuredImage?.url}
-                  alt="dish"
-                />
+              <div className="flex justify-center items-center relative">
+                {images?.length > 0 && (
+                  <>
+                    {sliderControl(true)}
+                    <div className="carousel">
+                      {images.map((img, i) => (
+                        <div
+                          className="w-[200px]  flex-shrink-0"
+                          key={i}
+                          ref={refs.current[i]}
+                        >
+                          <img
+                            src={img}
+                            className="w-[200px] object-contain"
+                            alt={`carousel-${i}`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    {sliderControl()}
+                  </>
+                )}
               </div>
               <p className="my-4 px-3 sm:px-10 leading-relaxed">
                 {data?.description}
@@ -333,11 +403,11 @@ const ProductDetail = () => {
                     src={item?.variants?.edges[0]?.node?.image?.url}
                     alt={item?.variants?.edges[0]?.node?.image?.altText}
                     className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer"
-                      onClick={() => {
-                        navigate(`/productDetail`, {
-                          state: { id: item.id },
-                        });
-                      }}
+                    onClick={() => {
+                      navigate(`/productDetail`, {
+                        state: { id: item.id },
+                      });
+                    }}
                   />
                   <h3
                     className="text-[#53940F] text-sm lg:text-lg font-medium text-center lg:font-semibold cursor-pointer"
@@ -377,9 +447,7 @@ const ProductDetail = () => {
                   <div className="flex gap-2 items-center">
                     <button
                       onClick={() =>
-                        handleRemoveFromCart(
-                            item?.variants?.edges[0].node.id
-                        )
+                        handleRemoveFromCart(item?.variants?.edges[0].node.id)
                       }
                     >
                       <svg
@@ -396,13 +464,13 @@ const ProductDetail = () => {
                       </svg>
                     </button>
                     <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                      {getProductQuantityInCart(item?.variants?.edges[0].node.id)}
+                      {getProductQuantityInCart(
+                        item?.variants?.edges[0].node.id
+                      )}
                     </span>
                     <button
                       onClick={() =>
-                        handleAddToCart(
-                            item?.variants?.edges[0].node.id
-                        )
+                        handleAddToCart(item?.variants?.edges[0].node.id)
                       }
                     >
                       <svg
