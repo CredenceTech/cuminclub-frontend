@@ -9,15 +9,17 @@ import Refund from "./component/Refund";
 import TermOfServices from "./component/TermOfServices";
 import PrivacyPolicy from "./component/PrivacyPolicy";
 import ProductDetail from "./component/ProductDetail";
+import { Footer } from "./component/Footer";
 
 function App() {
+
   return (
     <Router>
       <div
         style={{}}
       >
         <Header />
-        <div className="relative top-20">
+        <div className="relative min-h-[82vh] bottom-20 top-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -31,6 +33,7 @@ function App() {
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
+        <Footer />
       </div>
     </Router>
   );

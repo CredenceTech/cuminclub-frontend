@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <div className="flex w-full flex-col lg:flex-row text-xs lg:text-base bg-[#E91D24] text-white lg:justify-between justify-around items-center px-5 lg:px-48 h-20">
+    <div className="flex w-full flex-col lg:flex-row text-xs lg:text-base bg-[#E91D24] text-white lg:justify-between justify-around items-center px-5 lg:px-48 relative top-20 h-20">
       <div className="flex items-center gap-2">
         <svg
           width="15"

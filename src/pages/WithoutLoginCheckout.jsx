@@ -8,7 +8,6 @@ import plus from "../assets/cross.svg"
 import OrderProduct from '../component/OrderProduct'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Footer } from '../component/Footer';
 import { useDispatch, useSelector } from "react-redux";
 import { cartData, selectCartResponse, setCartResponse } from "../state/cartData";
 import LoadingAnimation from '../component/Loader';
@@ -408,7 +407,6 @@ const WithoutLoginCheckout = () => {
                         </div>
 
                     </div>
-                    <Footer />
                 </section >
             }
 

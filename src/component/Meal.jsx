@@ -8,12 +8,12 @@ const Meal = ({ data, message, url, buttonTrigger = false }) => {
     const [selected, setSelected] = useState(data[0]);
 
     return (
-        <section className="text-gray-600 body-font h-96 relative">
+        <section className="text-gray-600 body-font">
             <div className="container px-5 py-4 mx-auto">
                 <motion.div initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="lg:w-5/6 md:w-5/6 md:h-[75vh] flex justify-center items-center  mx-auto rounded-lg bg-white">
+                    className="lg:w-5/6 md:w-5/6 flex justify-center items-center  mx-auto rounded-lg bg-white">
                     <div className='flex flex-col p-4 justify-center '>
                         <div className='flex mt-5 md:mt-14 justify-center items-center '>
                             <img src={mealThreeImage} className='h-[100px] md:h-[170px] w-[200px] md:w-[400px] lg:w-[500px]' alt="meal" />

@@ -29,57 +29,57 @@ const ProductDetail = () => {
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
   const [images, setImages] = useState([]);
-    const [currentImage, setCurrentImage] = useState(0);
-    const refs = useRef([]);
+  const [currentImage, setCurrentImage] = useState(0);
+  const refs = useRef([]);
 
-    const scrollToImage = (i) => {
-        setCurrentImage(i);
-        if (refs.current[i] && refs.current[i].current) {
-            refs.current[i].current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest',
-                inline: 'start',
-            });
-        }
-    };
+  const scrollToImage = (i) => {
+    setCurrentImage(i);
+    if (refs.current[i] && refs.current[i].current) {
+      refs.current[i].current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start',
+      });
+    }
+  };
 
-    useEffect(() => {
-        scrollToImage(currentImage);
-    }, [currentImage])
+  useEffect(() => {
+    scrollToImage(currentImage);
+  }, [currentImage])
 
-    const totalImages = images?.length;
+  const totalImages = images?.length;
 
-    const nextImage = () => {
-        const nextIndex = (currentImage + 1) % totalImages;
-        scrollToImage(nextIndex);
-    };
+  const nextImage = () => {
+    const nextIndex = (currentImage + 1) % totalImages;
+    scrollToImage(nextIndex);
+  };
 
-    const previousImage = () => {
-        const prevIndex = (currentImage - 1 + totalImages) % totalImages;
-        scrollToImage(prevIndex);
-    };
+  const previousImage = () => {
+    const prevIndex = (currentImage - 1 + totalImages) % totalImages;
+    scrollToImage(prevIndex);
+  };
 
-    const sliderControl = (isLeft) => (
-        <button
-            type="button"
-            onClick={isLeft ? previousImage : nextImage}
-            className={`absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-50 ${images.length === 1 ? "hidden" : ""} flex items-center justify-center ${isLeft ? '-left-10' : '-right-10'
-                }`}
-            style={{ top: '40%' }}
-        >
-            <span role="img" className='text-sm' aria-label={`Arrow ${isLeft ? 'left' : 'right'}`}>
-                {isLeft ? '◀' : '▶'}
-            </span>
-        </button>
-    );
+  const sliderControl = (isLeft) => (
+    <button
+      type="button"
+      onClick={isLeft ? previousImage : nextImage}
+      className={`absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-50 ${images.length === 1 ? "hidden" : ""} flex items-center justify-center ${isLeft ? '-left-10' : '-right-10'
+        }`}
+      style={{ top: '40%' }}
+    >
+      <span role="img" className='text-sm' aria-label={`Arrow ${isLeft ? 'left' : 'right'}`}>
+        {isLeft ? '◀' : '▶'}
+      </span>
+    </button>
+  );
 
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            setCurrentImage(prevCurrentImage => (prevCurrentImage + 1) % images.length);
-        }, 3000);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentImage(prevCurrentImage => (prevCurrentImage + 1) % images.length);
+    }, 3000);
 
-        return () => clearInterval(intervalId);
-    }, [images?.length]);
+    return () => clearInterval(intervalId);
+  }, [images?.length]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,7 +93,7 @@ const ProductDetail = () => {
           refs.current = response?.product?.images?.edges.map(() => React.createRef());
           setApiProductResponse(true);
         };
-        
+
         const getProductRecommended = async () => {
           const response = await graphQLClient.request(getProductRecommendedQuery, {
             productId: location.state?.id || productId,
@@ -104,16 +104,16 @@ const ProductDetail = () => {
           }));
           setDataRecommended(recommendedList);
         };
-  
+
         await Promise.all([getProductDetail(), getProductRecommended()]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [location.state?.id]);
-  
+
 
   const getMetafieldData = (key, list) => {
     let metaContent = "";
