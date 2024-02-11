@@ -63,6 +63,16 @@ body {
   box-shadow: 0 0 10px 0 #8a8686;
 }
 
+.background_popup {
+  background-image: url("./assets/food.png");
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 .next,
 .prev {
   top: calc(50% - 20px);

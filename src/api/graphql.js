@@ -530,6 +530,7 @@ export const getCartQuery = gql`
                 title
                 id
                 product {
+                  id
                   title
                   featuredImage {
                     altText

@@ -1,9 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const MultiSelectAccordion = ({ options, onSelectedOptionsChange, option }) => {
     const [selectedOptions, setSelectedOptions] = useState(option);
     const [openCategories, setOpenCategories] = useState([]);
+
+    useEffect(() => {
+       if(option.length === 0){
+        setSelectedOptions([])
+       }
+    }, [option])
   
     const toggleOption = (optionId) => {
       const isSelected = selectedOptions.includes(optionId);
