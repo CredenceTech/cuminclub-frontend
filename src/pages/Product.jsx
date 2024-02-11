@@ -23,6 +23,7 @@ import {
 import { FilterDrawer } from "../component/FilterDrawer";
 import LoadingAnimation from "../component/Loader";
 import { totalQuantity } from "../utils";
+import Popup from "../component/Popup";
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -464,9 +465,9 @@ const Product = () => {
                   </div>
                 </div>
               ))}
-              <Footer />
             </div>
           </>
+          {/* <Popup/> */}
         </div>
       ) : (
         <div

@@ -669,10 +669,14 @@ export const getProductDetailQuery = gql`
           currencyCode
         }
       }
-      featuredImage {
-        altText
-        url
-      }
+      images: images(first:10) {
+        edges {
+            node {
+                altText
+                src
+            }
+        }
+    }
       handle
       variants(first: 10) {
         edges {

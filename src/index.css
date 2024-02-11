@@ -62,3 +62,48 @@ body {
   -moz-box-shadow: 0 0 10px 0 #8a8686;
   box-shadow: 0 0 10px 0 #8a8686;
 }
+
+.background_popup{
+  background-image: url("./assets/food.png");
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+.next,
+.prev {
+  top: calc(50% - 20px);
+  position: relative;
+  background: rgba(5, 5, 5, 0.583);
+  border-radius: 30px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 23px;
+  z-index: 2;
+}
+
+.next {
+  right: 10px;
+}
+
+.prev {
+  left: 10px;
+  transform: scale(-1);
+}
+
+.carousel {
+  display: inline-flex;
+  width: 200px;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
