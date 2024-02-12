@@ -10,6 +10,7 @@ import TermOfServices from "./component/TermOfServices";
 import PrivacyPolicy from "./component/PrivacyPolicy";
 import ProductDetail from "./component/ProductDetail";
 import { Footer } from "./component/Footer";
+import Registration from "./component/Registration";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
             <Route path="/term-of-services" element={<TermOfServices />} />
             <Route path="/productDetail" element={<ProductDetail />} />
             <Route path="/without-login-checkout" element={<WithoutLoginCheckout />} />
+            <Route path="/registration" element={<Registration />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
