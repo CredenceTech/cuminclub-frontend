@@ -123,7 +123,8 @@ const Header = () => {
                             </button>
                         </div>
                         <div className='grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-5xl font-bold text-[#F7C144] gap-5 lg:gap-20 h-screen w-full '>
-                            <Link to="/login" >Login</Link>
+                            <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
+                            <Link to="/registration" onClick={() => setIsMenuOpen(false)}>Register</Link>
                         </div>
                     </motion.div>
                 </motion.div>
