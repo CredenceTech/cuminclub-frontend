@@ -33,7 +33,7 @@ function Login() {
     >
       <div
         style={{
-          backgroundImage: "url('src/assets/login_bg_img.jpg')",
+          backgroundImage: "url('/login_bg_img.jpg')",
           height: "89.9vh",
           width: "50%",
         }}
