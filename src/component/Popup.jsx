@@ -1,9 +1,8 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
 
-const Popup = () => {
+const Popup = ({onCloseButtonClick}) => {
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -30,11 +29,9 @@ const Popup = () => {
         className="w-full mx-2 lg:w-4/6 h-4/6 flex relative bg-[#53940F]"
         style={{ borderRadius: "45px" }}
       >
-        <div className="absolute top-3 right-5">
-        <img src="/close.png" className='h-6 w-6' alt=""  />
-          
-        </div>
-
+        <button className="absolute top-3 right-5" onClick={onCloseButtonClick}>
+          <img src="/close.png" className="h-6 w-6" alt="" />
+        </button>
         <div
           style={{
             backgroundImage: "url('/login_bg_img.jpg')",
@@ -85,7 +82,7 @@ const Popup = () => {
             Get My Discount
           </button>
 
-          <button className="flex justify-start flex-col">
+          <button className="flex justify-start flex-col" onClick={onCloseButtonClick}>
             No thanks, I hate sweet deals
           </button>
 
