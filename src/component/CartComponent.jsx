@@ -17,6 +17,7 @@ export const CartDrawer = () => {
   const cartResponse = useSelector(selectCartResponse);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     getCartData();
   }, [cartDatas]);
@@ -37,9 +38,13 @@ export const CartDrawer = () => {
     },
   };
 
-  const handleAddToCart = (productId) => {
-    if(cartDatas === null){
-      addToCart({ merchandiseId: productId, quantity: 1 })
+  const handleAddToCart = (productId, sellingPlanId) => {
+    if (cartDatas === null) {
+      if (sellingPlanId) {
+        addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        addToCart({ merchandiseId: productId, quantity: 1 });
+      }
     }
 
     const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
@@ -48,25 +53,44 @@ export const CartDrawer = () => {
 
     if (productInCart) {
       const quantityInCart = productInCart.node.quantity;
-      const  cartId = cartDatas?.cartCreate?.cart?.id
+      const cartId = cartDatas?.cartCreate?.cart?.id
       const id = productInCart?.node?.id
-      updateCartItem(cartId, {id : id, quantity: quantityInCart + 1})
+      if (sellingPlanId) {
+        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+      } else {
+        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+      }
     } else {
-      const  cartId = cartDatas?.cartCreate?.cart?.id
-      updateCart(cartId, { merchandiseId: productId, quantity: 1 })
+      const cartId = cartDatas?.cartCreate?.cart?.id
+      if (sellingPlanId) {
+        updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+      }
     }
   };
 
-  const handleRemoveFromCart = (productId) => {
+  const handleRemoveFromCart = (productId, sellingPlanId) => {
     const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
       return cartItem.node.merchandise.id === productId;
     });
 
     if (productInCart) {
       const quantityInCart = productInCart.node.quantity;
-      const  cartId = cartDatas?.cartCreate?.cart?.id
+      const cartId = cartDatas?.cartCreate?.cart?.id
       const id = productInCart?.node?.id
-      updateCartItem(cartId, {id : id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1})
+      if (sellingPlanId) {
+        updateCartItem(cartId, {
+          id: id,
+          sellingPlanId: sellingPlanId,
+          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+        });
+      } else {
+        updateCartItem(cartId, {
+          id: id,
+          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+        });
+      }
     }
   };
 
@@ -82,7 +106,7 @@ export const CartDrawer = () => {
     dispatch(addCartData(response))
   }
 
- const updateCartItem = async(cartId, cartItem) => {
+  const updateCartItem = async (cartId, cartItem) => {
     const params = {
       "cartId": cartId,
       "lines": cartItem
@@ -91,7 +115,7 @@ export const CartDrawer = () => {
     dispatch(setCartResponse(response.cartLinesUpdate));
   }
 
-  const updateCart = async(cartId, cartItem) => {
+  const updateCart = async (cartId, cartItem) => {
     const params = {
       "cartId": cartId,
       "lines": [
@@ -331,7 +355,7 @@ export const CartDrawer = () => {
                                   <button
                                     onClick={() =>
                                       handleRemoveFromCart(
-                                        line.node.merchandise.id
+                                        line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
                                       )
                                     }
                                   >
@@ -356,7 +380,7 @@ export const CartDrawer = () => {
                                   </span>
                                   <button
                                     onClick={() =>
-                                      handleAddToCart(line.node.merchandise.id)
+                                      handleAddToCart(line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
                                     }
                                   >
                                     <svg

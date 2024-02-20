@@ -137,6 +137,19 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
                   currencyCode
                 }
               }
+              sellingPlanGroups(first: 5) {
+                edges {
+                    node {
+                    sellingPlans(first: 5) {
+                        edges {
+                        node {
+                            id
+                        }
+                        }
+                    }
+                    }
+                }
+                }
               metafields(identifiers: [
                 { namespace: "custom", key: "spice_level" },
                 { namespace: "custom", key: "small_descriptions" },
@@ -536,6 +549,19 @@ export const getCartQuery = gql`
                     altText
                     url
                   }
+                  sellingPlanGroups(first: 5) {
+                    edges {
+                        node {
+                        sellingPlans(first: 5) {
+                            edges {
+                            node {
+                                id
+                            }
+                            }
+                        }
+                        }
+                    }
+                    }
                   handle
                 }
                 priceV2 {
@@ -687,6 +713,19 @@ export const getProductDetailQuery = gql`
           }
         }
       }
+      sellingPlanGroups(first: 5) {
+        edges {
+            node {
+            sellingPlans(first: 5) {
+                edges {
+                node {
+                    id
+                }
+                }
+            }
+            }
+        }
+        }
       metafields(identifiers: [
         { namespace: "custom", key: "spice_level" },
         { namespace: "custom", key: "how_to_prepare" },
@@ -715,6 +754,19 @@ export const getProductRecommendedQuery = gql`
                   handle
                   title
                   description
+                  sellingPlanGroups(first: 5) {
+                    edges {
+                        node {
+                        sellingPlans(first: 5) {
+                            edges {
+                            node {
+                                id
+                            }
+                            }
+                        }
+                        }
+                    }
+                    }
                   metafields(identifiers: 
                       [
                           {namespace: "custom", key: "spice_level"},
