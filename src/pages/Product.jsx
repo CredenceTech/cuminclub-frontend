@@ -128,9 +128,13 @@ const Product = () => {
     apiCall();
   }, []);
 
-  const handleAddToCart = (productId) => {
+  const handleAddToCart = (productId, sellingPlanId) => {
     if (cartDatas === null) {
-      addToCart({ merchandiseId: productId, quantity: 1 });
+      if (sellingPlanId) {
+        addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        addToCart({ merchandiseId: productId, quantity: 1 });
+      }
     }
 
     const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
@@ -141,14 +145,22 @@ const Product = () => {
       const quantityInCart = productInCart.node.quantity;
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
-      updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+      if (sellingPlanId) {
+        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+      } else {
+        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+      }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
-      updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+      if (sellingPlanId) {
+        updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+      }
     }
   };
 
-  const handleRemoveFromCart = (productId) => {
+  const handleRemoveFromCart = (productId, sellingPlanId) => {
     const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
@@ -157,10 +169,19 @@ const Product = () => {
       const quantityInCart = productInCart.node.quantity;
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
-      updateCartItem(cartId, {
-        id: id,
-        quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-      });
+      if (sellingPlanId) {
+        updateCartItem(cartId, {
+          id: id,
+          sellingPlanId: sellingPlanId,
+          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+        });
+      } else {
+        updateCartItem(cartId, {
+          id: id,
+          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+        });
+      }
+
     }
   };
 
@@ -308,8 +329,8 @@ const Product = () => {
                     key={category.node.title}
                     onClick={() => handleCategorySelect(category.node.title)}
                     className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
-                        ? "bg-[#53940F] text-white border-none"
-                        : ""
+                      ? "bg-[#53940F] text-white border-none"
+                      : ""
                       }`}
                   >
                     {category.node.title}
@@ -439,7 +460,8 @@ const Product = () => {
                             <button
                               onClick={() =>
                                 handleAddToCart(
-                                  product.node.variants.edges[0].node.id
+                                  product.node.variants.edges[0].node.id,
+                                  product.node.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
                                 )
                               }
                             >

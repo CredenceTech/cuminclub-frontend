@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  graphQLClient, signInMutation,
+} from "../api/graphql";
+import { useDispatch } from 'react-redux';
+import { addCustomerAccessToken } from "../state/user";
 
 function Login() {
+  const [loginRes, setLoginRes] = useState(null);
+  const [isError, setIsError] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    if (loginRes?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
+      dispatch(addCustomerAccessToken(loginRes?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
+      navigate("/");
+    }
+  }, [loginRes])
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -17,9 +35,14 @@ function Login() {
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
     }),
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // Handle form submission, e.g., send login request
       console.log("Submitted values:", values);
+      const response = await graphQLClient.request(signInMutation, values);
+      if (response?.customerAccessTokenCreate?.customerUserErrors[0]?.code === "UNIDENTIFIED_CUSTOMER") {
+        setIsError("Email and password is wrong.")
+      }
+      setLoginRes(response);
     },
   });
 
@@ -61,10 +84,9 @@ function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={
-                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                  formik.touched.email && formik.errors.email
-                    ? "border-red-500" 
-                    : ""
+                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.email && formik.errors.email
+                  ? "border-red-500"
+                  : ""
                 }`
               }
             />
@@ -80,14 +102,14 @@ function Login() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={
-                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                  formik.touched.email && formik.errors.email
-                    ? "border-red-500" 
-                    : ""
+                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.email && formik.errors.email
+                  ? "border-red-500"
+                  : ""
                 }`
               }
             />
           </div>
+          {isError && <div className="my-5 text-xl text-[#E91D24]">{isError}</div>}
           <button type="submit" className="mt-5 border border-[#53940F] rounded-full py-2.5 text-xl px-5 bg-[#53940F] text-white">
             Login
           </button>

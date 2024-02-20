@@ -5,18 +5,20 @@ import mealdata from './mealdata';
 import cart from './cart';
 import cartData from './cartData';
 import product from './product';
+import user from './user';
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cartData'],
+  whitelist: ['cartData', 'user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
   mealData: mealdata,
   cart: cart,
   cartData: cartData,
-  product: product
+  product: product,
+  user: user
 }));
 
 export const store = configureStore({
