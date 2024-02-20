@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  graphQLClient, registerAccountMutation,
+} from "../api/graphql";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { addUserId } from "../state/user";
 
 function Registration() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isError, setIsError] = useState("");
+  const [registerRes, setRegisterRes] = useState(null);
+
+  useEffect(() => {
+    if (registerRes?.customerCreate?.customer?.id) {
+      navigate("/");
+      dispatch(addUserId(registerRes?.customerCreate?.customer?.id));
+    }
+    if (registerRes?.errors?.[0]?.message) {
+      setIsError(registerRes?.errors?.[0]?.message)
+    }
+  }, [registerRes])
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -25,9 +45,13 @@ function Registration() {
         .oneOf([true], "You must accept marketing terms")
         .required("You must accept marketing terms"),
     }),
-    onSubmit: (values) => {
-      // Handle form submission, e.g., send login request
-      console.log("Submitted values:", values);
+    onSubmit: async (values) => {
+      setIsError("")
+      const response = await graphQLClient.request(registerAccountMutation, values);
+      if (response?.customerCreate?.customerUserErrors?.[0]?.message) {
+        setIsError(response?.customerCreate?.customerUserErrors?.[0]?.message)
+      }
+      setRegisterRes(response);
     },
   });
 
@@ -66,10 +90,9 @@ function Registration() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={
-                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                  formik.touched.firstName && formik.errors.firstName
-                    ? "border-red-500" 
-                    : ""
+                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.firstName && formik.errors.firstName
+                  ? "border-red-500"
+                  : ""
                 }`
               }
             />
@@ -85,10 +108,9 @@ function Registration() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={
-                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                  formik.touched.lastName && formik.errors.lastName
-                    ? "border-red-500" 
-                    : ""
+                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.lastName && formik.errors.lastName
+                  ? "border-red-500"
+                  : ""
                 }`
               }
             />
@@ -104,10 +126,9 @@ function Registration() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={
-                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                  formik.touched.email && formik.errors.email
-                    ? "border-red-500" 
-                    : ""
+                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.email && formik.errors.email
+                  ? "border-red-500"
+                  : ""
                 }`
               }
             />
@@ -123,16 +144,15 @@ function Registration() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               className={
-                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                  formik.touched.password && formik.errors.password
-                    ? "border-red-500" 
-                    : ""
+                `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.password && formik.errors.password
+                  ? "border-red-500"
+                  : ""
                 }`
               }
             />
           </div>
           <div className="flex items-center gap-5">
-          <input
+            <input
               id="acceptMarketing"
               name="acceptMarketing"
               type="checkbox"
@@ -143,11 +163,12 @@ function Registration() {
             />
             <label className="text-xl" htmlFor="acceptMarketing">Accept Marketing</label>
           </div>
+          {isError && <div className="my-5 text-xl text-[#E91D24]">{isError}</div>}
           <button type="submit" className="mt-5 border border-[#53940F] rounded-full py-2.5 text-xl px-5 bg-[#53940F] text-white">
             Register
           </button>
         </form>
-        
+
         <div className="my-5 text-xl">Already have an account? <Link to="/login" className="underline font-semibold text-[#E91D24]">Login</Link></div>
       </div>
     </div>

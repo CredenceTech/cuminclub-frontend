@@ -126,9 +126,13 @@ const ProductDetail = () => {
     return metaContent;
   };
 
-  const handleAddToCart = (productId) => {
+  const handleAddToCart = (productId, sellingPlanId) => {
     if (cartDatas === null) {
-      addToCart({ merchandiseId: productId, quantity: 1 });
+      if (sellingPlanId) {
+        addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        addToCart({ merchandiseId: productId, quantity: 1 });
+      }
     }
 
     const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
@@ -139,14 +143,22 @@ const ProductDetail = () => {
       const quantityInCart = productInCart.node.quantity;
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
-      updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+      if (sellingPlanId) {
+        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+      } else {
+        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+      }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
-      updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+      if (sellingPlanId) {
+        updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+      }
     }
   };
 
-  const handleRemoveFromCart = (productId) => {
+  const handleRemoveFromCart = (productId, sellingPlanId) => {
     const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
@@ -155,10 +167,18 @@ const ProductDetail = () => {
       const quantityInCart = productInCart.node.quantity;
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
-      updateCartItem(cartId, {
-        id: id,
-        quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-      });
+      if (sellingPlanId) {
+        updateCartItem(cartId, {
+          id: id,
+          sellingPlanId: sellingPlanId,
+          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+        });
+      } else {
+        updateCartItem(cartId, {
+          id: id,
+          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
+        });
+      }
     }
   };
 
@@ -292,7 +312,7 @@ const ProductDetail = () => {
               <div className="flex gap-2 items-center">
                 <button
                   onClick={() => {
-                    handleRemoveFromCart(data?.variants?.edges[0]?.node?.id);
+                    handleRemoveFromCart(data?.variants?.edges[0]?.node?.id, data?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id);
                   }}
                 >
                   <svg
@@ -313,7 +333,7 @@ const ProductDetail = () => {
                 </span>
                 <button
                   onClick={() => {
-                    handleAddToCart(data?.variants?.edges[0]?.node?.id);
+                    handleAddToCart(data?.variants?.edges[0]?.node?.id, data?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id);
                   }}
                 >
                   <svg
@@ -447,7 +467,7 @@ const ProductDetail = () => {
                   <div className="flex gap-2 items-center">
                     <button
                       onClick={() =>
-                        handleRemoveFromCart(item?.variants?.edges[0].node.id)
+                        handleRemoveFromCart(item?.variants?.edges[0].node.id, item?.variants?.edges[0].node?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
                       }
                     >
                       <svg
@@ -470,7 +490,7 @@ const ProductDetail = () => {
                     </span>
                     <button
                       onClick={() =>
-                        handleAddToCart(item?.variants?.edges[0].node.id)
+                        handleAddToCart(item?.variants?.edges[0].node.id, item?.variants?.edges[0].node?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
                       }
                     >
                       <svg
