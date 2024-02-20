@@ -37,6 +37,7 @@ const Product = () => {
   const [activeTitle, setActiveTitle] = useState();
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
+  const [popupState, setPopupState] = useState(true)
 
   useEffect(() => {
     getCartData();
@@ -487,7 +488,7 @@ const Product = () => {
               ))}
             </div>
           </>
-          {/* <Popup/> */}
+          {popupState && <Popup onCloseButtonClick={() => setPopupState(false)}/>}
         </div>
       ) : (
         <div
