@@ -3,7 +3,7 @@ import {
     graphQLClient,
     getPagePrivacyPolicyQuery,
 } from "../api/graphql";
-const PrivacyPolicy = () => {
+const Privacy = () => {
     const [data, setData] = useState(null)
     const fetchPrivacyPage = async () => {
         try {
@@ -32,4 +32,4 @@ const PrivacyPolicy = () => {
     )
 }
 
-export default PrivacyPolicy
+export default Privacy

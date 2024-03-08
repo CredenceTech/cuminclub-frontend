@@ -237,7 +237,7 @@ const Product = () => {
     <>
       {apiResponse ? (
         <div className="min-h-[78vh] w-full">
-          <div className="lg:h-36 h-16 overflow-x-hidden w-full flex lg:justify-center gap-10 items-center bg-red-700">
+          <div className="lg:h-36 h-16 headerbackground overflow-x-hidden w-full flex lg:justify-center gap-10 items-center">
             <div className="hidden lg:block">
               <img src={mealThreeImage} alt="" className="h-28 w-64" />
             </div>
@@ -488,7 +488,7 @@ const Product = () => {
               ))}
             </div>
           </>
-          {popupState && <Popup onCloseButtonClick={() => setPopupState(false)}/>}
+          {popupState && <Popup onCloseButtonClick={() => setPopupState(false)} />}
         </div>
       ) : (
         <div

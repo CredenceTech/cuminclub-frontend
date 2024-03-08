@@ -259,7 +259,7 @@ const ProductDetail = () => {
   return (
     <>
       {apiProductResponse ? (
-        <section className="text-gray-600 body-font">
+        <section className="text-gray-600 body-font home1 bg-[#FFFFFF]">
           <div className="container mx-auto flex px-5 py-8 md:flex-row flex-col items-center">
             <div className="lg:flex-grow md:w-1/2 px-3 lg:px-16  md:px-10 flex flex-col md:text-center items-center text-center">
               <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-center text-[#53940F]">
