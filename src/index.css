@@ -105,3 +105,27 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+.home {
+  background-image: url(./assets/yuorsbgc.svg);
+  background-repeat: no-repeat;
+  background-size: fill;
+  min-height: 100%;
+}
+
+.home1 {
+  background-image: url(./assets/home.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100%;
+}
+
+
+
+.headerbackground {
+  background-image: url(./assets/headerbackg.svg);
+  /* background-color: #ed1515; */
+  background-color: #E91D24;
+  background-blend-mode: overlay;
+  min-height: 100%;
+}

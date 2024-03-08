@@ -7,7 +7,7 @@ import Product from "./pages/Product";
 import Accessibility from "./component/Accessibility";
 import Refund from "./component/Refund";
 import TermOfServices from "./component/TermOfServices";
-import PrivacyPolicy from "./component/PrivacyPolicy";
+import Privacy from "./component/Privacy";
 import ProductDetail from "./component/ProductDetail";
 import { Footer } from "./component/Footer";
 import Registration from "./component/Registration";
@@ -25,7 +25,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/products" element={<Product />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/privacy-policy" element={<Privacy />} />
             <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/refund" element={<Refund />} />
             <Route path="/term-of-services" element={<TermOfServices />} />
