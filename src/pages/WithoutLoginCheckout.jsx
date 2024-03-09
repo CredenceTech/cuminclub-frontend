@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartData, selectCartResponse, setCartResponse } from "../state/cartData";
 import LoadingAnimation from '../component/Loader';
 import { customerAccessTokenData } from '../state/user';
-import { useStripe } from '@stripe/react-stripe-js';
 
 const WithoutLoginCheckout = () => {
     const [coupon, setCoupon] = useState("");
@@ -24,8 +23,6 @@ const WithoutLoginCheckout = () => {
     const cartResponse = useSelector(selectCartResponse);
     const [isLoading, setIsLoading] = useState(false);
 
-    //payment stripe
-    const stripe = useStripe();
 
     console.log("customerAccessTokenData", loginUserCustomerId)
 
@@ -168,9 +165,8 @@ const WithoutLoginCheckout = () => {
         validationSchema: validationSchemaForLogin || null,
         onSubmit: (values) => {
             console.log('formikForLogin submitted with values:', values);
-            
             // Handle form submission logic here
-
+            continuePayment(values);
         },
     });
 
@@ -180,8 +176,66 @@ const WithoutLoginCheckout = () => {
         onSubmit: (values) => {
             console.log('formikForWitoutLogin submitted with values:', values);
             // Handle form submission logic here
+            continuePayment(values);
         },
     });
+
+    const continuePayment = async (values) => {
+        console.log("cartResponse", cartResponse);
+        console.log("cartResponse cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
+        let productList = [];
+        cartResponse?.cart?.lines?.edges.map((data) => {
+            let pro = {
+                name: data?.node?.merchandise?.product?.title,
+                description: data?.node?.merchandise?.product?.title,
+                images: data?.node?.merchandise?.product?.featuredImage,
+                unit_amount: data?.node?.merchandise?.priceV2?.amount,
+                quantity: data?.node?.quantity,
+                interval: '',
+            }
+            productList.push(pro);
+        });
+        console.log("productList", productList);
+
+        try {
+            const url = `${import.meta.env.VITE_SHOPIFY_STOREFRONT_STRIPE_URL_KEY}`;
+            const response = await fetch(url,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: values.email,
+                        products: productList,
+                        currency: "usd",
+                        address: {
+                            first_name: values.firstName,
+                            last_name: values.lastName,
+                            address1: values.shippingAddress,
+                            address2: '',
+                            city_name: values.city,
+                            state: values.firstName,
+                            zip_code: values.zipCode,
+                            country: values.country
+                        }
+                    }),
+                });
+            const data = await response.json();
+            if (data && data.success) {
+                let session = data.data ? data.data : null;
+                console.log("continuePayment data", data);
+                if (session) {
+                    window.location.replace(session.url);
+                    //  console.log("stripe", stripe);
+                    //  stripe.redirectToCheckout(session.url);
+                    // const stripePromise = await loadStripe(import.meta.env.VITE_SHOPIFY_STOREFRONT_STRIPE_KEY);
+                    // stripePromise.redirectToCheckout({ sessionId: session.id });
+                }
+            }
+            console.log("stripe", data);
+
+        } catch (error) {
+            console.error('Error fetching Get stripe Detail:', error);
+        }
+    };
 
     return (
         <>
