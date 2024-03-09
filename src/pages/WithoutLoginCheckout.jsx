@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartData, selectCartResponse, setCartResponse } from "../state/cartData";
 import LoadingAnimation from '../component/Loader';
 import { customerAccessTokenData } from '../state/user';
+import { useStripe } from '@stripe/react-stripe-js';
 
 const WithoutLoginCheckout = () => {
     const [coupon, setCoupon] = useState("");
@@ -22,6 +23,9 @@ const WithoutLoginCheckout = () => {
     const dispatch = useDispatch();
     const cartResponse = useSelector(selectCartResponse);
     const [isLoading, setIsLoading] = useState(false);
+
+    //payment stripe
+    const stripe = useStripe();
 
     console.log("customerAccessTokenData", loginUserCustomerId)
 
@@ -164,7 +168,9 @@ const WithoutLoginCheckout = () => {
         validationSchema: validationSchemaForLogin || null,
         onSubmit: (values) => {
             console.log('formikForLogin submitted with values:', values);
+            
             // Handle form submission logic here
+
         },
     });
 

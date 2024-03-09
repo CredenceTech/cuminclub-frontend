@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
+    "@stripe/react-stripe-js": "^2.5.1",
+    "@stripe/stripe-js": "^3.0.7",
     "formik": "^2.4.5",
     "framer-motion": "^10.17.9",
     "graphql-request": "^6.1.0",

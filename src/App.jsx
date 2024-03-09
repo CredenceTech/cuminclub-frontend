@@ -11,6 +11,9 @@ import Privacy from "./component/Privacy";
 import ProductDetail from "./component/ProductDetail";
 import { Footer } from "./component/Footer";
 import Registration from "./component/Registration";
+import PaymentFailure from "./component/paymentFailure";
+import PaymentSuccess from "./component/PaymentSuccess";
+
 
 function App() {
 
@@ -32,6 +35,8 @@ function App() {
             <Route path="/productDetail" element={<ProductDetail />} />
             <Route path="/without-login-checkout" element={<WithoutLoginCheckout />} />
             <Route path="/registration" element={<Registration />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-failure" element={<PaymentFailure />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
