@@ -191,7 +191,7 @@ const CountryDrawer = ({ onClose, onSelectCountry, allCountryList }) => {
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ duration: 0.4 }}
-            className="fixed z-50 flex flex-col px-7 text-[#E91D24] inset-0 bg-[#FFF] lg:w-4/12">
+            className="fixed z-50 flex flex-col px-7 text-[#E91D24] inset-0 bg-[#FFF] md:w-[350px]">
             <div className="flex justify-between items-center w-full  text-red-700 h-16">
                 <img src="src/assets/icon.svg" className='h-24 w-24' alt="Icon Image" />
                 <span onClick={onClose} className='cursor-pointer'>
@@ -201,9 +201,9 @@ const CountryDrawer = ({ onClose, onSelectCountry, allCountryList }) => {
 
             <div className='flex mt-5 flex-col gap-7'>
                 {allCountryList?.map((countryItem) => (
-                    <button onClick={() => handleCountrySelect(countryItem)} className='flex justify-between items-center px-10 lg:px-20'>
+                    <button onClick={() => handleCountrySelect(countryItem)} className='flex  items-center px-3 lg:px-7'>
                         <img alt={countryItem?.name} className='h-10 w-10' src={countryItem?.country_flag} />
-                        <span>{countryItem?.name}</span>
+                        <span className='ml-10'>{countryItem?.name}</span>
                     </button>
                 ))}
             </div>
