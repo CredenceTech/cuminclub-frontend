@@ -13,12 +13,10 @@ import { cartData, selectCartResponse, setCartResponse } from "../state/cartData
 import LoadingAnimation from '../component/Loader';
 import { customerAccessTokenData } from '../state/user';
 
-
-
 const WithoutLoginCheckout = () => {
-    const [coupon, setCoupon] = useState("NEW-05234");
+    const [coupon, setCoupon] = useState("");
     const [isCouponCodeApply, setIsCouponCodeApply] = useState(false);
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const cartDatas = useSelector(cartData);
     const loginUserCustomerId = useSelector(customerAccessTokenData);
     const dispatch = useDispatch();
@@ -50,6 +48,10 @@ const WithoutLoginCheckout = () => {
     useEffect(() => {
         fetchData()
     }, [cartDatas]);
+
+    useEffect(() => {
+        fetchData()
+    }, [cartResponse?.cart?.estimatedCost?.totalAmount?.amount])
 
 
     const handleAddToCart = (productId) => {
@@ -178,16 +180,14 @@ const WithoutLoginCheckout = () => {
     return (
         <>
             {isLoading ?
-                <div className="flex justify-center items-center" style={{
-                    height: "90vh",
-                }}>
+                <div className="flex justify-center items-center min-h-[90vh]" >
                     <LoadingAnimation />
                 </div> : null}
             <section className="text-gray-600 body-font home1 bg-[#FFFFFF]">
                 <div className="container lg:px-20  mx-auto flex sm:flex-nowrap flex-wrap-reverse">
                     <div className=" md:w-2/6 lg:w-3/6 bg-[#F5F5F5] flex flex-col md:ml-auto w-full mt-5 pt-4 pb-4 px-5 md:mt-0">
                         <h2 className="text-[#53940F] text-lg lg:text-2xl mb-2  mt-2font-medium title-font">Account Details</h2>
-                        {isLogin === true ?
+                        {isLogin ?
                             <form onSubmit={formikForLogin.handleSubmit}>
                                 <div className="flex w-full md:w-4/6 flex-row items-start mb-4">
                                     <input
@@ -351,7 +351,7 @@ const WithoutLoginCheckout = () => {
                             <h2 className="title-font font-normal whitespace-nowrap text-gray-900 text-base">{`Meals Subtotal (${totalQuantity})`}</h2>
                             {/* </div> */}
                             <div className="whitespace-nowrap">
-                                <p className="">{`₹ ${cartResponse?.cart?.estimatedCost?.totalAmount?.amount}`}</p>
+                                <p className="">{`₹ ${cartResponse?.cart?.estimatedCost?.totalAmount?.amount || 0}`}</p>
                             </div>
                         </div>
                         <div className=" relative flex flex-row justify-between py-1">
@@ -378,7 +378,7 @@ const WithoutLoginCheckout = () => {
                                 <button className='px-2'><img width={20} src={plus} alt="cross" /></button>
                             </div>
                         </div>}
-                        <div className="relative flex flex-col my-3">
+                        {/* <div className="relative flex flex-col my-3">
                             <input
                                 type="text"
                                 value={coupon}
@@ -394,7 +394,7 @@ const WithoutLoginCheckout = () => {
                                     Apply
                                 </button>
                             </label>
-                        </div>
+                        </div> */}
                         <div className='bg-[#000000] h-[1px] w-full mt-3'>
                         </div>
                         <div className=" relative flex flex-row justify-between py-1 mt-2">
@@ -402,7 +402,7 @@ const WithoutLoginCheckout = () => {
                                 <h2 className="title-font font-normal whitespace-nowrap text-gray-900 text-base">Order Total</h2>
                             </div>
                             <div className="whitespace-nowrap">
-                                <p className="">{`₹ ${cartResponse?.cart?.estimatedCost?.totalAmount?.amount}`}</p>
+                                <p className="">{`₹ ${cartResponse?.cart?.estimatedCost?.totalAmount?.amount || 0}`}</p>
                             </div>
                         </div>
                         <h2 className="text-[#53940F] text-lg lg:text-2xl mt-4 mb-1 font-medium title-font">My Order</h2>

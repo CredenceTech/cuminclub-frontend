@@ -342,14 +342,14 @@ const Product = () => {
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
-              className="mt-4 bg-white"
+              className="mt-4 container mx-auto bg-white"
             // style={{
             //   height: "62vh",
             // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
-                <div className="bg-white">
+                <div className="bg-white ">
                   <div className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
                     {category.node.title}
                   </div>
@@ -357,12 +357,12 @@ const Product = () => {
                     key={category.node.title}
                     ref={productEdgesRef}
                     id={`product-edges-${category.node.title}`}
-                    className="flex bg-white justify-center flex-wrap"
+                    className="flex bg-white  justify-center flex-wrap"
                   >
                     {category.node.products.edges.map((product) => (
                       <div
                         key={product.node.id}
-                        className="m-2 w-40 lg:w-56  border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
+                        className="m-2 w-40 lg:w-56  product-box-Shadow border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
                       >
                         <img
                           src={product.node.featuredImage.url}

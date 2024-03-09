@@ -109,7 +109,7 @@ body {
 .home {
   background-image: url(./assets/yuorsbgc.svg);
   background-repeat: no-repeat;
-  background-size: fill;
+  background-size: cover;
   min-height: 100%;
 }
 
@@ -124,7 +124,6 @@ body {
 
 .headerbackground {
   background-image: url(./assets/headerbackg.svg);
-  /* background-color: #ed1515; */
   background-color: #E91D24;
   background-blend-mode: overlay;
   min-height: 100%;
