@@ -15,6 +15,7 @@ import { cartData, selectCartResponse, setCartResponse } from "../state/cartData
 import LoadingAnimation from '../component/Loader';
 import { customerAccessTokenData } from '../state/user';
 import { filterData } from '../state/selectedCountry';
+import toast from 'react-hot-toast';
 
 const WithoutLoginCheckout = () => {
     const [coupon, setCoupon] = useState("");
@@ -180,6 +181,7 @@ const WithoutLoginCheckout = () => {
         onSubmit: (values) => {
             console.log('formikForWitoutLogin submitted with values:', values);
             // Handle form submission logic here
+            setIsLoading(true);
             createCheckoutURL(values);
             //continuePayment(values);
         },
@@ -202,6 +204,7 @@ const WithoutLoginCheckout = () => {
         console.log("params", params);
         const response = await graphQLClient.request(createCheckoutURLMutation, params);
         console.log("createCheckoutURL response", response);
+        setIsLoading(false);
         if (response && response.checkoutCreate) {
             let checkoutId = response.checkoutCreate.checkout.id;
             console.log("checkoutId data", checkoutId);
@@ -216,15 +219,17 @@ const WithoutLoginCheckout = () => {
             checkoutId: checkoutId,
             customerAccessToken: loginUserCustomerId,
         };
+        setIsLoading(true);
         const response = await graphQLClient.request(checkoutConnectWithCustomerMutation, params);
         console.log("checkoutConnectWithCustomer response", response);
+        setIsLoading(false);
         if (response && response.checkoutCustomerAssociateV2)
             continuePayment(values);
     }
 
 
     const continuePayment = async (values) => {
-        debugger
+        setIsLoading(true);
         console.log("cartResponse", cartResponse);
         console.log("cartResponse cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
         console.log("filterDatas", filterDatas);
@@ -251,7 +256,7 @@ const WithoutLoginCheckout = () => {
                     body: JSON.stringify({
                         email: values.email,
                         products: productList,
-                        currency: filterDatas.currency_code,
+                        currency: filterDatas.currency_code.toLowerCase(),
                         address: {
                             first_name: values.firstName,
                             last_name: values.lastName,
@@ -265,16 +270,20 @@ const WithoutLoginCheckout = () => {
                     }),
                 });
             const data = await response.json();
+            setIsLoading(false);
             if (data && data.success) {
                 let session = data.data ? data.data : null;
                 console.log("continuePayment data", data);
                 if (session) {
                     window.location.replace(session.url);
                 }
+            } else {
+                toast.error(data?.message)
             }
             console.log("stripe", data);
 
         } catch (error) {
+            setIsLoading(false);
             console.error('Error fetching Get stripe Detail:', error);
         }
     };
@@ -520,10 +529,7 @@ const WithoutLoginCheckout = () => {
 
                 </div>
             </section >
-
-
         </>
-
     )
 }
 

@@ -13,7 +13,7 @@ import { Footer } from "./component/Footer";
 import Registration from "./component/Registration";
 import PaymentFailure from "./component/paymentFailure";
 import PaymentSuccess from "./component/PaymentSuccess";
-
+import { Toaster } from "react-hot-toast";
 
 function App() {
 
@@ -42,6 +42,10 @@ function App() {
         </div>
         <Footer />
       </div>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
     </Router>
   );
 }
