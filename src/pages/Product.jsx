@@ -38,6 +38,7 @@ const Product = () => {
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
   const [popupState, setPopupState] = useState(true)
+  const [loading, setLoading] = useState({});
 
   useEffect(() => {
     getCartData();
@@ -130,6 +131,7 @@ const Product = () => {
   }, []);
 
   const handleAddToCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     if (cartDatas === null) {
       if (sellingPlanId) {
         addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
@@ -147,9 +149,9 @@ const Product = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+        updateCartItem(productId,cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
       } else {
-        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+        updateCartItem(productId,cartId, { id: id, quantity: quantityInCart + 1 });
       }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
@@ -162,6 +164,7 @@ const Product = () => {
   };
 
   const handleRemoveFromCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
@@ -185,6 +188,8 @@ const Product = () => {
     }
   };
 
+  console.log(loading, 'Loading')
+
   const addToCart = async (cartItems) => {
     const params = {
       cartInput: {
@@ -193,9 +198,13 @@ const Product = () => {
     };
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItems.merchandiseId]: false,
+    }));
   };
 
-  const updateCartItem = async (cartId, cartItem) => {
+  const updateCartItem = async (a, cartId, cartItem) => {
     const params = {
       cartId: cartId,
       lines: cartItem,
@@ -206,6 +215,10 @@ const Product = () => {
       params
     );
     dispatch(setCartResponse(response.cartLinesUpdate));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [a]: false,
+    }));
   };
 
   const updateCart = async (cartId, cartItem) => {
@@ -215,6 +228,10 @@ const Product = () => {
     };
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItem.merchandiseId]: false,
+    }));
   };
 
   const getProductQuantityInCart = (productId) => {
@@ -236,7 +253,7 @@ const Product = () => {
     <>
       {apiResponse ? (
         <div className="min-h-[78vh] w-full">
-          <div className="lg:h-36 h-16 overflow-x-hidden w-full flex lg:justify-center gap-10 items-center bg-red-700">
+          <div className="lg:h-36 h-16 headerbackground overflow-x-hidden w-full flex lg:justify-center gap-10 items-center">
             <div className="hidden lg:block">
               <img src={mealThreeImage} alt="" className="h-28 w-64" />
             </div>
@@ -341,14 +358,14 @@ const Product = () => {
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
-              className="mt-4 bg-white"
+              className="mt-4 container mx-auto bg-white"
             // style={{
             //   height: "62vh",
             // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
-                <div className="bg-white">
+                <div className="bg-white ">
                   <div className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
                     {category.node.title}
                   </div>
@@ -356,12 +373,12 @@ const Product = () => {
                     key={category.node.title}
                     ref={productEdgesRef}
                     id={`product-edges-${category.node.title}`}
-                    className="flex bg-white justify-center flex-wrap"
+                    className="flex bg-white  justify-center flex-wrap"
                   >
                     {category.node.products.edges.map((product) => (
                       <div
                         key={product.node.id}
-                        className="m-2 w-40 lg:w-56  border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
+                        className="m-2 w-40 lg:w-56  product-box-Shadow border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
                       >
                         <img
                           src={product.node.featuredImage.url}
@@ -431,7 +448,8 @@ const Product = () => {
                             </button>
                           </div>
                         ) : (
-                          <div className="flex gap-2 items-center">
+                          loading[product.node.variants.edges[0].node.id] ? <svg width="80" height="80" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>: 
+                          (<div className="flex gap-2 items-center">
                             <button
                               onClick={() =>
                                 handleRemoveFromCart(
@@ -478,7 +496,7 @@ const Product = () => {
                                 />
                               </svg>
                             </button>
-                          </div>
+                          </div>)
                         )}
                       </div>
                     ))}
@@ -487,7 +505,7 @@ const Product = () => {
               ))}
             </div>
           </>
-          {popupState && <Popup onCloseButtonClick={() => setPopupState(false)}/>}
+          {popupState && <Popup onCloseButtonClick={() => setPopupState(false)} />}
         </div>
       ) : (
         <div

@@ -1,59 +1,14 @@
 import { motion } from "framer-motion";
 import { MultiSelectAccordion } from "./MultiSelectAccordian";
+import { useSelector } from "react-redux";
+import { innerFilterData } from "../state/selectedCountry";
 
-const filterOptions = [
-  {
-    id: 1,
-    title: "Dietary Need",
-    options: [
-      { id: "Vegan", label: "Vegan" },
-      { id: "Gluten Free", label: "Gluten Free" },
-      { id: "No Peanuts", label: "No Peanuts" },
-      { id: "No Tree Nuts", label: "No Tree Nuts" },
-      { id: "No Soy", label: "No Soy" },
-      { id: "High Protein", label: "High Proteins" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Spice Level",
-    options: [
-      { id: "Very Mild", label: "Very Mild" },
-      { id: "Mild", label: "Mild" },
-      { id: "Regular", label: "Regular" },
-      { id: "Hot", label: "Hot" },
-    ],
-  },
-  {
-    id: 3,
-    title: "Equipment",
-    options: [
-      { id: "Microwavable", label: "Microwavable" },
-      {
-        id: "Does Not Require Instapot/Cooker",
-        label: "Does Not Require Instapot/Cooker",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "Place Of Origin",
-    options: [
-      { id: "Mumbai", label: "Mumbai" },
-      { id: "Delhi", label: "Delhi" },
-      { id: "Chennai", label: "Chennai" },
-      { id: "Gujarat", label: "Gujarat" },
-      { id: "Panjab", label: "Punjab" },
-      { id: "Bangalore", label: "Bangalore" },
-      { id: "Hyderabad", label: "Hyderabad" },
-      { id: "Kerala", label: "Kerala" },
-      { id: "Kolkata", label: "Kolkata" },
-    ],
-  },
-];
+
 
 export const FilterDrawer = ({ onClose, onSelectedOptionsChange, option, handleClearFilters }) => {
-
+  const filterDatas = useSelector(innerFilterData);
+  console.log("filterDatas", filterDatas);
+  
   return (
     <motion.div
       initial={{ x: "-100%" }}
@@ -77,7 +32,7 @@ export const FilterDrawer = ({ onClose, onSelectedOptionsChange, option, handleC
       </div>
 
       <MultiSelectAccordion
-        options={filterOptions}
+        options={filterDatas}
         option={option}
         onSelectedOptionsChange={onSelectedOptionsChange}
       />
