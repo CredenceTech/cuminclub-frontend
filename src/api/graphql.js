@@ -730,7 +730,8 @@ export const getProductDetailQuery = gql`
         { namespace: "custom", key: "spice_level" },
         { namespace: "custom", key: "how_to_prepare" },
         { namespace: "custom", key: "nutrition_facts" },
-        { namespace: "custom", key: "ingredient" }
+        { namespace: "custom", key: "ingredient" },
+        {namespace: "custom", key: "component_reference"}
       ]) {
         value
         key

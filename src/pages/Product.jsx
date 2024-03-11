@@ -182,7 +182,6 @@ const Product = () => {
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
       }
-
     }
   };
 
@@ -425,7 +424,7 @@ const Product = () => {
                             )
                           )}
                         </div>
-                        {product.node.title === "Best Seller Bundle" ? (
+                        {product.node.title === "Bestsellers Bundle" || product.node.title === "Vegan Bundle" || product.node.title === "Intro to Indian Food Bundle" ? (
                           <div>
                             <button className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white">
                               Add to cart
