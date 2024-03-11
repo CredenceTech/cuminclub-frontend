@@ -69,6 +69,8 @@ const Header = () => {
             console.log("Data1", data);
             setCountryList(data.data.countries);
             setSelectedCountry(data.data.countries[0]);
+            console.log("data.data.countries[0]", data.data.countries[0]);
+            dispatch(addFilterData(data.data.countries[0]));
             setFilterData(data.data.countries[0]);
         } catch (error) {
             console.error('Error fetching Get Store Detail:', error);

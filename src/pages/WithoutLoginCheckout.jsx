@@ -3,6 +3,8 @@ import {
     graphQLClient,
     getCartQuery,
     updateCartItemMutation,
+    createCheckoutURLMutation,
+    checkoutConnectWithCustomerMutation,
 } from "../api/graphql";
 import plus from "../assets/cross.svg"
 import OrderProduct from '../component/OrderProduct'
@@ -12,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartData, selectCartResponse, setCartResponse } from "../state/cartData";
 import LoadingAnimation from '../component/Loader';
 import { customerAccessTokenData } from '../state/user';
+import { filterData } from '../state/selectedCountry';
 
 const WithoutLoginCheckout = () => {
     const [coupon, setCoupon] = useState("");
@@ -22,6 +25,7 @@ const WithoutLoginCheckout = () => {
     const dispatch = useDispatch();
     const cartResponse = useSelector(selectCartResponse);
     const [isLoading, setIsLoading] = useState(false);
+    const filterDatas = useSelector(filterData);
 
 
     console.log("customerAccessTokenData", loginUserCustomerId)
@@ -176,22 +180,64 @@ const WithoutLoginCheckout = () => {
         onSubmit: (values) => {
             console.log('formikForWitoutLogin submitted with values:', values);
             // Handle form submission logic here
-            continuePayment(values);
+            createCheckoutURL(values);
+            //continuePayment(values);
         },
     });
 
+
+    const createCheckoutURL = async (values) => {
+        let lineItemList = [];
+        console.log("cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
+        cartResponse?.cart?.lines?.edges.map((data) => {
+            let lineItem = {
+                variantId: data?.node?.merchandise?.id,
+                quantity: data?.node?.quantity,
+            }
+            lineItemList.push(lineItem);
+        });
+        const params = {
+            lineItems: lineItemList,
+        };
+        console.log("params", params);
+        const response = await graphQLClient.request(createCheckoutURLMutation, params);
+        console.log("createCheckoutURL response", response);
+        if (response && response.checkoutCreate) {
+            let checkoutId = response.checkoutCreate.checkout.id;
+            console.log("checkoutId data", checkoutId);
+            if (checkoutId)
+                checkoutConnectWithCustomer(checkoutId, values);
+        }
+    }
+
+
+    const checkoutConnectWithCustomer = async (checkoutId, values) => {
+        const params = {
+            checkoutId: checkoutId,
+            customerAccessToken: loginUserCustomerId,
+        };
+        const response = await graphQLClient.request(checkoutConnectWithCustomerMutation, params);
+        console.log("checkoutConnectWithCustomer response", response);
+        if (response && response.checkoutCustomerAssociateV2)
+            continuePayment(values);
+    }
+
+
     const continuePayment = async (values) => {
+        debugger
         console.log("cartResponse", cartResponse);
         console.log("cartResponse cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
+        console.log("filterDatas", filterDatas);
+
         let productList = [];
         cartResponse?.cart?.lines?.edges.map((data) => {
             let pro = {
                 name: data?.node?.merchandise?.product?.title,
                 description: data?.node?.merchandise?.product?.title,
-                images: data?.node?.merchandise?.product?.featuredImage,
+                images: data?.node?.merchandise?.product?.featuredImage?.url,
                 unit_amount: data?.node?.merchandise?.priceV2?.amount,
                 quantity: data?.node?.quantity,
-                interval: '',
+                interval: 'month',
             }
             productList.push(pro);
         });
@@ -205,7 +251,7 @@ const WithoutLoginCheckout = () => {
                     body: JSON.stringify({
                         email: values.email,
                         products: productList,
-                        currency: "usd",
+                        currency: filterDatas.currency_code,
                         address: {
                             first_name: values.firstName,
                             last_name: values.lastName,
@@ -224,10 +270,6 @@ const WithoutLoginCheckout = () => {
                 console.log("continuePayment data", data);
                 if (session) {
                     window.location.replace(session.url);
-                    //  console.log("stripe", stripe);
-                    //  stripe.redirectToCheckout(session.url);
-                    // const stripePromise = await loadStripe(import.meta.env.VITE_SHOPIFY_STOREFRONT_STRIPE_KEY);
-                    // stripePromise.redirectToCheckout({ sessionId: session.id });
                 }
             }
             console.log("stripe", data);
