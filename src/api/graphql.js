@@ -903,3 +903,75 @@ mutation {
     }
   }
 }`;
+
+
+
+export const createCheckoutURLMutation = gql`
+mutation CheckoutCreate($lineItems: [CheckoutLineItemInput!]!) {
+  checkoutCreate(input: {
+    lineItems: $lineItems
+  }) {
+    checkout {
+      id
+      webUrl
+      lineItems(first: 5) {
+        edges {
+          node {
+            title
+            quantity
+          }
+        }
+      }
+    }
+  }
+}`;
+
+
+export const checkoutConnectWithCustomerMutation = gql`
+mutation associateCustomerWithCheckout($checkoutId: ID!, $customerAccessToken: String!) {
+  checkoutCustomerAssociateV2(checkoutId: $checkoutId, customerAccessToken: $customerAccessToken) {
+    checkout {
+      id
+      lineItems(first: 50) {
+        edges {
+          node {
+            title
+            quantity
+            variant {
+                id
+                image {
+                    url
+                    altText
+                }
+            }
+          }
+        }
+      }
+    }
+    checkoutUserErrors {
+      code
+      field
+      message
+    }
+    customer {
+      id,
+      firstName
+      lastName
+      email
+      addresses (first:1){
+        edges {
+            node {
+                address1
+                address2
+                city
+                country
+                name
+                phone
+                province
+                zip
+            }
+        }
+      }
+    }
+  }
+}`;
