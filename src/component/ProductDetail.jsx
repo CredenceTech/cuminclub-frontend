@@ -31,6 +31,7 @@ const ProductDetail = () => {
   const [images, setImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
   const refs = useRef([]);
+  const [loading, setLoading] = useState({});
 
   const scrollToImage = (i) => {
     setCurrentImage(i);
@@ -127,6 +128,7 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     if (cartDatas === null) {
       if (sellingPlanId) {
         addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
@@ -144,9 +146,9 @@ const ProductDetail = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
       } else {
-        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
       }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
@@ -159,6 +161,7 @@ const ProductDetail = () => {
   };
 
   const handleRemoveFromCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
@@ -172,12 +175,12 @@ const ProductDetail = () => {
           id: id,
           sellingPlanId: sellingPlanId,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-        });
+        }, productId);
       } else {
         updateCartItem(cartId, {
           id: id,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-        });
+        }, productId);
       }
     }
   };
@@ -190,9 +193,13 @@ const ProductDetail = () => {
     };
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItems.merchandiseId]: false,
+    }));
   };
 
-  const updateCartItem = async (cartId, cartItem) => {
+  const updateCartItem = async (cartId, cartItem, id) => {
     const params = {
       cartId: cartId,
       lines: cartItem,
@@ -202,6 +209,10 @@ const ProductDetail = () => {
       params
     );
     dispatch(setCartResponse(response.cartLinesUpdate));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [id]: false,
+    }));
   };
 
   const updateCart = async (cartId, cartItem) => {
@@ -211,6 +222,10 @@ const ProductDetail = () => {
     };
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItem.merchandiseId]: false,
+    }));
   };
 
   const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
@@ -309,6 +324,7 @@ const ProductDetail = () => {
                   )
                 )}
               </div>
+              {loading[data?.variants?.edges[0]?.node?.id] ? <span style={{height: 32}}><svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg></span> :
               <div className="flex gap-2 items-center">
                 <button
                   onClick={() => {
@@ -349,7 +365,7 @@ const ProductDetail = () => {
                     />
                   </svg>
                 </button>
-              </div>
+              </div>}
             </div>
             <div className="lg:max-w-lg lg:w-full md:w-1/2 mt-4 md:mt-0 w-5/6 mb-10 md:mb-0">
               {/*  accordion sadasdasd */}
@@ -464,6 +480,8 @@ const ProductDetail = () => {
                       )
                     )}
                   </div>
+              {loading[item?.variants?.edges[0].node.id] ? <svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg> :
+
                   <div className="flex gap-2 items-center">
                     <button
                       onClick={() =>
@@ -506,7 +524,7 @@ const ProductDetail = () => {
                         />
                       </svg>
                     </button>
-                  </div>
+                  </div>}
                 </div>
               ))}
             </div>

@@ -174,13 +174,13 @@ const Product = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(cartId, {
+        updateCartItem(productId,cartId, {
           id: id,
           sellingPlanId: sellingPlanId,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
       } else {
-        updateCartItem(cartId, {
+        updateCartItem(productId,cartId, {
           id: id,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
