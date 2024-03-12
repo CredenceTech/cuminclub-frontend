@@ -398,7 +398,7 @@ const WithoutLoginCheckout = () => {
         }
 
         try {
-            const url = `${import.meta.env.VITE_SHOPIFY_STOREFRONT_STRIPE_URL_KEY}`;
+            const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/stripe`;
             const response = await fetch(url,
                 {
                     method: 'POST',
