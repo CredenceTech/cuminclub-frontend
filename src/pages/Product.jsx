@@ -39,6 +39,31 @@ const Product = () => {
   const cartResponse = useSelector(selectCartResponse);
   const [popupState, setPopupState] = useState(true)
   const [loading, setLoading] = useState({});
+  const categoryTitleRefs = useRef([]);
+  const [currentCategory, setCurrentCategory] = useState('');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      for (let i = 0; i < categoryTitleRefs.current.length; i++) {
+        const categoryTitleRef = categoryTitleRefs.current[i];
+        const rect = categoryTitleRef.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          setCurrentCategory(categoryTitleRef.textContent);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    setActiveTitle(currentCategory)
+  }, [currentCategory])
 
   useEffect(() => {
     getCartData();
@@ -366,7 +391,7 @@ const Product = () => {
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
                 <div className="bg-white ">
-                  <div className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
+                  <div ref={ref => categoryTitleRefs.current[index] = ref} className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
                     {category.node.title}
                   </div>
                   <div
