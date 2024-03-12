@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-function PaymentSuccess() {
+const PaymentSuccess = () => {
     return (
         <div className="flex justify-center items-center h-screen bg-[#53940f80]">
             <div className="text-center">
@@ -8,7 +8,7 @@ function PaymentSuccess() {
                 <p className="text-lg">Thank you for your purchase.</p>
             </div>
         </div>
-    );
+    )
 }
 
-export default PaymentSuccess;
+export default PaymentSuccess
