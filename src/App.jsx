@@ -11,7 +11,7 @@ import Privacy from "./component/Privacy";
 import ProductDetail from "./component/ProductDetail";
 import { Footer } from "./component/Footer";
 import Registration from "./component/Registration";
-import PaymentFailure from "./component/paymentFailure";
+import PaymentFailure from "./component/PaymentFailure";
 import PaymentSuccess from "./component/PaymentSuccess";
 import { Toaster } from "react-hot-toast";
 

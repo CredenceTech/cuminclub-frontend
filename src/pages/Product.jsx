@@ -38,6 +38,32 @@ const Product = () => {
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
   const [popupState, setPopupState] = useState(true)
+  const [loading, setLoading] = useState({});
+  const categoryTitleRefs = useRef([]);
+  const [currentCategory, setCurrentCategory] = useState('');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      for (let i = 0; i < categoryTitleRefs.current.length; i++) {
+        const categoryTitleRef = categoryTitleRefs.current[i];
+        const rect = categoryTitleRef.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          setCurrentCategory(categoryTitleRef.textContent);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    setActiveTitle(currentCategory)
+  }, [currentCategory])
 
   useEffect(() => {
     getCartData();
@@ -130,6 +156,7 @@ const Product = () => {
   }, []);
 
   const handleAddToCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     if (cartDatas === null) {
       if (sellingPlanId) {
         addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
@@ -147,9 +174,9 @@ const Product = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+        updateCartItem(productId,cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
       } else {
-        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+        updateCartItem(productId,cartId, { id: id, quantity: quantityInCart + 1 });
       }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
@@ -162,6 +189,7 @@ const Product = () => {
   };
 
   const handleRemoveFromCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
     });
@@ -171,20 +199,21 @@ const Product = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(cartId, {
+        updateCartItem(productId,cartId, {
           id: id,
           sellingPlanId: sellingPlanId,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
       } else {
-        updateCartItem(cartId, {
+        updateCartItem(productId,cartId, {
           id: id,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
       }
-
     }
   };
+
+  console.log(loading, 'Loading')
 
   const addToCart = async (cartItems) => {
     const params = {
@@ -194,9 +223,13 @@ const Product = () => {
     };
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItems.merchandiseId]: false,
+    }));
   };
 
-  const updateCartItem = async (cartId, cartItem) => {
+  const updateCartItem = async (a, cartId, cartItem) => {
     const params = {
       cartId: cartId,
       lines: cartItem,
@@ -207,6 +240,10 @@ const Product = () => {
       params
     );
     dispatch(setCartResponse(response.cartLinesUpdate));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [a]: false,
+    }));
   };
 
   const updateCart = async (cartId, cartItem) => {
@@ -216,6 +253,10 @@ const Product = () => {
     };
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItem.merchandiseId]: false,
+    }));
   };
 
   const getProductQuantityInCart = (productId) => {
@@ -350,7 +391,7 @@ const Product = () => {
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
                 <div className="bg-white ">
-                  <div className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
+                  <div ref={ref => categoryTitleRefs.current[index] = ref} className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
                     {category.node.title}
                   </div>
                   <div
@@ -425,20 +466,23 @@ const Product = () => {
                             )
                           )}
                         </div>
-                        {product.node.title === "Best Seller Bundle" ? (
+                        {product.node.title === "Bestsellers Bundle" || product.node.title === "Vegan Bundle" || product.node.title === "Intro to Indian Food Bundle" ? (
                           <div>
                             <button className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white">
                               Add to cart
                             </button>
                           </div>
                         ) : (
-                          <div className="flex gap-2 items-center">
+                          loading[product.node.variants.edges[0].node.id] ? <svg width="80" height="80" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>: 
+                          (<div className="flex gap-2 items-center">
                             <button
-                              onClick={() =>
-                                handleRemoveFromCart(
+                              onClick={() => {
+                                if (getProductQuantityInCart(
                                   product.node.variants.edges[0].node.id
-                                )
-                              }
+                                ) !== 0) {
+                                  handleRemoveFromCart(product.node.variants.edges[0].node.id);
+                                }
+                              }}
                             >
                               <svg
                                 width="18"
@@ -479,7 +523,7 @@ const Product = () => {
                                 />
                               </svg>
                             </button>
-                          </div>
+                          </div>)
                         )}
                       </div>
                     ))}
