@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../state/cart";
 import { addCartData, cartData, clearCartData, clearCartResponse, selectCartResponse, setCartResponse } from "../state/cartData";
-import { getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
+import { createCartMutation, getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { Link, useNavigate } from "react-router-dom";
 import { totalQuantity } from "../utils";
 import { selectMealItems } from "../state/mealdata";
@@ -16,7 +16,7 @@ export const CartDrawer = () => {
   const selectedMealData = useSelector(selectMealItems);
   const cartResponse = useSelector(selectCartResponse);
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState({});
 
   useEffect(() => {
     getCartData();
@@ -39,6 +39,7 @@ export const CartDrawer = () => {
   };
 
   const handleAddToCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     if (cartDatas === null) {
       if (sellingPlanId) {
         addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
@@ -56,9 +57,9 @@ export const CartDrawer = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id
       const id = productInCart?.node?.id
       if (sellingPlanId) {
-        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
       } else {
-        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 });
+        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
       }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id
@@ -71,6 +72,7 @@ export const CartDrawer = () => {
   };
 
   const handleRemoveFromCart = (productId, sellingPlanId) => {
+    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
       return cartItem.node.merchandise.id === productId;
     });
@@ -84,12 +86,12 @@ export const CartDrawer = () => {
           id: id,
           sellingPlanId: sellingPlanId,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-        });
+        }, productId);
       } else {
         updateCartItem(cartId, {
           id: id,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-        });
+        }, productId);
       }
     }
   };
@@ -104,15 +106,23 @@ export const CartDrawer = () => {
     }
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response))
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItems.merchandiseId]: false,
+    }));
   }
 
-  const updateCartItem = async (cartId, cartItem) => {
+  const updateCartItem = async (cartId, cartItem, id) => {
     const params = {
       "cartId": cartId,
       "lines": cartItem
     }
     const response = await graphQLClient.request(updateCartItemMutation, params);
     dispatch(setCartResponse(response.cartLinesUpdate));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [id]: false,
+    }));
   }
 
   const updateCart = async (cartId, cartItem) => {
@@ -124,6 +134,10 @@ export const CartDrawer = () => {
     }
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
+    setLoading((prevLoading) => ({
+      ...prevLoading,
+      [cartItem.merchandiseId]: false,
+    }));
   }
 
   const toggleCategoryMeals = (category) => {
@@ -351,52 +365,51 @@ export const CartDrawer = () => {
                                     />
                                   </svg>
                                 </button>
+                                {loading[line.node.merchandise.id] ? <svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg> :
                                 <div className="flex gap-2 items-center">
-                                  <button
-                                    onClick={() =>
-                                      handleRemoveFromCart(
-                                        line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
-                                      )
-                                    }
+                                <button
+                                  onClick={() =>
+                                    handleRemoveFromCart(
+                                      line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
+                                    )
+                                  }
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <svg
-                                      width="18"
-                                      height="18"
-                                      viewBox="0 0 18 18"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                        fill="#333333"
-                                      />
-                                    </svg>
-                                  </button>
-                                  <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                    {/* {getProductQuantityInCart(
-                            product.node.variants.edges[0].node.id
-                          )} */}
-                                    {line.node.quantity}
-                                  </span>
-                                  <button
-                                    onClick={() =>
-                                      handleAddToCart(line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
-                                    }
+                                    <path
+                                      d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                      fill="#333333"
+                                    />
+                                  </svg>
+                                </button>
+                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                  {line.node.quantity}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    handleAddToCart(line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
+                                  }
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <svg
-                                      width="18"
-                                      height="18"
-                                      viewBox="0 0 18 18"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                        fill="#333333"
-                                      />
-                                    </svg>
-                                  </button>
-                                </div>
+                                    <path
+                                      d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                      fill="#333333"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                                }
                               </div>
                             </div>
                           )

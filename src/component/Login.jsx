@@ -115,7 +115,7 @@ function Login() {
           </button>
         </form>
 
-        <button className="my-5 text-xl font-semibold underline">Forgot Password?</button>
+        {/* <button className="my-5 text-xl font-semibold underline">Forgot Password?</button> */}
 
         <div className="my-5 text-xl">Haven’t an account? <Link to="/registration" className="underline font-semibold text-[#E91D24]">Create an account</Link></div>
       </div>
