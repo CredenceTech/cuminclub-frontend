@@ -42,8 +42,8 @@ function Registration() {
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
       acceptMarketing: Yup.boolean()
-        .oneOf([true], "You must accept marketing terms")
-        .required("You must accept marketing terms"),
+      //   .oneOf([true], "You must accept marketing terms")
+      //   .required("You must accept marketing terms"),
     }),
     onSubmit: async (values) => {
       setIsError("")
@@ -151,7 +151,7 @@ function Registration() {
               }
             />
           </div>
-          <div className="flex items-center gap-5">
+          {/* <div className="flex items-center gap-5">
             <input
               id="acceptMarketing"
               name="acceptMarketing"
@@ -162,7 +162,7 @@ function Registration() {
               className="border-[#53940F] w-4 h-4 focus:outline-none outline: none rounded focus:ring-[#53940F] text-[#53940F] py-2 px-3"
             />
             <label className="text-xl" htmlFor="acceptMarketing">Accept Marketing</label>
-          </div>
+          </div> */}
           {isError && <div className="my-5 text-xl text-[#E91D24]">{isError}</div>}
           <button type="submit" className="mt-5 border border-[#53940F] rounded-full py-2.5 text-xl px-5 bg-[#53940F] text-white">
             Register
@@ -176,3 +176,4 @@ function Registration() {
 }
 
 export default Registration;
+

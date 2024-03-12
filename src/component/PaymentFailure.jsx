@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react'
 
-function PaymentFailure() {
+const PaymentFailure = () => {
     return (
         <div className="flex justify-center items-center h-screen bg-[#e91d249c]">
             <div className="text-center">
@@ -8,7 +8,7 @@ function PaymentFailure() {
                 <p className="text-lg">Sorry, something went wrong with your payment.</p>
             </div>
         </div>
-    );
+    )
 }
 
-export default PaymentFailure;
+export default PaymentFailure
