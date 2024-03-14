@@ -34,8 +34,7 @@ const WithoutLoginCheckout = () => {
     const [isMoreAddress, setIsMoreAddress] = useState(false);
     const filterDatas = useSelector(filterData);
     const [address, setAddress] = useState(null);
-    const [customerToken, setcustomerToken] = useState(null);
-
+    const [loading, setLoading] = useState({});
     useEffect(() => {
         if (loginUserCustomerId) {
             setIsLogin(true)
@@ -43,16 +42,13 @@ const WithoutLoginCheckout = () => {
     }, [loginUserCustomerId])
 
     const fetchData = async () => {
-        setIsLoading(true);
         const body = {
             cartId: cartDatas?.cartCreate?.cart?.id,
         }
         try {
             const response = await graphQLClient.request(getCartQuery, body)
             dispatch(setCartResponse(response));
-            setIsLoading(false);
         } catch (error) {
-            setIsLoading(false);
         }
     };
 
@@ -92,6 +88,7 @@ const WithoutLoginCheckout = () => {
 
 
     const handleAddToCart = (productId) => {
+        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
         if (cartDatas === null) {
             addToCart({ merchandiseId: productId, quantity: 1 })
         }
@@ -104,24 +101,24 @@ const WithoutLoginCheckout = () => {
             const quantityInCart = productInCart.node.quantity;
             const cartId = cartDatas?.cartCreate?.cart?.id
             const id = productInCart?.node?.id
-            updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 })
+            updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId)
         } else {
             const cartId = cartDatas?.cartCreate?.cart?.id
             updateCart(cartId, { merchandiseId: productId, quantity: 1 })
         }
     };
 
-    const updateCartItem = async (cartId, cartItem) => {
-        setIsLoading(true)
+    const updateCartItem = async (cartId, cartItem, id) => {
         const params = {
             "cartId": cartId,
             "lines": cartItem
         }
         const response = await graphQLClient.request(updateCartItemMutation, params);
         dispatch(setCartResponse(response.cartLinesUpdate));
-        if (response.cartLinesUpdate) {
-            setIsLoading(false);
-        }
+        setLoading((prevLoading) => ({
+            ...prevLoading,
+            [id]: false,
+        }));
     }
 
     const updateCart = async (cartId, cartItem) => {
@@ -133,9 +130,14 @@ const WithoutLoginCheckout = () => {
         }
         const response = await graphQLClient.request(updateCartMutation, params);
         dispatch(setCartResponse(response.cartLinesAdd));
+        setLoading((prevLoading) => ({
+            ...prevLoading,
+            [cartItem.merchandiseId]: false,
+        }));
     }
 
     const handleRemoveFromCart = (productId) => {
+        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
         const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
             return cartItem.node.merchandise.id === productId;
         });
@@ -144,7 +146,7 @@ const WithoutLoginCheckout = () => {
             const quantityInCart = productInCart.node.quantity;
             const cartId = cartDatas?.cartCreate?.cart?.id
             const id = productInCart?.node?.id
-            updateCartItem(cartId, { id: id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1 })
+            updateCartItem(cartId, { id: id, quantity: quantityInCart === 1 ? 0 : quantityInCart - 1 }, productId)
         }
     };
 
@@ -155,35 +157,35 @@ const WithoutLoginCheckout = () => {
     // form handeling
 
     const validationSchemaForLogin = Yup.object().shape({
-        address: Yup.string(),
-        consent: Yup.boolean()
+        address: Yup.string().required('Select an address'),
+        consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     })
     const validationSchemaForWithoutLogin = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string().required('Password is required'),
         firstName: Yup.string().required('First Name is required'),
         lastName: Yup.string().required('Last Name is required'),
-        firstName1: Yup.string().required('Shipping First Name is required'),
-        lastName1: Yup.string().required('Shipping Last Name is required'),
-        address1: Yup.string().required('Shipping Address is required'),
+        firstName1: Yup.string().required('First Name is required'),
+        lastName1: Yup.string().required('Last Name is required'),
+        address1: Yup.string().required('Address is required'),
         country: Yup.string().required('Country is required'),
         province: Yup.string().required('State is required'),
         city: Yup.string().required('City is required'),
         zip: Yup.string().required('Zip Code is required'),
         phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid').required('Phone Number is required'),
-        consent: Yup.boolean()
+        consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
     const validationSchemaForAddMoreAdd = Yup.object().shape({
-        firstName1: Yup.string().required('Shipping First Name is required'),
-        lastName1: Yup.string().required('Shipping Last Name is required'),
-        address1: Yup.string().required('Shipping Address is required'),
+        firstName1: Yup.string().required('First Name is required'),
+        lastName1: Yup.string().required('Last Name is required'),
+        address1: Yup.string().required('Address is required'),
         country: Yup.string().required('Country is required'),
         province: Yup.string().required('State is required'),
         city: Yup.string().required('City is required'),
         zip: Yup.string().required('Zip Code is required'),
         phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid').required('Phone Number is required'),
-        consent: Yup.boolean()
+        consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
 
@@ -215,7 +217,7 @@ const WithoutLoginCheckout = () => {
         consent: false,
     }
 
-    const addAddress = async (body) => {
+    const addAddress = async (body, customerAccessToken) => {
         setIsLoading(true);
         const response = await graphQLClient.request(createAddressMutation, body);
         setIsLoading(false);
@@ -223,9 +225,13 @@ const WithoutLoginCheckout = () => {
             toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
             return
         }
+        if (response?.customerAddressCreate?.customerUserErrors[0]?.code) {
+            toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
+            return
+        }
         if (response?.customerAddressCreate?.customerAddress?.id) {
             setAddress(body);
-            createCheckoutURL();
+            createCheckoutURL(customerAccessToken);
         }
     }
 
@@ -239,9 +245,8 @@ const WithoutLoginCheckout = () => {
         validationSchema: validationSchemaForLogin || null,
         onSubmit: async (values) => {
             console.log('formikForLogin submitted with values:', values);
-            // continuePayment(values);
             // Handle form submission logic here
-            createCheckoutURL();
+            createCheckoutURL(loginUserCustomerId);
 
         },
     });
@@ -275,7 +280,6 @@ const WithoutLoginCheckout = () => {
                 }
                 if (response?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
                     dispatch(addCustomerAccessToken(response?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
-                    setcustomerToken(response?.customerAccessTokenCreate?.customerAccessToken?.accessToken)
                     const body = {
                         customerAccessToken: response?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
                         address1: values.address1,
@@ -284,7 +288,7 @@ const WithoutLoginCheckout = () => {
                         city: values.city,
                         zip: values.zip
                     }
-                    addAddress(body);
+                    addAddress(body, response?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             if (response?.customerCreate?.customer?.id) {
@@ -302,7 +306,6 @@ const WithoutLoginCheckout = () => {
                 }
                 if (responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
                     dispatch(addCustomerAccessToken(responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
-                    setcustomerToken(responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken)
                     const body = {
                         customerAccessToken: responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
                         address1: values.address1,
@@ -311,7 +314,7 @@ const WithoutLoginCheckout = () => {
                         city: values.city,
                         zip: values.zip
                     }
-                    addAddress(body);
+                    addAddress(body, responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             // Handle form submission logic here
@@ -330,12 +333,12 @@ const WithoutLoginCheckout = () => {
                 city: values.city,
                 zip: values.zip
             }
-            addAddress(body);
+            addAddress(body, loginUserCustomerId);
             // Handle form submission logic here
         },
     });
 
-    const createCheckoutURL = async () => {
+    const createCheckoutURL = async (customerAccessToken) => {
         let lineItemList = [];
         console.log("cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
         cartResponse?.cart?.lines?.edges.map((data) => {
@@ -354,29 +357,27 @@ const WithoutLoginCheckout = () => {
         if (response && response.checkoutCreate) {
             let checkoutId = response.checkoutCreate.checkout.id;
             if (checkoutId)
-                checkoutConnectWithCustomer(checkoutId);
+                checkoutConnectWithCustomer(checkoutId, customerAccessToken);
         }
     }
 
 
-    const checkoutConnectWithCustomer = async (checkoutId) => {
+    const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken) => {
         const params = {
             checkoutId: checkoutId,
-            customerAccessToken: loginUserCustomerId || customerToken,
+            customerAccessToken: customerAccessToken,
         };
         setIsLoading(true);
         const response = await graphQLClient.request(checkoutConnectWithCustomerMutation, params);
         setIsLoading(false);
-        if (response && response.checkoutCustomerAssociateV2)
+        if (response && response.checkoutCustomerAssociateV2) {
             continuePayment();
+        }
     }
 
-
+    console.log("first address from noby to test", address);
     const continuePayment = async () => {
         setIsLoading(true);
-        console.log("cartResponse", cartResponse);
-        console.log("cartResponse cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
-        console.log("filterDatas", filterDatas);
 
         let productList = [];
         cartResponse?.cart?.lines?.edges.map((data) => {
@@ -390,7 +391,7 @@ const WithoutLoginCheckout = () => {
             }
             productList.push(pro);
         });
-        console.log("productList", productList);
+        console.log("first from continue payment", address);
         if (address === null) {
             toast.error('Please add address');
             setIsLoading(false);
@@ -403,7 +404,7 @@ const WithoutLoginCheckout = () => {
                 {
                     method: 'POST',
                     body: JSON.stringify({
-                        email: address?.firstName1 || null,
+                        email: address?.email || null,
                         products: productList,
                         currency: filterDatas.currency_code.toLowerCase(),
                         address: {
@@ -420,6 +421,7 @@ const WithoutLoginCheckout = () => {
                 });
             const data = await response.json();
             setIsLoading(false);
+            setAddress(null);
             if (data && data.success) {
                 let session = data.data ? data.data : null;
                 if (session) {
@@ -469,18 +471,21 @@ const WithoutLoginCheckout = () => {
                                             </div>
                                         </div>
                                     ))}
+                                    {formikForLogin.touched.address && formikForLogin.errors.address && (<label className="text-sm text-red-500">{formikForLogin.errors.address}</label>)}
+
 
                                     <div className='flex justify-center items-center'>
                                         <button onClick={() => setIsMoreAddress(true)} type='button' className="text-white text-center w-full lg:w-1/2 bg-[#54940fe2] mb-3 border-0 py-2 px-6 focus:outline-none  hover:bg-[#53940F] rounded-3xl text-lg"> + Add New Address</button>
                                     </div>
-                                    <div className="relative flex flex-row items-start mb-4">
+                                    <div className="relative flex flex-row items-start mb-2 ">
                                         <input type="checkbox" id="consent" name="consent" onChange={formikForLogin.handleChange} value={formikForLogin.values.consent} className="bg-white mt-2 rounded border  outline-none  " />
                                         <div className='pl-3'>
                                             <label htmlFor="consent" className="text-xs text-gray-600">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
                                             <p className="text-xs text-gray-500 mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                         </div>
                                     </div>
-                                    <button type='submit' className="text-white text-left w-full bg-[#54940fe2] border-0 py-2 px-6 focus:outline-none hover:bg-[#53940F] rounded-3xl text-lg">Complete Checkout</button>
+                                    {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)}
+                                    <button type='submit' className="text-white mt-4 text-left w-full bg-[#54940fe2] border-0 py-2 px-6 focus:outline-none hover:bg-[#53940F] rounded-3xl text-lg">Complete Checkout</button>
                                 </form>
                             </>
                             :
@@ -492,69 +497,70 @@ const WithoutLoginCheckout = () => {
                                 <form onSubmit={formikForWitoutLogin.handleSubmit}>
                                     <div className="relative flex flex-col mb-4">
                                         <input type="text" placeholder='Email' name="email" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.email} className="w-full lg:w-[70%] bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForWitoutLogin.touched.email && formikForWitoutLogin.errors.email && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.email}</label>)}
+                                        {formikForWitoutLogin.touched.email && formikForWitoutLogin.errors.email && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.email}</label>)}
                                     </div>
                                     <div className="relative flex flex-col mb-4">
                                         <input type="text" placeholder='Password' name="password" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.password} className="w-full lg:w-[70%] bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForWitoutLogin.touched.password && formikForWitoutLogin.errors.password && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.password}</label>)}
+                                        {formikForWitoutLogin.touched.password && formikForWitoutLogin.errors.password && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.password}</label>)}
                                     </div>
                                     <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                         <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                             <input type="text" placeholder='First Name' name="firstName" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.firstName && formikForWitoutLogin.errors.firstName && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.firstName}</label>)}
+                                            {formikForWitoutLogin.touched.firstName && formikForWitoutLogin.errors.firstName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.firstName}</label>)}
                                         </div>
                                         <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                             <input type="text" placeholder='Last Name' name="lastName" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.lastName} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.lastName && formikForWitoutLogin.errors.lastName && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.lastName}</label>)}
+                                            {formikForWitoutLogin.touched.lastName && formikForWitoutLogin.errors.lastName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName}</label>)}
                                         </div>
                                     </div>
                                     <h2 className="text-[#53940F] text-lg lg:text-2xl mb-2 font-medium title-font">Shipping Address</h2>
                                     <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                         <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                             <input type="text" placeholder='First Name' name="firstName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName1} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.firstName1 && formikForWitoutLogin.errors.firstName1 && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.firstName1}</label>)}
+                                            {formikForWitoutLogin.touched.firstName1 && formikForWitoutLogin.errors.firstName1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.firstName1}</label>)}
                                         </div>
                                         <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                             <input type="text" placeholder='Last Name' name="lastName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.lastName1} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.lastName1 && formikForWitoutLogin.errors.lastName1 && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.lastName1}</label>)}
+                                            {formikForWitoutLogin.touched.lastName1 && formikForWitoutLogin.errors.lastName1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName1}</label>)}
                                         </div>
                                     </div>
                                     <div className="relative flex flex-col mb-4">
                                         <input type="text" placeholder='Shipping Address' name="address1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.address1} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForWitoutLogin.touched.address1 && formikForWitoutLogin.errors.address1 && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.address1}</label>)}
+                                        {formikForWitoutLogin.touched.address1 && formikForWitoutLogin.errors.address1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.address1}</label>)}
                                     </div>
                                     <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                         <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                             <input type="text" placeholder='Country' name="country" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.country} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.country && formikForWitoutLogin.errors.country && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.country}</label>)}
+                                            {formikForWitoutLogin.touched.country && formikForWitoutLogin.errors.country && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.country}</label>)}
                                         </div>
                                         <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                             <input type="text" placeholder='State' name="province" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.province} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.province && formikForWitoutLogin.errors.province && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.province}</label>)}
+                                            {formikForWitoutLogin.touched.province && formikForWitoutLogin.errors.province && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.province}</label>)}
                                         </div>
                                     </div>
                                     <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                         <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                             <input type="text" placeholder='City' name="city" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.city} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.city && formikForWitoutLogin.errors.city && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.city}</label>)}
+                                            {formikForWitoutLogin.touched.city && formikForWitoutLogin.errors.city && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.city}</label>)}
                                         </div>
                                         <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                             <input type="text" placeholder='Zip Code' name="zip" onChange={formikForWitoutLogin.handleChange} value={formikForLogin.values.zip} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                            {formikForWitoutLogin.touched.zip && formikForWitoutLogin.errors.zip && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.zip}</label>)}
+                                            {formikForWitoutLogin.touched.zip && formikForWitoutLogin.errors.zip && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.zip}</label>)}
                                         </div>
                                     </div>
                                     <div className="relative flex flex-col mb-4">
                                         <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.phoneNumber}</label>)}
+                                        {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
                                     </div>
-                                    <div className="relative flex flex-row items-start mb-4">
+                                    <div className="relative flex flex-row items-start mb-2">
                                         <input type="checkbox" id="consent" name="consent" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.consent} className="bg-white mt-2 rounded border  outline-none  " />
                                         <div className='pl-3'>
                                             <label htmlFor="consent" className="text-xs text-gray-600">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
                                             <p className="text-xs text-gray-500 mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                         </div>
                                     </div>
-                                    <button type='submit' className="text-white text-left w-full bg-[#54940fe2] border-0 py-2 px-6 focus:outline-none hover:bg-[#53940F] rounded-3xl text-lg">Complete Checkout</button>
+                                    {formikForWitoutLogin.touched.consent && formikForWitoutLogin.errors.consent && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.consent}</label>)}
+                                    <button type='submit' className="text-white mt-4 text-left w-full bg-[#54940fe2] border-0 py-2 px-6 focus:outline-none hover:bg-[#53940F] rounded-3xl text-lg">Complete Checkout</button>
                                 </form>
                             </> : null
                         }
@@ -564,49 +570,50 @@ const WithoutLoginCheckout = () => {
                                 <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                     <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                         <input type="text" placeholder='First Name' name="firstName1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.firstName1} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForAddMoreAdd.touched.firstName1 && formikForAddMoreAdd.errors.firstName1 && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.firstName1}</label>)}
+                                        {formikForAddMoreAdd.touched.firstName1 && formikForAddMoreAdd.errors.firstName1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.firstName1}</label>)}
                                     </div>
                                     <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                         <input type="text" placeholder='Last Name' name="lastName1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.lastName1} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForAddMoreAdd.touched.lastName1 && formikForAddMoreAdd.errors.lastName1 && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.lastName1}</label>)}
+                                        {formikForAddMoreAdd.touched.lastName1 && formikForAddMoreAdd.errors.lastName1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.lastName1}</label>)}
                                     </div>
                                 </div>
                                 <div className="relative flex flex-col mb-4">
                                     <input type="text" placeholder='Shipping Address' name="address1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.address1} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                    {formikForAddMoreAdd.touched.address1 && formikForAddMoreAdd.errors.address1 && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.address1}</label>)}
+                                    {formikForAddMoreAdd.touched.address1 && formikForAddMoreAdd.errors.address1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.address1}</label>)}
                                 </div>
                                 <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                     <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                         <input type="text" placeholder='Country' name="country" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.country} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForAddMoreAdd.touched.country && formikForAddMoreAdd.errors.country && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.country}</label>)}
+                                        {formikForAddMoreAdd.touched.country && formikForAddMoreAdd.errors.country && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.country}</label>)}
                                     </div>
                                     <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                         <input type="text" placeholder='State' name="province" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.province} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForAddMoreAdd.touched.province && formikForAddMoreAdd.errors.province && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.province}</label>)}
+                                        {formikForAddMoreAdd.touched.province && formikForAddMoreAdd.errors.province && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.province}</label>)}
                                     </div>
                                 </div>
                                 <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                     <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                         <input type="text" placeholder='City' name="city" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.city} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForAddMoreAdd.touched.city && formikForAddMoreAdd.errors.city && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.city}</label>)}
+                                        {formikForAddMoreAdd.touched.city && formikForAddMoreAdd.errors.city && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.city}</label>)}
                                     </div>
                                     <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                         <input type="text" placeholder='Zip Code' name="zip" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.zip} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                        {formikForAddMoreAdd.touched.zip && formikForAddMoreAdd.errors.zip && (<label className="text-sm text-gray-600">{formikForAddMoreAdd.errors.zip}</label>)}
+                                        {formikForAddMoreAdd.touched.zip && formikForAddMoreAdd.errors.zip && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.zip}</label>)}
                                     </div>
                                 </div>
                                 <div className="relative flex flex-col mb-4">
                                     <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
-                                    {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-gray-600">{formikForWitoutLogin.errors.phoneNumber}</label>)}
+                                    {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
                                 </div>
-                                <div className="relative flex flex-row items-start mb-4">
+                                <div className="relative flex flex-row items-start mb-2">
                                     <input type="checkbox" id="consent" name="consent" onChange={formikForAddMoreAdd.handleChange} value={formikForWitoutLogin.values.consent} className="bg-white mt-2 rounded border  outline-none  " />
                                     <div className='pl-3'>
                                         <label htmlFor="consent" className="text-xs text-gray-600">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
                                         <p className="text-xs text-gray-500 mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                     </div>
                                 </div>
-                                <button type='submit' className="text-white text-left w-full bg-[#54940fe2] border-0 py-2 px-6 focus:outline-none hover:bg-[#53940F] rounded-3xl text-lg">Complete Checkout</button>
+                                {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)}
+                                <button type='submit' className="text-white mt-4 text-left w-full bg-[#54940fe2] border-0 py-2 px-6 focus:outline-none hover:bg-[#53940F] rounded-3xl text-lg">Complete Checkout</button>
                             </form>
                             : null
                         }
@@ -623,7 +630,7 @@ const WithoutLoginCheckout = () => {
                         </div>
                         <div className=" relative flex flex-row justify-between py-1">
                             <div className="">
-                                <h2 className="title-font font-normal whitespace-nowrap text-gray-900 text-base">{`Slides (${totalQuantity})`}</h2>
+                                <h2 className="title-font font-normal whitespace-nowrap text-gray-900 text-base">{`Slides (${cartResponse?.cart?.lines?.edges.length || 0})`}</h2>
                             </div>
                             <div className="whitespace-nowrap">
                                 <p className="">---</p>
@@ -673,11 +680,11 @@ const WithoutLoginCheckout = () => {
                             </div>
                         </div>
                         <h2 className="text-[#53940F] text-lg lg:text-2xl mt-4 mb-1 font-medium title-font">My Order</h2>
-                        <p className="text-[#000] text-base mb-2 font-normal title-font">{`Meals (${totalQuantity}), Sides (${cartResponse?.cart?.lines?.edges.length})`}</p>
+                        <p className="text-[#000] text-base mb-2 font-normal title-font">{`Meals (${totalQuantity}), Sides (${cartResponse?.cart?.lines?.edges.length || 0})`}</p>
                         {/* card view */}
                         <div className="flex flex-wrap -m-4">
                             {cartResponse?.cart?.lines?.edges.map((item, i) => {
-                                return (<OrderProduct key={i} item={item} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} />)
+                                return (<OrderProduct key={i} item={item} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} loading={loading} />)
                             })}
 
                         </div>
