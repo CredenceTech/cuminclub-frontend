@@ -217,7 +217,7 @@ const WithoutLoginCheckout = () => {
         consent: false,
     }
 
-    const addAddress = async (body, customerAccessToken) => {
+    const addAddress = async (values, body, customerAccessToken) => {
         setIsLoading(true);
         const response = await graphQLClient.request(createAddressMutation, body);
         setIsLoading(false);
@@ -230,8 +230,8 @@ const WithoutLoginCheckout = () => {
             return
         }
         if (response?.customerAddressCreate?.customerAddress?.id) {
-            setAddress(body);
-            createCheckoutURL(customerAccessToken);
+            // setAddress(body);
+            createCheckoutURL(customerAccessToken, values);
         }
     }
 
@@ -246,7 +246,7 @@ const WithoutLoginCheckout = () => {
         onSubmit: async (values) => {
             console.log('formikForLogin submitted with values:', values);
             // Handle form submission logic here
-            createCheckoutURL(loginUserCustomerId);
+            createCheckoutURL(loginUserCustomerId, address);
 
         },
     });
@@ -288,7 +288,7 @@ const WithoutLoginCheckout = () => {
                         city: values.city,
                         zip: values.zip
                     }
-                    addAddress(body, response?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
+                    addAddress(values, body, response?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             if (response?.customerCreate?.customer?.id) {
@@ -314,7 +314,7 @@ const WithoutLoginCheckout = () => {
                         city: values.city,
                         zip: values.zip
                     }
-                    addAddress(body, responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
+                    addAddress(values, body, responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             // Handle form submission logic here
@@ -333,12 +333,12 @@ const WithoutLoginCheckout = () => {
                 city: values.city,
                 zip: values.zip
             }
-            addAddress(body, loginUserCustomerId);
+            addAddress(values, body, loginUserCustomerId);
             // Handle form submission logic here
         },
     });
 
-    const createCheckoutURL = async (customerAccessToken) => {
+    const createCheckoutURL = async (customerAccessToken, body) => {
         let lineItemList = [];
         console.log("cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
         cartResponse?.cart?.lines?.edges.map((data) => {
@@ -357,12 +357,12 @@ const WithoutLoginCheckout = () => {
         if (response && response.checkoutCreate) {
             let checkoutId = response.checkoutCreate.checkout.id;
             if (checkoutId)
-                checkoutConnectWithCustomer(checkoutId, customerAccessToken);
+                checkoutConnectWithCustomer(checkoutId, customerAccessToken, body);
         }
     }
 
 
-    const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken) => {
+    const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken, body) => {
         const params = {
             checkoutId: checkoutId,
             customerAccessToken: customerAccessToken,
@@ -371,12 +371,11 @@ const WithoutLoginCheckout = () => {
         const response = await graphQLClient.request(checkoutConnectWithCustomerMutation, params);
         setIsLoading(false);
         if (response && response.checkoutCustomerAssociateV2) {
-            continuePayment();
+            continuePayment(body);
         }
     }
 
-    console.log("first address from noby to test", address);
-    const continuePayment = async () => {
+    const continuePayment = async (addressBody) => {
         setIsLoading(true);
 
         let productList = [];
@@ -391,31 +390,29 @@ const WithoutLoginCheckout = () => {
             }
             productList.push(pro);
         });
-        console.log("first from continue payment", address);
-        if (address === null) {
+        if (!addressBody) {
             toast.error('Please add address');
             setIsLoading(false);
             return
         }
-
         try {
             const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/stripe`;
             const response = await fetch(url,
                 {
                     method: 'POST',
                     body: JSON.stringify({
-                        email: address?.email || null,
+                        email: addressBody?.email,
                         products: productList,
                         currency: filterDatas.currency_code.toLowerCase(),
                         address: {
-                            first_name: address?.firstName1 || null,
-                            last_name: address?.lastName1 || null,
-                            address1: address?.address1,
+                            first_name: addressBody?.firstName1,
+                            last_name: addressBody?.lastName1,
+                            address1: addressBody?.address1,
                             address2: '',
-                            city_name: address?.city,
-                            state: address?.province,
-                            zip_code: address?.zip,
-                            country: address?.country
+                            city_name: addressBody?.city,
+                            state: addressBody?.province,
+                            zip_code: addressBody?.zip,
+                            country: addressBody?.country
                         }
                     }),
                 });
@@ -434,6 +431,7 @@ const WithoutLoginCheckout = () => {
 
         } catch (error) {
             setIsLoading(false);
+            toast.error("Something went wrong.");
             console.error('Error fetching Get stripe Detail:', error);
         }
     };
