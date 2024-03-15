@@ -3,6 +3,7 @@ import {
   createCartMutation,
   getCartQuery,
   getProductCollectionsQuery,
+  getProductDetailQuery,
   graphQLClient,
   updateCartItemMutation,
   updateCartMutation,
@@ -37,10 +38,10 @@ const Product = () => {
   const [activeTitle, setActiveTitle] = useState();
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
-  const [popupState, setPopupState] = useState(true)
+  const [popupState, setPopupState] = useState(true);
   const [loading, setLoading] = useState({});
   const categoryTitleRefs = useRef([]);
-  const [currentCategory, setCurrentCategory] = useState('');
+  const [currentCategory, setCurrentCategory] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,16 +55,16 @@ const Product = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   useEffect(() => {
-    setActiveTitle(currentCategory)
-  }, [currentCategory])
+    setActiveTitle(currentCategory);
+  }, [currentCategory]);
 
   useEffect(() => {
     getCartData();
@@ -159,7 +160,11 @@ const Product = () => {
     setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
     if (cartDatas === null) {
       if (sellingPlanId) {
-        addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+        addToCart({
+          merchandiseId: productId,
+          sellingPlanId: sellingPlanId,
+          quantity: 1,
+        });
       } else {
         addToCart({ merchandiseId: productId, quantity: 1 });
       }
@@ -174,14 +179,25 @@ const Product = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(productId,cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 });
+        updateCartItem(productId, cartId, {
+          id: id,
+          sellingPlanId: sellingPlanId,
+          quantity: quantityInCart + 1,
+        });
       } else {
-        updateCartItem(productId,cartId, { id: id, quantity: quantityInCart + 1 });
+        updateCartItem(productId, cartId, {
+          id: id,
+          quantity: quantityInCart + 1,
+        });
       }
     } else {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       if (sellingPlanId) {
-        updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+        updateCart(cartId, {
+          merchandiseId: productId,
+          sellingPlanId: sellingPlanId,
+          quantity: 1,
+        });
       } else {
         updateCart(cartId, { merchandiseId: productId, quantity: 1 });
       }
@@ -199,21 +215,19 @@ const Product = () => {
       const cartId = cartDatas?.cartCreate?.cart?.id;
       const id = productInCart?.node?.id;
       if (sellingPlanId) {
-        updateCartItem(productId,cartId, {
+        updateCartItem(productId, cartId, {
           id: id,
           sellingPlanId: sellingPlanId,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
       } else {
-        updateCartItem(productId,cartId, {
+        updateCartItem(productId, cartId, {
           id: id,
           quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
         });
       }
     }
   };
-
-  console.log(loading, 'Loading')
 
   const addToCart = async (cartItems) => {
     const params = {
@@ -273,6 +287,112 @@ const Product = () => {
   const closeCountryDrawer = () => {
     setIsCountryDrawerOpen(false);
   };
+
+  const [data, setData] = useState(null);
+
+  const getProductDetail = async (productId) => {
+    const response = await graphQLClient.request(getProductDetailQuery, {
+      productId: productId,
+    });
+
+    const metafields = response.product.metafields;
+
+    if (metafields) {
+      for (const metafield of metafields) {
+        if (metafield && metafield.key === "component_reference") {
+          const dataArray = JSON.parse(metafield.value);
+          setData(dataArray);
+          break;
+        }
+      }
+    }
+  };
+
+  const [productDetails, setProductDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      const details = [];
+
+      for (const productId of data) {
+        const response = await graphQLClient.request(getProductDetailQuery, {
+          productId,
+        });
+
+        details.push(response);
+      }
+
+      setProductDetails(details);
+    };
+
+    if (data !== null) {
+      fetchProductDetails();
+    }
+  }, [data]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let data;
+
+        for (let index = 0; index < productDetails.length; index++) {
+          const product = productDetails[index];
+          const productId = product.product.variants.edges[0].node.id;
+          const productIds =
+            product?.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans
+              ?.edges[0]?.node?.id;
+
+          await new Promise((resolve) => setTimeout(resolve, 500 * index));
+
+          if (cartDatas === null) {
+            if (data === undefined) {
+              const params = {
+                cartInput: {
+                  lines: [{ merchandiseId: productId, quantity: 1 }],
+                },
+              };
+              const response = await graphQLClient.request(
+                createCartMutation,
+                params
+              );
+              data = response;
+              dispatch(addCartData(response));
+            } else {
+              const cartId = data?.cartCreate?.cart?.id;
+  
+              if (productIds) {
+                updateCart(cartId, {
+                  merchandiseId: productId,
+                  sellingPlanId: sellingPlanId,
+                  quantity: 1,
+                });
+              } else {
+                updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+              }
+            }
+          } else {
+            const cartId = cartDatas?.cartCreate?.cart?.id;
+  
+            if (productIds) {
+              updateCart(cartId, {
+                merchandiseId: productId,
+                sellingPlanId: sellingPlanId,
+                quantity: 1,
+              });
+            } else {
+              updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+            }
+          }
+        }
+      } catch (error) {
+        console.error(`Error fetching data:`, error);
+      }
+    }
+
+    if (productDetails !== null) {
+      fetchData();
+    }
+  }, [productDetails]);
 
   return (
     <>
@@ -356,7 +476,7 @@ const Product = () => {
                     onClose={closeCountryDrawer}
                     onSelectedOptionsChange={handleSelectedOptionsChange}
                     handleClearFilters={() => {
-                      setSelectedOptions([])
+                      setSelectedOptions([]);
                     }}
                   />
                 )}
@@ -370,10 +490,11 @@ const Product = () => {
                   <div
                     key={category.node.title}
                     onClick={() => handleCategorySelect(category.node.title)}
-                    className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
-                      ? "bg-[#53940F] text-white border-none"
-                      : ""
-                      }`}
+                    className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${
+                      activeTitle === category.node.title
+                        ? "bg-[#53940F] text-white border-none"
+                        : ""
+                    }`}
                   >
                     {category.node.title}
                   </div>
@@ -384,14 +505,17 @@ const Product = () => {
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
               className="mt-4 container mx-auto bg-white"
-            // style={{
-            //   height: "62vh",
-            // }}
+              // style={{
+              //   height: "62vh",
+              // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
                 <div className="bg-white ">
-                  <div ref={ref => categoryTitleRefs.current[index] = ref} className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold">
+                  <div
+                    ref={(ref) => (categoryTitleRefs.current[index] = ref)}
+                    className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold"
+                  >
                     {category.node.title}
                   </div>
                   <div
@@ -410,17 +534,29 @@ const Product = () => {
                           alt={product.node.featuredImage.altText}
                           className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer"
                           onClick={() => {
-                            navigate(`/productDetail`, {
-                              state: { id: product.node.id },
-                            });
+                            if (category.node.title === "Bundles") {
+                              navigate(`/bundleDetail`, {
+                                state: { id: product.node.id },
+                              });
+                            } else {
+                              navigate(`/productDetail`, {
+                                state: { id: product.node.id },
+                              });
+                            }
                           }}
                         />
                         <h3
                           className="text-[#53940F] text-sm lg:text-lg font-medium text-center lg:font-semibold cursor-pointer"
                           onClick={() => {
-                            navigate(`/productDetail`, {
-                              state: { id: product.node.id },
-                            });
+                            if (category.node.title === "Bundles") {
+                              navigate(`/bundleDetail`, {
+                                state: { id: product.node.id },
+                              });
+                            } else {
+                              navigate(`/productDetail`, {
+                                state: { id: product.node.id },
+                              });
+                            }
                           }}
                         >
                           {product.node.title}
@@ -466,21 +602,112 @@ const Product = () => {
                             )
                           )}
                         </div>
-                        {product.node.title === "Bestsellers Bundle" || product.node.title === "Vegan Bundle" || product.node.title === "Intro to Indian Food Bundle" ? (
-                          <div>
-                            <button className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white">
-                              Add to cart
-                            </button>
-                          </div>
+                        {category.node.title === "Bundles" ? ( 
+                            <div>
+                              <button
+                                onClick={() => {
+                                  getProductDetail(product.node.id);
+                                }}
+                                className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white"
+                              >
+                                Add to cart
+                              </button>
+                            </div>
+                        ) : loading[product.node.variants.edges[0].node.id] ? (
+                          <svg
+                            width="80"
+                            height="80"
+                            viewBox="0 0 120 30"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="#4fa94d"
+                            data-testid="three-dots-svg"
+                          >
+                            <circle cx="15" cy="15" r="15">
+                              <animate
+                                attributeName="r"
+                                from="15"
+                                to="15"
+                                begin="0s"
+                                dur="0.8s"
+                                values="15;9;15"
+                                calcMode="linear"
+                                repeatCount="indefinite"
+                              ></animate>
+                              <animate
+                                attributeName="fill-opacity"
+                                from="1"
+                                to="1"
+                                begin="0s"
+                                dur="0.8s"
+                                values="1;.5;1"
+                                calcMode="linear"
+                                repeatCount="indefinite"
+                              ></animate>
+                            </circle>
+                            <circle
+                              cx="60"
+                              cy="15"
+                              r="9"
+                              attributeName="fill-opacity"
+                              from="1"
+                              to="0.3"
+                            >
+                              <animate
+                                attributeName="r"
+                                from="9"
+                                to="9"
+                                begin="0s"
+                                dur="0.8s"
+                                values="9;15;9"
+                                calcMode="linear"
+                                repeatCount="indefinite"
+                              ></animate>
+                              <animate
+                                attributeName="fill-opacity"
+                                from="0.5"
+                                to="0.5"
+                                begin="0s"
+                                dur="0.8s"
+                                values=".5;1;.5"
+                                calcMode="linear"
+                                repeatCount="indefinite"
+                              ></animate>
+                            </circle>
+                            <circle cx="105" cy="15" r="15">
+                              <animate
+                                attributeName="r"
+                                from="15"
+                                to="15"
+                                begin="0s"
+                                dur="0.8s"
+                                values="15;9;15"
+                                calcMode="linear"
+                                repeatCount="indefinite"
+                              ></animate>
+                              <animate
+                                attributeName="fill-opacity"
+                                from="1"
+                                to="1"
+                                begin="0s"
+                                dur="0.8s"
+                                values="1;.5;1"
+                                calcMode="linear"
+                                repeatCount="indefinite"
+                              ></animate>
+                            </circle>
+                          </svg>
                         ) : (
-                          loading[product.node.variants.edges[0].node.id] ? <svg width="80" height="80" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>: 
-                          (<div className="flex gap-2 items-center">
+                          <div className="flex gap-2 items-center">
                             <button
                               onClick={() => {
-                                if (getProductQuantityInCart(
-                                  product.node.variants.edges[0].node.id
-                                ) !== 0) {
-                                  handleRemoveFromCart(product.node.variants.edges[0].node.id);
+                                if (
+                                  getProductQuantityInCart(
+                                    product.node.variants.edges[0].node.id
+                                  ) !== 0
+                                ) {
+                                  handleRemoveFromCart(
+                                    product.node.variants.edges[0].node.id
+                                  );
                                 }
                               }}
                             >
@@ -506,7 +733,8 @@ const Product = () => {
                               onClick={() =>
                                 handleAddToCart(
                                   product.node.variants.edges[0].node.id,
-                                  product.node.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
+                                  product.node.sellingPlanGroups?.edges[0]?.node
+                                    ?.sellingPlans?.edges[0]?.node?.id
                                 )
                               }
                             >
@@ -523,7 +751,7 @@ const Product = () => {
                                 />
                               </svg>
                             </button>
-                          </div>)
+                          </div>
                         )}
                       </div>
                     ))}
@@ -532,7 +760,9 @@ const Product = () => {
               ))}
             </div>
           </>
-          {popupState && <Popup onCloseButtonClick={() => setPopupState(false)} />}
+          {popupState && (
+            <Popup onCloseButtonClick={() => setPopupState(false)} />
+          )}
         </div>
       ) : (
         <div

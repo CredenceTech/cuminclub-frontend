@@ -34,8 +34,6 @@ const Header = () => {
     useEffect(() => {
         if (countryList === null)
             fetchCountryFilters();
-        else
-            console.log("contry List", countryList);
     });
 
     const getCartData = async () => {
@@ -66,10 +64,8 @@ const Header = () => {
             const url = `${import.meta.env.VITE_SHOPIFY_API_URL}`;
             const response = await fetch(url);
             const data = await response.json();
-            console.log("Data1", data);
             setCountryList(data.data.countries);
             setSelectedCountry(data.data.countries[0]);
-            console.log("data.data.countries[0]", data.data.countries[0]);
             dispatch(addFilterData(data.data.countries[0]));
             setFilterData(data.data.countries[0]);
         } catch (error) {
@@ -94,7 +90,6 @@ const Header = () => {
             });
             list.push(filterOption);
         });
-        console.log("list", list);
         dispatch(addInnerFilterData(list));
     }
 
