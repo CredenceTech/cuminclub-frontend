@@ -21,7 +21,7 @@ import LoadingAnimation from "./Loader";
 
 const ProductDetail = () => {
   const location = useLocation();
-  const [apiProductResponse, setApiProductResponse] = useState(null);
+  const [apiProductResponse, setApiProductResponse] = useState(null)
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
   const navigate = useNavigate();

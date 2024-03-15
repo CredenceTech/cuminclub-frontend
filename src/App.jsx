@@ -14,6 +14,7 @@ import Registration from "./component/Registration";
 import PaymentFailure from "./component/paymentFailure";
 import PaymentSuccess from "./component/PaymentSuccess";
 import { Toaster } from "react-hot-toast";
+import BundleDetails from "./component/BundleDetails";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/refund" element={<Refund />} />
             <Route path="/term-of-services" element={<TermOfServices />} />
             <Route path="/productDetail" element={<ProductDetail />} />
+            <Route path="/bundleDetail" element={<BundleDetails />} />
             <Route path="/without-login-checkout" element={<WithoutLoginCheckout />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
