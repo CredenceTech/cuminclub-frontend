@@ -42,8 +42,8 @@ function Registration() {
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
       acceptMarketing: Yup.boolean()
-        .oneOf([true], "You must accept marketing terms")
-        .required("You must accept marketing terms"),
+      //   .oneOf([true], "You must accept marketing terms")
+      //   .required("You must accept marketing terms"),
     }),
     onSubmit: async (values) => {
       setIsError("")
@@ -176,3 +176,4 @@ function Registration() {
 }
 
 export default Registration;
+

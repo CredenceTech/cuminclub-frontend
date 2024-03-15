@@ -203,8 +203,6 @@ const BundleDetails = () => {
     dispatch(setCartResponse(response.cartLinesAdd));
   };
 
-  console.log(currentProduct, "Current Product")
-
   return (
     <>
       {currentProduct !== undefined ? (
