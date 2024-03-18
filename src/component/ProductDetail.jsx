@@ -8,7 +8,6 @@ import {
   updateCartItemMutation,
   updateCartMutation,
 } from "../api/graphql";
-import redChillyImage from "../assets/red-chilly.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   addCartData,
@@ -18,6 +17,7 @@ import {
 } from "../state/cartData";
 import { useDispatch, useSelector } from "react-redux";
 import LoadingAnimation from "./Loader";
+import SpiceLevel from "./SpiceLevel";
 
 const ProductDetail = () => {
   const location = useLocation();
@@ -64,9 +64,8 @@ const ProductDetail = () => {
     <button
       type="button"
       onClick={isLeft ? previousImage : nextImage}
-      className={`absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-50 ${
-        images.length === 1 ? "hidden" : ""
-      } flex items-center justify-center ${isLeft ? "-left-10" : "-right-10"}`}
+      className={`absolute text-white text-2xl z-10 bg-black h-10 w-10 rounded-full opacity-50 ${images.length === 1 ? "hidden" : ""
+        } flex items-center justify-center ${isLeft ? "-left-10" : "-right-10"}`}
       style={{ top: "40%" }}
     >
       <span
@@ -350,22 +349,10 @@ const ProductDetail = () => {
                 {data?.description}
               </p>
               <div className="flex mb-3">
-                {Array.from(
-                  {
-                    length:
-                      data?.metafields?.find(
-                        (metafield) => metafield?.key === "spice_level"
-                      )?.value || 0,
-                  },
-                  (_, index) => (
-                    <img
-                      className="w-7"
-                      key={index}
-                      src={redChillyImage}
-                      alt="chilly"
-                    />
-                  )
-                )}
+                <SpiceLevel rating={data?.metafields?.find(
+                  (metafield) => metafield?.key === "spice_level"
+                )?.value || 0} />
+
               </div>
               {loading[data?.variants?.edges[0]?.node?.id] ? (
                 <span style={{ height: 32 }}>
@@ -608,22 +595,9 @@ const ProductDetail = () => {
                     }
                   </p>
                   <div className="flex gap-1 mb-2">
-                    {Array.from(
-                      {
-                        length:
-                          item?.variants?.edges[0]?.node?.product?.metafields?.find(
-                            (metafield) => metafield?.key === "spice_level"
-                          )?.value || 0,
-                      },
-                      (_, index) => (
-                        <img
-                          className="w-6"
-                          key={index}
-                          src={redChillyImage}
-                          alt="chilly"
-                        />
-                      )
-                    )}
+                    <SpiceLevel rating={item?.variants?.edges[0]?.node?.product?.metafields?.find(
+                      (metafield) => metafield?.key === "spice_level"
+                    )?.value || 0} />
                   </div>
                   {loading[item?.variants?.edges[0].node.id] ? (
                     <svg
