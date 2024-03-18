@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import LoadingAnimation from "./Loader";
 import { addCartData, cartData, setCartResponse } from "../state/cartData";
 import { useDispatch, useSelector } from "react-redux";
-import redChillyImage from "../assets/red-chilly.svg";
+import SpiceLevel from "./SpiceLevel";
 
 const BundleDetails = () => {
   const location = useLocation();
@@ -133,7 +133,7 @@ const BundleDetails = () => {
   };
 
   const handleDecrementIndex = () => {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0)); 
+    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
   async function addBundleToCart() {
@@ -255,22 +255,9 @@ const BundleDetails = () => {
                     {currentProduct?.description}
                   </p>
                   <div className="flex mb-3">
-                    {Array.from(
-                      {
-                        length:
-                          currentProduct?.metafields?.find(
-                            (metafield) => metafield?.key === "spice_level"
-                          )?.value || 0,
-                      },
-                      (_, index) => (
-                        <img
-                          className="w-7"
-                          key={index}
-                          src={redChillyImage}
-                          alt="chilly"
-                        />
-                      )
-                    )}
+                    <SpiceLevel rating={currentProduct?.metafields?.find(
+                      (metafield) => metafield?.key === "spice_level"
+                    )?.value || 0} />
                   </div>
                   <button
                     onClick={addBundleToCart}

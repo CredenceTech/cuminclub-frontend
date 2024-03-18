@@ -15,6 +15,7 @@ import PaymentFailure from "./component/PaymentFailure";
 import PaymentSuccess from "./component/PaymentSuccess";
 import { Toaster } from "react-hot-toast";
 import BundleDetails from "./component/BundleDetails";
+import { ScrollToTop } from "./component/ScrollToTop";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
       <div
         style={{}}
       >
+        <ScrollToTop />
         <Header />
         <div className="relative min-h-[82vh] bottom-20 top-20">
           <Routes>
