@@ -81,8 +81,8 @@ const WithoutLoginCheckout = () => {
     }, [cartResponse?.cart?.estimatedCost?.totalAmount?.amount])
 
     useEffect(() => {
-        if (userDetail?.customer?.addresses?.edges.length > 0) {
-            setIsMoreAddress(false);
+        if (userDetail?.customer?.addresses?.edges.length == 0) {
+            setIsMoreAddress(true);
         }
     }, [userDetail])
 
