@@ -6,7 +6,7 @@ import {
   graphQLClient, signInMutation,
 } from "../api/graphql";
 import { useDispatch } from 'react-redux';
-import { addCustomerAccessToken } from "../state/user";
+import { addCustomerAccessToken, addUserEmail } from "../state/user";
 
 function Login() {
   const [loginRes, setLoginRes] = useState(null);
@@ -42,6 +42,7 @@ function Login() {
       if (response?.customerAccessTokenCreate?.customerUserErrors[0]?.code === "UNIDENTIFIED_CUSTOMER") {
         setIsError("Email and password is wrong.")
       }
+      dispatch(addUserEmail(values.email))
       setLoginRes(response);
     },
   });

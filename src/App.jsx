@@ -17,6 +17,7 @@ import { Toaster } from "react-hot-toast";
 import BundleDetails from "./component/BundleDetails";
 import { ScrollToTop } from "./component/ScrollToTop";
 import Subscription from "./component/Subscription";
+import Invoices from "./component/Invoices";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/payment-failure" element={<PaymentFailure />} />
             <Route path="/subscription" element={<Subscription />} />
+            <Route path="/Invoices" element={<Invoices />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
