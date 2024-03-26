@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { userEmails } from "../state/user";
 import LoadingAnimation from "./Loader";
+import DataNotFound from "./DataNotFound";
 
 const Invoices = () => {
   const userEmail = useSelector(userEmails);
@@ -16,7 +17,7 @@ const Invoices = () => {
 
         const params = {
           email: userEmail,
-          limit: 20,
+          limit: 50,
         };
 
         const response = await fetch(url, {
@@ -40,25 +41,57 @@ const Invoices = () => {
   return (
     <div>
       {invoices !== null ? (
-        <div className="flex bg-white  justify-center flex-wrap">
-          {invoices.map((invoice) => (
-            <div key={invoice.id} className="m-2 w-50 lg:w-72 product-box-Shadow border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-48 p-2 lg:p-4">
-              {/* <p className="lg:text-sm">Invoice ID: {invoice.id}</p> */}
-              <p className="mb-2">Name: <span className="text-gray-500">{invoice.customer_shipping.name}</span></p>
-              <p className="mb-2">Amount Paid: <span className="text-gray-500">{invoice.amount_paid}</span></p>
-              <p className="mb-2">Email: <span className="text-gray-500">{invoice.customer_email}</span></p>
-              <p className="mb-2">Status: <span className="text-gray-500">{invoice.status}</span></p>
-              <a
-                href={invoice.invoice_pdf}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cursor-pointer mb-2 rounded py-1 px-2 bg-[#53940F] text-white"
-              >
-                Download PDF
-              </a>
-            </div>
-          ))}
+        Object.keys(invoices).length === 0 ? <DataNotFound/> : <section className="body-font relative">
+        <div className="container p-5 pt-10 mx-auto">
+          <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-100 ">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Amount Paid
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((invoice, i) => (
+                  <tr
+                    className="odd:bg-white  even:bg-gray-50  border-b "
+                    key={i}
+                  >
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap "
+                    >
+                      {invoice.customer_shipping.name}
+                    </th>
+                    <td className="px-6 py-4">{invoice.customer_email}</td>
+                    <td className="px-6 py-4">{invoice.amount_paid}</td>
+                    <td className="px-6 py-4">
+                      <a
+                        href={invoice.invoice_pdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2 py-1 font-semibold cursor-pointer leading-tight text-green-700 bg-green-100 rounded-sm"
+                      >
+                        Download
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
+      </section>
       ) : (
         <div
           className="flex justify-center items-center"

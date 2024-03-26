@@ -1,47 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { customerAccessTokenData } from '../state/user';
+import { customerAccessTokenData, userEmails } from '../state/user';
 import { fetchCustomerInfoQuery, graphQLClient } from '../api/graphql';
 import LoadingAnimation from './Loader';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import DataNotFound from './DataNotFound';
 
 const Subscription = () => {
     const [data, setData] = useState(null);
     const loginUserCustomerId = useSelector(customerAccessTokenData);
     const [isLoading, setIsLoading] = useState(false);
-    const [userDetail, setUserDetail] = useState(null);
+    // const [userDetail, setUserDetail] = useState(null);
     const nagivate = useNavigate();
     const [showAlert, setShowAlert] = useState(false);
     const [holdDay, setHoldDay] = useState(0);
     const [subscriptionId, setSubscriptionId] = useState('');
     const [error, setError] = useState('');
     const [pauseRespo, setPauseRespo] = useState(null);
-    const [resumeRespo, setResumeRespo] = useState(null);
+    const [resumeRespo, setResumeRespo] = useState(null); 
+    const userEmail = useSelector(userEmails);
+
+    console.log(userEmail, "User Email")
+
     useEffect(() => {
         if (!loginUserCustomerId) {
             nagivate("/login");
         }
     }, [loginUserCustomerId])
-    const getCustomerDetail = async () => {
-        setIsLoading(true);
-        const body = {
-            customerAccessToken: loginUserCustomerId,
-        }
-        try {
-            const response = await graphQLClient.request(fetchCustomerInfoQuery, body);
-            setUserDetail(response)
-            setIsLoading(false);
-        } catch (error) {
-            setIsLoading(false);
-        }
-    };
 
-    useEffect(() => {
-        if (loginUserCustomerId) {
-            getCustomerDetail()
-        }
-    }, [])
+    // const getCustomerDetail = async () => {
+    //     setIsLoading(true);
+    //     const body = {
+    //         customerAccessToken: loginUserCustomerId,
+    //     }
+    //     try {
+    //         const response = await graphQLClient.request(fetchCustomerInfoQuery, body);
+    //         setUserDetail(response)
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         setIsLoading(false);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     if (loginUserCustomerId) {
+    //         getCustomerDetail()
+    //     }
+    // }, [])
+
     const fetchSubscription = async (userData) => {
         setIsLoading(true);
         try {
@@ -58,16 +65,17 @@ const Subscription = () => {
             console.error('Error fetching Get Store Detail:', error);
         }
     };
+
     useEffect(() => {
         const body = {
-            // email: userDetail?.customer?.email,
-            email: "chirag1.credence@gmail.com",
+            email: userEmail,
             limit: 10
         }
-        if (userDetail?.customer?.email) {
+
+        if (userEmail) {
             fetchSubscription(body);
         }
-    }, [userDetail?.customer?.email]);
+    }, [userEmail]);
 
     function formatDate(isoDateString) {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -91,28 +99,29 @@ const Subscription = () => {
             setHoldDay(0);
             const body = {
                 // email: userDetail?.customer?.email,
-                email: "chirag1.credence@gmail.com",
+                email: userEmail,
                 limit: 10
             }
-            if (userDetail?.customer?.email) {
+            if (userEmail) {
                 fetchSubscription(body);
             }
         }
-    }, [pauseRespo, userDetail?.customer?.email])
+    }, [pauseRespo, userEmail])
 
     useEffect(() => {
         if (resumeRespo?.success) {
             toast.success(resumeRespo?.message)
             const body = {
                 // email: userDetail?.customer?.email,
-                email: "chirag1.credence@gmail.com",
+                email: userEmail,
                 limit: 10
             }
-            if (userDetail?.customer?.email) {
+            if (userEmail) {
                 fetchSubscription(body);
             }
         }
-    }, [resumeRespo, userDetail?.customer?.email])
+    }, [resumeRespo, userEmail])
+
     const handleForgotPassword = async (e) => {
         e.preventDefault();
 
@@ -146,6 +155,7 @@ const Subscription = () => {
             }
         }
     }
+
     const handleResume = async (subscriptionId) => {
         setIsLoading(true);
         try {
@@ -170,10 +180,13 @@ const Subscription = () => {
         setShowAlert(true)
         setSubscriptionId(subscriptionId)
     }
+
+    console.log(data, "Data")
+
     return (
         <>
-
-            {isLoading && <LoadingAnimation />}
+            {isLoading ? <LoadingAnimation /> :
+            data?.length === 0 ? <DataNotFound/> :
             <section className="body-font relative">
                 <div className="container p-5 pt-10 mx-auto">
                     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -217,7 +230,7 @@ const Subscription = () => {
                         </table>
                     </div>
                 </div>
-            </section>
+            </section> }
             {/* model for pause subscription */}
             <div className={`fixed inset-0 h-full w-full z-[300] flex items-center justify-center ${showAlert ? 'visible' : 'hidden'}`}>
                 <div className="bg-gray-900 bg-opacity-50  absolute inset-0"></div>
@@ -237,7 +250,11 @@ const Subscription = () => {
                         <form className="space-y-4" autoComplete='off' onSubmit={handleForgotPassword}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Enter hold day in number</label>
-                                <input type="number" name="email" id="email" value={holdDay} onChange={(e) => { setHoldDay(e.target.value); setError('') }} className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50" placeholder="enter hold day in number." />
+                                <input type="number" name="email" id="email" value={holdDay}  onChange={(e) => { 
+                                    const newValue = e.target.value <= 0 ? 0 : e.target.value; 
+                                    setHoldDay(newValue); 
+                                    setError('') 
+                                }} className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50" placeholder="enter hold day in number." />
                             </div>
                             {error && <p className="block text-red-600">{error}</p>}
                             <button type="submit" className="w-full text-white bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">Submit</button>
