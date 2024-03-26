@@ -8,7 +8,7 @@ const Meal = ({ data, message, url, buttonTrigger = false }) => {
     const [selected, setSelected] = useState(data[0]);
 
     return (
-        <section className="text-gray-600 body-font home lg:min-h-[85vh] bg-[#E91D24]">
+        <section className="text-gray-600 body-font home h-[85vh] lg:min-h-[85vh] bg-[#E91D24]">
             <div className="container px-5 py-4 mx-auto">
                 <motion.div initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
