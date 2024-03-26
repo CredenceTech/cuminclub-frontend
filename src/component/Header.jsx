@@ -104,9 +104,8 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full bg-white justify-between ${
-          currentUrl.includes("products") ? "" : "header-box-shadow"
-        } items-center  fixed z-50 px-5 lg:px-48 h-20`}
+        className={`flex w-full bg-white justify-between ${currentUrl.includes("products") ? "" : "header-box-shadow"
+          } items-center  fixed z-50 px-5 lg:px-48 h-20`}
       >
         <div className="flex gap-3">
           <Link to="/">
@@ -263,6 +262,11 @@ const Header = () => {
               {loginUserCustomerId !== null ? (
                 <Link to="/Invoices" onClick={() => setIsMenuOpen(false)}>
                   Invoices
+                </Link>
+              ) : null}
+              {loginUserCustomerId !== null ? (
+                <Link to="/subscription" onClick={() => setIsMenuOpen(false)}>
+                  Subscription
                 </Link>
               ) : null}
               {loginUserCustomerId !== null ? (

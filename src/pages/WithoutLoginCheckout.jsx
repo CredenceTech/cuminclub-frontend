@@ -386,7 +386,8 @@ const WithoutLoginCheckout = () => {
                 images: data?.node?.merchandise?.product?.featuredImage?.url,
                 unit_amount: data?.node?.merchandise?.priceV2?.amount,
                 quantity: data?.node?.quantity,
-                interval: 'month',
+                interval: 'week',
+                interval_count: 2
             }
             productList.push(pro);
         });
