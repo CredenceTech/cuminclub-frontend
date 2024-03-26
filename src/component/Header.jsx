@@ -10,6 +10,7 @@ import { selectMealItems } from '../state/mealdata';
 import { useLocation } from 'react-router-dom';
 import { totalQuantity } from '../utils';
 import { addFilterData, addInnerFilterData } from '../state/selectedCountry';
+import { customerAccessTokenData } from '../state/user';
 
 
 const Header = () => {
@@ -24,7 +25,7 @@ const Header = () => {
     const location = useLocation();
     const currentUrl = location.pathname;
     const [countryList, setCountryList] = useState(null);
-
+    const loginUserCustomerId = useSelector(customerAccessTokenData);
     useEffect(() => {
         if (cartData !== null) {
             getCartData();
@@ -161,6 +162,7 @@ const Header = () => {
                         <div className='grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-5xl font-bold text-[#F7C144] gap-5 lg:gap-20 h-screen w-full '>
                             <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
                             <Link to="/registration" onClick={() => setIsMenuOpen(false)}>Register</Link>
+                            {loginUserCustomerId && <Link to="/subscription" onClick={() => setIsMenuOpen(false)}>Subscription</Link>}
                         </div>
                     </motion.div>
                 </motion.div>
