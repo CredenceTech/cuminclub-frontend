@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { CartDrawer } from "./CartComponent";
 import {
   cartData,
+  clearCartData,
+  clearCartResponse,
   selectCartResponse,
   setCartResponse,
 } from "../state/cartData";
@@ -270,7 +272,7 @@ const Header = () => {
                 </Link>
               ) : null}
               {loginUserCustomerId !== null ? (
-                <button onClick={() => dispatch(clearCustomerAccessToken())}>
+                <button onClick={() => { dispatch(clearCustomerAccessToken()); dispatch(clearCartData()); dispatch(clearCartResponse()); }}>
                   Logout
                 </button>
               ) : null}
