@@ -18,10 +18,8 @@ const Subscription = () => {
     const [subscriptionId, setSubscriptionId] = useState('');
     const [error, setError] = useState('');
     const [pauseRespo, setPauseRespo] = useState(null);
-    const [resumeRespo, setResumeRespo] = useState(null); 
+    const [resumeRespo, setResumeRespo] = useState(null);
     const userEmail = useSelector(userEmails);
-
-    console.log(userEmail, "User Email")
 
     useEffect(() => {
         if (!loginUserCustomerId) {
@@ -59,7 +57,7 @@ const Subscription = () => {
             });
             setIsLoading(false);
             const data = await response.json();
-            setData(data?.data);
+            setData(data.data);
         } catch (error) {
             setIsLoading(false);
             console.error('Error fetching Get Store Detail:', error);
@@ -78,8 +76,10 @@ const Subscription = () => {
     }, [userEmail]);
 
     function formatDate(isoDateString) {
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return new Date(isoDateString).toLocaleDateString(undefined, options);
+        const date = new Date(isoDateString);
+        const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const timeString = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        return `${formattedDate} ${timeString}`;
     }
     function formatDateInMilisecond(isoDateString) {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -112,7 +112,6 @@ const Subscription = () => {
         if (resumeRespo?.success) {
             toast.success(resumeRespo?.message)
             const body = {
-                // email: userDetail?.customer?.email,
                 email: userEmail,
                 limit: 10
             }
@@ -181,56 +180,78 @@ const Subscription = () => {
         setSubscriptionId(subscriptionId)
     }
 
-    console.log(data, "Data")
+    function formatAmountWithCurrency(currency, amount) {
+        let currencySymbol;
+        switch (currency) {
+            case 'usd':
+                currencySymbol = '$';
+                break;
+            case 'inr':
+                currencySymbol = '₹';
+                break;
+            default:
+                currencySymbol = '';
+                break;
+        }
+        return `${currencySymbol} ${amount}`;
+    }
+
 
     return (
         <>
             {isLoading ? <LoadingAnimation /> :
-            data?.length === 0 ? <DataNotFound/> :
-            <section className="body-font relative">
-                <div className="container p-5 pt-10 mx-auto">
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-100 ">
-                                <tr>
-                                    <th scope="col" className="px-6 py-3">
-                                        Name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Subscription expire
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Total amount
-                                    </th>
-                                    <th scope="col" className="px-6 py-3">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data?.map((item, i) => (
-                                    <tr className="odd:bg-white  even:bg-gray-50  border-b " key={i}>
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                                            {item?.customer_details?.name}
-                                        </th>
-                                        <td className="px-6 py-4">
-                                            {formatDateInMilisecond(item?.expires_at)}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {item?.amount_total}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="font-medium">{item?.pause_collection ? <span onClick={() => { handleResume(item?.subscription) }} className="px-2 py-1 font-semibold cursor-pointer leading-tight text-gray-800 bg-gray-200 rounded-sm">Resume</span> : <span onClick={() => { handlePause(item?.subscription) }} className="px-2 py-1 font-semibold cursor-pointer leading-tight text-green-700 bg-green-100 rounded-sm">Pause</span>}</div>
-                                            {!item?.pause_collection && <p className="font-medium text-gray-800 ">Next Billing Date:- {formatDateInMilisecond(item?.next_billing_date)}</p>}
-                                            {item?.pause_collection && <p className="font-medium text-gray-800 ">Resume Date:- {formatDate(item?.resume_date)}</p>}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section> }
+                data?.length === 0 ? <DataNotFound /> :
+                    <section className="body-font relative">
+                        <div className="container p-5 pt-10 mx-auto">
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                                    <thead className="text-xs text-gray-700 uppercase bg-gray-100 ">
+                                        <tr>
+                                            {/* <th scope="col" className="px-6 py-3">
+                                                Name
+                                            </th> */}
+                                            <th scope="col" className="px-6 py-3">
+                                                Created at
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Total amount
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Total item
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {data?.map((item, i) => (
+                                            <tr className="odd:bg-white  even:bg-gray-50  border-b " key={i}>
+                                                {/* <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                    {item?.customer_details?.name}
+                                                </th> */}
+                                                <td className="px-6 py-4">
+                                                    {formatDate(item?.created_at)}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {formatAmountWithCurrency(item?.currency, item?.total_amount)}
+                                                    {/* {item?.total_amount} */}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    {item?.total_count}
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="font-medium">{item?.pause_collection ? <span onClick={() => { handleResume(item?.id) }} className="px-2 py-1 font-semibold cursor-pointer leading-tight text-gray-800 bg-gray-200 rounded-sm">Resume</span> : <span onClick={() => { handlePause(item?.id) }} className="px-2 py-1 font-semibold cursor-pointer leading-tight text-green-700 bg-green-100 rounded-sm">Pause</span>}</div>
+                                                    {!item?.pause_collection && <p className="font-medium text-gray-800 ">Next Billing Date:- {formatDate(item?.next_billing_date)}</p>}
+                                                    {item?.pause_collection && <p className="font-medium text-gray-800 ">Resume Date:- {formatDate(item?.resumes_at)}</p>}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>}
             {/* model for pause subscription */}
             <div className={`fixed inset-0 h-full w-full z-[300] flex items-center justify-center ${showAlert ? 'visible' : 'hidden'}`}>
                 <div className="bg-gray-900 bg-opacity-50  absolute inset-0"></div>
@@ -250,10 +271,10 @@ const Subscription = () => {
                         <form className="space-y-4" autoComplete='off' onSubmit={handleForgotPassword}>
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Enter hold day in number</label>
-                                <input type="number" name="email" id="email" value={holdDay}  onChange={(e) => { 
-                                    const newValue = e.target.value <= 0 ? 0 : e.target.value; 
-                                    setHoldDay(newValue); 
-                                    setError('') 
+                                <input type="number" name="email" id="email" value={holdDay} onChange={(e) => {
+                                    const newValue = e.target.value <= 0 ? 0 : e.target.value;
+                                    setHoldDay(newValue);
+                                    setError('')
                                 }} className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50" placeholder="enter hold day in number." />
                             </div>
                             {error && <p className="block text-red-600">{error}</p>}
