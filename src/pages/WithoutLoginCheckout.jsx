@@ -17,9 +17,10 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from "react-redux";
 import { cartData, selectCartResponse, setCartResponse } from "../state/cartData";
 import LoadingAnimation from '../component/Loader';
-import { addCustomerAccessToken, addUserId, customerAccessTokenData } from '../state/user';
+import { addCustomerAccessToken, addUserId, customerAccessTokenData, userEmails } from '../state/user';
 import { filterData } from '../state/selectedCountry';
 import toast from 'react-hot-toast';
+
 
 const WithoutLoginCheckout = () => {
     const [coupon, setCoupon] = useState("");
@@ -35,6 +36,7 @@ const WithoutLoginCheckout = () => {
     const filterDatas = useSelector(filterData);
     const [address, setAddress] = useState(null);
     const [loading, setLoading] = useState({});
+    const userEmail = useSelector(userEmails);
     useEffect(() => {
         if (loginUserCustomerId) {
             setIsLogin(true)
@@ -402,7 +404,7 @@ const WithoutLoginCheckout = () => {
                 {
                     method: 'POST',
                     body: JSON.stringify({
-                        email: addressBody?.email,
+                        email: userEmail,
                         products: productList,
                         currency: filterDatas.currency_code.toLowerCase(),
                         address: {
@@ -422,9 +424,9 @@ const WithoutLoginCheckout = () => {
             setAddress(null);
             if (data && data.success) {
                 let session = data.data ? data.data : null;
-                if (session) {
-                    window.location.replace(session.url);
-                }
+                // if (session.url) {
+                //     window.location.replace(session.url);
+                // }
             } else {
                 toast.error(data?.message)
             }

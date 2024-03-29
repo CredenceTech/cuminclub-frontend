@@ -21,7 +21,8 @@ const userSlice = createSlice({
             state.userId = null;
         },
         clearCustomerAccessToken: state => {
-            state.customerAccessToken = null
+            state.customerAccessToken = null;
+            state.userEmail = null;
         }
     },
 });
