@@ -82,6 +82,7 @@ const WithoutLoginCheckout = () => {
         fetchData()
     }, [cartResponse?.cart?.estimatedCost?.totalAmount?.amount])
 
+
     useEffect(() => {
         if (userDetail?.customer?.addresses?.edges.length == 0) {
             setIsMoreAddress(true);
@@ -424,9 +425,9 @@ const WithoutLoginCheckout = () => {
             setAddress(null);
             if (data && data.success) {
                 let session = data.data ? data.data : null;
-                // if (session.url) {
-                //     window.location.replace(session.url);
-                // }
+                if (session.url) {
+                    window.location.replace(session.url);
+                }
             } else {
                 toast.error(data?.message)
             }
@@ -567,7 +568,14 @@ const WithoutLoginCheckout = () => {
                         }
                         {isMoreAddress && isLogin ?
                             <form onSubmit={formikForAddMoreAdd.handleSubmit}>
-                                <h2 className="text-[#53940F] text-lg lg:text-2xl mb-2 font-medium title-font">Shipping Address</h2>
+                                <div className="flex items-center mb-2">
+                                    {userDetail?.customer?.addresses?.edges.length > 0 && <span title='Go back' className='mr-5 cursor-pointer' onClick={() => { setIsMoreAddress(false) }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-6 h-6">
+                                            <path fill="#53940F" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+                                        </svg>
+                                    </span>}
+                                    <h2 className="text-[#53940F] text-lg lg:text-2xl font-medium title-font mr-2">Shipping Address</h2>
+                                </div>
                                 <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                     <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                         <input type="text" placeholder='First Name' name="firstName1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.firstName1} className="w-full  bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />

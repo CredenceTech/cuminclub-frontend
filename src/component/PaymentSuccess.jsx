@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { clearCartData, clearCartResponse } from '../state/cartData'
+import { useDispatch } from 'react-redux';
 
 const PaymentSuccess = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(clearCartData())
+        dispatch(clearCartResponse())
+    }, [])
     return (
         <div className="flex justify-center items-center h-screen bg-[#53940f80]">
             <div className="text-center">
