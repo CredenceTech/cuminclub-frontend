@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { cartIsOpen, openCart } from "../state/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { CartDrawer } from "./CartComponent";
@@ -34,8 +34,7 @@ const Header = () => {
   const location = useLocation();
   const currentUrl = location.pathname;
   const [countryList, setCountryList] = useState(null);
-
-  console.log(loginUserCustomerId, "User Id");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cartData !== null) {
@@ -69,6 +68,19 @@ const Header = () => {
     setFilterData(country);
     closeCountryDrawer();
   };
+
+  useEffect(() => {
+    const handlePopstate = () => {
+      setIsMenuOpen(false);
+      setIsCountryDrawerOpen(false)
+    };
+
+    window.addEventListener("popstate", handlePopstate);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopstate);
+    };
+  }, []);
 
   const fetchCountryFilters = async () => {
     try {
@@ -106,8 +118,9 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full bg-white justify-between ${currentUrl.includes("products") ? "" : "header-box-shadow"
-          } items-center  fixed z-50 px-5 lg:px-48 h-20`}
+        className={`flex w-full bg-white justify-between ${
+          currentUrl.includes("products") ? "" : "header-box-shadow"
+        } items-center  fixed z-50 px-5 lg:px-48 h-20`}
       >
         <div className="flex gap-3">
           <Link to="/">
@@ -247,10 +260,22 @@ const Header = () => {
                 </svg>
               </div>
               <button onClick={() => setIsMenuOpen(false)}>
-                <img src="/close.png" className="h-8 w-8" alt="" />
+                <svg
+                  width="36"
+                  height="36"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m2 2 32 32M34 2 2 34"
+                    stroke="yellow"
+                    strokeWidth="1.5"
+                    strokeLinecap="square"
+                  ></path>
+                </svg>
               </button>
             </div>
-            <div className="grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-5xl font-bold text-[#F7C144] gap-5 lg:gap-20 h-screen w-full ">
+            <div className="grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-2xl lg:text-3xl font-bold text-[#F7C144] gap-5 lg:gap-20 h-screen w-full ">
               {loginUserCustomerId === null ? (
                 <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                   Login
@@ -272,7 +297,13 @@ const Header = () => {
                 </Link>
               ) : null}
               {loginUserCustomerId !== null ? (
-                <button onClick={() => { dispatch(clearCustomerAccessToken()); dispatch(clearCartData()); dispatch(clearCartResponse()); }}>
+                <button
+                  onClick={() => {
+                    dispatch(clearCustomerAccessToken());
+                    dispatch(clearCartData());
+                    dispatch(clearCartResponse());
+                  }}
+                >
                   Logout
                 </button>
               ) : null}
