@@ -5,11 +5,7 @@ import * as Yup from "yup";
 const Popup = ({onCloseButtonClick}) => {
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
       email: "",
-      password: "",
-      acceptMarketing: false,
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -56,9 +52,10 @@ const Popup = ({onCloseButtonClick}) => {
           </div>
 
           <form
-            className="flex justify-center w-full gap-10 my-2 items-center"
+            className="flex flex-col justify-center w-full gap-1 my-2 items-center"
             onSubmit={formik.handleSubmit}
           >
+            <div className="w-full flex justify-center items-center gap-1 flex-col">
             <input
               id="email"
               name="email"
@@ -73,14 +70,18 @@ const Popup = ({onCloseButtonClick}) => {
                   : ""
               }`}
             />
-          </form>
+            {formik.touched.email && formik.errors.email && (
+                <div className="text-rose-600  ml-5 text-sm">{formik.errors.email}</div>
+              )}
+            </div>
 
-          <button
+            <button
             type="submit"
             className="mt-5 items-center border w-4/5 text-[#53940F] rounded-full py-2.5 text-xl px-5  bg-white"
           >
             Get My Discount
           </button>
+          </form>
 
           <button className="flex justify-start flex-col" onClick={onCloseButtonClick}>
             No thanks, I hate sweet deals

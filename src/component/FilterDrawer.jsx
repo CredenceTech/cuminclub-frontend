@@ -15,10 +15,13 @@ export const FilterDrawer = ({ onClose, onSelectedOptionsChange, option, handleC
       animate={{ x: 0 }}
       exit={{ x: "-100%" }}
       transition={{ duration: 0.4 }}
-      className="fixed top-20 z-50 flex h-full lg:h-5/6 flex-col px-4 text-[#E91D24] inset-0 bg-[#53940F] rounded-r-lg lg:w-2/12"
+      className="fixed top-20 z-50 flex min-w-96 lg:h-5/6 flex-col px-4 text-[#E91D24] inset-0 bg-[#53940F] rounded-r-lg lg:w-2/12"
     >
       <div className="flex w-full justify-end px-5 items-center ml-2 gap-3 h-16">
-        <button onClick={handleClearFilters} className="bg-white cursor-pointer px-2 py-0.5 rounded-lg">
+        <button onClick={() => {
+          handleClearFilters()
+          onClose()
+          }} className="bg-white cursor-pointer px-2 py-0.5 rounded-lg">
           Clear
         </button>
         <button onClick={onClose} className="bg-white cursor-pointer px-3 py-2 rounded-l-lg">

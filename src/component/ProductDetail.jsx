@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   createCartMutation,
+  getCartQuery,
   getProductDetailQuery,
   getProductRecommendedQuery,
   graphQLClient,
@@ -42,6 +43,18 @@ const ProductDetail = () => {
         inline: "start",
       });
     }
+  };
+
+  useEffect(() => {
+    getCartData();
+  }, [cartDatas]);
+
+  const getCartData = async () => {
+    const params = {
+      cartId: cartDatas?.cartCreate?.cart?.id,
+    };
+    const response = await graphQLClient.request(getCartQuery, params);
+    dispatch(setCartResponse(response));
   };
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCart } from "../state/cart";
 import { addCartData, cartData, clearCartData, clearCartResponse, selectCartResponse, setCartResponse } from "../state/cartData";
-import { createCartMutation, getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
+import { createCartMutation, getCartQuery, getProductRecommendedQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { Link, useNavigate } from "react-router-dom";
 import { totalQuantity } from "../utils";
 import { selectMealItems } from "../state/mealdata";
@@ -17,6 +17,7 @@ export const CartDrawer = () => {
   const cartResponse = useSelector(selectCartResponse);
   const navigate = useNavigate();
   const [loading, setLoading] = useState({});
+  const [recommendedProduct, setRecommendedProduct] = useState(null)
 
   useEffect(() => {
     getCartData();
@@ -37,6 +38,28 @@ export const CartDrawer = () => {
       borderBottomLeftRadius: "0.375rem",
     },
   };
+
+  useEffect(() => {
+
+    const getProductRecommended = async () => {
+      const response = await graphQLClient.request(
+        getProductRecommendedQuery,
+        {
+          productId: cartResponse.cart.lines.edges[0].node.merchandise.product.id,
+        }
+      );
+      const recommendedList = response.productRecommendations.map(
+        (data) => ({
+          ...data,
+          qty: 0,
+        })
+      );
+      setRecommendedProduct(recommendedList);
+    };
+
+    getProductRecommended()
+
+  }, [cartResponse])
 
   const handleAddToCart = (productId, sellingPlanId) => {
     setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -152,6 +175,12 @@ export const CartDrawer = () => {
     );
   };
 
+  const getProductQuantityInCart = (productId) => {
+    const productInCart = cartResponse?.cart?.lines?.edges?.find((cartItem) => {
+      return cartItem.node.merchandise.id === productId;
+    });
+    return productInCart ? productInCart?.node?.quantity : 0;
+  };
 
   return (
     <AnimatePresence>
@@ -204,6 +233,7 @@ export const CartDrawer = () => {
                     <span className="cursor-pointer" onClick={() => {
                       dispatch(clearCartData())
                       dispatch(clearCartResponse())
+                      dispatch(closeCart())
                     }}>
                       <svg
                         width="24"
@@ -238,31 +268,37 @@ export const CartDrawer = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center justify-center gap-2">
-                  <svg
-                    width="16"
-                    height="14"
-                    viewBox="0 0 16 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7.99965 8.84455C8.1912 8.84455 8.3749 8.76846 8.51034 8.63302C8.64578 8.49758 8.72187 8.31388 8.72187 8.12233V4.77789C8.72187 4.58634 8.64578 4.40264 8.51034 4.2672C8.3749 4.13176 8.1912 4.05566 7.99965 4.05566C7.80811 4.05566 7.62441 4.13176 7.48896 4.2672C7.35352 4.40264 7.27743 4.58634 7.27743 4.77789V8.11122C7.27596 8.20699 7.29355 8.30211 7.32918 8.39102C7.36482 8.47993 7.41778 8.56086 7.48499 8.62911C7.55221 8.69735 7.63232 8.75155 7.72068 8.78853C7.80903 8.82552 7.90387 8.84456 7.99965 8.84455Z"
-                      fill="#53940F"
-                    />
-                    <path
-                      d="M7.97201 11.3166C8.43224 11.3166 8.80534 10.9435 8.80534 10.4832C8.80534 10.023 8.43224 9.6499 7.97201 9.6499C7.51177 9.6499 7.13867 10.023 7.13867 10.4832C7.13867 10.9435 7.51177 11.3166 7.97201 11.3166Z"
-                      fill="#53940F"
-                    />
-                    <path
-                      d="M14.85 11.1889L9.43894 1.22221C9.29568 0.958998 9.0841 0.739278 8.82648 0.586186C8.56886 0.433094 8.27473 0.352295 7.97505 0.352295C7.67537 0.352295 7.38124 0.433094 7.12362 0.586186C6.866 0.739278 6.65442 0.958998 6.51116 1.22221L1.0945 11.1889C0.95272 11.4434 0.88012 11.7306 0.883932 12.0218C0.887743 12.3131 0.967833 12.5983 1.11622 12.849C1.2646 13.0997 1.4761 13.3071 1.72963 13.4506C1.98316 13.594 2.26986 13.6685 2.56116 13.6667H13.3834C13.6723 13.6669 13.9563 13.5921 14.2076 13.4495C14.4588 13.3069 14.6687 13.1014 14.8166 12.8532C14.9645 12.605 15.0454 12.3227 15.0512 12.0338C15.0571 11.7449 14.9878 11.4595 14.85 11.2055V11.1889ZM13.8612 12.2667C13.812 12.3496 13.7421 12.4183 13.6583 12.466C13.5745 12.5138 13.4798 12.5389 13.3834 12.5389H2.56116C2.46459 12.5391 2.36962 12.5142 2.28562 12.4666C2.20161 12.419 2.13148 12.3503 2.08212 12.2673C2.03277 12.1843 2.0059 12.0898 2.00418 11.9933C2.00245 11.8967 2.02592 11.8014 2.07227 11.7167L7.48338 1.74999C7.53099 1.6618 7.60156 1.58812 7.68763 1.53677C7.77369 1.48542 7.87205 1.45831 7.97227 1.45831C8.07249 1.45831 8.17085 1.48542 8.25692 1.53677C8.34298 1.58812 8.41356 1.6618 8.46116 1.74999L13.8723 11.7167C13.9183 11.8014 13.9415 11.8967 13.9396 11.9931C13.9376 12.0896 13.9106 12.1838 13.8612 12.2667Z"
-                      fill="#53940F"
-                    />
-                  </svg>
+                {totalQuantity(cartResponse) < selectedMealData.no ? 
+                <div className="flex items-center justify-center">
                   <span className="text-sm text-[#53940F]">
-                    Your Meal box is overloaded, but you can add more!
-                  </span>
-                </div>
+                  You still have space in your box!
+                </span>
+                </div> : <div className="flex items-center justify-center gap-2">
+                <svg
+                  width="16"
+                  height="14"
+                  viewBox="0 0 16 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7.99965 8.84455C8.1912 8.84455 8.3749 8.76846 8.51034 8.63302C8.64578 8.49758 8.72187 8.31388 8.72187 8.12233V4.77789C8.72187 4.58634 8.64578 4.40264 8.51034 4.2672C8.3749 4.13176 8.1912 4.05566 7.99965 4.05566C7.80811 4.05566 7.62441 4.13176 7.48896 4.2672C7.35352 4.40264 7.27743 4.58634 7.27743 4.77789V8.11122C7.27596 8.20699 7.29355 8.30211 7.32918 8.39102C7.36482 8.47993 7.41778 8.56086 7.48499 8.62911C7.55221 8.69735 7.63232 8.75155 7.72068 8.78853C7.80903 8.82552 7.90387 8.84456 7.99965 8.84455Z"
+                    fill="#53940F"
+                  />
+                  <path
+                    d="M7.97201 11.3166C8.43224 11.3166 8.80534 10.9435 8.80534 10.4832C8.80534 10.023 8.43224 9.6499 7.97201 9.6499C7.51177 9.6499 7.13867 10.023 7.13867 10.4832C7.13867 10.9435 7.51177 11.3166 7.97201 11.3166Z"
+                    fill="#53940F"
+                  />
+                  <path
+                    d="M14.85 11.1889L9.43894 1.22221C9.29568 0.958998 9.0841 0.739278 8.82648 0.586186C8.56886 0.433094 8.27473 0.352295 7.97505 0.352295C7.67537 0.352295 7.38124 0.433094 7.12362 0.586186C6.866 0.739278 6.65442 0.958998 6.51116 1.22221L1.0945 11.1889C0.95272 11.4434 0.88012 11.7306 0.883932 12.0218C0.887743 12.3131 0.967833 12.5983 1.11622 12.849C1.2646 13.0997 1.4761 13.3071 1.72963 13.4506C1.98316 13.594 2.26986 13.6685 2.56116 13.6667H13.3834C13.6723 13.6669 13.9563 13.5921 14.2076 13.4495C14.4588 13.3069 14.6687 13.1014 14.8166 12.8532C14.9645 12.605 15.0454 12.3227 15.0512 12.0338C15.0571 11.7449 14.9878 11.4595 14.85 11.2055V11.1889ZM13.8612 12.2667C13.812 12.3496 13.7421 12.4183 13.6583 12.466C13.5745 12.5138 13.4798 12.5389 13.3834 12.5389H2.56116C2.46459 12.5391 2.36962 12.5142 2.28562 12.4666C2.20161 12.419 2.13148 12.3503 2.08212 12.2673C2.03277 12.1843 2.0059 12.0898 2.00418 11.9933C2.00245 11.8967 2.02592 11.8014 2.07227 11.7167L7.48338 1.74999C7.53099 1.6618 7.60156 1.58812 7.68763 1.53677C7.77369 1.48542 7.87205 1.45831 7.97227 1.45831C8.07249 1.45831 8.17085 1.48542 8.25692 1.53677C8.34298 1.58812 8.41356 1.6618 8.46116 1.74999L13.8723 11.7167C13.9183 11.8014 13.9415 11.8967 13.9396 11.9931C13.9376 12.0896 13.9106 12.1838 13.8612 12.2667Z"
+                    fill="#53940F"
+                  />
+                </svg>
+                <span className="text-sm text-[#53940F]">
+                  Your Meal box is overloaded, but you can add more!
+                </span>
+              </div>}
+                
               </div>
 
               <div className="accordion-container  m-2 text-[#333333]">
@@ -477,24 +513,20 @@ export const CartDrawer = () => {
                         exit={{ opacity: 0 }}
                         className="bg-white rounded-b-lg pb-2"
                       >
-                        {cartResponse?.cart?.lines?.edges?.map(
+                        {recommendedProduct?.map(
                           (line, lineIndex) => (
                             <div
                               className="flex items-center px-4 py-2  justify-between"
                               key={lineIndex}
                             >
-                              {console.log(line, "Line")}
                               <div className="flex items-center gap-3">
                                 <img
-                                  src={
-                                    line.node.merchandise.product.featuredImage
-                                      .url
-                                  }
-                                  alt={line.node.merchandise.product.title}
+                                  src={line?.variants?.edges[0]?.node?.image?.url}
+                                  alt={line?.variants?.edges[0]?.node?.image?.altText}
                                   className="w-20 h-20"
                                 />
                                 <p className="font-semibold text-base">
-                                  {line.node.merchandise.product.title}
+                                  {line.title}
                                 </p>
                               </div>
                               <div className="flex items-center gap-2">
@@ -512,54 +544,67 @@ export const CartDrawer = () => {
                                     />
                                   </svg>
                                 </span>
+                                {loading[line?.variants?.edges[0].node.id] ? <svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg> :
                                 <div className="flex gap-2 items-center">
-                                  <button
-                                  // onClick={() =>
-                                  //   handleRemoveFromCart(
-                                  //     product.node.variants.edges[0].node.id
-                                  //   )
-                                  // }
+                                <button
+                               onClick={() => {
+                                if (
+                                  getProductQuantityInCart(
+                                    line?.variants?.edges[0].node.id
+                                  ) !== 0
+                                ) {
+                                  handleRemoveFromCart(
+                                    line?.variants?.edges[0].node.id,
+                                    line?.variants?.edges[0].node?.sellingPlanGroups
+                                      ?.edges[0]?.node?.sellingPlans?.edges[0]?.node
+                                      ?.id
+                                  );
+                                }
+                              }}
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <svg
-                                      width="18"
-                                      height="18"
-                                      viewBox="0 0 18 18"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                        fill="#333333"
-                                      />
-                                    </svg>
-                                  </button>
-                                  <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                    {/* {getProductQuantityInCart(
-                            product.node.variants.edges[0].node.id
-                          )} */}
-                                    {line.node.quantity}
-                                  </span>
-                                  <button
-                                  // onClick={() =>
-                                  //   handleAddToCart(
-                                  //     product.node.variants.edges[0].node.id
-                                  //   )
-                                  // }
+                                    <path
+                                      d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                      fill="#333333"
+                                    />
+                                  </svg>
+                                </button>
+                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                  {getProductQuantityInCart(
+                          line?.variants?.edges[0].node.id
+                        )}
+                                </span>
+                                <button
+                               onClick={() =>
+                                handleAddToCart(
+                                  line?.variants?.edges[0].node.id,
+                                  line?.variants?.edges[0].node?.sellingPlanGroups
+                                    ?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
+                                )
+                              }
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <svg
-                                      width="18"
-                                      height="18"
-                                      viewBox="0 0 18 18"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                        fill="#333333"
-                                      />
-                                    </svg>
-                                  </button>
-                                </div>
+                                    <path
+                                      d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                      fill="#333333"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                                }
+                                
                               </div>
                             </div>
                           )
@@ -584,14 +629,14 @@ export const CartDrawer = () => {
             }}
           >
             <Link
+              onClick={() => {
+                dispatch(closeCart());
+              }}
               to="/without-login-checkout"
               className="fixed w-2/4 mt-5 rounded-3xl text-white text-xl font-semibold  text-left bottom-0 mb-2 -right-5 transform -translate-x-1/2 bg-[#53940F] px-10 py-2"
             >
               <button
                 type="button"
-                onClick={() => {
-                  dispatch(closeCart());
-                }}
               >
                 Checkout
               </button>
