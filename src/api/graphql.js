@@ -15,6 +15,7 @@ export const graphQLClientAdmin = new GraphQLClient(
   {
     headers: {
       "X-Shopify-Access-Token": import.meta.env.VITE_SHOPIFY_STOREFRONT_ADMIN_KEY,
+      "Access-Control-Allow-Origin": "*"
     },
   }
 );
