@@ -10,6 +10,15 @@ export const graphQLClient = new GraphQLClient(
   }
 );
 
+export const graphQLClientAdmin = new GraphQLClient(
+  "https://76ac20-2.myshopify.com/admin/api/2024-01/graphql.json",
+  {
+    headers: {
+      "X-Shopify-Access-Token": import.meta.env.VITE_SHOPIFY_STOREFRONT_ADMIN_KEY,
+    },
+  }
+);
+
 export const registerAccountMutation = gql`
   mutation RegisterAccount(
     $email: String!
@@ -976,3 +985,55 @@ mutation associateCustomerWithCheckout($checkoutId: ID!, $customerAccessToken: S
     }
   }
 }`;
+
+export const createCustomerMutation = gql`
+  mutation CreateCustomer($input: CustomerInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+        email
+        emailMarketingConsent {
+          marketingState
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const getCustomerByEmailQuery = gql`
+  query GetCustomerByEmail($email: String!) {
+    customers(first: 1, query: $email) {
+      edges {
+        node {
+          id
+          email
+          firstName
+          lastName
+        }
+      }
+    }
+  }
+`;
+
+export const customerEmailMarketingConsentUpdateMutation = gql`
+  mutation customerEmailMarketingConsentUpdate($input: CustomerEmailMarketingConsentUpdateInput!) {
+    customerEmailMarketingConsentUpdate(input: $input) {
+      customer {
+        id
+        emailMarketingConsent {
+          consentUpdatedAt
+          marketingOptInLevel
+          marketingState
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;

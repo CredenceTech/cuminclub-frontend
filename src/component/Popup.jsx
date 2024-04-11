@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {
+  createCustomerMutation,
+  customerEmailMarketingConsentUpdateMutation,
+  getCustomerByEmailQuery,
+  graphQLClientAdmin,
+} from "../api/graphql";
+import { registerUserId } from "../state/user";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
-const Popup = ({onCloseButtonClick}) => {
+const Popup = ({ onCloseButtonClick }) => {
+  const userId = useSelector(registerUserId);
+  const [responseData, setResponseData] = useState(null);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -12,8 +24,58 @@ const Popup = ({onCloseButtonClick}) => {
         .email("Invalid email format")
         .required("Email is required"),
     }),
-    onSubmit: (values) => {
-      console.log("Submitted values:", values);
+    onSubmit: async (values) => {
+      const customerEmailParams = {
+        email: values.email,
+      };
+
+      const getCustomeByEmail = await graphQLClientAdmin.request(
+        getCustomerByEmailQuery,
+        customerEmailParams
+      );
+
+      if (getCustomeByEmail?.customers?.edges?.length === 0) {
+        const params = {
+          input: {
+            email: values.email,
+            emailMarketingConsent: {
+              marketingState: "SUBSCRIBED",
+            },
+          },
+        };
+
+        const response = await graphQLClientAdmin.request(
+          createCustomerMutation,
+          params
+        );
+
+        setResponseData(response);
+
+        if (response.customerCreate.userErrors.length === 0) {
+          onCloseButtonClick()
+        }
+        toast.success('Subscribed Successfully')
+      } else {
+        const params = {
+          input: {
+            customerId: getCustomeByEmail?.customers?.edges[0]?.node?.id,
+            emailMarketingConsent: {
+              marketingState: "SUBSCRIBED",
+            },
+          },
+        };
+
+        const response = await graphQLClientAdmin.request(
+          customerEmailMarketingConsentUpdateMutation,
+          params
+        );
+
+        setResponseData(response);
+        if (response.customerEmailMarketingConsentUpdate.userErrors.length === 0) {
+          onCloseButtonClick()
+        }
+        toast.success('Subscribed Successfully')
+      }
     },
   });
 
@@ -56,34 +118,39 @@ const Popup = ({onCloseButtonClick}) => {
             onSubmit={formik.handleSubmit}
           >
             <div className="w-full flex justify-center items-center gap-1 flex-col">
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Enter your email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`border w-4/5 border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
-                formik.touched.email && formik.errors.email
-                  ? "border-red-500"
-                  : ""
-              }`}
-            />
-            {formik.touched.email && formik.errors.email && (
-                <div className="text-rose-600  ml-5 text-sm">{formik.errors.email}</div>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`border text-black w-4/5 border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${
+                  formik.touched.email && formik.errors.email
+                    ? "border-red-500"
+                    : ""
+                }`}
+              />
+              {formik.touched.email && formik.errors.email && (
+                <div className="text-[#D20062] w-4/5 ml-5 text-sm">
+                  {formik.errors.email}
+                </div>
               )}
             </div>
 
             <button
-            type="submit"
-            className="mt-5 items-center border w-4/5 text-[#53940F] rounded-full py-2.5 text-xl px-5  bg-white"
-          >
-            Get My Discount
-          </button>
+              type="submit"
+              className="mt-5 items-center border w-4/5 text-[#53940F] rounded-full py-2.5 text-xl px-5  bg-white"
+            >
+              Get My Discount
+            </button>
           </form>
 
-          <button className="flex justify-start flex-col" onClick={onCloseButtonClick}>
+          <button
+            className="flex justify-start flex-col"
+            onClick={onCloseButtonClick}
+          >
             No thanks, I hate sweet deals
           </button>
 
