@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  createCustomerMutation,
-  customerEmailMarketingConsentUpdateMutation,
-  getCustomerByEmailQuery,
-  graphQLClientAdmin,
-} from "../api/graphql";
 import { registerUserId } from "../state/user";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -24,57 +18,78 @@ const Popup = ({ onCloseButtonClick }) => {
         .email("Invalid email format")
         .required("Email is required"),
     }),
+
     onSubmit: async (values) => {
-      const customerEmailParams = {
+      const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/subscribe/get`;
+
+      const params = {
         email: values.email,
       };
 
-      const getCustomeByEmail = await graphQLClientAdmin.request(
-        getCustomerByEmailQuery,
-        customerEmailParams
-      );
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
 
-      if (getCustomeByEmail?.customers?.edges?.length === 0) {
+      const data = await response.json();
+
+      console.log(data?.data?.data?.customers?.edges.length === 0, "Dtaa");
+
+      if (data?.data?.data?.customers?.edges.length === 0) {
+        const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/subscribe/create`;
+
         const params = {
-          input: {
-            email: values.email,
-            emailMarketingConsent: {
-              marketingState: "SUBSCRIBED",
-            },
-          },
+          email: values.email,
         };
 
-        const response = await graphQLClientAdmin.request(
-          createCustomerMutation,
-          params
-        );
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        });
+
+        const data = await response.json();
 
         setResponseData(response);
 
-        if (response.customerCreate.userErrors.length === 0) {
-          onCloseButtonClick()
+        if (data?.data?.data?.customerCreate.userErrors.length === 0) {
+          onCloseButtonClick();
         }
-        toast.success('Subscribed Successfully')
+        toast.success("Subscribed Successfully");
       } else {
         const params = {
-          input: {
-            customerId: getCustomeByEmail?.customers?.edges[0]?.node?.id,
-            emailMarketingConsent: {
-              marketingState: "SUBSCRIBED",
-            },
-          },
+          customerId: data?.data?.data?.customers?.edges[0]?.node?.id,
         };
 
-        const response = await graphQLClientAdmin.request(
-          customerEmailMarketingConsentUpdateMutation,
-          params
-        );
+        console.log(params, "Params")
+
+        const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/subscribe/update`;
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        });
+  
+        const value = await response.json();
+
+        console.log(value, "Data")
 
         setResponseData(response);
-        if (response.customerEmailMarketingConsentUpdate.userErrors.length === 0) {
-          onCloseButtonClick()
+        if (
+          value?.data?.data?.customerEmailMarketingConsentUpdate.userErrors
+            .length === 0
+        ) {
+          onCloseButtonClick();
         }
-        toast.success('Subscribed Successfully')
+        toast.success("Subscribed Successfully");
       }
     },
   });
