@@ -398,8 +398,8 @@ const Product = () => {
   return (
     <>
       {apiResponse ? (
-        <div className="min-h-[78vh] w-full">
-          <div className="lg:h-36 h-16 headerbackground overflow-x-hidden w-full flex lg:justify-center gap-10 items-center">
+        <div className="min-h-[78vh] w-full bg-[#f1663c]">
+          <div className="lg:h-36 h-16 bg-[#FBAE36] overflow-x-hidden w-full flex lg:justify-center gap-10 items-center">
             <div className="hidden lg:block">
               <img src={mealThreeImage} alt="" className="h-28 w-64" />
             </div>
@@ -450,8 +450,8 @@ const Product = () => {
             </span>
           </div>
           <>
-            <div className="flex bg-white justify-start sticky top-20">
-              <div className="flex items-center  bg-white gap-2">
+            <div className="flex bg-[#FBAE36] justify-start sticky top-20">
+              <div className="flex items-center bg-[#FBAE36] gap-2">
                 <button
                   onClick={openCountryDrawer}
                   className="bg-[#333333] px-3 py-2 rounded-r-lg"
@@ -486,15 +486,16 @@ const Product = () => {
                   Filter
                 </span>
               </div>
-              <div className="flex bg-white overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide lg:justify-around">
+              <div className="flex overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide lg:justify-around">
                 {apiResponse.collections.edges.map((category) => (
                   <div
                     key={category.node.title}
                     onClick={() => handleCategorySelect(category.node.title)}
-                    className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
-                      ? "bg-[#53940F] text-white border-none"
-                      : ""
-                      }`}
+                    className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${
+                      activeTitle === category.node.title
+                        ? "bg-[#53940F] text-white border-none"
+                        : ""
+                    }`}
                   >
                     {category.node.title}
                   </div>
@@ -504,14 +505,14 @@ const Product = () => {
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
-              className="mt-4 container mx-auto bg-white"
-            // style={{
-            //   height: "62vh",
-            // }}
+              className="mt-4 container mx-auto"
+              // style={{
+              //   height: "62vh",
+              // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
-                <div className="bg-white ">
+                <div className=" ">
                   <div
                     ref={(ref) => (categoryTitleRefs.current[index] = ref)}
                     className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold"
@@ -522,17 +523,17 @@ const Product = () => {
                     key={category.node.title}
                     ref={productEdgesRef}
                     id={`product-edges-${category.node.title}`}
-                    className="flex bg-white  justify-center flex-wrap"
+                    className="flex  justify-center flex-wrap"
                   >
                     {category.node.products.edges.map((product) => (
                       <div
                         key={product.node.id}
-                        className="m-2 w-40 lg:w-56  product-box-Shadow border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
+                        className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
                       >
                         <img
                           src={product.node.featuredImage.url}
                           alt={product.node.featuredImage.altText}
-                          className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer"
+                          className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer rounded-2xl"
                           onClick={() => {
                             if (category.node.title === "Bundles") {
                               navigate(`/bundleDetail`, {
@@ -570,9 +571,18 @@ const Product = () => {
                             ""}
                         </p>
                         <div className="flex gap-1 mb-2">
-                          {!(category.node.title === "Bundles") ? <SpiceLevel rating={product?.node?.metafields?.find(
-                            (metafield) => metafield?.key === "spice_level"
-                          )?.value || 0} /> : ''}
+                          {!(category.node.title === "Bundles") ? (
+                            <SpiceLevel
+                              rating={
+                                product?.node?.metafields?.find(
+                                  (metafield) =>
+                                    metafield?.key === "spice_level"
+                                )?.value || 0
+                              }
+                            />
+                          ) : (
+                            ""
+                          )}
                         </div>
                         {category.node.title === "Bundles" ? (
                           <div>
@@ -669,7 +679,10 @@ const Product = () => {
                             </circle>
                           </svg>
                         ) : (
-                          <div className="flex gap-2 items-center">
+                          <div
+                            className="flex gap-x-4 items-center rounded-lg px-4 py-0.5"
+                            style={{ background: "rgba(241, 102, 60, 0.6)" }}
+                          >
                             <button
                               onClick={() => {
                                 if (
@@ -684,19 +697,21 @@ const Product = () => {
                               }}
                             >
                               <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
+                                width="14"
+                                height="2"
+                                viewBox="0 0 14 2"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                  fill="#333333"
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M13.9696 1.95317H0.625244V0.0468292H13.9696V1.95317Z"
+                                  fill="#FAFAFA"
                                 />
                               </svg>
                             </button>
-                            <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                            <span className="text-lg text-white">
                               {getProductQuantityInCart(
                                 product.node.variants.edges[0].node.id
                               )}
@@ -711,15 +726,17 @@ const Product = () => {
                               }
                             >
                               <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 14 14"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                  fill="#333333"
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M6.34425 6.04683V0.32782H8.25059V6.04683H13.9696V7.95316H8.25059V13.6722H6.34425V7.95316H0.625244V6.04683H6.34425Z"
+                                  fill="#FAFAFA"
                                 />
                               </svg>
                             </button>
