@@ -528,12 +528,12 @@ const Product = () => {
                     {category.node.products.edges.map((product) => (
                       <div
                         key={product.node.id}
-                        className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
+                        className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col items-center h-56 lg:h-80 p-2 lg:p-4"
                       >
                         <img
                           src={product.node.featuredImage.url}
                           alt={product.node.featuredImage.altText}
-                          className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer rounded-2xl"
+                          className="w-48 h-32 lg:w-52 lg:h-60 mb-1 cursor-pointer rounded-2xl"
                           onClick={() => {
                             if (category.node.title === "Bundles") {
                               navigate(`/bundleDetail`, {
@@ -547,7 +547,8 @@ const Product = () => {
                           }}
                         />
                         <h3
-                          className="text-[#53940F] text-sm lg:text-lg font-medium text-center lg:font-semibold cursor-pointer"
+                          style={{color: "rgba(51, 51, 51, 1)"}}
+                          className="text-lg lg:text-lg font-bold items-start overflow-hidden lg:font-semibold cursor-pointer"
                           onClick={() => {
                             if (category.node.title === "Bundles") {
                               navigate(`/bundleDetail`, {
@@ -562,15 +563,15 @@ const Product = () => {
                         >
                           {product.node.title}
                         </h3>
-                        <p className="text-xs lg:text-base my-2">
+                        {/* <p className="text-xs lg:text-base my-2">
                           {(product?.node?.metafields &&
                             product?.node?.metafields.find(
                               (metafield) =>
                                 metafield?.key === "small_descriptions"
                             )?.value) ||
                             ""}
-                        </p>
-                        <div className="flex gap-1 mb-2">
+                        </p> */}
+                        {/* <div className="flex gap-1 mb-2">
                           {!(category.node.title === "Bundles") ? (
                             <SpiceLevel
                               rating={
@@ -583,7 +584,7 @@ const Product = () => {
                           ) : (
                             ""
                           )}
-                        </div>
+                        </div> */}
                         {category.node.title === "Bundles" ? (
                           <div>
                             <button
@@ -680,7 +681,7 @@ const Product = () => {
                           </svg>
                         ) : (
                           <div
-                            className="flex gap-x-4 items-center rounded-lg px-4 py-0.5"
+                            className="flex w-full justify-center gap-x-8 lg:gap-x-10 items-center rounded-lg mt-2 px-4 py-1 lg:py-2"
                             style={{ background: "rgba(241, 102, 60, 0.6)" }}
                           >
                             <button
@@ -697,7 +698,7 @@ const Product = () => {
                               }}
                             >
                               <svg
-                                width="14"
+                                width="20"
                                 height="2"
                                 viewBox="0 0 14 2"
                                 fill="none"
@@ -711,7 +712,7 @@ const Product = () => {
                                 />
                               </svg>
                             </button>
-                            <span className="text-lg text-white">
+                            <span className="text-xl text-white">
                               {getProductQuantityInCart(
                                 product.node.variants.edges[0].node.id
                               )}
@@ -726,8 +727,8 @@ const Product = () => {
                               }
                             >
                               <svg
-                                width="14"
-                                height="14"
+                                width="18"
+                                height="18"
                                 viewBox="0 0 14 14"
                                 fill="none"
                                 xmlns="http://www.w3.org/2000/svg"
