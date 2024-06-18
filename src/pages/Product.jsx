@@ -491,11 +491,10 @@ const Product = () => {
                   <div
                     key={category.node.title}
                     onClick={() => handleCategorySelect(category.node.title)}
-                    className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${
-                      activeTitle === category.node.title
-                        ? "bg-[#53940F] text-white border-none"
-                        : ""
-                    }`}
+                    className={`cursor-pointer flex items-center py-1 mx-1 lg:mx-4 my-1 lg:my-2 text-xs lg:text-base font-medium px-3 lg:px-5 rounded border border-[#333333] ${activeTitle === category.node.title
+                      ? "bg-[#53940F] text-white border-none"
+                      : ""
+                      }`}
                   >
                     {category.node.title}
                   </div>
@@ -506,9 +505,9 @@ const Product = () => {
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
               className="mt-4 container mx-auto"
-              // style={{
-              //   height: "62vh",
-              // }}
+            // style={{
+            //   height: "62vh",
+            // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
@@ -528,12 +527,12 @@ const Product = () => {
                     {category.node.products.edges.map((product) => (
                       <div
                         key={product.node.id}
-                        className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col items-center h-56 lg:h-80 p-2 lg:p-4"
+                        className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col justify-between p-2 lg:p-4"
                       >
                         <img
                           src={product.node.featuredImage.url}
                           alt={product.node.featuredImage.altText}
-                          className="w-48 h-32 lg:w-52 lg:h-60 mb-1 cursor-pointer rounded-2xl"
+                          className="w-48 h-32 lg:w-52 lg:h-48 mb-1 cursor-pointer rounded-2xl"
                           onClick={() => {
                             if (category.node.title === "Bundles") {
                               navigate(`/bundleDetail`, {
@@ -547,8 +546,8 @@ const Product = () => {
                           }}
                         />
                         <h3
-                          style={{color: "rgba(51, 51, 51, 1)"}}
-                          className="text-lg lg:text-lg font-bold items-start overflow-hidden lg:font-semibold cursor-pointer"
+                          style={{ color: "rgba(51, 51, 51, 1)" }}
+                          className="text-lg lg:text-lg font-bold items-start overflow-hidden pb-8 cursor-pointer"
                           onClick={() => {
                             if (category.node.title === "Bundles") {
                               navigate(`/bundleDetail`, {
