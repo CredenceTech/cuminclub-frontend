@@ -9,7 +9,7 @@ import {
   updateCartMutation,
 } from "../api/graphql";
 import { useDispatch, useSelector } from "react-redux";
-import { selectMealItems } from "../state/mealdata";
+import { addMeal, selectMealItems } from "../state/mealdata";
 import mealThreeImage from "../assets/mealThreeImage.png";
 import { useNavigate } from "react-router-dom";
 import { CartDrawer } from "../component/CartComponent";
@@ -43,7 +43,7 @@ const Product = () => {
   const [loading, setLoading] = useState({});
   const categoryTitleRefs = useRef([]);
   const [currentCategory, setCurrentCategory] = useState("");
-
+  const [selectedValue, setSelectedValue] = useState(null);
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -395,13 +395,107 @@ const Product = () => {
     }
   }, [productDetails]);
 
+  const options = [
+    {
+      id: 1,
+      noMeal: "6 Meals",
+      price: "for ₹999.00",
+      discountPrice: "₹2510.12/meal",
+      no: 6,
+      subscriptionType: [
+        {
+          id: 1,
+          type: "oneTime",
+          noMeal: "One Time",
+          price: "₹2110.12/meal",
+          discountPrice: "₹2510.12/meal",
+        },
+        {
+          id: 2,
+          type: "subscription",
+          noMeal: "Subscription",
+          price: "₹2110.12/meal",
+          discountPrice: "2000.12/meal",
+        }
+      ]
+    },
+    {
+      id: 2,
+      noMeal: "12 Meals",
+      price: "for ₹999.00",
+      discountPrice: "₹1110.12/meal",
+      no: 12,
+      subscriptionType: [
+        {
+          id: 1,
+          type: "oneTime",
+          noMeal: "One Time",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1110.12/meal",
+        },
+        {
+          id: 2,
+          type: "subscription",
+          noMeal: "Subscription",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1000.12/meal",
+        }
+      ]
+    },
+    {
+      id: 3,
+      noMeal: "18 Meals",
+      price: "for ₹999.00",
+      discountPrice: "₹1110.12/meal",
+      no: 18,
+      subscriptionType: [
+        {
+          id: 1,
+          type: "oneTime",
+          noMeal: "One Time",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1110.12/meal",
+        },
+        {
+          id: 2,
+          type: "subscription",
+          noMeal: "Subscription",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1000.12/meal",
+        }
+      ]
+    },
+  ]
+
+
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+
   return (
     <>
       {apiResponse ? (
         <div className="min-h-[78vh] w-full bg-[#f1663c]">
-          <div className="lg:h-36 h-16 bg-[#FBAE36] overflow-x-hidden w-full flex lg:justify-center gap-10 items-center">
-            <div className="hidden lg:block">
-              <img src={mealThreeImage} alt="" className="h-28 w-64" />
+          <div className="lg:h-36 h-16 bg-[#FBAE36] overflow-x-hidden w-full flex lg:justify-between items-center">
+            <div className="hidden lg:block ml-10">
+              {/* <img src={mealThreeImage} alt="" className="h-28 w-64" /> */}
+              <h3 className="text-[#231F20] font-bold text-2xl">Meal Package</h3>
+              <div className="w-28" >
+                <select
+                  id="selectDropdown"
+                  value={selectedValue?.noMeal}
+                  onChange={handleChange}
+                  className="pl-3 pr-10 py-2 mt-2 text-[#231F20] font-bold text-lg rounded-lg active:border-none bg-[#EADEC1]"
+                >
+                  {options.map((option) => (
+                    <option className="text-[#231F20] font-bold text-2xl" key={option.id} value={option}>
+                      {option.noMeal}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="flex flex-col gap-3 lg:px-10 px-2">
               <div className="flex h-12 lg:h-16 gap-5">
@@ -442,12 +536,6 @@ const Product = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="flex lg:py-8 py-1 justify-center">
-            <span className="font-bold text-xl lg:text-4xl text-[#53940F]">
-              Make Your Meal
-            </span>
           </div>
           <>
             <div className="flex bg-[#FBAE36] justify-start sticky top-20">
@@ -514,7 +602,7 @@ const Product = () => {
                 <div className=" ">
                   <div
                     ref={(ref) => (categoryTitleRefs.current[index] = ref)}
-                    className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold"
+                    className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
                   >
                     {category.node.title}
                   </div>
@@ -749,9 +837,9 @@ const Product = () => {
               ))}
             </div>
           </>
-          {popupState && (
+          {/* {popupState && (
             <Popup onCloseButtonClick={() => setPopupState(false)} />
-          )}
+          )} */}
         </div>
       ) : (
         <div
