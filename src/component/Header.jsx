@@ -37,6 +37,7 @@ const Header = () => {
   const currentUrl = location.pathname;
   const [countryList, setCountryList] = useState(null);
   const navigate = useNavigate();
+  const { pathname } = location;
 
   console.log(userId)
 
@@ -122,9 +123,7 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full bg-[#EADEC1] justify-between ${
-          currentUrl.includes("products") ? "" : "header-box-shadow"
-        } items-center  fixed z-50 px-5  h-20`}
+        className={`flex w-full justify-between bg-[#EADEC1] items-center  fixed z-50 px-5  py-8`}
       >
         <div className="hidden lg:flex gap-3 text-lg font-bold flex-1">
           <div>
@@ -250,7 +249,7 @@ const Header = () => {
             </svg>
 
             <div className="rounded-full absolute left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
-              <span style={{fontSize: 10}}>
+              <span style={{ fontSize: 10 }}>
                 {cartDatas !== null ? totalQuantity(cartResponse) : 0}/
                 {selectedMealData.no}
               </span>
@@ -269,15 +268,16 @@ const Header = () => {
                 clipRule="evenodd"
                 d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z"
                 fill="#E91D24"
+                className={`fill-current ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#E91D24]'}`}
               />
             </svg>
           </button>
           {userId === null &&
-          <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
-            <Link className="text-lg" to="/login">
-              Login
-            </Link>
-          </button>}
+            <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
+              <Link className="text-lg" to="/login">
+                Login
+              </Link>
+            </button>}
         </div>
       </div>
 

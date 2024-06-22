@@ -128,3 +128,21 @@ body {
   background-blend-mode: overlay;
   min-height: 100%;
 }
+
+.bannerback {
+  background-image: url(./assets/banner.png);
+  background-size: cover;
+  background-position: center;
+  /* background-repeat: no-repeat; */
+}
+
+.bannerbottom {
+  background-image: url(./assets/landingbanner.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.black-text-shadow {
+  text-shadow: 5px 5px 10px #020202, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
+}

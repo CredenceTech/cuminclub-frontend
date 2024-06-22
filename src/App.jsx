@@ -18,9 +18,9 @@ import BundleDetails from "./component/BundleDetails";
 import { ScrollToTop } from "./component/ScrollToTop";
 import Subscription from "./component/Subscription";
 import Invoices from "./component/Invoices";
+import MealPackage from "./pages/MealPackage";
 
 function App() {
-
   return (
     <Router>
       <div
@@ -28,10 +28,11 @@ function App() {
       >
         <ScrollToTop />
         <Header />
-        <div className="relative min-h-[82vh] bottom-20 top-20">
+        <div className={`relative min-h-[82vh] top-28 bottom-20 `}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/meal-package" element={<MealPackage />} />
             <Route path="/products" element={<Product />} />
             <Route path="/privacy-policy" element={<Privacy />} />
             <Route path="/accessibility" element={<Accessibility />} />
@@ -48,7 +49,7 @@ function App() {
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
       <Toaster
         position="top-right"

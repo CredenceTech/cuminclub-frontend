@@ -25,6 +25,7 @@ import LoadingAnimation from "../component/Loader";
 import { totalQuantity } from "../utils";
 import Popup from "../component/Popup";
 import SpiceLevel from "../component/SpiceLevel";
+import cardIcon from '../assets/cartnew.png';
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -477,28 +478,55 @@ const Product = () => {
   return (
     <>
       {apiResponse ? (
-        <div className="min-h-[78vh] w-full bg-[#f1663c]">
-          <div className="lg:h-36 h-16 bg-[#FBAE36] overflow-x-hidden w-full flex lg:justify-between items-center">
+        <div className="min-h-[75vh] w-full bg-[#f1663c]">
+          <div className=" py-2 bg-[#FBAE36] w-full overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex lg:justify-between items-center">
             <div className="hidden lg:block ml-10">
-              {/* <img src={mealThreeImage} alt="" className="h-28 w-64" /> */}
               <h3 className="text-[#231F20] font-bold text-2xl">Meal Package</h3>
               <div className="w-28" >
                 <select
                   id="selectDropdown"
                   value={selectedValue?.noMeal}
                   onChange={handleChange}
-                  className="pl-3 pr-10 py-2 mt-2 text-[#231F20] font-bold text-lg rounded-lg active:border-none bg-[#EADEC1]"
+                  className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-bold text-lg rounded-lg active:border-none bg-[#EADEC1]"
                 >
                   {options.map((option) => (
-                    <option className="text-[#231F20] font-bold text-2xl" key={option.id} value={option}>
+                    <option className="text-[#231F20] font-bold text-xl" key={option.id} value={option}>
                       {option.noMeal}
                     </option>
                   ))}
                 </select>
               </div>
             </div>
-            <div className="flex flex-col gap-3 lg:px-10 px-2">
-              <div className="flex h-12 lg:h-16 gap-5">
+            <div className="flex flex-row items-center ">
+              <div className="flex flex-row items-center gap-x-2 mr-10">
+                <p className="text-[#231F20] font-bold text-2xl">Fill your box 📦</p>
+              </div>
+              <div className="flex flex-row gap-x-2 mr-2">
+                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                </div>
+                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                </div>
+                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                </div>
+                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                </div>
+                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                </div>
+                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                </div>
+              </div>
+              <div className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
+                <img src={cardIcon} alt="" className="w-6 h-6" />
+              </div>
+
+
+              {/* <div className="flex h-12 lg:h-16 gap-5">
                 <div
                   className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
                   style={{ borderWidth: "3px" }}
@@ -534,11 +562,11 @@ const Product = () => {
                   </svg>
                   <span className="text-xs lg:text-lg">Update Your Plan</span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <>
-            <div className="flex bg-[#FBAE36] justify-start sticky top-20">
+            {/* <div className="flex bg-[#FBAE36] justify-start sticky top-20">
               <div className="flex items-center bg-[#FBAE36] gap-2">
                 <button
                   onClick={openCountryDrawer}
@@ -588,7 +616,7 @@ const Product = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
@@ -599,12 +627,12 @@ const Product = () => {
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
-                <div className=" ">
+                <div className="mt-10 ">
                   <div
                     ref={(ref) => (categoryTitleRefs.current[index] = ref)}
                     className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
                   >
-                    {category.node.title}
+                    {/* {category.node.title} */}
                   </div>
                   <div
                     key={category.node.title}
