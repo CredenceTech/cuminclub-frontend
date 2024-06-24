@@ -481,16 +481,16 @@ const Product = () => {
         <div className="min-h-[75vh] w-full bg-[#f1663c]">
           <div className=" py-2 bg-[#FBAE36] w-full overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex lg:justify-between items-center">
             <div className="hidden lg:block ml-10">
-              <h3 className="text-[#231F20] font-bold text-2xl">Meal Package</h3>
+              <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">Meal Package</h3>
               <div className="w-28" >
                 <select
                   id="selectDropdown"
                   value={selectedValue?.noMeal}
                   onChange={handleChange}
-                  className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-bold text-lg rounded-lg active:border-none bg-[#EADEC1]"
+                  className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-skillet font-bold text-xl rounded-lg active:border-none bg-[#EADEC1]"
                 >
                   {options.map((option) => (
-                    <option className="text-[#231F20] font-bold text-xl" key={option.id} value={option}>
+                    <option className="text-[#231F20] font-skillet text-base" key={option.id} value={option}>
                       {option.noMeal}
                     </option>
                   ))}
@@ -499,7 +499,7 @@ const Product = () => {
             </div>
             <div className="flex flex-row items-center ">
               <div className="flex flex-row items-center gap-x-2 mr-10">
-                <p className="text-[#231F20] font-bold text-2xl">Fill your box 📦</p>
+                <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
               </div>
               <div className="flex flex-row gap-x-2 mr-2">
                 <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
@@ -663,7 +663,7 @@ const Product = () => {
                         />
                         <h3
                           style={{ color: "rgba(51, 51, 51, 1)" }}
-                          className="text-lg lg:text-lg font-bold items-start overflow-hidden pb-8 cursor-pointer"
+                          className="text-base font-futuraBold lg:text-lg items-start overflow-hidden pb-8 cursor-pointer"
                           onClick={() => {
                             if (category.node.title === "Bundles") {
                               navigate(`/bundleDetail`, {
