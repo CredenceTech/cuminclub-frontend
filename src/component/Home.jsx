@@ -386,7 +386,7 @@ const Home = () => {
         {isCartOpen && <CartDrawer />}
         <div className="w-full " >
           <div className="flex flex-col md:flex-row justify-between items-center pt-[100px] pb-[40px] px-8">
-            <h1 className="text-white font-skillet text-lg lg:text-4xl font-bold mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
+            <h1 className="text-white black-text-shadow font-skillet text-lg lg:text-4xl font-bold mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
             <Link to='/meal-package' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
               <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -401,80 +401,80 @@ const Home = () => {
 
       <div className='bg-[#EFE9DA]'>
         <div className='container mx-auto py-14'>
-          <div className='flex flex-row justify-start items-center whitespace-nowrap mx-5 lg:mx-10 flex-wrap gap-x-10 gap-y-4'>
+          <div className='flex flex-row justify-start items-center whitespace-nowrap  flex-wrap gap-x-8 gap-y-4'>
             <div className=' flex flex-row  items-center relative '>
               <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl rounded-tr-lg rounded-br-lg px-6 py-4  font-bold'>North <br /> Indian</p>
+              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>North <br /> Indian</p>
             </div>
             <div className=' flex flex-row items-center relative '>
               <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl rounded-tr-lg rounded-br-lg px-6 py-4  font-bold'>South <br /> Indian</p>
+              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>South <br /> Indian</p>
             </div>
             <div className=' flex flex-row items-center relative '>
               <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl rounded-tr-lg rounded-br-lg px-6 py-4  font-bold'>Popular <br /> Combos</p>
+              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>Popular <br /> Combos</p>
             </div>
             <div className=' flex flex-row items-center relative '>
               <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl rounded-tr-lg rounded-br-lg px-6 py-4  font-bold'>North <br /> Indian</p>
+              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>North <br /> Indian</p>
             </div>
             <div className=' flex flex-row items-center relative '>
               <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl rounded-tr-lg rounded-br-lg px-6 py-4  font-bold'>North <br /> Indian</p>
+              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1 '>North <br /> Indian</p>
             </div>
           </div>
         </div>
-        <div className='flex flex-row px-8 md:px-14 items-center'>
+        <div className='flex flex-row px-8 md:px-14 lg:px-3 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
             <path d="M37.8018 23.0008L40.3205 20.5648C40.4552 20.4345 40.6794 20.5391 40.6661 20.7258L40.4193 24.2213C40.4111 24.3382 40.5026 24.4381 40.6193 24.4402L44.1232 24.4985C44.3106 24.502 44.3953 24.7345 44.2536 24.857L41.6073 27.1542C41.519 27.2306 41.5127 27.3663 41.5945 27.4502L44.0304 29.9694C44.1607 30.1041 44.0561 30.3283 43.8691 30.3152L40.374 30.0677C40.2568 30.0597 40.1572 30.151 40.155 30.2682L40.0965 33.7718C40.0935 33.9593 39.8608 34.0438 39.7377 33.9024L37.4413 31.256C37.3641 31.1677 37.2289 31.1616 37.1448 31.2431L34.6259 33.6788C34.4912 33.8091 34.2669 33.705 34.28 33.518L34.5273 30.0226C34.5354 29.9054 34.444 29.8058 34.3268 29.8036L30.8232 29.7451C30.6357 29.7421 30.5509 29.5096 30.6925 29.3868L33.339 27.0899C33.4274 27.013 33.4334 26.8775 33.3524 26.7935L30.9158 24.2747C30.7856 24.14 30.8903 23.9153 31.0772 23.9289L34.5727 24.1757C34.6895 24.1844 34.7897 24.0927 34.7914 23.9754L34.8499 20.4718C34.8531 20.2846 35.0856 20.1998 35.2084 20.3414L37.5051 22.9876C37.5822 23.0764 37.7172 23.0822 37.8018 23.0008Z" fill="#FBAE36" />
           </svg>
 
-          <p className='text-[#231F20] px-6 py-4 text-3xl  font-bold'>Our Bestsellers</p>
+          <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Our Bestsellers</p>
         </div>
         <div className='container mx-auto py-14'>
-          <div className='flex flex-row items-center justify-start whitespace-nowrap mx-5 lg:mx-10 flex-wrap gap-x-16 gap-y-4'>
+          <div className='flex flex-row  justify-start whitespace-nowrap mx-5 lg:mx-10 flex-wrap gap-x-16 gap-y-4'>
             <div className=' flex flex-col justify-start  items-center'>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
                 <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
               </div>
-              <p className='text-[#231F20] text-xl pt-2  font-semibold'>Pav Bhaji</p>
+              <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-between'>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
                 <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
               </div>
-              <p className='text-[#231F20] text-xl pt-2  font-semibold'>Paneer Butter <br /> Masala</p>
+              <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Paneer Butter <br /> Masala</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
                 <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
               </div>
-              <p className='text-[#231F20] text-xl pt-2  font-semibold'>Dal Makhani</p>
+              <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Dal Makhani</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
                 <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
               </div>
-              <p className='text-[#231F20] text-xl pt-2  font-semibold'>Pav Bhaji</p>
+              <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
                 <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
               </div>
-              <p className='text-[#231F20] text-xl pt-2  font-semibold'>Pav Bhaji</p>
+              <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
                 <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
               </div>
-              <p className='text-[#231F20] text-xl pt-2  font-semibold'>Pav Bhaji</p>
+              <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
 
@@ -486,16 +486,16 @@ const Home = () => {
         <div className='mx-auto container'>
           <div className='flex justify-between '>
             <div className='px-10'>
-              <p className='text-white text-lg lg:text-3xl font-bold  pt-4'>Confused?</p>
-              <p className='text-[#FBAE36] text-lg lg:text-3xl font-bold  pt-4'>Spin it </p>
+              <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Confused?</p>
+              <p className='text-[#FBAE36] text-lg lg:text-3xl font-futuraBold'>Spin it </p>
             </div>
             <div className='flex h-[500px] relative z-10 justify-end items-center'>
-              <div className='relative right-[-20px] top-[60px] z-[-1]'>
-                <Link to='' className='flex flex-row py-2 px-4 pr-10  rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
+              <div className='relative right-[-24px] top-[60px] z-[-1]'>
+                <Link to='' className='flex flex-row py-2 pl-2 pr-10  rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
                   <div className='h-10 w-10 rounded-full bg-[#FBAE36]'></div>
-                  <button className=" text-black">{`spin >>`} </button>
+                  <button className=" text-[#B25220] font-xl">{`spin >>`} </button>
                 </Link>
-                <p className='text-[#FFFFFF] text-lg lg:text-3xl mt-3 font-bold'>Pav Bhaji</p>
+                <p className='text-[#FFFFFF] text-lg font-futuraBold lg:text-2xl mt-4'>Pav Bhaji</p>
                 <p className='text-[#FFFFFF] text-lg '>₹ 199.00</p>
                 <button type='button' className="bg-[#FBAE36] mt-2 rounded-full py-1 px-4 font-bold text-black">Add to cart </button>
               </div>

@@ -31,7 +31,7 @@ const Meal = ({ data, message, url, buttonTrigger = false }) => {
                             <div className='mt-5 lg:mt-14 flex justify-center '>
                                 <Link to={url} className='flex-col cursor-pointer  bg-[#EADEC1]  rounded-lg px-10 py-2'>
                                     <div className='flex flex-row justify-center'>
-                                        <p className='pr-2 text-lg font-medium text-[#231F20]'>Continue</p>
+                                        <p className='pr-2 text-lg lg:text-2xl font-skillet font-medium text-[#231F20]'>Continue</p>
                                     </div>
                                 </Link>
                             </div>
