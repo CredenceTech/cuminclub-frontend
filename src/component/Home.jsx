@@ -127,7 +127,7 @@ const Home = () => {
         <div
           className={`flex w-full justify-between items-center px-5 py-8`}
         >
-          <div className="hidden lg:flex gap-3 text-lg font-bold flex-1">
+          <div className="hidden lg:flex gap-3 text-lg font-bold flex-1 font-futura">
             <div>
               <Link className={`text-lg ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#000000]'}`} to="">
                 OUR MENU
@@ -386,7 +386,7 @@ const Home = () => {
         {isCartOpen && <CartDrawer />}
         <div className="w-full " >
           <div className="flex flex-col md:flex-row justify-between items-center pt-[100px] pb-[40px] px-8">
-            <h1 className="text-white text-lg lg:text-3xl font-bold black-text-shadow mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
+            <h1 className="text-white font-skillet text-lg lg:text-4xl font-bold mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
             <Link to='/meal-package' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
               <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">

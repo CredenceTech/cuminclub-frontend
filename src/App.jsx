@@ -19,6 +19,8 @@ import { ScrollToTop } from "./component/ScrollToTop";
 import Subscription from "./component/Subscription";
 import Invoices from "./component/Invoices";
 import MealPackage from "./pages/MealPackage";
+import './fonts.css';
+
 
 function App() {
   return (

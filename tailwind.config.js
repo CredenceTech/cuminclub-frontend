@@ -8,6 +8,9 @@ export default {
     extend: {
       fontFamily: {
         'custom-font': ['Outfit', 'sans-serif'],
+        'skillet': ['SkilletCondensed', 'sans-serif'],
+        'futura': ['FuturaPTMedium', 'sans-serif'],
+        'futuraBold': ['FuturaBold', 'sans-serif'],
       }, 
     },
   },

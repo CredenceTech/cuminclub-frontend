@@ -123,7 +123,7 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full justify-between bg-[#EADEC1] items-center  fixed z-50 px-5  py-8`}
+        className={`flex w-full justify-between font-futura bg-[#EADEC1] items-center  fixed z-50 px-5  py-8`}
       >
         <div className="hidden lg:flex gap-3 text-lg font-bold flex-1">
           <div>
