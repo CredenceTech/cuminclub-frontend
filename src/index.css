@@ -146,3 +146,12 @@ body {
 .black-text-shadow {
   text-shadow: 5px 5px 10px #020202, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
 }
+
+.underline {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #188f0a;
+}
