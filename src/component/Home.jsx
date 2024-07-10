@@ -434,45 +434,45 @@ const Home = () => {
           <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Our Bestsellers</p>
         </div>
         <div className='container mx-auto py-14'>
-          <div className='flex flex-row  justify-start whitespace-nowrap mx-5 lg:mx-10 flex-wrap gap-x-16 gap-y-4'>
+          <div className='flex flex-row  justify-start whitespace-nowrap mx-5 lg:mx-10 flex-wrap gap-x-8 gap-y-4'>
             <div className=' flex flex-col justify-start  items-center'>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
-                <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
+                <img src={food} alt="" className='h-[150px] w-[150px]  relative inset-0' />
               </div>
               <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-between'>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
-                <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
+                <img src={food} alt="" className='h-[150px] w-[150px]  relative inset-0' />
               </div>
               <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Paneer Butter <br /> Masala</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
-                <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
+                <img src={food} alt="" className='h-[150px] w-[150px]  relative inset-0' />
               </div>
               <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Dal Makhani</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
-                <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
+                <img src={food} alt="" className='h-[150px] w-[150px]  relative inset-0' />
               </div>
               <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
-                <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
+                <img src={food} alt="" className='h-[150px] w-[150px]  relative inset-0' />
               </div>
               <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>
             </div>
             <div className=' flex flex-col justify-start '>
               <div className='bg-[#EADEC1] flex justify-center items-center rounded-2xl relative'>
-                <img src={food} alt="" className='h-[150px] w-[120px]  relative inset-0' />
+                <img src={food} alt="" className='h-[150px] w-[150px]  relative inset-0' />
               </div>
               <p className='text-[#231F20] font-futuraBold text-lg pt-2'>Pav Bhaji</p>
               <p className='text-gray-500 text-lg'>₹ 199.00</p>

@@ -25,7 +25,9 @@ import LoadingAnimation from "../component/Loader";
 import { totalQuantity } from "../utils";
 import Popup from "../component/Popup";
 import SpiceLevel from "../component/SpiceLevel";
-import cardIcon from "../assets/cartnew.png";
+import cardIcon from '../assets/cartnew.png';
+import { AnimatePresence, motion } from "framer-motion";
+import { Footer } from "../component/Footer";
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -44,6 +46,7 @@ const Product = () => {
   const [loading, setLoading] = useState({});
   const categoryTitleRefs = useRef([]);
   const [currentCategory, setCurrentCategory] = useState("");
+  const [selectedTab, setSelectedTab] = useState('BUY NOW');
   const [selectedValue, setSelectedValue] = useState(null);
   useEffect(() => {
     const handleScroll = () => {
@@ -466,7 +469,61 @@ const Product = () => {
         },
       ],
     },
-  ];
+  ]
+
+  const product = [
+    {
+      id: 1,
+      isLong: true,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 2,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Punjabi chole'
+    },
+    {
+      id: 3,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 4,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 5,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 6,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 7,
+      isLong: true,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+  ]
+
+
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -475,62 +532,81 @@ const Product = () => {
   return (
     <>
       {apiResponse ? (
-        <div className="min-h-[75vh] w-full bg-[#f1663c]">
-          <div className=" py-2 bg-[#FBAE36] w-full overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex lg:justify-between items-center">
-            <div className="hidden lg:block ml-10">
-              <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">
-                Meal Package
-              </h3>
-              <div className="w-28">
-                <select
-                  id="selectDropdown"
-                  value={selectedValue?.noMeal}
-                  onChange={handleChange}
-                  className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-skillet font-bold text-xl rounded-lg active:border-none bg-[#EADEC1]"
-                >
-                  {options.map((option) => (
-                    <option
-                      className="text-[#231F20] font-skillet text-base"
-                      key={option.id}
-                      value={option}
-                    >
-                      {option.noMeal}
-                    </option>
-                  ))}
-                </select>
+        <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
+          <div className="border-b-2 border-b-[#cfc19f]">
+            <div className="container mx-auto flex flex-row justify-around pt-4">
+              <div onClick={() => { setSelectedTab('BUY NOW') }} className="px-16 relative cursor-pointer ">
+                <p className="text-base font-futuraBold lg:text-2xl py-3" >BUY NOW </p>
+                {selectedTab === 'BUY NOW' ? (
+                  <motion.div className="underline" layoutId="underline" />
+                ) : null}
+              </div>
+              <div onClick={() => { setSelectedTab('SUBSCRIBE') }} className="px-16 relative cursor-pointer">
+                <p className="text-base font-futuraBold lg:text-2xl py-3">SUBSCRIBE </p>
+                {selectedTab === 'SUBSCRIBE' ? (
+                  <motion.div className="underline" layoutId="underline" />
+                ) : null}
               </div>
             </div>
-            <div className="flex flex-row items-center ">
-              <div className="flex flex-row items-center gap-x-2 mr-10">
-                <p className="text-[#231F20] font-skillet text-2xl">
-                  Fill your box 📦
-                </p>
-              </div>
-              <div className="flex flex-row gap-x-2 mr-2">
-                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                </div>
-                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                </div>
-                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                </div>
-                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                </div>
-                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                </div>
-                <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                  <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                </div>
-              </div>
-              <div className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
-                <img src={cardIcon} alt="" className="w-6 h-6" />
-              </div>
+          </div>
 
-              {/* <div className="flex h-12 lg:h-16 gap-5">
+          {selectedTab === 'SUBSCRIBE' ?
+            <AnimatePresence mode="wait">
+              <motion.div
+                // key={selectedTab ? selectedTab.label : "empty"}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className=" py-2 bg-[#FBAE36] w-full overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex lg:justify-between items-center">
+                  <div className="hidden lg:block ml-10">
+                    <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">Meal Package</h3>
+                    <div className="w-28" >
+                      <select
+                        id="selectDropdown"
+                        value={selectedValue?.noMeal}
+                        onChange={handleChange}
+                        className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-skillet font-bold text-xl rounded-lg active:border-none bg-[#EADEC1]"
+                      >
+                        {options.map((option) => (
+                          <option className="text-[#231F20] font-skillet text-base" key={option.id} value={option}>
+                            {option.noMeal}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex flex-row items-center ">
+                    <div className="flex flex-row items-center gap-x-2 mr-10">
+                      <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
+                    </div>
+                    <div className="flex flex-row gap-x-2 mr-2">
+                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                      </div>
+                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                      </div>
+                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                      </div>
+                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                      </div>
+                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                      </div>
+                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                      </div>
+                    </div>
+                    <div className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
+                      <img src={cardIcon} alt="" className="w-6 h-6" />
+                    </div>
+
+
+                    {/* <div className="flex h-12 lg:h-16 gap-5">
                 <div
                   className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
                   style={{ borderWidth: "3px" }}
@@ -567,8 +643,84 @@ const Product = () => {
                   <span className="text-xs lg:text-lg">Update Your Plan</span>
                 </div>
               </div> */}
-            </div>
-          </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+            :
+            <motion.div
+              // key={selectedTab ? selectedTab.label : "empty"}
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <div class=" container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10">
+
+                {product?.map((item) => (
+                  <>
+                    {item?.isLong
+                      ?
+                      <div className='col-span-2 bg-[#EADEC1] rounded-3xl'>
+                        <AnimatePresence mode="popLayout">
+                          <motion.div
+                            initial={{ y: 500, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -500, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <div className="relative">
+                              <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                              <button type="button" className="bg-yellow-500 tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">LENTIL</button>
+                            </div>
+                            <div className=" px-10 py-5">
+                              <div className="flex flex-row justify-between">
+                                <p className="text-base font-futuraBold uppercase lg:text-2xl">{item?.name}</p>
+                                <p className="text-base font-futuraBold lg:text-2xl">₹ 99</p>
+                              </div>
+                              <p className="text-lg font-futura text-[#515151]">{item?.description}</p>
+                              <div className="flex gap-x-4 mt-1">
+                                <button type="button" className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                <button type="button" className="bg-green-700 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+                      :
+                      <div className="bg-[#EADEC1] relative rounded-3xl">
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            initial={{ y: 500, x: -500, opacity: 0 }}
+                            animate={{ y: 0, x: 0, opacity: 1 }}
+                            exit={{ y: -500, x: 500, opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                          >
+                            <img src={item?.image} alt="product" className="w-full h-full rounded-t-3xl" />
+                            <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                              <div className="p-4">
+                                <button type="button" className="bg-green-700 tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+                              </div>
+                              <div className="pl-8 pb-4">
+                                <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{item?.name}</p>
+                                <div className="flex gap-x-4 mt-2">
+                                  <button type="button" className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                  <button type="button" className="bg-green-700 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+                    }
+
+                  </>
+                ))}
+
+              </div >
+            </motion.div>
+          }
+
           <>
             {/* <div className="flex bg-[#FBAE36] justify-start sticky top-20">
               <div className="flex items-center bg-[#FBAE36] gap-2">
@@ -625,64 +777,72 @@ const Product = () => {
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
               className="mt-4 container mx-auto"
-              // style={{
-              //   height: "62vh",
-              // }}
+            // style={{
+            //   height: "62vh",
+            // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
-                <div className="mt-10 ">
-                  <div
-                    ref={(ref) => (categoryTitleRefs.current[index] = ref)}
-                    className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    // key={selectedTab ? selectedTab.label : "empty"}
+                    initial={{ y: 100, x: -100, opacity: 0 }}
+                    animate={{ y: 0, x: 0, opacity: 1 }}
+                    exit={{ y: -100, x: 100, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                   >
-                    {/* {category.node.title} */}
-                  </div>
-                  <div
-                    key={category.node.title}
-                    ref={productEdgesRef}
-                    id={`product-edges-${category.node.title}`}
-                    className="flex  justify-center flex-wrap"
-                  >
-                    {category.node.products.edges.map((product) => (
+                    <div className="mt-10 ">
                       <div
-                        key={product.node.id}
-                        className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col justify-between p-2 lg:p-4"
+                        ref={(ref) => (categoryTitleRefs.current[index] = ref)}
+                        className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
                       >
-                        <img
-                          src={product.node.featuredImage.url}
-                          alt={product.node.featuredImage.altText}
-                          className="w-48 h-32 lg:w-52 lg:h-48 mb-1 cursor-pointer rounded-2xl"
-                          onClick={() => {
-                            if (category.node.title === "Bundles") {
-                              navigate(`/bundleDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            } else {
-                              navigate(`/productDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            }
-                          }}
-                        />
-                        <h3
-                          style={{ color: "rgba(51, 51, 51, 1)" }}
-                          className="text-base font-futuraBold lg:text-lg items-start overflow-hidden pb-8 cursor-pointer"
-                          onClick={() => {
-                            if (category.node.title === "Bundles") {
-                              navigate(`/bundleDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            } else {
-                              navigate(`/productDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            }
-                          }}
-                        >
-                          {product.node.title}
-                        </h3>
-                        {/* <p className="text-xs lg:text-base my-2">
+                        {/* {category.node.title} */}
+                      </div>
+                      <div
+                        key={category.node.title}
+                        ref={productEdgesRef}
+                        id={`product-edges-${category.node.title}`}
+                        className="flex  justify-center flex-wrap"
+                      >
+                        {category.node.products.edges.map((product) => (
+                          <div
+                            key={product.node.id}
+                            className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col justify-between p-2 lg:p-4"
+                          >
+                            <img
+                              src={product.node.featuredImage.url}
+                              alt={product.node.featuredImage.altText}
+                              className="w-48 h-32 lg:w-52 lg:h-48 mb-1 cursor-pointer rounded-2xl"
+                              onClick={() => {
+                                if (category.node.title === "Bundles") {
+                                  navigate(`/bundleDetail`, {
+                                    state: { id: product.node.id },
+                                  });
+                                } else {
+                                  navigate(`/productDetail`, {
+                                    state: { id: product.node.id },
+                                  });
+                                }
+                              }}
+                            />
+                            <h3
+                              style={{ color: "rgba(51, 51, 51, 1)" }}
+                              className="text-base font-futuraBold lg:text-lg items-start overflow-hidden pb-8 cursor-pointer"
+                              onClick={() => {
+                                if (category.node.title === "Bundles") {
+                                  navigate(`/bundleDetail`, {
+                                    state: { id: product.node.id },
+                                  });
+                                } else {
+                                  navigate(`/productDetail`, {
+                                    state: { id: product.node.id },
+                                  });
+                                }
+                              }}
+                            >
+                              {product.node.title}
+                            </h3>
+                            {/* <p className="text-xs lg:text-base my-2">
                           {(product?.node?.metafields &&
                             product?.node?.metafields.find(
                               (metafield) =>
@@ -690,7 +850,7 @@ const Product = () => {
                             )?.value) ||
                             ""}
                         </p> */}
-                        {/* <div className="flex gap-1 mb-2">
+                            {/* <div className="flex gap-1 mb-2">
                           {!(category.node.title === "Bundles") ? (
                             <SpiceLevel
                               rating={
@@ -704,170 +864,170 @@ const Product = () => {
                             ""
                           )}
                         </div> */}
-                        {category.node.title === "Bundles" ? (
-                          <div>
-                            <button
-                              onClick={() => {
-                                getProductDetail(product.node.id);
-                              }}
-                              className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white"
-                            >
-                              Add to cart
-                            </button>
-                          </div>
-                        ) : loading[product.node.variants.edges[0].node.id] ? (
-                          <div className="flex items-center justify-center">
-                            <svg
-                              width="80"
-                              height="52"
-                              viewBox="0 0 120 30"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="#4fa94d"
-                              data-testid="three-dots-svg"
-                            >
-                              <circle cx="15" cy="15" r="15">
-                                <animate
-                                  attributeName="r"
-                                  from="15"
-                                  to="15"
-                                  begin="0s"
-                                  dur="0.8s"
-                                  values="15;9;15"
-                                  calcMode="linear"
-                                  repeatCount="indefinite"
-                                ></animate>
-                                <animate
+                            {category.node.title === "Bundles" ? (
+                              <div>
+                                <button
+                                  onClick={() => {
+                                    getProductDetail(product.node.id);
+                                  }}
+                                  className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white"
+                                >
+                                  Add to cart
+                                </button>
+                              </div>
+                            ) : loading[product.node.variants.edges[0].node.id] ? (
+                              <svg
+                                width="80"
+                                height="80"
+                                viewBox="0 0 120 30"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="#4fa94d"
+                                data-testid="three-dots-svg"
+                              >
+                                <circle cx="15" cy="15" r="15">
+                                  <animate
+                                    attributeName="r"
+                                    from="15"
+                                    to="15"
+                                    begin="0s"
+                                    dur="0.8s"
+                                    values="15;9;15"
+                                    calcMode="linear"
+                                    repeatCount="indefinite"
+                                  ></animate>
+                                  <animate
+                                    attributeName="fill-opacity"
+                                    from="1"
+                                    to="1"
+                                    begin="0s"
+                                    dur="0.8s"
+                                    values="1;.5;1"
+                                    calcMode="linear"
+                                    repeatCount="indefinite"
+                                  ></animate>
+                                </circle>
+                                <circle
+                                  cx="60"
+                                  cy="15"
+                                  r="9"
                                   attributeName="fill-opacity"
                                   from="1"
-                                  to="1"
-                                  begin="0s"
-                                  dur="0.8s"
-                                  values="1;.5;1"
-                                  calcMode="linear"
-                                  repeatCount="indefinite"
-                                ></animate>
-                              </circle>
-                              <circle
-                                cx="60"
-                                cy="15"
-                                r="9"
-                                attributeName="fill-opacity"
-                                from="1"
-                                to="0.3"
-                              >
-                                <animate
-                                  attributeName="r"
-                                  from="9"
-                                  to="9"
-                                  begin="0s"
-                                  dur="0.8s"
-                                  values="9;15;9"
-                                  calcMode="linear"
-                                  repeatCount="indefinite"
-                                ></animate>
-                                <animate
-                                  attributeName="fill-opacity"
-                                  from="0.5"
-                                  to="0.5"
-                                  begin="0s"
-                                  dur="0.8s"
-                                  values=".5;1;.5"
-                                  calcMode="linear"
-                                  repeatCount="indefinite"
-                                ></animate>
-                              </circle>
-                              <circle cx="105" cy="15" r="15">
-                                <animate
-                                  attributeName="r"
-                                  from="15"
-                                  to="15"
-                                  begin="0s"
-                                  dur="0.8s"
-                                  values="15;9;15"
-                                  calcMode="linear"
-                                  repeatCount="indefinite"
-                                ></animate>
-                                <animate
-                                  attributeName="fill-opacity"
-                                  from="1"
-                                  to="1"
-                                  begin="0s"
-                                  dur="0.8s"
-                                  values="1;.5;1"
-                                  calcMode="linear"
-                                  repeatCount="indefinite"
-                                ></animate>
-                              </circle>
-                            </svg>
-                          </div>
-                        ) : (
-                          <div
-                            className="flex w-full justify-center gap-x-8 lg:gap-x-10 items-center rounded-lg mt-2 px-4 py-1 lg:py-2"
-                            style={{ background: "rgba(241, 102, 60, 0.6)" }}
-                          >
-                            <button
-                              onClick={() => {
-                                if (
-                                  getProductQuantityInCart(
-                                    product.node.variants.edges[0].node.id
-                                  ) !== 0
-                                ) {
-                                  handleRemoveFromCart(
-                                    product.node.variants.edges[0].node.id
-                                  );
-                                }
-                              }}
-                            >
-                              <svg
-                                width="20"
-                                height="2"
-                                viewBox="0 0 14 2"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
-                                  d="M13.9696 1.95317H0.625244V0.0468292H13.9696V1.95317Z"
-                                  fill="#FAFAFA"
-                                />
+                                  to="0.3"
+                                >
+                                  <animate
+                                    attributeName="r"
+                                    from="9"
+                                    to="9"
+                                    begin="0s"
+                                    dur="0.8s"
+                                    values="9;15;9"
+                                    calcMode="linear"
+                                    repeatCount="indefinite"
+                                  ></animate>
+                                  <animate
+                                    attributeName="fill-opacity"
+                                    from="0.5"
+                                    to="0.5"
+                                    begin="0s"
+                                    dur="0.8s"
+                                    values=".5;1;.5"
+                                    calcMode="linear"
+                                    repeatCount="indefinite"
+                                  ></animate>
+                                </circle>
+                                <circle cx="105" cy="15" r="15">
+                                  <animate
+                                    attributeName="r"
+                                    from="15"
+                                    to="15"
+                                    begin="0s"
+                                    dur="0.8s"
+                                    values="15;9;15"
+                                    calcMode="linear"
+                                    repeatCount="indefinite"
+                                  ></animate>
+                                  <animate
+                                    attributeName="fill-opacity"
+                                    from="1"
+                                    to="1"
+                                    begin="0s"
+                                    dur="0.8s"
+                                    values="1;.5;1"
+                                    calcMode="linear"
+                                    repeatCount="indefinite"
+                                  ></animate>
+                                </circle>
                               </svg>
-                            </button>
-                            <span className="text-xl text-white">
-                              {getProductQuantityInCart(
-                                product.node.variants.edges[0].node.id
-                              )}
-                            </span>
-                            <button
-                              onClick={() =>
-                                handleAddToCart(
-                                  product.node.variants.edges[0].node.id,
-                                  product.node.sellingPlanGroups?.edges[0]?.node
-                                    ?.sellingPlans?.edges[0]?.node?.id
-                                )
-                              }
-                            >
-                              <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 14 14"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
+                            ) : (
+                              <div
+                                className="flex w-full justify-center gap-x-8 lg:gap-x-10 items-center rounded-lg mt-2 px-4 py-1 lg:py-2"
+                                style={{ background: "rgba(241, 102, 60, 0.6)" }}
                               >
-                                <path
-                                  fill-rule="evenodd"
-                                  clip-rule="evenodd"
-                                  d="M6.34425 6.04683V0.32782H8.25059V6.04683H13.9696V7.95316H8.25059V13.6722H6.34425V7.95316H0.625244V6.04683H6.34425Z"
-                                  fill="#FAFAFA"
-                                />
-                              </svg>
-                            </button>
+                                <button
+                                  onClick={() => {
+                                    if (
+                                      getProductQuantityInCart(
+                                        product.node.variants.edges[0].node.id
+                                      ) !== 0
+                                    ) {
+                                      handleRemoveFromCart(
+                                        product.node.variants.edges[0].node.id
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <svg
+                                    width="20"
+                                    height="2"
+                                    viewBox="0 0 14 2"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M13.9696 1.95317H0.625244V0.0468292H13.9696V1.95317Z"
+                                      fill="#FAFAFA"
+                                    />
+                                  </svg>
+                                </button>
+                                <span className="text-xl text-white">
+                                  {getProductQuantityInCart(
+                                    product.node.variants.edges[0].node.id
+                                  )}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    handleAddToCart(
+                                      product.node.variants.edges[0].node.id,
+                                      product.node.sellingPlanGroups?.edges[0]?.node
+                                        ?.sellingPlans?.edges[0]?.node?.id
+                                    )
+                                  }
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 14 14"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      fill-rule="evenodd"
+                                      clip-rule="evenodd"
+                                      d="M6.34425 6.04683V0.32782H8.25059V6.04683H13.9696V7.95316H8.25059V13.6722H6.34425V7.95316H0.625244V6.04683H6.34425Z"
+                                      fill="#FAFAFA"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                            )}
                           </div>
-                        )}
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               ))}
             </div>
           </>
@@ -885,6 +1045,7 @@ const Product = () => {
           <LoadingAnimation />
         </div>
       )}
+      <Footer />
     </>
   );
 };
