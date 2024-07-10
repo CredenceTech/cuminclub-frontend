@@ -420,8 +420,8 @@ const Product = () => {
           noMeal: "Subscription",
           price: "₹2110.12/meal",
           discountPrice: "2000.12/meal",
-        }
-      ]
+        },
+      ],
     },
     {
       id: 2,
@@ -443,8 +443,8 @@ const Product = () => {
           noMeal: "Subscription",
           price: "₹1210.12/meal",
           discountPrice: "₹1000.12/meal",
-        }
-      ]
+        },
+      ],
     },
     {
       id: 3,
@@ -466,8 +466,8 @@ const Product = () => {
           noMeal: "Subscription",
           price: "₹1210.12/meal",
           discountPrice: "₹1000.12/meal",
-        }
-      ]
+        },
+      ],
     },
   ]
 
@@ -528,7 +528,6 @@ const Product = () => {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-
 
   return (
     <>
