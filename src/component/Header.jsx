@@ -230,9 +230,12 @@ const Header = () => {
         </div>
         <div className="flex gap-x-8 flex-1 justify-end">
           <button
-            onClick={
-              cartDatas !== null ? () => dispatch(openCart()) : undefined
-            }
+            // onClick={
+            //   cartDatas !== null ? () => dispatch(openCart()) : undefined
+            // }
+            onClick={() => {
+              navigate('/cardReview')
+            }}
             className="flex relative items-center gap-2 py-2  text-white px-3 rounded-xl"
           >
             <svg
