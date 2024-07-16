@@ -147,7 +147,7 @@ body {
   text-shadow: 5px 5px 10px #020202, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
 }
 
-.underline {
+.underlineHeader {
   position: absolute;
   bottom: -1px;
   left: 0;

@@ -106,12 +106,15 @@ export const Footer = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              className={`bg-[#EADEC1] px-5 py-3 border-[3px] border-[#bc9f5a]  rounded-lg text-3xl my-3 focus:outline-none focus:ring-0 `}
+              className={`bg-[#EADEC1] px-5 py-3 border-[3px] w-full border-[#AA9460]  rounded-lg text-3xl my-3 focus:outline-[#d5ab47] focus:ring-0 `}
               placeholder="Email ID"
             />
-            <button type="button" className="rounded-full flex justify-center items-center absolute right-3 h-10 w-10 text-2xl bg-[#bc9f5a]" >{`>`}</button>
+            <button type="button" className="rounded-full flex justify-center items-center absolute right-3 h-10 w-10 text-2xl bg-[#aa9460af]" >
+              <svg width="10" height="15" viewBox="0 0 10 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.39961 12.3334L7.59961 7.13335L2.39961 1.93335" stroke="#695118" stroke-width="2.6" stroke-linecap="square" />
+              </svg>
+            </button>
           </div>
-
         </div>
       </div>
       <div className="mx-auto container flex flex-col md:flex-row justify-between mt-8 px-3 md:px-1 py-10">

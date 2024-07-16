@@ -20,6 +20,7 @@ import Subscription from "./component/Subscription";
 import Invoices from "./component/Invoices";
 import MealPackage from "./pages/MealPackage";
 import './fonts.css';
+import CardReview from "./pages/CardReview";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/payment-failure" element={<PaymentFailure />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/Invoices" element={<Invoices />} />
+            <Route path="/cardReview" element={<CardReview />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>

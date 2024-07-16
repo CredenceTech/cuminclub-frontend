@@ -28,6 +28,7 @@ import SpiceLevel from "../component/SpiceLevel";
 import cardIcon from '../assets/cartnew.png';
 import { AnimatePresence, motion } from "framer-motion";
 import { Footer } from "../component/Footer";
+import food1 from '../assets/food1.png'
 
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -475,7 +476,7 @@ const Product = () => {
     {
       id: 1,
       isLong: true,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      image: food1,
       description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
       name: 'Dal makhani'
     },
@@ -517,13 +518,11 @@ const Product = () => {
     {
       id: 7,
       isLong: true,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      image: food1,
       description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
       name: 'Dal makhani'
     },
   ]
-
-
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -538,13 +537,13 @@ const Product = () => {
               <div onClick={() => { setSelectedTab('BUY NOW') }} className="px-16 relative cursor-pointer ">
                 <p className="text-base font-futuraBold lg:text-2xl py-3" >BUY NOW </p>
                 {selectedTab === 'BUY NOW' ? (
-                  <motion.div className="underline" layoutId="underline" />
+                  <motion.div className="underlineHeader" layoutId="underline" />
                 ) : null}
               </div>
               <div onClick={() => { setSelectedTab('SUBSCRIBE') }} className="px-16 relative cursor-pointer">
                 <p className="text-base font-futuraBold lg:text-2xl py-3">SUBSCRIBE </p>
                 {selectedTab === 'SUBSCRIBE' ? (
-                  <motion.div className="underline" layoutId="underline" />
+                  <motion.div className="underlineHeader" layoutId="underline" />
                 ) : null}
               </div>
             </div>
@@ -655,13 +654,13 @@ const Product = () => {
               exit={{ y: -10, opacity: 0 }}
               transition={{ duration: 0.4 }}
             >
-              <div class=" container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10">
+              <div className=" container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10">
 
                 {product?.map((item) => (
                   <>
                     {item?.isLong
                       ?
-                      <div className='col-span-2 bg-[#EADEC1] rounded-3xl'>
+                      <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
                         <AnimatePresence mode="popLayout">
                           <motion.div
                             initial={{ y: 500, opacity: 0 }}
@@ -671,7 +670,7 @@ const Product = () => {
                           >
                             <div className="relative">
                               <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
-                              <button type="button" className="bg-yellow-500 tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">LENTIL</button>
+                              <button type="button" className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">LENTIL</button>
                             </div>
                             <div className=" px-10 py-5">
                               <div className="flex flex-row justify-between">
@@ -681,14 +680,14 @@ const Product = () => {
                               <p className="text-lg font-futura text-[#515151]">{item?.description}</p>
                               <div className="flex gap-x-4 mt-1">
                                 <button type="button" className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
-                                <button type="button" className="bg-green-700 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
                               </div>
                             </div>
                           </motion.div>
                         </AnimatePresence>
                       </div>
                       :
-                      <div className="bg-[#EADEC1] relative rounded-3xl">
+                      <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
                         <AnimatePresence mode="wait">
                           <motion.div
                             initial={{ y: 500, x: -500, opacity: 0 }}
@@ -696,16 +695,16 @@ const Product = () => {
                             exit={{ y: -500, x: 500, opacity: 0 }}
                             transition={{ duration: 0.4 }}
                           >
-                            <img src={item?.image} alt="product" className="w-full h-full rounded-t-3xl" />
+                            <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
                             <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
                               <div className="p-4">
-                                <button type="button" className="bg-green-700 tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+                                <button type="button" className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
                               </div>
-                              <div className="pl-8 pb-4">
+                              <div className="px-3 md:pl-8 pb-4">
                                 <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{item?.name}</p>
-                                <div className="flex gap-x-4 mt-2">
+                                <div className="flex flex-col md:flex-row md:gap-4">
                                   <button type="button" className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
-                                  <button type="button" className="bg-green-700 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                  <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
                                 </div>
                               </div>
                             </div>
@@ -984,8 +983,8 @@ const Product = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      fill-rule="evenodd"
-                                      clip-rule="evenodd"
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
                                       d="M13.9696 1.95317H0.625244V0.0468292H13.9696V1.95317Z"
                                       fill="#FAFAFA"
                                     />
@@ -1013,8 +1012,8 @@ const Product = () => {
                                     xmlns="http://www.w3.org/2000/svg"
                                   >
                                     <path
-                                      fill-rule="evenodd"
-                                      clip-rule="evenodd"
+                                      fillRule="evenodd"
+                                      clipRule="evenodd"
                                       d="M6.34425 6.04683V0.32782H8.25059V6.04683H13.9696V7.95316H8.25059V13.6722H6.34425V7.95316H0.625244V6.04683H6.34425Z"
                                       fill="#FAFAFA"
                                     />
