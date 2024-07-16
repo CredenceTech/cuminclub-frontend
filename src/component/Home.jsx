@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import food from '../assets/food.png';
+import fastTime from '../assets/fast-time.png'
+import happy from '../assets/happy.png'
+import noPreservative from '../assets/no-preservatives.png'
 import { motion } from "framer-motion";
 import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { cartIsOpen, openCart } from "../state/cart";
@@ -22,6 +25,7 @@ import {
   customerAccessTokenData,
   registerUserId,
 } from "../state/user";
+import { Footer } from "./Footer";
 const Home = () => {
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -127,7 +131,7 @@ const Home = () => {
         <div
           className={`flex w-full justify-between items-center px-5 py-8`}
         >
-          <div className="hidden lg:flex gap-3 text-lg font-bold flex-1 font-futura">
+          <div className="hidden lg:flex gap-3 text-lg font-bold flex-1 font-sans">
             <div>
               <Link className={`text-lg ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#000000]'}`} to="">
                 OUR MENU
@@ -387,7 +391,7 @@ const Home = () => {
         <div className="w-full " >
           <div className="flex flex-col md:flex-row justify-between items-center pt-[100px] pb-[40px] px-8">
             <h1 className="text-white black-text-shadow font-skillet text-lg lg:text-4xl font-bold mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
-            <Link to='/meal-package' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
+            <Link to='/products' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
               <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -402,25 +406,13 @@ const Home = () => {
       <div className='bg-[#EFE9DA]'>
         <div className='container mx-auto py-14'>
           <div className='flex flex-row justify-start items-center whitespace-nowrap  flex-wrap gap-x-8 gap-y-4'>
-            <div className=' flex flex-row  items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>North <br /> Indian</p>
+            <div className=' flex flex-col justify-center  items-center relative '>
+              <img src={food} alt="" className='h-[100px] w-[100px]  ' />
+              <p className='text-[#231F20] bg-[#FBAE36] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>Lentils</p>
             </div>
-            <div className=' flex flex-row items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>South <br /> Indian</p>
-            </div>
-            <div className=' flex flex-row items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>Popular <br /> Combos</p>
-            </div>
-            <div className=' flex flex-row items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1'>North <br /> Indian</p>
-            </div>
-            <div className=' flex flex-row items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  relative left-[17px]' />
-              <p className='text-[#231F20] bg-[#EADEC1] text-xl lg:text-2xl font-skillet rounded-tr-lg rounded-br-lg px-8 py-1 '>North <br /> Indian</p>
+            <div className=' flex flex-col justify-center  items-center relative '>
+              <img src={food} alt="" className='h-[100px] w-[100px]  ' />
+              <p className='text-[#FFFFFF] bg-[#26965C] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>Curries</p>
             </div>
           </div>
         </div>
@@ -506,6 +498,26 @@ const Home = () => {
 
         </div>
       </div>
+      <div className='bg-[#EFE9DA]'>
+        <div className='container mx-auto pt-14 pb-[100px] md:pb-[250px]'>
+          <p className='text-[#333333] font-skillet px-6 py-10 text-3xl md:text-6xl text-center'>Why Instantly Yours?</p>
+          <div className='flex flex-row justify-evenly items-center whitespace-nowrap  flex-wrap gap-x-12 gap-y-4'>
+            <div className=' flex flex-col justify-center  items-center relative '>
+              <img src={noPreservative} alt="" className='h-[150px] w-[150px]' />
+              <p className='text-[#333333]  text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>No Preservatives</p>
+            </div>
+            <div className=' flex flex-col justify-center  items-center relative '>
+              <img src={fastTime} alt="" className='h-[150px] w-[150px]  ' />
+              <p className='text-[#333333]  text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>Ready in 2 mins</p>
+            </div>
+            <div className=' flex flex-col justify-center  items-center relative '>
+              <img src={happy} alt="" className='h-[150px] w-[150px]  ' />
+              <p className='text-[#333333] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>Tasty and healthy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   )
 }
