@@ -550,62 +550,63 @@ const Product = () => {
           </div>
 
           {selectedTab === 'SUBSCRIBE' ?
-            <AnimatePresence mode="wait">
-              <motion.div
-                // key={selectedTab ? selectedTab.label : "empty"}
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className=" py-2 bg-[#FBAE36] w-full overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex lg:justify-between items-center">
-                  <div className="hidden lg:block ml-10">
-                    <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">Meal Package</h3>
-                    <div className="w-28" >
-                      <select
-                        id="selectDropdown"
-                        value={selectedValue?.noMeal}
-                        onChange={handleChange}
-                        className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-skillet font-bold text-xl rounded-lg active:border-none bg-[#EADEC1]"
-                      >
-                        {options.map((option) => (
-                          <option className="text-[#231F20] font-skillet text-base" key={option.id} value={option}>
-                            {option.noMeal}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex flex-row items-center ">
-                    <div className="flex flex-row items-center gap-x-2 mr-10">
-                      <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
-                    </div>
-                    <div className="flex flex-row gap-x-2 mr-2">
-                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                      </div>
-                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                      </div>
-                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                      </div>
-                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                      </div>
-                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
-                      </div>
-                      <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                        <p className="text-lg font-medium text-[#EADEC1]">?</p>
+            <>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  // key={selectedTab ? selectedTab.label : "empty"}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className=" py-2 bg-[#FBAE36] w-full overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex lg:justify-between items-center">
+                    <div className="hidden lg:block ml-10">
+                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">Meal Package</h3>
+                      <div className="w-28" >
+                        <select
+                          id="selectDropdown"
+                          value={selectedValue?.noMeal}
+                          onChange={handleChange}
+                          className="pl-3 pr-10 py-2 mt-1 text-[#231F20] font-skillet font-bold text-xl rounded-lg active:border-none bg-[#EADEC1]"
+                        >
+                          {options.map((option) => (
+                            <option className="text-[#231F20] font-skillet text-base" key={option.id} value={option}>
+                              {option.noMeal}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
-                    <div className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
-                      <img src={cardIcon} alt="" className="w-6 h-6" />
-                    </div>
+                    <div className="flex flex-row items-center ">
+                      <div className="flex flex-row items-center gap-x-2 mr-10">
+                        <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
+                      </div>
+                      <div className="flex flex-row gap-x-2 mr-2">
+                        <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                          <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                        </div>
+                        <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                          <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                        </div>
+                        <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                          <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                        </div>
+                        <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                          <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                        </div>
+                        <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                          <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                        </div>
+                        <div className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
+                          <p className="text-lg font-medium text-[#EADEC1]">?</p>
+                        </div>
+                      </div>
+                      <div className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
+                        <img src={cardIcon} alt="" className="w-6 h-6" />
+                      </div>
 
 
-                    {/* <div className="flex h-12 lg:h-16 gap-5">
+                      {/* <div className="flex h-12 lg:h-16 gap-5">
                 <div
                   className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
                   style={{ borderWidth: "3px" }}
@@ -642,10 +643,82 @@ const Product = () => {
                   <span className="text-xs lg:text-lg">Update Your Plan</span>
                 </div>
               </div> */}
+                    </div>
                   </div>
-                </div>
+                </motion.div>
+              </AnimatePresence>
+              <motion.div
+                // key={selectedTab ? selectedTab.label : "empty"}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className=" container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10">
+
+                  {product?.map((item) => (
+                    <>
+                      {item?.isLong
+                        ?
+                        <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
+                          <AnimatePresence mode="popLayout">
+                            <motion.div
+                              initial={{ y: 500, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: -500, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <div className="relative">
+                                <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                                <button type="button" className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">LENTIL</button>
+                              </div>
+                              <div className=" px-10 py-5">
+                                <div className="flex flex-row justify-between">
+                                  <p className="text-base font-futuraBold uppercase lg:text-2xl">{item?.name}</p>
+                                  <p className="text-base font-futuraBold lg:text-2xl">₹ 99</p>
+                                </div>
+                                <p className="text-lg font-futura text-[#515151]">{item?.description}</p>
+                                <div className="flex gap-x-4 mt-1">
+                                  <button type="button" className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                  <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                </div>
+                              </div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+                        :
+                        <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                              initial={{ y: 500, x: -500, opacity: 0 }}
+                              animate={{ y: 0, x: 0, opacity: 1 }}
+                              exit={{ y: -500, x: 500, opacity: 0 }}
+                              transition={{ duration: 0.4 }}
+                            >
+                              <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+                              <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                <div className="p-4">
+                                  <button type="button" className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+                                </div>
+                                <div className="px-3 md:pl-8 pb-4">
+                                  <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{item?.name}</p>
+                                  <div className="flex flex-col md:flex-row md:gap-4">
+                                    <button type="button" className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                    <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+                      }
+
+                    </>
+                  ))}
+
+                </div >
               </motion.div>
-            </AnimatePresence>
+            </>
             :
             <motion.div
               // key={selectedTab ? selectedTab.label : "empty"}
@@ -719,7 +792,6 @@ const Product = () => {
               </div >
             </motion.div>
           }
-
           <>
             {/* <div className="flex bg-[#FBAE36] justify-start sticky top-20">
               <div className="flex items-center bg-[#FBAE36] gap-2">
