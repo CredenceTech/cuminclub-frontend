@@ -20,6 +20,9 @@ export default {
         'secondary': 'rgba(115, 115, 115, 0)',
       }),
     },
+    variants: {
+      display: ['group-hover']
+    }
   },
   plugins: [],
 }

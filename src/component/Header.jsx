@@ -123,9 +123,9 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full justify-between font-futura bg-[#EADEC1] items-center  fixed z-50 px-5  py-8`}
+        className={`flex w-full justify-between font-sans bg-[#EADEC1] items-center  fixed z-50 px-5  py-8`}
       >
-        <div className="hidden lg:flex gap-3 text-lg font-bold flex-1">
+        <div className="hidden lg:flex gap-3 text-lg font-sans flex-1">
           <div>
             <Link className="text-lg" to="">
               OUR MENU
