@@ -144,7 +144,7 @@ body {
 }
 
 .black-text-shadow {
-  text-shadow: 5px 5px 10px #020202, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
+  text-shadow: 5px 5px 10px #020202a2, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
 }
 
 .underlineHeader {
@@ -154,4 +154,8 @@ body {
   right: 0;
   height: 5px;
   background: #188f0a;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
