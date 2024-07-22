@@ -1,5 +1,5 @@
 import React, { } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import amazonapy from '../assets/amazon-pay.png';
 import american from '../assets/american-express.png';
 import googlepay from '../assets/google-pay.png';
@@ -10,8 +10,11 @@ import visa from '../assets/visa.png';
 import applepay from '../assets/apple-pay.png';
 
 export const Footer = () => {
+  const location = useLocation();
+  const { pathname } = location;
+
   return (
-    <div className="bg-[#EADEC1]">
+    <div className={`bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-28' : '-bottom-28'}  `}>
       <div className="mx-auto container flex flex-col md:flex-row justify-between px-4  py-10">
         {/* <div className="flex items-center gap-2">
           <svg
