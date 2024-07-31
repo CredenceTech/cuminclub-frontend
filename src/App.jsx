@@ -21,6 +21,7 @@ import Invoices from "./component/Invoices";
 import MealPackage from "./pages/MealPackage";
 import './fonts.css';
 import CardReview from "./pages/CardReview";
+import Recipes from "./pages/Recipes";
 
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
       >
         <ScrollToTop />
         <Header />
-        <div className={`relative min-h-[82vh] top-28 bottom-20 `}>
+        <div className={`relative min-h-[82vh] top-28  `}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -50,6 +51,7 @@ function App() {
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/Invoices" element={<Invoices />} />
             <Route path="/cardReview" element={<CardReview />} />
+            <Route path="/recipes" element={<Recipes />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>

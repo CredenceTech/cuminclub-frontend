@@ -5,7 +5,7 @@ import { cartData, selectCartResponse, setCartResponse } from '../state/cartData
 import { getCartQuery, graphQLClient } from '../api/graphql';
 import { totalQuantity } from '../utils';
 
-const SpiceLevel = ({ rating }) => {
+const SpiceLevel = () => {
     const dispatch = useDispatch();
     const selectedMealData = useSelector(selectMealItems);
     const cartDatas = useSelector(cartData);

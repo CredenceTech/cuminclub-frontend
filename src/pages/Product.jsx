@@ -29,7 +29,7 @@ import cardIcon from '../assets/cartnew.png';
 import { AnimatePresence, motion } from "framer-motion";
 import food1 from '../assets/food1.png'
 import FilterButton from '../component/DropdownFilter';
-
+import productImage from '../assets/Dish-1.jpg';
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
@@ -50,6 +50,9 @@ const Product = () => {
   const [selectedTab, setSelectedTab] = useState('BUY NOW');
   const [selectedValue, setSelectedValue] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const trigger = useRef(null);
+  const dropdown = useRef(null);
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -529,6 +532,26 @@ const Product = () => {
     setSelectedValue(event.target.value);
   };
 
+  useEffect(() => {
+    const clickHandler = ({ target }) => {
+      if (!dropdown.current) return;
+      if (!dropdownOpen || dropdown.current.contains(target) || trigger.current.contains(target)) return;
+      setShowModel(false);
+    };
+    document.addEventListener('click', clickHandler);
+    return () => document.removeEventListener('click', clickHandler);
+  });
+
+  // close if the esc key is pressed
+  useEffect(() => {
+    const keyHandler = ({ keyCode }) => {
+      if (!dropdownOpen || keyCode !== 27) return;
+      setShowModel(false);
+    };
+    document.addEventListener('keydown', keyHandler);
+    return () => document.removeEventListener('keydown', keyHandler);
+  });
+
   return (
     <>
       {apiResponse ? (
@@ -570,9 +593,9 @@ const Product = () => {
                         <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
                       </div>
                       <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
-                        <SpiceLevel rating={4} />
+                        <SpiceLevel />
                       </div>
-                      <div className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
+                      <div ref={trigger} aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
                         <img src={cardIcon} alt="" className="w-6 h-6" />
                       </div>
 
@@ -1094,6 +1117,103 @@ const Product = () => {
           <LoadingAnimation />
         </div>
       )}
+      {
+        showModel ?
+          <div className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
+            <div ref={dropdown} className={`flex  flex-col w-full md:w-[400px] bg-[#EADEC1] gap-2 h-full relative top-28 }`}>
+              <h1 className="text-3xl font-skillet pl-4 py-4">Review your monthly box</h1>
+              <div className="px-4 h-[65vh] pb-32 overflow-x-scroll">
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div><div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div><div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+              </div>
+              <div className="fixed bottom-0 bg-[#EADEC1]  px-5 py-8 border-t border-t-black w-full md:w-[400px] z-[500] ">
+                <div className="flex justify-between">
+                  <h1 className="text-2xl text-[#000000] font-skillet">₹510</h1>
+                  <div className="flex flex-col md:flex-row md:gap-4">
+                    <button type="button" className="bg-[#f1663ccc] text-gray-100 px-2 text-2xl rounded-lg  font-skillet">Add to cart</button>
+                    <button type="button" onClick={() => { setShowModel(false) }} className="bg-[#26965C] text-gray-100 px-2 text-2xl rounded-lg  font-skillet">Checkout</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          :
+          ''
+      }
     </>
   );
 };
