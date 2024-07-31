@@ -255,28 +255,12 @@ const Home = () => {
                   </NavigationMenu.Content> */}
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  {/* <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg  relative  ${ !showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-lg  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     RECIPES
-                  </NavigationMenu.Trigger> */}
-                  {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
-                    <div className="">
-                      <h1>Anukas adjasd;p9erhj</h1>
-                    </div>
-                  </NavigationMenu.Content> */}
+                  </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
               </NavigationMenu.List>
             </NavigationMenu.Root>
-
-            {/* <div>
-              <Link className={`text-lg  ${ !showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`} to="">
-                HOW IT WORKS
-              </Link>
-            </div>
-            <div>
-              <Link className={`text-lg ${pathname === '/' ? 'text-[#FFFFFF] ' : 'text-[#000000]'}`} to="">
-                ABOUT US
-              </Link>
-            </div> */}
           </div>
           <div className="flex flex-1 justify-center gap-3 ">
             <Link to="/">

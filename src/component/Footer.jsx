@@ -15,7 +15,7 @@ export const Footer = () => {
 
   return (
     <div className={`bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-28' : '-bottom-28'}  `}>
-      <div className="mx-auto container flex flex-col md:flex-row justify-between px-4  py-10">
+      <div className="mx-auto container flex flex-col md:flex-row justify-between px-8  py-10">
         {/* <div className="flex items-center gap-2">
           <svg
             width="15"
@@ -38,7 +38,7 @@ export const Footer = () => {
           <Link to="/refund">Refunds</Link>
           <Link to="/accessibility">Accessibility Statement</Link>
         </div> */}
-        <div className="flex flex-row gap-y-4 md:gap-y-1">
+        <div className="flex lg:flex-row flex-col  lg:pr-0 gap-y-4 md:gap-y-1">
           <div className="lg:pr-20">
             <svg
               width="180"
@@ -96,7 +96,7 @@ export const Footer = () => {
                 className={`fill-current text-[#231F20]`} />
             </svg>
           </div>
-          <div>
+          <div className="mt-4 md:mt-0">
             <h2 className="text-xl font-sans font-medium text-slate-900">MENU</h2>
             <p className="text-lg font-sans text-slate-900 mt-3">CURRIES</p>
             <p className="text-lg font-sans text-slate-900 ">LENTILS</p>
@@ -104,7 +104,7 @@ export const Footer = () => {
             <p className="text-lg font-sans text-slate-900 ">READT TO EAT</p>
           </div>
         </div>
-        <div>
+        <div className="mt-10 md:mt-0">
           <h2 className="text-xl font-futura text-slate-900">Subscribe to our newsletter</h2>
           <div className="relative flex items-center">
             <input
@@ -120,7 +120,7 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="mx-auto container flex flex-col md:flex-row justify-between mt-8 px-3 md:px-1 py-10">
+      <div className="mx-auto container flex flex-col md:flex-row justify-between mt-8 px-8 md:px-4 pb-10">
         <div>
           <div className="flex gap-x-2  md:gap-x-6">
             <div>
