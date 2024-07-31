@@ -120,9 +120,9 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="mx-auto container flex flex-col md:flex-row justify-between mt-8 px-8 md:px-4 pb-10">
+      <div className="mx-auto container flex flex-col-reverse md:flex-row justify-between mt-8 px-8 md:px-4 pb-10">
         <div>
-          <div className="flex gap-x-2  md:gap-x-6">
+          <div className="flex gap-x-2  md:gap-x-6 mt-16 md:mt-0">
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="black"><path d="M12.04 2c-5.523 0-10.04 4.478-10.04 10 0 1.768.463 3.45 1.335 4.93l-1.388 5.057 5.193-1.357c1.444.819 3.103 1.27 4.9 1.27 5.523 0 10.04-4.477 10.04-10s-4.518-10-10.04-10zm5.732 13.568c-.234.652-1.358 1.244-1.883 1.32-.484.07-1.105.102-1.771-.107-.409-.128-.933-.304-1.61-.593-2.841-1.223-4.69-4.067-4.836-4.263-.14-.19-1.148-1.523-1.148-2.908s.728-2.059.984-2.337c.253-.273.552-.34.737-.34h.53c.19 0 .392-.035.6.453.234.536.764 1.847.83 1.982.07.139.116.301.023.484-.104.198-.155.32-.308.492-.152.17-.322.38-.458.511-.154.147-.314.31-.137.61.18.307.792 1.314 1.707 2.127 1.173 1.034 2.155 1.355 2.465 1.5.31.147.488.126.67-.077.195-.218.839-.974 1.063-1.31.23-.337.458-.287.764-.17.31.116 1.965.928 2.307 1.095.339.168.565.252.652.393.089.137.089.792-.144 1.445z" /></svg>
             </div>
@@ -136,13 +136,13 @@ export const Footer = () => {
           <p className="text-slate-500 text-lg mt-4 font-sans">© IY FOODS PVT. LTD.</p>
         </div>
         <div>
-          <div className="flex flex-wrap gap-x-4">
+          <div className="flex flex-wrap gap-x-4 justify-between gap-y-2 md:text-md text-sm">
             <Link className="border-b border-b-gray-900 text-gray-800 font-sans" to="/term-of-services">Privacy Policy</Link>
             <Link className="border-b border-b-gray-900 text-gray-800 font-sans" to="/privacy-policy">Service Terms</Link>
-            <Link className="border-b border-b-gray-900 text-gray-800 font-sans" to="/refund">Cancellation Policy</Link>
+            <Link className="border-b border-b-gray-900 text-gray-800  font-sans" to="/refund">Cancellation Policy</Link>
             <Link className="border-b border-b-gray-900 text-gray-800 font-sans" to="/accessibility">Refund Policy</Link>
           </div>
-          <div className="flex flex-wrap gap-y-2 gap-x-3 mt-5">
+          <div className="md:flex flex-wrap gap-y-2 gap-x-3 mt-5 hidden">
             <div>
               <img src={amazonapy} alt="" className="w-[60px] h-[30px]" />
             </div>

@@ -142,7 +142,7 @@ const Header = () => {
                   onMouseEnter={() => setShowHeaderMain(true)}
                   // onMouseLeave={() => setShowHeaderMain(false)}
                   onClick={() => { setShowHeaderMain(true) }}
-                  className={`NavigationMenuTrigger text-lg px-4 relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                  className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
                   OUR MENU
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="NavigationMenuContent left-0 right-0 absolute top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
@@ -185,7 +185,7 @@ const Header = () => {
                 </NavigationMenu.Content>
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 relative text-[#231F20]  `}>
+                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative text-[#231F20]  `}>
                   HOW IT WORKS
                 </NavigationMenu.Trigger>
                 {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
@@ -195,7 +195,7 @@ const Header = () => {
                   </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 relative text-[#231F20]  `}>
+                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative text-[#231F20]  `}>
                   ABOUT US
                 </NavigationMenu.Trigger>
                 {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
@@ -205,7 +205,7 @@ const Header = () => {
                   </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-lg  relative  ${pathname === '/recipes' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-lg whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
                   RECIPES
                 </NavigationMenu.Trigger>
 
