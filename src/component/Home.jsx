@@ -18,7 +18,7 @@ import {
   selectCartResponse,
   setCartResponse,
 } from "../state/cartData";
-import { getCartQuery, getProductCollectionsQuery, graphQLClient } from "../api/graphql";
+import { getCartQuery, getCategoriesQuery, getProductCollectionsQuery, graphQLClient } from "../api/graphql";
 import { selectMealItems } from "../state/mealdata";
 import { useLocation } from "react-router-dom";
 import { totalQuantity } from "../utils";
@@ -51,6 +51,7 @@ const Home = () => {
   const [countryList, setCountryList] = useState(null);
   const navigate = useNavigate();
   const { pathname } = location;
+  const [categoryData, setCategoryData] = useState([]);
 
   console.log(userId)
 
@@ -100,6 +101,19 @@ const Home = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        const result = await graphQLClient.request(getCategoriesQuery);
+        setCategoryData(result?.collections?.edges);
+      } catch (error) {
+        // Handle errors here
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    getCategory();
+  }, [])
 
   useEffect(() => {
     const apiCall = async () => {
@@ -192,7 +206,7 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger text-lg px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#CE3E27]'} `}>
+                    className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#CE3E27]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content onMouseLeave={() => setShowHeaderMain(false)} className="NavigationMenuContent absolute top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
@@ -235,7 +249,7 @@ const Home = () => {
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     HOW IT WORKS
                   </NavigationMenu.Trigger>
                   {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
@@ -245,7 +259,7 @@ const Home = () => {
                   </NavigationMenu.Content> */}
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger whitespace-nowrap text-lg px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     ABOUT US
                   </NavigationMenu.Trigger>
                   {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
@@ -255,7 +269,7 @@ const Home = () => {
                   </NavigationMenu.Content> */}
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-lg  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-lg  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     RECIPES
                   </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
@@ -518,16 +532,17 @@ const Home = () => {
       </div>
 
       <div className='bg-[#EFE9DA]'>
-        <div className='container mx-auto py-14'>
+        { }
+        <div className='container mx-auto py-14 pl-8'>
           <div className='flex flex-row justify-start items-center whitespace-nowrap  flex-wrap gap-x-8 gap-y-4'>
-            <div className=' flex flex-col justify-center  items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  ' />
-              <p className='text-[#231F20] bg-[#FBAE36] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>Lentils</p>
-            </div>
-            <div className=' flex flex-col justify-center  items-center relative '>
-              <img src={food} alt="" className='h-[100px] w-[100px]  ' />
-              <p className='text-[#FFFFFF] bg-[#26965C] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>Curries</p>
-            </div>
+            {
+              categoryData?.map((item) => (
+                <div key={item?.node?.id} className=' flex flex-col justify-center  items-center relative '>
+                  <img src={food} alt="" className='h-[100px] w-[100px]  ' />
+                  <p className='text-[#231F20] bg-[#FBAE36] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>{item?.node?.title}</p>
+                </div>
+              ))
+            }
           </div>
         </div>
         <div className='flex flex-row px-8 md:px-14 lg:px-3 items-center'>
@@ -540,9 +555,9 @@ const Home = () => {
           <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Our Bestsellers</p>
         </div>
         <div className='container mx-auto py-14'>
-          <div className='flex flex-row  justify-center md:justify-start whitespace-nowrap mx-5 lg:mx-10 flex-wrap gap-x-8 gap-y-4'>
+          <div className='flex flex-row  justify-around px-7 md:px-4 md:justify-start  md:mx-5 lg:mx-10 flex-wrap gap-x-8  gap-y-4'>
             {apiResponse?.map((item, i) => (
-              <div className=' flex flex-col justify-start  items-center'>
+              <div className=' flex flex-col justify-between lg:justify-start w-[100px] md:w-auto lg:items-center'>
                 <div className={`bg-[${colors[i]}] flex justify-center items-center rounded-2xl relative`}>
                   <img src={item?.node?.featuredImage?.url} alt="" className='md:h-[150px] md:w-[150px] h-[100px] w-[100px] rounded-full  relative inset-0' />
                 </div>
@@ -562,7 +577,7 @@ const Home = () => {
               <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Confused?</p>
               <p className='text-[#FBAE36] text-lg lg:text-3xl font-futuraBold'>Spin it </p>
             </div>
-            <div className='flex h-[500px] relative z-10 justify-end items-center'>
+            <div className='flex h-[500px] relative z-10 justify-end items-center '>
               <div className='relative right-[-24px] top-[60px] z-[-1]'>
                 <div onClick={() => { setSelecteRandomPro(apiResponse[getRandomNumber()]) }} className='flex cursor-pointer flex-row py-2 pl-2 pr-10  rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
                   <div className='h-10 w-10 rounded-full bg-[#FBAE36]'></div>

@@ -1038,3 +1038,20 @@ export const customerEmailMarketingConsentUpdateMutation = gql`
     }
   }
 `;
+
+export const getCategoriesQuery = gql`
+{
+    collections (first: 50){
+        edges {
+            node {
+                id
+                title
+                description
+                handle
+            }
+        }   
+    }
+}
+`;
+
+
