@@ -51,8 +51,6 @@ const Product = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showModel, setShowModel] = useState(false);
-  const trigger = useRef(null);
-  const dropdown = useRef(null);
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -532,25 +530,7 @@ const Product = () => {
     setSelectedValue(event.target.value);
   };
 
-  useEffect(() => {
-    const clickHandler = ({ target }) => {
-      if (!dropdown.current) return;
-      if (!dropdownOpen || dropdown.current.contains(target) || trigger.current.contains(target)) return;
-      setShowModel(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
 
-  // close if the esc key is pressed
-  useEffect(() => {
-    const keyHandler = ({ keyCode }) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setShowModel(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
 
   return (
     <>
@@ -595,7 +575,7 @@ const Product = () => {
                       <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
                         <SpiceLevel />
                       </div>
-                      <div ref={trigger} aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
+                      <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
                         <img src={cardIcon} alt="" className="w-6 h-6" />
                       </div>
 
@@ -1119,8 +1099,8 @@ const Product = () => {
       )}
       {
         showModel ?
-          <div className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
-            <div ref={dropdown} className={`flex  flex-col w-full md:w-[400px] bg-[#EADEC1] gap-2 h-full relative top-28 }`}>
+          <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
+            <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-full md:w-[400px] bg-[#EADEC1] gap-2 h-full relative top-28 }`}>
               <h1 className="text-3xl font-skillet pl-4 py-4">Review your monthly box</h1>
               <div className="px-4 h-[65vh] pb-32 overflow-x-scroll">
                 <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
