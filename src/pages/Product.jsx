@@ -53,6 +53,7 @@ const Product = () => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showModel, setShowModel] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -244,7 +245,9 @@ const Product = () => {
         lines: [cartItems],
       },
     };
+    setIsLoading(true);
     const response = await graphQLClient.request(createCartMutation, params);
+    setIsLoading(false);
     dispatch(addCartData(response));
     setLoading((prevLoading) => ({
       ...prevLoading,
@@ -257,11 +260,12 @@ const Product = () => {
       cartId: cartId,
       lines: cartItem,
     };
-
+    setIsLoading(true);
     const response = await graphQLClient.request(
       updateCartItemMutation,
       params
     );
+    setIsLoading(false);
     dispatch(setCartResponse(response.cartLinesUpdate));
     setLoading((prevLoading) => ({
       ...prevLoading,
@@ -274,7 +278,9 @@ const Product = () => {
       cartId: cartId,
       lines: [cartItem],
     };
+    setIsLoading(true);
     const response = await graphQLClient.request(updateCartMutation, params);
+    setIsLoading(false);
     dispatch(setCartResponse(response.cartLinesAdd));
     setLoading((prevLoading) => ({
       ...prevLoading,
@@ -870,7 +876,13 @@ const Product = () => {
                                     <div className="px-3 md:pl-8 pb-4">
                                       <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{product.node.title}</p>
                                       <div className="flex flex-col md:flex-row md:gap-4">
-                                        <button type="button" className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                        <button type="button" onClick={() =>
+                                          handleAddToCart(
+                                            product.node.variants.edges[0].node.id,
+                                            product.node.sellingPlanGroups?.edges[0]?.node
+                                              ?.sellingPlans?.edges[0]?.node?.id
+                                          )
+                                        } className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
                                         <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
                                       </div>
                                     </div>
@@ -1098,6 +1110,7 @@ const Product = () => {
           <LoadingAnimation />
         </div>
       )}
+      {isLoading && <LoadingAnimation />}
       {
         showModel ?
           <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
