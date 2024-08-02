@@ -30,6 +30,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import food1 from '../assets/food1.png'
 import FilterButton from '../component/DropdownFilter';
 import productImage from '../assets/Dish-1.jpg';
+import { categoryrData } from "../state/selectedCategory";
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
@@ -40,6 +41,7 @@ const Product = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isCartOpen = useSelector(cartIsOpen);
+  const selectedCategory = useSelector(categoryrData);
   const [activeTitle, setActiveTitle] = useState();
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
@@ -98,7 +100,6 @@ const Product = () => {
       productEdgesElement.scrollIntoView({ behavior: "smooth" });
     }
   };
-
   useEffect(() => {
     if (cartResponse && totalQuantity(cartResponse) == mealData.no) {
       dispatch(openCart());
@@ -137,7 +138,7 @@ const Product = () => {
         const result = await graphQLClient.request(getProductCollectionsQuery, {
           first: 15,
           reverse: false,
-          query: "",
+          query: selectedCategory?.node?.title,
         });
 
         const collections = result;
@@ -162,7 +163,7 @@ const Product = () => {
       }
     };
     apiCall();
-  }, []);
+  }, [selectedCategory]);
 
   const handleAddToCart = (productId, sellingPlanId) => {
     setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));

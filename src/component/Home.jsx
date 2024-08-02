@@ -29,6 +29,7 @@ import {
   registerUserId,
 } from "../state/user";
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import { addCategoryData } from "../state/selectedCategory";
 
 const Home = () => {
 
@@ -106,6 +107,7 @@ const Home = () => {
       try {
         const result = await graphQLClient.request(getCategoriesQuery);
         setCategoryData(result?.collections?.edges);
+        dispatch(addCategoryData(result?.collections?.edges[0]))
       } catch (error) {
         // Handle errors here
         console.error("Error fetching data:", error);
@@ -536,10 +538,10 @@ const Home = () => {
         <div className='container mx-auto py-14 pl-8'>
           <div className='flex flex-row justify-start items-center whitespace-nowrap  flex-wrap gap-x-8 gap-y-4'>
             {
-              categoryData?.map((item) => (
-                <div key={item?.node?.id} className=' flex flex-col justify-center  items-center relative '>
+              categoryData?.map((item, i) => (
+                <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className=' flex flex-col justify-center  items-center relative cursor-pointer'>
                   <img src={food} alt="" className='h-[100px] w-[100px]  ' />
-                  <p className='text-[#231F20] bg-[#FBAE36] text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1'>{item?.node?.title}</p>
+                  <p className={`${i % 2 === 0 ? 'bg-[#FBAE36] text-[#231F20] ' : 'bg-[#26965c] text-[#FFFFFF] '}  text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1`}>{item?.node?.title}</p>
                 </div>
               ))
             }
