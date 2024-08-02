@@ -1,6 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import product from '../assets/Dish-1.jpg'
+import { getCartQuery, graphQLClient } from '../api/graphql';
+import { cartData, selectCartResponse, setCartResponse } from '../state/cartData';
+import { useDispatch, useSelector } from 'react-redux';
+
 const CardReview = () => {
+    const dispatch = useDispatch();
+    const cartDatas = useSelector(cartData);
+    const cartResponse = useSelector(selectCartResponse);
+    useEffect(() => {
+        getCartData();
+    }, [cartDatas]);
+
+    const getCartData = async () => {
+        const params = {
+            cartId: cartDatas?.cartCreate?.cart?.id,
+        };
+        const response = await graphQLClient.request(getCartQuery, params);
+        dispatch(setCartResponse(response));
+    };
+    console.log("")
+    console.log("cartResponse cartResponse cartResponse", cartResponse)
+
     return (
         <div className='bg-[#EFE9DA] '>
             <div className='container mx-auto min-h-[85vh]'>
