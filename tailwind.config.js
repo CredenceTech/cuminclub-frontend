@@ -21,7 +21,8 @@ export default {
       }),
     },
     variants: {
-      display: ['group-hover']
+      display: ['group-hover'],
+      scale: ['group-hover']
     }
   },
   plugins: [],

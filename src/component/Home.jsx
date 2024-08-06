@@ -30,6 +30,7 @@ import {
 } from "../state/user";
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { addCategoryData } from "../state/selectedCategory";
+import imagefooter from '../assets/footer-image.png'
 
 const Home = () => {
 
@@ -150,7 +151,7 @@ const Home = () => {
     apiCall();
   }, []);
 
-  const colors = ['#EADEC1', '#279C66', '#F15E2A', '#EADEC1', '#279C66', '#F15E2A'];
+  const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
 
   const getRandomNumber = () => {
     return Math.floor(Math.random() * 5);
@@ -194,6 +195,37 @@ const Home = () => {
     dispatch(addInnerFilterData(list));
   }
 
+  const recipData = [
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+    {
+      title: 'Biryani burrito',
+      image: imagefooter
+    },
+  ]
+
 
 
   return (
@@ -208,10 +240,10 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#CE3E27]'} `}>
+                    className={`NavigationMenuTrigger text-lg px-8 whitespace-nowrap relative  ${!showHeaderMain ? 'text-[#333333]' : 'text-[#CE3E27]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
-                  <NavigationMenu.Content onMouseLeave={() => setShowHeaderMain(false)} className="NavigationMenuContent absolute top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
+                  <NavigationMenu.Content onMouseLeave={() => setShowHeaderMain(false)} className="NavigationMenuContent absolute left-0 top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
                     <div className="grid grid-cols-2 lg:grid-cols-3  gap-4 md:gap-10">
                       <div onClick={onMenuClick} className="w-full flex  justify-center items-center relative group  cursor-pointer px-7 my-9 border-r-2 border-r-[#fbae36] ">
                         <img src={menu1} alt="" className="h-[60vh] shadow-[5px_5px_0_0_rgb(251,174,54)] transition-shadow duration-300 ease-in-out hover:shadow-[10px_10px_0_0_rgb(251,174,54)] rounded-xl" />
@@ -251,8 +283,8 @@ const Home = () => {
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
-                    HOW IT WORKS
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#333333]' : 'text-[#000000]'} `}>
+                    LEARN
                   </NavigationMenu.Trigger>
                   {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
                     <div className="">
@@ -261,17 +293,7 @@ const Home = () => {
                   </NavigationMenu.Content> */}
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger whitespace-nowrap text-lg px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
-                    ABOUT US
-                  </NavigationMenu.Trigger>
-                  {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
-                    <div className="">
-                      <h1>Anukas adjasd;p9erhj</h1>
-                    </div>
-                  </NavigationMenu.Content> */}
-                </NavigationMenu.Item>
-                <NavigationMenu.Item>
-                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-lg  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-lg  relative  ${!showHeaderMain ? 'text-[#333333]' : 'text-[#000000]'} `}>
                     RECIPES
                   </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
@@ -289,63 +311,63 @@ const Home = () => {
               >
                 <path
                   d="M2.57521 19.9025C1.96275 19.29 1.72742 19.0076 1.72742 18.6308C1.72742 17.8768 2.52814 17.4058 5.49571 16.1809C7.94525 15.0504 8.74627 14.8151 9.4058 14.8151C9.97089 14.8151 10.3477 15.239 10.3477 16.2754C10.3477 17.3588 10.1595 19.0076 10.1595 23.5769V27.1099C10.1595 28.7113 11.1017 29.3238 11.1017 30.266C11.1017 31.2553 9.59406 31.7263 7.14452 31.7263H6.67356C4.17665 31.7263 2.66934 31.2553 2.66934 30.266C2.66934 29.3238 3.65863 28.7113 3.65863 27.1099V24.8015C3.65863 21.1274 3.5645 20.9859 2.57521 19.9025Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M13.5036 20.2322C12.844 19.6671 12.5143 19.3844 12.5143 18.7719C12.5143 18.0653 13.0326 17.547 15.4348 16.2279C17.9317 14.8618 19.0151 14.4379 19.9103 14.4379C20.6639 14.4379 20.9937 14.8618 20.9937 15.7099C20.9937 16.0397 20.9466 16.4165 20.8993 16.9348C22.0771 15.6628 23.6315 14.815 25.4215 14.815C28.4835 14.815 29.0489 16.9816 29.4728 21.0799C29.7555 23.9066 30.0382 25.9793 30.2265 27.2984C30.4621 28.523 30.886 29.0884 31.7341 29.3237C32.2992 29.4652 32.3933 30.0774 31.9694 30.5016C31.3102 31.1137 29.7084 31.7262 27.824 31.7262C24.8564 31.7262 23.8671 30.5016 23.7259 28.052C23.5844 26.3091 23.4903 24.7544 23.3488 21.9751C23.2547 18.9605 23.0664 17.7826 22.2183 17.7826C21.229 17.7826 20.8051 19.9495 20.7581 22.7758V27.1098C20.7581 28.7113 21.7003 29.3237 21.7003 30.2659C21.7003 31.2552 20.24 31.7262 17.7431 31.7262H17.3192C14.8226 31.7262 13.315 31.2552 13.315 30.2659C13.315 29.3237 14.2572 28.7113 14.2572 27.1098V24.7544C14.2572 21.7868 14.2572 20.9387 13.5036 20.2322Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M43.275 21.504C47.8443 22.8231 49.3519 24.3774 49.3519 26.8273C49.3519 30.2658 45.6304 31.9617 40.8725 31.9617C37.0098 31.9617 34.1363 31.1139 33.147 28.7114C32.3934 26.8273 33.5709 24.9899 35.7848 24.9899C37.4337 24.9899 38.7527 25.8851 38.8468 27.6751C38.9413 29.371 39.5534 30.0776 40.5427 30.0776C41.7206 30.0776 42.3327 29.1824 42.3327 27.8633C42.3327 26.5917 41.1552 25.3197 38.9883 24.7546C36.0205 23.9536 33.5239 22.6348 33.5239 19.9496C33.5239 16.5579 37.4807 14.7679 42.0033 14.7679C45.3947 14.7679 47.7502 15.8513 48.5509 17.6884C49.3045 19.5728 48.174 21.2687 46.0072 21.2687C44.3584 21.2687 43.3694 20.515 42.9923 18.6776C42.7099 17.1703 42.6157 16.652 41.6262 16.652C40.6842 16.652 40.4957 17.453 40.4957 18.4891C40.4957 19.6199 41.2964 20.9389 43.275 21.504Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M59.9037 17.7826H58.0192V23.7651C58.0192 26.5915 58.2548 27.3455 59.2441 27.3455C59.9978 27.3455 60.1863 26.9213 60.4687 26.5915C60.9871 26.0261 61.5525 26.2617 61.3168 27.1569C60.7514 29.4179 59.4327 31.9619 56.1351 31.9619C53.1201 31.9619 51.5187 29.7476 51.5187 25.2254V17.7826H51.0948C50.4823 17.7826 49.964 17.2643 49.964 16.6522C49.964 15.9926 50.4349 15.5214 51.0474 15.4743H51.0948C53.6385 15.4743 54.7219 14.2967 55.4755 12.177C55.8524 11.0935 56.4648 10.5281 57.1714 10.5281C57.878 10.5281 58.2078 11.0935 58.2078 11.9413C58.2078 13.4957 58.0666 14.4379 58.0192 15.4743H59.9037C60.5161 15.4743 61.0812 15.9926 61.0812 16.6522C61.0812 17.2643 60.5161 17.7826 59.9037 17.7826Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M71.7746 22.3991L71.1151 22.6818C69.5604 23.5298 68.9953 25.1784 68.9953 26.4974C68.9953 27.9106 69.5133 28.6643 70.5026 28.6643C71.4448 28.6643 72.4812 27.5808 72.0099 24.142L71.7746 22.3991ZM76.6737 31.7263C74.0829 31.7263 73.1407 30.5958 72.8109 29.0411C71.7275 30.6428 69.9843 31.6792 67.6762 31.6792C64.5201 31.6792 62.4474 30.1719 62.4474 27.722C62.4474 25.414 64.2845 23.7652 67.535 22.5876C70.8794 21.3627 71.4448 20.8917 71.4448 20.0907C71.1621 17.7827 70.9268 16.7934 70.2673 16.7934C69.7019 16.7934 69.4662 17.5941 69.1365 18.9132C68.7597 20.4678 67.7233 21.5513 65.8392 21.4098C64.1433 21.3627 63.2481 20.0907 63.5779 18.5363C64.1433 16.1809 66.734 14.8148 70.5026 14.8148C75.3075 14.8148 77.6156 16.8875 78.181 20.9859C78.6052 23.9064 78.9817 27.1099 79.1232 27.722C79.3118 28.8528 79.5942 29.0882 80.4423 29.3708C81.0547 29.512 81.1488 30.1245 80.6776 30.5484C80.1125 31.0667 78.6052 31.7263 76.6737 31.7263Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M82.6559 20.2322C81.9964 19.6671 81.6666 19.3844 81.6666 18.7719C81.6666 18.0653 82.185 17.547 84.5871 16.2279C87.084 14.8618 88.1675 14.4379 89.0626 14.4379C89.8163 14.4379 90.146 14.8618 90.146 15.7099C90.146 16.0397 90.0987 16.4165 90.0516 16.9348C91.2292 15.6628 92.7838 14.815 94.5739 14.815C97.6359 14.815 98.2012 16.9816 98.6251 21.0799C98.9075 23.9066 99.1905 25.9793 99.3788 27.2984C99.6144 28.523 100.038 29.0884 100.886 29.3237C101.452 29.4652 101.546 30.0774 101.122 30.5016C100.462 31.1137 98.8608 31.7262 96.9763 31.7262C94.0088 31.7262 93.0195 30.5016 92.8783 28.052C92.7368 26.3091 92.6426 24.7544 92.5011 21.9751C92.407 18.9605 92.2187 17.7826 91.3707 17.7826C90.3814 17.7826 89.9575 19.9495 89.9104 22.7758V27.1098C89.9104 28.7113 90.8526 29.3237 90.8526 30.2659C90.8526 31.2552 89.3921 31.7262 86.8955 31.7262H86.4716C83.975 31.7262 82.4673 31.2552 82.4673 30.2659C82.4673 29.3237 83.4096 28.7113 83.4096 27.1098V24.7544C83.4096 21.7868 83.4096 20.9387 82.6559 20.2322Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M110.921 17.7826H109.036V23.7651C109.036 26.5915 109.272 27.3455 110.261 27.3455C111.015 27.3455 111.203 26.9213 111.486 26.5915C112.004 26.0261 112.57 26.2617 112.334 27.1569C111.769 29.4179 110.449 31.9619 107.152 31.9619C104.137 31.9619 102.536 29.7476 102.536 25.2254V17.7826H102.112C101.499 17.7826 100.981 17.2643 100.981 16.6522C100.981 15.9926 101.452 15.5214 102.065 15.4743H102.112C104.656 15.4743 105.739 14.2967 106.493 12.177C106.869 11.0935 107.482 10.5281 108.189 10.5281C108.895 10.5281 109.225 11.0935 109.225 11.9413C109.225 13.4957 109.084 14.4379 109.036 15.4743H110.921C111.533 15.4743 112.098 15.9926 112.098 16.6522C112.098 17.2643 111.533 17.7826 110.921 17.7826Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M113.936 12.0827C113.323 11.6117 112.946 11.329 112.946 10.7166C112.946 10.01 113.794 9.49165 116.244 8.1729C118.693 6.85385 119.777 6.47702 120.625 6.47702C121.426 6.47702 121.85 6.94798 121.85 7.70163C121.85 8.73799 121.473 10.01 121.473 15.5686V27.1097C121.473 28.7114 122.462 29.3239 122.462 30.2658C122.462 31.2551 121.002 31.7261 118.458 31.7261H118.034C115.49 31.7261 114.03 31.2551 114.03 30.2658C114.03 29.3239 115.019 28.7114 115.019 27.1097V16.6991C115.019 13.6374 114.878 12.8834 113.936 12.0827Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M125.947 21.0801C124.11 16.9817 122.885 17.2644 122.885 15.9928C122.885 15.0032 125.146 14.4851 127.737 14.4851H128.161C130.752 14.4851 132.495 14.9564 132.495 15.9454C132.495 16.8876 131.412 17.4056 131.977 18.8659C132.495 20.4206 133.767 24.095 134.662 26.1207C135.604 23.6711 136.169 21.6455 136.876 19.8084C137.677 17.8298 137.206 17.3586 136.358 16.9817C135.416 16.5578 135.133 16.181 135.133 15.8513C135.133 15.0032 136.075 14.5793 139.043 14.5793C142.152 14.5793 143 14.909 143 15.7098C143 16.3693 140.974 17.2644 140.268 18.9603C138.996 21.9753 138.525 24.0477 136.452 29.1353C134.097 34.9295 132.589 37.0023 128.915 37.0023C126.56 37.0023 124.44 36.1545 123.781 34.1288C123.262 32.5741 124.346 31.1139 126.042 31.1139C127.784 31.1139 128.632 32.1502 128.538 33.6576C128.397 34.8825 128.821 35.4005 129.574 35.4005C130.799 35.4005 131.6 33.8932 130.564 31.4437C129.433 28.8529 126.795 23.0587 125.947 21.0801Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M14.7431 45.534C15.2814 44.3488 15.9279 43.1103 16.4666 41.8173C17.4364 39.6089 17.8133 38.5853 16.9515 37.9388C16.2513 37.5079 16.0357 36.9155 16.0357 36.5921C16.0357 35.7304 17.1131 35.1917 20.5607 35.1917C23.9002 35.1917 24.6004 35.8382 24.6004 36.6462C24.6004 37.8851 21.7455 38.37 20.3988 41.1171C18.6753 44.6722 17.4364 47.2578 16.6281 49.0354V56.8458C16.6281 58.6774 17.9211 60.3472 17.9211 61.4246C17.9211 62.5557 16.0357 63.0943 13.1808 63.0943H12.6424C9.78752 63.0943 7.90216 62.5557 7.90216 61.4246C7.90216 60.3472 9.19479 58.6774 9.19479 56.8458V50.3817C8.11744 47.7424 6.9326 45.2109 6.28613 43.8642C4.34703 39.7164 1.59961 38.2084 1.59961 36.9155C1.59961 35.7844 3.70056 35.1917 6.50142 35.1917H7.36348C10.3262 35.1917 12.5346 35.5688 12.5346 36.6999C12.5346 37.562 11.8341 38.5853 12.2112 39.6089C12.5346 40.6322 13.5042 42.9484 14.7431 45.534Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M38.7666 48.2274C37.4739 41.6555 35.9116 37.5079 33.8647 37.8313C31.8178 38.1544 32.7337 47.15 33.2186 50.0049C34.2956 56.2534 36.3966 60.8318 38.3357 60.455C40.0054 60.1854 40.0054 54.3681 38.7666 48.2274ZM48.3008 49.1432C48.3008 58.1385 43.2375 63.4174 36.0194 63.4174C28.8014 63.4174 23.738 58.1385 23.738 49.1432C23.738 40.0935 28.8014 34.8686 36.0194 34.8686C43.2375 34.8686 48.3008 40.0935 48.3008 49.1432Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M61.1205 63.3636C55.0336 63.3636 50.563 60.7242 50.563 52.3751V41.3863C50.563 39.555 49.27 37.8849 49.27 36.8076C49.27 35.6765 51.2091 35.1378 54.0103 35.1378H54.549C57.4039 35.1378 59.2892 35.6765 59.2892 36.8076C59.2892 37.8849 57.9963 39.555 57.9963 41.3863V52.3751C57.9963 57.8156 59.1814 59.97 62.0901 59.97C65.2143 59.97 66.1839 57.0613 66.1839 52.3751V41.3863C66.1839 39.555 64.4604 37.8849 64.4604 36.8076C64.4604 35.6765 65.9683 35.1378 68.2849 35.1378H68.6617C70.9779 35.1378 72.5402 35.6765 72.5402 36.8076C72.5402 37.8849 70.8164 39.555 70.8164 41.3863V52.3751C70.8164 58.5158 68.2311 63.3636 61.1205 63.3636Z"
-                  className={`fill-current ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#231F20]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M89.0219 44.1874C89.0219 41.4403 88.591 38.4238 84.282 38.4238C82.6656 38.4238 82.6656 38.9622 82.6656 41.3862V47.4732C82.6656 49.1429 82.9353 49.5738 84.4435 49.5738C87.9986 49.5738 89.0219 46.8808 89.0219 44.1874ZM96.6171 43.9718C96.6171 47.096 95.1626 49.5201 92.3618 51.0283C93.3851 53.183 94.0853 54.9606 95.8628 57.0612C97.4789 59.0003 98.664 59.2697 99.6336 59.6468C100.495 59.9702 101.088 60.4548 100.98 61.1013C100.872 62.1786 99.2027 63.0944 96.0247 63.0944C92.3077 63.0944 89.7221 61.8015 88.2139 59.2159C85.6283 54.9606 86.2748 52.6981 84.1742 52.6981C83.0968 52.7521 82.6656 53.2367 82.6656 55.1759V56.8459C82.6656 58.6772 83.9586 60.347 83.9586 61.4243C83.9586 62.5557 82.0732 63.0944 79.2183 63.0944H78.6796C75.8788 63.0944 73.9934 62.5557 73.9934 61.4243C73.9934 60.347 75.2323 58.6772 75.2323 56.8459V41.3862C75.2323 39.5549 73.9934 37.8851 73.9934 36.8078C73.9934 35.6767 75.8788 35.138 78.6796 35.138H83.9048C92.5233 35.138 96.6171 38.6391 96.6171 43.9718Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M115.308 46.3958C122.203 48.2274 124.573 51.7285 124.573 55.1221C124.573 60.4011 119.294 63.4175 112.345 63.4175C106.151 63.4175 102.65 60.9394 101.303 57.8155C100.064 54.6375 101.303 52.0516 104.158 51.8363C106.582 51.6748 108.144 52.7521 108.521 55.6067C108.898 58.3001 110.514 60.078 113.153 60.078C115.362 60.078 117.247 58.5694 117.247 56.3073C117.247 54.5834 115.577 52.8599 109.76 51.2436C104.966 49.7894 102.488 47.3654 102.488 43.2716C102.488 38.0467 106.743 34.9224 113.261 34.9224C118.217 34.9224 121.233 37.1849 122.526 40.2014C123.765 43.3256 122.095 45.48 119.186 45.48C117.355 45.48 115.739 44.1333 115.092 41.494C114.608 39.2856 113.584 37.7774 112.238 37.7774C110.298 37.7774 109.49 39.3934 109.49 41.1709C109.49 43.0022 110.514 45.1569 115.308 46.3958Z"
-                  className={`fill-current  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
                 <path
                   d="M6.5556 2.48215L8.84937 0.0611534C8.97204 -0.0682011 9.18976 0.0216789 9.1849 0.199922L9.09532 3.53399C9.09229 3.64543 9.18338 3.73653 9.29482 3.73379L12.6286 3.64391C12.8071 3.63905 12.8973 3.85677 12.7677 3.97945L10.3467 6.27321C10.2659 6.35004 10.2659 6.47878 10.3467 6.55561L12.7677 8.84968C12.8973 8.97235 12.8071 9.18977 12.6286 9.18521L9.29482 9.09533C9.18338 9.09229 9.09229 9.18339 9.09532 9.29483L9.1849 12.6289C9.18976 12.8071 8.97204 12.8973 8.84937 12.768L6.5556 10.3467C6.47878 10.2659 6.35003 10.2659 6.27321 10.3467L3.97944 12.768C3.85676 12.8973 3.63905 12.8071 3.64391 12.6289L3.73379 9.29483C3.73652 9.18339 3.64542 9.09229 3.53398 9.09533L0.199913 9.18521C0.021671 9.18977 -0.0682094 8.97235 0.0611452 8.84968L2.48184 6.55561C2.56291 6.47878 2.56291 6.35004 2.48184 6.27321L0.0611452 3.97945C-0.0682094 3.85677 0.021671 3.63905 0.199913 3.64391L3.53398 3.73379C3.64542 3.73653 3.73652 3.64543 3.73379 3.53399L3.64391 0.199922C3.63905 0.0216789 3.85676 -0.0682011 3.97944 0.0611534L6.27321 2.48215C6.35003 2.56292 6.47878 2.56292 6.5556 2.48215Z"
-                  className={`fill-current ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#231F20]'}`}
+                  className={`fill-current text-[#000000]`}
                 />
               </svg>
             </Link>
@@ -364,7 +386,7 @@ const Home = () => {
             />
           )} */}
           </div>
-          <div className="flex gap-x-8 flex-1 justify-end">
+          <div className="flex gap-x-8 flex-1 justify-end mr-6">
             <button
               onClick={() => { navigate('/cardReview') }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
@@ -518,9 +540,9 @@ const Home = () => {
         )}
 
         {isCartOpen && <CartDrawer />}
-        <div className="w-full " >
-          <div className="flex flex-col md:flex-row justify-between items-center pt-[100px] pb-[40px] px-8">
-            <h1 className="text-white black-text-shadow font-skillet text-lg lg:text-4xl font-bold mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
+        <div className="w-full" >
+          <h1 className="lg:text-[#333333] text-[#ffffff] pt-[150px] pb-[30px] lg:pt-0 lg:pb-0 text-center lg:text-left mt-4 font-skillet text-lg lg:text-4xl font-bold lg:px-12 mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
+          <div className=" hidden lg:flex justify-end pt-[150px] pb-[30px] px-8">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
               <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -532,9 +554,24 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      <div className='bg-[#EFE9DA]'>
-        { }
+      <div className={` hidden md:flex pb-10 bg-[#EFE9DA] lg:flex-row overflow-x-auto whitespace-nowrap w-[100vw] scrollbar-hide`}>
+        {
+          categoryData?.map((item, i) => (
+            <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className={`${i % 2 === 0 ? 'bg-[#FBAE36] ' : 'bg-[#26965c]'} group p-4 min-w-[300px] flex  items-center cursor-pointer`} >
+              <img src={food} alt="" className='h-[50px] w-[50px] group-hover:scale-150 transition-transform duration-200 ' />
+              <p className={` ${i % 2 === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg `}>{item?.node?.title}</p>
+              <div className="group-hover:block hidden pl-4 transition-transform duration-400 ">
+                <svg width="25" height="21" className={`${i % 2 === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'}`} viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
+                    fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div className='flex md:hidden bg-[#EFE9DA]'>
         <div className='container mx-auto py-14 pl-8'>
           <div className='flex flex-row justify-start items-center whitespace-nowrap  flex-wrap gap-x-8 gap-y-4'>
             {
@@ -547,45 +584,44 @@ const Home = () => {
             }
           </div>
         </div>
+      </div>
+      <div className="bg-[#EFE9DA]">
         <div className='flex flex-row px-8 md:px-14 lg:px-3 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
             <path d="M37.8018 23.0008L40.3205 20.5648C40.4552 20.4345 40.6794 20.5391 40.6661 20.7258L40.4193 24.2213C40.4111 24.3382 40.5026 24.4381 40.6193 24.4402L44.1232 24.4985C44.3106 24.502 44.3953 24.7345 44.2536 24.857L41.6073 27.1542C41.519 27.2306 41.5127 27.3663 41.5945 27.4502L44.0304 29.9694C44.1607 30.1041 44.0561 30.3283 43.8691 30.3152L40.374 30.0677C40.2568 30.0597 40.1572 30.151 40.155 30.2682L40.0965 33.7718C40.0935 33.9593 39.8608 34.0438 39.7377 33.9024L37.4413 31.256C37.3641 31.1677 37.2289 31.1616 37.1448 31.2431L34.6259 33.6788C34.4912 33.8091 34.2669 33.705 34.28 33.518L34.5273 30.0226C34.5354 29.9054 34.444 29.8058 34.3268 29.8036L30.8232 29.7451C30.6357 29.7421 30.5509 29.5096 30.6925 29.3868L33.339 27.0899C33.4274 27.013 33.4334 26.8775 33.3524 26.7935L30.9158 24.2747C30.7856 24.14 30.8903 23.9153 31.0772 23.9289L34.5727 24.1757C34.6895 24.1844 34.7897 24.0927 34.7914 23.9754L34.8499 20.4718C34.8531 20.2846 35.0856 20.1998 35.2084 20.3414L37.5051 22.9876C37.5822 23.0764 37.7172 23.0822 37.8018 23.0008Z" fill="#FBAE36" />
           </svg>
-
           <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Our Bestsellers</p>
         </div>
         <div className='container mx-auto py-14'>
           <div className='flex flex-row  justify-around px-7 md:px-4 md:justify-start  md:mx-5 lg:mx-10 flex-wrap gap-x-8  gap-y-4'>
             {apiResponse?.map((item, i) => (
-              <div className=' flex flex-col justify-between lg:justify-start w-[100px] md:w-auto lg:items-center'>
-                <div className={`bg-[${colors[i]}] flex justify-center items-center rounded-2xl relative`}>
+              <div key={i} className=' flex flex-col justify-between lg:justify-start w-[100px] md:w-[150px]'>
+                <div style={{ background: `${colors[i]}` }} className={`flex justify-center items-start rounded-2xl relative`}>
                   <img src={item?.node?.featuredImage?.url} alt="" className='md:h-[150px] md:w-[150px] h-[100px] w-[100px] rounded-full  relative inset-0' />
                 </div>
                 <p className='text-[#231F20] text-base font-futuraBold md:text-lg pt-2'>{item?.node?.title}</p>
                 <p className='text-gray-500 text-lg'>₹ {item?.node?.priceRange?.minVariantPrice?.amount}</p>
               </div>
             ))}
-
           </div>
         </div>
       </div>
-
-      <div className='w-full bannerbottom h-[500px]'>
+      <div className='w-full bannerbottom h-[600px]'>
         <div className='mx-auto container'>
           <div className='flex justify-between '>
             <div className='px-10'>
               <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Confused?</p>
-              <p className='text-[#FBAE36] text-lg lg:text-3xl font-futuraBold'>Spin it </p>
+              <p className='text-[#FBAE36] text-lg lg:text-4xl font-futura'>Spin it </p>
             </div>
             <div className='flex h-[500px] relative z-10 justify-end items-center '>
-              <div className='relative right-[-24px] top-[60px] z-[-1]'>
+              <div className='relative right-[-24px] top-[70px] z-[-1]'>
                 <div onClick={() => { setSelecteRandomPro(apiResponse[getRandomNumber()]) }} className='flex cursor-pointer flex-row py-2 pl-2 pr-10  rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
                   <div className='h-10 w-10 rounded-full bg-[#FBAE36]'></div>
                   <button className=" text-[#B25220] font-xl">{`spin >>`} </button>
                 </div>
-                <p className='text-[#FFFFFF] text-lg font-futuraBold lg:text-2xl mt-4'>{selecteRandomPro?.node?.title}</p>
+                <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4'>{selecteRandomPro?.node?.title}</p>
                 <p className='text-[#FFFFFF] text-lg '>₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}</p>
                 <button type='button' className="bg-[#FBAE36] mt-2 rounded-full py-1 px-4 font-bold text-black">Add to cart </button>
               </div>
@@ -603,15 +639,38 @@ const Home = () => {
                   <img src={selecteRandomPro?.node?.featuredImage?.url} alt="" className='lg:h-[400px] rounded-full h-[250px]' />
                 </motion.div>
               </AnimatePresence>
-
             </div>
-
           </div>
-
+        </div>
+      </div>
+      <div className="bg-[#EFE9DA] pt-10">
+        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle1 ml-[10px] lg:ml-[127px] rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px]">
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
+          <div className="relative z-10 text-white">
+            <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
+            <div className="w-full md:w-1/2">
+              <p className="text-lg text-[#CECECE] font-normal font-sans mb-4 " >
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+              </p>
+            </div>
+            <button className="bg-white text-black mt-4 py-2 px-6 rounded">DISCOVER</button>
+          </div>
+        </div>
+        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle2 mt-[50px] mr-[10px] lg:mr-[127px] rounded-r-lg flex flex-col justify-center pr-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pr-[30px] lg:pl-[60px] pl-[10px]">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#000000a6] rounded-r-lg"></div>
+          <div className="relative z-10 text-white flex flex-col items-end">
+            <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Cook</h2>
+            <div className="w-full md:w-1/2 flex flex-col items-end">
+              <p className="text-lg text-[#CECECE] text-end font-normal font-sans mb-4" >
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+              </p>
+            </div>
+            <button className="bg-white text-black mt-4 py-2 px-6 rounded">DISCOVER</button>
+          </div>
         </div>
       </div>
       <div className='bg-[#EFE9DA]'>
-        <div className='container mx-auto py-14'>
+        <div className='container mx-auto pt-14'>
           <p className='text-[#333333] font-skillet px-6 py-10 text-3xl md:text-6xl text-center'>Why Instantly Yours?</p>
           <div className='flex flex-row justify-evenly items-center whitespace-nowrap  flex-wrap gap-x-12 gap-y-4'>
             <div className=' flex flex-col justify-center  items-center relative '>
@@ -626,6 +685,29 @@ const Home = () => {
               <img src={happy} alt="" className='h-[150px] w-[150px]  ' />
               <p className='text-[#333333] text-xl lg:text-3xl font-skillet rounded-lg  px-8 py-1'>Tasty and healthy</p>
             </div>
+          </div>
+        </div>
+      </div>
+      <div className='bg-[#EFE9DA] relative -bottom-28'>
+        <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
+          {/* Text Section */}
+          <div className="w-full lg:w-1/4 p-6 lg:p-12 text-section text-white flex flex-col justify-between">
+            <div>
+              <h2 className="text-2xl lg:text-3xl uppercase font-semibold">RECIPES</h2>
+              <p className="text-base font-sans text-[#D5D5D5] mt-4">
+                A North Indian dish with black lentils & kidney beans, slow cooked with spices, butter, and cream.
+              </p>
+            </div>
+            <button className="mt-4 bg-white text-black py-2 px-4 rounded lg:self-start self-center">View all recipes</button>
+          </div>
+          {/* Images Section */}
+          <div className="w-full lg:min-w-3/4 lg:py-14 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex">
+            {recipData?.map((item, i) => (
+              <div key={i} className="relative min-w-[350px]">
+                <img src={item?.image} alt="Image 1" className="w-[300px] h-[350px]" />
+                <div className="absolute bottom-0 left-0 text-white px-4 pb-8 font-medium">{item?.title}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
