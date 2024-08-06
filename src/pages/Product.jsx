@@ -73,6 +73,7 @@ const Product = () => {
     };
   }, []);
 
+
   useEffect(() => {
     setActiveTitle(currentCategory);
   }, [currentCategory]);
@@ -103,7 +104,7 @@ const Product = () => {
   };
   useEffect(() => {
     if (cartResponse && totalQuantity(cartResponse) == mealData.no) {
-      dispatch(openCart());
+      // dispatch(openCart());
     }
   }, [cartResponse]);
 
@@ -141,6 +142,7 @@ const Product = () => {
           reverse: false,
           query: selectedCategory?.node?.title,
         });
+
 
         const collections = result;
 
