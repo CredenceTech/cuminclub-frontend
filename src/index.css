@@ -130,7 +130,7 @@ body {
 }
 
 .bannerback {
-  background-image: url(./assets/banner.png);
+  background-image: url(./assets/header.png);
   background-size: cover;
   background-position: center;
   /* background-repeat: no-repeat; */
@@ -158,4 +158,18 @@ body {
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.bg-custom-image-footer {
+  background-image: url('./assets/footer-upper-image.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-custom-image-middle1 {
+  background-image: url('./assets/middle1-image1.png');
+}
+
+.bg-custom-image-middle2 {
+  background-image: url('./assets/middle-image2.png');
 }
