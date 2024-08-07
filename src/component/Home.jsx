@@ -541,7 +541,7 @@ const Home = () => {
 
         {isCartOpen && <CartDrawer />}
         <div className="w-full" >
-          <h1 className="lg:text-[#333333] text-[#ffffff] pt-[150px] pb-[30px] lg:pt-0 lg:pb-0 text-center lg:text-left mt-4 font-skillet text-lg lg:text-4xl font-bold lg:px-12 mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
+          <h1 className="lg:text-[#333333] text-[#ffffff] pt-[150px] pb-[30px] lg:pt-0 lg:pb-0 text-center lg:text-left mt-4 font-skillet text-lg lg:text-4xl font-bold lg:px-12 lg:mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
           <div className=" hidden lg:flex justify-end pt-[150px] pb-[30px] px-8">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
@@ -572,11 +572,11 @@ const Home = () => {
         }
       </div>
       <div className='flex md:hidden bg-[#EFE9DA]'>
-        <div className='container mx-auto py-14 pl-8'>
-          <div className='flex flex-row justify-start items-center whitespace-nowrap  flex-wrap gap-x-8 gap-y-4'>
+        <div className='container mx-auto py-14 px-5 lg:px-0 lg:pl-8'>
+          <div className='flex flex-row justify-around lg:justify-start items-center whitespace-nowrap flex-wrap gap-x-8 gap-y-4'>
             {
               categoryData?.map((item, i) => (
-                <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className=' flex flex-col justify-center  items-center relative cursor-pointer'>
+                <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className=' flex flex-col justify-between  items-center relative cursor-pointer'>
                   <img src={food} alt="" className='h-[100px] w-[100px]  ' />
                   <p className={`${i % 2 === 0 ? 'bg-[#FBAE36] text-[#231F20] ' : 'bg-[#26965c] text-[#FFFFFF] '}  text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1`}>{item?.node?.title}</p>
                 </div>
@@ -586,7 +586,7 @@ const Home = () => {
         </div>
       </div>
       <div className="bg-[#EFE9DA]">
-        <div className='flex flex-row px-8 md:px-14 lg:px-3 items-center'>
+        <div className='flex flex-row px-4 md:px-14 lg:px-3 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
@@ -643,9 +643,9 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="bg-[#EFE9DA] pt-10">
-        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle1 ml-[10px] lg:ml-[127px] rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px]">
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
+      <div className="bg-[#EFE9DA] md:pt-10">
+        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle1 md:ml-[10px] lg:ml-[127px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px]">
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
           <div className="relative z-10 text-white">
             <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
             <div className="w-full md:w-1/2">
@@ -656,8 +656,8 @@ const Home = () => {
             <button className="bg-white text-black mt-4 py-2 px-6 rounded">DISCOVER</button>
           </div>
         </div>
-        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle2 mt-[50px] mr-[10px] lg:mr-[127px] rounded-r-lg flex flex-col justify-center pr-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pr-[30px] lg:pl-[60px] pl-[10px]">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#000000a6] rounded-r-lg"></div>
+        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle2 md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg flex flex-col justify-center pr-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pr-[30px] lg:pl-[60px] pl-[10px]">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#000000a6] md:rounded-r-lg"></div>
           <div className="relative z-10 text-white flex flex-col items-end">
             <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Cook</h2>
             <div className="w-full md:w-1/2 flex flex-col items-end">
@@ -670,19 +670,19 @@ const Home = () => {
         </div>
       </div>
       <div className='bg-[#EFE9DA]'>
-        <div className='container mx-auto pt-14'>
+        <div className='container mx-auto md:pt-14'>
           <p className='text-[#333333] font-skillet px-6 py-10 text-3xl md:text-6xl text-center'>Why Instantly Yours?</p>
-          <div className='flex flex-row justify-evenly items-center whitespace-nowrap  flex-wrap gap-x-12 gap-y-4'>
+          <div className='flex  md:justify-center whitespace-nowrap overflow-x-auto  scrollbar-hide gap-x-6 md:gap-x-12 gap-y-4'>
             <div className=' flex flex-col justify-center  items-center relative '>
-              <img src={noPreservative} alt="" className='h-[150px] w-[150px]' />
+              <img src={noPreservative} alt="" className='h-[100px] md:h-[150px] w-[100px] md:w-[150px]' />
               <p className='text-[#333333]  text-xl lg:text-3xl font-skillet rounded-lg  px-8 py-1'>No Preservatives</p>
             </div>
             <div className=' flex flex-col justify-center  items-center relative '>
-              <img src={fastTime} alt="" className='h-[150px] w-[150px]  ' />
+              <img src={fastTime} alt="" className='h-[100px] md:h-[150px] w-[100px] md:w-[150px] ' />
               <p className='text-[#333333]  text-xl lg:text-3xl font-skillet rounded-lg  px-8 py-1'>Ready in 2 mins</p>
             </div>
             <div className=' flex flex-col justify-center  items-center relative '>
-              <img src={happy} alt="" className='h-[150px] w-[150px]  ' />
+              <img src={happy} alt="" className='h-[100px] md:h-[150px] w-[100px] md:w-[150px] ' />
               <p className='text-[#333333] text-xl lg:text-3xl font-skillet rounded-lg  px-8 py-1'>Tasty and healthy</p>
             </div>
           </div>
@@ -690,6 +690,7 @@ const Home = () => {
       </div>
       <div className='bg-[#EFE9DA] relative -bottom-28'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
+          <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
           {/* Text Section */}
           <div className="w-full lg:w-1/4 p-6 lg:p-12 text-section text-white flex flex-col justify-between">
             <div>
@@ -698,17 +699,21 @@ const Home = () => {
                 A North Indian dish with black lentils & kidney beans, slow cooked with spices, butter, and cream.
               </p>
             </div>
-            <button className="mt-4 bg-white text-black py-2 px-4 rounded lg:self-start self-center">View all recipes</button>
+            <button className="mt-4 hidden lg:flex bg-white text-black py-2 px-4 rounded lg:self-start self-center">View all recipes</button>
           </div>
           {/* Images Section */}
-          <div className="w-full lg:min-w-3/4 lg:py-14 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex">
+          <div className="w-full lg:min-w-3/4 lg:py-14 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
             {recipData?.map((item, i) => (
-              <div key={i} className="relative min-w-[350px]">
-                <img src={item?.image} alt="Image 1" className="w-[300px] h-[350px]" />
+              <div key={i} className="relative min-w-[250px] md:min-w-[300px]">
+                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl md:rounded-none">
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary rounded-xl md:rounded-none to-secondary"></div>
+                  <img src={item?.image} alt="Image 1" className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl md:rounded-none " />
+                </div>
                 <div className="absolute bottom-0 left-0 text-white px-4 pb-8 font-medium">{item?.title}</div>
               </div>
             ))}
           </div>
+          <button className="mt-4 lg:hidden  bg-white w-[250px] m-7 text-black py-2 px-4 rounded ">View all recipes</button>
         </div>
       </div>
     </div>
