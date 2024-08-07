@@ -186,17 +186,7 @@ const Header = () => {
               </NavigationMenu.Item>
               <NavigationMenu.Item>
                 <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative text-[#231F20]  `}>
-                  HOW IT WORKS
-                </NavigationMenu.Trigger>
-                {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
-                    <div className="">
-                      <h1>Anukas adjasd;p9erhj</h1>
-                    </div>
-                  </NavigationMenu.Content> */}
-              </NavigationMenu.Item>
-              <NavigationMenu.Item>
-                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative text-[#231F20]  `}>
-                  ABOUT US
+                  LEARN
                 </NavigationMenu.Trigger>
                 {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
                     <div className="">
