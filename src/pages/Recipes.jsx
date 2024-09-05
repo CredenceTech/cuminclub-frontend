@@ -1,8 +1,13 @@
 import React from 'react'
 import ladingImage from '../assets/biryani.png'
 import sahipanir from '../assets/sahipanir.png'
+import step1 from '../assets/stepimages/Step1.png';
+import step2 from '../assets/stepimages/Step2.png';
+import step3 from '../assets/stepimages/Step3.png';
+import step4 from '../assets/stepimages/Step4.png';
+import { motion, useScroll } from "framer-motion";
 const Recipes = () => {
-
+    const { scrollYProgress } = useScroll();
     const items = [
         ' IY Biryani (chicken or vegetarian) (prepared)',
         '4 large tortilla wraps or rumali rotis',
@@ -14,24 +19,28 @@ const Recipes = () => {
     const InstructionsText = [
         {
             id: 1,
-            text: 'Warm the tortilla wraps or rumali rotis on a skillet for about 1-2 minutes on each side until they are pliable and warm.'
+            text: 'Warm the tortilla wraps or rumali rotis on a skillet for about 1-2 minutes on each side until they are pliable and warm.',
+            img: step1
         },
         {
             id: 2,
-            text: 'Spread 2 tablespoons of mint mayo on a warm tortilla or rumali roti. Add 1/2 cup biryani,  1/4 cup shredded lettuce, 1/4 cup grated cheese, and a dollop of sour cream.'
+            text: 'Spread 2 tablespoons of mint mayo on a warm tortilla or rumali roti. Add 1/2 cup biryani,  1/4 cup shredded lettuce, 1/4 cup grated cheese, and a dollop of sour cream.',
+            img: step2
         },
         {
             id: 3,
-            text: 'Fold the sides of the tortilla or rumali roti inward towards the center. Carefully roll from the bottom up, keeping the filling tightly packed. Ensure the ends are tucked in to prevent spillage.'
+            text: 'Fold the sides of the tortilla or rumali roti inward towards the center. Carefully roll from the bottom up, keeping the filling tightly packed. Ensure the ends are tucked in to prevent spillage.',
+            img: step3
         },
         {
             id: 4,
-            text: 'Serve hot with salsa or sour cream.'
+            text: 'Serve hot with salsa or sour cream.',
+            img: step4
         },
 
     ]
     return (
-        <div className='relative -top-28'>
+        <div className='-top-28 relative '>
             <div className='bg-[#C75801]'>
                 <div className='container mx-auto grid grid-cols-2 lg:grid-cols-3'>
                     <div className="col-span-1 pl-6">
@@ -59,7 +68,11 @@ const Recipes = () => {
                             <p className='text-[#231F20] text-lg'>25 mins</p>
                         </div>
                     </div>
-                    <div className='col-span-3 md:col-span-2 flex overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide justify-between items-center'>
+                    <div className='col-span-3 md:col-span-2 relative flex overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide justify-between items-center'>
+                        <motion.div
+                            className="progress-bar"
+                            style={{ scaleX: scrollYProgress }}
+                        />
                         <div className='border-r-2 px-10 py-3 bg-[] border-r-[#C75801]'>
                             <p className='text-lg text-[#231F20]'> Step 1 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
                         </div>
@@ -89,12 +102,17 @@ const Recipes = () => {
                     <div className='pl-7 lg:pl-16 col-span-3 md:col-span-2'>
                         <p className='text-4xl p-6 font-skillet'>Instructions</p>
                         {InstructionsText?.map((item, i) => (
-                            <div className='flex mb-5'>
-                                <div className=''>
-                                    <p className='text-5xl text-[#e9bc9982] font-semibold'>{item?.id}</p>
+                            <div className='flex-col pr-5 md:mr-10  lg:mr-40 mb-5'>
+                                <div className='flex mb-5'>
+                                    <div className=''>
+                                        <p className='text-5xl text-[#e9bc9982] font-semibold'>{item?.id}</p>
+                                    </div>
+                                    <div className='pl-5'>
+                                        <p className='text-xl pb-4 text-[#333333] '>{item?.text}</p>
+                                    </div>
                                 </div>
-                                <div className='border-b ml-4 border-b-[#C6C6C6]'>
-                                    <p className='text-xl pb-4 text-[#333333] pr-5 md:pr-10  lg:pr-40'>{item?.text}</p>
+                                <div className='pb-5'>
+                                    <img src={item?.img} alt="" className='h-[300px] border-b ml-4 border-b-[#C6C6C6] pb-5' />
                                 </div>
                             </div>
                         ))}
