@@ -40,7 +40,7 @@ const Recipes = () => {
 
     ]
     return (
-        <div className='-top-28 relative '>
+        <div className='relative z-[51]'>
             <div className='bg-[#C75801]'>
                 <div className='container mx-auto grid grid-cols-2 lg:grid-cols-3'>
                     <div className="col-span-1 pl-6">
@@ -68,7 +68,7 @@ const Recipes = () => {
                             <p className='text-[#231F20] text-lg'>25 mins</p>
                         </div>
                     </div>
-                    <div className='col-span-3 md:col-span-2 relative flex overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide justify-between items-center'>
+                    <div className='col-span-3 md:col-span-2 relative flex overflow-x-auto bg-[#FFFFFF] flex-1 whitespace-nowrap  scrollbar-hide justify-between items-center'>
                         <motion.div
                             className="progress-bar"
                             style={{ scaleX: scrollYProgress }}

@@ -132,7 +132,7 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full justify-between font-sans bg-[#EADEC1] items-center ${pathname === '/recipes' ? '' : 'fixed'}  z-50 pr-5  py-8`}
+        className={`flex w-full justify-between font-sans bg-[#EADEC1] items-center ${pathname === '/recipes' ? 'fixed' : 'fixed'}  z-50 pr-5  py-8`}
       >
         <div className="hidden lg:flex gap-3 text-lg font-sans flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot">
@@ -145,7 +145,7 @@ const Header = () => {
                   className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
                   OUR MENU
                 </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="NavigationMenuContent left-0 right-0 absolute top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
+                <NavigationMenu.Content className="NavigationMenuContent left-0 right-0 absolute top-12 bg-[#26965C] z-[52]  w-[100vw] h-[80vh]">
                   <div className="grid grid-cols-2 lg:grid-cols-3  gap-4 md:gap-10">
                     <div onClick={onMenuClick} className="w-full flex  justify-center items-center relative group  cursor-pointer px-7 my-9 border-r-2 border-r-[#fbae36] ">
                       <img src={menu1} alt="" className="h-[60vh] shadow-[5px_5px_0_0_rgb(251,174,54)] transition-shadow duration-300 ease-in-out hover:shadow-[10px_10px_0_0_rgb(251,174,54)] rounded-xl" />
