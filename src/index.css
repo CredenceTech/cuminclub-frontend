@@ -174,6 +174,16 @@ body {
   background-image: url('./assets/middle-image2.png');
 }
 
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 78px;
+  background: rgba(199, 88, 1, 0.4);
+  transform-origin: 0%;
+}
+
 
 .animate-instant {
   position: relative;
