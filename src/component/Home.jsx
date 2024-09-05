@@ -31,6 +31,13 @@ import {
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { addCategoryData } from "../state/selectedCategory";
 import imagefooter from '../assets/footer-image.png'
+import sideImage from '../assets/Side.png'
+import heatEat from '../assets/heat-enjoy.png'
+import selectMeal from '../assets/select-meal.png'
+import recieveBox from '../assets/receive-box.png'
+import freshHighQuality from '../assets/fresh-high-quality.png'
+import authenticMeal from '../assets/authentic-flavors.png'
+import noPreservativeWhite from '../assets/no-preservatives-white.png'
 
 const Home = () => {
 
@@ -225,6 +232,38 @@ const Home = () => {
       image: imagefooter
     },
   ]
+
+  const buttonTexts = [
+    'AUTHENTIC FLAVOURS',
+    'FRESH INGREDIENTS',
+    'NO ARTIFICIAL ADDITIVES',
+    'QUALITY CONTROL',
+    'PRESERVATIVE FREE'
+  ];
+
+  const descriptionData = [
+    {
+      title: 'Authentic, Home Cooked Flavours',
+      description: 'Get that cosy, homemade taste in every bite. Our recipes bring the comfort of home right to your plate.',
+      image: authenticMeal,
+    },
+    {
+      title: 'Fresh, High Quality Ingredients',
+      description: 'We only use fresh ingredients to make sure your meals are super tasty (and also nutritious).',
+      image: freshHighQuality
+    }
+  ]
+
+  const [activeButton, setActiveButton] = useState(0);
+
+  const handleButtonClick = (index) => {
+    setActiveButton(index);
+    // Handle navigation or other actions
+    console.log(`Button ${index + 1} clicked`);
+  };
+
+  // Get the current data based on the active button index
+  const currentData = descriptionData[activeButton] || descriptionData[0];
 
 
 
@@ -558,15 +597,15 @@ const Home = () => {
         {
           categoryData?.map((item, i) => (
             <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className={`${i % 2 === 0 ? 'bg-[#FBAE36] ' : 'bg-[#26965c]'} group p-4 min-w-[300px] flex  items-center cursor-pointer`} >
-              <img src={food} alt="" className='h-[50px] w-[50px] group-hover:scale-150 transition-transform duration-200 ' />
+              <img src={food} alt="" className='h-[50px] w-[50px]' />
               <p className={` ${i % 2 === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg `}>{item?.node?.title}</p>
-              <div className="group-hover:block hidden pl-4 transition-transform duration-400 ">
+              {/* <div className="group-hover:block hidden pl-4 transition-transform duration-400 ">
                 <svg width="25" height="21" className={`${i % 2 === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'}`} viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
                     fill="currentColor" />
                 </svg>
-              </div>
+              </div> */}
             </div>
           ))
         }
@@ -592,9 +631,9 @@ const Home = () => {
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
             <path d="M37.8018 23.0008L40.3205 20.5648C40.4552 20.4345 40.6794 20.5391 40.6661 20.7258L40.4193 24.2213C40.4111 24.3382 40.5026 24.4381 40.6193 24.4402L44.1232 24.4985C44.3106 24.502 44.3953 24.7345 44.2536 24.857L41.6073 27.1542C41.519 27.2306 41.5127 27.3663 41.5945 27.4502L44.0304 29.9694C44.1607 30.1041 44.0561 30.3283 43.8691 30.3152L40.374 30.0677C40.2568 30.0597 40.1572 30.151 40.155 30.2682L40.0965 33.7718C40.0935 33.9593 39.8608 34.0438 39.7377 33.9024L37.4413 31.256C37.3641 31.1677 37.2289 31.1616 37.1448 31.2431L34.6259 33.6788C34.4912 33.8091 34.2669 33.705 34.28 33.518L34.5273 30.0226C34.5354 29.9054 34.444 29.8058 34.3268 29.8036L30.8232 29.7451C30.6357 29.7421 30.5509 29.5096 30.6925 29.3868L33.339 27.0899C33.4274 27.013 33.4334 26.8775 33.3524 26.7935L30.9158 24.2747C30.7856 24.14 30.8903 23.9153 31.0772 23.9289L34.5727 24.1757C34.6895 24.1844 34.7897 24.0927 34.7914 23.9754L34.8499 20.4718C34.8531 20.2846 35.0856 20.1998 35.2084 20.3414L37.5051 22.9876C37.5822 23.0764 37.7172 23.0822 37.8018 23.0008Z" fill="#FBAE36" />
           </svg>
-          <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Our Bestsellers</p>
+          <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Fan Favourites</p>
         </div>
-        <div className='container mx-auto py-14'>
+        <div className='container mx-auto py-14 ml-[55px]'>
           <div className='flex flex-row  justify-around px-7 md:px-4 md:justify-start  md:mx-5 lg:mx-10 flex-wrap gap-x-8  gap-y-4'>
             {apiResponse?.map((item, i) => (
               <div key={i} className=' flex flex-col justify-between lg:justify-start w-[100px] md:w-[150px]'>
@@ -608,7 +647,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className='w-full bannerbottom h-[600px]'>
+      {/* <div className='w-full bannerbottom h-[600px]'>
         <div className='mx-auto container'>
           <div className='flex justify-between '>
             <div className='px-10'>
@@ -642,9 +681,17 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div className="bg-[#EFE9DA] md:pt-10">
-        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle1 md:ml-[10px] lg:ml-[127px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px]">
+      </div> */}
+      <div className="bg-[#EFE9DA]">
+        <div className='flex flex-row px-4 md:px-14 lg:px-3 items-center'>
+          <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
+            <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
+            <path d="M37.8018 23.0008L40.3205 20.5648C40.4552 20.4345 40.6794 20.5391 40.6661 20.7258L40.4193 24.2213C40.4111 24.3382 40.5026 24.4381 40.6193 24.4402L44.1232 24.4985C44.3106 24.502 44.3953 24.7345 44.2536 24.857L41.6073 27.1542C41.519 27.2306 41.5127 27.3663 41.5945 27.4502L44.0304 29.9694C44.1607 30.1041 44.0561 30.3283 43.8691 30.3152L40.374 30.0677C40.2568 30.0597 40.1572 30.151 40.155 30.2682L40.0965 33.7718C40.0935 33.9593 39.8608 34.0438 39.7377 33.9024L37.4413 31.256C37.3641 31.1677 37.2289 31.1616 37.1448 31.2431L34.6259 33.6788C34.4912 33.8091 34.2669 33.705 34.28 33.518L34.5273 30.0226C34.5354 29.9054 34.444 29.8058 34.3268 29.8036L30.8232 29.7451C30.6357 29.7421 30.5509 29.5096 30.6925 29.3868L33.339 27.0899C33.4274 27.013 33.4334 26.8775 33.3524 26.7935L30.9158 24.2747C30.7856 24.14 30.8903 23.9153 31.0772 23.9289L34.5727 24.1757C34.6895 24.1844 34.7897 24.0927 34.7914 23.9754L34.8499 20.4718C34.8531 20.2846 35.0856 20.1998 35.2084 20.3414L37.5051 22.9876C37.5822 23.0764 37.7172 23.0822 37.8018 23.0008Z" fill="#FBAE36" />
+          </svg>
+          <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Instantly Yours Promises Instant, Hygienic Meals</p>
+        </div>
+        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle1 md:ml-[10px] lg:ml-[120px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px] mt-[20px]">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
           <div className="relative z-10 text-white">
             <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
@@ -656,20 +703,82 @@ const Home = () => {
             <button className="bg-white text-black mt-4 py-2 px-6 rounded">DISCOVER</button>
           </div>
         </div>
-        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle2 md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg flex flex-col justify-center pr-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pr-[30px] lg:pl-[60px] pl-[10px]">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#000000a6] md:rounded-r-lg"></div>
-          <div className="relative z-10 text-white flex flex-col items-end">
-            <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Cook</h2>
-            <div className="w-full md:w-1/2 flex flex-col items-end">
-              <p className="text-lg text-[#CECECE] text-end font-normal font-sans mb-4" >
+
+        <div className="relative flex flex-col md:flex-row bg-gradient-to-b from-[#E9EEED] to-[#DDDFE3] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
+
+          <div className="w-full md:w-1/2 flex-shrink-0 h-full">
+            <img
+              src={sideImage}
+              alt="Description of Image"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="absolute left-1/2 -translate-x-1/2 top-[20%] -translate-y-[50%] bg-[#FFFFFFA3] rounded-[4px] p-4 flex flex-col justify-center items-start max-w-[332px] w-[80%] md:w-[332px] z-10">
+            <h3 className="font-regola-pro text-[22px] font-normal leading-[26.4px] text-[#242424] mb-2">
+              Packaging
+            </h3>
+            <p className="font-regola-pro text-[20px] font-light leading-[24px] text-[#555555]">
+              Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+            </p>
+          </div>
+
+          <div className="relative w-full md:w-1/2 flex flex-col items-end md:rounded-r-lg pr-[30px] pt-[50px]">
+            <div className="absolute top-0 left-0 right-0 h-10"></div>
+            <h2 className="font-inter text-[36px] font-normal leading-[43.57px] text-right text-[#333333] mb-4 sm:text-2xl">
+              Ready to Cook
+            </h2>
+            <div className="w-full flex flex-col items-end">
+              <p className="font-inter text-[16px] font-normal leading-[19.36px] text-right text-[#333333D9] mb-4 w-[70%]">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
               </p>
             </div>
-            <button className="bg-white text-black mt-4 py-2 px-6 rounded">DISCOVER</button>
+            <button className="bg-white text-[#333333] mt-4 py-2 px-6 rounded font-regola-pro text-[16px] font-light text-center">
+              VIEW PRODUCTS
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div className='w-full bannerbottom h-[600px]'>
+        <div className='mx-auto container'>
+          <div className='flex justify-between '>
+            <div className='px-10'>
+              <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Not Sure What to Eat?</p>
+              <p className='text-[#FBAE36] text-lg lg:text-4xl font-futura'>Give it a Spin! </p>
+            </div>
+            <div className='flex h-[500px] relative z-10 justify-end items-center '>
+              <div className='relative right-[-24px] top-[70px] z-[-1]'>
+                <div onClick={() => { setSelecteRandomPro(apiResponse[getRandomNumber()]) }} className='flex cursor-pointer flex-row py-2 pl-2 pr-10  rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
+                  <div className='h-10 w-10 rounded-full bg-[#FBAE36]'></div>
+                  <button className=" text-[#B25220] font-xl">{`spin >>`} </button>
+                </div>
+                <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4'>{selecteRandomPro?.node?.title}</p>
+                <p className='text-[#FFFFFF] text-lg '>₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}</p>
+                <button type='button' className="bg-[#FBAE36] mt-2 rounded-full py-1 px-4 font-bold text-black">Add to cart </button>
+              </div>
+              <AnimatePresence>
+                <motion.div initial={{ opacity: 0, scale: 0.5 }}
+                  key={selecteRandomPro?.node?.title}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                    duration: 0.8
+                  }}
+                >
+                  <img src={selecteRandomPro?.node?.featuredImage?.url} alt="" className='lg:h-[400px] rounded-full h-[250px]' />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
-      <div className='bg-[#EFE9DA]'>
+
+      {/* <div className='bg-[#EFE9DA]'>
         <div className='container mx-auto md:pt-14'>
           <p className='text-[#333333] font-skillet px-6 py-10 text-3xl md:text-6xl text-center'>Why Instantly Yours?</p>
           <div className='flex  md:justify-center whitespace-nowrap overflow-x-auto  scrollbar-hide gap-x-6 md:gap-x-12 gap-y-4'>
@@ -687,7 +796,139 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div> */}
+
+      <div className="bg-[#EFE9DA] p-10">
+        <div className="container mx-auto md:pt-14">
+          <div className="flex flex-col md:flex-row items-start">
+            <div className="flex flex-col w-full">
+              <p className="font-regola-pro text-[20px] font-normal leading-[23.2px] text-[#333333]">
+                Our Process is
+              </p>
+              <div className="flex items-center justify-between w-full">
+                <span className="font-regola-pro text-[36px] font-semibold leading-[41.76px] text-[#333333]">
+                  Simple, Transparent, and Delicious
+                </span>
+                <a href="#learn-more" className="flex items-center text-[19px] font-medium leading-[20px] text-[#333333] animate-instant">
+                  Learn How It Works
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className="ml-2">
+                    <path d="M12 15.5L18 9.5M18 9.5L12 3.5M18 9.5L3 9.5" stroke="#333333" strokeWidth="1.5" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mt-5">
+            <div className="flex flex-wrap -mx-2">
+              <div className="w-full md:w-1/3 px-2 mb-6">
+                <div className="p-4">
+                  <img src={selectMeal} alt="Select Meal" className="w-[200px] h-[200px] object-cover mb-4" />
+                  <h3 className="font-regola-pro text-[24px] font-semibold leading-[28.8px] text-[#333333] mb-2">
+                    Select Your Meals
+                  </h3>
+                  <p className="font-regola-pro text-[14px] font-light leading-[16.8px] text-[#333333]">
+                    Browse our ready-to-eat and ready-to-cook dishes. From rice to sweets, get what you’re
+                    craving for half the price! Pick your favourite meals and customise your order to match your taste buds.
+                  </p>
+                </div>
+              </div>
+              <div className="w-full md:w-1/3 px-2 mb-6">
+                <div className="p-4">
+                  <img src={recieveBox} alt="receive box" className="w-[200px] h-[200px] object-cover mb-4" />
+                  <h3 className="font-regola-pro text-[24px] font-semibold leading-[28.8px] text-[#333333] mb-2">
+                    Receive Your Box
+                  </h3>
+                  <p className="font-regola-pro text-[14px] font-light leading-[16.8px] text-[#333333]">
+                    Your meals are packed with love and delivered straight to your doorstep. We ensure everything arrives fresh and ready to enjoy. If you’ve subscribed to a plan, you can easily skip,
+                    reschedule, change meals, or cancel anytime—no strings attached.
+                  </p>
+                </div>
+              </div>
+              <div className="w-full md:w-1/3 px-2 mb-6">
+                <div className="p-4">
+                  <img src={heatEat} alt="Heat and Enjoy" className="w-[200px] h-[200px] object-cover mb-4" />
+                  <h3 className="font-regola-pro text-[24px] font-semibold leading-[28.8px] text-[#333333] mb-2">
+                    Heat and Enjoy
+                  </h3>
+                  <p className="font-regola-pro text-[14px] font-light leading-[16.8px] text-[#333333]">
+                    For ready-to-eat meals, just heat them up, and you’re good to go. For ready-to-cook kits, follow the simple instructions, and you'll have a delicious meal ready in under 7 minutes.
+                    Enjoy the taste of home-cooked goodness (without the hassle).
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div className="relative bg-cover bg-center h-[600px]"
+        style={{ backgroundImage: `url(${currentData?.image})` }}>
+        <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg">
+          <h1 className="font-skillet text-[48px] leading-[48.43px] text-[#FFFFFF] mb-4">
+            What makes us instantly yours
+          </h1>
+          <div className="flex items-start space-x-4 mb-4">
+            <img
+              src={noPreservativeWhite}
+              alt="Icon"
+              className="w-[76px] h-[76px] object-cover"
+            />
+            <div className="w-1/2">
+              <h2 className="font-skillet text-[36px] leading-[35px] text-[#FFFFFF] mb-2">
+                {currentData?.title}
+              </h2>
+              <p className="font-regola-pro text-[18px] leading-[20px] text-[#EBEBEB]">
+                {currentData?.description}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center mt-60">
+            <div className="flex gap-[40px] mt-10">
+              {buttonTexts.map((text, index) => (
+                <button
+                  key={index}
+                  className={`relative inline-flex items-center justify-center py-[9.42px] px-[22.6px] rounded-[7.53px] text-[#333333] bg-[#FFFFFF] transition-transform duration-[300ms] ease-out`}
+                  onClick={() => handleButtonClick(index)}
+                >
+                  <span
+                    className={`absolute top-0 left-0 h-full ${activeButton === index ? 'bg-[#7D7D7DAB] w-[75%]' : 'bg-transparent w-0'} transition-all duration-[300ms] ease-out`}
+                    style={{
+                      height: '100%',
+                      borderRadius: '7.53px',
+                      zIndex: 0,
+                    }}
+                  />
+                  <span
+                    className={`absolute top-0 right-0 h-full ${activeButton === index ? 'bg-[#FFFFFF] w-[25%]' : 'bg-transparent w-0'} transition-all duration-[300ms] ease-out`}
+                    style={{
+                      height: '100%',
+                      borderRadius: '7.53px',
+                      zIndex: 1,
+                    }}
+                  />
+                  <span className="relative z-10 font-regola-pro text-[16.95px] font-[400] leading-[20.34px] text-[#333333] text-left">
+                    {text}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* <div className="bg-[#EFE9DA] p-10">
+        <div className="container mx-auto md:pt-14 text-left">
+          <h2 className="font-skillet text-[36px] leading-[37.34px] text-[#333333]">
+            Your Health is Our Priority
+          </h2>
+          <p className="font-skillet text-[28px] leading-[29.04px] text-[#757575]">
+            Don’t Believe Us, Believe Our Happy Customers
+          </p>
+        </div>
+      </div> */}
+
+
       <div className='bg-[#EFE9DA] relative -bottom-28'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>

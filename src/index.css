@@ -173,3 +173,14 @@ body {
 .bg-custom-image-middle2 {
   background-image: url('./assets/middle-image2.png');
 }
+
+
+.animate-instant {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.animate-instant:active {
+  transform: scale(0.98);
+}
