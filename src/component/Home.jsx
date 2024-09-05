@@ -38,6 +38,9 @@ import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.png'
 import authenticMeal from '../assets/authentic-flavors.png'
 import noPreservativeWhite from '../assets/no-preservatives-white.png'
+import headerImage1 from '../assets/header.png'
+import headerImage2 from '../assets/header2.png'
+import headerImage3 from '../assets/header3.png'
 
 const Home = () => {
 
@@ -266,11 +269,44 @@ const Home = () => {
   // Get the current data based on the active button index
   const currentData = descriptionData[activeButton] || descriptionData[0];
 
+  const bannerData = [
+    {
+      image: headerImage1,
+      title: "Bring the Taste of Home, Anywhere",
+      description: "Ready-to-eat comfort food, delivered right at your door."
+    },
+    {
+      image: headerImage2,
+      title: "Real Indian Food, Ready in 2 Minutes",
+      description: "Heat, Cook, and Repeat – Get deliciousness served to your plate in minutes."
+    },
+    {
+      image: headerImage3,
+      title: "From Kitchen to Table, Cooked in 7 Minutes",
+      description: "Delicious meals cooked instantly in 7 minutes. Experience ease on busy days with your favourite protein."
+    }
+  ];
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === bannerData.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [bannerData.length]);
 
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] `}>
-      <div className={`w-full bannerback`}>
+      <div className={`w-full`} style={{
+        backgroundImage: `url(${bannerData[currentIndex].image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        transition: "background-image 1s ease-in-out"
+      }}>
         <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] ' : ''} w-full justify-between items-center`} >
           <div className=" my-6 text-lg font-semibold flex-1 font-sans">
             <NavigationMenu.Root className="NavigationMenuRoot">
@@ -581,7 +617,12 @@ const Home = () => {
 
         {isCartOpen && <CartDrawer />}
         <div className="w-full" >
-          <h1 className="lg:text-[#333333] text-[#ffffff] pt-[150px] pb-[30px] lg:pt-0 lg:pb-0 text-center lg:text-left mt-4 font-skillet text-lg lg:text-4xl font-bold lg:px-12 lg:mb-4">READY TO EAT MEALS <br /> RIGHT AT YOUR DOORSTEP</h1>
+          <h1 className="font-skillet text-[44px] font-normal leading-[44.4px] text-left text-white">
+            {bannerData[currentIndex].title}
+          </h1>
+          <p className="font-regola-pro text-[20px] font-normal leading-[24px] text-left text-white">
+            {bannerData[currentIndex].description}
+          </p>
           <div className=" hidden lg:flex justify-end pt-[150px] pb-[30px] px-8">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
