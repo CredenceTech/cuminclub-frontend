@@ -114,7 +114,7 @@ const Home = () => {
     const getCategory = async () => {
       try {
         const result = await graphQLClient.request(getCategoriesQuery);
-        setCategoryData(result?.collections?.edges);
+        setCategoryData(result?.collections?.edges?.slice(0, 4));
         dispatch(addCategoryData(result?.collections?.edges[0]))
       } catch (error) {
         // Handle errors here
@@ -159,6 +159,7 @@ const Home = () => {
   }, []);
 
   const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
+  const colorCategory = ['#FBAE36', '#26965C', '#555555', '#FB7D36'];
 
   const getRandomNumber = () => {
     return Math.floor(Math.random() * 5);
@@ -268,7 +269,7 @@ const Home = () => {
 
 
   return (
-    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} `}>
+    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] `}>
       <div className={`w-full bannerback`}>
         <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] ' : ''} w-full justify-between items-center`} >
           <div className=" my-6 text-lg font-semibold flex-1 font-sans">
@@ -593,36 +594,22 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className={` hidden md:flex pb-10 bg-[#EFE9DA] lg:flex-row overflow-x-auto whitespace-nowrap w-[100vw] scrollbar-hide`}>
+      <div className={` pb-10 bg-[#EFE9DA] grid grid-cols-2 md:grid-cols-4 `}>
         {
           categoryData?.map((item, i) => (
-            <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className={`${i % 2 === 0 ? 'bg-[#FBAE36] ' : 'bg-[#26965c]'} group p-4 min-w-[300px] flex  items-center cursor-pointer`} >
-              <img src={food} alt="" className='h-[50px] w-[50px]' />
-              <p className={` ${i % 2 === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg `}>{item?.node?.title}</p>
-              {/* <div className="group-hover:block hidden pl-4 transition-transform duration-400 ">
-                <svg width="25" height="21" className={`${i % 2 === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'}`} viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} style={{ background: `${colorCategory[i]}` }} className={`group p-4 w-[50vw] md:w-[25vw] flex items-center cursor-pointer`} >
+              <img src={food} alt="" className='h-[50px] w-[50px] group-hover:scale-150 transition-transform duration-200' />
+              <p className={` ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg `}>{item?.node?.title}</p>
+              <div className="group-hover:block hidden pl-4 transition-transform duration-400 ">
+                <svg width="25" height="21" className={`${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'}`} viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
                     fill="currentColor" />
                 </svg>
-              </div> */}
+              </div>
             </div>
           ))
         }
-      </div>
-      <div className='flex md:hidden bg-[#EFE9DA]'>
-        <div className='container mx-auto py-14 px-5 lg:px-0 lg:pl-8'>
-          <div className='flex flex-row justify-around lg:justify-start items-center whitespace-nowrap flex-wrap gap-x-8 gap-y-4'>
-            {
-              categoryData?.map((item, i) => (
-                <div key={item?.node?.id} onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }} className=' flex flex-col justify-between  items-center relative cursor-pointer'>
-                  <img src={food} alt="" className='h-[100px] w-[100px]  ' />
-                  <p className={`${i % 2 === 0 ? 'bg-[#FBAE36] text-[#231F20] ' : 'bg-[#26965c] text-[#FFFFFF] '}  text-xl lg:text-2xl font-skillet rounded-lg  px-8 py-1`}>{item?.node?.title}</p>
-                </div>
-              ))
-            }
-          </div>
-        </div>
       </div>
       <div className="bg-[#EFE9DA]">
         <div className='flex flex-row px-4 md:px-14 lg:px-3 items-center'>
@@ -691,7 +678,7 @@ const Home = () => {
           </svg>
           <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Instantly Yours Promises Instant, Hygienic Meals</p>
         </div>
-        <div className="relative bg-cover bg-center bg-no-repeat bg-custom-image-middle1 md:ml-[10px] lg:ml-[120px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px] mt-[20px]">
+        <div className="relative bg-cover bg-center bg-no-repeat 2xl:h-[700px] bg-custom-image-middle1 md:ml-[10px] lg:ml-[120px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px] mt-[20px]">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
           <div className="relative z-10 text-white">
             <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
@@ -704,32 +691,29 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="relative flex flex-col md:flex-row bg-gradient-to-b from-[#E9EEED] to-[#DDDFE3] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
-
-          <div className="w-full md:w-1/2 flex-shrink-0 h-full">
+        <div className="flex flex-col md:flex-row bg-gradient-to-b from-[#E9EEED] to-[#DDDFE3] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
+          <div className="w-full relative md:w-3/5 flex-shrink-0 h-full">
             <img
               src={sideImage}
               alt="Description of Image"
               className="w-full h-full object-cover"
             />
+            <div className="absolute -right-[20%] -translate-x-1/2 top-[25%] -translate-y-[50%] backdropBackgroundCss rounded-[4px] p-4 flex flex-col justify-center items-start max-w-[332px] w-[80%] md:w-[332px] z-10">
+              <h3 className="font-regola-pro text-[22px] font-normal leading-[26.4px] text-[#242424] mb-2">
+                Packaging
+              </h3>
+              <p className="font-regola-pro text-[20px] font-light leading-[24px] text-[#555555]">
+                Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+              </p>
+            </div>
           </div>
-
-          <div className="absolute left-1/2 -translate-x-1/2 top-[20%] -translate-y-[50%] bg-[#FFFFFFA3] rounded-[4px] p-4 flex flex-col justify-center items-start max-w-[332px] w-[80%] md:w-[332px] z-10">
-            <h3 className="font-regola-pro text-[22px] font-normal leading-[26.4px] text-[#242424] mb-2">
-              Packaging
-            </h3>
-            <p className="font-regola-pro text-[20px] font-light leading-[24px] text-[#555555]">
-              Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-            </p>
-          </div>
-
-          <div className="relative w-full md:w-1/2 flex flex-col items-end md:rounded-r-lg pr-[30px] pt-[50px]">
+          <div className="relative w-full md:w-2/5 flex flex-col items-end md:rounded-r-lg pr-[30px] pt-[50px]">
             <div className="absolute top-0 left-0 right-0 h-10"></div>
             <h2 className="font-inter text-[36px] font-normal leading-[43.57px] text-right text-[#333333] mb-4 sm:text-2xl">
               Ready to Cook
             </h2>
             <div className="w-full flex flex-col items-end">
-              <p className="font-inter text-[16px] font-normal leading-[19.36px] text-right text-[#333333D9] mb-4 w-[70%]">
+              <p className="font-inter text-[16px] font-normal leading-[19.36px] pl-4 text-right text-[#333333D9] mb-4">
                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
               </p>
             </div>
@@ -738,8 +722,6 @@ const Home = () => {
             </button>
           </div>
         </div>
-
-
       </div>
 
       <div className='w-full bannerbottom h-[600px]'>
@@ -747,7 +729,7 @@ const Home = () => {
           <div className='flex justify-between '>
             <div className='px-10'>
               <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Not Sure What to Eat?</p>
-              <p className='text-[#FBAE36] text-lg lg:text-4xl font-futura'>Give it a Spin! </p>
+              <p className='text-[#000] text-lg lg:text-4xl font-futura'>Give it a Spin! </p>
             </div>
             <div className='flex h-[500px] relative z-10 justify-end items-center '>
               <div className='relative right-[-24px] top-[70px] z-[-1]'>
@@ -757,7 +739,7 @@ const Home = () => {
                 </div>
                 <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4'>{selecteRandomPro?.node?.title}</p>
                 <p className='text-[#FFFFFF] text-lg '>₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}</p>
-                <button type='button' className="bg-[#FBAE36] mt-2 rounded-full py-1 px-4 font-bold text-black">Add to cart </button>
+                <button type='button' className="bg-[#FFFFFF] mt-2 rounded py-1 px-4 font-bold text-black">Add to cart </button>
               </div>
               <AnimatePresence>
                 <motion.div initial={{ opacity: 0, scale: 0.5 }}
@@ -915,19 +897,56 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {/* testimonial part */}
+      <div className=" py-16 px-8">
+        <div className="container mx-auto ">
+          <div className="flex flex-row">
+            <div className="w-1/2  mb-10">
+              <h2 className="text-5xl drop-shadow-[0px_4px_2px_rgba(0,0,0,0.4)] font-bold font-skillet text-[#333333]">
+                Your Health is Our Priority
+              </h2>
+              <p className="text-2xl text-[#757575] drop-shadow-[0px_6px_2px_rgba(0,0,0,0.3)]  font-bold font-skillet ">
+                Don’t Believe Us, Believe Our Happy Customers
+              </p>
+            </div>
+            <div className="w-1/2 flex justify-between items-start">
+              {/* Quotation Section */}
+              <div>
+                <div className="flex flex-col  lg:ml-20 ">
+                  <div className="relative ">
+                    <svg width="58" height="44" viewBox="0 0 58 44" className="absolute  top-0 -left-4 w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="#B2B2B2" />
+                    </svg>
+                    <p className="px-6 py-1 text-lg text-[#757575] ">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    </p>
 
-
-      {/* <div className="bg-[#EFE9DA] p-10">
-        <div className="container mx-auto md:pt-14 text-left">
-          <h2 className="font-skillet text-[36px] leading-[37.34px] text-[#333333]">
-            Your Health is Our Priority
-          </h2>
-          <p className="font-skillet text-[28px] leading-[29.04px] text-[#757575]">
-            Don’t Believe Us, Believe Our Happy Customers
-          </p>
+                    <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute bottom-0 right-0 w-8 h-8 " xmlns="http://www.w3.org/2000/svg">
+                      <path d="M57.0156 8.39233e-05V11.5058C57.0156 15.0001 56.3977 18.7075 55.1619 22.6279C53.8835 26.591 52.0511 30.4049 49.6648 34.0697C47.2358 37.7771 44.3168 40.9944 40.9077 43.7217L32.7259 37.074C35.4105 33.2387 37.7543 29.233 39.7571 25.0569C41.7173 20.9234 42.6974 16.4916 42.6974 11.7615V8.39233e-05H57.0156ZM24.2884 8.39233e-05V11.5058C24.2884 15.0001 23.6705 18.7075 22.4347 22.6279C21.1563 26.591 19.3239 30.4049 16.9375 34.0697C14.5085 37.7771 11.5895 40.9944 8.1804 43.7217L-0.00141907 37.074C2.68324 33.2387 5.02699 29.233 7.02982 25.0569C8.99005 20.9234 9.97017 16.4916 9.97017 11.7615V8.39233e-05H24.2884Z" fill="#B2B2B2" />
+                    </svg>
+                  </div>
+                  <p className="text-left pl-5 text-[#333333] pt-4 text-lg font-medium">Person Name</p>
+                </div>
+                <div className="flex float-end ml-8 mt-3">
+                  <button className="bg-[#5F5F5F] text-white h-10 w-10 rounded-full mr-4">
+                    ←
+                  </button>
+                  <button className="bg-[#5F5F5F] text-white h-10 w-10 rounded-full">
+                    →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div> */}
-
+        {/* Placeholder Cards */}
+        <div className="mt-12 grid grid-cols-5 gap-x-6 max-w-7xl mx-auto">
+          {Array(5)
+            .fill(0)
+            .map((_, index) => (
+              <div key={index} className="bg-gray-300 h-40 rounded-lg"></div>
+            ))}
+        </div>
+      </div>
 
       <div className='bg-[#EFE9DA] relative -bottom-28'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
@@ -935,9 +954,10 @@ const Home = () => {
           {/* Text Section */}
           <div className="w-full lg:w-1/4 p-6 lg:p-12 text-section text-white flex flex-col justify-between">
             <div>
-              <h2 className="text-2xl lg:text-3xl uppercase font-semibold">RECIPES</h2>
+              <h2 className="text-2xl lg:text-3xl  font-semibold">Explore Our</h2>
+              <h2 className="text-2xl lg:text-3xl font-semibold">Diverse Recipes</h2>
               <p className="text-base font-sans text-[#D5D5D5] mt-4">
-                A North Indian dish with black lentils & kidney beans, slow cooked with spices, butter, and cream.
+                Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
             <button className="mt-4 hidden lg:flex bg-white text-black py-2 px-4 rounded lg:self-start self-center">View all recipes</button>
@@ -946,9 +966,9 @@ const Home = () => {
           <div className="w-full lg:min-w-3/4 lg:py-14 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
             {recipData?.map((item, i) => (
               <div key={i} className="relative min-w-[250px] md:min-w-[300px]">
-                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl md:rounded-none">
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary rounded-xl md:rounded-none to-secondary"></div>
-                  <img src={item?.image} alt="Image 1" className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl md:rounded-none " />
+                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl ">
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary rounded-xl  to-secondary"></div>
+                  <img src={item?.image} alt="Image 1" className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl " />
                 </div>
                 <div className="absolute bottom-0 left-0 text-white px-4 pb-8 font-medium">{item?.title}</div>
               </div>
@@ -957,7 +977,7 @@ const Home = () => {
           <button className="mt-4 lg:hidden  bg-white w-[250px] m-7 text-black py-2 px-4 rounded ">View all recipes</button>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
