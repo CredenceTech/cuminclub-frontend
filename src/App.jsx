@@ -22,6 +22,7 @@ import MealPackage from "./pages/MealPackage";
 import './fonts.css';
 import CardReview from "./pages/CardReview";
 import Recipes from "./pages/Recipes";
+import AboutUs from "./component/AboutUs";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
             <Route path="/Invoices" element={<Invoices />} />
             <Route path="/cardReview" element={<CardReview />} />
             <Route path="/recipes" element={<Recipes />} />
+            <Route path="aboutUs" element={<AboutUs />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
@@ -65,4 +67,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
