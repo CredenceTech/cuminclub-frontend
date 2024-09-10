@@ -42,10 +42,10 @@ const Recipes = () => {
     return (
         <div className='relative z-[51]'>
             <div className='bg-[#C75801]'>
-                <div className='container mx-auto grid grid-cols-2 lg:grid-cols-3'>
+                <div className=' grid grid-cols-2 lg:grid-cols-3'>
                     <div className="col-span-1 pl-6">
                         <p className='text-[#FFFFFF] pt-4 text-lg'>{"Recipes > Biryani burrito"}</p>
-                        <p className='pb-20 pt-4 text-8xl font-skillet text-[#FFFFFF]'> Biryani <br /> Burrito</p>
+                        <p className='pb-20 pt-4 text-8xl font-skillet text-[#F4E8DF]'> Biryani <br /> Burrito</p>
                         <div className='flex gap-5 pb-8' >
                             <button className='px-4 rounded py-2 bg-[#EADEC1] text-base text-[#C75801]' type='button'>Download PDF</button>
                             <button className='px-4 rounded py-2 bg-[#EADEC1] text-base text-[#C75801]' type='button'>Share Recipe</button>
@@ -57,15 +57,15 @@ const Recipes = () => {
                 </div>
             </div>
             <div className='bg-[#FAFAFA]'>
-                <div className='container bg-[#FAFAFA] mx-auto grid grid-cols-3 sticky top-0'>
-                    <div className='col-span-1 hidden md:flex gap-x-11 py-3'>
-                        <div className=''>
-                            <p className='text-[#757575]'>Prep Time</p>
-                            <p className='text-[#231F20] text-lg'>10 mins</p>
+                <div className=' bg-[#FAFAFA] grid grid-cols-3 sticky top-0'>
+                    <div className='col-span-1 pl-10 hidden md:flex gap-x-16'>
+                        <div className='my-1'>
+                            <p className='text-[#757575] text-[14px]'>Prep Time</p>
+                            <p className='text-[#231F20] text-[16px]'>10 mins</p>
                         </div>
-                        <div className=''>
-                            <p className='text-[#757575]'>Cook Time</p>
-                            <p className='text-[#231F20] text-lg'>25 mins</p>
+                        <div className='my-1'>
+                            <p className='text-[#757575] text-[14px]'>Cook Time</p>
+                            <p className='text-[#231F20] text-[16px]'>25 mins</p>
                         </div>
                     </div>
                     <div className='col-span-3 md:col-span-2 relative flex overflow-x-auto bg-[#FFFFFF] flex-1 whitespace-nowrap  scrollbar-hide justify-between items-center'>
@@ -73,17 +73,19 @@ const Recipes = () => {
                             className="progress-bar"
                             style={{ scaleX: scrollYProgress }}
                         />
-                        <div className='border-r-2 px-10 py-3 bg-[] border-r-[#C75801]'>
-                            <p className='text-lg text-[#231F20]'> Step 1 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
-                        </div>
-                        <div className='border-r-2 px-10 py-3 bg-[] border-r-[#C75801]'>
-                            <p className='text-lg text-[#231F20]'> Step 2 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
-                        </div>
-                        <div className='border-r-2 px-10 py-3 bg-[] border-r-[#C75801]'>
-                            <p className='text-lg text-[#231F20]'> Step 3 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
-                        </div>
-                        <div className='px-10 py-3 '>
-                            <p className='text-lg text-[#231F20]'> Step 4 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
+                        <div className='flex flex-row w-full'>
+                            <div className='border-r-2 flex items-center px-10 justify-center w-full py-3  border-r-[#C75801]'>
+                                <p className='text-lg text-[#231F20]'> Step 1 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
+                            </div>
+                            <div className='border-r-2 flex items-center justify-center w-full px-10 py-3  border-r-[#C75801]'>
+                                <p className='text-lg text-[#231F20]'> Step 2 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
+                            </div>
+                            <div className='border-r-2 flex items-center justify-center w-full px-10 py-3  border-r-[#C75801]'>
+                                <p className='text-lg text-[#231F20]'> Step 3 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
+                            </div>
+                            <div className='px-10 py-3 flex items-center justify-center w-full '>
+                                <p className='text-lg text-[#231F20]'> Step 4 <span className='text-[#757575] text-sm'> {"(2 mins)"}</span> </p>
+                            </div>
                         </div>
                     </div>
                 </div>
