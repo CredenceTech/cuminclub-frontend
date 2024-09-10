@@ -179,7 +179,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 78px;
+  height: 53px;
   background: rgba(199, 88, 1, 0.4);
   transform-origin: 0%;
 }
@@ -202,6 +202,6 @@ body {
   /* border: 1px solid rgba(255, 255, 255, 0.35); */
 }
 
-.mapBackgrounImage{
+.mapBackgrounImage {
   background-image: url('./assets/maps.png');
 }
