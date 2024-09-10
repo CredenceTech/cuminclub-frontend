@@ -109,7 +109,7 @@ export const Footer = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              className={`bg-[#333333] px-5 py-3 border-[3px] w-full border-[#A7A7A7] text-[#757575] rounded-lg text-3xl my-3 focus:outline-[#FFF] focus:ring-0 `}
+              className={`bg-[#333333] px-5 py-3 border-[1px] w-full border-[#A7A7A7] text-[#757575] rounded-lg text-3xl my-3 focus:outline-[#FFF] focus:ring-0 `}
               placeholder="Email ID"
             />
             <button type="button" className="rounded-full flex justify-center items-center absolute right-3 h-10 w-10 text-2xl bg-[#8686867f]" >
@@ -144,28 +144,28 @@ export const Footer = () => {
           </div> */}
           <div className="md:flex flex-wrap gap-y-2 gap-x-3 mt-5 hidden">
             <div>
-              <img src={amazonapy} alt="" className="w-[60px] h-[30px]" />
+              <img src={amazonapy} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={american} alt="" className="w-[60px] h-[30px]" />
+              <img src={american} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={googlepay} alt="" className="w-[60px] h-[30px]" />
+              <img src={googlepay} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={unionpay} alt="" className="w-[60px] h-[30px]" />
+              <img src={unionpay} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={mastercard} alt="" className="w-[60px] h-[30px]" />
+              <img src={mastercard} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={paypal} alt="" className="w-[60px] h-[30px]" />
+              <img src={paypal} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={visa} alt="" className="w-[60px] h-[30px]" />
+              <img src={visa} alt="" className="w-[51px] h-[34px]" />
             </div>
             <div>
-              <img src={applepay} alt="" className="w-[60px] h-[30px]" />
+              <img src={applepay} alt="" className="w-[51px] h-[34px]" />
             </div>
           </div>
         </div>
