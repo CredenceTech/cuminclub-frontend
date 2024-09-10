@@ -24,6 +24,7 @@ import CardReview from "./pages/CardReview";
 import Recipes from "./pages/Recipes";
 import Facility from "./component/Facility"
 import AboutUs from "./component/AboutUs"
+import RecipeList from "./pages/RecipeList";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
             <Route path="/Invoices" element={<Invoices />} />
             <Route path="/cardReview" element={<CardReview />} />
             <Route path="/recipes" element={<Recipes />} />
+            <Route path="/recipe-list" element={<RecipeList />} />
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="/facilities" element={<Facility />} />
             <Route path="*" element={<Home />} />
