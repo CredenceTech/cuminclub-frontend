@@ -128,3 +128,80 @@ body {
   background-blend-mode: overlay;
   min-height: 100%;
 }
+
+.bannerback {
+  background-image: url(./assets/header.png);
+  background-size: cover;
+  background-position: center;
+  /* background-repeat: no-repeat; */
+}
+
+.bannerbottom {
+  background-image: url(./assets/landingbanner.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.black-text-shadow {
+  text-shadow: 5px 5px 10px #020202a2, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
+}
+
+.underlineHeader {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #188f0a;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.bg-custom-image-footer {
+  background-image: url('./assets/footer-upper-image.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.bg-custom-image-middle1 {
+  background-image: url('./assets/middle1-image1.png');
+}
+
+.bg-custom-image-middle2 {
+  background-image: url('./assets/middle-image2.png');
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 53px;
+  background: rgba(199, 88, 1, 0.4);
+  transform-origin: 0%;
+}
+
+
+.animate-instant {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.animate-instant:active {
+  transform: scale(0.98);
+}
+
+.backdropBackgroundCss {
+  background: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
+  /* border: 1px solid rgba(255, 255, 255, 0.35); */
+}
+
+.mapBackgrounImage {
+  background-image: url('./assets/maps.png');
+}

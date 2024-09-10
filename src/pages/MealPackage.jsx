@@ -5,10 +5,10 @@ const MealPackage = () => {
     const data = [
         {
             id: 1,
-            noMeal: "10 Meals",
-            price: "₹2110.12/meal",
+            noMeal: "6 Meals",
+            price: "for ₹999.00",
             discountPrice: "₹2510.12/meal",
-            no: 10,
+            no: 6,
             subscriptionType: [
                 {
                     id: 1,
@@ -28,10 +28,33 @@ const MealPackage = () => {
         },
         {
             id: 2,
-            noMeal: "5 Meals",
-            price: "₹1210.12/meal",
+            noMeal: "12 Meals",
+            price: "for ₹999.00",
             discountPrice: "₹1110.12/meal",
-            no: 5,
+            no: 12,
+            subscriptionType: [
+                {
+                    id: 1,
+                    type: "oneTime",
+                    noMeal: "One Time",
+                    price: "₹1210.12/meal",
+                    discountPrice: "₹1110.12/meal",
+                },
+                {
+                    id: 2,
+                    type: "subscription",
+                    noMeal: "Subscription",
+                    price: "₹1210.12/meal",
+                    discountPrice: "₹1000.12/meal",
+                }
+            ]
+        },
+        {
+            id: 3,
+            noMeal: "18 Meals",
+            price: "for ₹999.00",
+            discountPrice: "₹1110.12/meal",
+            no: 18,
             subscriptionType: [
                 {
                     id: 1,
@@ -53,7 +76,7 @@ const MealPackage = () => {
 
     return (
         <>
-            <Meal data={data} message={'Select Your Meal Package'} url={"/products"} buttonTrigger = {true} />
+            <Meal data={data} message={'Select Your Meal Package'} url={"/products"} buttonTrigger={true} />
         </>
     )
 }

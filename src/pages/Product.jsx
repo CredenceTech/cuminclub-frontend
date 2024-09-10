@@ -9,7 +9,7 @@ import {
   updateCartMutation,
 } from "../api/graphql";
 import { useDispatch, useSelector } from "react-redux";
-import { selectMealItems } from "../state/mealdata";
+import { addMeal, selectMealItems } from "../state/mealdata";
 import mealThreeImage from "../assets/mealThreeImage.png";
 import { useNavigate } from "react-router-dom";
 import { CartDrawer } from "../component/CartComponent";
@@ -25,7 +25,12 @@ import LoadingAnimation from "../component/Loader";
 import { totalQuantity } from "../utils";
 import Popup from "../component/Popup";
 import SpiceLevel from "../component/SpiceLevel";
-
+import cardIcon from '../assets/cartnew.png';
+import { AnimatePresence, motion } from "framer-motion";
+import food1 from '../assets/food1.png'
+import FilterButton from '../component/DropdownFilter';
+import productImage from '../assets/Dish-1.jpg';
+import { categoryrData } from "../state/selectedCategory";
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
@@ -36,6 +41,7 @@ const Product = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isCartOpen = useSelector(cartIsOpen);
+  const selectedCategory = useSelector(categoryrData);
   const [activeTitle, setActiveTitle] = useState();
   const cartDatas = useSelector(cartData);
   const cartResponse = useSelector(selectCartResponse);
@@ -43,7 +49,11 @@ const Product = () => {
   const [loading, setLoading] = useState({});
   const categoryTitleRefs = useRef([]);
   const [currentCategory, setCurrentCategory] = useState("");
-
+  const [selectedTab, setSelectedTab] = useState('BUY NOW');
+  const [selectedValue, setSelectedValue] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showModel, setShowModel] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -62,6 +72,7 @@ const Product = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
 
   useEffect(() => {
     setActiveTitle(currentCategory);
@@ -91,10 +102,9 @@ const Product = () => {
       productEdgesElement.scrollIntoView({ behavior: "smooth" });
     }
   };
-
   useEffect(() => {
     if (cartResponse && totalQuantity(cartResponse) == mealData.no) {
-      dispatch(openCart());
+      // dispatch(openCart());
     }
   }, [cartResponse]);
 
@@ -130,8 +140,9 @@ const Product = () => {
         const result = await graphQLClient.request(getProductCollectionsQuery, {
           first: 15,
           reverse: false,
-          query: "",
+          query: selectedCategory?.node?.title,
         });
+
 
         const collections = result;
 
@@ -155,7 +166,7 @@ const Product = () => {
       }
     };
     apiCall();
-  }, []);
+  }, [selectedCategory]);
 
   const handleAddToCart = (productId, sellingPlanId) => {
     setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -236,7 +247,9 @@ const Product = () => {
         lines: [cartItems],
       },
     };
+    setIsLoading(true);
     const response = await graphQLClient.request(createCartMutation, params);
+    setIsLoading(false);
     dispatch(addCartData(response));
     setLoading((prevLoading) => ({
       ...prevLoading,
@@ -249,11 +262,12 @@ const Product = () => {
       cartId: cartId,
       lines: cartItem,
     };
-
+    setIsLoading(true);
     const response = await graphQLClient.request(
       updateCartItemMutation,
       params
     );
+    setIsLoading(false);
     dispatch(setCartResponse(response.cartLinesUpdate));
     setLoading((prevLoading) => ({
       ...prevLoading,
@@ -266,7 +280,9 @@ const Product = () => {
       cartId: cartId,
       lines: [cartItem],
     };
+    setIsLoading(true);
     const response = await graphQLClient.request(updateCartMutation, params);
+    setIsLoading(false);
     dispatch(setCartResponse(response.cartLinesAdd));
     setLoading((prevLoading) => ({
       ...prevLoading,
@@ -395,16 +411,186 @@ const Product = () => {
     }
   }, [productDetails]);
 
+  const options = [
+    {
+      id: 1,
+      noMeal: "6 Meals",
+      price: "for ₹999.00",
+      discountPrice: "₹2510.12/meal",
+      no: 6,
+      subscriptionType: [
+        {
+          id: 1,
+          type: "oneTime",
+          noMeal: "One Time",
+          price: "₹2110.12/meal",
+          discountPrice: "₹2510.12/meal",
+        },
+        {
+          id: 2,
+          type: "subscription",
+          noMeal: "Subscription",
+          price: "₹2110.12/meal",
+          discountPrice: "2000.12/meal",
+        },
+      ],
+    },
+    {
+      id: 2,
+      noMeal: "12 Meals",
+      price: "for ₹999.00",
+      discountPrice: "₹1110.12/meal",
+      no: 12,
+      subscriptionType: [
+        {
+          id: 1,
+          type: "oneTime",
+          noMeal: "One Time",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1110.12/meal",
+        },
+        {
+          id: 2,
+          type: "subscription",
+          noMeal: "Subscription",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1000.12/meal",
+        },
+      ],
+    },
+    {
+      id: 3,
+      noMeal: "18 Meals",
+      price: "for ₹999.00",
+      discountPrice: "₹1110.12/meal",
+      no: 18,
+      subscriptionType: [
+        {
+          id: 1,
+          type: "oneTime",
+          noMeal: "One Time",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1110.12/meal",
+        },
+        {
+          id: 2,
+          type: "subscription",
+          noMeal: "Subscription",
+          price: "₹1210.12/meal",
+          discountPrice: "₹1000.12/meal",
+        },
+      ],
+    },
+  ]
+
+  const product = [
+    {
+      id: 1,
+      isLong: true,
+      image: food1,
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 2,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Punjabi chole'
+    },
+    {
+      id: 3,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 4,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 5,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 6,
+      isLong: false,
+      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+    {
+      id: 7,
+      isLong: true,
+      image: food1,
+      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+      name: 'Dal makhani'
+    },
+  ]
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+
+
   return (
     <>
       {apiResponse ? (
-        <div className="min-h-[78vh] w-full">
-          <div className="lg:h-36 h-16 headerbackground overflow-x-hidden w-full flex lg:justify-center gap-10 items-center">
-            <div className="hidden lg:block">
-              <img src={mealThreeImage} alt="" className="h-28 w-64" />
+        <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
+          <div className="border-b-2 border-b-[#cfc19f]">
+            <div className="container mx-auto flex flex-row justify-around pt-4">
+              <div onClick={() => { setSelectedTab('BUY NOW') }} className="px-16 relative cursor-pointer ">
+                <p className="text-base font-futuraBold lg:text-2xl py-3" >BUY NOW </p>
+                {selectedTab === 'BUY NOW' ? (
+                  <motion.div className="underlineHeader" layoutId="underline" />
+                ) : null}
+              </div>
+              <div onClick={() => { setSelectedTab('SUBSCRIBE') }} className="px-16 relative cursor-pointer">
+                <p className="text-base font-futuraBold lg:text-2xl py-3">SUBSCRIBE </p>
+                {selectedTab === 'SUBSCRIBE' ? (
+                  <motion.div className="underlineHeader" layoutId="underline" />
+                ) : null}
+              </div>
             </div>
-            <div className="flex flex-col gap-3 lg:px-10 px-2">
-              <div className="flex h-12 lg:h-16 gap-5">
+          </div>
+
+          {selectedTab === 'SUBSCRIBE' ?
+            <>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  // key={selectedTab ? selectedTab.label : "empty"}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className={`py-2 bg-[#FBAE36] w-full flex gap-x-4 lg:justify-between items-center`}>
+                    <div className="ml-4 w-1/2 lg:ml-10 whitespace-nowrap">
+                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">Meal Package</h3>
+                      <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
+                    </div>
+                    <div className="flex  w-1/2 overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex-row items-center ">
+                      <div className="flex flex-row items-center gap-x-2 mr-10">
+                        <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
+                      </div>
+                      <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
+                        <SpiceLevel />
+                      </div>
+                      <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
+                        <img src={cardIcon} alt="" className="w-6 h-6" />
+                      </div>
+
+
+
+                      {/* <div className="flex h-12 lg:h-16 gap-5">
                 <div
                   className="px-3 text-base gap-5 text-[#53940F] bg-white border-[#53940F] rounded-lg flex items-center justify-center"
                   style={{ borderWidth: "3px" }}
@@ -440,18 +626,160 @@ const Product = () => {
                   </svg>
                   <span className="text-xs lg:text-lg">Update Your Plan</span>
                 </div>
-              </div>
-            </div>
-          </div>
+              </div> */}
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+              {/* <motion.div
+                // key={selectedTab ? selectedTab.label : "empty"}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className=" container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10">
 
-          <div className="flex lg:py-8 py-1 justify-center">
-            <span className="font-bold text-xl lg:text-4xl text-[#53940F]">
-              Make Your Meal
-            </span>
-          </div>
+                  {product?.map((item) => (
+                    <>
+                      {item?.isLong
+                        ?
+                        <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
+                          <AnimatePresence mode="popLayout">
+                            <motion.div
+                              initial={{ y: 500, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: -500, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <div className="relative">
+                                <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                                <button type="button" className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">LENTIL</button>
+                              </div>
+                              <div className=" px-10 py-5">
+                                <div className="flex flex-row justify-between">
+                                  <p className="text-base font-futuraBold uppercase lg:text-2xl">{item?.name}</p>
+                                  <p className="text-base font-futuraBold lg:text-2xl">₹ 99</p>
+                                </div>
+                                <p className="text-lg font-futura text-[#515151]">{item?.description}</p>
+                                <div className="flex gap-x-4 mt-1">
+                                  <button type="button" className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                  <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                </div>
+                              </div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+                        :
+                        <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
+                          <AnimatePresence mode="wait">
+                            <motion.div
+                              initial={{ y: 500, x: -500, opacity: 0 }}
+                              animate={{ y: 0, x: 0, opacity: 1 }}
+                              exit={{ y: -500, x: 500, opacity: 0 }}
+                              transition={{ duration: 0.4 }}
+                            >
+                              <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+                              <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                <div className="p-4">
+                                  <button type="button" className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+                                </div>
+                                <div className="px-3 md:pl-8 pb-4">
+                                  <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{item?.name}</p>
+                                  <div className="flex flex-col md:flex-row md:gap-4">
+                                    <button type="button" className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                    <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+                      }
+
+                    </>
+                  ))}
+
+                </div >
+              </motion.div> */}
+            </>
+            :
+            ''
+            // <motion.div
+            //   // key={selectedTab ? selectedTab.label : "empty"}
+            //   initial={{ y: 10, opacity: 0 }}
+            //   animate={{ y: 0, opacity: 1 }}
+            //   exit={{ y: -10, opacity: 0 }}
+            //   transition={{ duration: 0.4 }}
+            // >
+            //   <div className=" container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10">
+
+            //     {product?.map((item) => (
+            //       <>
+            //         {item?.isLong
+            //           ?
+            //           <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
+            //             <AnimatePresence mode="popLayout">
+            //               <motion.div
+            //                 initial={{ y: 500, opacity: 0 }}
+            //                 animate={{ y: 0, opacity: 1 }}
+            //                 exit={{ y: -500, opacity: 0 }}
+            //                 transition={{ duration: 0.3 }}
+            //               >
+            //                 <div className="relative">
+            //                   <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+            //                   <button type="button" className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">LENTIL</button>
+            //                 </div>
+            //                 <div className=" px-10 py-5">
+            //                   <div className="flex flex-row justify-between">
+            //                     <p className="text-base font-futuraBold uppercase lg:text-2xl">{item?.name}</p>
+            //                     <p className="text-base font-futuraBold lg:text-2xl">₹ 99</p>
+            //                   </div>
+            //                   <p className="text-lg font-futura text-[#515151]">{item?.description}</p>
+            //                   <div className="flex gap-x-4 mt-1">
+            //                     <button type="button" className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+            //                     <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+            //                   </div>
+            //                 </div>
+            //               </motion.div>
+            //             </AnimatePresence>
+            //           </div>
+            //           :
+            //           <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
+            //             <AnimatePresence mode="wait">
+            //               <motion.div
+            //                 initial={{ y: 500, x: -500, opacity: 0 }}
+            //                 animate={{ y: 0, x: 0, opacity: 1 }}
+            //                 exit={{ y: -500, x: 500, opacity: 0 }}
+            //                 transition={{ duration: 0.4 }}
+            //               >
+            //                 <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+            //                 <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+            //                   <div className="p-4">
+            //                     <button type="button" className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+            //                   </div>
+            //                   <div className="px-3 md:pl-8 pb-4">
+            //                     <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{item?.name}</p>
+            //                     <div className="flex flex-col md:flex-row md:gap-4">
+            //                       <button type="button" className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+            //                       <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+            //                     </div>
+            //                   </div>
+            //                 </div>
+            //               </motion.div>
+            //             </AnimatePresence>
+            //           </div>
+            //         }
+
+            //       </>
+            //     ))}
+
+            //   </div >
+            // </motion.div>
+          }
           <>
-            <div className="flex bg-white justify-start sticky top-20">
-              <div className="flex items-center  bg-white gap-2">
+            {/* <div className="flex bg-[#FBAE36] justify-start sticky top-20">
+              <div className="flex items-center bg-[#FBAE36] gap-2">
                 <button
                   onClick={openCountryDrawer}
                   className="bg-[#333333] px-3 py-2 rounded-r-lg"
@@ -486,7 +814,7 @@ const Product = () => {
                   Filter
                 </span>
               </div>
-              <div className="flex bg-white overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide lg:justify-around">
+              <div className="flex overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide lg:justify-around">
                 {apiResponse.collections.edges.map((category) => (
                   <div
                     key={category.node.title}
@@ -500,241 +828,279 @@ const Product = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
-              className="mt-4 container mx-auto bg-white"
+              className="mt-4 container mx-auto"
             // style={{
             //   height: "62vh",
             // }}
             >
               {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
-                <div className="bg-white ">
-                  <div
-                    ref={(ref) => (categoryTitleRefs.current[index] = ref)}
-                    className="flex justify-center text-[#53940F] text-lg lg:text-2xl font-bold"
-                  >
-                    {category.node.title}
-                  </div>
-                  <div
+                <AnimatePresence mode="wait">
+                  <motion.div
                     key={category.node.title}
-                    ref={productEdgesRef}
-                    id={`product-edges-${category.node.title}`}
-                    className="flex bg-white  justify-center flex-wrap"
+                    initial={{ y: 100, x: -100, opacity: 0 }}
+                    animate={{ y: 0, x: 0, opacity: 1 }}
+                    exit={{ y: -100, x: 100, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                   >
-                    {category.node.products.edges.map((product) => (
-                      <div
-                        key={product.node.id}
-                        className="m-2 w-40 lg:w-56  product-box-Shadow border rounded-2xl border-[#CFCFCF] flex flex-col items-center h-52 lg:h-80 p-2 lg:p-4"
+                    <div className="mt-10 ">
+                      {/* <div
+                        ref={(ref) => (categoryTitleRefs.current[index] = ref)}
+                        className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
                       >
-                        <img
-                          src={product.node.featuredImage.url}
-                          alt={product.node.featuredImage.altText}
-                          className="w-20 h-20 lg:w-40 lg:h-40 mb-1 cursor-pointer"
-                          onClick={() => {
-                            if (category.node.title === "Bundles") {
-                              navigate(`/bundleDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            } else {
-                              navigate(`/productDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            }
-                          }}
-                        />
-                        <h3
-                          className="text-[#53940F] text-sm lg:text-lg font-medium text-center lg:font-semibold cursor-pointer"
-                          onClick={() => {
-                            if (category.node.title === "Bundles") {
-                              navigate(`/bundleDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            } else {
-                              navigate(`/productDetail`, {
-                                state: { id: product.node.id },
-                              });
-                            }
-                          }}
-                        >
-                          {product.node.title}
-                        </h3>
-                        <p className="text-xs lg:text-base my-2">
-                          {(product?.node?.metafields &&
-                            product?.node?.metafields.find(
-                              (metafield) =>
-                                metafield?.key === "small_descriptions"
-                            )?.value) ||
-                            ""}
-                        </p>
-                        <div className="flex gap-1 mb-2">
-                          {!(category.node.title === "Bundles") ? <SpiceLevel rating={product?.node?.metafields?.find(
-                            (metafield) => metafield?.key === "spice_level"
-                          )?.value || 0} /> : ''}
-                        </div>
-                        {category.node.title === "Bundles" ? (
-                          <div>
-                            <button
-                              onClick={() => {
-                                getProductDetail(product.node.id);
-                              }}
-                              className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white"
+                        {category.node.title}
+                      </div> */}
+                      <div
+                        key={category.node.title}
+                        ref={productEdgesRef}
+                        id={`product-edges-${category.node.title}`}
+                        className="container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10"
+                      >
+                        {category.node.products.edges.map((product) => (
+                          <>
+                            <div key={product.node.id} className="bg-[#EADEC1] relative rounded-3xl">
+                              <AnimatePresence mode="wait">
+                                <motion.div
+                                  initial={{ y: 500, x: -500, opacity: 0 }}
+                                  animate={{ y: 0, x: 0, opacity: 1 }}
+                                  exit={{ y: -500, x: 500, opacity: 0 }}
+                                  transition={{ duration: 0.4 }}
+                                >
+                                  <img src={product.node.featuredImage.url} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+                                  <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                    <div className="p-4">
+                                      <button type="button" className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+                                    </div>
+                                    <div className="px-3 md:pl-8 pb-4">
+                                      <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{product.node.title}</p>
+                                      <div className="flex flex-col md:flex-row md:gap-4">
+                                        <button type="button" onClick={() =>
+                                          handleAddToCart(
+                                            product.node.variants.edges[0].node.id,
+                                            product.node.sellingPlanGroups?.edges[0]?.node
+                                              ?.sellingPlans?.edges[0]?.node?.id
+                                          )
+                                        } className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
+                                        <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </motion.div>
+                              </AnimatePresence>
+                            </div>
+                            {/* <div
+                              key={product.node.id}
+                              className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col justify-between p-2 lg:p-4"
                             >
-                              Add to cart
-                            </button>
-                          </div>
-                        ) : loading[product.node.variants.edges[0].node.id] ? (
-                          <svg
-                            width="80"
-                            height="80"
-                            viewBox="0 0 120 30"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="#4fa94d"
-                            data-testid="three-dots-svg"
-                          >
-                            <circle cx="15" cy="15" r="15">
-                              <animate
-                                attributeName="r"
-                                from="15"
-                                to="15"
-                                begin="0s"
-                                dur="0.8s"
-                                values="15;9;15"
-                                calcMode="linear"
-                                repeatCount="indefinite"
-                              ></animate>
-                              <animate
-                                attributeName="fill-opacity"
-                                from="1"
-                                to="1"
-                                begin="0s"
-                                dur="0.8s"
-                                values="1;.5;1"
-                                calcMode="linear"
-                                repeatCount="indefinite"
-                              ></animate>
-                            </circle>
-                            <circle
-                              cx="60"
-                              cy="15"
-                              r="9"
-                              attributeName="fill-opacity"
-                              from="1"
-                              to="0.3"
-                            >
-                              <animate
-                                attributeName="r"
-                                from="9"
-                                to="9"
-                                begin="0s"
-                                dur="0.8s"
-                                values="9;15;9"
-                                calcMode="linear"
-                                repeatCount="indefinite"
-                              ></animate>
-                              <animate
-                                attributeName="fill-opacity"
-                                from="0.5"
-                                to="0.5"
-                                begin="0s"
-                                dur="0.8s"
-                                values=".5;1;.5"
-                                calcMode="linear"
-                                repeatCount="indefinite"
-                              ></animate>
-                            </circle>
-                            <circle cx="105" cy="15" r="15">
-                              <animate
-                                attributeName="r"
-                                from="15"
-                                to="15"
-                                begin="0s"
-                                dur="0.8s"
-                                values="15;9;15"
-                                calcMode="linear"
-                                repeatCount="indefinite"
-                              ></animate>
-                              <animate
-                                attributeName="fill-opacity"
-                                from="1"
-                                to="1"
-                                begin="0s"
-                                dur="0.8s"
-                                values="1;.5;1"
-                                calcMode="linear"
-                                repeatCount="indefinite"
-                              ></animate>
-                            </circle>
-                          </svg>
-                        ) : (
-                          <div className="flex gap-2 items-center">
-                            <button
-                              onClick={() => {
-                                if (
-                                  getProductQuantityInCart(
-                                    product.node.variants.edges[0].node.id
-                                  ) !== 0
-                                ) {
-                                  handleRemoveFromCart(
-                                    product.node.variants.edges[0].node.id
-                                  );
-                                }
-                              }}
-                            >
-                              <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
+                              <img
+                                src={product.node.featuredImage.url}
+                                alt={product.node.featuredImage.altText}
+                                className="w-48 h-32 lg:w-52 lg:h-48 mb-1 cursor-pointer rounded-2xl"
+                                onClick={() => {
+                                  if (category.node.title === "Bundles") {
+                                    navigate(`/bundleDetail`, {
+                                      state: { id: product.node.id },
+                                    });
+                                  } else {
+                                    navigate(`/productDetail`, {
+                                      state: { id: product.node.id },
+                                    });
+                                  }
+                                }}
+                              />
+                              <h3
+                                style={{ color: "rgba(51, 51, 51, 1)" }}
+                                className="text-base font-futuraBold lg:text-lg items-start overflow-hidden pb-8 cursor-pointer"
+                                onClick={() => {
+                                  if (category.node.title === "Bundles") {
+                                    navigate(`/bundleDetail`, {
+                                      state: { id: product.node.id },
+                                    });
+                                  } else {
+                                    navigate(`/productDetail`, {
+                                      state: { id: product.node.id },
+                                    });
+                                  }
+                                }}
                               >
-                                <path
-                                  d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                  fill="#333333"
-                                />
-                              </svg>
-                            </button>
-                            <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                              {getProductQuantityInCart(
-                                product.node.variants.edges[0].node.id
+                                {product.node.title}
+                              </h3>
+                              
+                              {category.node.title === "Bundles" ? (
+                                <div>
+                                  <button
+                                    onClick={() => {
+                                      getProductDetail(product.node.id);
+                                    }}
+                                    className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white"
+                                  >
+                                    Add to cart
+                                  </button>
+                                </div>
+                              ) : loading[product.node.variants.edges[0].node.id] ? (
+                                <svg
+                                  width="80"
+                                  height="80"
+                                  viewBox="0 0 120 30"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="#4fa94d"
+                                  data-testid="three-dots-svg"
+                                >
+                                  <circle cx="15" cy="15" r="15">
+                                    <animate
+                                      attributeName="r"
+                                      from="15"
+                                      to="15"
+                                      begin="0s"
+                                      dur="0.8s"
+                                      values="15;9;15"
+                                      calcMode="linear"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                    <animate
+                                      attributeName="fill-opacity"
+                                      from="1"
+                                      to="1"
+                                      begin="0s"
+                                      dur="0.8s"
+                                      values="1;.5;1"
+                                      calcMode="linear"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                  </circle>
+                                  <circle
+                                    cx="60"
+                                    cy="15"
+                                    r="9"
+                                    attributeName="fill-opacity"
+                                    from="1"
+                                    to="0.3"
+                                  >
+                                    <animate
+                                      attributeName="r"
+                                      from="9"
+                                      to="9"
+                                      begin="0s"
+                                      dur="0.8s"
+                                      values="9;15;9"
+                                      calcMode="linear"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                    <animate
+                                      attributeName="fill-opacity"
+                                      from="0.5"
+                                      to="0.5"
+                                      begin="0s"
+                                      dur="0.8s"
+                                      values=".5;1;.5"
+                                      calcMode="linear"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                  </circle>
+                                  <circle cx="105" cy="15" r="15">
+                                    <animate
+                                      attributeName="r"
+                                      from="15"
+                                      to="15"
+                                      begin="0s"
+                                      dur="0.8s"
+                                      values="15;9;15"
+                                      calcMode="linear"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                    <animate
+                                      attributeName="fill-opacity"
+                                      from="1"
+                                      to="1"
+                                      begin="0s"
+                                      dur="0.8s"
+                                      values="1;.5;1"
+                                      calcMode="linear"
+                                      repeatCount="indefinite"
+                                    ></animate>
+                                  </circle>
+                                </svg>
+                              ) : (
+                                <div
+                                  className="flex w-full justify-center gap-x-8 lg:gap-x-10 items-center rounded-lg mt-2 px-4 py-1 lg:py-2"
+                                  style={{ background: "rgba(241, 102, 60, 0.6)" }}
+                                >
+                                  <button
+                                    onClick={() => {
+                                      if (
+                                        getProductQuantityInCart(
+                                          product.node.variants.edges[0].node.id
+                                        ) !== 0
+                                      ) {
+                                        handleRemoveFromCart(
+                                          product.node.variants.edges[0].node.id
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <svg
+                                      width="20"
+                                      height="2"
+                                      viewBox="0 0 14 2"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M13.9696 1.95317H0.625244V0.0468292H13.9696V1.95317Z"
+                                        fill="#FAFAFA"
+                                      />
+                                    </svg>
+                                  </button>
+                                  <span className="text-xl text-white">
+                                    {getProductQuantityInCart(
+                                      product.node.variants.edges[0].node.id
+                                    )}
+                                  </span>
+                                  <button
+                                    onClick={() =>
+                                      handleAddToCart(
+                                        product.node.variants.edges[0].node.id,
+                                        product.node.sellingPlanGroups?.edges[0]?.node
+                                          ?.sellingPlans?.edges[0]?.node?.id
+                                      )
+                                    }
+                                  >
+                                    <svg
+                                      width="18"
+                                      height="18"
+                                      viewBox="0 0 14 14"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M6.34425 6.04683V0.32782H8.25059V6.04683H13.9696V7.95316H8.25059V13.6722H6.34425V7.95316H0.625244V6.04683H6.34425Z"
+                                        fill="#FAFAFA"
+                                      />
+                                    </svg>
+                                  </button>
+                                </div>
                               )}
-                            </span>
-                            <button
-                              onClick={() =>
-                                handleAddToCart(
-                                  product.node.variants.edges[0].node.id,
-                                  product.node.sellingPlanGroups?.edges[0]?.node
-                                    ?.sellingPlans?.edges[0]?.node?.id
-                                )
-                              }
-                            >
-                              <svg
-                                width="18"
-                                height="18"
-                                viewBox="0 0 18 18"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                  fill="#333333"
-                                />
-                              </svg>
-                            </button>
-                          </div>
-                        )}
+                            </div> */}
+                          </>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
               ))}
             </div>
           </>
-          {popupState && (
+          {/* {popupState && (
             <Popup onCloseButtonClick={() => setPopupState(false)} />
-          )}
+          )} */}
         </div>
       ) : (
         <div
@@ -746,6 +1112,104 @@ const Product = () => {
           <LoadingAnimation />
         </div>
       )}
+      {isLoading && <LoadingAnimation />}
+      {
+        showModel ?
+          <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
+            <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-full md:w-[400px] bg-[#EADEC1] gap-2 h-full relative top-28 }`}>
+              <h1 className="text-3xl font-skillet pl-4 py-4">Review your monthly box</h1>
+              <div className="px-4 h-[65vh] pb-32 overflow-x-scroll">
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div><div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div><div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                  <div className='flex flex-row '>
+                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <div className='ml-4'>
+                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                    </div>
+                  </div>
+                  <div>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                  </div>
+                </div>
+              </div>
+              <div className="fixed bottom-0 bg-[#EADEC1]  px-5 py-8 border-t border-t-black w-full md:w-[400px] z-[500] ">
+                <div className="flex justify-between">
+                  <h1 className="text-2xl text-[#000000] font-skillet">₹510</h1>
+                  <div className="flex flex-col md:flex-row md:gap-4">
+                    <button type="button" className="bg-[#f1663ccc] text-gray-100 px-2 text-2xl rounded-lg  font-skillet">Add to cart</button>
+                    <button type="button" onClick={() => { setShowModel(false) }} className="bg-[#26965C] text-gray-100 px-2 text-2xl rounded-lg  font-skillet">Checkout</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          :
+          ''
+      }
     </>
   );
 };
