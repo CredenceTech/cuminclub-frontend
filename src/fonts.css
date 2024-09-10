@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'SkilletCondensed';
+  src: url('/demo-skillet-condensed.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FuturaPTMedium';
+  src: url('/Futura Medium.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FuturaBold';
+  src: url('/Futura Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}

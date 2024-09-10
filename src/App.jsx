@@ -18,9 +18,16 @@ import BundleDetails from "./component/BundleDetails";
 import { ScrollToTop } from "./component/ScrollToTop";
 import Subscription from "./component/Subscription";
 import Invoices from "./component/Invoices";
+import MealPackage from "./pages/MealPackage";
+import './fonts.css';
+import CardReview from "./pages/CardReview";
+import Recipes from "./pages/Recipes";
+import Facility from "./component/Facility"
+import AboutUs from "./component/AboutUs"
+import RecipeList from "./pages/RecipeList";
+
 
 function App() {
-
   return (
     <Router>
       <div
@@ -28,10 +35,11 @@ function App() {
       >
         <ScrollToTop />
         <Header />
-        <div className="relative min-h-[82vh] bottom-20 top-20">
+        <div className={`relative min-h-[82vh] top-28  `}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/meal-package" element={<MealPackage />} />
             <Route path="/products" element={<Product />} />
             <Route path="/privacy-policy" element={<Privacy />} />
             <Route path="/accessibility" element={<Accessibility />} />
@@ -45,6 +53,11 @@ function App() {
             <Route path="/payment-failure" element={<PaymentFailure />} />
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/Invoices" element={<Invoices />} />
+            <Route path="/cardReview" element={<CardReview />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/recipe-list" element={<RecipeList />} />
+            <Route path="aboutUs" element={<AboutUs />} />
+            <Route path="/facilities" element={<Facility />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </div>
@@ -58,4 +71,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
