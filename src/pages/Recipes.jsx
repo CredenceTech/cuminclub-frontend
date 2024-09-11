@@ -89,32 +89,32 @@ const Recipes = () => {
                         </div>
                     </div>
                 </div>
-                <div className='container mx-auto grid grid-cols-3'>
-                    <div className='pl-7 md:pl-3 col-span-3 md:col-span-1'>
-                        <p className='text-4xl py-6 font-skillet'>Ingredients</p>
-                        <ol className='pr-4 pb-7'>
+                <div className='2xl:container 2xl:mx-auto grid grid-cols-4 mt-8'>
+                    <div className='col-span-4 pl-5 p-3 md:pl-10 2xl:pl-0 md:col-span-2'>
+                        <p className='text-4xl mb-4 font-skillet'>Ingredients</p>
+                        <ol className='lg:pr-28 pb-7'>
                             {items.map((item, index) => (
-                                <div key={index} className='flex '>
-                                    <p className='text-xl text-[#000000] leading-10'>{index + 1}. </p>
-                                    <p className='pl-4 text-xl text-[#000000] leading-10'> {item}</p>
+                                <div key={index} className='flex lg:pr-28  mb-4'>
+                                    <p className='text-lg text-[#333333] leading-10'>{index + 1}. </p>
+                                    <p className='text-lg pl-4 font-light leading-10 text-[#333333]'> {item}</p>
                                 </div>
                             ))}
                         </ol>
                     </div>
-                    <div className='pl-7 lg:pl-16 col-span-3 md:col-span-2'>
+                    <div className='col-span-4 md:col-span-2 p-3 md:p-0 md:pr-10 lg:pr-32'>
                         <p className='text-4xl p-6 font-skillet'>Instructions</p>
                         {InstructionsText?.map((item, i) => (
-                            <div className='flex-col pr-5 md:mr-10  lg:mr-40 mb-5'>
+                            <div className='flex-col mb-5'>
                                 <div className='flex mb-5'>
                                     <div className=''>
-                                        <p className='text-5xl text-[#e9bc9982] font-semibold'>{item?.id}</p>
+                                        <p className='text-6xl text-[#e9bc9982] font-skillet font-semibold'>{item?.id}</p>
                                     </div>
                                     <div className='pl-5'>
-                                        <p className='text-xl pb-4 text-[#333333] '>{item?.text}</p>
+                                        <p className='text-xl pb-4 font-light text-[#333333] '>{item?.text}</p>
                                     </div>
                                 </div>
                                 <div className='pb-5'>
-                                    <img src={item?.img} alt="" className='h-[300px] border-b ml-4 border-b-[#C6C6C6] pb-5' />
+                                    <img src={item?.img} alt="" className='h-[400px]  w-full lg:max-w-[600px] border-b border-b-[#C6C6C6] pb-5' />
                                 </div>
                             </div>
                         ))}
@@ -123,12 +123,12 @@ const Recipes = () => {
                 </div>
             </div>
             <div className='bg-[#FFFFFF] pt-7'>
-                <div className='container mx-auto '>
-                    <div className='flex md:flex-row flex-col-reverse  justify-center items-center'>
-                        <div className='md:pr-20 flex justify-center items-center'>
-                            <img src={sahipanir} alt="" className='w-full h-[300px] md:h-[400px]' />
+                <div className='2xl:container 2xl:mx-auto '>
+                    <div className='flex md:flex-row flex-col-reverse  justify-center items-start'>
+                        <div className='flex md:w-1/2 justify-center items-center'>
+                            <img src={sahipanir} alt="" className='w-auto h-[300px] md:h-[450px]' />
                         </div>
-                        <div className='pl-8'>
+                        <div className=' md:w-1/2'>
                             <h1 className='text-[#C75801] font-skillet text-4xl '>Make this recipe Instantly Yours</h1>
                             <p>Made with our </p>
                             <h1 className='text-[#333333] font-skillet text-5xl '>Shahi biryani kit</h1>
