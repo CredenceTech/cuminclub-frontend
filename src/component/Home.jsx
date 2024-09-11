@@ -360,7 +360,7 @@ const Home = () => {
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] `}>
       <div className={`w-full bg-gradient-to-t from-primary  to-secondary`} style={{
-        backgroundImage: `url(${bannerData[currentIndex].image})`,
+        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%), url(${bannerData[currentIndex].image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         transition: "background-image 1s ease-in-out"
@@ -815,7 +815,7 @@ const Home = () => {
           </svg>
           <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Instantly Yours Promises Instant, Hygienic Meals</p>
         </div>
-        <div className="relative bg-cover bg-center bg-no-repeat 2xl:h-[700px] bg-custom-image-middle1 md:ml-[10px] lg:ml-[120px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px] mt-[20px]">
+        <div className="relative bg-cover bg-center bg-no-repeat 2xl:h-[509px] md:h-[509px] bg-custom-image-middle1 md:ml-[10px] lg:ml-[120px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px] mt-[20px]">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
           <div className="relative z-10 text-white">
             <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
@@ -828,7 +828,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex coverImage flex-col md:flex-row h-[550px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
+        <div className="flex coverImage flex-col md:flex-row h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
           <div className="w-full relative md:w-3/5 flex-shrink-0 h-full">
             <div className="relative w-full h-full">
               <div className="absolute top-[160px] left-[300px]">
@@ -1139,18 +1139,21 @@ const Home = () => {
       <div className='bg-[#EFE9DA] relative -bottom-28'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
-          {/* Text Section */}
           <div className="w-full lg:w-1/4 p-6 lg:p-12 text-section text-white flex flex-col justify-between">
             <div>
-              <h2 className="text-2xl lg:text-3xl  font-semibold">Explore Our</h2>
-              <h2 className="text-2xl lg:text-3xl font-semibold">Diverse Recipes</h2>
-              <p className="text-base font-sans text-[#D5D5D5] mt-4">
+              <h2 className="font-[600] text-[36px] leading-[36.72px] text-left font-regola-pro">
+                Explore Our
+              </h2>
+              <h2 className="font-[600] text-[36px] leading-[36.72px] text-left font-regola-pro whitespace-nowrap">
+                Diverse Recipes
+              </h2>
+
+              <p className="font-[300] text-[16px] leading-[17.6px] text-[#D5D5D5] mt-4 font-regola-pro">
                 Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
             <button className="mt-4 hidden lg:flex bg-white text-black py-2 px-4 rounded lg:self-start self-center">View all recipes</button>
           </div>
-          {/* Images Section */}
           <div className="w-full lg:min-w-3/4 lg:py-14 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
             {recipData?.map((item, i) => (
               <div key={i} className="relative min-w-[250px] md:min-w-[300px]">
@@ -1158,11 +1161,11 @@ const Home = () => {
                   <div className="absolute inset-0 bg-gradient-to-b from-primary rounded-xl  to-secondary"></div>
                   <img src={item?.image} alt="Image 1" className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] rounded-xl " />
                 </div>
-                <div className="absolute bottom-0 left-0 text-white px-4 pb-8 font-medium">{item?.title}</div>
+                <div className="absolute bottom-0 font-regola-pro left-0 text-white px-4 pb-8 font-[500] text-[21.75px] leading-[26.1px]">{item?.title}</div>
               </div>
             ))}
           </div>
-          <button className="mt-4 lg:hidden  bg-white w-[250px] m-7 text-black py-2 px-4 rounded ">View all recipes</button>
+          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-black rounded font-[300] text-[16px]">View all recipes</button>
         </div>
       </div>
 
