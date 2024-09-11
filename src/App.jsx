@@ -25,7 +25,7 @@ import Recipes from "./pages/Recipes";
 import Facility from "./component/Facility"
 import AboutUs from "./component/AboutUs"
 import RecipeList from "./pages/RecipeList";
-
+import ProductDetails from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -59,6 +59,7 @@ function App() {
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="/facilities" element={<Facility />} />
             <Route path="*" element={<Home />} />
+            <Route path="/productDetail2" element={<ProductDetails />} />
           </Routes>
         </div>
         <Footer />
