@@ -18,3 +18,10 @@
   font-weight: bold;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'RegulaPro';
+  src: url('/public/Regola\ Pro\ Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
