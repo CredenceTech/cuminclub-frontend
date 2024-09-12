@@ -11,6 +11,7 @@ export default {
         'skillet': ['SkilletCondensed', 'sans-serif'],
         'futura': ['FuturaPTMedium', 'sans-serif'],
         'futuraBold': ['FuturaBold', 'sans-serif'],
+        'regola-pro': ['RegulaPro', 'sans-serif']
       },
       backgroundImage: theme => ({
         'gradient-to-b': 'linear-gradient(to top, var(--tw-gradient-stops))',

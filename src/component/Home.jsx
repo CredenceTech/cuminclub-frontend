@@ -37,7 +37,7 @@ import selectMeal from '../assets/select-meal.png'
 import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.png'
 import authenticMeal from '../assets/authentic-flavors.png'
-import noPreservativeWhite from '../assets/no-preservatives-white.png'
+import noPreservativeWhite from '../assets/no-preservative.svg'
 import headerImage1 from '../assets/header.png'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
@@ -379,7 +379,7 @@ const Home = () => {
           }}
         />
         <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] z-[1000]' : ''} w-full justify-between items-center relative`} >
-          <div className=" my-6 text-lg font-semibold flex-1 font-sans z-50">
+          <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
             <NavigationMenu.Root className="NavigationMenuRoot">
               <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
                 <NavigationMenu.Item>
@@ -387,7 +387,7 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger text-lg px-8 whitespace-nowrap relative  ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
+                    className={`NavigationMenuTrigger px-8 whitespace-nowrap relative  ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content onMouseLeave={() => setShowHeaderMain(false)} className="NavigationMenuContent absolute left-0 top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
@@ -579,7 +579,7 @@ const Home = () => {
             </button>
             {userId === null &&
               <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
-                <Link className="text-lg" to="/login">
+                <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px]" to="/login">
                   Login
                 </Link>
               </button>}
@@ -687,11 +687,11 @@ const Home = () => {
         )}
 
         {isCartOpen && <CartDrawer />}
-        <div className="relative w-full px-4 md:px-8 2xl:container mx-auto z-10" >
-          <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-gray-900' : 'text-white'} text-left `}>
+        <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
+          <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
             {bannerData[currentIndex].title}
           </h1>
-          <p className={`font-regola-pro text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-gray-900' : 'text-white'}`}>
+          <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#606060]' : 'text-[#DFDFDF]'}`}>
             {bannerData[currentIndex].description}
           </p>
           <div className="flex justify-end pt-[230px] pb-[30px] px-8">
@@ -723,11 +723,11 @@ const Home = () => {
                 />
               </div>
               <p
-                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg group-hover:translate-x-8`}
+                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg group-hover:translate-x-2`}
               >
                 {item?.node?.title}
               </p>
-              <div className={`group-hover:block hidden pl-4 transition-transform duration-400 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} group-hover:translate-x-8`}>
+              <div className={`group-hover:block hidden pl-4 transition-transform duration-400 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} group-hover:translate-x-1`}>
                 <svg width="25" height="21" className="fill-current" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
@@ -834,7 +834,7 @@ const Home = () => {
             <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
             <div className="w-full md:w-1/2">
               <p className="text-lg text-[#CECECE] font-normal font-sans mb-4 " >
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
               </p>
             </div>
             <button className="bg-white text-black mt-4 py-2 px-6 rounded">DISCOVER</button>
@@ -906,7 +906,7 @@ const Home = () => {
             </h2>
             <div className="w-full flex flex-col items-end">
               <p className="font-inter text-[16px] font-normal leading-[19.36px] pl-4 text-right text-[#333333D9] mb-4">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.
               </p>
             </div>
             <button className="bg-white text-[#333333] mt-4 py-2 px-6 rounded font-regola-pro text-[16px] font-light text-center">
@@ -925,10 +925,9 @@ const Home = () => {
             </div>
             <div
               className='flex h-[500px] relative z-10 justify-end items-center'
-              onMouseDown={handleMouseDown}
             >
               <div className='relative right-[-24px] top-[70px] z-[-1]'>
-                <div className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
+                <div className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-5 bg-[#EFE9DA]' onMouseDown={handleMouseDown}>
                   <div
                     className='h-10 w-10 rounded-full bg-[#FBAE36]'
                   ></div>
@@ -938,7 +937,7 @@ const Home = () => {
                     {`spin >>`}
                   </button>
                 </div>
-                <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4'>
+                <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4 max-w-[180px]'>
                   {selecteRandomPro?.node?.title}
                 </p>
                 <p className='text-[#FFFFFF] text-lg'>
@@ -1036,14 +1035,25 @@ const Home = () => {
 
 
 
-      <div className="relative bg-cover bg-center h-[600px]"
+      <div className="relative bg-no-repeat bg-center h-[691px] w-full"
         style={{
           backgroundImage: `url(${currentData?.image})`,
-          transition: "background-image 1s ease-in-out"
+          transition: "background-image 1s ease-in-out",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: 0
         }}>
-        <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: " linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
+            transition: "background 1s ease-in-out",
+            zIndex: 1,
+          }}
+        />
+        <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
           <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
-                  md:text-[46px] md:leading-[40px]">
+                  md:text-[48px] md:leading-[48.43px] font-[400]">
             What makes us instantly yours
           </h1>
           <div className="flex items-start space-x-4 mb-4 
@@ -1055,21 +1065,21 @@ const Home = () => {
             />
             <div className="w-full md:w-1/2">
               <h2 className="font-skillet text-[26px] leading-[20px] text-[#FFFFFF] mb-2 
-                      md:text-[36px] md:leading-[28px]">
+                      md:text-[36px] md:leading-[35px] font-[400]">
                 {currentData?.title}
               </h2>
               <p className="font-regola-pro text-[14px] leading-[16px] text-[#EBEBEB] 
-                     md:text-[18px] md:leading-[20px]">
+                     md:text-[18px] md:leading-[20px] font-[500]">
                 {currentData?.description}
               </p>
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-center md:mt-60 mt-2">
-            <div className="flex flex-col md:flex-row gap-4 mt-10">
+            <div className="flex flex-col md:flex-row gap-8 mt-10">
               {buttonTexts.map((text, index) => (
                 <button
                   key={index}
-                  className={`relative inline-flex items-center justify-center pt-[9.42px] pr-[22.6px] pb-[9.42px] pl-[22.6px] rounded-[7.53px] text-[#333333] bg-[#FFFFFF] overflow-hidden`}
+                  className={`relative inline-flex items-center justify-center h-[47px] pt-[9.42px] pr-[22.6px] pb-[9.42px] pl-[22.6px] rounded-[7.53px] text-[#333333] bg-[#FFFFFF] overflow-hidden`}
                   onClick={() => handleButtonClick(index)}
                 >
                   <span
@@ -1106,7 +1116,7 @@ const Home = () => {
       </div>
 
 
-      <div className="py-16 px-8">
+      {/* <div className="py-16 px-8">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2 mb-10">
@@ -1118,7 +1128,7 @@ const Home = () => {
               </p>
             </div>
             <div className="w-full md:w-1/2 flex justify-between items-start">
-              {/* Quotation Section */}
+
               <div>
                 <div className="flex flex-col lg:ml-20">
                   <div className="relative">
@@ -1138,15 +1148,15 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {/* Placeholder Cards */}
-        {/* <div className="mt-12 grid grid-cols-5 gap-x-6 max-w-7xl mx-auto">
+       
+        <div className="mt-12 grid grid-cols-5 gap-x-6 max-w-7xl mx-auto">
     {Array(5)
       .fill(0)
       .map((_, index) => (
         <div key={index} className="bg-gray-300 h-40 rounded-lg"></div>
       ))}
-  </div> */}
-      </div>
+  </div>
+      </div> */}
 
 
       <div className='bg-[#EFE9DA] relative -bottom-28'>
