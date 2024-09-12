@@ -359,14 +359,27 @@ const Home = () => {
 
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] `}>
-      <div className={`w-full bg-gradient-to-t from-primary  to-secondary`} style={{
-        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%), url(${bannerData[currentIndex].image})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        transition: "background-image 1s ease-in-out"
-      }}>
-        <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] ' : ''} w-full justify-between items-center`} >
-          <div className=" my-6 text-lg font-semibold flex-1 font-sans">
+      <div className="w-full relative">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${bannerData[currentIndex].image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            transition: "background-image 1s ease-in-out",
+            zIndex: 0,
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%)",
+            transition: "background 1s ease-in-out",
+            zIndex: 1,
+          }}
+        />
+        <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] z-[1000]' : ''} w-full justify-between items-center relative`} >
+          <div className=" my-6 text-lg font-semibold flex-1 font-sans z-50">
             <NavigationMenu.Root className="NavigationMenuRoot">
               <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
                 <NavigationMenu.Item>
@@ -434,7 +447,7 @@ const Home = () => {
               </NavigationMenu.List>
             </NavigationMenu.Root>
           </div>
-          <div className="flex flex-1 justify-center gap-3 ">
+          <div className="flex flex-1 justify-center gap-3 z-10">
             <Link to="/">
               <svg
                 width="143"
@@ -520,7 +533,7 @@ const Home = () => {
             />
           )} */}
           </div>
-          <div className="flex gap-x-8 flex-1 justify-end mr-6">
+          <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
             <button
               onClick={() => { navigate('/cardReview') }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
@@ -674,7 +687,7 @@ const Home = () => {
         )}
 
         {isCartOpen && <CartDrawer />}
-        <div className="w-full px-4 md:px-8 2xl:container mx-auto" >
+        <div className="relative w-full px-4 md:px-8 2xl:container mx-auto z-10" >
           <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-gray-900' : 'text-white'} text-left `}>
             {bannerData[currentIndex].title}
           </h1>
