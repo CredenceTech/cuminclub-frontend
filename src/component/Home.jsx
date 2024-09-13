@@ -73,42 +73,55 @@ const Home = () => {
 
   const imgRef = useRef(null);
 
+  // Handle mouse drag start
   const handleMouseDown = (e) => {
     setDragging(true);
     setLastMouseX(e.clientX);
     e.preventDefault(); // Prevent default drag behavior
   };
 
+  // Handle mouse movement during drag (rotate image and update product)
   const handleMouseMove = (e) => {
     if (dragging) {
       const deltaX = e.clientX - lastMouseX;
-      setRotation((prev) => prev + deltaX / 2); // Adjust the division factor for rotation speed
+      setRotation((prevRotation) => {
+        const newRotation = prevRotation + deltaX / 2; // Adjust rotation speed
+
+        // Update product based on rotation
+        const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+        setSelecteRandomPro(apiResponse[selectedIndex]);
+
+        return newRotation;
+      });
       setLastMouseX(e.clientX);
     }
   };
 
+  // Handle mouse release (stop dragging)
   const handleMouseUp = () => {
     if (dragging) {
       setDragging(false);
-      setSelecteRandomPro(apiResponse[getRandomNumber()]); // Update the selected product when dragging stops
     }
   };
 
+  // Set up event listeners for dragging
   useEffect(() => {
-    if (dragging) {
-      const handleMouseMoveThrottle = (e) => {
-        requestAnimationFrame(() => handleMouseMove(e)); // Throttle the mouse move events
-      };
+    const handleMouseMoveThrottle = (e) => {
+      requestAnimationFrame(() => handleMouseMove(e)); // Throttle mouse move events
+    };
 
+    if (dragging) {
       window.addEventListener('mousemove', handleMouseMoveThrottle);
       window.addEventListener('mouseup', handleMouseUp);
-
-      return () => {
-        window.removeEventListener('mousemove', handleMouseMoveThrottle);
-        window.removeEventListener('mouseup', handleMouseUp);
-      };
     }
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMoveThrottle);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
   }, [dragging]);
+
+
   console.log(userId)
 
   useEffect(() => {
@@ -358,7 +371,7 @@ const Home = () => {
   }, [bannerData.length]);
 
   return (
-    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] `}>
+    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] overflow-hidden`}>
       <div className="w-full relative">
         <div
           className="absolute inset-0"
@@ -713,17 +726,17 @@ const Home = () => {
               key={item?.node?.id}
               onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }}
               style={{ background: `${colorCategory[i]}` }}
-              className={`group relative p-4 w-[50vw] md:w-[25vw] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
+              className={`group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
             >
               <div className="relative">
                 <img
                   src={food}
                   alt=""
-                  className='h-[50px] w-[50px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
+                  className='h-[80px] w-[80px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
-                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-2xl font-skillet rounded-lg group-hover:translate-x-2`}
+                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-[40px] font-skillet rounded-lg whitespace-nowrap group-hover:translate-x-2`}
               >
                 {item?.node?.title}
               </p>
@@ -916,40 +929,45 @@ const Home = () => {
         </div>
       </div>
 
-      <div className='w-full bannerbottom h-[600px]'>
-        <div className='mx-auto container'>
+      <div className='w-full bannerbottom h-[759px]'>
+        <div className=''>
           <div className='flex justify-between'>
             <div className='px-10'>
-              <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Not Sure What to Eat?</p>
-              <p className='text-[#000] text-lg lg:text-4xl font-futura'>Give it a Spin!</p>
+              <p className='text-white text-lg font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-4 font-[400] '>
+                Not Sure What to Eat?
+              </p>
+              <p className='text-[#000] text-lg lg:text-[51.72px] lg:leading-[62px] leading-3 font-regola-pro font-[300]'>
+                Give it a Spin!
+              </p>
             </div>
-            <div
-              className='flex h-[500px] relative z-10 justify-end items-center'
-            >
-              <div className='relative right-[-24px] top-[70px] z-[-1]'>
-                <div className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-5 bg-[#EFE9DA]' onMouseDown={handleMouseDown}>
-                  <div
-                    className='h-10 w-10 rounded-full bg-[#FBAE36]'
-                  ></div>
-                  <button
-                    className="text-[#B25220] font-xl"
-                  >
+            <div className='flex lg:h-[676px] h-[300px] relative z-10 justify-end items-center mt-10  lg:right-[-150px] right-[0px]'>
+              <div className='relative right-[-28px] top-[70px] z-[-1] mt-2'>
+                <div
+                  className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-5 bg-[#EFE9DA]'
+                >
+                  <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
+                  {/* Button stays as it is, but no product update */}
+                  <button className="text-[#B25220] text-[28px] font-[500] leading-[40px] font-regola-pro">
                     {`spin >>`}
                   </button>
                 </div>
-                <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4 max-w-[180px]'>
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[28px] mt-4 max-w-[180px] font-[400] leading-[40px] font-regola-pro'>
                   {selecteRandomPro?.node?.title}
                 </p>
-                <p className='text-[#FFFFFF] text-lg'>
+                <p className='text-[#FFFFFF] text-lg lg:text-[28px] font-[400] leading-[40px] font-regola-pro'>
                   ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
                 </p>
-                <button type='button' className="bg-[#FFFFFF] mt-2 rounded py-1 px-4 font-bold text-black">
+                <button
+                  type='button'
+                  className="w-[202px] bg-[#FFFFFF] mt-2 rounded py-1 px-4  text-black h-[49px] lg:text-[24px] font-[500] leading-[40px] font-regola-pro"
+                >
                   Add to cart
                 </button>
               </div>
               <AnimatePresence>
                 <motion.div
                   ref={imgRef}
+                  onMouseDown={handleMouseDown} // Handle spin with drag, not click
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1, rotate: rotation }}
                   exit={{ opacity: 0, scale: 0.5 }}
@@ -958,7 +976,8 @@ const Home = () => {
                   <img
                     src={selecteRandomPro?.node?.featuredImage?.url}
                     alt=""
-                    className='lg:h-[400px] rounded-full h-[250px]'
+                    className='lg:h-[676px] rounded-full h-[250px]'
+                    draggable={false} // Disable native drag behavior
                   />
                 </motion.div>
               </AnimatePresence>
@@ -978,13 +997,22 @@ const Home = () => {
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
-                <a
-                  href="#learn-more"
-                  className="flex items-center text-[16px] md:text-[19px] font-medium leading-[20px] text-[#333333] transition-transform duration-300 hover:animate-bounce p-[8px_20px_8px_8px] md:p-[10px_40px_10px_10px]"
-                >
-                  Learn How It Works
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" className="ml-2">
-                    <path d="M12 15.5L18 9.5M18 9.5L12 3.5M18 9.5L3 9.5" stroke="#333333" strokeWidth="1.5" />
+                <a href="#learn-more" class="link">
+                  <span class="text-content">Learn How It Works</span>
+                  <span class="shadow-text">Learn How It Works</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    class="arrow-icon"
+                  >
+                    <path
+                      d="M12 15.5L18 9.5M18 9.5L12 3.5M18 9.5L3 9.5"
+                      stroke="#333333"
+                      stroke-width="1.5"
+                    />
                   </svg>
                 </a>
               </div>
@@ -1035,6 +1063,7 @@ const Home = () => {
 
 
 
+
       <div className="relative bg-no-repeat bg-center h-[691px] w-full"
         style={{
           backgroundImage: `url(${currentData?.image})`,
@@ -1056,7 +1085,7 @@ const Home = () => {
                   md:text-[48px] md:leading-[48.43px] font-[400]">
             What makes us instantly yours
           </h1>
-          <div className="flex items-start space-x-4 mb-4 
+          <div className="flex items-start space-x-4 mb-4 md:mt-10 mt-0
                    flex-col md:flex-row md:space-x-4">
             <img
               src={noPreservativeWhite}
@@ -1074,8 +1103,8 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-center md:mt-60 mt-2">
-            <div className="flex flex-col md:flex-row gap-8 mt-10">
+          <div className="flex flex-col md:flex-row justify-center md:mt-80 mt-2">
+            <div className="flex flex-col md:flex-row gap-8 mt-5">
               {buttonTexts.map((text, index) => (
                 <button
                   key={index}
