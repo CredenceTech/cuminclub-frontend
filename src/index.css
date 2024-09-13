@@ -179,7 +179,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  height: 53px;
+  height: 61px;
   background: rgba(199, 88, 1, 0.4);
   transform-origin: 0%;
 }
@@ -222,6 +222,7 @@ body {
   0% {
     width: 0%;
   }
+
   100% {
     width: 100%;
   }
@@ -231,10 +232,12 @@ body {
   0% {
     width: 100%;
   }
+
   100% {
     width: 0%;
   }
 }
+
 
 .coverImage {
   background-image: url(./assets/cover.png);
@@ -265,9 +268,9 @@ body {
 .shadow-text {
   position: absolute;
   left: 0;
-  top: 100%; 
+  top: 100%;
   opacity: 0;
-  color: rgba(51, 51, 51, 0.3); 
+  color: rgba(51, 51, 51, 0.3);
   transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
@@ -278,16 +281,16 @@ body {
 
 
 .link:hover .text-content {
-  transform: translateY(-20px); 
-  opacity: 0.5; 
+  transform: translateY(-20px);
+  opacity: 0.5;
 }
 
 .link:hover .shadow-text {
-  transform: translateY(-20px); 
-  opacity: 1; 
+  transform: translateY(-20px);
+  opacity: 1;
 }
 
 .link:hover .arrow-icon {
-  transform: translateX(10px); 
-  opacity: 0.5; 
+  transform: translateX(10px);
+  opacity: 0.5;
 }

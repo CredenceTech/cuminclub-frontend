@@ -132,7 +132,7 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full justify-between font-sans bg-[#EADEC1] items-center ${pathname === '/recipes' ? 'fixed' : 'fixed'}  z-50 pr-5  py-8`}
+        className={`flex w-full justify-between font-sans bg-[#EADEC1] items-center ${pathname === '/recipes' ? 'fixed' : 'fixed'}  z-50 px-10 py-8`}
       >
         <div className="hidden lg:flex gap-3 text-lg font-sans flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot">
@@ -142,7 +142,7 @@ const Header = () => {
                   onMouseEnter={() => setShowHeaderMain(true)}
                   // onMouseLeave={() => setShowHeaderMain(false)}
                   onClick={() => { setShowHeaderMain(true) }}
-                  className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                  className={`NavigationMenuTrigger text-lg pr-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
                   OUR MENU
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="NavigationMenuContent left-0 right-0 absolute top-[70px] bg-[#26965C] z-[5000]  w-[100vw] h-[80vh]">
