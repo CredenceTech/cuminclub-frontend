@@ -207,7 +207,7 @@ body {
 }
 
 .bg-active {
-  animation: expand 5s linear forwards;
+  animation: expand 3s linear forwards;
 }
 
 .bg-inactive-reverse {
