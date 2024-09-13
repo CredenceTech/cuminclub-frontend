@@ -10,7 +10,7 @@ import { motion, useScroll } from "framer-motion";
 
 const Recipes = () => {
     const refs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-    const scrollYProgress = refs.map(ref => useScroll({ target: ref, offset: ["center center", "end center"] }).scrollYProgress);
+    const scrollYProgress = refs.map(ref => useScroll({ target: ref, offset: ["center center", "center start"] }).scrollYProgress);
 
     const items = [
         ' IY Biryani (chicken or vegetarian) (prepared)',
@@ -68,7 +68,7 @@ const Recipes = () => {
                         </div>
                     </div>
                 </div>
-                <div className='2xl:container 2xl:mx-auto grid grid-cols-4 mt-8'>
+                <div className='2xl:container 2xl:mx-auto grid grid-cols-4 mt-8 2xl:pl-10'>
                     <div className='col-span-4 pl-5 p-3 md:pl-10 2xl:pl-0 md:col-span-2'>
                         <p className='text-4xl mb-4 font-skillet'>Ingredients</p>
                         <ol className='lg:pr-28 pb-7'>
