@@ -321,24 +321,51 @@ const Home = () => {
   ]
 
   const [activeButton, setActiveButton] = useState(0);
-  const [prevButton, setPrevButton] = useState(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPrevButton(activeButton);
-      setActiveButton(prev => (prev + 1) % buttonTexts.length);
-    }, 5000); // Change button every 5 seconds
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, [activeButton, buttonTexts.length]);
-
-  const handleButtonClick = (index) => {
-    setPrevButton(activeButton);
-    setActiveButton(index);
-  };
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const animationDuration = 3000;
 
   const currentData = descriptionData[activeButton] || descriptionData[0];
 
+  useEffect(() => {
+    let animationFrame;
+    let start;
+
+    if (!isPaused) {
+      const updateProgress = (timestamp) => {
+        if (!start) start = timestamp;
+
+        const runtime = timestamp - start + elapsedTime;
+        const progressPercentage = Math.min((runtime / animationDuration) * 100, 100);
+
+        setProgress(progressPercentage);
+
+        if (progressPercentage < 100) {
+          animationFrame = requestAnimationFrame(updateProgress);
+        } else {
+          setActiveButton((prev) => (prev + 1) % buttonTexts.length);
+          setElapsedTime(0);
+        }
+      };
+      animationFrame = requestAnimationFrame(updateProgress);
+    }
+    return () => cancelAnimationFrame(animationFrame);
+  }, [isPaused, elapsedTime, activeButton, buttonTexts.length]);
+
+  const handleButtonClick = (index) => {
+    setActiveButton(index);
+    setProgress(0);
+    setElapsedTime(0);
+    setIsPaused(true);
+  };
+
+  const togglePause = () => {
+    if (isPaused) {
+      setElapsedTime((prev) => prev + (progress / 100) * animationDuration);
+    }
+    setIsPaused((prev) => !prev);
+  };
 
   const bannerData = [
     {
@@ -1063,7 +1090,6 @@ const Home = () => {
 
 
 
-
       <div className="relative bg-no-repeat bg-center h-[691px] w-full"
         style={{
           backgroundImage: `url(${currentData?.image})`,
@@ -1075,18 +1101,26 @@ const Home = () => {
         <div
           className="absolute inset-0"
           style={{
-            background: " linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
+            background: "linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
             transition: "background 1s ease-in-out",
             zIndex: 1,
           }}
         />
         <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
-          <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
+          <div className="flex">
+            <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
                   md:text-[48px] md:leading-[48.43px] font-[400]">
-            What makes us instantly yours
-          </h1>
-          <div className="flex items-start space-x-4 mb-4 md:mt-10 mt-0
-                   flex-col md:flex-row md:space-x-4">
+              What makes us instantly yours
+            </h1>
+            <button
+              className="px-6 py-1 h-[48px] text-black bg-white rounded ml-4"
+              onClick={togglePause}
+            >
+              {isPaused ? 'Resume' : 'Pause'}
+            </button>
+          </div>
+
+          <div className="flex items-start space-x-4 mb-4 md:mt-10 mt-0 flex-col md:flex-row md:space-x-4">
             <img
               src={noPreservativeWhite}
               alt="Icon"
@@ -1094,17 +1128,18 @@ const Home = () => {
             />
             <div className="w-full md:w-1/2">
               <h2 className="font-skillet text-[26px] leading-[20px] text-[#FFFFFF] mb-2 
-                      md:text-[36px] md:leading-[35px] font-[400]">
+                    md:text-[36px] md:leading-[35px] font-[400]">
                 {currentData?.title}
               </h2>
               <p className="font-regola-pro text-[14px] leading-[16px] text-[#EBEBEB] 
-                     md:text-[18px] md:leading-[20px] font-[500]">
+                   md:text-[18px] md:leading-[20px] font-[500]">
                 {currentData?.description}
               </p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-center md:mt-80 mt-2">
-            <div className="flex flex-col md:flex-row gap-8 mt-5">
+
+          <div className="flex flex-grow justify-center items-center w-full  md:mt-80 mt-2">
+            <div className="flex flex-col md:flex-row gap-8">
               {buttonTexts.map((text, index) => (
                 <button
                   key={index}
@@ -1112,27 +1147,16 @@ const Home = () => {
                   onClick={() => handleButtonClick(index)}
                 >
                   <span
-                    className={`absolute top-0 left-0 h-full transition-all duration-[300ms] ease-out ${activeButton === index ? 'bg-active' : ''
-                      }`}
+                    className={`absolute top-0 left-0 h-full`}
                     style={{
                       height: '100%',
                       borderRadius: '7.53px',
-                      width: activeButton === index ? '100%' : '0%',
+                      width: activeButton === index ? `${progress}%` : '0%',
                       backgroundColor: '#7D7D7DAB',
                       zIndex: 0,
+                      transition: 'expand 1s linear',
                     }}
                   />
-                  {/* <span
-              className={`absolute top-0 left-0 h-full transition-all duration-[300ms] ease-out ${prevButton === index ? 'bg-inactive-reverse' : ''
-                }`}
-              style={{
-                height: '100%',
-                borderRadius: '7.53px',
-                width: prevButton === index ? '100%' : '0%',
-                backgroundColor: '#7D7D7DAB',
-                zIndex: 1,
-              }}
-            /> */}
                   <span className="relative z-10 font-regola-pro text-[14px] font-[400] leading-[16px] text-[#333333] text-left
                              md:text-[16.95px] md:leading-[20.34px]">
                     {text}
@@ -1188,7 +1212,7 @@ const Home = () => {
       </div> */}
 
 
-      <div className='bg-[#EFE9DA] relative -bottom-28'>
+      <div className='bg-[#EFE9DA] relative mt-20'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
           <div className="w-full lg:w-1/4 p-6 lg:p-12 text-section text-white flex flex-col justify-between">
