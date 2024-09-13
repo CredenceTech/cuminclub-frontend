@@ -21,7 +21,14 @@
 
 @font-face {
   font-family: 'RegulaPro';
-  src: url('/public/Regola\ Pro\ Regular.otf') format('opentype');
+  src: url('/Regola\ Pro\ Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InterFont';
+  src: url('/Inter-VariableFont_opsz\,wght.ttf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
