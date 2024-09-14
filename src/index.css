@@ -270,7 +270,7 @@ body {
   left: 0;
   top: 100%;
   opacity: 0;
-  color: rgba(51, 51, 51, 0.3);
+  color:#333333;
   transition: transform 0.1s ease, opacity 0.1s ease;
 }
 
@@ -292,5 +292,5 @@ body {
 
 .link:hover .arrow-icon {
   transform: translateX(10px);
-  opacity: 0.5;
+  opacity: 1;
 }

@@ -398,8 +398,8 @@ const Home = () => {
   }, [bannerData.length]);
 
   return (
-    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA] overflow-hidden`}>
-      <div className="w-full relative">
+    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA]`}>
+      <div className="w-full relative overflow-x-hidden">
         <div
           className="absolute inset-0"
           style={{
@@ -728,13 +728,15 @@ const Home = () => {
 
         {isCartOpen && <CartDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
-          <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
-            {bannerData[currentIndex].title}
-          </h1>
-          <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#606060]' : 'text-[#DFDFDF]'}`}>
-            {bannerData[currentIndex].description}
-          </p>
-          <div className="flex justify-end pt-[230px] pb-[30px] px-8">
+          <div className="h-[200px]">
+            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
+              {bannerData[currentIndex].title}
+            </h1>
+            <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#606060]' : 'text-[#DFDFDF]'}`}>
+              {bannerData[currentIndex].description}
+            </p>
+          </div>
+          <div className="flex justify-end pb-[40px] px-8 pt-[100px]">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
               <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -746,7 +748,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className={`pb-10 bg-[#EFE9DA] grid grid-cols-2 md:grid-cols-4`}>
+      <div className={`pb-10 bg-[#EFE9DA] grid grid-cols-2 md:grid-cols-4 overflow-x-hidden`}>
         {
           categoryData?.map((item, i) => (
             <div
@@ -780,7 +782,7 @@ const Home = () => {
       </div>
 
 
-      <div className="bg-[#EFE9DA]">
+      <div className="bg-[#EFE9DA] overflow-x-hidden">
         <div className='flex flex-row px-4 md:px-14 lg:px-3 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
@@ -956,7 +958,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className='w-full bannerbottom h-[759px]'>
+      <div className='w-full bannerbottom h-[759px] overflow-x-hidden'>
         <div className=''>
           <div className='flex justify-between'>
             <div className='px-10'>
@@ -1112,12 +1114,6 @@ const Home = () => {
                   md:text-[48px] md:leading-[48.43px] font-[400]">
               What makes us instantly yours
             </h1>
-            <button
-              className="px-6 py-1 h-[48px] text-black bg-white rounded ml-4"
-              onClick={togglePause}
-            >
-              {isPaused ? 'Resume' : 'Pause'}
-            </button>
           </div>
 
           <div className="flex items-start space-x-4 mb-4 md:mt-10 mt-0 flex-col md:flex-row md:space-x-4">
@@ -1164,6 +1160,20 @@ const Home = () => {
                 </button>
               ))}
             </div>
+            <button
+              className="px-6 text-white rounded ml-4 flex items-center justify-center"
+              onClick={togglePause}
+            >
+              {isPaused ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M6.271 2.055c-.556-.347-1.271-.048-1.271.613v10.664c0 .662.715.96 1.271.614l8.684-5.331a.75.75 0 0 0 0-1.27L6.271 2.055z" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" className="bi bi-pause-fill" viewBox="0 0 16 16">
+                  <path d="M5.5 3.5A.5.5 0 0 1 6 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-9zm4 0A.5.5 0 0 1 10 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H10a.5.5 0 0 1-.5-.5v-9z" />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </div>
@@ -1212,7 +1222,7 @@ const Home = () => {
       </div> */}
 
 
-      <div className='bg-[#EFE9DA] relative mt-20'>
+      <div className='bg-[#EFE9DA] relative -bottom-28'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
           <div className="w-full lg:w-1/4 p-6 lg:p-12 text-section text-white flex flex-col justify-between">
