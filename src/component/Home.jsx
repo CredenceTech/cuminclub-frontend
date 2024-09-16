@@ -399,7 +399,7 @@ const Home = () => {
 
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA]`}>
-      <div className="w-full relative overflow-x-hidden">
+      <div className="w-full relative md:h-[522px]">
         <div
           className="absolute inset-0"
           style={{
@@ -427,7 +427,7 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger px-8 whitespace-nowrap relative  ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
+                    className={`NavigationMenuTrigger px-8 whitespace-nowrap relative ml-10 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content onMouseLeave={() => setShowHeaderMain(false)} className="NavigationMenuContent absolute left-0 top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
@@ -728,7 +728,7 @@ const Home = () => {
 
         {isCartOpen && <CartDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
-          <div className="h-[200px]">
+          <div className="h-[200px] ml-10">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
               {bannerData[currentIndex].title}
             </h1>
@@ -736,7 +736,7 @@ const Home = () => {
               {bannerData[currentIndex].description}
             </p>
           </div>
-          <div className="flex justify-end pb-[40px] px-8 pt-[100px]">
+          <div className="flex justify-end pb-[40px] px-8 pt-[150px]">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded items-center gap-x-5 bg-[#EFE9DA]'>
               <button className=" text-black">Subscribe at ₹80/meal </button>
               <svg width="21" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -761,11 +761,11 @@ const Home = () => {
                 <img
                   src={food}
                   alt=""
-                  className='h-[80px] w-[80px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
+                  className='md:h-[80px] md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
-                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-[40px] font-skillet rounded-lg whitespace-nowrap group-hover:translate-x-2`}
+                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-[40px] font-skillet rounded-lg group-hover:translate-x-2`}
               >
                 {item?.node?.title}
               </p>
@@ -782,7 +782,7 @@ const Home = () => {
       </div>
 
 
-      <div className="bg-[#EFE9DA] overflow-x-hidden">
+      <div className="bg-[#EFE9DA]">
         <div className='flex flex-row px-4 md:px-14 lg:px-3 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
@@ -791,37 +791,39 @@ const Home = () => {
           </svg>
           <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Fan Favourites</p>
         </div>
-        <div className='container mx-auto py-14 md:ml-[55px] ml-[10px]'>
-          <div className='flex flex-row justify-around px-7 md:px-4 md:justify-start md:mx-5 lg:mx-10 flex-wrap gap-x-8 gap-y-4'>
-            {apiResponse?.map((item, i) => (
-              <div key={i} className='flex flex-col justify-between lg:justify-start'>
-                <div
-                  style={{ background: `${colors[i]}` }}
-                  className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
-                >
-                  <img
-                    src={pavbhajiImg}
-                    alt=""
-                    className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      overflow: 'visible',
-                    }}
-                  />
+        <div className="w-full ">
+          <div className='py-14 overflow-x-auto whitespace-nowrap scrollbar-hide lg:ml-[55px] ml-[10px] cursor-pointer'>
+            <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
+              {apiResponse?.map((item, i) => (
+                <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
+                  <div
+                    style={{ background: `${colors[i]}` }}
+                    className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
+                  >
+                    <img
+                      src={pavbhajiImg}
+                      alt=""
+                      className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
+                      style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        overflow: 'visible',
+                      }}
+                    />
+                  </div>
+                  <p className='text-[#231F20] text-base font-futuraBold md:text-lg pt-2'>
+                    {item?.node?.title}
+                  </p>
+                  <p className='text-gray-500 text-lg'>
+                    ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
+                  </p>
                 </div>
-                <p className='text-[#231F20] text-base font-futuraBold md:text-lg pt-2'>
-                  {item?.node?.title}
-                </p>
-                <p className='text-gray-500 text-lg'>
-                  ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
+          </div>
         </div>
       </div>
 
@@ -883,71 +885,48 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex coverImage flex-col md:flex-row h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
-          <div className="w-full relative md:w-3/5 flex-shrink-0 h-full">
+        <div className="flex coverImage flex-col md:flex-row h-auto md:h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
+          <div className="w-full relative md:w-3/5 flex-shrink-0 h-[300px] md:h-full order-2 md:order-1">
             <div className="relative w-full h-full">
-              <div className="absolute top-[160px] left-[300px]">
+              <div className="absolute top-[20%] left-[40%] md:top-[160px] md:left-[300px]">
                 <Tooltip message={":sparkles: Coming soon!"}>
                   <div className="cursor-pointer">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fill-opacity="0.45" />
+                      <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
                       <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
                     </svg>
                   </div>
                 </Tooltip>
               </div>
-              <div className="absolute bottom-[150px] left-[480px]">
+              <div className="absolute bottom-[30%] right-[20%] md:bottom-[150px] md:left-[480px]">
                 <Tooltip message={":sparkles: Coming soon!"}>
                   <div className="cursor-pointer">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fill-opacity="0.45" />
+                      <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
                       <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
                     </svg>
                   </div>
                 </Tooltip>
-                {/* <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fill-opacity="0.45" />
-                  <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
-                </svg>
-                <div className="absolute -top-16 left-10 bg-white backdropBackgroundCss p-4 whitespace-nowrap rounded-lg shadow-md">
-                  <h3 className="text-lg font-bold">Packaging</h3>
-                  <p className="text-sm text-gray-700">Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
-                  <p className="text-sm text-gray-700">Lorem Ipsum Lorem Ipsum</p>
-                </div> */}
               </div>
-              <div className="absolute bottom-[60px]  left-[360px]">
+              <div className="absolute bottom-[10%] left-[40%] md:bottom-[60px] md:left-[360px]">
                 <Tooltip message={":sparkles: Coming soon!"}>
                   <div className="cursor-pointer">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fill-opacity="0.45" />
+                      <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
                       <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
                     </svg>
                   </div>
                 </Tooltip>
-                {/* <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fill-opacity="0.45" />
-                  <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
-                </svg>
-                <div className="absolute -top-16 left-10 bg-white backdropBackgroundCss p-4 whitespace-nowrap rounded-lg shadow-md">
-                  <h3 className="text-lg font-bold">Packaging</h3>
-                  <p className="text-sm text-gray-700">Lorem Ipsum Lorem Ipsum Lorem Ipsum</p>
-                  <p className="text-sm text-gray-700">Lorem Ipsum Lorem Ipsum</p>
-                </div> */}
               </div>
             </div>
-            {/* <img
-              src={sideImage}
-              alt="Description of Image"
-              className="w-full h-full object-cover"
-            /> */}
           </div>
-          <div className="relative w-full md:w-2/5 flex flex-col items-end md:rounded-r-lg pr-[30px] pt-[50px]">
-            <div className="absolute top-0 left-0 right-0 h-10"></div>
-            <h2 className="font-inter text-[36px] font-normal leading-[43.57px] text-right text-[#333333] mb-4 sm:text-2xl">
+          <div className="relative w-full md:w-2/5 flex flex-col items-center md:items-end md:rounded-r-lg px-4 md:px-0 md:pr-[30px] pt-[30px] md:pt-[50px] order-1 md:order-2">
+            <div className="absolute top-0 left-0 right-0 h-10 md:hidden"></div>
+            <h2 className="font-inter text-[28px] font-normal leading-tight md:leading-[43.57px] text-center md:text-right text-[#333333] mb-4 sm:text-2xl">
               Ready to Cook
             </h2>
-            <div className="w-full flex flex-col items-end">
-              <p className="font-inter text-[16px] font-normal leading-[19.36px] pl-4 text-right text-[#333333D9] mb-4">
+            <div className="w-full flex flex-col items-center md:items-end">
+              <p className="font-inter text-[14px] md:text-[16px] font-normal leading-[19.36px] text-center md:text-right md:pl-4 text-[#333333D9] mb-4">
                 Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.
               </p>
             </div>
@@ -958,24 +937,23 @@ const Home = () => {
         </div>
       </div>
 
-      <div className='w-full bannerbottom h-[759px] overflow-x-hidden'>
+      <div className='w-full bannerbottom h-[759px] overflow-hidden'>
         <div className=''>
-          <div className='flex justify-between'>
-            <div className='px-10'>
-              <p className='text-white text-lg font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-4 font-[400] '>
+          <div className='flex flex-col lg:flex-row '>
+            <div className='md:ml-[127px] ml-5 mt-10'>
+              <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] '>
                 Not Sure What to Eat?
               </p>
-              <p className='text-[#000] text-lg lg:text-[51.72px] lg:leading-[62px] leading-3 font-regola-pro font-[300]'>
+              <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300]'>
                 Give it a Spin!
               </p>
             </div>
-            <div className='flex lg:h-[676px] h-[300px] relative z-10 justify-end items-center mt-10  lg:right-[-150px] right-[0px]'>
+            <div className='flex relative z-10 justify-end items-center mt-10 lg:mt-5 lg:right-[-180px] right-[0px] lg:pt-7'>
               <div className='relative right-[-28px] top-[70px] z-[-1] mt-2'>
                 <div
                   className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-5 bg-[#EFE9DA]'
                 >
                   <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
-                  {/* Button stays as it is, but no product update */}
                   <button className="text-[#B25220] text-[28px] font-[500] leading-[40px] font-regola-pro">
                     {`spin >>`}
                   </button>
@@ -996,7 +974,7 @@ const Home = () => {
               <AnimatePresence>
                 <motion.div
                   ref={imgRef}
-                  onMouseDown={handleMouseDown} // Handle spin with drag, not click
+                  onMouseDown={handleMouseDown}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1, rotate: rotation }}
                   exit={{ opacity: 0, scale: 0.5 }}
@@ -1005,8 +983,8 @@ const Home = () => {
                   <img
                     src={selecteRandomPro?.node?.featuredImage?.url}
                     alt=""
-                    className='lg:h-[676px] rounded-full h-[250px]'
-                    draggable={false} // Disable native drag behavior
+                    className='lg:h-[660px] rounded-full h-[250px]'
+                    draggable={false}
                   />
                 </motion.div>
               </AnimatePresence>
@@ -1014,6 +992,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+
 
       <div className="bg-[#EFE9DA] p-10">
         <div className="container mx-auto md:pt-14">
@@ -1165,11 +1144,11 @@ const Home = () => {
               onClick={togglePause}
             >
               {isPaused ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
                   <path d="M6.271 2.055c-.556-.347-1.271-.048-1.271.613v10.664c0 .662.715.96 1.271.614l8.684-5.331a.75.75 0 0 0 0-1.27L6.271 2.055z" />
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" className="bi bi-pause-fill" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-pause-fill" viewBox="0 0 16 16">
                   <path d="M5.5 3.5A.5.5 0 0 1 6 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-9zm4 0A.5.5 0 0 1 10 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H10a.5.5 0 0 1-.5-.5v-9z" />
                 </svg>
               )}
