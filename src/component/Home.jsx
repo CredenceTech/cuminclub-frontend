@@ -43,6 +43,12 @@ import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
 import pavbhajiImg from '../assets/pavbhaji.png'
 import Tooltip from "./Tooltip";
+import headerMenu1 from "../assets/header-menu1.png"
+import headerMenu2 from "../assets/header-menu2.png"
+import headerMenu3 from "../assets/header-menu3.png"
+import headerMenu4 from "../assets/header-menu4.png"
+import headerMenu5 from "../assets/header-menu5.png"
+import readyToEatImg from "../assets/middle1-image1.png"
 
 const Home = () => {
 
@@ -397,6 +403,48 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [bannerData.length]);
 
+
+  const headerMenuData = [
+    {
+      image: headerMenu1,
+      title: "All Menu"
+    },
+    {
+      image: headerMenu2,
+      title: "Ready to Eat"
+    },
+    {
+      image: headerMenu3,
+      title: "Ready to Cook"
+    },
+    {
+      image: headerMenu4,
+      title: "Bulk"
+    },
+    {
+      image: headerMenu5,
+      title: "Made for Subscription"
+    }
+  ]
+
+  const learnMenuData = [
+    {
+      title: "About us"
+    },
+    {
+      title: "How it works"
+    },
+    {
+      title: "Facility"
+    },
+    {
+      title: "Team"
+    },
+    {
+      title: "Sustainability"
+    }
+  ]
+
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA]`}>
       <div className="w-full relative md:h-[522px]">
@@ -427,60 +475,73 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger px-8 whitespace-nowrap relative ml-10 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
+                    className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
-                  <NavigationMenu.Content onMouseLeave={() => setShowHeaderMain(false)} className="NavigationMenuContent absolute left-0 top-12 bg-[#26965C] z-50  w-[100vw] h-[80vh]">
-                    <div className="grid grid-cols-2 lg:grid-cols-3  gap-4 md:gap-10">
-                      <div onClick={onMenuClick} className="w-full flex  justify-center items-center relative group  cursor-pointer px-7 my-9 border-r-2 border-r-[#fbae36] ">
-                        <img src={menu1} alt="" className="h-[60vh] shadow-[5px_5px_0_0_rgb(251,174,54)] transition-shadow duration-300 ease-in-out hover:shadow-[10px_10px_0_0_rgb(251,174,54)] rounded-xl" />
-                        <div className="group-hover:block hidden absolute top-[23%] left-[62%]">
-                          <svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                              d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
-                              fill="#030202" />
-                          </svg>
+                  <NavigationMenu.Content
+                    onMouseLeave={() => setShowHeaderMain(false)}
+                    className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                  >
+                    <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                      {headerMenuData.map((menuItem, index) => (
+                        <div
+                          key={index}
+                          className="relative group cursor-pointer"
+                          onClick={() => {
+                            if (index === 0) {
+                              onMenuClick();
+                            }
+                          }}
+                        >
+                          <img
+                            src={menuItem.image}
+                            alt={menuItem.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div
+                            className="absolute inset-0 group-hover:opacity-90 transition duration-300"
+                            style={{
+                              background:
+                                "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
+                            }}
+                          >
+                            <span className="absolute top-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mt-[20px] ml-2">
+                              {menuItem.title}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      <div className=" w-full flex flex-col justify-center items-center my-9 border-r-2 border-r-[#fbae36]">
-                        <img src={menu2} alt="" className="h-[60vh]  " />
-                        <button type="button" className=" bg-[#fbae36] group  text-4xl flex  justify-center items-center gap-3 font-skillet rounded-lg px-20 py-3 mt-2">Discover
-                          <div className="group-hover:block hidden ">
-                            <svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
-                                fill="#030202" />
-                            </svg>
-                          </div>
-                        </button>                      </div>
-                      <div className=" w-full flex flex-col justify-center items-center my-9 ">
-                        <img src={menu3} alt="" className="h-[60vh] " />
-                        <button type="button" className=" bg-[#fbae36] group  text-4xl flex  justify-center items-center gap-3 font-skillet rounded-lg px-20 py-3 mt-2">Discover
-                          <div className="group-hover:block hidden ">
-                            <svg width="25" height="21" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path
-                                d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
-                                fill="#030202" />
-                            </svg>
-                          </div>
-                        </button>
+                      ))}
+                    </div>
+                  </NavigationMenu.Content>
 
-                      </div>
+                </NavigationMenu.Item>
+                <NavigationMenu.Item>
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                    LEARN
+                  </NavigationMenu.Trigger>
+                  <NavigationMenu.Content className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]">
+                    <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                      {learnMenuData.map((menuItem, index) => (
+                        <div
+                          key={index}
+                          className="relative group cursor-pointer bg-[#D9D9D9] h-[330px] w-[250px]"
+                          onClick={() => {
+                            if (index === 0) {
+                              // onMenuClick();
+                            }
+                          }}
+                        >
+                          <span className="absolute bottom-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
+                            {menuItem.title}
+                          </span>
+
+                        </div>
+                      ))}
                     </div>
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
-                    LEARN
-                  </NavigationMenu.Trigger>
-                  {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
-                    <div className="">
-                      <h1>Anukas adjasd;p9erhj</h1>
-                    </div>
-                  </NavigationMenu.Content> */}
-                </NavigationMenu.Item>
-                <NavigationMenu.Item>
-                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-lg  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-[600] font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     RECIPES
                   </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
@@ -729,7 +790,7 @@ const Home = () => {
         {isCartOpen && <CartDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
           <div className="h-[200px] ml-10">
-            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-normal leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
+            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
               {bannerData[currentIndex].title}
             </h1>
             <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#606060]' : 'text-[#DFDFDF]'}`}>
@@ -789,10 +850,10 @@ const Home = () => {
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
             <path d="M37.8018 23.0008L40.3205 20.5648C40.4552 20.4345 40.6794 20.5391 40.6661 20.7258L40.4193 24.2213C40.4111 24.3382 40.5026 24.4381 40.6193 24.4402L44.1232 24.4985C44.3106 24.502 44.3953 24.7345 44.2536 24.857L41.6073 27.1542C41.519 27.2306 41.5127 27.3663 41.5945 27.4502L44.0304 29.9694C44.1607 30.1041 44.0561 30.3283 43.8691 30.3152L40.374 30.0677C40.2568 30.0597 40.1572 30.151 40.155 30.2682L40.0965 33.7718C40.0935 33.9593 39.8608 34.0438 39.7377 33.9024L37.4413 31.256C37.3641 31.1677 37.2289 31.1616 37.1448 31.2431L34.6259 33.6788C34.4912 33.8091 34.2669 33.705 34.28 33.518L34.5273 30.0226C34.5354 29.9054 34.444 29.8058 34.3268 29.8036L30.8232 29.7451C30.6357 29.7421 30.5509 29.5096 30.6925 29.3868L33.339 27.0899C33.4274 27.013 33.4334 26.8775 33.3524 26.7935L30.9158 24.2747C30.7856 24.14 30.8903 23.9153 31.0772 23.9289L34.5727 24.1757C34.6895 24.1844 34.7897 24.0927 34.7914 23.9754L34.8499 20.4718C34.8531 20.2846 35.0856 20.1998 35.2084 20.3414L37.5051 22.9876C37.5822 23.0764 37.7172 23.0822 37.8018 23.0008Z" fill="#FBAE36" />
           </svg>
-          <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Fan Favourites</p>
+          <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400]'>Fan Favourites</p>
         </div>
         <div className="w-full ">
-          <div className='py-14 overflow-x-auto whitespace-nowrap scrollbar-hide lg:ml-[55px] ml-[10px] cursor-pointer'>
+          <div className='py-14 overflow-x-auto whitespace-nowrap scrollbar-hide lg:ml-[40px] ml-[10px] cursor-pointer'>
             <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
               {apiResponse?.map((item, i) => (
                 <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
@@ -870,14 +931,15 @@ const Home = () => {
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
             <path d="M37.8018 23.0008L40.3205 20.5648C40.4552 20.4345 40.6794 20.5391 40.6661 20.7258L40.4193 24.2213C40.4111 24.3382 40.5026 24.4381 40.6193 24.4402L44.1232 24.4985C44.3106 24.502 44.3953 24.7345 44.2536 24.857L41.6073 27.1542C41.519 27.2306 41.5127 27.3663 41.5945 27.4502L44.0304 29.9694C44.1607 30.1041 44.0561 30.3283 43.8691 30.3152L40.374 30.0677C40.2568 30.0597 40.1572 30.151 40.155 30.2682L40.0965 33.7718C40.0935 33.9593 39.8608 34.0438 39.7377 33.9024L37.4413 31.256C37.3641 31.1677 37.2289 31.1616 37.1448 31.2431L34.6259 33.6788C34.4912 33.8091 34.2669 33.705 34.28 33.518L34.5273 30.0226C34.5354 29.9054 34.444 29.8058 34.3268 29.8036L30.8232 29.7451C30.6357 29.7421 30.5509 29.5096 30.6925 29.3868L33.339 27.0899C33.4274 27.013 33.4334 26.8775 33.3524 26.7935L30.9158 24.2747C30.7856 24.14 30.8903 23.9153 31.0772 23.9289L34.5727 24.1757C34.6895 24.1844 34.7897 24.0927 34.7914 23.9754L34.8499 20.4718C34.8531 20.2846 35.0856 20.1998 35.2084 20.3414L37.5051 22.9876C37.5822 23.0764 37.7172 23.0822 37.8018 23.0008Z" fill="#FBAE36" />
           </svg>
-          <p className='text-[#231F20] font-skillet px-6 py-4 text-3xl lg:text-4xl'>Instantly Yours Promises Instant, Hygienic Meals</p>
+          <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400]'>Instantly Yours Promises Instant, Hygienic Meals</p>
         </div>
-        <div className="relative bg-cover bg-center bg-no-repeat 2xl:h-[509px] md:h-[509px] bg-custom-image-middle1 md:ml-[10px] lg:ml-[120px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[200px] pt-[40px] sm:pt-[60px] sm:pl-[30px] mt-[20px]">
+
+        <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[600px] md:h-[600px] bg-custom-image-middle1 md:ml-[10px] lg:ml-[90px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[280px] pt-[60px] sm:pt-[60px] sm:pl-[60px] mt-[20px]">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
           <div className="relative z-10 text-white">
-            <h2 className="text-3xl text-[#FAFAFA] font-semibold mb-4 sm:text-2xl">Ready to Eat</h2>
-            <div className="w-full md:w-1/2">
-              <p className="text-lg text-[#CECECE] font-normal font-sans mb-4 " >
+            <h2 className="text-[36px] text-[#FAFAFA] font-[400] leading-[43.57px] mb-4">Ready to Eat</h2>
+            <div className="w-full md:w-2/5">
+              <p className="text-[16px] text-[#CECECE] font-normal font-sans mb-4 leading-[19.36px]" >
                 Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
               </p>
             </div>
@@ -1030,11 +1092,11 @@ const Home = () => {
             <div className="flex flex-wrap -mx-2">
               <div className="w-full md:w-1/3 px-2 mb-6">
                 <div className="p-4">
-                  <img src={selectMeal} alt="Select Meal" className="w-[200px] h-[200px] object-cover mb-4" />
+                  <img src={selectMeal} alt="Select Meal" className="w-[150px] h-[150px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Select Your Meals
                   </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333]">
+                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-9/10">
                     Browse our ready-to-eat and ready-to-cook dishes. From rice to sweets, get what you’re
                     craving for half the price! Pick your favourite meals and customise your order to match your taste buds.
                   </p>
@@ -1042,11 +1104,11 @@ const Home = () => {
               </div>
               <div className="w-full md:w-1/3 px-2 mb-6">
                 <div className="p-4">
-                  <img src={recieveBox} alt="Receive Box" className="w-[200px] h-[200px] object-cover mb-4" />
+                  <img src={recieveBox} alt="Receive Box" className="w-[150px] h-[150px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Receive Your Box
                   </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333]">
+                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-9/10">
                     Your meals are packed with love and delivered straight to your doorstep. We ensure everything arrives fresh and ready to enjoy. If you’ve subscribed to a plan, you can easily skip,
                     reschedule, change meals, or cancel anytime—no strings attached.
                   </p>
@@ -1054,11 +1116,11 @@ const Home = () => {
               </div>
               <div className="w-full md:w-1/3 px-2 mb-6">
                 <div className="p-4">
-                  <img src={heatEat} alt="Heat and Enjoy" className="w-[200px] h-[200px] object-cover mb-4" />
+                  <img src={heatEat} alt="Heat and Enjoy" className="w-[150px] h-[150px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Heat and Enjoy
                   </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333]">
+                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-9/10">
                     For ready-to-eat meals, just heat them up, and you’re good to go. For ready-to-cook kits, follow the simple instructions, and you'll have a delicious meal ready in under 7 minutes.
                     Enjoy the taste of home-cooked goodness (without the hassle).
                   </p>
