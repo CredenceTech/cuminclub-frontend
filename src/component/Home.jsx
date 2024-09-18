@@ -126,6 +126,18 @@ const Home = () => {
     };
   }, [dragging]);
 
+  const handleSpinClick = () => {
+    // Simulate a 360-degree rotation on button click
+    setRotation((prevRotation) => {
+      const newRotation = prevRotation + 360; // Rotate by 360 degrees
+
+      // Update the selected product based on rotation
+      const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+      setSelecteRandomPro(apiResponse[selectedIndex]);
+
+      return newRotation;
+    });
+  };
 
   // console.log(userId)
 
@@ -496,7 +508,7 @@ const Home = () => {
         />
         <button
           onClick={handlePrevClick}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
           aria-label="Previous Slide"
         >
           <svg
@@ -515,7 +527,7 @@ const Home = () => {
 
         <button
           onClick={handleNextClick}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
           aria-label="Next Slide"
         >
           <svg
@@ -531,6 +543,7 @@ const Home = () => {
             <path d="M9 18l6-6-6-6" />
           </svg>
         </button>
+
 
         <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] z-[1000]' : ''} w-full justify-between items-center relative`} >
           <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
@@ -1079,9 +1092,10 @@ const Home = () => {
               <div className='relative right-[-28px] top-[70px] z-[-1] mt-2'>
                 <div
                   className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-5 bg-[#EFE9DA]'
+                  onClick={handleSpinClick}
                 >
                   <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
-                  <button className="text-[#B25220] text-[28px] font-[500] leading-[40px] font-regola-pro">
+                  <button className="text-[#B25220] text-[28px] font-[500] leading-[40px] font-regola-pro" >
                     {`spin >>`}
                   </button>
                 </div>
