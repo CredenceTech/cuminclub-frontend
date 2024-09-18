@@ -734,7 +734,7 @@ const Home = () => {
               </svg>
 
               <div className="rounded-full absolute left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
-                <span style={{ fontSize: 10 }}>
+                <span style={{ fontSize: 15 }} className="font-[500] font-futura">
                   {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
               </div>
