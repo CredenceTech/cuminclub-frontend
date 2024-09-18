@@ -271,7 +271,7 @@ const Header = () => {
                 <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative text-[#231F20]  `}>
                   LEARN
                 </NavigationMenu.Trigger>
-                <NavigationMenu.Content  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]">
+                <NavigationMenu.Content  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]">
                   <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
                       {learnMenuData.map((menuItem, index) => (
                         <div
