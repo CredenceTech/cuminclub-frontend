@@ -472,62 +472,65 @@ const Home = () => {
 
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA]`}>
-      <div className="w-full relative md:h-[522px]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `url(${bannerData[currentIndex].image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            transition: 'background-image 1s ease-in-out',
-            zIndex: 0,
-          }}
-        />
+      <div className="w-full relative md:h-[522px] overflow-hidden">
+        {bannerData.map((data, index) => (
+          <img
+            key={index}
+            src={data.image}
+            alt={`Banner ${index}`}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${currentIndex === index ? 'opacity-100' : 'opacity-0'
+              }`}
+            style={{
+              zIndex: currentIndex === index ? 2 : 1,
+            }}
+          />
+        ))}
+
         <div
           className="absolute inset-0"
           style={{
             background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%)',
             transition: 'background 1s ease-in-out',
-            zIndex: 1,
+            zIndex: 3,
           }}
         />
-       <button
-  onClick={handlePrevClick}
-  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
-  aria-label="Previous Slide"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-[50px] w-[50px]"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M15 18l-6-6 6-6" />
-  </svg>
-</button>
+        <button
+          onClick={handlePrevClick}
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
+          aria-label="Previous Slide"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-[50px] w-[50px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
 
-<button
-  onClick={handleNextClick}
-  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
-  aria-label="Next Slide"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-[50px] w-[50px]"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M9 18l6-6-6-6" />
-  </svg>
-</button>
+        <button
+          onClick={handleNextClick}
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
+          aria-label="Next Slide"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-[50px] w-[50px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
 
         <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] z-[1000]' : ''} w-full justify-between items-center relative`} >
           <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
@@ -719,8 +722,7 @@ const Home = () => {
 
               <div className="rounded-full absolute left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
                 <span style={{ fontSize: 10 }}>
-                  {cartDatas !== null ? totalQuantity(cartResponse) : 0}/
-                  {selectedMealData.no}
+                  {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
               </div>
             </button>
@@ -1196,19 +1198,18 @@ const Home = () => {
 
 
 
-      <div className="relative bg-no-repeat bg-center h-[691px] w-full"
-        style={{
-          backgroundImage: `url(${currentData?.image})`,
-          transition: "background-image 1s ease-in-out",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: 0
-        }}>
+      <div className="relative bg-center h-[691px] w-full">
+        <img
+          src={currentData?.image}
+          alt="Banner"
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out"
+          style={{ opacity: currentData ? 1 : 0, zIndex: 0 }}
+        />
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
-            transition: "background 1s ease-in-out",
+            background:
+              "linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
             zIndex: 1,
           }}
         />
