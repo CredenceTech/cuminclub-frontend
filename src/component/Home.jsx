@@ -48,7 +48,6 @@ import headerMenu2 from "../assets/header-menu2.png"
 import headerMenu3 from "../assets/header-menu3.png"
 import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
-import readyToEatImg from "../assets/middle1-image1.png"
 
 const Home = () => {
 
@@ -128,7 +127,7 @@ const Home = () => {
   }, [dragging]);
 
 
-  console.log(userId)
+  // console.log(userId)
 
   useEffect(() => {
     if (cartData !== null) {
@@ -392,17 +391,43 @@ const Home = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    // Function to start autoplay
+    const startAutoplay = () => {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) =>
+          prevIndex === bannerData.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000);
+    };
+    startAutoplay();
+    return () => clearInterval(intervalRef.current);
+  }, [bannerData.length]);
+
+  const prevIndex = (currentIndex - 1 + bannerData.length) % bannerData.length;
+  const nextIndex = (currentIndex + 1) % bannerData.length;
+
+  const handlePrevClick = () => {
+    clearInterval(intervalRef.current);
+    setCurrentIndex(prevIndex);
+    intervalRef.current = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex === bannerData.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
+  };
 
-    return () => clearInterval(interval);
-  }, [bannerData.length]);
-
+  const handleNextClick = () => {
+    clearInterval(intervalRef.current);
+    setCurrentIndex(nextIndex);
+    intervalRef.current = setInterval(() => {
+      setCurrentIndex((prevIndex) =>
+        prevIndex === bannerData.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+  };
 
   const headerMenuData = [
     {
@@ -452,20 +477,58 @@ const Home = () => {
           className="absolute inset-0"
           style={{
             backgroundImage: `url(${bannerData[currentIndex].image})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            transition: "background-image 1s ease-in-out",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            transition: 'background-image 1s ease-in-out',
             zIndex: 0,
           }}
         />
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%)",
-            transition: "background 1s ease-in-out",
+            background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%)',
+            transition: 'background 1s ease-in-out',
             zIndex: 1,
           }}
         />
+       <button
+  onClick={handlePrevClick}
+  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
+  aria-label="Previous Slide"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-[50px] w-[50px]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M15 18l-6-6 6-6" />
+  </svg>
+</button>
+
+<button
+  onClick={handleNextClick}
+  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20"
+  aria-label="Next Slide"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-[50px] w-[50px]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M9 18l6-6-6-6" />
+  </svg>
+</button>
+
         <div className={`flex ${showHeaderMain ? 'bg-[#EADEC1] z-[1000]' : ''} w-full justify-between items-center relative`} >
           <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
             <NavigationMenu.Root className="NavigationMenuRoot">
