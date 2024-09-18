@@ -25,6 +25,12 @@ import {
   registerUserId,
 } from "../state/user";
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
+import headerMenu1 from "../assets/header-menu1.png"
+import headerMenu2 from "../assets/header-menu2.png"
+import headerMenu3 from "../assets/header-menu3.png"
+import headerMenu4 from "../assets/header-menu4.png"
+import headerMenu5 from "../assets/header-menu5.png"
+
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -43,6 +49,48 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = location;
   const [showHeaderMain, setShowHeaderMain] = React.useState(false);
+
+  const headerMenuData = [
+    {
+      image: headerMenu1,
+      title: "All Menu"
+    },
+    {
+      image: headerMenu2,
+      title: "Ready to Eat"
+    },
+    {
+      image: headerMenu3,
+      title: "Ready to Cook"
+    },
+    {
+      image: headerMenu4,
+      title: "Bulk"
+    },
+    {
+      image: headerMenu5,
+      title: "Made for Subscription"
+    }
+  ]
+
+  const learnMenuData = [
+    {
+      title: "About us"
+    },
+    {
+      title: "How it works"
+    },
+    {
+      title: "Facility"
+    },
+    {
+      title: "Team"
+    },
+    {
+      title: "Sustainability"
+    }
+  ]
+
 
   console.log(userId)
 
@@ -134,7 +182,7 @@ const Header = () => {
       <div
         className={`flex w-full justify-between font-sans bg-[#EADEC1] items-center ${pathname === '/recipes' ? 'fixed' : 'fixed'}  z-50 px-10 py-8`}
       >
-        <div className="hidden lg:flex gap-3 text-lg font-sans flex-1">
+        <div className="hidden lg:flex gap-3 text-[18px] font-[600] font-regola-pro leading-[21.6px] flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot">
             <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
               <NavigationMenu.Item>
@@ -142,10 +190,45 @@ const Header = () => {
                   onMouseEnter={() => setShowHeaderMain(true)}
                   // onMouseLeave={() => setShowHeaderMain(false)}
                   onClick={() => { setShowHeaderMain(true) }}
-                  className={`NavigationMenuTrigger text-lg pr-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                  className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] pr-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
                   OUR MENU
                 </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="NavigationMenuContent left-0 right-0 absolute top-[70px] bg-[#26965C] z-[5000]  w-[100vw] h-[80vh]">
+                <NavigationMenu.Content
+                    onMouseLeave={() => setShowHeaderMain(false)}
+                    className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                  >
+                    <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                      {headerMenuData.map((menuItem, index) => (
+                        <div
+                          key={index}
+                          className="relative group cursor-pointer"
+                          onClick={() => {
+                            if (index === 0) {
+                              onMenuClick();
+                            }
+                          }}
+                        >
+                          <img
+                            src={menuItem.image}
+                            alt={menuItem.title}
+                            className="w-full h-full object-cover" 
+                          />
+                          <div
+                            className="absolute inset-0 group-hover:opacity-90 transition duration-300"
+                            style={{
+                              background:
+                                "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
+                            }}
+                          >
+                            <span className="absolute top-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mt-[20px] ml-2">
+                              {menuItem.title}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </NavigationMenu.Content>
+                {/* <NavigationMenu.Content className="NavigationMenuContent left-0 right-0 absolute top-[70px] bg-[#26965C] z-[5000]  w-[100vw] h-[80vh]">
                   <div className="grid grid-cols-2 lg:grid-cols-3  gap-4 md:gap-10">
                     <div onClick={onMenuClick} className="w-full flex  justify-center items-center relative group  cursor-pointer px-7 my-9 border-r-2 border-r-[#fbae36] ">
                       <img src={menu1} alt="" className="h-[60vh] shadow-[5px_5px_0_0_rgb(251,174,54)] transition-shadow duration-300 ease-in-out hover:shadow-[10px_10px_0_0_rgb(251,174,54)] rounded-xl" />
@@ -182,12 +265,32 @@ const Header = () => {
 
                     </div>
                   </div>
-                </NavigationMenu.Content>
+                </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-lg px-4 whitespace-nowrap relative text-[#231F20]  `}>
+                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative text-[#231F20]  `}>
                   LEARN
                 </NavigationMenu.Trigger>
+                <NavigationMenu.Content  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]">
+                  <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                      {learnMenuData.map((menuItem, index) => (
+                        <div
+                          key={index}
+                          className="relative group cursor-pointer bg-[#D9D9D9] h-[330px] w-[250px]"
+                          onClick={() => {
+                            if (index === 0) {
+                              // onMenuClick();
+                            }
+                          }}
+                        > 
+                           <span className="absolute bottom-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
+                              {menuItem.title}
+                            </span>
+                        
+                        </div>
+                      ))}
+                    </div>
+                  </NavigationMenu.Content>
                 {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
                     <div className="">
                       <h1>Anukas adjasd;p9erhj</h1>
@@ -195,7 +298,7 @@ const Header = () => {
                   </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-lg whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
                   RECIPES
                 </NavigationMenu.Trigger>
 
