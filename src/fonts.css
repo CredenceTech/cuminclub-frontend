@@ -21,7 +21,7 @@
 
 @font-face {
   font-family: 'RegulaPro';
-  src: url('/public/Regola\ Pro\ Book.otf') format('opentype');
+  src: url('/Regola\ Pro\ Book.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
