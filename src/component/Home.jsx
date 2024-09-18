@@ -541,7 +541,7 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
+                    className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#CE3E27]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content
@@ -582,7 +582,7 @@ const Home = () => {
 
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     LEARN
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]">
@@ -607,7 +607,7 @@ const Home = () => {
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-[600] font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-[500] font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#000000]'} `}>
                     RECIPES
                   </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
