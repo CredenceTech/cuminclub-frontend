@@ -940,7 +940,7 @@ const Home = () => {
                     className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                   >
                     <img
-                      src={pavbhajiImg}
+                      src={item?.node?.featuredImage?.url}
                       alt=""
                       className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
                       style={{
@@ -1124,7 +1124,7 @@ const Home = () => {
                   <img
                     src={selecteRandomPro?.node?.featuredImage?.url}
                     alt=""
-                    className='lg:h-[660px] rounded-full h-[250px]'
+                    className='lg:h-[660px] h-[250px]'
                     draggable={false}
                   />
                 </motion.div>
