@@ -30,24 +30,24 @@ const Recipes = () => {
 
     return (
         <div className='relative'>
-            <div className='bg-[#C75801]'>
+            <div className='bg-[#C75801] h-[445px]'>
                 <div className='grid grid-cols-2 lg:grid-cols-3'>
-                    <div className=" col-span-2 md:col-span-1 pl-[40px]">
+                    <div className=" col-span-2 md:col-span-1 pl-[60px]">
                         <p className='text-[#FFFFFF] pt-4 font-regola-pro font-[300] text-[16px]'>{"Recipes > Biryani burrito"}</p>
-                        <img src={BiryaniBurrito} className='pb-[200px] pt-4' alt="" />
+                        <img src={BiryaniBurrito} className='pb-[150px] h-auto w-[278px] pt-8' alt="" />
                         <div className='flex gap-5 pb-10'>
-                            <button className='px-4 rounded py-2 bg-[#EADEC1] text-base text-[#C75801]' type='button'>Download PDF</button>
-                            <button className='px-4 rounded py-2 bg-[#EADEC1] text-base text-[#C75801]' type='button'>Share Recipe</button>
+                            <button className='px-4 rounded py-2 bg-[#EADEC1] text-base font-regola-pro font-[400] text-[#C75801]' type='button'>Download PDF</button>
+                            <button className='px-4 rounded py-2 w-[140px] bg-[#EADEC1] text-base font-regola-pro font-[400] text-[#C75801]' type='button'>Share Recipe </button>
                         </div>
                     </div>
                     <div className='col-span-1 lg:col-span-2 hidden md:flex'>
-                        <img src={ladingImage} className='h-full w-full' alt="" />
+                        <img src={ladingImage} className='h-[445px] w-full' alt="" />
                     </div>
                 </div>
             </div>
             <div className='bg-[#FAFAFA]'>
                 <div className='grid grid-cols-3 sticky top-0 h-[61px] items-center bg-[#FAFAFA]'>
-                    <div className='col-span-1 pl-10 hidden md:flex gap-x-16 items-center'>
+                    <div className='col-span-1 pl-[64px] hidden md:flex gap-x-16 items-center'>
                         <div className=''>
                             <p className='text-[#757575] font-regola-pro text-[14px]'>Prep Time</p>
                             <p className='text-[#231F20] font-regola-pro text-[16px]'>10 mins</p>
@@ -68,8 +68,8 @@ const Recipes = () => {
                         </div>
                     </div>
                 </div>
-                <div className='2xl:container 2xl:mx-auto grid grid-cols-4 mt-8 2xl:pl-10'>
-                    <div className='col-span-4 pl-5 p-3 md:pl-10 2xl:pl-0 md:col-span-2'>
+                <div className=' grid grid-cols-4 mt-8 '>
+                    <div className='col-span-4 pl-5 p-3 md:pl-[64px] md:col-span-2'>
                         <p className='text-4xl mb-4 font-skillet'>Ingredients</p>
                         <ol className='lg:pr-28 pb-7'>
                             {items.map((item, index) => (
@@ -98,20 +98,20 @@ const Recipes = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-[#FFFFFF] pt-7'>
-                <div className='2xl:container 2xl:mx-auto'>
+            <div className='bg-[#FFFFFF] py-10'>
+                <div className=''>
                     <div className='flex md:flex-row flex-col-reverse justify-center items-start'>
                         <div className='flex md:w-1/2 justify-center items-center'>
                             <img src={sahipanir} alt="" className='w-auto h-[300px] md:h-[450px]' />
                         </div>
                         <div className='md:w-1/2 pl-6 md:pl-0'>
                             <h1 className='text-[#C75801] font-skillet text-4xl'>Make this recipe Instantly Yours</h1>
-                            <p className='text-[20px] font-[400] text-[#333333]'>Made with our </p>
+                            <p className='text-[20px] font-regola-pro font-[400] text-[#333333]'>Made with our </p>
                             <h1 className='text-[#333333] font-skillet text-5xl'>Shahi biryani kit</h1>
-                            <p className='pb-32 hidden text-[20px] font-[400] md:flex'>About the product</p>
-                            <div className='hidden md:flex gap-5 pb-8'>
-                                <button className='px-4 rounded py-1 bg-[#231F20] text-sm text-[#FFFFFF]' type='button'>Add to Cart</button>
-                                <button className='px-4 rounded py-1 bg-[#231F20] text-sm text-[#FFFFFF]' type='button'>Buy Now</button>
+                            <p className='pb-32 hidden text-[16px] font-regola-pro font-[400] md:flex'>About the product</p>
+                            <div className='hidden md:flex gap-x-2 pb-8'>
+                                <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>Add to Cart</button>
+                                <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>Buy Now</button>
                             </div>
                         </div>
                     </div>
