@@ -180,12 +180,12 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans bg-[#EADEC1] items-center ${pathname === '/recipes' ? 'absolute' : 'fixed'}  z-50 px-10 py-8`}
+        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans bg-[#EADEC1] items-center ${pathname.includes('recipes') ? 'absolute' : 'fixed'}  z-50 px-10 py-8`}
       >
         <div className="hidden lg:flex gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] flex-1">
-          <NavigationMenu.Root className="NavigationMenuRoot">
+          <NavigationMenu.Root className="NavigationMenuRoot ">
             <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
-              <NavigationMenu.Item>
+              <NavigationMenu.Item className="pl-4">
                 <NavigationMenu.Trigger
                   onMouseEnter={() => setShowHeaderMain(true)}
                   // onMouseLeave={() => setShowHeaderMain(false)}
