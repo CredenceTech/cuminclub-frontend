@@ -29,7 +29,7 @@ const Recipes = () => {
     ];
 
     return (
-        <div className='relative z-[51]'>
+        <div className='relative'>
             <div className='bg-[#C75801]'>
                 <div className='grid grid-cols-2 lg:grid-cols-3'>
                     <div className=" col-span-2 md:col-span-1 pl-[40px]">
