@@ -15,7 +15,7 @@ export const Footer = () => {
 
   return (
     <div className={`bg-[#333333] relative z-[100] ${pathname === '/' ? '-bottom-28' : '-bottom-28'}  `}>
-      <div className="mx-auto container flex flex-col md:flex-row justify-between px-8  py-10">
+      <div className="flex flex-col md:flex-row justify-between px-8  py-10">
         {/* <div className="flex items-center gap-2">
           <svg
             width="15"
@@ -39,7 +39,7 @@ export const Footer = () => {
           <Link to="/accessibility">Accessibility Statement</Link>
         </div> */}
         <div className="flex lg:flex-row flex-col  lg:pr-0 gap-y-4 md:gap-y-1">
-          <div className="lg:pr-20">
+          <div className="">
             <svg
               width="180"
               height="50"
@@ -104,12 +104,12 @@ export const Footer = () => {
             <p className="text-lg font-sans text-slate-900 ">READT TO EAT</p>
           </div> */}
         </div>
-        <div className="mt-10 md:mt-0">
-          <h2 className="text-xl font-futura text-[#FFFFFF]">Subscribe to our newsletter</h2>
+        <div className="mt-10 md:mt-0 mr-6">
+          <h2 className="text-[18px] font-regola-pro font-[400] text-[#FFFFFF]">Subscribe to our newsletter</h2>
           <div className="relative flex items-center">
             <input
               type="text"
-              className={`bg-[#333333] px-5 py-3 border-[1px] w-full border-[#A7A7A7] text-[#757575] rounded-lg text-3xl my-3 focus:outline-[#FFF] focus:ring-0 `}
+              className={`bg-[#333333] placeholder:text-[#757575] px-5 py-3 border-[1px] w-full border-[#A7A7A7] text-[#757575] rounded-lg text-3xl my-3 focus:outline-[#FFF] focus:ring-0 `}
               placeholder="Email ID"
             />
             <button type="button" className="rounded-full flex justify-center items-center absolute right-3 h-10 w-10 text-2xl bg-[#8686867f]" >
@@ -120,7 +120,7 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="mx-auto container flex flex-col-reverse md:flex-row justify-between mt-8 px-8 md:px-4 pb-10">
+      <div className="flex flex-col-reverse md:flex-row justify-between mt-8 px-8 md:px-16 pb-10">
         <div>
           <div className="flex gap-x-2  md:gap-x-6 mt-16 md:mt-0">
             <div>
@@ -133,7 +133,7 @@ export const Footer = () => {
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.849.07 1.366.062 2.633.347 3.608 1.323.975.975 1.261 2.241 1.323 3.608.058 1.265.069 1.645.069 4.849s-.012 3.584-.07 4.849c-.062 1.366-.347 2.633-1.323 3.608-.975.975-2.241 1.261-3.608 1.323-1.265.058-1.645.069-4.849.069s-3.584-.012-4.849-.07c-1.366-.062-2.633-.347-3.608-1.323-.975-.975-1.261-2.241-1.323-3.608-.058-1.265-.069-1.645-.069-4.849s.012-3.584.07-4.849c.062-1.366.347-2.633 1.323-3.608.975-.975 2.241-1.261 3.608-1.323 1.265-.057 1.645-.068 4.849-.068zm0-2.163c-3.259 0-3.667.014-4.947.072-1.384.062-2.632.354-3.637 1.359-1.005 1.005-1.297 2.253-1.359 3.637-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.062 1.384.354 2.632 1.359 3.637 1.005 1.005 2.253 1.297 3.637 1.359 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.384-.062 2.632-.354 3.637-1.359 1.005-1.005 1.297-2.253 1.359-3.637.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.062-1.384-.354-2.632-1.359-3.637-1.005-1.005-2.253-1.297-3.637-1.359-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.758-6.162 6.162s2.758 6.162 6.162 6.162 6.162-2.758 6.162-6.162-2.758-6.162-6.162-6.162zm0 10.162c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.441s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.441-1.441-1.441z" /></svg>
             </div>
           </div>
-          <p className="text-[#FFFFFF] text-lg mt-4 font-sans">© IY FOODS PVT. LTD.</p>
+          <p className="text-[#FFFFFF] text-[14px] font-[300] mt-4 font-regola-pro">© IY EASY MEALS LLP</p>
         </div>
         <div>
           {/* <div className="flex flex-wrap gap-x-4 justify-between gap-y-2 md:text-md text-sm">
