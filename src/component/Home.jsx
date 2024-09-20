@@ -1104,8 +1104,14 @@ const Home = () => {
             <div className='flex relative z-10 justify-end items-center mt-10 lg:mt-5 lg:right-0 right-0 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
               <div className='relative right-[-38px] top-[70px] z-[-1] mt-2'>
                 <div
-                  className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#EFE9DA] w-[220px]'
+                  className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[220px]'
                   onClick={handleSpinClick}
+                  style={
+                    {
+                      boxShadow: "0px 4px 22.7px 0px #0000001F inset"
+
+                    }
+                  }
                 >
                   <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
                   <button className="text-[#B25220] text-[20px] md:text-[28px] font-[500] leading-[40px] font-regola-pro">
