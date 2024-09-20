@@ -297,3 +297,13 @@ body {
   transform: translateX(20px);
   opacity: 1;
 }
+
+
+
+.how-it-works-banner {
+  background-image: url('../src/assets/bannerHowItWorks.png');
+  /* height: 490px;
+  object-fit: fill;
+  width: 100%; */
+
+}
