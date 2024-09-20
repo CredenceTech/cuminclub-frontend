@@ -195,13 +195,13 @@ const Header = () => {
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content
                   onMouseLeave={() => setShowHeaderMain(false)}
-                  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]"
+                  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]"
                 >
                   <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
                     {headerMenuData.map((menuItem, index) => (
                       <div
                         key={index}
-                        className="relative group cursor-pointer"
+                        className="relative group cursor-pointer overflow-hidden"
                         onClick={() => {
                           if (index === 0) {
                             onMenuClick();
@@ -211,7 +211,7 @@ const Header = () => {
                         <img
                           src={menuItem.image}
                           alt={menuItem.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200"
                         />
                         <div
                           className="absolute inset-0 group-hover:opacity-90 transition duration-300"
@@ -271,7 +271,7 @@ const Header = () => {
                 <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative text-[#231F20]  `}>
                   LEARN
                 </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFA] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]">
+                <NavigationMenu.Content className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFABF] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]">
                   <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
                     {learnMenuData.map((menuItem, index) => (
                       <div
