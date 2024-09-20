@@ -21,7 +21,7 @@ const Rating = ({ rating, text }) => {
 
     return (
         <div className="flex flex-row">
-            {starElements} <span className='text-base pl-2 text-[#757575]'>{text}</span>
+            {starElements} <span className='text-[18px] font-[300] font-regola-pro pl-2 text-[#757575]'>{text}</span>
         </div>
     );
 }

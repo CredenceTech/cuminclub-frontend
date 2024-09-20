@@ -9,7 +9,7 @@ import detailrectange from "../assets/detailrectange.png"
 import food1 from '../assets/food1.png';
 import step1 from '../assets/recipeimages/step1.png'
 import pavbhajiImg from '../assets/pavbhaji.png'
-function ProductDetail() {
+function ReadyToEat() {
     const location = useLocation();
     const [apiProductResponse, setApiProductResponse] = useState(null)
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function ProductDetail() {
     const [dataRecommended, setDataRecommended] = useState(null);
     const [images, setImages] = useState([]);
     const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
-    const [productId, setProductId] = useState("gid://shopify/Product/8264167719138");
+    const [productId, setProductId] = useState("gid://shopify/Product/8264164016354");
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [apiResponse, setApiResponse] = useState(null);
@@ -79,7 +79,7 @@ function ProductDetail() {
                 const getProductDetail = async () => {
                     const response = await graphQLClient.request(getProductDetailQuery, {
                         // productId: location.state?.id || productId,
-                        productId: "gid://shopify/Product/8264167719138",
+                        productId: "gid://shopify/Product/8264164016354",
                     });
                     setData(response.product);
                     setImages(
@@ -159,12 +159,12 @@ function ProductDetail() {
         <div className='bg-white'>
             <div className="flex md:flex-row flex-col pb-10">
                 <div className="md:w-1/2 w-full relative my-10 md:pr-7 gap-x-5 flex items-center">
-                    <div className='relative -left-16 w-4/6'>
-                        {/* <div className='relative -left-16  '> */}
+                    {/* <div className='relative -left-16 w-4/6'> */}
+                    <div className='relative -left-16  '>
                         <img
-                            src={recipreDetails}
-                            // src={data?.images?.edges[0]?.node?.src}
-                            // className="h-[588px] w-[553px]"
+                            // src={recipreDetails}
+                            src={data?.images?.edges[0]?.node?.src}
+                            className="h-[588px] w-[553px]"
                             alt={`carousel-`}
                         />
                     </div>
@@ -198,7 +198,7 @@ function ProductDetail() {
                             {data?.title}
                         </h1>
                         <div className='flex items-center'>
-                            <button type='button' className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] bg-[#FBAE36] rounded-lg text-[#333333]'>DIY COOKING KIT</button>
+                            <button type='button' className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] bg-[#FEB14E] rounded-lg text-[#333333]'>Heat & Eat</button>
                             <div className="flex ml-4">
                                 <Rating rating={4} text={"200 Reviews"} />
                             </div>
@@ -266,7 +266,7 @@ function ProductDetail() {
             </div>
             {/* step section */}
             <section>
-                <div className="bg-[#EB7E01] grid grid-cols-6 pt-10">
+                <div className="bg-[#FEB14E] grid grid-cols-6 pt-10">
                     <div className="col-span-6 md:col-span-1 pl-20 text-[#FFFFFF]">
                         <h2 className="text-5xl font-skillet font-semibold mb-4">Steps</h2>
                         <p className="text-[18px] font-[600] leading-[23px] font-regola-pro ">
@@ -348,30 +348,29 @@ function ProductDetail() {
                     </div> */}
                 </div>
             </section>
-            <div className='p-10'>
-                <div className="relative bg-cover bg-no-repeat 2xl:h-[700px] bg-custom-image-middle1  rounded-lg flex flex-col justify-center p-10">
+            {/* <div className='p-10'>
+                <div className="relative bg-cover bg-center bg-no-repeat 2xl:h-[700px] bg-custom-image-middle1  rounded-lg flex flex-col justify-center p-10">
                     <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
                     <div className="relative z-10">
-                        <h2 className="text-[36px] leading-[43px] font-[400] font-inter l text-[#FAFAFA] mb-4 sm:text-2xl">Recipe</h2>
-                        <div className="w-full md:max-w-[550px]">
-                            <p className="text-[16px] leading-[19px] text-[#CECECE] font-[400] font-inter " >
+                        <h2 className="text-4xl text-[#FAFAFA] mb-4 sm:text-2xl">Recipe</h2>
+                        <div className="w-full md:w-1/2">
+                            <p className="text-lg text-[#CECECE] font-normal font-sans " >
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
                             </p>
                         </div>
-                        <button className="bg-white text-black mt-4 w-[155px] text-center py-2 rounded">Learn More</button>
+                        <button className="bg-white text-black mt-4 py-2 px-6 rounded">Learn More</button>
                         <div className='flex gap-3 mt-44 pr-4'>
-                            {/* next button */}
+                            
                             <button type='button' className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
                                 &#8592;
                             </button>
-                            {/* prev button */}
                             <button type='button' className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
                                 &#8594;
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
 
             <div className="py-16 md:px-[51px]">
                 <div className="">
@@ -467,4 +466,4 @@ function ProductDetail() {
     )
 }
 
-export default ProductDetail
+export default ReadyToEat
