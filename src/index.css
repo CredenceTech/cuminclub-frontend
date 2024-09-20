@@ -259,10 +259,12 @@ body {
 }
 
 .text-content {
-  transition: transform 0.1s ease, opacity 0.1s ease;
   display: inline-block;
   position: relative;
   z-index: 1;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .shadow-text {
@@ -270,15 +272,16 @@ body {
   left: 0;
   top: 100%;
   opacity: 0;
-  color:#333333;
-  transition: transform 0.1s ease, opacity 0.1s ease;
+  color: #333333;
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .arrow-icon {
   margin-left: 8px;
+  transform: translateX(0);
+  opacity: 1;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
-
 
 .link:hover .text-content {
   transform: translateY(-20px);
@@ -291,6 +294,6 @@ body {
 }
 
 .link:hover .arrow-icon {
-  transform: translateX(10px);
+  transform: translateX(20px);
   opacity: 1;
 }
