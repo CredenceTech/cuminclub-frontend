@@ -262,9 +262,27 @@ const Home = () => {
     }
   };
 
-  const onMenuClick = () => {
-    navigate('/products')
-  }
+  const onMenuClick = (index) => {
+    if (index === 0) {
+      navigate('/products');
+    } else if (index === 1) {
+      navigate('/ready-to-eat');
+    } else if (index === 2) {
+      navigate('/ready-to-cook');
+    } else {
+      navigate('/');
+    }
+  };
+
+  const onLearnClick = (index) => {
+    if (index === 0) {
+      navigate('/aboutus');
+    } else if (index === 2) {
+      navigate('/facilities');
+    } else {
+      navigate('/');
+    }
+  };
 
   function setFilterData(country) {
     const list = [];
@@ -566,11 +584,7 @@ const Home = () => {
                         <div
                           key={index}
                           className="relative group cursor-pointer overflow-hidden"
-                          onClick={() => {
-                            if (index === 0) {
-                              onMenuClick();
-                            }
-                          }}
+                          onClick={() => onMenuClick(index)}
                         >
                           <img
                             src={menuItem.image}
@@ -604,11 +618,7 @@ const Home = () => {
                         <div
                           key={index}
                           className="relative group cursor-pointer bg-[#D9D9D9] h-[330px] w-[250px]"
-                          onClick={() => {
-                            if (index === 0) {
-                              // onMenuClick();
-                            }
-                          }}
+                          onClick={() => onLearnClick(index)}
                         >
                           <span className="absolute bottom-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
                             {menuItem.title}
