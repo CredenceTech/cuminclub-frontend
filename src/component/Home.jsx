@@ -502,7 +502,7 @@ const Home = () => {
 
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA]`}>
-      <div className="w-full relative md:h-[522px] overflow-hidden">
+      <div className="w-full relative md:h-[522px]">
         {bannerData.map((data, index) => (
           <img
             key={index}
@@ -878,7 +878,10 @@ const Home = () => {
         {isCartOpen && <CartDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
           <div className="h-[200px] ml-10">
-            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] leading-[44.4px] ${currentIndex == 0 ? 'text-[#333333]' : 'text-white'} text-left `}>
+            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] leading-[44.4px] ${currentIndex === 0 ? 'text-[#333333]'
+              : currentIndex === 2 ? 'text-[#dfdfdf]'
+                : 'text-white'
+              } text-left `}>
               {bannerData[currentIndex].title}
             </h1>
             <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#606060]' : 'text-[#DFDFDF]'}`}>
@@ -1098,15 +1101,15 @@ const Home = () => {
                 Give it a Spin!
               </p>
             </div>
-            <div className='flex relative z-10 justify-end items-center mt-10 lg:mt-5 lg:right-[-180px] right-[0px] lg:pt-7'>
+            <div className='flex relative z-10 justify-end items-center mt-10 lg:mt-5 lg:right-0 right-0 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
               <div className='relative right-[-38px] top-[70px] z-[-1] mt-2'>
                 <div
                   className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#EFE9DA] w-[220px]'
                   onClick={handleSpinClick}
                 >
                   <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
-                  <button className="text-[#B25220] text-[28px] font-[500] leading-[40px] font-regola-pro" >
-                    {`spin >>`}
+                  <button className="text-[#B25220] text-[20px] md:text-[28px] font-[500] leading-[40px] font-regola-pro">
+                    {`Spin >>`}
                   </button>
                 </div>
                 <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[24px] mt-4 max-w-[190px] font-[600] leading-[30px] font-regola-pro'>
@@ -1122,6 +1125,7 @@ const Home = () => {
                   Add to cart
                 </button>
               </div>
+
               <AnimatePresence>
                 <motion.div
                   ref={imgRef}
