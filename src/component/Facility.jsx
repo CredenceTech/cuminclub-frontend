@@ -14,6 +14,7 @@ import testingFacilityImg from '../assets/testing-facility.png'
 import testingLabImg from '../assets/testing-lab.png'
 import kettleFacilityImg from '../assets/kettle-facility.png'
 import processingStepsImg from '../assets/processing-steps.png'
+import { AnimatePresence, motion } from "framer-motion";
 
 
 const Facility = () => {
@@ -29,6 +30,11 @@ const Facility = () => {
   const handleNextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % sliderImageData.length);
   };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % sliderImageData.length);
+  };
+
 
   const handlePrevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + sliderImageData.length) % sliderImageData.length);
@@ -82,9 +88,12 @@ const Facility = () => {
       text: 'From brainstorming to the final product, we cook food you’ll come back to again and again.'
     }
   ]
+
+  const previousIndex = currentIndex === 0 ? sliderImageData.length - 1 : currentIndex - 1;
+
   return (
     <div className='bg-white'>
-      <div className='p-8'>
+      <div className='p-8 lg:p-[60px]'>
         <div className="w-full flex flex-col md:flex-row justify-between items-start">
           <div className="text-left mb-4 md:mb-0">
             <h1 className="font-regola-pro text-[18px] md:text-[24px] font-normal leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
@@ -110,7 +119,7 @@ const Facility = () => {
         </div>
       </div>
 
-      <div className="p-8 flex flex-wrap md:flex-nowrap">
+      <div className="p-8 lg:p-[60px] flex flex-wrap md:flex-nowrap">
         <div className="w-full md:w-1/2 relative mapBackgrounImage rounded-[14px] mb-4 md:mb-0 md:mr-2 bg-no-repeat bg-cover bg-center h-[300px] md:h-auto">
           <div className="absolute bottom-4 left-4 flex flex-col items-start">
             <p className="font-inter text-[16px] md:text-[36px] font-normal leading-[28.8px] md:leading-[43.57px] text-[#333333]">
@@ -168,7 +177,7 @@ const Facility = () => {
 
 
 
-      <div className='p-8'>
+      <div className='p-8 lg:p-[60px]'>
         <div className="relative w-full h-[500px]">
           {videoLoaded ? (
             <iframe
@@ -208,7 +217,7 @@ const Facility = () => {
         </div>
       </div>
 
-      <div className="p-8">
+      <div className=" pl-8 lg:pl-[60px] pr-0">
         {/* Header Section */}
         <div className="flex items-center mb-3">
           <p className="mr-2 font-regola-pro text-[26px] md:text-[36px] leading-[30px] md:leading-[43.2px] font-[500]">
@@ -232,33 +241,59 @@ const Facility = () => {
 
         {/* Slider Section */}
         <div className="relative flex items-center w-full overflow-hidden  pt-2">
-          <div className="slider-wrapper relative w-full overflow-hidden">
-            <div
-              className="slider-track flex transition-transform duration-500"
-              style={{ transform: `translateX(-${currentIndex * 80}%)` }}
-            >
-              {sliderImageData.map((image, index) => (
+          <div className="w-full mb-4  flex lg:mb-0">
+            <div className="w-full flex gap-x-7">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+                className='w-5/6'
+              >
                 <div
-                  key={index}
-                  className="slider-slide flex-shrink-0 w-[80%] relative mr-10 md:mr-40"
+                  className="slider-slide flex-shrink-0 relative mr-5"
                 >
                   <img
-                    src={image.image}
+                    src={sliderImageData[currentIndex].image}
                     alt="sliding image"
                     className="w-full h-[300px] md:h-[500px] object-cover mr-20"
                   />
                   <div className="absolute font-[400] bottom-4 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] p-4 w-[90%] md:w-[70%]">
-                    {image.text}
+                    {sliderImageData[currentIndex].text}
                   </div>
                 </div>
-              ))}
+              </motion.div>
+              <motion.div
+                key={previousIndex}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.3 }}
+                className='w-1/6  relative overflow-hidden'
+              >
+                <div className="w-[530%]  relative -left-[10%] overflow-hidden">
+                  <div
+                    className="slider-slide flex-shrink-0 relative mr-10 md:mr-40"
+                  >
+                    <img
+                      src={sliderImageData[previousIndex].image}
+                      alt="sliding image"
+                      className="w-full h-[300px] md:h-[500px] object-cover bg-left"
+                    />
+                    <div className="absolute font-[400] bottom-4 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] p-4">
+                      {sliderImageData[previousIndex].text}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
 
           {/* Next Button */}
           <div
             className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer z-20 w-[40px] h-[40px] md:w-[57px] md:h-[57px] bg-[#FFFFFF] flex items-center justify-center"
-            onClick={handleNextSlide}
+            onClick={handleNext}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -277,9 +312,7 @@ const Facility = () => {
           </div>
         </div>
       </div>
-
-
-      <div className='pl-8 pt-8 pb-8 flex flex-wrap md:flex-nowrap'>
+      <div className='pl-8 pt-8 pb-8 lg:pl-[60px] flex flex-wrap md:flex-nowrap'>
         <div className="w-full md:w-2/3 mr-0 md:mr-6">
           <div className="flex flex-col text-left mb-8">
             <h1 className="text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro">
@@ -330,14 +363,10 @@ const Facility = () => {
         </div>
 
         <div className='w-full md:w-1/3 mt-8 md:mt-0 h-[200px] md:h-auto bg-[#D9D9D9] rounded-tl-[8px] rounded-bl-[8px]'>
-
         </div>
       </div>
 
-
-
-
-      <div className='p-8'>
+      <div className='p-8 lg:p-[60px]'>
         <div className='w-full text-left'>
           <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro'>
             Peek Inside Our World-Class Facilities
@@ -362,7 +391,7 @@ const Facility = () => {
 
 
 
-      <div className='p-8'>
+      <div className='p-8 lg:p-[60px]'>
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           As Certified By:
         </h1>
@@ -385,7 +414,7 @@ const Facility = () => {
 
 
 
-      <div className='p-8'>
+      <div className='p-8 lg:p-[60px]'>
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           Machineries We are Proud of →
         </h1>
@@ -398,9 +427,9 @@ const Facility = () => {
               <img
                 src={item.image}
                 alt={item.title}
-                className='w-full h-auto object-cover'
+                className="w-full h-auto object-cover"
               />
-              <div className='mt-4'>
+              <div className='mt-4 relative'>
                 <h2 className='text-[20px] md:text-[26px] font-[400] leading-[24px] md:leading-[31.2px] text-[#000000] font-regola-pro'>
                   {item.title}
                 </h2>
@@ -413,10 +442,7 @@ const Facility = () => {
         </div>
       </div>
 
-
-
-
-      <div className='p-8'>
+      <div className='p-8 lg:p-[60px]'>
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           Retort Processing
         </h1>

@@ -27,6 +27,7 @@ import AboutUs from "./component/AboutUs"
 import RecipeList from "./pages/RecipeList";
 import ProductDetails from "./pages/ProductDetail";
 import ReadyToEat from "./pages/ReadyToEat";
+import { HowItWorks } from "./pages/HowItWorks";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
             <Route path="*" element={<Home />} />
             <Route path="/ready-to-cook" element={<ProductDetails />} />
             <Route path="/ready-to-eat" element={<ReadyToEat />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
           </Routes>
         </div>
         <Footer />
