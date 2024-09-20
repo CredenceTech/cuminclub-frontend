@@ -26,6 +26,7 @@ import Facility from "./component/Facility"
 import AboutUs from "./component/AboutUs"
 import RecipeList from "./pages/RecipeList";
 import ProductDetails from "./pages/ProductDetail";
+import ReadyToEat from "./pages/ReadyToEat";
 
 function App() {
   return (
@@ -59,7 +60,8 @@ function App() {
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="/facilities" element={<Facility />} />
             <Route path="*" element={<Home />} />
-            <Route path="/productDetail2" element={<ProductDetails />} />
+            <Route path="/ready-to-cook" element={<ProductDetails />} />
+            <Route path="/ready-to-eat" element={<ReadyToEat />} />
           </Routes>
         </div>
         <Footer />
