@@ -38,7 +38,7 @@ function App() {
       >
         <ScrollToTop />
         <Header />
-        <div className={`relative min-h-[82vh] top-28  `}>
+        <div className={`relative min-h-[82vh] top-[100px]  `}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

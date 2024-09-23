@@ -832,7 +832,7 @@ const Product = () => {
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div
-              className="mt-4 container mx-auto"
+              className="container mx-auto p-[60px]"
             // style={{
             //   height: "62vh",
             // }}
@@ -847,7 +847,7 @@ const Product = () => {
                     exit={{ y: -100, x: 100, opacity: 0 }}
                     transition={{ duration: 0.4 }}
                   >
-                    <div className="mt-10 ">
+                    <div className="">
                       {/* <div
                         ref={(ref) => (categoryTitleRefs.current[index] = ref)}
                         className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
@@ -858,7 +858,7 @@ const Product = () => {
                         key={category.node.title}
                         ref={productEdgesRef}
                         id={`product-edges-${category.node.title}`}
-                        className="container mx-auto grid grid-cols-2 lg:grid-cols-3 mt-10 gap-4 md:gap-10"
+                        className="container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10"
                       >
                         {category.node.products.edges.map((product) => (
                           <>
@@ -872,11 +872,11 @@ const Product = () => {
                                 >
                                   <img src={product.node.featuredImage.url} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
                                   <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
-                                    <div className="p-4">
-                                      <button type="button" className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold">CURRY</button>
+                                    <div className="p-5">
+                                      <button type="button" className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 rounded-[10px] py-1 font-futuraBold font-[800]">CURRY</button>
                                     </div>
-                                    <div className="px-3 md:pl-8 pb-4">
-                                      <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">{product.node.title}</p>
+                                    <div className="px-5 pb-5">
+                                      <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-4">{product.node.title}</p>
                                       <div className="flex flex-col md:flex-row md:gap-4">
                                         <button type="button" onClick={() =>
                                           handleAddToCart(
@@ -884,8 +884,8 @@ const Product = () => {
                                             product.node.sellingPlanGroups?.edges[0]?.node
                                               ?.sellingPlans?.edges[0]?.node?.id
                                           )
-                                        } className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold">ADD TO CART</button>
-                                        <button type="button" className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold">BUY NOW</button>
+                                        } className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg py-1 font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
+                                        <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg py-1 font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
                                       </div>
                                     </div>
                                   </div>

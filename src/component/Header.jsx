@@ -199,7 +199,7 @@ const Header = () => {
   return (
     <div>
       <div
-        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans bg-[#EADEC1] items-center ${pathname.includes('recipes') ? 'absolute' : 'fixed'}  z-50 px-10 py-8`}
+        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans bg-[#EADEC1] items-center ${pathname.includes('recipes') ? 'absolute' : 'fixed'}  z-50 px-10 py-6`}
       >
         <div className="hidden lg:flex gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot ">
@@ -321,7 +321,7 @@ const Header = () => {
           <Link to="/">
             <svg
               width="143"
-              height="50"
+              height="55"
               viewBox="0 0 143 64"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
