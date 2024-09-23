@@ -15,7 +15,8 @@ import testingLabImg from '../assets/testing-lab.png'
 import kettleFacilityImg from '../assets/kettle-facility.png'
 import processingStepsImg from '../assets/processing-steps.png'
 import { AnimatePresence, motion } from "framer-motion";
-
+import slidingImage2 from '../assets/facility-sliding2.png'
+import slidingImage3 from '../assets/facility-sliding3.png'
 
 const Facility = () => {
 
@@ -80,12 +81,12 @@ const Facility = () => {
       text: 'Our chefs are constantly experimenting and coming up with fresh ideas that turn everyday meals into something special.'
     },
     {
-      image: slidingImage,
+      image: slidingImage2,
       text: 'From brainstorming to the final product, we cook food you’ll come back to again and again.'
     },
     {
-      image: slidingImage,
-      text: 'From brainstorming to the final product, we cook food you’ll come back to again and again.'
+      image: slidingImage3,
+      text: 'We use the process of retorting to keep food fresh for longer without losing flavour or texture.'
     }
   ]
 

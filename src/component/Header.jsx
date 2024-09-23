@@ -30,6 +30,7 @@ import headerMenu2 from "../assets/header-menu2.png"
 import headerMenu3 from "../assets/header-menu3.png"
 import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
+import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 
 
 const Header = () => {
@@ -49,7 +50,6 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = location;
   const [showHeaderMain, setShowHeaderMain] = React.useState(false);
-
   const headerMenuData = [
     {
       image: headerMenu1,
@@ -176,10 +176,16 @@ const Header = () => {
   const onMenuClick = (index) => {
     if (index === 0) {
       navigate('/products');
+      dispatch(subscribeClose());
     } else if (index === 1) {
       navigate('/ready-to-eat');
     } else if (index === 2) {
       navigate('/ready-to-cook');
+    } else if (index === 4) {
+      navigate('/products');
+      dispatch(subscribeOpen());
+    } else if (index === 3) {
+      navigate('/product-details');
     } else {
       navigate('/');
     }
@@ -188,10 +194,10 @@ const Header = () => {
   const onLearnClick = (index) => {
     if (index === 0) {
       navigate('/aboutus');
-    }else if (index === 1) {
+    } else if (index === 1) {
       navigate('/how-it-works');
-    } 
-     else if (index === 2) {
+    }
+    else if (index === 2) {
       navigate('/facilities');
     } else {
       navigate('/');
