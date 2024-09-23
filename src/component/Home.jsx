@@ -277,7 +277,10 @@ const Home = () => {
   const onLearnClick = (index) => {
     if (index === 0) {
       navigate('/aboutus');
-    } else if (index === 2) {
+    }else if (index === 1) {
+      navigate('/how-it-works');
+    } 
+     else if (index === 2) {
       navigate('/facilities');
     } else {
       navigate('/');

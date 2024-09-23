@@ -1,10 +1,37 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import banner from '../assets/bannerHowItWorks.png'
 import howitworks1 from '../assets/howitworks1.png'
 import imagefooter from '../assets/footer-image.png'
+import { AnimatePresence, motion } from "framer-motion";
 
 export const HowItWorks = () => {
     const swiperContainerRef = useRef(null);
+    const [data, setData] = useState(null);
+    const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
+
+    const toggleCategoryMeals = (id) => {
+        setOpenCategoryMeals(openCategoryMeals === id ? null : id);
+    };
+
+    const categoryVariants = {
+        open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
+        closed: {
+            borderBottomRightRadius: "0.375rem",
+            borderBottomLeftRadius: "0.375rem",
+        },
+    };
+
+    const getMetafieldData = (key, list) => {
+        let metaContent = "";
+        if (list) {
+            let findValue = list.find((x) => x.key === key);
+            if (findValue) {
+                metaContent = findValue.value;
+            }
+        }
+        return metaContent;
+    };
+
     const recipData = [
         {
             title: 'Busy Professionals',
@@ -66,9 +93,37 @@ export const HowItWorks = () => {
             });
         }
     };
+
+    const accordianData = [
+        {
+            title: "How do you keep your meals fresh without preservatives?",
+            description: getMetafieldData("How do you keep your meals fresh without preservatives?", data?.metafields),
+            id: 1,
+        },
+        {
+            title: "Are your meals truly preservative-free?",
+            description: getMetafieldData("Are your meals truly preservative-free?", data?.metafields),
+            id: 2,
+        },
+        {
+            title: "What’s the difference between your ready-to-eat and ready-to-cook meals?",
+            description: getMetafieldData("difference", data?.metafields),
+            id: 3,
+        },
+        {
+            title: " How long do the meals stay fresh?",
+            description: getMetafieldData(" How long do the meals stay fresh?", data?.metafields),
+            id: 4,
+        },
+        {
+            title: "How does your subscription service work?",
+            description: getMetafieldData("How does your subscription service work?", data?.metafields),
+            id: 5,
+        },
+    ];
+
     return (
         <div className='bg-white'>
-            {/* bannner section */}
             <div className='how-it-works-banner relative bg-cover h-[490px] bg-no-repeat' >
                 <div className='absolute bottom-0 w-full'>
                     <h1 className='text-[#FFFFFF] font-regola-pro text-center font-[500] text-[36px] leading-[43px]'>Effortless Meals, Made Fresh and Simple</h1>
@@ -94,8 +149,8 @@ export const HowItWorks = () => {
                                     <h1 className='font-[500] font-regola-pro leading-[115px] text-[96px] text-[#6B6B6B61]'>1</h1>
                                 </div>
                                 <div>
-                                    <h3 className='font-[400] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Pick Your Favourite</h3>
-                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575]'>Scroll through our menu and let your taste buds do the talking. From meals that are ready in a flash to dishes that make you feel like a chef, we’ve got plenty of options for both ready-to-eat and ready-to-cook lovers.</p>
+                                    <h3 className='font-[500] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Pick Your Favourite</h3>
+                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pt-3'>Scroll through our menu and let your taste buds do the talking. From meals that are ready in a flash to dishes that make you feel like a chef, we’ve got plenty of options for both ready-to-eat and ready-to-cook lovers.</p>
                                     <p className='font-[400] pt-5 font-regola-pro leading-[28px] text-[24px] text-[#757575]'>Take your time scrolling through, and when something catches your eye, go ahead and make it yours. Plus, you get to select your favourites and tweak your order just the way you like it.</p>
                                 </div>
                             </div>
@@ -111,8 +166,8 @@ export const HowItWorks = () => {
                                     <h1 className='font-[500] font-regola-pro leading-[115px] text-[96px] text-[#6B6B6B61]'>2</h1>
                                 </div>
                                 <div>
-                                    <h3 className='font-[400] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Delivered Right to You</h3>
-                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575]'>Once you’ve picked your favourites, we get busy in the kitchen. Every meal is prepared carefully and sent straight to your door.
+                                    <h3 className='font-[500] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Delivered Right to You</h3>
+                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pt-3'>Once you’ve picked your favourites, we get busy in the kitchen. Every meal is prepared carefully and sent straight to your door.
                                         We make sure everything stays in the best shape, so all you have to do is open your box and dig in when you're ready.</p>
                                 </div>
                             </div>
@@ -128,8 +183,8 @@ export const HowItWorks = () => {
                                     <h1 className='font-[500] font-regola-pro leading-[115px] text-[96px] text-[#6B6B6B61]'>3</h1>
                                 </div>
                                 <div>
-                                    <h3 className='font-[400] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Heat, Eat, Enjoy!</h3>
-                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575]'>Now for the fun part—time to enjoy! Got a ready-to-eat meal? Pop it in the microwave or stove (your choice), and in just a few minutes, you’re all set to enjoy a hot, satisfying meal without any fuss.</p>
+                                    <h3 className='font-[500] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Heat, Eat, Enjoy!</h3>
+                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pt-3'>Now for the fun part—time to enjoy! Got a ready-to-eat meal? Pop it in the microwave or stove (your choice), and in just a few minutes, you’re all set to enjoy a hot, satisfying meal without any fuss.</p>
                                     <p className='font-[400] pt-5 font-regola-pro leading-[28px] text-[24px] text-[#757575]'>If you’ve got a ready-to-cook dish, it’s just as simple—follow the steps written on the backside of the package and you’ll have a fresh, homemade-style meal on your plate in no time. Then, sit back, relax and savour every bite</p>
                                     <p className='font-[400] pt-5 font-regola-pro leading-[28px] text-[24px] text-[#757575]'>The best part? You’ve got more meals on the way, so you can keep the good times rolling, meal after meal.</p>
 
@@ -170,7 +225,7 @@ export const HowItWorks = () => {
                 </div>
             </div>
 
-            <div className='md:py-[60px] relative py-[30px] md:pl-[60px] pl-[30px]'>
+            <div className='md:py-[30px] relative py-[20px] md:pl-[60px] pl-[30px]'>
                 <div ref={swiperContainerRef} className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
                     {swiperDta?.map((item, i) => (
                         <div key={i} className="relative min-w-[247px] bg-[#C4C4C4] h-[400px] md:h-[569px] md:min-w-[347px]">
@@ -203,7 +258,7 @@ export const HowItWorks = () => {
                 </div>
             </div>
 
-            <div className="w-full p-[120px] flex justify-center items-center">
+            <div className="w-full pt-[60px] px-[120px] pb-[60px] flex justify-center items-center">
                 {/* Quotation Section */}
                 <div>
                     <div className="flex flex-col">
@@ -211,7 +266,7 @@ export const HowItWorks = () => {
                             <svg width="41" height="28" viewBox="0 0 41 28" className="absolute -top-5 -left-7 w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.314 0.431999L13.706 27.056H0.266L7.946 0.431999H18.314ZM40.714 0.431999L36.106 27.056H22.666L30.346 0.431999H40.714Z" fill="#757575" />
                             </svg>
-                            <p className="font-inter py-1 text-[24px] text-center font-[400] text-[#757575]">“At the end of the day, it’s about keeping things real. We rely on nature and tradition to make our meals taste great. No artificial preservatives, just clean and wholesome food you can feel good about.”
+                            <p className="font-regola-pro leading-[43.2px] py-1 text-[36px] text-center font-[400] text-[#333333]">“At the end of the day, it’s about keeping things real. We rely on nature and tradition to make our meals taste great. No artificial preservatives, just clean and wholesome food you can feel good about.”
                             </p>
                             <svg width="41" height="28" viewBox="0 0 41 28" fill="none" className="absolute -bottom-5 -right-9 w-8 h-8" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.686 27.568L27.294 0.944H40.734L33.054 27.568H22.686ZM0.285999 27.568L4.894 0.944H18.334L10.654 27.568H0.285999Z" fill="#757575" />
@@ -220,6 +275,59 @@ export const HowItWorks = () => {
                     </div>
                 </div>
             </div>
+
+
+            <div className='p-20 items-center justify-center text-center'>
+                <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43px] font-[500] mb-8 text-[#333333]'>Frequently Asked Questions</h1>
+                <div className="accordion-container m-2  text-[#333333]">
+                    {accordianData.map((item) => (
+                        <div key={item.id} className="border-b-2">
+                            <motion.button
+                                onClick={() => toggleCategoryMeals(item.id)}
+                                className="px-5 py-5 items-center justify-between flex w-full bg-[#F5F5F5] rounded-lg"
+                                variants={categoryVariants}
+                                initial="closed"
+                                animate={
+                                    openCategoryMeals === item.id ? "open" : "closed"
+                                }
+                                transition={{ duration: 0.3 }}
+                            >
+                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola text-[#333333]">{item.title}</span>
+                                <span>
+                                    <motion.svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        initial={{ rotate: 0 }}
+                                        animate={{
+                                            rotate: openCategoryMeals === item.id ? 180 : 0,
+                                        }}
+                                        transition={{ duration: 0.3 }}
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <motion.path d="M7.99961 9.5999L12.7996 14.3999L17.5996 9.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                    </motion.svg>
+                                </span>
+                            </motion.button>
+                            <AnimatePresence>
+                                {openCategoryMeals === item.id && (
+                                    <motion.div
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
+                                    >
+                                        <p className="pt-2 text-[18px] font-[400] font-regola text-[#393939]">
+                                            {item.description}
+                                        </p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
 
         </div>
     )
