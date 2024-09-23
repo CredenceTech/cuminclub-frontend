@@ -31,6 +31,7 @@ import food1 from '../assets/food1.png'
 import FilterButton from '../component/DropdownFilter';
 import productImage from '../assets/Dish-1.jpg';
 import { categoryrData } from "../state/selectedCategory";
+import { isSubscribe, subscribeClose, subscribeOpen, } from "../state/subscribeData";
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
@@ -49,11 +50,11 @@ const Product = () => {
   const [loading, setLoading] = useState({});
   const categoryTitleRefs = useRef([]);
   const [currentCategory, setCurrentCategory] = useState("");
-  const [selectedTab, setSelectedTab] = useState('BUY NOW');
   const [selectedValue, setSelectedValue] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const issubscribe = useSelector(isSubscribe);
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -547,22 +548,22 @@ const Product = () => {
         <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
           <div className="border-b-2 border-b-[#cfc19f]">
             <div className="container mx-auto flex flex-row justify-around pt-4">
-              <div onClick={() => { setSelectedTab('BUY NOW') }} className="px-16 relative cursor-pointer ">
+              <div onClick={() => { dispatch(subscribeClose()); }} className="px-16 relative cursor-pointer ">
                 <p className="text-base font-futuraBold lg:text-2xl py-3" >BUY NOW </p>
-                {selectedTab === 'BUY NOW' ? (
+                {!issubscribe ? (
                   <motion.div className="underlineHeader" layoutId="underline" />
                 ) : null}
               </div>
-              <div onClick={() => { setSelectedTab('SUBSCRIBE') }} className="px-16 relative cursor-pointer">
+              <div onClick={() => { dispatch(subscribeOpen()); }} className="px-16 relative cursor-pointer">
                 <p className="text-base font-futuraBold lg:text-2xl py-3">SUBSCRIBE </p>
-                {selectedTab === 'SUBSCRIBE' ? (
+                {issubscribe ? (
                   <motion.div className="underlineHeader" layoutId="underline" />
                 ) : null}
               </div>
             </div>
           </div>
 
-          {selectedTab === 'SUBSCRIBE' ?
+          {issubscribe ?
             <>
               <AnimatePresence mode="wait">
                 <motion.div

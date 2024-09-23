@@ -8,11 +8,11 @@ import product from './product';
 import user from './user';
 import selectedCountry from './selectedCountry';
 import selectedCategory from './selectedCategory';
-
+import subscribe from './subscribeData'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cartData', 'user', 'selectedCountry', 'mealData', 'selectedCategory'],
+  whitelist: ['cartData', 'user', 'selectedCountry', 'mealData', 'selectedCategory', 'subscribe'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
@@ -22,7 +22,8 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   product: product,
   user: user,
   selectedCountry: selectedCountry,
-  selectedCategory: selectedCategory
+  selectedCategory: selectedCategory,
+  subscribe: subscribe
 }));
 
 export const store = configureStore({
