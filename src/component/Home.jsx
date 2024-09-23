@@ -794,7 +794,7 @@ const Home = () => {
                 <div>
                   <svg
                     width="130"
-                    height="50"
+                    height="55"
                     viewBox="0 0 130 50"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
