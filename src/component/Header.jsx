@@ -185,7 +185,7 @@ const Header = () => {
       navigate('/products');
       dispatch(subscribeOpen());
     } else if (index === 3) {
-      navigate('/product-details');
+      navigate('/product-details', { state: { isBulk: true } });
     } else {
       navigate('/');
     }

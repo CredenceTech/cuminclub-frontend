@@ -22,6 +22,7 @@ function ProductDetail() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [apiResponse, setApiResponse] = useState(null);
+    const isBulk = location.state?.isBulk || false;
     // Array of image sources
     const imagess = [
         { src: step1, alt: 'Step-1' },
@@ -198,7 +199,7 @@ function ProductDetail() {
                             {data?.title}
                         </h1>
                         <div className='flex items-center'>
-                            <button type='button' className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] bg-[#FBAE36] rounded-lg text-[#333333]'>DIY COOKING KIT</button>
+                            <button type='button' className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] bg-[#FBAE36] rounded-lg text-[#333333]'>{isBulk ? "Bulk Packaging" : "DIY COOKING KIT"} </button>
                             <div className="flex ml-4">
                                 <Rating rating={4} text={"200 Reviews"} />
                             </div>
@@ -210,6 +211,9 @@ function ProductDetail() {
                         <p className="text-[24px] font-[400] font-regola leading-[28.8px] mt-3 pl-2 text-[#757575]">
                             {data?.description}
                         </p>
+
+                        {isBulk && <button className='w-[200px] ml-2 my-3 text-center bg-[#EB7E01] font-[600] leading-[25px] font-regola-pro py-2 rounded text-[22px] text-[#FFFFFF]' type='button'>Send Enquiry</button>
+                        }
                         <div className="accordion-container m-2  text-[#333333]">
                             {accordianData.map((item) => (
                                 <div key={item.id} className="mb-2">
@@ -257,10 +261,13 @@ function ProductDetail() {
                                 </div>
                             ))}
                         </div>
-                        <div className='flex pl-2 flex-row gap-x-5'>
+                        {!isBulk && <div className='flex pl-2 flex-row gap-x-5'>
                             <button className='px-8 py-2 bg-[#EDEDED] font-[600] leading-[25px] rounded text-[22px] text-[#EB7E01]' type='button'>Add to Cart</button>
                             <button className='px-8 py-2 bg-[#FEB14E] font-[600] leading-[25px] rounded text-[22px] text-[#FFFFFF]' type='button'>Subscribe</button>
-                        </div>
+                        </div>}
+                        {isBulk && <p className="text-[16px] font-[400] font-regola leading-[17.8px] mt-6 pl-2 text-[#393939]">
+                            *Suitable for vegetarians, No dairy ingredients useds
+                        </p>}
                     </div>
                 </div>
             </div>
@@ -348,7 +355,7 @@ function ProductDetail() {
                     </div> */}
                 </div>
             </section>
-            <div className='p-10'>
+            {!isBulk && <div className='p-10'>
                 <div className="relative bg-cover bg-no-repeat 2xl:h-[700px] bg-custom-image-middle1  rounded-lg flex flex-col justify-center p-10">
                     <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
                     <div className="relative z-10">
@@ -360,18 +367,16 @@ function ProductDetail() {
                         </div>
                         <button className="bg-white text-black mt-4 w-[155px] text-center py-2 rounded">Learn More</button>
                         <div className='flex gap-3 mt-44 pr-4'>
-                            {/* next button */}
                             <button type='button' className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
                                 &#8592;
                             </button>
-                            {/* prev button */}
                             <button type='button' className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
                                 &#8594;
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
             <div className="py-16 md:px-[51px]">
                 <div className="">
