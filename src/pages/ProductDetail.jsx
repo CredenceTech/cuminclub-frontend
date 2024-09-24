@@ -356,7 +356,7 @@ function ProductDetail() {
                 </div>
             </section>
             {!isBulk && <div className='p-10'>
-                <div className="relative bg-cover bg-no-repeat 2xl:h-[700px] bg-custom-image-middle1  rounded-lg flex flex-col justify-center p-10">
+                <div className="relative bg-cover bg-no-repeat 2xl:h-[560px] bg-custom-image-middle1  rounded-lg flex flex-col justify-center p-10">
                     <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
                     <div className="relative z-10">
                         <h2 className="text-[36px] leading-[43px] font-[400] font-inter l text-[#FAFAFA] mb-4 sm:text-2xl">Recipe</h2>
