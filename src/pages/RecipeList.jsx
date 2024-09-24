@@ -75,7 +75,7 @@ const RecipeList = () => {
         },
     ]
     return (
-        <div className='relative z-[51]'>
+        <div className='relative'>
             <div className="bg-[#FAFAFA]">
                 <div className="container mx-auto grid grid-cols-2 lg:grid-cols-3">
                     <div className="col-span-1 pl-6">
