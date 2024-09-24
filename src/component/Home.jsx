@@ -1240,7 +1240,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="relative bg-center h-[691px] w-full cursor-pointer" onClick={togglePause}>
+      <div className="relative bg-center h-[691px] w-full cursor-pointer mb-[-40px]" onClick={togglePause}>
         <img
           src={currentData?.image}
           alt="Banner"
@@ -1369,7 +1369,7 @@ const Home = () => {
       </div> */}
 
 
-      <div className='bg-[#EFE9DA] relative -bottom-28'>
+      <div className='bg-[#EFE9DA] relative -bottom-[124px]'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
           <div className="w-full lg:w-1/4 p-6 lg:p-14 text-section text-white flex flex-col justify-between">
