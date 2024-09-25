@@ -26,9 +26,9 @@ function ProductDetail() {
     // Array of image sources
     const imagess = [
         { src: step1, alt: 'Step-1' },
-        { src: food1, alt: 'Food-1' },
+        { src: step1, alt: 'Food-1' },
         { src: step1, alt: 'Step-2' },
-        { src: food1, alt: 'Food-2' },
+        { src: step1, alt: 'Food-2' },
     ];
     const previousIndex = currentIndex === 0 ? imagess.length - 1 : currentIndex - 1;
 
@@ -275,15 +275,15 @@ function ProductDetail() {
             <section>
                 <div className="bg-[#EB7E01] grid grid-cols-6 pt-10">
                     <div className="col-span-6 md:col-span-1 pl-20 text-[#FFFFFF]">
-                        <h2 className="text-5xl font-skillet font-semibold mb-4">Steps</h2>
+                        <h2 className="text-[48px] font-skillet font-[400 leading-[52px] mb-4">Steps</h2>
                         <p className="text-[18px] font-[600] leading-[23px] font-regola-pro ">
                             Perfect garnishes:
                         </p>
-                        <p className="text-[18px] font-[600] leading-[23px] font-regola-pro">
+                        <p className="text-[18px] font-[400] leading-[23px] font-regola-pro">
                             Fresh coriander leaves A swirl of cream A small piece of butter
                         </p>
                     </div>
-                    <div className="col-span-6 md:col-span-5 pl-4 pt-4">
+                    <div className="col-span-6 md:col-span-5 pl-3 pt-4">
                         <div className="w-full mb-4  flex lg:mb-0">
                             <div className="w-full flex gap-x-7">
                                 <motion.div
@@ -298,9 +298,9 @@ function ProductDetail() {
                                         className="w-full h-[505px] rounded-lg"
                                         src={imagess[currentIndex].src}
                                         alt={imagess[currentIndex].alt}
-                                    // style={{
-                                    //     transition: "background-image 1s ease-in-out"
-                                    // }}
+                                        style={{
+                                            transition: "background-image 1s ease-in-out"
+                                        }}
                                     />
                                 </motion.div>
                                 <motion.div
@@ -309,9 +309,9 @@ function ProductDetail() {
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: -100 }}
                                     transition={{ duration: 0.3 }}
-                                    className='w-1/6 h-[505px] relative overflow-hidden'
+                                    className='w-1/6 h-[505px] rounded-lg relative overflow-hidden'
                                 >
-                                    <div className="w-[230%] h-[505px] relative -left-[10%] overflow-hidden">
+                                    <div className="w-[430%] h-[505px] relative -left-[10%] overflow-hidden">
                                         <img
                                             className="w-full h-full rounded-lg"
                                             src={imagess[previousIndex].src}
@@ -321,23 +321,27 @@ function ProductDetail() {
                                 </motion.div>
                             </div>
                         </div>
-                        <div className='flex justify-between items-center pb-10'>
+                        <div className='flex justify-between '>
                             <div className="flex ">
-                                <h3 className="text-[105px] p-3 font-[500] font-regola-pro leading-[125px] opacity-50 text-[#FFFFFF] mb-4">1</h3>
+                                <h3 className="text-[104px] p-3 pr-8 font-[500] font-regola-pro leading-[125px] text-[#FFFFFF82] mb-4">1</h3>
                                 <p className="text-[24px] font-[500] leading-[31px] font-regola-pro w-5/6 pt-8 text-[#FFFFFF]">
                                     Melt 1 tablespoon of butter in a pan over high heat, add the spices
                                     from the Spice Pouch (small pouch), and sauté for 30 seconds or
                                     until fragrant.
                                 </p>
                             </div>
-                            <div className='flex gap-3 pr-4'>
+                            <div className='flex gap-3 pr-[60px] pt-[32px]'>
                                 {/* next button */}
-                                <button type='button' onClick={handlePrev} className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
-                                    &#8592;
+                                <button type='button' onClick={handlePrev} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
+                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="#636363" />
+                                    </svg>
                                 </button>
                                 {/* prev button */}
-                                <button type='button' onClick={handleNext} className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
-                                    &#8594;
+                                <button type='button' onClick={handleNext} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
+                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="#636363" />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
