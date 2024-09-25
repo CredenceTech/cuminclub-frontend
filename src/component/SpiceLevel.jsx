@@ -57,15 +57,15 @@ const SpiceLevel = () => {
 
     for (let i = 0; i < filledStars; i++) {
         starElements.push(
-            <div key={`filled-${i}`} className=" flex justify-center items-center h-16 w-16">
+            <div key={`filled-${i}`} className=" flex justify-center items-center h-[78px] w-[78px]">
                 <img src={images[i]} alt={`Image ${i}`} className='w-full h-full rounded' />
             </div>
         );
     }
     for (let i = 0; i < emptyStars; i++) {
         starElements.push(
-            <div key={`empty-${i}`} className="rounded border-dashed border-[#f1663c] border-[2px] flex justify-center items-center h-16 w-16">
-                <p className="text-lg font-medium text-[#EADEC1]">?</p>
+            <div key={`empty-${i}`} className="rounded border-dashed border-[#F1663C] border-[3px] flex justify-center items-center h-[78px] w-[78px]">
+                <p className="text-[30px] font-medium text-[#EADEC1]">?</p>
             </div>
         );
     }
