@@ -532,6 +532,62 @@ export const ReadyToCook = () => {
         },
         {
             id: 7,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 8,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 9,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 10,
+            isLong: true,
+            image: food1,
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 11,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 12,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 13,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 14,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 15,
             isLong: true,
             image: food1,
             description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
@@ -567,7 +623,264 @@ export const ReadyToCook = () => {
                 </div>
             </div>
 
-            <div className="p-[60px]">
+            <div className="p-[40px]">
+                <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -10, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                >
+                    <div className="container mx-auto grid grid-cols-2 lg:grid-cols-4 mt-10 gap-4 md:gap-10">
+                        {product?.map((item) => (
+                            <React.Fragment key={item?.id}>
+                                {item?.isLong ? (
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl">
+                                        <AnimatePresence mode="popLayout">
+                                            <motion.div
+                                                initial={{ y: 500, opacity: 0 }}
+                                                animate={{ y: 0, opacity: 1 }}
+                                                exit={{ y: -500, opacity: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <div className="relative">
+                                                    <img
+                                                        src={item?.image}
+                                                        alt="product"
+                                                        className="w-full h-[230px] rounded-t-3xl"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold"
+                                                    >
+                                                        LENTIL
+                                                    </button>
+                                                </div>
+                                                <div className="px-10 py-2">
+                                                    <div className="flex flex-row justify-between">
+                                                        <p className="text-base font-futuraBold uppercase lg:text-2xl">
+                                                            {item?.name}
+                                                        </p>
+                                                        <p className="text-base font-futuraBold lg:text-2xl">
+                                                            ₹ 99
+                                                        </p>
+                                                    </div>
+                                                    <p className="text-lg font-futura text-[#515151]">
+                                                        {item?.description}
+                                                    </p>
+                                                    <div className="flex gap-x-4 mt-1">
+                                                        <button
+                                                            type="button"
+                                                            className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold"
+                                                        >
+                                                            ADD TO CART
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                        >
+                                                            BUY NOW
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                ) : (
+                                    <div className="bg-[#EADEC1] relative rounded-3xl">
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                initial={{ y: 500, x: -500, opacity: 0 }}
+                                                animate={{ y: 0, x: 0, opacity: 1 }}
+                                                exit={{ y: -500, x: 500, opacity: 0 }}
+                                                transition={{ duration: 0.4 }}
+                                            >
+                                                <img
+                                                    src={item?.image}
+                                                    alt="product"
+                                                    className="w-full h-[250px] md:h-full rounded-t-3xl"
+                                                />
+                                                <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                                    <div className="p-4">
+                                                        <button
+                                                            type="button"
+                                                            className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                        >
+                                                            CURRY
+                                                        </button>
+                                                    </div>
+                                                    <div className="px-3 md:pl-8 pb-4">
+                                                        <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">
+                                                            {item?.name}
+                                                        </p>
+                                                        <div className="flex flex-col md:flex-row md:gap-4">
+                                                            <button
+                                                                type="button"
+                                                                className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                            >
+                                                                ADD TO CART
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                            >
+                                                                BUY NOW
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* <div className="p-[60px]">
+                {rawResonse?.collections?.edges?.map((category, index) => (
+                    <AnimatePresence mode="wait" key={category.node.title}>
+                        <motion.div
+                            initial={{ y: 100, x: -100, opacity: 0 }}
+                            animate={{ y: 0, x: 0, opacity: 1 }}
+                            exit={{ y: -100, x: 100, opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                        >
+                            <div
+                                ref={productEdgesRef}
+                                id={`product-edges-${category.node.title}`}
+                                className="mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8"
+                            >
+                                {category.node.products.edges.map((product, productIndex) => {
+                                    const isLong =
+                                        productIndex === 0 ||
+                                        ((productIndex - 1) % 12 === 0 && productIndex !== 1) ||
+                                        ((productIndex - 9) % 12 === 0);
+
+                                    return isLong ? (
+                                        <div className="col-span-2 bg-[#EADEC1] rounded-3xl " key={product.node.id}>
+                                            <AnimatePresence mode="popLayout">
+                                                <motion.div
+                                                    initial={{ y: 500, opacity: 0 }}
+                                                    animate={{ y: 0, opacity: 1 }}
+                                                    exit={{ y: -500, opacity: 0 }}
+                                                    transition={{ duration: 0.3 }}
+                                                >
+                                                    <div className="relative flex justify-center items-center">
+
+                                                        <img
+                                                            src={product.node.featuredImage.url}
+                                                            alt="product"
+                                                            className="md:w-[180px] md:h-[180px] mt-1"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold"
+                                                        >
+                                                            LENTIL
+                                                        </button>
+                                                    </div>
+                                                    <div className="px-10 py-3">
+                                                        <div className="flex flex-row justify-between">
+                                                            <p className="text-base font-futuraBold uppercase lg:text-2xl">
+                                                                {product.node.title}
+                                                            </p>
+                                                            <p className="text-base font-futuraBold lg:text-2xl">₹ 99</p>
+                                                        </div>
+                                                        <p className="text-[18px] leading-[20px] font-futura text-[#515151]">
+                                                            {product.node.description}
+                                                        </p>
+                                                        <div className="flex gap-x-4 mt-1">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    handleAddToCart(
+                                                                        product.node.variants.edges[0].node.id,
+                                                                        product.node.sellingPlanGroups?.edges[0]?.node
+                                                                            ?.sellingPlans?.edges[0]?.node?.id
+                                                                    )
+                                                                }
+                                                                className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold"
+                                                            >
+                                                                ADD TO CART
+                                                            </button>
+                                                            <button
+                                                                type="button"
+                                                                className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                            >
+                                                                BUY NOW
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            </AnimatePresence>
+                                        </div>
+                                    ) : (
+                                        // Normal Product Card Layout
+                                        <div key={product.node.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center">
+                                            <AnimatePresence mode="wait">
+                                                <motion.div
+                                                    initial={{ y: 500, x: -500, opacity: 0 }}
+                                                    animate={{ y: 0, x: 0, opacity: 1 }}
+                                                    exit={{ y: -500, x: 500, opacity: 0 }}
+                                                    transition={{ duration: 0.4 }}
+                                                >
+                                                    <img
+                                                        src={product.node.featuredImage.url}
+                                                        alt="product"
+                                                        className="w-full h-[250px] md:h-[300px] md:w-[300px] mt-2 ml-2"
+                                                    />
+                                                    <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                                        <div className="p-5">
+                                                            <button
+                                                                type="button"
+                                                                className="bg-[#279C66] text-[#FAFAFA] text-[16.36px] leading-[27.08px] px-3 rounded-[10px] py-1 font-futuraBold font-[800]"
+                                                            >
+                                                                CURRY
+                                                            </button>
+                                                        </div>
+                                                        <div className="px-5 pb-5">
+                                                            <p className="font-futuraBold text-[#FAFAFA] text-[22px] leading-[23.88px] uppercase mb-4">
+                                                                {product.node.title}
+                                                            </p>
+                                                            <div className="flex flex-col md:flex-row md:gap-4">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() =>
+                                                                        handleAddToCart(
+                                                                            product.node.variants.edges[0].node.id,
+                                                                            product.node.sellingPlanGroups?.edges[0]?.node
+                                                                                ?.sellingPlans?.edges[0]?.node?.id
+                                                                        )
+                                                                    }
+                                                                    className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg py-1 font-futuraBold text-[16px] font-[800] leading-[21.28px] text-left"
+                                                                >
+                                                                    ADD TO CART
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg py-1 font-futuraBold text-[16px] font-[800] leading-[21.28px] "
+                                                                >
+                                                                    BUY NOW
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            </AnimatePresence>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                ))}
+            </div> */}
+
+
+
+            {/* <div className="p-[60px]">
 
                 {rawResonse?.collections?.edges?.map((category, index) => (
 
@@ -626,7 +939,7 @@ export const ReadyToCook = () => {
                     </AnimatePresence>
                 ))}
 
-            </div>
+            </div> */}
 
         </div>
 
