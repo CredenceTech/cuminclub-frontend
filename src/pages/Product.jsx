@@ -29,9 +29,10 @@ import cardIcon from '../assets/cartnew.png';
 import { AnimatePresence, motion } from "framer-motion";
 import food1 from '../assets/food1.png'
 import FilterButton from '../component/DropdownFilter';
-import productImage from '../assets/Dish-1.jpg';
+import productImage from '../assets/Dish-11.png';
 import { categoryrData } from "../state/selectedCategory";
 import { isSubscribe, subscribeClose, subscribeOpen, } from "../state/subscribeData";
+import FrequencyDropDown from "../component/FrequencyDropDown";
 const Product = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
@@ -52,6 +53,7 @@ const Product = () => {
   const [currentCategory, setCurrentCategory] = useState("");
   const [selectedValue, setSelectedValue] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [frequentlyOpen, setFrequentlyOpen] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const issubscribe = useSelector(isSubscribe);
@@ -547,7 +549,7 @@ const Product = () => {
       {apiResponse ? (
         <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
           <div className="border-b-2 border-b-[#cfc19f]">
-            <div className="container mx-auto flex flex-row justify-around pt-4">
+            <div className="flex flex-row justify-around pt-6">
               <div onClick={() => { dispatch(subscribeClose()); }} className="px-16 relative cursor-pointer ">
                 <p className="text-base font-futuraBold lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]" >BUY NOW </p>
                 {!issubscribe ? (
@@ -575,8 +577,17 @@ const Product = () => {
                 >
                   <div className={`py-3 bg-[#FBAE36] w-full flex gap-x-4 lg:justify-between items-center h-[108px]`}>
                     <div className="ml-4 w-1/2 lg:ml-10 whitespace-nowrap">
-                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
-                      <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
+                      <div className="flex gap-x-6">
+                        <div>
+                          <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
+                          <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
+                        </div>
+                        <div >
+                          <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Frequency</h3>
+                          <FrequencyDropDown align="right" setDropdownOpen={setFrequentlyOpen} dropdownOpen={frequentlyOpen} />
+                        </div>
+                      </div>
+
                     </div>
                     <div className="flex  w-1/2 overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex-row items-center ">
                       <div className="flex flex-row items-center gap-x-2 mr-10">
@@ -1117,91 +1128,71 @@ const Product = () => {
       {
         showModel ?
           <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
-            <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-full md:w-[400px] bg-[#EADEC1] gap-2 h-full relative top-28 }`}>
-              <h1 className="text-3xl font-skillet pl-4 py-4">Review your monthly box</h1>
-              <div className="px-4 h-[65vh] pb-32 overflow-x-scroll">
-                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+            <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-full md:w-[500px] bg-[#EADEC1] gap-2 h-full relative top-[100px] }`}>
+              <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your monthly box</h1>
+              <div className="p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
+                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
                   <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
                     <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                      <h1 className='text-xl md:text-[16px] font-futuraBold font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
                     </div>
                   </div>
                   <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-futura font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
                   </div>
                 </div>
-                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
                   <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
                     <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                      <h1 className='text-xl md:text-[16px] font-futuraBold font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
                     </div>
                   </div>
                   <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-futura font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
                   </div>
                 </div>
-                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
                   <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
                     <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                      <h1 className='text-xl md:text-[16px] font-futuraBold font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
                     </div>
                   </div>
                   <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-futura font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
                   </div>
                 </div>
-                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
                   <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
                     <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                      <h1 className='text-xl md:text-[16px] font-futuraBold font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
                     </div>
                   </div>
                   <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-futura font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
                   </div>
                 </div>
-                <div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
+                <div className='flex  items-end justify-between pb-2 pt-1'>
                   <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
+                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
                     <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
+                      <h1 className='text-xl md:text-[16px] font-futuraBold font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
                     </div>
                   </div>
                   <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
-                  </div>
-                </div><div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
-                  </div>
-                </div><div className='flex  items-end justify-between py-3 border-b border-[#A3A3A3]'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[50px] w-[50px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-2xl font-skillet text-gray-900 '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-1 font-futura text-xl rounded-lg '>Remove</button>
+                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-futura font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
                   </div>
                 </div>
               </div>
-              <div className="fixed bottom-0 bg-[#EADEC1]  px-5 py-8 border-t border-t-black w-full md:w-[400px] z-[500] ">
+              <div className="fixed bottom-0 bg-[#EADEC1]  px-[40px] py-8 shadow-[0px_-3px_5px_#0000002E] w-full md:w-[500px] z-[500] ">
                 <div className="flex justify-between">
-                  <h1 className="text-2xl text-[#000000] font-skillet">₹510</h1>
+                  <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-futura text-[24.5px] leading-[32px]">₹</span>510</h1>
                   <div className="flex flex-col md:flex-row md:gap-4">
-                    <button type="button" className="bg-[#f1663ccc] text-gray-100 px-2 text-2xl rounded-lg  font-skillet">Add to cart</button>
-                    <button type="button" onClick={() => { setShowModel(false) }} className="bg-[#26965C] text-gray-100 px-2 text-2xl rounded-lg  font-skillet">Checkout</button>
+                    <button type="button" className="bg-[#f1663ccc] w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">Add to cart</button>
+                    <button type="button" onClick={() => { setShowModel(false) }} className="bg-[#000000E8] w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">Checkout</button>
                   </div>
                 </div>
 
