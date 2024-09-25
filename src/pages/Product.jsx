@@ -549,13 +549,13 @@ const Product = () => {
           <div className="border-b-2 border-b-[#cfc19f]">
             <div className="container mx-auto flex flex-row justify-around pt-4">
               <div onClick={() => { dispatch(subscribeClose()); }} className="px-16 relative cursor-pointer ">
-                <p className="text-base font-futuraBold lg:text-2xl py-3" >BUY NOW </p>
+                <p className="text-base font-futuraBold lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]" >BUY NOW </p>
                 {!issubscribe ? (
                   <motion.div className="underlineHeader" layoutId="underline" />
                 ) : null}
               </div>
               <div onClick={() => { dispatch(subscribeOpen()); }} className="px-16 relative cursor-pointer">
-                <p className="text-base font-futuraBold lg:text-2xl py-3">SUBSCRIBE </p>
+                <p className="text-base font-futuraBold lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]">SUBSCRIBE </p>
                 {issubscribe ? (
                   <motion.div className="underlineHeader" layoutId="underline" />
                 ) : null}
@@ -573,20 +573,20 @@ const Product = () => {
                   exit={{ y: -10, opacity: 0 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <div className={`py-2 bg-[#FBAE36] w-full flex gap-x-4 lg:justify-between items-center`}>
+                  <div className={`py-3 bg-[#FBAE36] w-full flex gap-x-4 lg:justify-between items-center h-[108px]`}>
                     <div className="ml-4 w-1/2 lg:ml-10 whitespace-nowrap">
-                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-3xl">Meal Package</h3>
+                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
                       <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
                     </div>
                     <div className="flex  w-1/2 overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide flex-row items-center ">
                       <div className="flex flex-row items-center gap-x-2 mr-10">
-                        <p className="text-[#231F20] font-skillet text-2xl">Fill your box 📦</p>
+                        <p className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Fill your box 📦</p>
                       </div>
                       <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
                         <SpiceLevel />
                       </div>
-                      <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-16 w-12">
-                        <img src={cardIcon} alt="" className="w-6 h-6" />
+                      <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-[78px] w-[55px]">
+                        <img src={cardIcon} alt="" className="w-8 h-8" />
                       </div>
 
 
