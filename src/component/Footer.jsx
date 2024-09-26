@@ -14,7 +14,7 @@ export const Footer = () => {
   const { pathname } = location;
 
   return (
-    <div className={`bg-[#333333] relative z-[100] ${pathname === '/' ? '-bottom-28' : '-bottom-28'}  `}>
+    <div className={`bg-[#333333] relative z-[100] ${pathname === '/' ? '-bottom-[100px]' : '-bottom-[100px]'}  `}>
       <div className="flex flex-col md:flex-row justify-between px-8  py-10">
         {/* <div className="flex items-center gap-2">
           <svg

@@ -3,7 +3,7 @@ import banner from '../assets/bannerHowItWorks.png'
 import howitworks1 from '../assets/howitworks1.png'
 import imagefooter from '../assets/footer-image.png'
 import { AnimatePresence, motion } from "framer-motion";
-
+import howitworks3 from '../assets/howitworks3.png'
 export const HowItWorks = () => {
     const swiperContainerRef = useRef(null);
     const [data, setData] = useState(null);
@@ -97,27 +97,27 @@ export const HowItWorks = () => {
     const accordianData = [
         {
             title: "How do you keep your meals fresh without preservatives?",
-            description: getMetafieldData("How do you keep your meals fresh without preservatives?", data?.metafields),
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!',
             id: 1,
         },
         {
             title: "Are your meals truly preservative-free?",
-            description: getMetafieldData("Are your meals truly preservative-free?", data?.metafields),
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
             id: 2,
         },
         {
             title: "What’s the difference between your ready-to-eat and ready-to-cook meals?",
-            description: getMetafieldData("difference", data?.metafields),
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
             id: 3,
         },
         {
             title: " How long do the meals stay fresh?",
-            description: getMetafieldData(" How long do the meals stay fresh?", data?.metafields),
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
             id: 4,
         },
         {
             title: "How does your subscription service work?",
-            description: getMetafieldData("How does your subscription service work?", data?.metafields),
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
             id: 5,
         },
     ];
@@ -126,15 +126,14 @@ export const HowItWorks = () => {
         <div className='bg-white'>
             <div className='how-it-works-banner relative bg-cover h-[490px] bg-no-repeat' >
                 <div className='absolute bottom-0 w-full'>
-                    <h1 className='text-[#FFFFFF] font-regola-pro text-center font-[500] text-[36px] leading-[43px]'>Effortless Meals, Made Fresh and Simple</h1>
-                    <p className='font-[400] pt-10 font-regola-pro leading-[28px] text-[24px] text-[#E7E7E7] text-center'>Enjoy fresh, wholesome meals without any hassle. Choose your favourites, get them delivered to your door </p>
-                    <p className='font-[400] pb-10 font-regola-pro leading-[28px] text-[24px] text-[#E7E7E7] text-center'>and savour the convenience—all in just a few easy steps.</p>
+                    <h1 className='text-[#FFFFFF] font-regola-pro text-center font-[500] text-[36px] leading-[43.2px]'>Effortless Meals, Made Fresh and Simple</h1>
+                    <p className='font-[400] px-[106px] pt-8 pb-10 font-regola-pro leading-[28.8px] text-[24px] text-[#E7E7E7] text-center'>Enjoy fresh, wholesome meals without any hassle. Choose your favourites, get them delivered to your door and savour the convenience—all in just a few easy steps. </p>
                 </div>
             </div>
             <div className='md:px-[60px] px-[30px]'>
-                <div className='pt-[60px]'>
-                    <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43px] font-[500] mb-4 text-[#333333]'>Our Simple Steps to Great Meals</h1>
-                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pb-14'>We believe good food should be simple, and so should the process of enjoying it. Instantly Yours makes it easy for you to get delicious, wholesome meals delivered straight to your door. Here’s how →</p>
+                <div className='pt-[70px] max-w-[1148px]'>
+                    <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-4 text-[#333333]'>Our Simple Steps to Great Meals</h1>
+                    <p className='font-[400] font-regola-pro leading-[28.8px] text-[24px] text-[#757575] pb-14'>We believe good food should be simple, and so should the process of enjoying it. Instantly Yours makes it easy for you to get delicious, wholesome meals delivered straight to your door. Here’s how →</p>
                 </div>
             </div>
             <div className='md:px-[60px] px-[30px]'>
@@ -142,32 +141,32 @@ export const HowItWorks = () => {
                     <div className="col-span-1 ">
                         <div className='flex flex-col'>
                             <div>
-                                <img src={howitworks1} alt="" />
+                                <img src={howitworks1} alt="" className='h-[345px]' />
                             </div>
-                            <div className='flex'>
+                            <div className='flex pt-3'>
                                 <div className='px-4'>
-                                    <h1 className='font-[500] font-regola-pro leading-[115px] text-[96px] text-[#6B6B6B61]'>1</h1>
+                                    <h1 className='font-[500] font-regola-pro leading-[115.2px] text-[96px] text-[#6B6B6B61]'>1</h1>
                                 </div>
                                 <div>
-                                    <h3 className='font-[500] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Pick Your Favourite</h3>
+                                    <h3 className='font-[500] font-regola-pro leading-[43.2px] py-4 text-[36px] text-[#333333]'>Pick Your Favourite</h3>
                                     <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pt-3'>Scroll through our menu and let your taste buds do the talking. From meals that are ready in a flash to dishes that make you feel like a chef, we’ve got plenty of options for both ready-to-eat and ready-to-cook lovers.</p>
-                                    <p className='font-[400] pt-5 font-regola-pro leading-[28px] text-[24px] text-[#757575]'>Take your time scrolling through, and when something catches your eye, go ahead and make it yours. Plus, you get to select your favourites and tweak your order just the way you like it.</p>
+                                    <p className='font-[400] pt-5 font-regola-pro leading-[28.8px] text-[24px] text-[#757575]'>Take your time scrolling through, and when something catches your eye, go ahead and make it yours. Plus, you get to select your favourites and tweak your order just the way you like it.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="col-span-1 ">
                         <div className='flex flex-col'>
-                            <div className='w-full'>
-                                <img src='https://placehold.co/623x345' alt="" className='w-full' />
+                            <div className='w-full bg-[#E7E7E7]'>
+                                <img src='https://placehold.co/623x345' alt="" className='w-full h-[345px]' />
                             </div>
-                            <div className='flex'>
+                            <div className='flex pt-3'>
                                 <div className='px-4'>
-                                    <h1 className='font-[500] font-regola-pro leading-[115px] text-[96px] text-[#6B6B6B61]'>2</h1>
+                                    <h1 className='font-[500] font-regola-pro leading-[115.2px] text-[96px] text-[#6B6B6B61]'>2</h1>
                                 </div>
                                 <div>
-                                    <h3 className='font-[500] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Delivered Right to You</h3>
-                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pt-3'>Once you’ve picked your favourites, we get busy in the kitchen. Every meal is prepared carefully and sent straight to your door.
+                                    <h3 className='font-[500] font-regola-pro leading-[43.2px] py-4 text-[36px] text-[#333333]'>Delivered Right to You</h3>
+                                    <p className='font-[400] font-regola-pro leading-[28.8px] text-[24px] text-[#757575] pt-3'>Once you’ve picked your favourites, we get busy in the kitchen. Every meal is prepared carefully and sent straight to your door.
                                         We make sure everything stays in the best shape, so all you have to do is open your box and dig in when you're ready.</p>
                                 </div>
                             </div>
@@ -175,18 +174,18 @@ export const HowItWorks = () => {
                     </div>
                     <div className="col-span-2">
                         <div className='flex flex-col'>
-                            <div>
-                                <img src={banner} alt="" />
+                            <div className='w-full'>
+                                <img src={howitworks3} alt="" className='w-full h-[634px]' />
                             </div>
-                            <div className='flex pr-10 pb-9'>
+                            <div className='flex pb-[50px] pt-3'>
                                 <div className='px-4'>
-                                    <h1 className='font-[500] font-regola-pro leading-[115px] text-[96px] text-[#6B6B6B61]'>3</h1>
+                                    <h1 className='font-[500] font-regola-pro leading-[115.2px] text-[96px] text-[#6B6B6B61]'>3</h1>
                                 </div>
-                                <div>
-                                    <h3 className='font-[500] font-regola-pro leading-[43px] py-4 text-[36px] text-[#333333]'>Heat, Eat, Enjoy!</h3>
-                                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pt-3'>Now for the fun part—time to enjoy! Got a ready-to-eat meal? Pop it in the microwave or stove (your choice), and in just a few minutes, you’re all set to enjoy a hot, satisfying meal without any fuss.</p>
-                                    <p className='font-[400] pt-5 font-regola-pro leading-[28px] text-[24px] text-[#757575]'>If you’ve got a ready-to-cook dish, it’s just as simple—follow the steps written on the backside of the package and you’ll have a fresh, homemade-style meal on your plate in no time. Then, sit back, relax and savour every bite</p>
-                                    <p className='font-[400] pt-5 font-regola-pro leading-[28px] text-[24px] text-[#757575]'>The best part? You’ve got more meals on the way, so you can keep the good times rolling, meal after meal.</p>
+                                <div className='max-w-[1166px]'>
+                                    <h3 className='font-[500] font-regola-pro leading-[43.2px] py-4 text-[36px] text-[#333333]'>Heat, Eat, Enjoy!</h3>
+                                    <p className='font-[400] font-regola-pro leading-[28.8px] text-[24px] text-[#757575] pt-3'>Now for the fun part—time to enjoy! Got a ready-to-eat meal? Pop it in the microwave or stove (your choice), and in just a few minutes, you’re all set to enjoy a hot, satisfying meal without any fuss.</p>
+                                    <p className='font-[400] pt-5 font-regola-pro leading-[28.8px] text-[24px] text-[#757575]'>If you’ve got a ready-to-cook dish, it’s just as simple—follow the steps written on the backside of the package and you’ll have a fresh, homemade-style meal on your plate in no time. Then, sit back, relax and savour every bite</p>
+                                    <p className='font-[400] pt-5 font-regola-pro leading-[28.8px] text-[24px] text-[#757575]'>The best part? You’ve got more meals on the way, so you can keep the good times rolling, meal after meal.</p>
 
                                 </div>
                             </div>
@@ -194,23 +193,23 @@ export const HowItWorks = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-[#F2F2F2] md:py-[60px] py-[30px] md:pl-[60px] pl-[30px] relative'>
+            <div className='bg-[#F2F2F2] md:py-[88px] py-[30px] md:pl-[88px] pl-[30px] relative'>
                 <div className="relative flex flex-col lg:flex-row">
                     <div className="w-full lg:w-1/4 text-section text-white flex flex-col justify-between">
-                        <div>
-                            <h2 className="text-[20px] md:text-[36px] font-regola-pro leading-[43px] font-[500] mb-4 text-[#333333]">
+                        <div className=''>
+                            <h2 className="text-[20px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] text-[#333333]">
                                 Who’s This For?
                             </h2>
-                            <p className="font-[400] text-[24px] leading-[28px] text-[#757575] mt-4 font-regola-pro">Our meals are for anyone who values great food without the hassle.</p>
+                            <p className="font-[400] max-w-[294px] text-[24px] leading-[28.8px] text-[#757575] mt-1 font-regola-pro">Our meals are for anyone who values great food without the hassle.</p>
                         </div>
                     </div>
                     <div className="w-full lg:min-w-3/4 ml-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
                         {recipData?.map((item, i) => (
                             <div key={i} className="relative min-w-[250px] bg-[#C4C4C4] h-[300px] md:h-[362px] md:min-w-[280px]">
                                 <div className="absolute inset-0 bottom-0 z-10 bg-gradient-to-b from-[#00000073]  to-[#00000000]"></div>
-                                <div className="absolute bottom-0 font-regola-pro z-20 left-0  whitespace-normal px-4 pb-8">
+                                <div className="absolute bottom-0 font-regola-pro z-20 left-0  whitespace-normal p-[23px] ">
                                     <h2 className='font-[500] mb-4 text-[#FFFFFF] text-[21.75px] font-regola-pro leading-[26.1px]'> {item?.title}</h2>
-                                    <p className='font-[300] text-[#FFFFFF] text-[18px] font-regola-pro leading-[21px]'> {item?.desc}</p>
+                                    <p className='font-[300] text-[#FFFFFF] text-[18px] font-regola-pro leading-[21.6px]'> {item?.desc}</p>
                                 </div>
                             </div>
                         ))}
@@ -220,25 +219,25 @@ export const HowItWorks = () => {
 
             <div className='md:px-[60px] px-[30px]'>
                 <div className='pt-[60px]'>
-                    <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43px] font-[500] mb-4 text-[#333333]'>How Do We Guarantee Fresh and Preservative-Free Meals?</h1>
-                    <p className='font-[400] font-regola-pro leading-[28px] text-[24px] text-[#757575] pb-14'>We believe that real food doesn’t need any artificial help to stay fresh. Here’s how we do it →</p>
+                    <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-4 text-[#333333]'>How Do We Guarantee Fresh and Preservative-Free Meals?</h1>
+                    <p className='font-[400] font-regola-pro leading-[28.8px] text-[24px] text-[#757575] pb-14'>We believe that real food doesn’t need any artificial help to stay fresh. Here’s how we do it →</p>
                 </div>
             </div>
 
-            <div className='md:py-[30px] relative py-[20px] md:pl-[60px] pl-[30px]'>
+            <div className='md:py-[30px] relative pt-[20px] md:pl-[60px] pl-[30px]'>
                 <div ref={swiperContainerRef} className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
                     {swiperDta?.map((item, i) => (
                         <div key={i} className="relative min-w-[247px] bg-[#C4C4C4] h-[400px] md:h-[569px] md:min-w-[347px]">
-                            <div className="absolute bottom-0 font-regola-pro z-20 left-0  whitespace-normal px-4 pb-8">
-                                <h2 className='font-[400] mb-5 text-[#000000] text-[26px] font-regola-pro leading-[31px]'> {item?.title}</h2>
-                                <p className='font-[400] text-[#757575] text-[16px] font-regola-pro leading-[19px]'> {item?.desc}</p>
+                            <div className="absolute bottom-0 font-regola-pro z-20 left-0  whitespace-normal p-4 pr-8">
+                                <h2 className='font-[400] mb-5 text-[#000000] text-[26px] font-regola-pro leading-[31.2px]'> {item?.title}</h2>
+                                <p className='font-[400] text-[#757575] text-[16px] font-regola-pro leading-[19.2px]'> {item?.desc}</p>
                             </div>
                         </div>
                     ))}
                 </div>
                 {/* next btn */}
                 <div
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer z-20 w-[40px] h-[40px] md:w-[57px] md:h-[57px] bg-[#FFFFFF] flex items-center justify-center"
+                    className="absolute right-8 top-1/2 transform -translate-y-1/2 cursor-pointer z-20 w-[40px] h-[40px] md:w-[57px] md:h-[57px] bg-[#FFFFFF] flex items-center justify-center"
                     onClick={handleNextClick}
                 >
                     <svg
@@ -258,17 +257,17 @@ export const HowItWorks = () => {
                 </div>
             </div>
 
-            <div className="w-full pt-[60px] px-[120px] pb-[60px] flex justify-center items-center">
+            <div className="w-full pt-[60px] px-[180px] pb-[60px] flex justify-center items-center">
                 {/* Quotation Section */}
                 <div>
                     <div className="flex flex-col">
                         <div className="relative">
-                            <svg width="41" height="28" viewBox="0 0 41 28" className="absolute -top-5 -left-7 w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="41" height="28" viewBox="0 0 41 28" className="absolute -top-5 -left-8 w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.314 0.431999L13.706 27.056H0.266L7.946 0.431999H18.314ZM40.714 0.431999L36.106 27.056H22.666L30.346 0.431999H40.714Z" fill="#757575" />
                             </svg>
                             <p className="font-regola-pro leading-[43.2px] py-1 text-[36px] text-center font-[400] text-[#333333]">“At the end of the day, it’s about keeping things real. We rely on nature and tradition to make our meals taste great. No artificial preservatives, just clean and wholesome food you can feel good about.”
                             </p>
-                            <svg width="41" height="28" viewBox="0 0 41 28" fill="none" className="absolute -bottom-5 -right-9 w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="41" height="28" viewBox="0 0 41 28" fill="none" className="absolute -bottom-4 -right-9 w-8 h-8" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.686 27.568L27.294 0.944H40.734L33.054 27.568H22.686ZM0.285999 27.568L4.894 0.944H18.334L10.654 27.568H0.285999Z" fill="#757575" />
                             </svg>
                         </div>
@@ -277,8 +276,8 @@ export const HowItWorks = () => {
             </div>
 
 
-            <div className='p-20 items-center justify-center text-center'>
-                <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43px] font-[500] mb-8 text-[#333333]'>Frequently Asked Questions</h1>
+            <div className='p-[112px] items-center justify-center text-center'>
+                <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-8 text-[#333333]'>Frequently Asked Questions</h1>
                 <div className="accordion-container m-2  text-[#333333]">
                     {accordianData.map((item) => (
                         <div key={item.id} className="border-b-2">

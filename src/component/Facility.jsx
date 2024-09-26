@@ -42,6 +42,7 @@ const Facility = () => {
   };
 
   const certifiedCompanyData = [fassaiImage, fdaImg, smetaImg, spiceBoardImg, apedaImg, brecsImg]
+
   const facilityAvailableData = [
     {
       image: reportTrayImg,
@@ -92,6 +93,7 @@ const Facility = () => {
 
   const previousIndex = currentIndex === 0 ? sliderImageData.length - 1 : currentIndex - 1;
 
+
   return (
     <div className='bg-white'>
       <div className='p-8 lg:p-[60px]'>
@@ -108,7 +110,7 @@ const Facility = () => {
             <span className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[20px] md:leading-[28.8px] text-left text-[#333333]">
               Enquire for business
             </span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 19 14" fill="none" className="ml-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 19 14" fill="none" className="ml-4">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5338 0.141846L18.3918 6.99985L11.5338 13.8579L9.74245 12.0665L13.5425 8.26652H0.133789V5.73318H13.5425L9.74245 1.93318L11.5338 0.141846Z" fill="#1D1929" />
             </svg>
           </button>
@@ -120,15 +122,15 @@ const Facility = () => {
         </div>
       </div>
 
-      <div className="p-8 lg:p-[60px] flex flex-wrap md:flex-nowrap">
-        <div className="w-full md:w-1/2 relative mapBackgrounImage rounded-[14px] mb-4 md:mb-0 md:mr-2 bg-no-repeat bg-cover bg-center h-[300px] md:h-auto">
+      <div className="p-8 lg:px-[60px] lg:pt-[40px] flex flex-wrap md:flex-nowrap">
+        <div className="w-full md:w-1/2 relative mapBackgrounImage rounded-[14px] mb-4 md:mb-0 md:mr-6 bg-no-repeat bg-cover bg-center h-[300px] md:h-auto">
           <div className="absolute bottom-4 left-4 flex flex-col items-start">
             <p className="font-inter text-[16px] md:text-[36px] font-normal leading-[28.8px] md:leading-[43.57px] text-[#333333]">
               Surat, Gujarat
             </p>
           </div>
 
-          <div className="absolute bottom-4 right-4 flex items-center cursor-pointer">
+          <div className="absolute bottom-4 right-10 flex items-center cursor-pointer">
             <button className="flex items-center bg-[#94949491] rounded-[8px] px-4 py-2">
               <span className="text-[14px] md:text-[18px] font-regola-pro leading-[18px] md:leading-[21.6px] text-[#FAFAFA]">
                 Get Directions
@@ -282,7 +284,7 @@ const Facility = () => {
                       alt="sliding image"
                       className="w-full h-[300px] md:h-[500px] object-cover bg-left"
                     />
-                    <div className="absolute font-[400] bottom-4 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] p-4">
+                    <div className="absolute font-[400] bottom-4 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] py-4 pl-10">
                       {sliderImageData[previousIndex].text}
                     </div>
                   </div>
@@ -313,13 +315,13 @@ const Facility = () => {
           </div>
         </div>
       </div>
-      <div className='pl-8 pt-8 pb-8 lg:pl-[60px] flex flex-wrap md:flex-nowrap'>
+      <div className='pl-8 pt-[120px] pb-[60px] lg:pl-[60px] flex flex-wrap md:flex-nowrap'>
         <div className="w-full md:w-2/3 mr-0 md:mr-6">
-          <div className="flex flex-col text-left mb-8">
+          <div className="flex flex-col text-left mb-10">
             <h1 className="text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro">
               Our Numbers Tell the Story
             </h1>
-            <p className="text-[18px] md:text-[24px] font-normal leading-[24px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-4">
+            <p className="text-[18px] md:text-[24px] font-normal leading-[24px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-3">
               In just 4 years, we’ve made an impact that speaks for itself
             </p>
           </div>
@@ -333,7 +335,7 @@ const Facility = () => {
                 of quality food products manufactured
               </p>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 pr-8">
               <h2 className="text-[22px]  font-medium leading-[30px] md:text-[46px] md:leading-[55.2px] text-[#333333] font-regola-pro">
                 100+ SKUs
               </h2>
@@ -343,7 +345,7 @@ const Facility = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap md:space-x-8">
+          <div className="flex flex-wrap md:space-x-8 pt-3">
             <div className="flex-1 mb-6 md:mb-0">
               <h2 className="text-[22px] font-medium leading-[30px] md:text-[46px] md:leading-[55.2px] text-[#333333] font-regola-pro">
                 200+ employees
@@ -363,7 +365,7 @@ const Facility = () => {
           </div>
         </div>
 
-        <div className='w-full md:w-1/3 mt-8 md:mt-0 h-[200px] md:h-auto bg-[#D9D9D9] rounded-tl-[8px] rounded-bl-[8px]'>
+        <div className='w-full md:w-1/3  lg:w-[600px] mt-8 md:mt-0 h-[200px] md:h-auto bg-[#D9D9D9] rounded-tl-[8px] rounded-bl-[8px]'>
         </div>
       </div>
 
@@ -375,7 +377,7 @@ const Facility = () => {
           <p className='text-[16px] md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-4'>
             We know that great food starts with an exceptional facility. That's why we've invested in top-tier infrastructure and cutting-edge equipment to ensure every meal we produce is of the highest quality.
           </p>
-          <p className='text-[16px]  md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-4'>
+          <p className='text-[16px]  md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-7'>
             Our facility is fully BRCGS Standards Compliant, which means we follow strict food safety guidelines at every step.
           </p>
 
@@ -384,7 +386,7 @@ const Facility = () => {
           <p className='text-[16px]  md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-4'>
             The structure itself is built tough with iron framing, PU flooring and false ceilings to maintain cleanliness. We’ve got in-house cold storage with a 13 MT capacity and a massive 250 MT storage space for finished goods—so we’re always ready to deliver, no matter the demand.
           </p>
-          <p className='text-[16px]  md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-4'>
+          <p className='text-[16px]  md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro mt-7'>
             And when it comes to shipping, we’ve a waterproof loading dock and two goods elevators that make sure everything gets where it needs to be, quickly and safely.
           </p>
         </div>
@@ -396,41 +398,63 @@ const Facility = () => {
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           As Certified By:
         </h1>
-        <div className='flex flex-wrap gap-6 mt-8 justify-center items-center'>
-          {certifiedCompanyData.map((img, index) => (
-            <div
-              key={index}
-              className='w-full sm:w-[calc(50%-12px)] md:w-[calc(33%-24px)] lg:w-[calc(25%-40px)] h-auto'
-            >
-              <img
-                src={img}
-                alt={`Image ${index + 1}`}
-                className='w-full h-auto object-cover'
-              />
-            </div>
-          ))}
+        <div className='flex flex-wrap gap-x-[80px] gap-y-[40px] mt-10 justify-center items-center'>
+          <div className=' h-[112px]' >
+            <img
+              src={certifiedCompanyData[0]} alt={`Image `}
+              className='w-[200px] h-[112px] object-cover'
+            />
+          </div>
+          <div className=' h-[60px]' >
+            <img
+              src={certifiedCompanyData[1]} alt={`Image `}
+              className='w-[144px] h-[60px] object-cover'
+            />
+          </div>
+          <div className='  h-[74px]' >
+            <img
+              src={certifiedCompanyData[2]} alt={`Image `}
+              className='w-[231] h-[74px] object-cover'
+            />
+          </div>
+          <div className=' h-[83px]' >
+            <img
+              src={certifiedCompanyData[3]} alt={`Image `}
+              className='w-[280px] h-[83px] object-cover'
+            />
+          </div>
+          <div className=' h-[131px]' >
+            <img
+              src={certifiedCompanyData[4]} alt={`Image `}
+              className='w-[235px] h-[131px] object-cover'
+            />
+          </div>
+          <div className=' h-[101px' >
+            <img
+              src={certifiedCompanyData[5]} alt={`Image `}
+              className='w-[250px] h-[101px] object-cover'
+            />
+          </div>
         </div>
       </div>
-
-
 
 
       <div className='p-8 lg:p-[60px]'>
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           Machineries We are Proud of →
         </h1>
-        <div className='flex flex-wrap gap-6 mt-8'>
+        <div className='flex flex-wrap gap-[10px]  mt-8'>
           {facilityAvailableData.map((item, index) => (
             <div
               key={index}
-              className='w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-40px)]'
+              className='w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-40px)] mb-10'
             >
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full h-auto object-cover"
+                className="w-[87%] h-auto object-cover"
               />
-              <div className='mt-4 relative'>
+              <div className='mt-4 w-[67%] relative'>
                 <h2 className='text-[20px] md:text-[26px] font-[400] leading-[24px] md:leading-[31.2px] text-[#000000] font-regola-pro'>
                   {item.title}
                 </h2>
@@ -443,7 +467,7 @@ const Facility = () => {
         </div>
       </div>
 
-      <div className='p-8 lg:p-[60px]'>
+      <div className='p-8 lg:px-[60px] '>
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           Retort Processing
         </h1>

@@ -28,7 +28,7 @@ import RecipeList from "./pages/RecipeList";
 import ProductDetails from "./pages/ProductDetail";
 import ReadyToEat from "./pages/ReadyToEat";
 import { HowItWorks } from "./pages/HowItWorks";
-import {ReadyToCook} from "./pages/ReadyToCook";
+import { ReadyToCook } from "./pages/ReadyToCook";
 
 function App() {
   return (
@@ -65,7 +65,7 @@ function App() {
             <Route path="/product-details" element={<ProductDetails />} />
             <Route path="/ready-to-cook" element={<ReadyToEat />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/ready-to-eat" element={<ReadyToCook/>}/>
+            <Route path="/ready-to-eat" element={<ReadyToCook />} />
           </Routes>
         </div>
         <Footer />
