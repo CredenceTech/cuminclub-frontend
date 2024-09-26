@@ -849,7 +849,77 @@ const Product = () => {
             //   height: "62vh",
             // }}
             >
-              {rawResonse.collections.edges.map((category, index) => (
+                 <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -10, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                >
+                    <div className=" container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
+
+                        {product?.map((item) => (
+                            <>
+                                {item?.isLong
+                                    ?
+                                    <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
+                                        <AnimatePresence mode="popLayout">
+                                            <motion.div
+                                                initial={{ y: 500, opacity: 0 }}
+                                                animate={{ y: 0, opacity: 1 }}
+                                                exit={{ y: -500, opacity: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <div className="relative">
+                                                    <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                                                    <button type="button" className="bg-[#FBAE36] text-[20.36px] leading-[27.08px] absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] pt-2 pb-[6px] tracking-[0.12em] font-futuraBold">LENTIL</button>
+                                                </div>
+                                                <div className=" px-10 py-5">
+                                                    <div className="flex flex-row justify-between  pt-[18px] pb-2">
+                                                        <p className="font-futuraBold uppercase text-[#333333] text-[30px] leading-[23.88px]">{item?.name}</p>
+                                                        <p className="font-futuraBold text-[#333333] text-[30px] leading-[23.88px]">₹ 99</p>
+                                                    </div>
+                                                    <p className="text-[20px] leading-[15.92px] font-[500] font-futura text-[#757575] pt-2 pb-3">{item?.description}</p>
+                                                    <div className="flex gap-x-4 mt-1">
+                                                        <button type="button" className="border-2 border-[#333333] text-[#333333] px-3 rounded-lg  pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">ADD TO CART</button>
+                                                        <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                    :
+                                    <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                initial={{ y: 500, x: -500, opacity: 0 }}
+                                                animate={{ y: 0, x: 0, opacity: 1 }}
+                                                exit={{ y: -500, x: 500, opacity: 0 }}
+                                                transition={{ duration: 0.4 }}
+                                            >
+                                                <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+                                                <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                                    <div className="p-5">
+                                                        <button type="button" className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 tracking-[0.12em] rounded-[10px] pt-2 pb-[6px] font-futuraBold font-[800]">CURRY</button>
+                                                    </div>
+                                                    <div className="px-3 md:pl-8 pb-6">
+                                                        <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-5">{item?.name}</p>
+                                                        <div className="flex flex-col md:flex-row md:gap-4">
+                                                            <button type="button" className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
+                                                            <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                }
+
+                            </>
+                        ))}
+
+                    </div >
+                </motion.div>
+              {/* {rawResonse.collections.edges.map((category, index) => (
                 // <div key={category.node.title} ref={productSectionsRefs[index]}>
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -860,12 +930,7 @@ const Product = () => {
                     transition={{ duration: 0.4 }}
                   >
                     <div className="">
-                      {/* <div
-                        ref={(ref) => (categoryTitleRefs.current[index] = ref)}
-                        className="flex justify-center text-[#FAFAFA] text-lg lg:text-2xl font-bold"
-                      >
-                        {category.node.title}
-                      </div> */}
+                    
                       <div
                         key={category.node.title}
                         ref={productEdgesRef}
@@ -904,210 +969,14 @@ const Product = () => {
                                 </motion.div>
                               </AnimatePresence>
                             </div>
-                            {/* <div
-                              key={product.node.id}
-                              className="m-2 w-40 lg:w-56 bg-[#EADEC1] border rounded-2xl flex flex-col justify-between p-2 lg:p-4"
-                            >
-                              <img
-                                src={product.node.featuredImage.url}
-                                alt={product.node.featuredImage.altText}
-                                className="w-48 h-32 lg:w-52 lg:h-48 mb-1 cursor-pointer rounded-2xl"
-                                onClick={() => {
-                                  if (category.node.title === "Bundles") {
-                                    navigate(`/bundleDetail`, {
-                                      state: { id: product.node.id },
-                                    });
-                                  } else {
-                                    navigate(`/productDetail`, {
-                                      state: { id: product.node.id },
-                                    });
-                                  }
-                                }}
-                              />
-                              <h3
-                                style={{ color: "rgba(51, 51, 51, 1)" }}
-                                className="text-base font-futuraBold lg:text-lg items-start overflow-hidden pb-8 cursor-pointer"
-                                onClick={() => {
-                                  if (category.node.title === "Bundles") {
-                                    navigate(`/bundleDetail`, {
-                                      state: { id: product.node.id },
-                                    });
-                                  } else {
-                                    navigate(`/productDetail`, {
-                                      state: { id: product.node.id },
-                                    });
-                                  }
-                                }}
-                              >
-                                {product.node.title}
-                              </h3>
-                              
-                              {category.node.title === "Bundles" ? (
-                                <div>
-                                  <button
-                                    onClick={() => {
-                                      getProductDetail(product.node.id);
-                                    }}
-                                    className="bg-[#53940F] lg:px-10 py-0.5 px-3 lg:py-1.5 rounded-lg lg:text-xl lg:font-bold text-white"
-                                  >
-                                    Add to cart
-                                  </button>
-                                </div>
-                              ) : loading[product.node.variants.edges[0].node.id] ? (
-                                <svg
-                                  width="80"
-                                  height="80"
-                                  viewBox="0 0 120 30"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="#4fa94d"
-                                  data-testid="three-dots-svg"
-                                >
-                                  <circle cx="15" cy="15" r="15">
-                                    <animate
-                                      attributeName="r"
-                                      from="15"
-                                      to="15"
-                                      begin="0s"
-                                      dur="0.8s"
-                                      values="15;9;15"
-                                      calcMode="linear"
-                                      repeatCount="indefinite"
-                                    ></animate>
-                                    <animate
-                                      attributeName="fill-opacity"
-                                      from="1"
-                                      to="1"
-                                      begin="0s"
-                                      dur="0.8s"
-                                      values="1;.5;1"
-                                      calcMode="linear"
-                                      repeatCount="indefinite"
-                                    ></animate>
-                                  </circle>
-                                  <circle
-                                    cx="60"
-                                    cy="15"
-                                    r="9"
-                                    attributeName="fill-opacity"
-                                    from="1"
-                                    to="0.3"
-                                  >
-                                    <animate
-                                      attributeName="r"
-                                      from="9"
-                                      to="9"
-                                      begin="0s"
-                                      dur="0.8s"
-                                      values="9;15;9"
-                                      calcMode="linear"
-                                      repeatCount="indefinite"
-                                    ></animate>
-                                    <animate
-                                      attributeName="fill-opacity"
-                                      from="0.5"
-                                      to="0.5"
-                                      begin="0s"
-                                      dur="0.8s"
-                                      values=".5;1;.5"
-                                      calcMode="linear"
-                                      repeatCount="indefinite"
-                                    ></animate>
-                                  </circle>
-                                  <circle cx="105" cy="15" r="15">
-                                    <animate
-                                      attributeName="r"
-                                      from="15"
-                                      to="15"
-                                      begin="0s"
-                                      dur="0.8s"
-                                      values="15;9;15"
-                                      calcMode="linear"
-                                      repeatCount="indefinite"
-                                    ></animate>
-                                    <animate
-                                      attributeName="fill-opacity"
-                                      from="1"
-                                      to="1"
-                                      begin="0s"
-                                      dur="0.8s"
-                                      values="1;.5;1"
-                                      calcMode="linear"
-                                      repeatCount="indefinite"
-                                    ></animate>
-                                  </circle>
-                                </svg>
-                              ) : (
-                                <div
-                                  className="flex w-full justify-center gap-x-8 lg:gap-x-10 items-center rounded-lg mt-2 px-4 py-1 lg:py-2"
-                                  style={{ background: "rgba(241, 102, 60, 0.6)" }}
-                                >
-                                  <button
-                                    onClick={() => {
-                                      if (
-                                        getProductQuantityInCart(
-                                          product.node.variants.edges[0].node.id
-                                        ) !== 0
-                                      ) {
-                                        handleRemoveFromCart(
-                                          product.node.variants.edges[0].node.id
-                                        );
-                                      }
-                                    }}
-                                  >
-                                    <svg
-                                      width="20"
-                                      height="2"
-                                      viewBox="0 0 14 2"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M13.9696 1.95317H0.625244V0.0468292H13.9696V1.95317Z"
-                                        fill="#FAFAFA"
-                                      />
-                                    </svg>
-                                  </button>
-                                  <span className="text-xl text-white">
-                                    {getProductQuantityInCart(
-                                      product.node.variants.edges[0].node.id
-                                    )}
-                                  </span>
-                                  <button
-                                    onClick={() =>
-                                      handleAddToCart(
-                                        product.node.variants.edges[0].node.id,
-                                        product.node.sellingPlanGroups?.edges[0]?.node
-                                          ?.sellingPlans?.edges[0]?.node?.id
-                                      )
-                                    }
-                                  >
-                                    <svg
-                                      width="18"
-                                      height="18"
-                                      viewBox="0 0 14 14"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M6.34425 6.04683V0.32782H8.25059V6.04683H13.9696V7.95316H8.25059V13.6722H6.34425V7.95316H0.625244V6.04683H6.34425Z"
-                                        fill="#FAFAFA"
-                                      />
-                                    </svg>
-                                  </button>
-                                </div>
-                              )}
-                            </div> */}
+                           
                           </>
                         ))}
                       </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
-              ))}
+              ))} */}
             </div>
           </>
           {/* {popupState && (

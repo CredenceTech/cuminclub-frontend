@@ -532,8 +532,8 @@ export const ReadyToCook = () => {
         },
         {
             id: 7,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            isLong: true,
+            image: food1,
             description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
             name: 'Dal makhani'
         },
@@ -553,15 +553,15 @@ export const ReadyToCook = () => {
         },
         {
             id: 10,
-            isLong: true,
-            image: food1,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
             description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
             name: 'Dal makhani'
         },
         {
             id: 11,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            isLong: true,
+            image: food1,
             description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
             name: 'Dal makhani'
         },
@@ -588,8 +588,8 @@ export const ReadyToCook = () => {
         },
         {
             id: 15,
-            isLong: true,
-            image: food1,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
             description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
             name: 'Dal makhani'
         },
@@ -603,7 +603,7 @@ export const ReadyToCook = () => {
     return (
 
         <div className="w-full bg-[#EFE9DA]">
-            <div className="w-full relative md:h-[303px]">
+            {/* <div className="w-full relative md:h-[303px]">
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-transparent to-black z-10"></div>
                 <img
                     src={headerImage2}
@@ -621,16 +621,16 @@ export const ReadyToCook = () => {
                         Heat, Cook, and Repeat – Get deliciousness served to your plate in minutes.
                     </p>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="p-[40px]">
+            {/* <div className="p-[40px]">
                 <motion.div
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -10, opacity: 0 }}
                     transition={{ duration: 0.4 }}
                 >
-                    <div className="container mx-auto grid grid-cols-2 lg:grid-cols-4 mt-10 gap-4 md:gap-10">
+                    <div className="container mx-auto grid grid-cols-2 lg:grid-cols-4 mt-5 gap-4 md:gap-6">
                         {product?.map((item) => (
                             <React.Fragment key={item?.id}>
                                 {item?.isLong ? (
@@ -650,33 +650,33 @@ export const ReadyToCook = () => {
                                                     />
                                                     <button
                                                         type="button"
-                                                        className="bg-[#FBAE36] tracking-tight absolute top-4 left-4 text-gray-900 px-3 rounded-lg py-1 font-futuraBold"
+                                                        className="bg-[#FBAE36] text-[20.36px] tracking-[0.12] absolute top-5 left-5 text-[#333333] leading-[27.08px] rounded-[10.18px] px-3 pt-2 pb-[6px] text-center font-futuraBold"
                                                     >
                                                         LENTIL
                                                     </button>
                                                 </div>
-                                                <div className="px-10 py-2">
-                                                    <div className="flex flex-row justify-between">
-                                                        <p className="text-base font-futuraBold uppercase lg:text-2xl">
+                                                <div className="px-10 pt-6 pb-4">
+                                                    <div className="flex flex-row justify-between pb-1">
+                                                        <p className="text-base font-futuraBold uppercase lg:text-[22px]">
                                                             {item?.name}
                                                         </p>
-                                                        <p className="text-base font-futuraBold lg:text-2xl">
-                                                            ₹ 99
+                                                        <p className="text-base font-futuraBold lg:text-[22px]">
+                                                            ₹99
                                                         </p>
                                                     </div>
-                                                    <p className="text-lg font-futura text-[#515151]">
+                                                    <p className="text-[16px] font-futura text-[#757575] pb-1">
                                                         {item?.description}
                                                     </p>
                                                     <div className="flex gap-x-4 mt-1">
                                                         <button
                                                             type="button"
-                                                            className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold"
+                                                            className="border-2 border-gray-900 text-gray-900 px-3 rounded-lg py-1 font-futuraBold text-[16px]"
                                                         >
                                                             ADD TO CART
                                                         </button>
                                                         <button
                                                             type="button"
-                                                            className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                            className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold text-[16px]"
                                                         >
                                                             BUY NOW
                                                         </button>
@@ -700,28 +700,28 @@ export const ReadyToCook = () => {
                                                     className="w-full h-[250px] md:h-full rounded-t-3xl"
                                                 />
                                                 <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
-                                                    <div className="p-4">
+                                                    <div className="p-5">
                                                         <button
                                                             type="button"
-                                                            className="bg-[#26965C] tracking-tight  text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                            className="bg-[#26965C] tracking-[0.12] text-[20.36px] leading-[27.08px]  text-gray-100 px-3 rounded-[10.18px] pt-2 pb-[6px] font-futuraBold"
                                                         >
                                                             CURRY
                                                         </button>
                                                     </div>
-                                                    <div className="px-3 md:pl-8 pb-4">
-                                                        <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-2xl">
+                                                    <div className="px-3 md:pl-5 pb-5">
+                                                        <p className="text-base font-futuraBold text-gray-100 uppercase lg:text-[22px] pb-4">
                                                             {item?.name}
                                                         </p>
                                                         <div className="flex flex-col md:flex-row md:gap-4">
                                                             <button
                                                                 type="button"
-                                                                className="border-2 border-gray-100 text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                                className="border-2 border-gray-100 tracking-[0.12] text-gray-100 px-3 rounded-lg py-1 font-futuraBold text-[16px]"
                                                             >
                                                                 ADD TO CART
                                                             </button>
                                                             <button
                                                                 type="button"
-                                                                className="bg-[#26965C] text-gray-100 px-3 rounded-lg py-1 font-futuraBold"
+                                                                className="bg-[#26965C] tracking-[0.12] text-gray-100 px-3 rounded-lg py-1 font-futuraBold text-[16px]"
                                                             >
                                                                 BUY NOW
                                                             </button>
@@ -736,8 +736,79 @@ export const ReadyToCook = () => {
                         ))}
                     </div>
                 </motion.div>
-            </div>
+            </div> */}
+            <div className="p-[60px]">
+                <motion.div
+                    initial={{ y: 10, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -10, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                >
+                    <div className=" container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10">
 
+                        {product?.map((item) => (
+                            <>
+                                {item?.isLong
+                                    ?
+                                    <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
+                                        <AnimatePresence mode="popLayout">
+                                            <motion.div
+                                                initial={{ y: 500, opacity: 0 }}
+                                                animate={{ y: 0, opacity: 1 }}
+                                                exit={{ y: -500, opacity: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                <div className="relative">
+                                                    <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                                                    <button type="button" className="bg-[#FBAE36] text-[20.36px] leading-[27.08px] absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] pt-2 pb-[6px] tracking-[0.12em] font-futuraBold">LENTIL</button>
+                                                </div>
+                                                <div className=" px-10 py-5">
+                                                    <div className="flex flex-row justify-between pt-[18px] pb-2">
+                                                        <p className="font-futuraBold uppercase text-[#333333] text-[30px] leading-[23.88px]">{item?.name}</p>
+                                                        <p className="font-futuraBold text-[#333333] text-[30px] leading-[23.88px]">₹ 99</p>
+                                                    </div>
+                                                    <p className="text-[20px] leading-[15.92px] font-[500] font-futura text-[#757575] pt-2 pb-3">{item?.description}</p>
+                                                    <div className="flex gap-x-4 mt-1">
+                                                        <button type="button" className="border-2 border-[#333333] text-[#333333] px-3 rounded-lg  pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">ADD TO CART</button>
+                                                        <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                    :
+                                    <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                initial={{ y: 500, x: -500, opacity: 0 }}
+                                                animate={{ y: 0, x: 0, opacity: 1 }}
+                                                exit={{ y: -500, x: 500, opacity: 0 }}
+                                                transition={{ duration: 0.4 }}
+                                            >
+                                                <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+                                                <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                                    <div className="p-5">
+                                                        <button type="button" className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 tracking-[0.12em] rounded-[10px] pt-2 pb-[6px] font-futuraBold font-[800]">CURRY</button>
+                                                    </div>
+                                                    <div className="px-3 md:pl-8 pb-6">
+                                                        <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-5">{item?.name}</p>
+                                                        <div className="flex flex-col md:flex-row md:gap-4">
+                                                            <button type="button" className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
+                                                            <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+                                }
+
+                            </>
+                        ))}
+
+                    </div >
+                </motion.div>
+            </div>
             {/* <div className="p-[60px]">
                 {rawResonse?.collections?.edges?.map((category, index) => (
                     <AnimatePresence mode="wait" key={category.node.title}>

@@ -412,6 +412,16 @@ const Home = () => {
     setIsPaused((prev) => !prev);
   };
 
+  const handleMouseHold = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseRelease = () => {
+    setElapsedTime((prev) => prev + (progress / 100) * animationDuration);
+    setIsPaused(false);
+  };
+
+
   const bannerData = [
     {
       image: headerImage1,
@@ -573,7 +583,7 @@ const Home = () => {
         </button>
 
 
-        <div className={`flex ${showHeaderMain ? 'z-[1000]' : ''} w-full justify-between items-center relative pt-3`} >
+        <div className={`flex ${showHeaderMain ? 'z-[1000]' : ''} w-full justify-between items-center relative pt-7`} >
           <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
             <NavigationMenu.Root className="NavigationMenuRoot">
               <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
@@ -651,7 +661,7 @@ const Home = () => {
             <Link to="/">
               <svg
                 width="143"
-                height="50"
+                height="63"
                 viewBox="0 0 143 64"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -898,7 +908,7 @@ const Home = () => {
               {bannerData[currentIndex].description}
             </p>
           </div>
-          <div className="flex justify-end pb-[40px] px-8 pt-[130px]">
+          <div className="flex justify-end pb-[40px] px-8 pt-[110px]">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
               <button className="text-[#231F20] font-regola-pro font-[400] text-[20px] leading-[24px]">Subscribe at ₹80/meal </button>
               <svg width="15" height="11" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1083,13 +1093,13 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="relative w-full md:w-2/5 flex flex-col items-center md:items-end md:rounded-r-lg px-4 md:px-0 md:pr-[30px] pt-[30px] md:pt-[50px] order-1 md:order-2">
+          <div className="relative w-full md:w-2/5 flex flex-col items-center md:items-end md:rounded-r-lg px-4 md:px-0 md:pr-[60px] pt-[30px] md:pt-[50px] order-1 md:order-2">
             <div className="absolute top-0 left-0 right-0 h-10 md:hidden"></div>
-            <h2 className="font-inter text-[28px] font-normal leading-tight md:leading-[43.57px] text-center md:text-right text-[#333333] mb-4 sm:text-2xl">
+            <h2 className="font-inter text-[28px] font-normal leading-tight md:leading-[43.57px] text-center md:text-right text-[#333333] mb-4 md:text-[36px]">
               Ready to Cook
             </h2>
             <div className="w-full flex flex-col items-center md:items-end">
-              <p className="font-inter text-[14px] md:text-[16px] font-normal leading-[19.36px] text-center md:text-right md:pl-4 text-[#333333D9] mb-4">
+              <p className="font-inter text-[14px] md:text-[16px] font-normal md:leading-[19.36px] text-center md:text-right md:pl-4 text-[#333333D9] mb-4">
                 Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.
               </p>
             </div>
@@ -1205,7 +1215,7 @@ const Home = () => {
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Select Your Meals
                   </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-9/10">
+                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-4/5">
                     Browse our ready-to-eat and ready-to-cook dishes. From rice to sweets, get what you’re
                     craving for half the price! Pick your favourite meals and customise your order to match your taste buds.
                   </p>
@@ -1217,7 +1227,7 @@ const Home = () => {
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Receive Your Box
                   </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-9/10">
+                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-4/5">
                     Your meals are packed with love and delivered straight to your doorstep. We ensure everything arrives fresh and ready to enjoy. If you’ve subscribed to a plan, you can easily skip,
                     reschedule, change meals, or cancel anytime—no strings attached.
                   </p>
@@ -1229,7 +1239,7 @@ const Home = () => {
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Heat and Enjoy
                   </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-9/10">
+                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-4/5">
                     For ready-to-eat meals, just heat them up, and you’re good to go. For ready-to-cook kits, follow the simple instructions, and you'll have a delicious meal ready in under 7 minutes.
                     Enjoy the taste of home-cooked goodness (without the hassle).
                   </p>
@@ -1240,7 +1250,9 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="relative bg-center h-[691px] w-full cursor-pointer mb-[-40px]" onClick={togglePause}>
+      <div className="relative bg-center h-[691px] w-full cursor-pointer mb-[-40px]" onMouseDown={handleMouseHold}
+        onMouseUp={handleMouseRelease}
+        onMouseLeave={handleMouseRelease} >
         <img
           src={currentData?.image}
           alt="Banner"
@@ -1307,23 +1319,12 @@ const Home = () => {
                 </button>
               ))}
             </div>
-            {/* <button
-              className="px-6 text-white rounded ml-4 flex items-center justify-center"
-              onClick={togglePause}
-            >
-              {isPaused ? (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M6.271 2.055c-.556-.347-1.271-.048-1.271.613v10.664c0 .662.715.96 1.271.614l8.684-5.331a.75.75 0 0 0 0-1.27L6.271 2.055z" />
-                </svg>
-              ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-pause-fill" viewBox="0 0 16 16">
-                  <path d="M5.5 3.5A.5.5 0 0 1 6 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H6a.5.5 0 0 1-.5-.5v-9zm4 0A.5.5 0 0 1 10 3h1.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H10a.5.5 0 0 1-.5-.5v-9z" />
-                </svg>
-              )}
-            </button> */}
+
           </div>
         </div>
       </div>
+
+
 
 
       {/* <div className="py-16 px-8">
@@ -1372,7 +1373,7 @@ const Home = () => {
       <div className='bg-[#EFE9DA] relative -bottom-[124px]'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div>
-          <div className="w-full lg:w-1/4 p-6 lg:p-14 text-section text-white flex flex-col justify-between">
+          <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
             <div>
               <h2 className="font-[600] text-[36px] leading-[36.72px] text-left font-regola-pro">
                 Explore Our
@@ -1385,19 +1386,31 @@ const Home = () => {
                 Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
-            <button className="hidden lg:flex bg-white text-[#333333] py-2 px-4 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center">View all recipes</button>
+            <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-4 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center">View all recipes</button>
           </div>
-          <div className="w-full lg:min-w-3/4 lg:py-14 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
+          <div className="w-full lg:min-w-3/4 lg:pb-[70px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
             {recipData?.map((item, i) => (
               <div key={i} className="relative min-w-[250px] md:min-w-[300px]">
-                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px] ">
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary  to-secondary"></div>
-                  <img src={item?.image} alt="Image 1" className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]" />
+                {/* Image container */}
+                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]">
+                  <img
+                    src={item?.image}
+                    alt="Image"
+                    className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px]"
+                  />
                 </div>
-                <div className="absolute bottom-0 font-regola-pro left-0 text-white px-4 pb-8 font-[500] text-[21.75px] leading-[26.1px]">{item?.title}</div>
+
+                <div className="absolute bottom-[-12px] left-0 w-full">
+                  <div className="bg-gradient-to-b from-primary to-secondary">
+                    <p className="font-regola-pro text-white font-[500] text-[21.75px] leading-[26.1px] px-4 pb-8">
+                      {item?.title}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
+
           <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-[#333333] rounded font-[300] text-[16px]">View all recipes</button>
         </div>
       </div>
