@@ -159,13 +159,13 @@ function ProductDetail() {
     return (
         <div className='bg-white'>
             <div className="flex md:flex-row flex-col pb-10">
-                <div className="md:w-1/2 w-full relative my-10 md:pr-7 gap-x-[40px] flex items-center">
-                    <div className='relative w-4/6'>
+                <div className="md:w-1/2 w-full  relative my-10 md:pr-7 gap-x-[40px] flex items-center">
+                    <div className='relative w-4/6 max-w-[553px] shrink-1'>
                         {/* <div className='relative -left-16  '> */}
                         <img
                             src={recipreDetails}
                             // src={data?.images?.edges[0]?.node?.src}
-                            className="h-[588.08px] w-[553px]"
+                            // className="h-[588.08px] w-[553px]"
                             alt={`carousel-`}
                         />
                     </div>
