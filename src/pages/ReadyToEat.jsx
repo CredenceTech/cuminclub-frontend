@@ -420,256 +420,118 @@ function ReadyToEat() {
         setSelectedValue(event.target.value);
     };
 
-    const data2 = [
+    const product = [
         {
-            "node": {
-                "id": "gid://shopify/Product/8264168145122",
-                "title": "Aloo Posto",
-                "description": "Recommended Side: 8 Rotis Requirement: a pot (to boil water) Simple and full of flavor, this classic Bengali dish is made with potatoes and star poppy seeds as it's signature ingredient",
-                "tags": [
-                    "Kolkata",
-                    "Microwavable",
-                    "Regular",
-                    "Vegan"
-                ],
-                "priceRange": {
-                    "minVariantPrice": {
-                        "amount": "164.0",
-                        "currencyCode": "INR"
-                    }
-                },
-                "sellingPlanGroups": {
-                    "edges": [
-                        {
-                            "node": {
-                                "sellingPlans": {
-                                    "edges": [
-                                        {
-                                            "node": {
-                                                "id": "gid://shopify/SellingPlan/3600416994"
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        },
-                        {
-                            "node": {
-                                "sellingPlans": {
-                                    "edges": [
-                                        {
-                                            "node": {
-                                                "id": "gid://shopify/SellingPlan/3601432802"
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    ]
-                },
-                "metafields": [
-                    {
-                        "value": "3",
-                        "key": "spice_level"
-                    },
-                    {
-                        "value": "Potato curry",
-                        "key": "small_descriptions"
-                    }
-                ],
-                "featuredImage": {
-                    "altText": null,
-                    "url": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/image_13.png?v=1726725297"
-                },
-                "variants": {
-                    "edges": [
-                        {
-                            "node": {
-                                "id": "gid://shopify/ProductVariant/44678180503778",
-                                "weight": 230.0,
-                                "weightUnit": "GRAMS"
-                            }
-                        }
-                    ]
-                }
-            }
+            id: 1,
+            isLong: true,
+            image: food1,
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
         },
         {
-            "node": {
-                "id": "gid://shopify/Product/8264168046818",
-                "title": "Malabar Veg Kurma",
-                "description": "Recommended Side: Rice Puttu Requirement: a pot (to boil water) Sweet meets savory in this hearty vegan stew made with mixed vegetables in a creamy base of lightly spiced coconut milk.",
-                "tags": [
-                    "Does Not Require Instapot/Cooker",
-                    "Gluten Free",
-                    "Kerala",
-                    "Microwavable",
-                    "No Peanuts",
-                    "No Soy",
-                    "Vegan",
-                    "Very Mild"
-                ],
-                "priceRange": {
-                    "minVariantPrice": {
-                        "amount": "164.0",
-                        "currencyCode": "INR"
-                    }
-                },
-                "sellingPlanGroups": {
-                    "edges": []
-                },
-                "metafields": [
-                    {
-                        "value": "1",
-                        "key": "spice_level"
-                    },
-                    {
-                        "value": "Veggie & coconut stew",
-                        "key": "small_descriptions"
-                    }
-                ],
-                "featuredImage": {
-                    "altText": null,
-                    "url": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/image_15.png?v=1726725543"
-                },
-                "variants": {
-                    "edges": [
-                        {
-                            "node": {
-                                "id": "gid://shopify/ProductVariant/44678180208866",
-                                "weight": 230.0,
-                                "weightUnit": "GRAMS"
-                            }
-                        }
-                    ]
-                }
-            }
+            id: 2,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Punjabi chole'
         },
         {
-            "node": {
-                "id": "gid://shopify/Product/8264168145122",
-                "title": "Aloo Posto",
-                "description": "Recommended Side: 8 Rotis Requirement: a pot (to boil water) Simple and full of flavor, this classic Bengali dish is made with potatoes and star poppy seeds as it's signature ingredient",
-                "tags": [
-                    "Kolkata",
-                    "Microwavable",
-                    "Regular",
-                    "Vegan"
-                ],
-                "priceRange": {
-                    "minVariantPrice": {
-                        "amount": "164.0",
-                        "currencyCode": "INR"
-                    }
-                },
-                "sellingPlanGroups": {
-                    "edges": [
-                        {
-                            "node": {
-                                "sellingPlans": {
-                                    "edges": [
-                                        {
-                                            "node": {
-                                                "id": "gid://shopify/SellingPlan/3600416994"
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        },
-                        {
-                            "node": {
-                                "sellingPlans": {
-                                    "edges": [
-                                        {
-                                            "node": {
-                                                "id": "gid://shopify/SellingPlan/3601432802"
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    ]
-                },
-                "metafields": [
-                    {
-                        "value": "3",
-                        "key": "spice_level"
-                    },
-                    {
-                        "value": "Potato curry",
-                        "key": "small_descriptions"
-                    }
-                ],
-                "featuredImage": {
-                    "altText": null,
-                    "url": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/image_13.png?v=1726725297"
-                },
-                "variants": {
-                    "edges": [
-                        {
-                            "node": {
-                                "id": "gid://shopify/ProductVariant/44678180503778",
-                                "weight": 230.0,
-                                "weightUnit": "GRAMS"
-                            }
-                        }
-                    ]
-                }
-            }
+            id: 3,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
         },
         {
-            "node": {
-                "id": "gid://shopify/Product/8264168046818",
-                "title": "Malabar Veg Kurma",
-                "description": "Recommended Side: Rice Puttu Requirement: a pot (to boil water) Sweet meets savory in this hearty vegan stew made with mixed vegetables in a creamy base of lightly spiced coconut milk.",
-                "tags": [
-                    "Does Not Require Instapot/Cooker",
-                    "Gluten Free",
-                    "Kerala",
-                    "Microwavable",
-                    "No Peanuts",
-                    "No Soy",
-                    "Vegan",
-                    "Very Mild"
-                ],
-                "priceRange": {
-                    "minVariantPrice": {
-                        "amount": "164.0",
-                        "currencyCode": "INR"
-                    }
-                },
-                "sellingPlanGroups": {
-                    "edges": []
-                },
-                "metafields": [
-                    {
-                        "value": "1",
-                        "key": "spice_level"
-                    },
-                    {
-                        "value": "Veggie & coconut stew",
-                        "key": "small_descriptions"
-                    }
-                ],
-                "featuredImage": {
-                    "altText": null,
-                    "url": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/image_15.png?v=1726725543"
-                },
-                "variants": {
-                    "edges": [
-                        {
-                            "node": {
-                                "id": "gid://shopify/ProductVariant/44678180208866",
-                                "weight": 230.0,
-                                "weightUnit": "GRAMS"
-                            }
-                        }
-                    ]
-                }
-            }
+            id: 4,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 5,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 6,
+            isLong: true,
+            image: food1,
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 7,
+            isLong: false,
+            image: "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992",
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 8,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 9,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 10,
+            isLong: true,
+            image: food1,
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 11,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 12,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 13,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 14,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 15,
+            isLong: false,
+            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
+        },
+        {
+            id: 16,
+            isLong: true,
+            image: food1,
+            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
+            name: 'Dal makhani'
         },
     ]
 
@@ -679,8 +541,9 @@ function ReadyToEat() {
         <div className="w-full bg-[#EFE9DA]">
             <div className="grid grid-cols-2 lg:grid-cols-3 " >
                 <div className=" col-span-2">
-                    <div className="pt-[30px] pl-[60px]">
-                        <div className="grid grid-cols-2 gap-4 md:gap-10 pr-10">
+                    <div className="h-[357px] bg-[#0F0B05] "></div>
+                    <div className="pt-[60px] px-[60px]">
+                        <div className="grid grid-cols-2 gap-4 md:gap-10">
                             <>
                                 <div className="col-span-2 relative rounded-3xl">
                                     {rawResonse?.collections?.edges?.map((category, index) => (
@@ -696,35 +559,31 @@ function ReadyToEat() {
                                                     key={category.node.title}
                                                     ref={productEdgesRef}
                                                     id={`product-edges-${category.node.title}`}
-                                                    className="grid grid-cols-2 gap-4 md:gap-10"
+                                                    className="grid grid-cols-1"
                                                 >
-                                                    {category.node.products.edges?.slice(0, 4)?.map((product) => (
+                                                    {product.slice(0, 1)?.map((item) => (
                                                         <>
-                                                            <div key={product.node.id} className="bg-[#EADEC1] relative rounded-3xl">
-                                                                <AnimatePresence mode="wait">
+                                                            <div className='bg-[#EADEC1] rounded-3xl' key={item?.id}>
+                                                                <AnimatePresence mode="popLayout">
                                                                     <motion.div
-                                                                        initial={{ y: 500, x: -500, opacity: 0 }}
-                                                                        animate={{ y: 0, x: 0, opacity: 1 }}
-                                                                        exit={{ y: -500, x: 500, opacity: 0 }}
-                                                                        transition={{ duration: 0.4 }}
+                                                                        initial={{ y: 500, opacity: 0 }}
+                                                                        animate={{ y: 0, opacity: 1 }}
+                                                                        exit={{ y: -500, opacity: 0 }}
+                                                                        transition={{ duration: 0.3 }}
                                                                     >
-                                                                        <img src={product.node.featuredImage.url} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
-                                                                        <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
-                                                                            <div className="p-5">
-                                                                                <button type="button" className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 rounded-[10px] py-1 font-futuraBold font-[800]">CURRY</button>
+                                                                        <div className="relative">
+                                                                            <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                                                                            <button type="button" className="bg-[#FBAE36] text-[20.36px] leading-[27.08px] absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] pt-2 pb-[6px] tracking-[0.12em] font-futuraBold">LENTIL</button>
+                                                                        </div>
+                                                                        <div className=" px-10 py-5">
+                                                                            <div className="flex flex-row justify-between pt-[18px] pb-2">
+                                                                                <p className="font-futuraBold uppercase text-[#333333] text-[30px] leading-[23.88px]">{item?.name}</p>
+                                                                                <p className="font-futuraBold text-[#333333] text-[30px] leading-[23.88px]">₹ 99</p>
                                                                             </div>
-                                                                            <div className="px-5 pb-5">
-                                                                                <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-4">{product.node.title}</p>
-                                                                                <div className="flex flex-col md:flex-row md:gap-4">
-                                                                                    <button type="button" onClick={() =>
-                                                                                        handleAddToCart(
-                                                                                            product.node.variants.edges[0].node.id,
-                                                                                            product.node.sellingPlanGroups?.edges[0]?.node
-                                                                                                ?.sellingPlans?.edges[0]?.node?.id
-                                                                                        )
-                                                                                    } className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg py-1 font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
-                                                                                    <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg py-1 font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
-                                                                                </div>
+                                                                            <p className="text-[20px] leading-[15.92px] font-[500] font-futura text-[#757575] pt-2 pb-3">{item?.description}</p>
+                                                                            <div className="flex gap-x-4 mt-1">
+                                                                                <button type="button" className="border-2 border-[#333333] text-[#333333] px-3 rounded-lg  pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">ADD TO CART</button>
+                                                                                <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
                                                                             </div>
                                                                         </div>
                                                                     </motion.div>
@@ -745,8 +604,8 @@ function ReadyToEat() {
                     </div>
 
                 </div>
-                <div className="col-span-1 h-full ">
-                    <img src={videoimage} alt="" className=" h-full" />
+                <div className="col-span-1 h-[891px] w-full ">
+                    <img src={videoimage} alt="" className="h-full w-full" />
                     {/* <ReactPlayer
                         className='react-player'
                         url='https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4'
@@ -773,7 +632,7 @@ function ReadyToEat() {
                                 id={`product-edges-${category.node.title}`}
                                 className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10"
                             >
-                                {category.node.products.edges?.slice(4)?.map((product) => (
+                                {/* {product.slice(2)?.map((product) => (
                                     <>
                                         <div key={product.node.id} className="bg-[#EADEC1] relative rounded-3xl">
                                             <AnimatePresence mode="wait">
@@ -805,6 +664,65 @@ function ReadyToEat() {
                                                 </motion.div>
                                             </AnimatePresence>
                                         </div>
+
+                                    </>
+                                ))} */}
+                                {product.slice(1)?.map((item) => (
+                                    <>
+                                        {item?.isLong
+                                            ?
+                                            <div className='col-span-2 bg-[#EADEC1] rounded-3xl' key={item?.id}>
+                                                <AnimatePresence mode="popLayout">
+                                                    <motion.div
+                                                        initial={{ y: 500, opacity: 0 }}
+                                                        animate={{ y: 0, opacity: 1 }}
+                                                        exit={{ y: -500, opacity: 0 }}
+                                                        transition={{ duration: 0.3 }}
+                                                    >
+                                                        <div className="relative">
+                                                            <img src={item?.image} alt="product" className="w-full h-[300px] rounded-t-3xl" />
+                                                            <button type="button" className="bg-[#FBAE36] text-[20.36px] leading-[27.08px] absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] pt-2 pb-[6px] tracking-[0.12em] font-futuraBold">LENTIL</button>
+                                                        </div>
+                                                        <div className=" px-10 py-5">
+                                                            <div className="flex flex-row justify-between pt-[18px] pb-2">
+                                                                <p className="font-futuraBold uppercase text-[#333333] text-[30px] leading-[23.88px]">{item?.name}</p>
+                                                                <p className="font-futuraBold text-[#333333] text-[30px] leading-[23.88px]">₹ 99</p>
+                                                            </div>
+                                                            <p className="text-[20px] leading-[15.92px] font-[500] font-futura text-[#757575] pt-2 pb-3">{item?.description}</p>
+                                                            <div className="flex gap-x-4 mt-1">
+                                                                <button type="button" className="border-2 border-[#333333] text-[#333333] px-3 rounded-lg  pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">ADD TO CART</button>
+                                                                <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
+                                                </AnimatePresence>
+                                            </div>
+                                            :
+                                            <div key={item?.id} className="bg-[#EADEC1] relative rounded-3xl">
+                                                <AnimatePresence mode="wait">
+                                                    <motion.div
+                                                        initial={{ y: 500, x: -500, opacity: 0 }}
+                                                        animate={{ y: 0, x: 0, opacity: 1 }}
+                                                        exit={{ y: -500, x: 500, opacity: 0 }}
+                                                        transition={{ duration: 0.4 }}
+                                                    >
+                                                        <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
+                                                        <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                                            <div className="p-5">
+                                                                <button type="button" className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 tracking-[0.12em] rounded-[10px] pt-2 pb-[6px] font-futuraBold font-[800]">CURRY</button>
+                                                            </div>
+                                                            <div className="px-3 md:pl-8 pb-6">
+                                                                <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-5">{item?.name}</p>
+                                                                <div className="flex flex-col md:flex-row md:gap-4">
+                                                                    <button type="button" className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
+                                                                    <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
+                                                </AnimatePresence>
+                                            </div>
+                                        }
 
                                     </>
                                 ))}
