@@ -34,10 +34,11 @@ const Recipes = () => {
                 <div className='grid grid-cols-2 lg:grid-cols-3'>
                     <div className=" col-span-2 md:col-span-1 pl-[60px]">
                         <p className='text-[#FFFFFF] pt-[30px] font-regola-pro font-[300] text-[16px] leading-[12.73px]'>{"Recipes > Biryani burrito"}</p>
-                        <img src={BiryaniBurrito} className='pb-[150px] h-auto w-[278px] pt-8' alt="" />
+                        {/* <img src={BiryaniBurrito} className='pb-[150px] h-auto  pt-8' alt="" /> */}
+                        <h1 className='pb-[150px] max-w-[278px] font-skillet font-[400] leading-[62.4px] text-[96px] text-[#F4E8DF] pt-8'>Biryani Burrito</h1>
                         <div className='flex gap-5 pb-10'>
-                            <button className='px-4 rounded py-2 bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button'>Download PDF</button>
-                            <button className='px-4 rounded py-2 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button'>Share Recipe </button>
+                            <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button'>Download PDF</button>
+                            <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button'>Share Recipe </button>
                         </div>
                     </div>
                     <div className='col-span-1 lg:col-span-2 hidden md:flex'>

@@ -293,18 +293,17 @@ export const HowItWorks = () => {
                             >
                                 <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.title}</span>
                                 <span>
-                                    <motion.svg
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
+                                    <motion.svg width="14"
+                                        height="10"
+                                        viewBox="0 0 14 10"
+                                        fill="none"
                                         initial={{ rotate: 0 }}
                                         animate={{
                                             rotate: openCategoryMeals === item.id ? 180 : 0,
                                         }}
                                         transition={{ duration: 0.3 }}
-                                        fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <motion.path d="M7.99961 9.5999L12.7996 14.3999L17.5996 9.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
                                     </motion.svg>
                                 </span>
                             </motion.button>

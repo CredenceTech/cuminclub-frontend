@@ -262,8 +262,8 @@ const Facility = () => {
                     alt="sliding image"
                     className="w-full h-[300px] md:h-[500px] object-cover mr-20"
                   />
-                  <div className="absolute font-[400] bottom-4 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] p-4 w-[90%] md:w-[70%]">
-                    {sliderImageData[currentIndex].text}
+                  <div className="absolute font-[400] bottom-0 left-0 bg-gradient-to-b from-primary to-secondary font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] ">
+                    <p className='p-8 w-[90%] md:w-[70%]'>{sliderImageData[currentIndex].text}</p>
                   </div>
                 </div>
               </motion.div>
@@ -284,7 +284,7 @@ const Facility = () => {
                       alt="sliding image"
                       className="w-full h-[300px] md:h-[500px] object-cover bg-left"
                     />
-                    <div className="absolute font-[400] bottom-4 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] py-4 pl-10">
+                    <div className="absolute font-[400] bottom-0 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] bg-gradient-to-b from-primary to-secondary text-[#FFFFFF] py-10 pl-10">
                       {sliderImageData[previousIndex].text}
                     </div>
                   </div>

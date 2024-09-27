@@ -232,18 +232,17 @@ function ProductDetail() {
                                     >
                                         <span className="text-[22px] font-[400] leading-[23px] font-regola-pro text-[#393939]">{item.title}</span>
                                         <span>
-                                            <motion.svg
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
+                                            <motion.svg width="14"
+                                                height="10"
+                                                viewBox="0 0 14 10"
+                                                fill="none"
                                                 initial={{ rotate: 0 }}
                                                 animate={{
                                                     rotate: openCategoryMeals === item.id ? 180 : 0,
                                                 }}
                                                 transition={{ duration: 0.3 }}
-                                                fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <motion.path d="M7.99961 9.5999L12.7996 14.3999L17.5996 9.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                                <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
                                             </motion.svg>
                                         </span>
                                     </motion.button>
@@ -364,8 +363,8 @@ function ProductDetail() {
             </section>
             {!isBulk && <div className='p-10'>
                 <div className="relative bg-cover bg-no-repeat 2xl:h-[600px]  rounded-lg flex flex-col justify-center">
-                <img src={middleImg} className="2xl:h-full w-full  rounded-lg" style={{zIndex: 1}} />
-                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg md:max-w-[600px]"  style={{zIndex: 2}}></div>
+                    <img src={middleImg} className="2xl:h-full w-full  rounded-lg" style={{ zIndex: 1 }} />
+                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg md:max-w-[600px]" style={{ zIndex: 2 }}></div>
                     <div className="absolute inset-0 z-10 p-10">
                         <h2 className="text-[36px] leading-[43px] font-[400] font-inter text-[#FAFAFA] mb-4 pt-4 pl-4">Recipe</h2>
                         <div className="w-full md:max-w-[550px] pl-4">
@@ -420,12 +419,16 @@ function ProductDetail() {
                     <div className='flex justify-end'>
                         <div className='flex gap-3'>
                             {/* next button */}
-                            <button type='button' className='text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full'>
-                                &#8592;
+                            <button type='button' className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
+                                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="white" />
+                                </svg>
                             </button>
                             {/* prev button */}
-                            <button type='button' className='text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full'>
-                                &#8594;
+                            <button type='button' className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
+                                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="white" />
+                                </svg>
                             </button>
                         </div>
 
@@ -458,15 +461,15 @@ function ProductDetail() {
                                 className='flex justify-between items-start  w-[110px] pt-2 sm:w-[150px]  md:w-[170px]  overflow-visible'
                             >
                                 <div>
-                                    <p className='text-[#231F20] text-base font-[600] md:text-[20px] font-regola-pro leading-[24px] '>
+                                    <p className='text-[#231F20] text-base font-[600] md:text-[20px] font-regola-pro leading-[25px] '>
                                         {item?.node?.title}
                                     </p>
-                                    <p className='text-[#757575] mt-1 font-[400] md:text-[18px] font-regola-pro leading-[21px]'>
+                                    <p className='text-[#757575] mt-1 font-[400] md:text-[18px] font-regola-pro leading-[21.6px]'>
                                         ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
                                     </p>
                                 </div>
                                 <div className='h-auto'>
-                                    <button type='button' className='text-lg h-10 w-10 bg-[#EBEBEB] text-[#1D1929] rounded'>+</button>
+                                    <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded'>+</button>
                                 </div>
                             </div>
 
