@@ -707,11 +707,11 @@ function ReadyToEat() {
                                                         transition={{ duration: 0.4 }}
                                                     >
                                                         <img src={item?.image} alt="product" className="w-full h-[250px] md:h-full rounded-t-3xl" />
-                                                        <div className="absolute top-0 left-0 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full flex flex-col justify-between h-full">
+                                                        <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                                             <div className="p-5">
                                                                 <button type="button" className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 tracking-[0.12em] rounded-[10px] pt-2 pb-[6px] font-futuraBold font-[800]">CURRY</button>
                                                             </div>
-                                                            <div className="px-3 md:pl-8 pb-6">
+                                                            <div className="px-3 md:pl-8 pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                                                 <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-5">{item?.name}</p>
                                                                 <div className="flex flex-col md:flex-row md:gap-4">
                                                                     <button type="button" className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>

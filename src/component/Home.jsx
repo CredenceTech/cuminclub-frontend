@@ -612,7 +612,7 @@ const Home = () => {
                             className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200"
                           />
                           <div
-                            className="absolute inset-0 group-hover:opacity-90 transition duration-300"
+                            className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
                             style={{
                               background:
                                 "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
@@ -1123,7 +1123,7 @@ const Home = () => {
 
   {/* Second Div: Image and button */}
   <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
-    <div className='relative right-[-36px] top-[70px] z-[-1] mt-2'>
+    <div className='relative right-[-38px] top-[70px] z-[-1] mt-2'>
       <div
         className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px]'
         onClick={handleSpinClick}
@@ -1321,7 +1321,7 @@ const Home = () => {
           style={{ opacity: currentData ? 1 : 0, zIndex: 0 }}
         />
         <div
-          className="absolute inset-0 h-[300px]"
+          className="absolute inset-0 h-[350px]"
           style={{
             background:
               "linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
@@ -1329,14 +1329,14 @@ const Home = () => {
           }}
         />
         <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
-          <div className="flex">
+          <div className="flex pl-8 pt-2">
             <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
                   md:text-[48px] md:leading-[48.43px] font-[400]">
               What makes us instantly yours
             </h1>
           </div>
 
-          <div className="flex items-start space-x-4 mb-4 md:mt-10 mt-0 flex-col md:flex-row md:space-x-4">
+          <div className="flex items-start space-x-4 mb-4 md:mt-8 mt-0 flex-col md:flex-row md:space-x-4 pl-8">
             <img
               src={noPreservativeWhite}
               alt="Icon"
@@ -1355,7 +1355,7 @@ const Home = () => {
           </div>
 
           <div className="flex flex-grow justify-center items-center w-full  md:mt-80 mt-2">
-            <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col md:flex-row gap-10">
               {buttonTexts.map((text, index) => (
                 <button
                   key={index}

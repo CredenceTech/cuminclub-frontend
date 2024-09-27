@@ -237,7 +237,7 @@ const Header = () => {
                           className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200"
                         />
                         <div
-                          className="absolute inset-0 group-hover:opacity-90 transition duration-300"
+                          className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
                           style={{
                             background:
                               "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
