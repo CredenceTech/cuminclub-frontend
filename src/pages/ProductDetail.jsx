@@ -159,40 +159,41 @@ function ProductDetail() {
     return (
         <div className='bg-white'>
             <div className="flex md:flex-row flex-col pb-10">
-                <div className="md:w-1/2 w-full relative my-10 md:pr-7 gap-x-5 flex items-center">
-                    <div className='relative -left-16 w-4/6'>
+                <div className="md:w-1/2 w-full relative my-10 md:pr-7 gap-x-[40px] flex items-center">
+                    <div className='relative w-4/6'>
                         {/* <div className='relative -left-16  '> */}
                         <img
                             src={recipreDetails}
                             // src={data?.images?.edges[0]?.node?.src}
-                            // className="h-[588px] w-[553px]"
+                            className="h-[588.08px] w-[553px]"
                             alt={`carousel-`}
                         />
                     </div>
-                    <div className='flex relative -left-10 flex-col gap-y-2'>
+                    {/* <div className='flex relative -left-10 flex-col gap-y-2'> */}
+                    <div className='flex relative  flex-col gap-y-2'>
                         <img
                             src={detailrectange}
-                            className=" h-[130px] w-[100px]"
+                            className=" h-[163px] w-[130px]"
                             alt={`carousel-`}
                         />
                         <img
                             src={detailrectange}
-                            className=" h-[130px] w-[100px]"
+                            className=" h-[163px] w-[130px]"
                             alt={`carousel-`}
                         />
                         <img
                             src={detailrectange}
-                            className="h-[130px] w-[100px]"
+                            className="h-[163px] w-[130px]"
                             alt={`carousel-`}
                         />
                         <img
                             src={detailrectange}
-                            className=" h-[130px] w-[100px]"
+                            className="h-[163px] w-[130px]"
                             alt={`carousel-`}
                         />
                     </div>
                 </div>
-                <div className="lg:flex-grow md:w-1/2 mt-14 lg:mr-20 2xl:mr-40 w-full mb-10 md:mb-0">
+                <div className="lg:flex-grow md:max-w-[645px] md:w-1/2 mt-14 lg:mr-20 2xl:mr-40 w-full mb-10 md:mb-0">
                     {/*  accordion sadasdasd */}
                     <div className='px-4 md:px-0'>
                         <h1 className="sm:text-5xl font-skillet text-2xl text-[#EB7E01]">
@@ -208,7 +209,7 @@ function ProductDetail() {
 
                         <div className="flex justify-center items-center relative">
                         </div>
-                        <p className="text-[24px] font-[400] font-regola leading-[28.8px] mt-3 pl-2 text-[#757575]">
+                        <p className="text-[24px] font-[400] font-regola-pro leading-[28.8px] mt-3 pl-2 text-[#757575]">
                             {data?.description}
                         </p>
 
@@ -227,7 +228,7 @@ function ProductDetail() {
                                         }
                                         transition={{ duration: 0.3 }}
                                     >
-                                        <span className="text-[22px] font-[400] leading-[23px] font-regola text-[#393939]">{item.title}</span>
+                                        <span className="text-[22px] font-[400] leading-[23px] font-regola-pro text-[#393939]">{item.title}</span>
                                         <span>
                                             <motion.svg
                                                 width="24"
@@ -252,7 +253,7 @@ function ProductDetail() {
                                                 exit={{ height: 0, opacity: 0 }}
                                                 className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
                                             >
-                                                <p className="pt-2 text-[18px] font-[400] font-regola text-[#393939]">
+                                                <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939]">
                                                     {item.description}
                                                 </p>
                                             </motion.div>
@@ -265,7 +266,7 @@ function ProductDetail() {
                             <button className='px-8 py-2 bg-[#EDEDED] font-[600] leading-[25px] rounded text-[22px] text-[#EB7E01]' type='button'>Add to Cart</button>
                             <button className='px-8 py-2 bg-[#FEB14E] font-[600] leading-[25px] rounded text-[22px] text-[#FFFFFF]' type='button'>Subscribe</button>
                         </div>}
-                        {isBulk && <p className="text-[16px] font-[400] font-regola leading-[17.8px] mt-6 pl-2 text-[#393939]">
+                        {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                             *Suitable for vegetarians, No dairy ingredients useds
                         </p>}
                     </div>
@@ -382,14 +383,14 @@ function ProductDetail() {
                 </div>
             </div>}
 
-            <div className="py-16 md:px-[51px]">
+            <div className="py-[90px] md:px-[60px]">
                 <div className="">
                     <div className="flex flex-col md:flex-row">
                         <div className="w-full md:w-1/2 mb-10">
-                            <h2 className="text-[36px] font-[400] leading-[38px] font-skillet text-[#333333]">
+                            <h2 className="text-[36px] font-[400] leading-[37.34px] font-skillet text-[#333333]">
                                 Your Health is Our Priority
                             </h2>
-                            <p className="text-[36px] font-[400] leading-[38px] text-[#757575] font-skillet">
+                            <p className="text-[28px] font-[400] leading-[29.04px] text-[#757575] font-skillet">
                                 Don’t Believe Us, Believe Our Happy Customers
                             </p>
                         </div>
@@ -398,13 +399,13 @@ function ProductDetail() {
                             <div>
                                 <div className="flex flex-col lg:ml-20">
                                     <div className="relative">
-                                        <svg width="58" height="44" viewBox="0 0 58 44" className="absolute -top-3 -left-4 w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg width="58" height="44" viewBox="0 0 58 44" className="absolute -top-4 -left-9 w-[57.02px] h-[43.72px]" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="#B2B2B2" />
                                         </svg>
                                         <p className="px-6 py-1 font-[400] md:text-[24px] font-inter leading-[29px] text-[#757575]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
                                         </p>
 
-                                        <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute -bottom-7 right-0 w-8 h-8" xmlns="http://www.w3.org/2000/svg">
+                                        <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute -bottom-7 right-0 w-[57.02px] h-[43.72px]" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M57.0156 8.39233e-05V11.5058C57.0156 15.0001 56.3977 18.7075 55.1619 22.6279C53.8835 26.591 52.0511 30.4049 49.6648 34.0697C47.2358 37.7771 44.3168 40.9944 40.9077 43.7217L32.7259 37.074C35.4105 33.2387 37.7543 29.233 39.7571 25.0569C41.7173 20.9234 42.6974 16.4916 42.6974 11.7615V8.39233e-05H57.0156ZM24.2884 8.39233e-05V11.5058C24.2884 15.0001 23.6705 18.7075 22.4347 22.6279C21.1563 26.591 19.3239 30.4049 16.9375 34.0697C14.5085 37.7771 11.5895 40.9944 8.1804 43.7217L-0.00141907 37.074C2.68324 33.2387 5.02699 29.233 7.02982 25.0569C8.99005 20.9234 9.97017 16.4916 9.97017 11.7615V8.39233e-05H24.2884Z" fill="#B2B2B2" />
                                         </svg>
                                     </div>
