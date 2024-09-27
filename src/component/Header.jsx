@@ -217,7 +217,7 @@ const Header = () => {
                   onMouseEnter={() => setShowHeaderMain(true)}
                   // onMouseLeave={() => setShowHeaderMain(false)}
                   onClick={() => { setShowHeaderMain(true) }}
-                  className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] pr-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                  className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] pr-4 whitespace-nowrap relative  ${pathname === '/products' ? 'text-[#231F20]' : 'text-[#231F20]'} `}>
                   OUR MENU
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content
@@ -317,7 +317,7 @@ const Header = () => {
                   </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#CE3E27]' : 'text-[#231F20]'} `}>
+                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#231F20]' : 'text-[#231F20]'} `}>
                   RECIPES
                 </NavigationMenu.Trigger>
 
