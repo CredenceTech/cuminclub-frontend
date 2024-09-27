@@ -329,7 +329,7 @@ const Header = () => {
           <Link to="/">
             <svg
               width="143"
-              height="55"
+              height="63"
               viewBox="0 0 143 64"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

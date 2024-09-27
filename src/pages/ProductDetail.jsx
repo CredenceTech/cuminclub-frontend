@@ -9,6 +9,8 @@ import detailrectange from "../assets/detailrectange.png"
 import food1 from '../assets/food1.png';
 import step1 from '../assets/recipeimages/step1.png'
 import pavbhajiImg from '../assets/pavbhaji.png'
+import middleImg from '../assets/middle1-image1.png'
+
 function ProductDetail() {
     const location = useLocation();
     const [apiProductResponse, setApiProductResponse] = useState(null)
@@ -215,7 +217,7 @@ function ProductDetail() {
 
                         {isBulk && <button className='w-[200px] ml-2 my-3 text-center bg-[#EB7E01] font-[600] leading-[25px] font-regola-pro py-2 rounded text-[22px] text-[#FFFFFF]' type='button'>Send Enquiry</button>
                         }
-                        <div className="accordion-container m-2  text-[#333333]">
+                        <div className="accordion-container m-2  text-[#333333] pt-4">
                             {accordianData.map((item) => (
                                 <div key={item.id} className="mb-2">
                                     <motion.button
@@ -262,7 +264,7 @@ function ProductDetail() {
                                 </div>
                             ))}
                         </div>
-                        {!isBulk && <div className='flex pl-2 flex-row gap-x-5'>
+                        {!isBulk && <div className='flex pl-2 flex-row gap-x-5 pt-4'>
                             <button className='px-8 py-2 bg-[#EDEDED] font-[600] leading-[25px] rounded text-[22px] text-[#EB7E01]' type='button'>Add to Cart</button>
                             <button className='px-8 py-2 bg-[#FEB14E] font-[600] leading-[25px] rounded text-[22px] text-[#FFFFFF]' type='button'>Subscribe</button>
                         </div>}
@@ -361,17 +363,18 @@ function ProductDetail() {
                 </div>
             </section>
             {!isBulk && <div className='p-10'>
-                <div className="relative bg-cover bg-no-repeat 2xl:h-[560px] bg-custom-image-middle1  rounded-lg flex flex-col justify-center p-10">
-                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg"></div>
-                    <div className="relative z-10">
-                        <h2 className="text-[36px] leading-[43px] font-[400] font-inter l text-[#FAFAFA] mb-4 sm:text-2xl">Recipe</h2>
-                        <div className="w-full md:max-w-[550px]">
+                <div className="relative bg-cover bg-no-repeat 2xl:h-[600px]  rounded-lg flex flex-col justify-center">
+                <img src={middleImg} className="2xl:h-full w-full  rounded-lg" style={{zIndex: 1}} />
+                    <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg md:max-w-[600px]"  style={{zIndex: 2}}></div>
+                    <div className="absolute inset-0 z-10 p-10">
+                        <h2 className="text-[36px] leading-[43px] font-[400] font-inter text-[#FAFAFA] mb-4 pt-4 pl-4">Recipe</h2>
+                        <div className="w-full md:max-w-[550px] pl-4">
                             <p className="text-[16px] leading-[19px] text-[#CECECE] font-[400] font-inter " >
                                 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
                             </p>
                         </div>
-                        <button className="bg-white text-black mt-4 w-[155px] text-center py-2 rounded">Learn More</button>
-                        <div className='flex gap-3 mt-44 pr-4'>
+                        <button className="bg-white text-black mt-4 w-[155px] text-center py-2 rounded ml-4 font-[300] text-[16px] font-regola-pro">Learn More</button>
+                        <div className='flex gap-3 mt-44 pr-4 ml-4'>
                             <button type='button' className='text-lg px-5 py-[14px] bg-[#DCDCDC] text-[#636363] rounded-full'>
                                 &#8592;
                             </button>
@@ -383,7 +386,7 @@ function ProductDetail() {
                 </div>
             </div>}
 
-            <div className="py-[90px] md:px-[60px]">
+            <div className="py-[90px] md:px-[51px]">
                 <div className="">
                     <div className="flex flex-col md:flex-row">
                         <div className="w-full md:w-1/2 mb-10">
@@ -429,7 +432,7 @@ function ProductDetail() {
                     </div>
                 </div>
             </div>
-            <div><p className='px-5 md:px-[51px] text-3xl font-skillet'>You May Also Like</p></div>
+            <div><p className='px-5 md:px-[51px] text-[36px] leading-[37.34px] font-skillet'>You May Also Like</p></div>
             <div className='px-5 md:px-[51px] flex justify-between items-center py-14 '>
                 <div className='flex flex-row justify-around md:justify-between gap-x-8 flex-wrap w-full '>
                     {apiResponse?.map((item, i) => (

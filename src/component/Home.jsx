@@ -49,6 +49,7 @@ import headerMenu3 from "../assets/header-menu3.png"
 import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
+import middleImg from '../assets/middle1-image1.png'
 
 const Home = () => {
 
@@ -985,10 +986,10 @@ const Home = () => {
                       }}
                     />
                   </div>
-                  <p className='text-[#231F20] text-base font-futuraBold md:text-lg pt-2'>
+                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
                     {item?.node?.title}
                   </p>
-                  <p className='text-gray-500 text-lg'>
+                  <p className='text-[#757575] text-[18px] font-[400] leading-[21.6px] pt-1 font-regola-pro'>
                     ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
                   </p>
                 </div>
@@ -1045,16 +1046,17 @@ const Home = () => {
           <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400]'>Instantly Yours Promises Instant, Hygienic Meals</p>
         </div>
 
-        <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[509px] md:h-[509px] bg-custom-image-middle1 md:ml-[10px] lg:ml-[135px] md:rounded-l-lg flex flex-col justify-center pl-[60px] pb-[280px] pt-[60px] sm:pt-[100px] sm:pl-[60px] mt-[35px]">
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-2/5"></div>
-          <div className="relative z-10 text-white">
+        <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[509px] md:h-[509px] md:ml-[10px] lg:ml-[135px] md:rounded-l-lg flex flex-col justify-center mt-[35px]">
+        <img src={middleImg} className="h-[509px] w-full " style={{zIndex: 1}} />
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{zIndex: 2}}></div>
+          <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px]">
             <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-inter">Ready to Eat</h2>
             <div className="w-full md:w-2/5">
               <p className="text-[16px] text-[#CECECE] font-normal font-inter mb-4 leading-[19.36px]" >
                 Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-6 rounded font-regola-pro">DISCOVER</button>
+            <button className="bg-white text-[#333333] mt-4 py-2 px-6 rounded font-regola-pro font-[300] text-[16px]">DISCOVER</button>
           </div>
         </div>
 
