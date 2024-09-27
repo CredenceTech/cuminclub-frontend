@@ -14,7 +14,7 @@
 
 @font-face {
   font-family: 'FuturaBold';
-  src: url('/Futura Bold.otf') format('opentype');
+  src: url('/public/Futura-CondensedExtraBold.otf') format('opentype');
   font-weight: bold;
   font-style: normal;
 }

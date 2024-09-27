@@ -769,8 +769,8 @@ export const ReadyToCook = () => {
                                                     </div>
                                                     <p className="text-[20px] leading-[15.92px] font-[500] font-futura text-[#757575] pt-2 pb-3">{item?.description}</p>
                                                     <div className="flex gap-x-4 mt-1">
-                                                        <button type="button" className="border-2 border-[#333333] text-[#333333] px-3 rounded-lg  pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">ADD TO CART</button>
-                                                        <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                        <button type="button" className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg  pt-[4px] pb-[2px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">ADD TO CART</button>
+                                                        <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[2px] font-futuraBold  text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
                                                     </div>
                                                 </div>
                                             </motion.div>
@@ -793,8 +793,8 @@ export const ReadyToCook = () => {
                                                     <div className="px-3 md:pl-8 pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                                         <p className="font-futuraBold text-[#FAFAFA] text-[30px] leading-[23.88px] uppercase mb-5">{item?.name}</p>
                                                         <div className="flex flex-col md:flex-row md:gap-4">
-                                                            <button type="button" className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
-                                                            <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg pt-2 pb-[6px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
+                                                            <button type="button" className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[2px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em] text-left">ADD TO CART</button>
+                                                            <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[2px] font-futuraBold text-[16px] font-[800] leading-[21.28px] tracking-[0.12em]">BUY NOW</button>
                                                         </div>
                                                     </div>
                                                 </div>
