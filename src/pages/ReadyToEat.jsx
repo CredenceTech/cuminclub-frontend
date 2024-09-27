@@ -33,6 +33,8 @@ import productImage from '../assets/Dish-1.jpg';
 import { categoryrData } from "../state/selectedCategory";
 import headerImage2 from '../assets/header2.png'
 import videoimage from '../assets/videoimage.png'
+import kormavideo from '../assets/video/Korma-Reel.mp4'
+import ReactPlayer from "react-player";
 function ReadyToEat() {
 
     const [apiResponse, setApiResponse] = useState(null);
@@ -604,15 +606,17 @@ function ReadyToEat() {
                     </div>
 
                 </div>
-                <div className="col-span-1 h-[891px] w-full ">
-                    <img src={videoimage} alt="" className="h-full w-full" />
-                    {/* <ReactPlayer
-                        className='react-player'
-                        url='https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4'
+                <div className="col-span-1 h-[891px] w-full bg-[#0F0B05] ">
+                    {/* <img src={videoimage} alt="" className="h-full w-full" /> */}
+                    <ReactPlayer
+                        className='bg-cover'
+                        url={kormavideo}
                         width='100%'
                         height='100%'
-                        // controls={true}
-                    /> */}
+                        controls={true}
+                        loop={true}
+                        playing={true}
+                    />
                 </div>
             </div>
 
