@@ -1047,8 +1047,8 @@ const Home = () => {
         </div>
 
         <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[509px] md:h-[509px] md:ml-[10px] lg:ml-[135px] md:rounded-l-lg flex flex-col justify-center mt-[35px]">
-        <img src={middleImg} className="h-[509px] w-full " style={{zIndex: 1}} />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{zIndex: 2}}></div>
+          <img src={middleImg} className="h-[509px] w-full " style={{ zIndex: 1 }} />
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
           <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px]">
             <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-inter">Ready to Eat</h2>
             <div className="w-full md:w-2/5">
@@ -1113,64 +1113,63 @@ const Home = () => {
       </div>
 
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative'>
-  {/* First Div: Text on top of the second div */}
-  <div className='absolute top-10 left-5 lg:left-[127px] z-20'>
-    <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400]'>
-      Not Sure What to Eat?
-    </p>
-    <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300]'>
-      Give it a Spin!
-    </p>
-  </div>
+        <div className='absolute top-10 left-5 lg:left-[127px] z-20'>
+          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400]'>
+            Not Sure What to Eat?
+          </p>
+          <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300]'>
+            Give it a Spin!
+          </p>
+        </div>
+        <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
+          <div className='relative right-[-48px] top-[-15px] z-[-1] mt-2'>
+            <div
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px]'
+              onClick={handleSpinClick}
+              style={{
+                boxShadow: '0px 4px 22.7px 0px #0000001F inset',
+              }}
+            >
+              <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
+              <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro'>
+                {`Spin >>`}
+              </button>
+            </div>
+            <div className="absolute">
+              <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro' >
+                {selecteRandomPro?.node?.title}
+              </p>
+              <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro'>
+                ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
+              </p>
+              <button
+                type='button'
+                className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro'
+              >
+                Add to cart
+              </button>
+            </div>
+          </div>
 
-  {/* Second Div: Image and button */}
-  <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
-    <div className='relative right-[-38px] top-[70px] z-[-1] mt-2'>
-      <div
-        className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px]'
-        onClick={handleSpinClick}
-        style={{
-          boxShadow: '0px 4px 22.7px 0px #0000001F inset',
-        }}
-      >
-        <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
-        <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro'>
-          {`Spin >>`}
-        </button>
+          <AnimatePresence>
+            <motion.div
+              ref={imgRef}
+              onMouseDown={handleMouseDown}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1, rotate: rotation }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+            >
+              <img
+                src={selecteRandomPro?.node?.featuredImage?.url}
+                alt=''
+                className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px]'
+                draggable={false}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
-      <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 max-w-[260px] font-[600] leading-[50.47px] font-regola-pro' >
-        {selecteRandomPro?.node?.title}
-      </p>
-      <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro'>
-        ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
-      </p>
-      <button
-        type='button'
-        className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro'
-      >
-        Add to cart
-      </button>
-    </div>
-
-    <AnimatePresence>
-      <motion.div
-        ref={imgRef}
-        onMouseDown={handleMouseDown}
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1, rotate: rotation }}
-        exit={{ opacity: 0, scale: 0.5 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
-      >
-        <img
-          src={selecteRandomPro?.node?.featuredImage?.url}
-          alt=''
-          className='lg:h-[676px] h-[250px]'
-          draggable={false}
-        />
-      </motion.div>
-    </AnimatePresence>
-  </div>
-</div>
 
 
       {/* <div className='w-full bannerbottom h-[759px] overflow-hidden'>
