@@ -17,7 +17,7 @@ import processingStepsImg from '../assets/processing-steps.png'
 import { AnimatePresence, motion } from "framer-motion";
 import slidingImage2 from '../assets/facility-sliding2.png'
 import slidingImage3 from '../assets/facility-sliding3.png'
-
+import { wrap } from "popmotion";
 const Facility = () => {
 
   const [videoLoaded, setVideoLoaded] = useState(true);
@@ -92,6 +92,14 @@ const Facility = () => {
   ]
 
   const previousIndex = currentIndex === 0 ? sliderImageData.length - 1 : currentIndex - 1;
+
+  const [[page, direction], setPage] = useState([0, 0]);
+
+  const imageIndex = wrap(0, sliderImageData.length, page);
+  const nextImageIndex = wrap(0, sliderImageData.length, page + 1);
+  const paginate = (newDirection) => {
+    setPage([page + newDirection, newDirection]);
+  };
 
 
   return (
@@ -243,60 +251,49 @@ const Facility = () => {
         </div>
 
         {/* Slider Section */}
-        <div className="relative flex items-center w-full overflow-hidden  pt-2">
-          <div className="w-full mb-4  flex lg:mb-0">
+        <div className="relative flex items-center w-full overflow-hidden pt-2">
+          <div className="w-full mb-4 flex lg:mb-0">
             <div className="w-full flex gap-x-7">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.5 }}
-                className='w-5/6'
+              <div
+                key={page}
+                className={`w-5/6 slide-in-next`}
               >
-                <div
-                  className="slider-slide flex-shrink-0 relative mr-5"
-                >
+                <div className="slider-slide flex-shrink-0 relative mr-5">
                   <img
-                    src={sliderImageData[currentIndex].image}
+                    src={sliderImageData[imageIndex].image}
                     alt="sliding image"
                     className="w-full h-[300px] md:h-[500px] object-cover mr-20"
                   />
                   <div className="absolute font-[400] bottom-0 left-0 bg-gradient-to-b from-primary to-secondary font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] ">
-                    <p className='p-8 w-[90%] md:w-[70%]'>{sliderImageData[currentIndex].text}</p>
+                    <p className="p-8 w-[90%] md:w-[70%]">{sliderImageData[imageIndex].text}</p>
                   </div>
                 </div>
-              </motion.div>
-              <motion.div
-                key={previousIndex}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.3 }}
-                className='w-1/6  relative overflow-hidden'
+              </div>
+              <div
+                key={nextImageIndex}
+                className={`w-1/6 relative overflow-hidden `}
               >
-                <div className="w-[530%]  relative -left-[10%] overflow-hidden">
-                  <div
-                    className="slider-slide flex-shrink-0 relative mr-10 md:mr-40"
-                  >
+                <div className="w-[530%] relative -left-[10%] overflow-hidden">
+                  <div className="slider-slide flex-shrink-0 relative mr-10 md:mr-40">
                     <img
-                      src={sliderImageData[previousIndex].image}
+                      src={sliderImageData[nextImageIndex].image}
                       alt="sliding image"
                       className="w-full h-[300px] md:h-[500px] object-cover bg-left"
                     />
                     <div className="absolute font-[400] bottom-0 left-4 font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] bg-gradient-to-b from-primary to-secondary text-[#FFFFFF] py-10 pl-10">
-                      {sliderImageData[previousIndex].text}
+                      {sliderImageData[nextImageIndex].text}
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
 
           {/* Next Button */}
           <div
             className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer z-20 w-[40px] h-[40px] md:w-[57px] md:h-[57px] bg-[#FFFFFF] flex items-center justify-center"
-            onClick={handleNext}
+            // onClick={handleNext}
+            onClick={() => paginate(1)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -314,6 +311,7 @@ const Facility = () => {
             </svg>
           </div>
         </div>
+
       </div>
       <div className='pl-8 pt-[120px] pb-[60px] lg:pl-[60px] flex flex-wrap md:flex-nowrap'>
         <div className="w-full md:w-2/3 mr-0 md:mr-6">
