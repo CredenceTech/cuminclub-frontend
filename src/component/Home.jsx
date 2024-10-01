@@ -18,7 +18,7 @@ import {
   selectCartResponse,
   setCartResponse,
 } from "../state/cartData";
-import { getCartQuery, getCategoriesQuery, getProductCollectionsQuery, graphQLClient } from "../api/graphql";
+import { getCartQuery, getCategoriesQuery, getMediaImageQuery, getProductCollectionsQuery, getRecipeListQuery, graphQLClient } from "../api/graphql";
 import { selectMealItems } from "../state/mealdata";
 import { useLocation } from "react-router-dom";
 import { totalQuantity } from "../utils";
@@ -77,6 +77,44 @@ const Home = () => {
   const [rotation, setRotation] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [lastMouseX, setLastMouseX] = useState(0);
+
+  const [recipeList, setRecipeList]=useState(null);
+    const fetchImageById = async (imageId) => {
+        try {
+            const result = await graphQLClient.request(getMediaImageQuery, { id: imageId });
+            return result.node?.image?.url || ''; 
+        } catch (error) {
+            console.error("Error fetching image:", error);
+            return '';
+        }
+    };
+
+    useEffect(() => {
+        const apiCall = async () => {
+            try {
+                const result = await graphQLClient.request(getRecipeListQuery);
+                const collections = result.metaobjects.edges;
+                const recipesWithImages = await Promise.all(
+                    collections.map(async (recipe) => {
+                        const imageId = recipe.node.fields.find(field => field.key === 'image')?.value;
+                        const imageUrl = imageId ? await fetchImageById(imageId) : '';
+
+                        return {
+                            ...recipe.node,
+                            imageUrl
+                        };
+                    })
+                );
+
+                setRecipeList(recipesWithImages); 
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        apiCall();
+    }, []);
+
 
   const imgRef = useRef(null);
 
@@ -651,7 +689,7 @@ const Home = () => {
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-[500] font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipe-list') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-[500] font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
                     RECIPES
                   </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
@@ -765,7 +803,7 @@ const Home = () => {
               </svg>
 
               <div className="rounded-full absolute left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
-                <span style={{ fontSize: 15 }} className="font-[500] font-futura">
+                <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro">
                   {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
               </div>
@@ -1448,16 +1486,16 @@ const Home = () => {
                 Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
-            <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center">View all recipes</button>
+            <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={()=>{navigate('/recipe-list')}}>View all recipes</button>
           </div>
           <div className="w-full lg:min-w-3/4 lg:pb-[70px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
-            {recipData?.map((item, i) => (
-              <div key={i} className="relative min-w-[250px] md:min-w-[300px]">
+            {recipeList?.map((recipe) => (
+              <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}
-                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]">
+                <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]" >
                   <img
-                    src={item?.image}
-                    alt="Image"
+                    src={recipe?.imageUrl}
+                    alt= {recipe?.fields?.find(field => field.key === "name")?.value}
                     className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px]"
                   />
                 </div>
@@ -1465,7 +1503,7 @@ const Home = () => {
                 <div className="absolute bottom-[-12px] left-0 w-full">
                   <div className="bg-gradient-to-b from-primary to-secondary">
                     <p className="font-regola-pro text-white font-[500] text-[21.75px] leading-[26.1px] px-4 pb-8">
-                      {item?.title}
+                    {recipe?.fields?.find(field => field.key === "name")?.value}
                     </p>
                   </div>
                 </div>
@@ -1473,7 +1511,7 @@ const Home = () => {
             ))}
           </div>
 
-          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-[#333333] rounded font-[300] text-[16px]">View all recipes</button>
+          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-[#333333] rounded font-[300] text-[16px]" onClick={()=>{navigate('/recipe-list')}}>View all recipes</button>
         </div>
       </div>
 

@@ -84,7 +84,7 @@ const CardReview = () => {
                                             handleRemoveFromCart(
                                                 line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
                                             )
-                                        } type='button' className='text-[#F15E2A] m-7 font-futura text-xl border-b border-b-[#F15E2A]'>Remove</button>
+                                        } type='button' className='text-[#F15E2A] m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]'>Remove</button>
                                     </div>
                                 </div>
                             })}
@@ -100,7 +100,7 @@ const CardReview = () => {
                                     <p className="text-lg font-skillet  lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                     <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{cartResponse?.cart?.estimatedCost?.totalAmount?.amount}</span></p>
                                 </div>
-                                <p className='text-[#757575] text-[20px] font-[500] leading-[26.45px] text-end font-futura'>Tax included and shipping calculated at checkout</p>
+                                <p className='text-[#757575] text-[20px] font-[500] leading-[26.45px] text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
                                 <div className="flex mt-8 flex-row text-center gap-y-5 whitespace-nowrap justify-between gap-3">
                                     <div className='h-[80px] w-[220px] rounded-lg bg-[#EFE9DA]'>
                                         <p className='px-5 py-8 text-center font-[400] text-[20px] leading-[24px] font-regola-pro text-[#757575]'>Standard</p>
