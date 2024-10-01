@@ -549,7 +549,7 @@ function ReadyToEat() {
 
     return (
 
-        <div className="w-full bg-[#EFE9DA]">
+        <div className="w-full bg-[#EFE9DA] relative -top-[100px]">
             <div className="grid grid-cols-2 lg:grid-cols-3 " >
                 <div className=" col-span-2">
                     <div className="h-[357px] bg-[#0F0B05] "></div>
