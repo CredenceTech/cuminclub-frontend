@@ -8,8 +8,39 @@ import recipreDetails from "../assets/recipreDetails.png"
 import detailrectange from "../assets/detailrectange.png"
 import food1 from '../assets/food1.png';
 import step1 from '../assets/recipeimages/step1.png'
+import stepVideo1 from '../assets/productDetailsVideo/rtc-step1.mp4'
+import stepVideo2 from '../assets/productDetailsVideo/rtc-step2.mp4'
+import stepVideo3 from '../assets/productDetailsVideo/rtc-step3.mp4'
 import pavbhajiImg from '../assets/pavbhaji.png'
 import middleImg from '../assets/middle1-image1.png'
+import { wrap } from "popmotion";
+import ReactPlayer from 'react-player';
+
+const variants = {
+    enter: (direction) => {
+        return {
+            x: direction > 0 ? 1000 : -1000,
+            opacity: 0
+        };
+    },
+    center: {
+        zIndex: 1,
+        x: 0,
+        opacity: 1
+    },
+    exit: (direction) => {
+        return {
+            zIndex: 0,
+            x: direction < 0 ? 1000 : -1000,
+            opacity: 0
+        };
+    }
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => {
+    return Math.abs(offset) * velocity;
+};
 
 function ProductDetail() {
     const location = useLocation();
@@ -25,12 +56,13 @@ function ProductDetail() {
     const [isAnimating, setIsAnimating] = useState(false);
     const [apiResponse, setApiResponse] = useState(null);
     const isBulk = location.state?.isBulk || false;
+    const [[page, direction], setPage] = useState([0, 0]);
+    const [playing, setPlaying] = useState(true);
     // Array of image sources
     const imagess = [
-        { src: step1, alt: 'Step-1' },
-        { src: step1, alt: 'Food-1' },
-        { src: step1, alt: 'Step-2' },
-        { src: step1, alt: 'Food-2' },
+        { src: stepVideo1, alt: 'Step-1', desc: 'Melt 1 tablespoon of butter in a pan over high heat, add the spices from the Spice Pouch (small pouch), and sauté for 30 seconds or until fragrant.' },
+        { src: stepVideo2, alt: 'Food-2', desc: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium, voluptatem earum commodi maxime, ipsam, quia eveniet a nisi eos vero excepturi quisquam ducimus quas odio harum officiis.' },
+        { src: stepVideo3, alt: 'Step-3', desc: 'Melt 1 tablespoon of butter in a pan over high heat, add the spices from the Spice Pouch (small pouch), and sauté for 30 seconds or until fragrant.' },
     ];
     const previousIndex = currentIndex === 0 ? imagess.length - 1 : currentIndex - 1;
 
@@ -42,6 +74,22 @@ function ProductDetail() {
         setCurrentIndex((prevIndex) =>
             prevIndex === 0 ? imagess.length - 1 : prevIndex - 1
         );
+    };
+
+    const handleVideoEnd = () => {
+        setPlaying(false);
+    };
+
+    const handlePlayAgain = () => {
+        setPlaying(true);
+    };
+
+
+
+    const imageIndex = wrap(0, imagess.length, page);
+    const nextImageIndex = wrap(0, imagess.length, page + 1);
+    const paginate = (newDirection) => {
+        setPage([page + newDirection, newDirection]);
     };
 
     useEffect(() => {
@@ -210,6 +258,7 @@ function ProductDetail() {
                         <p className='text-[24px] font-[500] font-regola-pro mt-3 pl-2 text-[#757575]'>{`₹ ${'250' || 0}`}</p>
 
                         <div className="flex justify-center items-center relative">
+
                         </div>
                         <p className="text-[24px] font-[400] font-regola-pro leading-[28.8px] mt-3 pl-2 text-[#757575]">
                             {data?.description}
@@ -285,68 +334,96 @@ function ProductDetail() {
                             Fresh coriander leaves A swirl of cream A small piece of butter
                         </p>
                     </div>
-                    <div className="col-span-6 md:col-span-5 pl-3 pt-4">
-                        <div className="w-full mb-4  flex lg:mb-0">
-                            <div className="w-full flex gap-x-7">
-                                <motion.div
-                                    key={currentIndex}
-                                    initial={{ opacity: 0, x: 100 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -100 }}
-                                    transition={{ duration: 0.5 }}
-                                    className='w-5/6 h-[505px]'
-                                >
-                                    <img
-                                        className="w-full h-[505px] rounded-lg"
-                                        src={imagess[currentIndex].src}
-                                        alt={imagess[currentIndex].alt}
-                                        style={{
-                                            transition: "background-image 1s ease-in-out"
+                    <div className="col-span-6 md:col-span-5 pl-3 pt-4 relative">
+                        <div className="w-full mb-4  flex lg:mb-0 ">
+                            <div className="w-[80vw] flex gap-x-7">
+                                <AnimatePresence initial={false} custom={direction}>
+                                    <motion.div
+                                        key={page}
+                                        // src={imagess[imageIndex]}
+                                        custom={direction}
+                                        variants={variants}
+                                        initial="enter"
+                                        animate="center"
+                                        exit="exit"
+                                        transition={{
+                                            x: { type: "spring", stiffness: 300, damping: 30 },
+                                            opacity: { duration: 0.2 }
                                         }}
-                                    />
-                                </motion.div>
+
+                                        className='w-5/6  '
+                                    >
+                                        <div className='relative h-[505px] bg-[#333333] rounded-[11.2px] '>
+                                            <ReactPlayer
+                                                className="bg-cover"
+                                                url={imagess[imageIndex].src}
+                                                width="100%"
+                                                height="100%"
+                                                playing={playing}
+                                                controls={true}
+                                                onEnded={handleVideoEnd}
+                                            />
+                                            {/* {!playing && (
+                                            <div className="absolute inset-0 flex justify-center z-20 items-center">
+                                                <button
+                                                    onClick={handlePlayAgain}
+                                                    className="text-white p-4 rounded-full">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#EFEFEF"><path d="m383-310 267-170-267-170v340Zm97 230q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z" /></svg>                            </button>
+                                            </div>
+                                        )} */}
+                                            {/* <img
+                                            className="w-full h-[505px] rounded-lg"
+                                            src={imagess[imageIndex].src}
+                                            alt={imagess[imageIndex].alt}
+                                            style={{
+                                                transition: "background-image 1s ease-in-out"
+                                            }}
+                                        /> */}
+                                        </div>
+                                        <div className="flex ">
+                                            <h3 className="text-[104px] p-3 pr-8 font-[500] font-regola-pro leading-[125px] text-[#FFFFFF82] mb-4">{imageIndex + 1}</h3>
+                                            <p className="text-[24px] font-[500] leading-[31px] font-regola-pro w-5/6 pt-8 text-[#FFFFFF]">{imagess[imageIndex]?.desc}</p>
+                                        </div>
+                                    </motion.div>
+                                </AnimatePresence>
                                 <motion.div
                                     key={previousIndex}
-                                    initial={{ opacity: 0, x: 100 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -100 }}
-                                    transition={{ duration: 0.3 }}
-                                    className='w-1/6 h-[505px] rounded-lg relative overflow-hidden'
+                                    // initial={{ opacity: 0, x: 100 }}
+                                    // animate={{ opacity: 1, x: 0 }}
+                                    // exit={{ opacity: 0, x: -100 }}
+                                    // transition={{ duration: 0.3 }}
+                                    className='w-1/6 ml-10 relative'
                                 >
-                                    <div className="w-[430%] h-[505px] relative -left-[10%] overflow-hidden">
-                                        <img
-                                            className="w-full h-full rounded-lg"
-                                            src={imagess[previousIndex].src}
-                                            alt={imagess[previousIndex].alt}
+                                    <div className="w-[430%] h-[505px] rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden">
+                                        <ReactPlayer
+                                            className="bg-cover"
+                                            url={imagess[nextImageIndex].src}
+                                            width="100%"
+                                            height="100%"
+                                            playing={false}
                                         />
+                                    </div>
+                                    <div className='absolute bottom-20 right-0'>
+
+                                        <div className='flex gap-3 pr-[60px] pt-[32px]'>
+                                            {/* next button */}
+                                            <button type='button' onClick={() => { paginate(-1); setPlaying(true) }} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
+                                                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="#636363" />
+                                                </svg>
+                                            </button>
+                                            {/* prev button */}
+                                            <button type='button' onClick={() => { paginate(1); setPlaying(true) }} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
+                                                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="#636363" />
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                 </motion.div>
                             </div>
                         </div>
-                        <div className='flex justify-between '>
-                            <div className="flex ">
-                                <h3 className="text-[104px] p-3 pr-8 font-[500] font-regola-pro leading-[125px] text-[#FFFFFF82] mb-4">1</h3>
-                                <p className="text-[24px] font-[500] leading-[31px] font-regola-pro w-5/6 pt-8 text-[#FFFFFF]">
-                                    Melt 1 tablespoon of butter in a pan over high heat, add the spices
-                                    from the Spice Pouch (small pouch), and sauté for 30 seconds or
-                                    until fragrant.
-                                </p>
-                            </div>
-                            <div className='flex gap-3 pr-[60px] pt-[32px]'>
-                                {/* next button */}
-                                <button type='button' onClick={handlePrev} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
-                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="#636363" />
-                                    </svg>
-                                </button>
-                                {/* prev button */}
-                                <button type='button' onClick={handleNext} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
-                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="#636363" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+
 
                     </div>
 
@@ -360,7 +437,7 @@ function ProductDetail() {
                         </button>
                     </div> */}
                 </div>
-            </section>
+            </section >
             {!isBulk && <div className='p-10'>
                 <div className="relative bg-cover bg-no-repeat 2xl:h-[600px]  rounded-lg flex flex-col justify-center">
                     <img src={middleImg} className="2xl:h-full w-full  rounded-lg" style={{ zIndex: 1 }} />
@@ -383,7 +460,8 @@ function ProductDetail() {
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div>
+            }
 
             <div className="py-[90px] md:px-[51px]">
                 <div className="">
@@ -479,7 +557,7 @@ function ProductDetail() {
 
             </div>
 
-        </div>
+        </div >
     )
 }
 
