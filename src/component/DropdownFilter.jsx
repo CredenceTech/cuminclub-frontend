@@ -116,7 +116,7 @@ function DropdownFilter({
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <p className='text-[#231F20] text-[26px] font-[400] leading-[26.23px] font-skillet '>{selectedMealData?.noMeal}<span className='font-futura font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66] text-[26px] font-[400] leading-[26.23px] font-skillet'>{selectedMealData?.price}</span></p>
+        <p className='text-[#231F20] text-[26px] font-[400] leading-[26.23px] font-skillet '>{selectedMealData?.noMeal}<span className='font-regola-pro font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66] text-[26px] font-[400] leading-[26.23px] font-skillet'>{selectedMealData?.price}</span></p>
         <div className={`${!dropdownOpen ? 'rotate-0' : 'rotate-180'} `}>
           <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
@@ -139,7 +139,7 @@ function DropdownFilter({
           <ul className="m-2">
             {data?.map((item) => (
               <li onClick={() => { dispatch(addMeal(item)) }} key={item?.id} className={`py-1 px-3 cursor-pointer ${selectedMealData?.id === item?.id ? 'opacity-50' : ''} `}>
-                <p className='text-[#231F20] text-xl font-skillet '>{item?.noMeal} <span className='font-futura font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66]'>{item?.price}</span></p>
+                <p className='text-[#231F20] text-xl font-skillet '>{item?.noMeal} <span className='font-regola-pro font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66]'>{item?.price}</span></p>
               </li>
             ))}
           </ul>

@@ -317,7 +317,7 @@ const Header = () => {
                   </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger onClick={() => { navigate('/recipes') }} className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#231F20]' : 'text-[#231F20]'} `}>
+                <NavigationMenu.Trigger onClick={() => { navigate('/recipe-list') }} className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4  relative  ${pathname === '/recipes' ? 'text-[#231F20]' : 'text-[#231F20]'} `}>
                   RECIPES
                 </NavigationMenu.Trigger>
 
@@ -435,7 +435,7 @@ const Header = () => {
             </svg>
 
             <div className="rounded-full absolute left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
-              <span style={{ fontSize: 15 }} className="font-[500] font-futura">
+              <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro">
                 {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 {/* /{selectedMealData.no} */}
               </span>

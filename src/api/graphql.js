@@ -1054,4 +1054,124 @@ export const getCategoriesQuery = gql`
 }
 `;
 
+export const getRecipeListQuery = gql`
+{
+  metaobjects(first: 15, type: "recipes") {
+    edges {
+      node {
+        id
+        type
+        handle
+        fields {
+          key
+          value
+        }
+      }
+    }
+  }
+}
+`;
+
+export const getRecipeDetailsQuery = gql`
+  query getRecipeDetails($id: ID!) {
+    metaobject(id: $id) {
+      id
+      type
+      handle
+      fields {
+        key
+        value
+      }
+    }
+  }
+`;
+
+
+export const getMediaImageQuery = gql`
+  query getMediaImage($id: ID!) {
+    node(id: $id) {
+      ... on MediaImage {
+        id
+        alt
+        mediaContentType
+        image {
+          url
+        }
+      }
+    }
+  }
+`;
+
+
+export const getDownloadPdfQuery = gql`
+query getFileDetails($id: ID!) {
+  node(id: $id) {
+    ... on GenericFile {
+      id
+      alt
+      url
+    }
+  }
+}`;
+
+
+export const getproductListQuery=gql`
+query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean!) {
+  products(first: $first, sortKey: $sortKey, reverse: $reverse) {
+    edges {
+      node {
+        id
+        title
+      }
+    }
+  }
+}
+`;
+
+export const getProductDetailsQuery=gql`
+query GetProductDetails($id: ID!) {
+  product(id: $id) {
+    id
+    title
+    description
+    onlineStoreUrl
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images(first: 10) {
+      edges {
+        node {
+          altText
+          src
+        }
+      }
+    }
+    handle
+    variants(first: 10) {
+      edges {
+        node {
+          id
+          weight
+          weightUnit
+        }
+      }
+    }
+    metafields(identifiers: [
+      { namespace: "custom", key: "spice_level" },
+      { namespace: "custom", key: "how_to_prepare" },
+      { namespace: "custom", key: "nutrition_facts" },
+      { namespace: "custom", key: "ingredient" },
+      { namespace: "custom", key: "component_reference" }
+    ]) {
+      value
+      key
+    }
+  }
+}
+`;
+
+
 
