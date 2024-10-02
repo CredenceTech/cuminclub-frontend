@@ -265,7 +265,7 @@ const Facility = () => {
                     className="w-full h-[300px] md:h-[500px] object-cover mr-20"
                   />
                   <div className="absolute font-[400] bottom-0 left-0 bg-gradient-to-b from-primary to-secondary font-skillet text-[24px] md:text-[36px] leading-[30px] md:leading-[36.32px] text-[#FFFFFF] ">
-                    <p className="p-8 w-[90%] md:w-[70%]">{sliderImageData[imageIndex].text}</p>
+                    <p className="p-8 w-[90%] md:w-[80%]">{sliderImageData[imageIndex].text}</p>
                   </div>
                 </div>
               </div>
@@ -337,7 +337,7 @@ const Facility = () => {
               <h2 className="text-[22px]  font-medium leading-[30px] md:text-[46px] md:leading-[55.2px] text-[#333333] font-regola-pro">
                 100+ SKUs
               </h2>
-              <p className="text-[16px] md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro">
+              <p className="text-[16px] md:text-[24px] font-normal max-w-[290px] leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro">
                 bringing variety and choice to our customers
               </p>
             </div>
@@ -356,7 +356,7 @@ const Facility = () => {
               <h2 className="text-[22px] font-medium leading-[30px] md:text-[46px] md:leading-[55.2px] text-[#333333] font-regola-pro">
                 25+ clients
               </h2>
-              <p className="text-[16px] md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro">
+              <p className="text-[16px] md:text-[24px] font-normal max-w-[315px] leading-[18px] md:leading-[28.8px] text-[#757575] font-regola-pro">
                 across five continents, trusting us to serve them
               </p>
             </div>
@@ -450,9 +450,9 @@ const Facility = () => {
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-[87%] h-auto object-cover"
+                className="w-[347px] h-[243px] object-cover"
               />
-              <div className='mt-4 w-[67%] relative'>
+              <div className='mt-4 w-[60%] relative'>
                 <h2 className='text-[20px] md:text-[26px] font-[400] leading-[24px] md:leading-[31.2px] text-[#000000] font-regola-pro'>
                   {item.title}
                 </h2>
