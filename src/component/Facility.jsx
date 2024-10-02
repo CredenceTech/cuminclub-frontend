@@ -13,7 +13,7 @@ import packingFacilityImg from '../assets/packing-facility.png'
 import testingFacilityImg from '../assets/testing-facility.png'
 import testingLabImg from '../assets/testing-lab.png'
 import kettleFacilityImg from '../assets/kettle-facility.png'
-import processingStepsImg from '../assets/processing-steps.png'
+import processingStepsImg from '../assets/facilityfotter.svg'
 import { AnimatePresence, motion } from "framer-motion";
 import slidingImage2 from '../assets/facility-sliding2.png'
 import slidingImage3 from '../assets/facility-sliding3.png'

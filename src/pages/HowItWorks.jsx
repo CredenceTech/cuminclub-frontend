@@ -1,7 +1,10 @@
 import React, { useRef, useState } from 'react'
 import banner from '../assets/bannerHowItWorks.png'
 import howitworks1 from '../assets/howitworks1.png'
-import imagefooter from '../assets/footer-image.png'
+import howitworks2 from '../assets/howitworks2.png'
+import map1 from '../assets/map1.png'
+import map3 from '../assets/map3.png'
+import map4 from '../assets/map4.png'
 import { AnimatePresence, motion } from "framer-motion";
 import howitworks3 from '../assets/howitworks3.png'
 export const HowItWorks = () => {
@@ -57,31 +60,38 @@ export const HowItWorks = () => {
     const swiperDta = [
         {
             title: 'Starts with Fresh, High-Quality Ingredients',
-            desc: 'We go straight to the source—selecting the freshest, highest-quality ingredients from suppliers we trust. Because we prioritise raw materials, there’s no need for artificial preservatives. It’s the difference between food that’s made for convenience and food that’s made to nourish.'
+            desc: 'We go straight to the source—selecting the freshest, highest-quality ingredients from suppliers we trust. Because we prioritise raw materials, there’s no need for artificial preservatives. It’s the difference between food that’s made for convenience and food that’s made to nourish.',
+            img: map1
         },
         {
             title: 'Traditional Cooking, Just Like Home',
-            desc: "Imported from Korea, these two machines fill 30 pouches per minute, combining speed with precision."
+            desc: "Imported from Korea, these two machines fill 30 pouches per minute, combining speed with precision.",
+            img: ''
         },
         {
             title: 'Keeping It Safe and Delicious',
-            desc: 'A Turkish marvel that seals 24 trays per minute. It guarantees every product is packaged securely.'
+            desc: 'A Turkish marvel that seals 24 trays per minute. It guarantees every product is packaged securely.',
+            img: map3
         },
         {
             title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.'
+            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
+            img: map4
         },
         {
             title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.'
+            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
+            img: ""
         },
         {
             title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.'
+            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
+            img: ""
         },
         {
             title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.'
+            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
+            img: ""
         },
     ]
 
@@ -125,9 +135,11 @@ export const HowItWorks = () => {
     return (
         <div className='bg-white'>
             <div className='how-it-works-banner relative bg-cover h-[490px] bg-no-repeat' >
-                <div className='absolute bottom-0 w-full'>
-                    <h1 className='text-[#FFFFFF] font-regola-pro text-center font-[500] text-[36px] leading-[43.2px]'>Effortless Meals, Made Fresh and Simple</h1>
-                    <p className='font-[400] px-[106px] pt-8 pb-10 font-regola-pro leading-[28.8px] text-[24px] text-[#E7E7E7] text-center'>Enjoy fresh, wholesome meals without any hassle. Choose your favourites, get them delivered to your door and savour the convenience—all in just a few easy steps. </p>
+                <div className='absolute bottom-0 w-full flex flex-col justify-center items-center  bg-gradient-to-b from-[#00000094]  to-[#00000000] pt-[45px]'>
+                    <div className='max-w-[1229px] '>
+                        <h1 className='text-[#FFFFFF] font-regola-pro text-center font-[500] text-[36px] leading-[43.2px]'>Effortless Meals, Made Fresh and Simple</h1>
+                        <p className='font-[400]  pt-8 pb-10 font-regola-pro leading-[28.8px] text-[24px] text-[#E7E7E7] text-center'>Enjoy fresh, wholesome meals without any hassle. Choose your favourites, get them delivered to your door and savour the convenience—all in just a few easy steps. </p>
+                    </div>
                 </div>
             </div>
             <div className='md:px-[60px] px-[30px]'>
@@ -141,9 +153,9 @@ export const HowItWorks = () => {
                     <div className="col-span-1 ">
                         <div className='flex flex-col'>
                             <div>
-                                <img src={howitworks1} alt="" className='h-[345px]' />
+                                <img src={howitworks1} alt="" className='h-[345px] w-[623px]' />
                             </div>
-                            <div className='flex pt-3'>
+                            <div className='flex pt-3 max-w-[623px]'>
                                 <div className='px-4'>
                                     <h1 className='font-[500] font-regola-pro leading-[115.2px] text-[96px] text-[#6B6B6B61]'>1</h1>
                                 </div>
@@ -157,10 +169,10 @@ export const HowItWorks = () => {
                     </div>
                     <div className="col-span-1 ">
                         <div className='flex flex-col'>
-                            <div className='w-full bg-[#E7E7E7]'>
-                                <img src='https://placehold.co/623x345' alt="" className='w-full h-[345px]' />
+                            <div className='w-full'>
+                                <img src={howitworks2} alt="" className='w-[623px] h-[345px]' />
                             </div>
-                            <div className='flex pt-3'>
+                            <div className='flex pt-3 max-w-[623px]'>
                                 <div className='px-4'>
                                     <h1 className='font-[500] font-regola-pro leading-[115.2px] text-[96px] text-[#6B6B6B61]'>2</h1>
                                 </div>
@@ -228,9 +240,12 @@ export const HowItWorks = () => {
                 <div ref={swiperContainerRef} className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
                     {swiperDta?.map((item, i) => (
                         <div key={i} className="relative min-w-[247px] bg-[#C4C4C4] h-[400px] md:h-[569px] md:min-w-[347px]">
-                            <div className="absolute bottom-0 font-regola-pro z-20 left-0  whitespace-normal p-4 pr-8">
-                                <h2 className='font-[400] mb-5 text-[#000000] text-[26px] font-regola-pro leading-[31.2px]'> {item?.title}</h2>
-                                <p className='font-[400] text-[#757575] text-[16px] font-regola-pro leading-[19.2px]'> {item?.desc}</p>
+                            <div className='absolute inset-0'>
+                                <img src={item?.img} alt="" className='w-full h-[400px] md:h-[569px]' />
+                            </div>
+                            <div className="absolute bottom-0 bg-gradient-to-b from-[#000000A3]  to-[#D9D9D900] font-regola-pro z-20 left-0  whitespace-normal p-4 pt-10 pr-8">
+                                <h2 className='font-[400] mb-5 text-[#FFFFFF] text-[26px] font-regola-pro leading-[31.2px]'> {item?.title}</h2>
+                                <p className='font-[400] text-[#EDEDED] text-[16px] font-regola-pro leading-[19.2px]'> {item?.desc}</p>
                             </div>
                         </div>
                     ))}
