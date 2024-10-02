@@ -179,7 +179,7 @@ const RecipeList = () => {
                                 <img
                                     src={recipe?.imageUrl}
                                     alt={recipe?.fields?.find(field => field.key === "name")?.value}
-                                    className="w-full h-50 object-cover"
+                                    className="w-full h-auto object-cover"
                                 />
                                 <div className="p-4">
                                     <h3 className="text-[#333333] font-skillet text-[40px] leading-[26px] font-[400]">

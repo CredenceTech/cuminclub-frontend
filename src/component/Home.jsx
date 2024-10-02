@@ -404,62 +404,59 @@ const Home = () => {
     }
   ]
 
-  const [activeButton, setActiveButton] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const animationDuration = 5000;
+  const [activeButton, setActiveButton] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const lastUpdateTimeRef = useRef(0)
+  const animationDuration = 5000
 
-  const currentData = descriptionData[activeButton] || descriptionData[0];
+  const currentData = descriptionData[activeButton] || descriptionData[0]
 
   useEffect(() => {
-    let animationFrame;
-    let start;
+    let animationFrame
+    let startTime = performance.now() - (progress / 100) * animationDuration
 
-    if (!isPaused) {
-      const updateProgress = (timestamp) => {
-        if (!start) start = timestamp;
+    const updateProgress = (currentTime) => {
+      if (!isPaused) {
+        const elapsedTime = currentTime - startTime
+        const newProgress = Math.min((elapsedTime / animationDuration) * 100, 100)
+        setProgress(newProgress)
 
-        const runtime = timestamp - start + elapsedTime;
-        const progressPercentage = Math.min((runtime / animationDuration) * 100, 100);
-
-        setProgress(progressPercentage);
-
-        if (progressPercentage < 100) {
-          animationFrame = requestAnimationFrame(updateProgress);
+        if (newProgress < 100) {
+          lastUpdateTimeRef.current = currentTime
+          animationFrame = requestAnimationFrame(updateProgress)
         } else {
-          setActiveButton((prev) => (prev + 1) % buttonTexts.length);
-          setElapsedTime(0);
+          setActiveButton((prev) => (prev + 1) % buttonTexts.length)
+          startTime = currentTime
+          setProgress(0)
+          animationFrame = requestAnimationFrame(updateProgress)
         }
-      };
-      animationFrame = requestAnimationFrame(updateProgress);
+      }
     }
-    return () => cancelAnimationFrame(animationFrame);
-  }, [isPaused, elapsedTime, activeButton, buttonTexts.length]);
+
+    animationFrame = requestAnimationFrame(updateProgress)
+
+    return () => cancelAnimationFrame(animationFrame)
+  }, [isPaused, activeButton, buttonTexts.length, animationDuration])
 
   const handleButtonClick = (index) => {
-    setActiveButton(index);
-    setProgress(0);
-    setElapsedTime(0);
-    setIsPaused(true);
-  };
-
-  const togglePause = () => {
-    if (isPaused) {
-      setElapsedTime((prev) => prev + (progress / 100) * animationDuration);
-    }
-    setIsPaused((prev) => !prev);
-  };
+    setActiveButton(index)
+    setProgress(0)
+    setIsPaused(false)
+  }
 
   const handleMouseHold = () => {
-    setIsPaused(true);
-  };
+    setIsPaused(true)
+  }
 
-  const handleMouseRelease = () => {
-    setElapsedTime((prev) => prev + (progress / 100) * animationDuration);
-    setIsPaused(false);
-  };
-
+  const handleMouseRelease  = () => {
+    if (isPaused) {
+      const currentTime = performance.now()
+      const pauseDuration = currentTime - lastUpdateTimeRef.current
+      lastUpdateTimeRef.current = currentTime - pauseDuration
+      setIsPaused(false)
+    }
+  }
 
   const bannerData = [
     {
@@ -1174,12 +1171,14 @@ const Home = () => {
               </button>
             </div>
             <div className="absolute">
+              <div className="h-[145px]">
               <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro' >
                 {selecteRandomPro?.node?.title}
               </p>
               <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro'>
                 ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
               </p>
+              </div>
               <button
                 type='button'
                 className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro'
@@ -1311,7 +1310,7 @@ const Home = () => {
             <div className="flex flex-wrap -mx-2">
               <div className="w-full md:w-1/3 px-2 mb-6">
                 <div className="p-4">
-                  <img src={selectMeal} alt="Select Meal" className="w-[150px] h-[150px] object-cover mb-4" />
+                  <img src={selectMeal} alt="Select Meal" className="w-auto h-[195px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Select Your Meals
                   </h3>
@@ -1323,7 +1322,7 @@ const Home = () => {
               </div>
               <div className="w-full md:w-1/3 px-2 mb-6">
                 <div className="p-4">
-                  <img src={recieveBox} alt="Receive Box" className="w-[150px] h-[150px] object-cover mb-4" />
+                  <img src={recieveBox} alt="Receive Box" className="w-auto h-[195px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Receive Your Box
                   </h3>
@@ -1335,7 +1334,7 @@ const Home = () => {
               </div>
               <div className="w-full md:w-1/3 px-2 mb-6">
                 <div className="p-4">
-                  <img src={heatEat} alt="Heat and Enjoy" className="w-[150px] h-[150px] object-cover mb-4" />
+                  <img src={heatEat} alt="Heat and Enjoy" className="w-auto h-[195px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Heat and Enjoy
                   </h3>
@@ -1495,8 +1494,8 @@ const Home = () => {
                 <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]" >
                   <img
                     src={recipe?.imageUrl}
-                    alt={recipe?.fields?.find(field => field.key === "name")?.value}
-                    className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px]"
+                    alt= {recipe?.fields?.find(field => field.key === "name")?.value}
+                    className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px] cursor-pointer"
                   />
                 </div>
 

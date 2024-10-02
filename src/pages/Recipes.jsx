@@ -51,16 +51,15 @@ const Recipes = () => {
         try {
             const response = await graphQLClient.request(getProductDetailsQuery, { id });
             const product = response?.product;
-            const productDetails = {
+            return {
                 id: product.id,
                 title: product.title,
                 description: product.description,
-                image: product.images.edges.length > 0 ? product.images.edges[0].node.src : null, // Get the first image src
+                image: product.images.edges.length > 0 ? product.images.edges[0].node.src : null,
             };
-            setProductDetails(productDetails)
-
         } catch (error) {
             console.error('Error fetching product details:', error);
+            throw error;
         }
     };
 
@@ -109,11 +108,20 @@ const Recipes = () => {
                 }
                 const productsString = recipeData?.fields.find(field => field.key === 'select_product')?.value;
                 const products = productsString ? JSON.parse(productsString) : [];
-                const selectedProductDetails = products?.length > 0 ? products[0] : null;
+                console.log(products);
+                if (products.length > 0) {
+                    const fetchAllProductDetails = async () => {
+                        try {
+                            const productDetailsPromises = products.map(product => handleProductDetails(product));
+                            const allProductDetails = await Promise.all(productDetailsPromises);
+                            recipeData.product_details = allProductDetails;
+                            setProductDetails(allProductDetails);
+                        } catch (error) {
+                            console.error('Error fetching all product details:', error);
+                        }
+                    };
 
-                if (selectedProductDetails) {
-                    recipeData.product_details = selectedProductDetails;
-                    handleProductDetails(selectedProductDetails);
+                    fetchAllProductDetails();
                 }
                 setRecipe(recipeData);
             } catch (error) {
@@ -126,6 +134,7 @@ const Recipes = () => {
             apiCall();
         }
     }, [recipeId]);
+
 
     useEffect(() => {
         if (recipe?.steps) {
@@ -150,7 +159,7 @@ const Recipes = () => {
                     }
                     else if (index === instructionsRef.current.length - 1) {
                         if (top < 0) {
-                            const progress = Math.max(0, Math.min(1, -top / height));
+                            const progress = Math.max(0, Math.min(1, -top / (height - 200)));
                             return progress;
                         }
                     }
@@ -215,7 +224,7 @@ const Recipes = () => {
                     <div className=" col-span-2 md:col-span-1 pl-[60px]">
                         <p className='text-[#FFFFFF] pt-[30px] font-regola-pro font-[300] text-[16px] leading-[12.73px]'>Recipes {">"} {recipe?.fields?.find(field => field.key === "name")?.value}</p>
                         {/* <img src={BiryaniBurrito} className='pb-[150px] h-auto  pt-8' alt="" /> */}
-                        <h1 className='pb-[150px] max-w-[278px] font-skillet font-[400] leading-[62.4px] text-[96px] text-[#F4E8DF] pt-8'>{recipe?.fields?.find(field => field.key === "name")?.value}</h1>
+                        <h1 className='pb-[20px] h-[300px] max-w-[278px] font-skillet font-[400] leading-[62.4px] text-[96px] text-[#F4E8DF] pt-8'>{recipe?.fields?.find(field => field.key === "name")?.value}</h1>
                         <div className='flex gap-5 pb-10'>
                             <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button' onClick={() => handleDownloadPDF(recipe?.fields?.find(field => field.key === "download_pdf")?.value)}>Download PDF</button>
                             <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button' onClick={handleShareClick}>Share Recipe </button>
@@ -254,9 +263,9 @@ const Recipes = () => {
                         <p className='text-[32px] leading-[34.34px] font-[400] text-[#231F20] mb-4 font-skillet'>Ingredients</p>
                         <ol className='lg:pr-28 pb-7'>
                             {recipe?.ingredients?.map((item, index) => (
-                                <div key={index} className='flex lg:pr-28 mb-[30px]'>
-                                    <p className='text-[16px] leading-[27.2px] font-[400] font-regola-pro text-[#333333] '>{index + 1}. </p>
-                                    <p className='text-[16px] leading-[27.2px] font-[400] font-regola-pro pl-4 text-[#333333]'>{item}</p>
+                                <div key={index} className='flex lg:pr-28 mb-[24px]'>
+                                    <p className='text-[16px] leading-[27.2px] font-[400] font-regola-pro text-[#000000] '>{index + 1}. </p>
+                                    <p className='text-[16px] leading-[27.2px] font-[400] font-regola-pro pl-[18px] text-[#000000]'>{item}</p>
                                 </div>
                             ))}
                         </ol>
@@ -280,29 +289,108 @@ const Recipes = () => {
                 </div>
             </div>
             <div className='bg-[#FFFFFF] py-10'>
-                <div className=''>
-                    <div className='flex md:flex-row flex-col-reverse justify-center items-start'>
-                        <div className='flex md:w-1/2 justify-center items-center'>
-                            <img src={productDetails?.image} alt="" className='w-auto h-[300px] md:h-[450px]' />
+                {productDetails && productDetails.length === 1 ? (
+                    <div className=''>
+                        <div className='flex md:flex-row flex-col-reverse justify-center items-start'>
+                            <div className='flex md:w-1/2 justify-center items-center'>
+                                <img
+                                    src={productDetails[0]?.image}
+                                    alt=""
+                                    className='w-auto h-[300px] md:h-[450px]'
+                                />
+                            </div>
+                            <div className='md:w-1/2 pl-6 md:pl-0'>
+                                <h1 className='text-[#C75801] font-skillet text-[36px] font-[400] leading-[36.32px]'>
+                                    Make this recipe Instantly Yours
+                                </h1>
+                                <p className='text-[20px] leading-[24px] font-regola-pro font-[400] my-2 text-[#333333]'>
+                                    Made with our
+                                </p>
+                                <h1 className='text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]'>
+                                    {productDetails[0]?.title}
+                                </h1>
+                                <p className='pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex'>
+                                    {productDetails[0]?.description}
+                                </p>
+                                <div className='hidden md:flex gap-x-2 pb-8'>
+                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>
+                                        Add to Cart
+                                    </button>
+                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>
+                                        Buy Now
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <div className='md:w-1/2 pl-6 md:pl-0'>
-                            <h1 className='text-[#C75801] font-skillet text-[36px] font-[400] leading-[36.32px] '>Make this recipe Instantly Yours</h1>
-                            <p className='text-[20px] leading-[24px] font-regola-pro font-[400] my-2 text-[#333333]'>Made with our </p>
-                            <h1 className='text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px] '>{productDetails?.title}</h1>
-                            <p className='pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex'>{productDetails?.description}</p>
-                            <div className='hidden md:flex gap-x-2 pb-8'>
-                                <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>Add to Cart</button>
-                                <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>Buy Now</button>
+                        <div className='md:hidden flex-row'>
+                            <p className='pb-20 font-regola-pro text-[20px] leading-[17.17px] font-[400] pl-8 pt-6'>
+                                About the product
+                            </p>
+                            <div className='gap-5'>
+                                <button className='px-4 w-1/2 py-4 bg-[#231F20] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF]' type='button'>
+                                    Add to Cart
+                                </button>
+                                <button className='px-4 w-1/2 py-4 bg-[#C75801] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF]' type='button'>
+                                    Buy Now
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div className='md:hidden flex-row'>
-                        <p className='pb-20 font-regola-pro text-[20px] leading-[17.17px] font-[400] pl-8 pt-6'>About the product</p>
-                        <div className='gap-5'>
-                            <button className='px-4 w-1/2 py-4 bg-[#231F20] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF]' type='button'>Add to Cart</button>
-                            <button className='px-4 w-1/2 py-4 bg-[#C75801] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF]' type='button'>Buy Now</button>
+                ) : productDetails && productDetails.length > 1 ? (
+                    <div className="py-10 px-10">
+                        <div className="mb-8">
+                            <h1 className="text-[#C75801] font-skillet text-[36px] font-[400] leading-[36.32px]">
+                                Make this recipe Instantly Yours
+                            </h1>
+                            <p className="text-[20px] leading-[24px] font-regola-pro font-[400] my-2 text-[#333333]">
+                                Made with our
+                            </p>
+                        </div>
+
+                        <div className="overflow-x-auto scrollbar-hide">
+                            <div className="flex space-x-4 pb-4">
+                                {productDetails.map((product, index) => (
+                                    <div key={index} className="flex-none w-full md:w-1/2">
+                                        <div className="flex border-r border-gray-300 pr-4">
+                                            <div className="w-1/2">
+                                                <img
+                                                    src={product?.image}
+                                                    alt={product?.title}
+                                                    className="w-auto h-[300px] md:h-[400px]"
+                                                />
+                                            </div>
+                                            <div className="w-1/2 pl-4">
+                                                <h1 className="text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]">
+                                                    {product?.title}
+                                                </h1>
+                                                <p className="pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex">
+                                                    {product?.description}
+                                                </p>
+                                                <div className="hidden md:flex gap-x-2 pb-8">
+                                                    <button
+                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]"
+                                                        type="button"
+                                                    >
+                                                        Add to Cart
+                                                    </button>
+                                                    <button
+                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]"
+                                                        type="button"
+                                                    >
+                                                        Buy Now
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
+                ) : null}
+
+                <div>
+
                 </div>
             </div>
             {showShareModal && <ShareModel handleCloseModal={handleCloseModal} shareUrl={shareUrl} />}
