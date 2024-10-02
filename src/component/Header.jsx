@@ -83,12 +83,12 @@ const Header = () => {
     {
       title: "Facility"
     },
-    {
-      title: "Team"
-    },
-    {
-      title: "Sustainability"
-    }
+    // {
+    //   title: "Team"
+    // },
+    // {
+    //   title: "Sustainability"
+    // }
   ]
 
 
@@ -204,6 +204,7 @@ const Header = () => {
     }
   };
 
+
   return (
     <div>
       <div
@@ -294,15 +295,15 @@ const Header = () => {
                 <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ${pathname.includes('ready-to-cook') ? 'text-[#FFFFFF]' : 'text-[#231F20]'}  `}>
                   LEARN
                 </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFABF] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]">
-                  <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                <NavigationMenu.Content className="NavigationMenuContent absolute  top-12 bg-[#D9D9D9] z-1000 w-auto h-auto rounded-[4px]">
+                  <div className="flex flex-col gap-4 w-full p-4 mb-[50px] z-1000">
                     {learnMenuData.map((menuItem, index) => (
                       <div
                         key={index}
-                        className="relative group cursor-pointer bg-[#D9D9D9] h-[330px] w-[250px]"
+                        className="relative group cursor-pointer"
                         onClick={() => onLearnClick(index)}
                       >
-                        <span className="absolute bottom-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
+                        <span className=" text-[#333333] font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
                           {menuItem.title}
                         </span>
 

@@ -78,42 +78,42 @@ const Home = () => {
   const [dragging, setDragging] = useState(false);
   const [lastMouseX, setLastMouseX] = useState(0);
 
-  const [recipeList, setRecipeList]=useState(null);
-    const fetchImageById = async (imageId) => {
-        try {
-            const result = await graphQLClient.request(getMediaImageQuery, { id: imageId });
-            return result.node?.image?.url || ''; 
-        } catch (error) {
-            console.error("Error fetching image:", error);
-            return '';
-        }
+  const [recipeList, setRecipeList] = useState(null);
+  const fetchImageById = async (imageId) => {
+    try {
+      const result = await graphQLClient.request(getMediaImageQuery, { id: imageId });
+      return result.node?.image?.url || '';
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      return '';
+    }
+  };
+
+  useEffect(() => {
+    const apiCall = async () => {
+      try {
+        const result = await graphQLClient.request(getRecipeListQuery);
+        const collections = result.metaobjects.edges;
+        const recipesWithImages = await Promise.all(
+          collections.map(async (recipe) => {
+            const imageId = recipe.node.fields.find(field => field.key === 'image')?.value;
+            const imageUrl = imageId ? await fetchImageById(imageId) : '';
+
+            return {
+              ...recipe.node,
+              imageUrl
+            };
+          })
+        );
+
+        setRecipeList(recipesWithImages);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
-    useEffect(() => {
-        const apiCall = async () => {
-            try {
-                const result = await graphQLClient.request(getRecipeListQuery);
-                const collections = result.metaobjects.edges;
-                const recipesWithImages = await Promise.all(
-                    collections.map(async (recipe) => {
-                        const imageId = recipe.node.fields.find(field => field.key === 'image')?.value;
-                        const imageUrl = imageId ? await fetchImageById(imageId) : '';
-
-                        return {
-                            ...recipe.node,
-                            imageUrl
-                        };
-                    })
-                );
-
-                setRecipeList(recipesWithImages); 
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        apiCall();
-    }, []);
+    apiCall();
+  }, []);
 
 
   const imgRef = useRef(null);
@@ -551,12 +551,12 @@ const Home = () => {
     {
       title: "Facility"
     },
-    {
-      title: "Team"
-    },
-    {
-      title: "Sustainability"
-    }
+    // {
+    //   title: "Team"
+    // },
+    // {
+    //   title: "Sustainability"
+    // }
   ]
 
   return (
@@ -671,15 +671,15 @@ const Home = () => {
                   <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
                     LEARN
                   </NavigationMenu.Trigger>
-                  <NavigationMenu.Content className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFABF] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]">
-                    <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                  <NavigationMenu.Content className="NavigationMenuContent mx-4 absolute top-12  bg-[#D9D9D9] rounded-[4px]">
+                    <div className="flex flex-col gap-4 w-full p-4 mb-[50px] z-1000">
                       {learnMenuData.map((menuItem, index) => (
                         <div
                           key={index}
-                          className="relative group cursor-pointer bg-[#D9D9D9] h-[330px] w-[250px]"
+                          className="relative group cursor-pointer"
                           onClick={() => onLearnClick(index)}
                         >
-                          <span className="absolute bottom-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
+                          <span className=" text-[#333333] font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
                             {menuItem.title}
                           </span>
 
@@ -1486,7 +1486,7 @@ const Home = () => {
                 Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
-            <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={()=>{navigate('/recipe-list')}}>View all recipes</button>
+            <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
           <div className="w-full lg:min-w-3/4 lg:pb-[70px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
             {recipeList?.map((recipe) => (
@@ -1495,7 +1495,7 @@ const Home = () => {
                 <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]" >
                   <img
                     src={recipe?.imageUrl}
-                    alt= {recipe?.fields?.find(field => field.key === "name")?.value}
+                    alt={recipe?.fields?.find(field => field.key === "name")?.value}
                     className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px]"
                   />
                 </div>
@@ -1503,7 +1503,7 @@ const Home = () => {
                 <div className="absolute bottom-[-12px] left-0 w-full">
                   <div className="bg-gradient-to-b from-primary to-secondary">
                     <p className="font-regola-pro text-white font-[500] text-[21.75px] leading-[26.1px] px-4 pb-8">
-                    {recipe?.fields?.find(field => field.key === "name")?.value}
+                      {recipe?.fields?.find(field => field.key === "name")?.value}
                     </p>
                   </div>
                 </div>
@@ -1511,7 +1511,7 @@ const Home = () => {
             ))}
           </div>
 
-          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-[#333333] rounded font-[300] text-[16px]" onClick={()=>{navigate('/recipe-list')}}>View all recipes</button>
+          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-[#333333] rounded font-[300] text-[16px]" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
         </div>
       </div>
 

@@ -1,13 +1,14 @@
 import React from 'react'
 import image from '../assets/Rectangle 150.png'
-import image1 from '../assets/image 1.png'
-
+import team from '../assets/team.png'
+import mission from '../assets/mission.png'
+import beginin from '../assets/beginin.png'
 import { useState } from 'react';
-
+import { AnimatePresence, motion } from "framer-motion";
 const slides = [
     {
         year: "2019",
-        image: image,
+        image: beginin,
         title: "The Beginning",
         description: "Instantly Yours was founded with a very simple yet powerful vision: To offer quick, convenient, and hygienic food solutions for modern lifestyles. From the very start, our focus has been on bringing effortless mealtime satisfaction to kitchens everywhere.",
     },
@@ -16,6 +17,36 @@ const slides = [
         image: image,
         title: "Growth Phase",
         description: "Expansion of facilities and new partnerships...",
+    },
+    {
+        year: "2021",
+        image: beginin,
+        title: "New Horizons",
+        description: "Entering new markets and increasing our product range...",
+    },
+    {
+        year: "2022",
+        image: image,
+        title: "New Horizons",
+        description: "Entering new markets and increasing our product range...",
+    },
+    {
+        year: "2023",
+        image: beginin,
+        title: "New Horizons",
+        description: "Entering new markets and increasing our product range...",
+    },
+    {
+        year: "2024",
+        image: image,
+        title: "New Horizons",
+        description: "Entering new markets and increasing our product range...",
+    },
+    {
+        year: "2025",
+        image: beginin,
+        title: "New Horizons",
+        description: "Entering new markets and increasing our product range...",
     },
     {
         year: "2021",
@@ -55,13 +86,15 @@ const AboutUs = () => {
             </div>
             <div className=''>
                 <div className='flex md:flex-row flex-col-reverse' >
+                    <div className='w-full h-[439px] '>
+                        <img src={team} alt="team" className='h-full lg:h-auto' />
+                    </div>
+                </div>
+                <div className='flex md:flex-row flex-col' >
+
                     <div className='w-full md:w-1/2 px-12 py-10 self-center'>
                         <p className='text-[24px] leading-[28.8px] font-[400] font-regola-pro text-[#757575]'>Nishant Jaiswal and Priyank Shah, originally successful in the textile industry, began exploring agriculture and organic farming. This journey led them to discover a fascinating food preservation method called retorting. It’s a process that keeps food fresh and full of flavour without any preservatives—just pure, authentic taste.</p>
                     </div>
-                    <div className='w-full md:w-1/2 h-[439px] bg-[#D9D9D9]'></div>
-                </div>
-                <div className='flex md:flex-row flex-col' >
-                    <div className='w-full md:w-1/2 h-[439px] bg-[#D9D9D9]'></div>
                     <div className='w-full md:w-1/2 px-24 py-10 self-center'>
                         <p className='text-[24px] leading-[28.8px] font-[400] font-regola-pro text-[#757575]'>Meanwhile, Rahul Jaiswal was studying in the United States. He often said, “I miss the familiar taste of homemade Indian meals. It’s difficult out here.” At the same time, back in Surat, Saurav Dhawan, fresh out of college, was trying to find quick, clean meals while starting his career. </p>
                     </div>
@@ -111,8 +144,8 @@ const AboutUs = () => {
 
             <div className='pl-5 lg:pl-[45px] pt-7 pr-7 3xl:pl-0 mt-20'>
                 <div className='flex flex-col md:flex-row'>
-                    <div className='w-full md:w-[60vw] h-[711px] bg-[#C4C4C4]'>
-                        <img src='https://placehold.co/711x826' alt="" className='w-[826px] h-[711px]' />
+                    <div className='w-full md:w-[60vw] h-[711px]'>
+                        <img src={mission} alt="" className='w-full h-[711px]' />
                     </div>
                     <div className='px-10 w-full md:w-[40vw] mt-0 pt-0'>
                         <div className='flex gap-10 mt-0 pt-0'>
@@ -134,11 +167,11 @@ const AboutUs = () => {
 
             {/* Slide Display */}
             <div className='relative'>
-                <div className='flex lg:flex-row flex-col lg:pl-[150px] justify-between mt-28'>
+                <div className='flex lg:flex-row flex-col lg:pl-[180px] justify-between mt-28'>
                     <img
                         src={slides[currentSlide].image}
                         alt={slides[currentSlide].title}
-                        className='lg:w-[40vw] ml-6 lg:ml-0 pr-7 lg:pr-0 lg:h-[25vw] object-cover rounded-[13px]'
+                        className='lg:w-[519px] ml-6 lg:ml-0 pr-7 lg:pr-0 lg:h-[322px] object-cover rounded-[13px]'
                     />
                     <div className='lg:w-[60vw] ml-10 pr-20 mt-8 lg:mt-0'>
                         <h1 className='md:text-[32px] leading-[38.73px] text-2xl font-inter font-[400] text-[#333333]'>{slides[currentSlide].title}</h1>
@@ -158,7 +191,7 @@ const AboutUs = () => {
                     </button>
                 </div>
                 {/* Timeline Dots */}
-                <div className="timeline-dots flex justify-center mt-10">
+                <div className="timeline-dots overflow-x-scroll flex md:ml-[100px] mt-10">
                     {slides.map((slide, index) => (
                         <div key={index} className="flex flex-col items-center relative">
                             {/* Underline for the dot */}
@@ -171,7 +204,9 @@ const AboutUs = () => {
                                 <span
                                     className={`h-5 w-5 rounded-full cursor-pointer ${index === currentSlide ? 'bg-[#757575]' : 'bg-[#D9D9D9]'}`}
                                     onClick={() => setCurrentSlide(index)}
+                                // layoutId="underline"
                                 />
+                                {/* <motion.div className="underlineHeader" layoutId="underline" /> */}
                                 {/* Right underline */}
                                 <span
                                     className={`block h-[2.5px] w-14 bg-[#D9D9D9] ${index === slides.length + 1 ? 'invisible' : ''}`}
@@ -180,7 +215,7 @@ const AboutUs = () => {
 
                             {/* Conditionally render the year below the active dot */}
                             {index === currentSlide && (
-                                <span className="text-2xl text-gray-600 font-inter font-[400] mt-2">{slide.year}</span>
+                                <motion.span className="text-2xl text-gray-600 font-inter font-[400] mt-2" layoutId="underline">{slide.year}</motion.span>
                             )}
                         </div>
                     ))}
