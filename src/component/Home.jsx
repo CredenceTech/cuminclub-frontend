@@ -404,6 +404,83 @@ const Home = () => {
     }
   ]
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const testimonials = [
+    {
+      id: 1,
+      text: "Easy to carry and easy to open! Tasty food!",
+      reviewerName: "Nayan Dubey",
+      typeform: "Typeform",
+      typeformMessage: {
+        title: "Pilot",
+        messages: ["76 participants", "300 products",
+          "26 median age"]
+      }
+    },
+    {
+      id: 2,
+      text: "Good quality packaging with no leakage issue.",
+      reviewerName: "Shristi Dhawan",
+      typeform: "Typeform",
+      typeformMessage: {
+        title: "Pilot",
+        messages: ["76 participants", "300 products",
+          "26 median age"]
+      }
+
+    },
+    {
+      id: 3,
+      text: "Packaging is good and the colour combination lets you recall the item.",
+      reviewerName: "Harshit Mehrotra",
+      typeform: "Typeform",
+      typeformMessage: {
+        title: "Pilot",
+        messages: ["76 participants", "300 products",
+          "26 median age"]
+      }
+    },
+    {
+      id: 4,
+      text: "Easy to carry and easy to open! Tasty food!",
+      reviewerName: "Nayan Dubey",
+      typeform: "Typeform",
+      typeformMessage: {
+        title: "Pilot",
+        messages: ["76 participants", "300 products",
+          "26 median age"]
+      }
+    }
+  ];
+
+  const tooltipData = {
+    title: "Packaging",
+    messages: [
+      "Lorem Ipsum Lorem Ipsum",
+      "Lorem Ipsum Lorem Ipsum"
+    ]
+  };
+
+  const totalSlides = testimonials.length;
+  const slidesPerView = 3;
+
+  const nextSlide = () => {
+    if (currentSlide < Math.ceil(totalSlides - 3)) {
+      setCurrentSlide((prev) => prev + 1);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentSlide > 0) {
+      setCurrentSlide((prev) => prev - 1);
+    }
+  };
+
+  const getBackgroundColor = (index) => {
+    return index % 2 === 0 ? '#FAA634' : '#FB7D36';
+  };
+
   const [activeButton, setActiveButton] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -449,7 +526,7 @@ const Home = () => {
     setIsPaused(true)
   }
 
-  const handleMouseRelease  = () => {
+  const handleMouseRelease = () => {
     if (isPaused) {
       const currentTime = performance.now()
       const pauseDuration = currentTime - lastUpdateTimeRef.current
@@ -1099,7 +1176,7 @@ const Home = () => {
           <div className="w-full relative md:w-3/5 flex-shrink-0 h-[300px] md:h-full order-2 md:order-1">
             <div className="relative w-full h-full">
               <div className="absolute top-[20%] left-[40%] md:top-[160px] md:left-[300px]">
-                <Tooltip message={":sparkles: Coming soon!"}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
                   <div className="cursor-pointer">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -1109,7 +1186,7 @@ const Home = () => {
                 </Tooltip>
               </div>
               <div className="absolute bottom-[30%] right-[20%] md:bottom-[150px] md:left-[480px]">
-                <Tooltip message={":sparkles: Coming soon!"}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
                   <div className="cursor-pointer">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -1119,7 +1196,7 @@ const Home = () => {
                 </Tooltip>
               </div>
               <div className="absolute bottom-[10%] left-[40%] md:bottom-[60px] md:left-[360px]">
-                <Tooltip message={":sparkles: Coming soon!"}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
                   <div className="cursor-pointer">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -1172,12 +1249,12 @@ const Home = () => {
             </div>
             <div className="absolute">
               <div className="h-[145px]">
-              <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro' >
-                {selecteRandomPro?.node?.title}
-              </p>
-              <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro'>
-                ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
-              </p>
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro' >
+                  {selecteRandomPro?.node?.title}
+                </p>
+                <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro'>
+                  ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
+                </p>
               </div>
               <button
                 type='button'
@@ -1423,50 +1500,96 @@ const Home = () => {
         </div>
       </div>
 
-
-
-
-      {/* <div className="py-16 px-8">
-        <div className="container mx-auto">
+      <div className="py-16 px-8">
+        <div className="mx-5">
           <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2 mb-10">
-              <h2 className="text-5xl font-bold font-skillet text-[#333333]">
+            <div className="w-full md:w-3/5 mb-10">
+              <h2 className="md:text-[48px] md:leading-[37px] font-[400] text-[30px] leading-[22px] font-skillet text-[#333333]">
                 Your Health is Our Priority
               </h2>
-              <p className="text-2xl text-[#757575] font-bold font-skillet">
+              <p className="md:text-[24px] md:leading-[37px] text-[20px] leading-[20px] text-[#757575] font-[500] font-regola-pro">
                 Don’t Believe Us, Believe Our Happy Customers
               </p>
             </div>
-            <div className="w-full md:w-1/2 flex justify-between items-start">
-
-              <div>
-                <div className="flex flex-col lg:ml-20">
-                  <div className="relative">
-                    <svg width="58" height="44" viewBox="0 0 58 44" className="absolute top-0 -left-4 w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="#B2B2B2" />
-                    </svg>
-                    <p className="px-6 py-1 text-lg text-[#757575]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    </p>
-
-                    <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute bottom-0 right-0 w-8 h-8" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M57.0156 8.39233e-05V11.5058C57.0156 15.0001 56.3977 18.7075 55.1619 22.6279C53.8835 26.591 52.0511 30.4049 49.6648 34.0697C47.2358 37.7771 44.3168 40.9944 40.9077 43.7217L32.7259 37.074C35.4105 33.2387 37.7543 29.233 39.7571 25.0569C41.7173 20.9234 42.6974 16.4916 42.6974 11.7615V8.39233e-05H57.0156ZM24.2884 8.39233e-05V11.5058C24.2884 15.0001 23.6705 18.7075 22.4347 22.6279C21.1563 26.591 19.3239 30.4049 16.9375 34.0697C14.5085 37.7771 11.5895 40.9944 8.1804 43.7217L-0.00141907 37.074C2.68324 33.2387 5.02699 29.233 7.02982 25.0569C8.99005 20.9234 9.97017 16.4916 9.97017 11.7615V8.39233e-05H24.2884Z" fill="#B2B2B2" />
-                    </svg>
-                  </div>
-                  <p className="text-left pl-5 text-[#333333] pt-4 text-lg font-medium">Person Name</p>
-                </div>
+            <div className="w-full md:w-2/5 flex flex-row justify-between items-start mb-10">
+              <div className="text-center">
+                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[500] text-[#FB7D36] font-regola-pro">9/10</h3>
+                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[##333333] font-regola-pro font-[500]">Packaging</p>
+              </div>
+              <div className="text-center">
+                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[500] text-[#FB7D36] font-regola-pro">10/10</h3>
+                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[##333333] font-regola-pro font-[500]">Products</p>
+              </div>
+              <div className="text-center">
+                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[500] text-[#FB7D36] font-regola-pro">9/10</h3>
+                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[##333333] font-regola-pro font-[500]">Service</p>
               </div>
             </div>
           </div>
+
         </div>
-       
-        <div className="mt-12 grid grid-cols-5 gap-x-6 max-w-7xl mx-auto">
-    {Array(5)
-      .fill(0)
-      .map((_, index) => (
-        <div key={index} className="bg-gray-300 h-40 rounded-lg"></div>
-      ))}
-  </div>
-      </div> */}
+
+        <div className="relative w-full">
+          <div className="overflow-hidden w-full">
+            <div
+              className="flex transition-transform duration-500"
+              style={{
+                transform: `translateX(-${currentSlide * (100 / slidesPerView)}%)`,
+              }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={testimonial.id}
+                  className="w-[31%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col"
+                  style={{ backgroundColor: getBackgroundColor(index) }}
+                >
+                  <div className="relative flex flex-col mb-[10px]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-0 left-0" height="44" viewBox="0 0 58 44" fill="none">
+                      <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="white" fill-opacity="0.45" />
+                    </svg>
+                    <p className="font-regola-pro leading-[28.8px] py-1 pl-[58px] pr-[40px] text-[20px] md:text-[24px] font-[500] text-[#FFFFFF]">
+                      {testimonial.text}
+                    </p>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-0 right-0" viewBox="0 0 58 44" fill="none">
+                      <path d="M57.0166 8.39233e-05V11.5058C57.0166 15.0001 56.3987 18.7075 55.1629 22.6279C53.8845 26.591 52.0521 30.4049 49.6657 34.0697C47.2368 37.7771 44.3177 40.9944 40.9086 43.7217L32.7268 37.074C35.4115 33.2387 37.7552 29.233 39.7581 25.0569C41.7183 20.9234 42.6984 16.4916 42.6984 11.7615V8.39233e-05H57.0166ZM24.2893 8.39233e-05V11.5058C24.2893 15.0001 23.6714 18.7075 22.4356 22.6279C21.1572 26.591 19.3248 30.4049 16.9385 34.0697C14.5095 37.7771 11.5905 40.9944 8.18137 43.7217L-0.000442505 37.074C2.68422 33.2387 5.02796 29.233 7.0308 25.0569C8.99103 20.9234 9.97115 16.4916 9.97115 11.7615V8.39233e-05H24.2893Z" fill="white" fill-opacity="0.45" />
+                    </svg>
+                  </div>
+                  <div className="flex justify-between mt-auto">
+                    <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#FFFFFF]">{testimonial.reviewerName}</p>
+
+                    <Tooltip data={testimonial.typeformMessage} >
+                      <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#FFFFFF]">{testimonial.typeform}</p>
+                    </Tooltip>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-end mt-5">
+            <div className="flex gap-3">
+              {/* Previous Button */}
+              <button
+                onClick={prevSlide}
+                type="button"
+                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full"
+                disabled={currentSlide === 0} // Disable button if on the first slide
+              >
+                &#8592;
+              </button>
+              {/* Next Button */}
+              <button
+                onClick={nextSlide}
+                type="button"
+                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full"
+                disabled={currentSlide >= Math.ceil(totalSlides - 3)}
+              >
+                &#8594;
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
 
       <div className='bg-[#EFE9DA] relative -bottom-[124px]'>
@@ -1494,7 +1617,7 @@ const Home = () => {
                 <div className="relative min-w-[250px] md:min-w-[300px] h-[300px] md:h-[350px]" >
                   <img
                     src={recipe?.imageUrl}
-                    alt= {recipe?.fields?.find(field => field.key === "name")?.value}
+                    alt={recipe?.fields?.find(field => field.key === "name")?.value}
                     className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px] cursor-pointer"
                   />
                 </div>
