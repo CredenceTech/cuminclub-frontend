@@ -2,18 +2,16 @@ import React, { Profiler, useEffect, useState } from 'react'
 import { getMediaImageQuery, getProductCollectionsQuery, getproductListQuery, getRecipeListQuery, graphQLClient } from '../api/graphql';
 import { useNavigate } from 'react-router-dom';
 import LoadingAnimation from "../component/Loader";
-
-
 const RecipeList = () => {
     const [recipeList, setRecipeList] = useState([]);
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    const navigate = useNavigate();
     const [productList, setProductList] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);  // Initially set loading to true
+    const [apiCallsComplete, setApiCallsComplete] = useState(false); // Track when all API calls are complete
+    const navigate = useNavigate();
 
     useEffect(() => {
-        setIsLoading(true);
         const fetchProducts = async () => {
             try {
                 const { products } = await graphQLClient.request(getproductListQuery, {
@@ -22,10 +20,8 @@ const RecipeList = () => {
                     reverse: false
                 });
                 const productData = products.edges.map(edge => edge.node);
-                setIsLoading(false);
                 setProductList(productData);
             } catch (error) {
-                setIsLoading(false);
                 console.error('Error fetching product list:', error);
             }
         };
@@ -35,21 +31,15 @@ const RecipeList = () => {
 
     useEffect(() => {
         const apiCall = async () => {
-            setIsLoading(true);
             try {
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
                     first: 1,
                     reverse: false,
                     query: "",
                 });
-                setIsLoading(false)
-
                 const collections = result;
-                console.log(collections)
-
+                console.log(collections);
             } catch (error) {
-                // Handle errors here
-                setIsLoading(false)
                 console.error("Error fetching data:", error);
             }
         };
@@ -57,13 +47,10 @@ const RecipeList = () => {
     }, []);
 
     const fetchImageById = async (imageId) => {
-        setIsLoading(true);
         try {
             const result = await graphQLClient.request(getMediaImageQuery, { id: imageId });
-            setIsLoading(false);
             return result.node?.image?.url || '';
         } catch (error) {
-            setIsLoading(false);
             console.error("Error fetching image:", error);
             return '';
         }
@@ -71,11 +58,10 @@ const RecipeList = () => {
 
     useEffect(() => {
         const apiCall = async () => {
-            setIsLoading(true);
             try {
                 const result = await graphQLClient.request(getRecipeListQuery, { first: 250 });
                 const collections = result.metaobjects.edges;
-                setIsLoading(false)
+
                 const recipesWithImages = await Promise.all(
                     collections.map(async (recipe) => {
                         const imageId = recipe.node.fields.find(field => field.key === 'image')?.value;
@@ -92,15 +78,16 @@ const RecipeList = () => {
 
                 setRecipeList(recipesWithImages);
                 setFilteredRecipes(recipesWithImages);
+                setApiCallsComplete(true);  // Set this to true when API calls are complete
             } catch (error) {
                 console.error("Error fetching data:", error);
-                setIsLoading(false)
+            } finally {
+                setIsLoading(false);  // Loading complete
             }
         };
 
         apiCall();
     }, []);
-
 
     const filterRecipes = () => {
         const filtered = recipeList.filter(recipe => {
@@ -117,9 +104,6 @@ const RecipeList = () => {
     const handleProductChange = (e) => {
         setSelectedProduct(e.target.value);
     };
-
-
-    console.log(recipeList);
 
     return (
         <div className='relative'>
@@ -171,9 +155,9 @@ const RecipeList = () => {
                     </div>
                 </div>
             </div>
-            <div className="bg-[#FAFAFA]">
+            <div className="bg-[#FAFAFA] min-h-[80vh]">
                 <div className="pl-[60px] pt-[60px] pr-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                    {filteredRecipes && filteredRecipes.length > 0 ? (
+                    {filteredRecipes.length > 0 ? (
                         filteredRecipes.map((recipe) => (
                             <div key={recipe?.id} className="bg-[#FFFFFF] cursor-pointer" onClick={() => { navigate('/recipes', { state: { recipeId: recipe?.id } }) }}>
                                 <img
@@ -217,11 +201,13 @@ const RecipeList = () => {
                             </div>
                         ))
                     ) : (
-                        <div className="text-center p-4 md:w-[600px] h-[400px]">
-                            <p className="text-[#333333] font-regola-pro text-[30px] leading-[24px] font-[600]">
-                                No recipes available at this time.
-                            </p>
-                        </div>
+                        !isLoading && apiCallsComplete && (
+                            <div className="text-center p-4 md:w-[600px] h-[400px]">
+                                <p className="text-[#333333] font-regola-pro text-[30px] leading-[24px] font-[600]">
+                                    No recipes available at this time.
+                                </p>
+                            </div>
+                        )
                     )}
 
                 </div>
@@ -231,4 +217,4 @@ const RecipeList = () => {
     )
 }
 
-export default RecipeList
+export default RecipeList;
