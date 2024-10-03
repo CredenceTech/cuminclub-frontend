@@ -1055,21 +1055,21 @@ export const getCategoriesQuery = gql`
 `;
 
 export const getRecipeListQuery = gql`
-{
-  metaobjects(first: 15, type: "recipes") {
-    edges {
-      node {
-        id
-        type
-        handle
-        fields {
-          key
-          value
+  query GetRecipeList($first: Int!) {
+    metaobjects(first: $first, type: "recipes") {
+      edges {
+        node {
+          id
+          type
+          handle
+          fields {
+            key
+            value
+          }
         }
       }
     }
   }
-}
 `;
 
 export const getRecipeDetailsQuery = gql`
@@ -1115,7 +1115,7 @@ query getFileDetails($id: ID!) {
 }`;
 
 
-export const getproductListQuery=gql`
+export const getproductListQuery = gql`
 query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean!) {
   products(first: $first, sortKey: $sortKey, reverse: $reverse) {
     edges {
@@ -1128,7 +1128,7 @@ query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean!) {
 }
 `;
 
-export const getProductDetailsQuery=gql`
+export const getProductDetailsQuery = gql`
 query GetProductDetails($id: ID!) {
   product(id: $id) {
     id

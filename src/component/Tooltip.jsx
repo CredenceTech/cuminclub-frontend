@@ -3,9 +3,9 @@ export default function Tooltip({ data, style = '-top-16 left-10', children }) {
     <div className="group relative flex ">
       {children}
       {data.messages && data.messages.length > 0 && (
-        <div className={`absolute scale-0 ${style} overflow-scroll transition-all group-hover:scale-100  bg-[#FFFFFFA3] backdropBackgroundCss p-4 whitespace-nowrap rounded-lg shadow-md`}>
+        <div className={`absolute scale-0 ${style} transition-all group-hover:scale-100  bg-[#FFFFFFA3] backdropBackgroundCss p-4 whitespace-nowrap rounded-lg shadow-md`}>
           {data.title && (
-            <h3 className="text-[22px] font-regola-pro font-normal leading-[26.4px] text-[#242424]">
+            <h3 className="text-[22px] font-regola-pro font-normal leading-[26.4px] text-[#242424] mb-1">
               {data.title}
             </h3>
           )}
