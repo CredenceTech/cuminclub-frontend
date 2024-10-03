@@ -464,16 +464,19 @@ const Home = () => {
 
   const totalSlides = testimonials.length;
   const slidesPerView = 3;
+  const [isLastInRow, setIsLastInRow] = useState(2)
 
   const nextSlide = () => {
     if (currentSlide < Math.ceil(totalSlides - 3)) {
       setCurrentSlide((prev) => prev + 1);
+      setIsLastInRow((isLastInRow) => isLastInRow + 1);
     }
   };
 
   const prevSlide = () => {
     if (currentSlide > 0) {
       setCurrentSlide((prev) => prev - 1);
+      setIsLastInRow((isLastInRow) => isLastInRow - 1);
     }
   };
 
@@ -1500,8 +1503,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="py-16 px-8">
-        <div className="mx-5">
+      <div className="py-16">
+        <div className="px-8 mx-5 pt-10">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-3/5 mb-10">
               <h2 className="md:text-[48px] md:leading-[37px] font-[400] text-[30px] leading-[22px] font-skillet text-[#333333]">
@@ -1529,7 +1532,7 @@ const Home = () => {
 
         </div>
 
-        <div className="relative w-full">
+        <div className="pl-[45px] relative w-full">
           <div className="overflow-hidden w-full">
             <div
               className="flex transition-transform duration-500"
@@ -1537,35 +1540,37 @@ const Home = () => {
                 transform: `translateX(-${currentSlide * (100 / slidesPerView)}%)`,
               }}
             >
-              {testimonials.map((testimonial, index) => (
-                <div
-                  key={testimonial.id}
-                  className="w-[31%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col"
-                  style={{ backgroundColor: getBackgroundColor(index) }}
-                >
-                  <div className="relative flex flex-col mb-[10px]">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-0 left-0" height="44" viewBox="0 0 58 44" fill="none">
-                      <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="white" fill-opacity="0.45" />
-                    </svg>
-                    <p className="font-regola-pro leading-[28.8px] py-1 pl-[58px] pr-[40px] text-[20px] md:text-[24px] font-[500] text-[#FFFFFF]">
-                      {testimonial.text}
-                    </p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-0 right-0" viewBox="0 0 58 44" fill="none">
-                      <path d="M57.0166 8.39233e-05V11.5058C57.0166 15.0001 56.3987 18.7075 55.1629 22.6279C53.8845 26.591 52.0521 30.4049 49.6657 34.0697C47.2368 37.7771 44.3177 40.9944 40.9086 43.7217L32.7268 37.074C35.4115 33.2387 37.7552 29.233 39.7581 25.0569C41.7183 20.9234 42.6984 16.4916 42.6984 11.7615V8.39233e-05H57.0166ZM24.2893 8.39233e-05V11.5058C24.2893 15.0001 23.6714 18.7075 22.4356 22.6279C21.1572 26.591 19.3248 30.4049 16.9385 34.0697C14.5095 37.7771 11.5905 40.9944 8.18137 43.7217L-0.000442505 37.074C2.68422 33.2387 5.02796 29.233 7.0308 25.0569C8.99103 20.9234 9.97115 16.4916 9.97115 11.7615V8.39233e-05H24.2893Z" fill="white" fill-opacity="0.45" />
-                    </svg>
-                  </div>
-                  <div className="flex justify-between mt-auto">
-                    <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#FFFFFF]">{testimonial.reviewerName}</p>
+              {testimonials.map((testimonial, index) => {
+                return (
+                  <div
+                    key={testimonial.id}
+                    className="w-[31%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col"
+                    style={{ backgroundColor: getBackgroundColor(index) }}
+                  >
+                    <div className="relative flex flex-col mb-[10px] pt-6">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-0 left-0" height="44" viewBox="0 0 58 44" fill="none">
+                        <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="white" fill-opacity="0.45" />
+                      </svg>
+                      <p className="font-regola-pro leading-[28.8px] py-1 pl-[58px] pr-[40px] text-[20px] md:text-[24px] font-[500] text-[#FFFFFF]">
+                        {testimonial.text}
+                      </p>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-0 right-0" viewBox="0 0 58 44" fill="none">
+                        <path d="M57.0166 8.39233e-05V11.5058C57.0166 15.0001 56.3987 18.7075 55.1629 22.6279C53.8845 26.591 52.0521 30.4049 49.6657 34.0697C47.2368 37.7771 44.3177 40.9944 40.9086 43.7217L32.7268 37.074C35.4115 33.2387 37.7552 29.233 39.7581 25.0569C41.7183 20.9234 42.6984 16.4916 42.6984 11.7615V8.39233e-05H57.0166ZM24.2893 8.39233e-05V11.5058C24.2893 15.0001 23.6714 18.7075 22.4356 22.6279C21.1572 26.591 19.3248 30.4049 16.9385 34.0697C14.5095 37.7771 11.5905 40.9944 8.18137 43.7217L-0.000442505 37.074C2.68422 33.2387 5.02796 29.233 7.0308 25.0569C8.99103 20.9234 9.97115 16.4916 9.97115 11.7615V8.39233e-05H24.2893Z" fill="white" fill-opacity="0.45" />
+                      </svg>
+                    </div>
+                    <div className="flex justify-between mt-auto pb-3">
+                      <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#FFFFFF]">{testimonial.reviewerName}</p>
 
-                    <Tooltip data={testimonial.typeformMessage} >
-                      <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#FFFFFF]">{testimonial.typeform}</p>
-                    </Tooltip>
+                      <Tooltip data={testimonial.typeformMessage} style={`bottom-3 ${index === isLastInRow ? '-left-[70px]' : 'left-6'}  px-8`} >
+                        <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#FFFFFF]">{testimonial.typeform}</p>
+                      </Tooltip>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
-          <div className="flex justify-end mt-5">
+          <div className="flex justify-end mt-5 pr-[60px]">
             <div className="flex gap-3">
               {/* Previous Button */}
               <button
