@@ -73,7 +73,7 @@ const RecipeList = () => {
         const apiCall = async () => {
             setIsLoading(true);
             try {
-                const result = await graphQLClient.request(getRecipeListQuery);
+                const result = await graphQLClient.request(getRecipeListQuery, { first: 250 });
                 const collections = result.metaobjects.edges;
                 setIsLoading(false)
                 const recipesWithImages = await Promise.all(
@@ -120,7 +120,7 @@ const RecipeList = () => {
 
 
     console.log(recipeList);
-    
+
     return (
         <div className='relative'>
             <div className="bg-[#FAFAFA]">

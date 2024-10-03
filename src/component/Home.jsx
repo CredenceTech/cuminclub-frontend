@@ -1,11 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import food from '../assets/food.png';
-import fastTime from '../assets/fast-time.png'
-import happy from '../assets/happy.png'
-import menu1 from '../assets/menu.png'
-import menu2 from '../assets/heateat.png'
-import menu3 from '../assets/cookeat.png'
-import noPreservative from '../assets/no-preservatives.png'
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { cartIsOpen, openCart } from "../state/cart";
@@ -31,7 +25,6 @@ import {
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { addCategoryData } from "../state/selectedCategory";
 import imagefooter from '../assets/footer-image.png'
-import sideImage from '../assets/Side.png'
 import heatEat from '../assets/heat-enjoy.png'
 import selectMeal from '../assets/select-meal.png'
 import recieveBox from '../assets/receive-box.png'
@@ -41,7 +34,6 @@ import noPreservativeWhite from '../assets/no-preservative.svg'
 import headerImage1 from '../assets/header.png'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
-import pavbhajiImg from '../assets/pavbhaji.png'
 import Tooltip from "./Tooltip";
 import headerMenu1 from "../assets/header-menu1.png"
 import headerMenu2 from "../assets/header-menu2.png"
@@ -92,7 +84,7 @@ const Home = () => {
   useEffect(() => {
     const apiCall = async () => {
       try {
-        const result = await graphQLClient.request(getRecipeListQuery);
+        const result = await graphQLClient.request(getRecipeListQuery, { first: 10 });
         const collections = result.metaobjects.edges;
         const recipesWithImages = await Promise.all(
           collections.map(async (recipe) => {
@@ -1503,7 +1495,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="py-16">
+      <div className="pt-16">
         <div className="px-8 mx-5 pt-10">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-3/5 mb-10">
@@ -1570,7 +1562,7 @@ const Home = () => {
               })}
             </div>
           </div>
-          <div className="flex justify-end mt-5 pr-[60px]">
+          <div className="flex justify-end pt-8 pr-[60px]">
             <div className="flex gap-3">
               {/* Previous Button */}
               <button
