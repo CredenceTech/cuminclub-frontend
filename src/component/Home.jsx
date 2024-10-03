@@ -741,7 +741,7 @@ const Home = () => {
                     LEARN
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content className="NavigationMenuContent mx-4 absolute top-12  bg-[#D9D9D9] rounded-[4px]">
-                    <div className="flex flex-col gap-4 w-full p-4 mb-[50px] z-1000">
+                    <div className="flex flex-col gap-4 w-full p-4 z-1000">
                       {learnMenuData.map((menuItem, index) => (
                         <div
                           key={index}

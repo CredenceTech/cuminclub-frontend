@@ -137,8 +137,8 @@ const RecipeList = () => {
                                 </label>
                                 <select
                                     id="type-select"
-                                    className="mt-2  bg-[#FAFAFA] text-[#333333] font-regola-pro text-[32px] leading-[41.21px] font-[300]" >
-                                    <option className='text-[#333333] font-regola-pro text-[32px] leading-[41.21px] font-[300]' value="" disabled selected>
+                                    className="mt-2  bg-[#FAFAFA] text-[#333333] font-regola-pro text-[22px] leading-[24.21px] font-[300]" >
+                                    <option className='text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300]' value="" disabled selected>
                                         Select
                                     </option>
                                 </select>
@@ -149,18 +149,18 @@ const RecipeList = () => {
                                 </label>
                                 <select
                                     id="product-select"
-                                    className="mt-2 bg-[#FAFAFA] text-[#333333] font-regola-pro text-[32px] leading-[41.21px] font-[300]"
+                                    className="mt-2 bg-[#FAFAFA] text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300]"
                                     onChange={handleProductChange}
                                     defaultValue=""
                                 >
-                                    <option className='text-[#333333] font-regola-pro text-[32px] leading-[41.21px] font-[300]' value="" disabled>
+                                    <option className='text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300]' value="" disabled>
                                         Select
                                     </option>
                                     {productList.map(product => (
                                         <option
                                             key={product.id}
                                             value={product.id}
-                                            className='text-[#333333] font-regola-pro text-[32px] leading-[41.21px] font-[300] '
+                                            className='text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300] '
                                         >
                                             {product.title}
                                         </option>
