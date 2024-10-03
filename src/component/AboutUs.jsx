@@ -71,7 +71,7 @@ const AboutUs = () => {
 
     return (
         <div className=' bg-[#ffffff]'>
-            <div className='2xl:container 2xl:mx-auto md:pl-[45px] 3xl:pl-0'>
+            <div className='2xl:container md:pl-[45px] 3xl:pl-0'>
                 <div className='pt-12'>
                     <h3 className='text-[24px] leading-[28.8px] font-[400] font-regola-pro text-[#333333]'>Read About Us</h3>
                     <h1 className='md:text-[36px] md:leading-[43.2px] text-2xl font-regola-pro font-[500] mb-4 text-[#333333]'>
@@ -87,7 +87,7 @@ const AboutUs = () => {
             <div className=''>
                 <div className='flex md:flex-row flex-col-reverse' >
                     <div className='w-full h-[439px] '>
-                        <img src={team} alt="team" className='h-full lg:h-auto' />
+                        <img src={team} alt="team" className='w-full h-[100%]' />
                     </div>
                 </div>
                 <div className='flex md:flex-row flex-col' >
@@ -100,7 +100,7 @@ const AboutUs = () => {
                     </div>
                 </div>
             </div>
-            <div className='2xl:container 2xl:mx-auto pl-5 lg:pl-[45px] pr-7 3xl:pl-0'>
+            <div className='2xl:container pl-5 lg:pl-[45px] pr-7 3xl:pl-0 text-left'>
                 <p className='text-[24px] leading-[28.8px] font-[400] text-[#757575] font-regola-pro  pb-14 mt-14'>When brought together, the four realised how so many Indians are facing a challenge:</p>
                 <div className=''>
                     <h1 className='md:text-[36px] md:leading-[43.2px] text-2xl font-regola-pro font-[500] mb-10 text-[#333333]'>
@@ -112,7 +112,7 @@ const AboutUs = () => {
             </div>
 
             <div className='my-[30px]'>
-                <div className='2xl:container 2xl:mx-auto pl-5 lg:pl-[45px] pr-7 3xl:pl-0'>
+                <div className='2xl:container pl-5 lg:pl-[45px] pr-7 3xl:pl-0 text-left'>
                     <h1 className='md:text-[36px] md:leading-[43.2px] text-3xl font-regola-pro font-[400] mb-8 text-[#333333]'>Meet the Team</h1>
                     <p className='md:w-[50vw] leading-[19.36px] text-[16px] font-inter text-[#757575] font-[400] mb-10'>Every day, we come to work with one simple mindset: To make meals that we’d be proud to serve our own families. It’s not just about creating food. It’s about sharing something real and comforting with people, no matter where they are.</p>
                 </div>
@@ -191,7 +191,7 @@ const AboutUs = () => {
                     </button>
                 </div>
                 {/* Timeline Dots */}
-                <div className="timeline-dots overflow-x-scroll flex md:ml-[100px] mt-10">
+                <div className="timeline-dots overflow-x-auto scrollbar-hide flex md:ml-[180px] mt-10">
                     {slides.map((slide, index) => (
                         <div key={index} className="flex flex-col items-center relative">
                             {/* Underline for the dot */}
@@ -222,9 +222,9 @@ const AboutUs = () => {
                 </div>
             </div>
             <div className="py-16 px-8 mt-14">
-                <div className="container mx-auto">
+                <div className="container">
                     <div className="flex flex-col md:flex-row">
-                        <div className="w-full md:w-1/2 mb-10 mt-5">
+                        <div className="w-full md:w-1/2 mb-10 mt-5 ">
                             <h2 className="text-[36px] leading-[37.34px] font-[400] font-skillet text-[#333333]">
                                 Your Health is Our Priority
                             </h2>
