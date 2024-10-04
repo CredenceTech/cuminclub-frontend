@@ -4,6 +4,8 @@ import { getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRec
 import { useLocation } from 'react-router-dom';
 import ShareModel from '../component/ShareModel';
 import LoadingAnimation from "../component/Loader";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const Recipes = () => {
     const location = useLocation();
@@ -216,23 +218,99 @@ const Recipes = () => {
         setShowShareModal(false);
     };
 
+    const contentRef = useRef(null);
+
+
+    const handleDownload = async () => {
+        if (!contentRef.current) return;
+
+        setIsLoading(true);
+
+        try {
+            const content = contentRef.current;
+            const pdf = new jsPDF('p', 'pt', 'a4');
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const margin = 0; // Margin around the content
+
+            // Dynamically set the PDF name based on recipe name
+            const recipeName = recipe?.fields?.find(field => field.key === "name")?.value || 'webpage_fit';
+            const fileName = `${recipeName}.pdf`;
+
+            const canvas = await html2canvas(content, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                ignoreElements: (element) => element.classList.contains('hide-for-pdf')
+            });
+
+            const imgData = canvas.toDataURL('image/jpeg', 1.0);
+            const imgWidth = pageWidth - 2 * margin;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            let heightLeft = imgHeight;
+            let position = 0;
+
+            pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, imgHeight);
+            heightLeft -= pageHeight - 2 * margin;
+
+            while (heightLeft >= 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight - 2 * margin;
+            }
+
+            const pdfBlob = pdf.output('blob');
+            const blobUrl = URL.createObjectURL(pdfBlob);
+
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = fileName;
+            link.click();
+
+            setTimeout(() => {
+                URL.revokeObjectURL(blobUrl);
+            }, 100);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
     const shareUrl = 'https://dev-prahlad-latest.d30jgbp3exhvrx.amplifyapp.com/recipes';
+    const backgroundColor = recipe?.fields?.find(field => field.key === "background_color")?.value || "#C75801";
+    const textColor = recipe?.fields?.find(field => field.key === "background_color")?.value || "#C75801";
     return (
-        <div className='relative'>
-            <div className='bg-[#C75801] h-[445px]'>
+        <div className='relative' ref={contentRef}>
+            <div
+                className='h-[445px]'
+                style={{
+                    backgroundColor: backgroundColor,
+                }}
+            >
                 <div className='grid grid-cols-2 lg:grid-cols-3'>
                     <div className=" col-span-2 md:col-span-1 pl-[60px]">
                         <p className='text-[#FFFFFF] pt-[30px] font-regola-pro font-[300] text-[16px] leading-[12.73px]'>Recipes {">"} {recipe?.fields?.find(field => field.key === "name")?.value}</p>
                         {/* <img src={BiryaniBurrito} className='pb-[150px] h-auto  pt-8' alt="" /> */}
                         <h1 className='pb-[20px] h-[300px] max-w-[278px] font-skillet font-[400] leading-[62.4px] text-[96px] text-[#F4E8DF] pt-8'>{recipe?.fields?.find(field => field.key === "name")?.value}</h1>
-                        <div className='flex gap-5 pb-10'>
-                            <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button' onClick={() => handleDownloadPDF(recipe?.fields?.find(field => field.key === "download_pdf")?.value)}>Download PDF</button>
-                            <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#C75801]' type='button' onClick={handleShareClick}>Share Recipe </button>
+                        <div className='flex gap-5 pb-10 hide-for-pdf'>
+                            <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px]' type='button' onClick={() => handleDownload()} style={{ color: textColor }}>Download PDF</button>
+                            <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px]' type='button' onClick={handleShareClick} style={{ color: textColor }}>Share Recipe </button>
                         </div>
                     </div>
                     <div className='col-span-1 lg:col-span-2 hidden md:flex'>
-                        <img src={recipe?.recipeImageUrl} className='h-[445px] w-full' alt="" />
+                        <img
+                            src={recipe?.recipeImageUrl}
+                            className='h-[445px] w-full object-cover'
+                            style={{ objectPosition: '50% 50%' }}
+                            alt="Recipe Image"
+                        />
                     </div>
+
+
                 </div>
             </div>
             <div className='bg-[#FAFAFA]'>
@@ -309,14 +387,14 @@ const Recipes = () => {
                                 <h1 className='text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]'>
                                     {productDetails[0]?.title}
                                 </h1>
-                                <p className='pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex'>
+                                <p className='pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex pt-2'>
                                     {productDetails[0]?.description}
                                 </p>
                                 <div className='hidden md:flex gap-x-2 pb-8'>
-                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>
+                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf' type='button'>
                                         Add to Cart
                                     </button>
-                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]' type='button'>
+                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf' type='button'>
                                         Buy Now
                                     </button>
                                 </div>
@@ -327,10 +405,10 @@ const Recipes = () => {
                                 About the product
                             </p>
                             <div className='gap-5'>
-                                <button className='px-4 w-1/2 py-4 bg-[#231F20] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF]' type='button'>
+                                <button className='px-4 w-1/2 py-4 bg-[#231F20] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF] hide-for-pdf' type='button'>
                                     Add to Cart
                                 </button>
-                                <button className='px-4 w-1/2 py-4 bg-[#C75801] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF]' type='button'>
+                                <button className='px-4 w-1/2 py-4 bg-[#C75801] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF] hide-for-pdf' type='button'>
                                     Buy Now
                                 </button>
                             </div>
@@ -368,13 +446,13 @@ const Recipes = () => {
                                                 </p>
                                                 <div className="hidden md:flex gap-x-2 pb-8">
                                                     <button
-                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]"
+                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf"
                                                         type="button"
                                                     >
                                                         Add to Cart
                                                     </button>
                                                     <button
-                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF]"
+                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf"
                                                         type="button"
                                                     >
                                                         Buy Now

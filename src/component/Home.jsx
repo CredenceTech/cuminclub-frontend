@@ -1039,7 +1039,7 @@ const Home = () => {
             >
               <div className="relative">
                 <img
-                  src={food}
+                  src={item?.node?.image?.originalSrc}
                   alt=""
                   className='md:h-[80px] md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />

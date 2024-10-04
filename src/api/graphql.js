@@ -1041,15 +1041,20 @@ export const customerEmailMarketingConsentUpdateMutation = gql`
 
 export const getCategoriesQuery = gql`
 {
-    collections (first: 50){
+   collections (first: 4, sortKey: UPDATED_AT, reverse: true){
         edges {
             node {
                 id
                 title
                 description
+                 image  {
+                        id
+                        altText
+                        originalSrc
+                        }
                 handle
             }
-        }   
+        }
     }
 }
 `;
