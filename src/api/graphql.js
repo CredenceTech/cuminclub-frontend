@@ -129,12 +129,12 @@ export const getAllProductsQuery = gql`
 export const getProductCollectionsQuery = gql`
 query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
   collections(first: $first, reverse: $reverse, query: $query) {
-    edges {
+   edges {
       node {
         title
         id
         description
-        products(first: 15) {
+        products(first: 250) {
           edges {
             node {
               id
@@ -163,9 +163,20 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
               metafields(identifiers: [
                 { namespace: "custom", key: "spice_level" },
                 { namespace: "custom", key: "small_descriptions" },
+                { namespace: "custom", key: "product_large_card_image" },
+                { namespace: "custom", key: "product_small_card_image" },
+                { namespace: "custom", key: "image_for_home" },
               ]) {
                 value
                 key
+                reference {
+                    ... on MediaImage {
+                    image {
+                        originalSrc
+                        altText
+                    }
+                    }
+                }
               }
               featuredImage {
                 altText
