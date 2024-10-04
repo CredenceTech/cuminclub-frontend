@@ -461,7 +461,7 @@ const Header = () => {
           </button>
           {userId === null &&
             <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
-              <Link className={`font-[600] font-regola-pro leading-[21.6px] text-[18px] ${pathname.includes('ready-to-cook') ? 'text-[#ffffff]' : 'text-[#231F20]'}`} to="/login">
+              <Link className={`font-[600] font-regola-pro leading-[21.6px] text-[18px] uppercase ${pathname.includes('ready-to-cook') ? 'text-[#ffffff]' : 'text-[#231F20]'}`} to="/login">
                 Login
               </Link>
             </button>}

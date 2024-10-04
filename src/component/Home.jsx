@@ -654,7 +654,7 @@ const Home = () => {
         />
         <button
           onClick={handlePrevClick}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
+          className="absolute -left-1 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
           aria-label="Previous Slide"
         >
           <svg
@@ -673,7 +673,7 @@ const Home = () => {
 
         <button
           onClick={handleNextClick}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
+          className="absolute -right-1 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
           aria-label="Next Slide"
         >
           <svg
@@ -895,8 +895,8 @@ const Home = () => {
               </svg>
             </button>
             {userId === null &&
-              <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
-                <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px]" to="/login">
+              <button className="bg-[#FBAE36] hidden lg:block px-9 rounded-full ">
+                <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest" to="/login">
                   Login
                 </Link>
               </button>}
@@ -1041,7 +1041,7 @@ const Home = () => {
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className='md:h-[80px] md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
+                  className='md:h-[80px] rounded-full md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
@@ -1157,13 +1157,13 @@ const Home = () => {
           <img src={middleImg} className="h-[509px] w-full " style={{ zIndex: 1 }} />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
           <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px]">
-            <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-inter">Ready to Eat</h2>
+            <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">Ready to Eat</h2>
             <div className="w-full md:w-2/5">
-              <p className="text-[16px] text-[#CECECE] font-normal font-inter mb-4 leading-[19.36px]" >
+              <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]" >
                 Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-6 rounded font-regola-pro font-[300] text-[16px]">DISCOVER</button>
+            <button className="bg-white text-[#333333] mt-4 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]">DISCOVER</button>
           </div>
         </div>
 
@@ -1204,27 +1204,27 @@ const Home = () => {
           </div>
           <div className="relative w-full md:w-2/5 flex flex-col items-center md:items-end md:rounded-r-lg px-4 md:px-0 md:pr-[60px] pt-[30px] md:pt-[50px] order-1 md:order-2">
             <div className="absolute top-0 left-0 right-0 h-10 md:hidden"></div>
-            <h2 className="font-inter text-[28px] font-normal leading-tight md:leading-[43.57px] text-center md:text-right text-[#333333] mb-4 md:text-[36px]">
+            <h2 className="font-regola-pro text-[28px] font-normal leading-tight md:leading-[43.57px] text-center md:text-right text-[#333333] mb-4 md:text-[36px]">
               Ready to Cook
             </h2>
             <div className="w-full flex flex-col items-center md:items-end">
-              <p className="font-inter text-[14px] md:text-[16px] font-normal md:leading-[19.36px] text-center md:text-right md:pl-4 text-[#333333D9] mb-4">
+              <p className="font-regola-pro text-[14px] md:text-[16px] font-normal md:leading-[22px] text-center md:text-right md:pl-4 text-[#333333D9] mb-4">
                 Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-6 rounded font-regola-pro text-[16px] font-light text-center">
+            <button className="bg-white text-[#333333] mt-4 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center">
               VIEW PRODUCTS
             </button>
           </div>
         </div>
       </div>
 
-      <div className='w-full bannerbottom h-[759px] overflow-hidden relative'>
+      <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
         <div className='absolute top-10 left-5 lg:left-[127px] z-20'>
-          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400]'>
+          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title'>
             Not Sure What to Eat?
           </p>
-          <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300]'>
+          <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
             Give it a Spin!
           </p>
         </div>
@@ -1238,22 +1238,22 @@ const Home = () => {
               }}
             >
               <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
-              <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro'>
+              <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
                 {`Spin >>`}
               </button>
             </div>
             <div className="absolute">
-              <div className="h-[145px]">
-                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro' >
+              <div className="h-[175px]">
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro mb-3' >
                   {selecteRandomPro?.node?.title}
                 </p>
-                <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro'>
+                <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
                   ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
                 </p>
               </div>
               <button
                 type='button'
-                className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro'
+                className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn'
               >
                 Add to cart
               </button>
@@ -1381,7 +1381,7 @@ const Home = () => {
           <div className="mt-8 md:mt-5">
             <div className="flex flex-wrap -mx-2">
               <div className="w-full md:w-1/3 px-2 mb-6">
-                <div className="p-4">
+                <div className="py-4">
                   <img src={selectMeal} alt="Select Meal" className="w-auto h-[195px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Select Your Meals
@@ -1393,7 +1393,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="w-full md:w-1/3 px-2 mb-6">
-                <div className="p-4">
+                <div className="py-4">
                   <img src={recieveBox} alt="Receive Box" className="w-auto h-[195px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Receive Your Box
@@ -1405,7 +1405,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="w-full md:w-1/3 px-2 mb-6">
-                <div className="p-4">
+                <div className="py-4">
                   <img src={heatEat} alt="Heat and Enjoy" className="w-auto h-[195px] object-cover mb-4" />
                   <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
                     Heat and Enjoy
@@ -1446,25 +1446,25 @@ const Home = () => {
             </h1>
           </div>
 
-          <div className="flex items-start space-x-4 mb-4 md:mt-8 mt-0 flex-col md:flex-row md:space-x-4 pl-8">
+          <div className="flex items-start  mb-4 md:mt-8 mt-0 flex-col md:flex-row  pl-8">
             <img
               src={noPreservativeWhite}
               alt="Icon"
               className="w-[76px] h-[76px] object-cover"
             />
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/2 ml-5">
               <h2 className="font-skillet text-[26px] leading-[20px] text-[#FFFFFF] mb-2 
                     md:text-[36px] md:leading-[35px] font-[400]">
                 {currentData?.title}
               </h2>
-              <p className="font-regola-pro text-[14px] leading-[16px] text-[#EBEBEB] 
-                   md:text-[18px] md:leading-[20px] font-[500]">
+              <p className="font-regola-pro text-[14px] leading-[20px] text-[#EBEBEB] 
+                   md:text-[18px] md:leading-[24px] font-[500]">
                 {currentData?.description}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-grow justify-center items-center w-full  md:mt-80 mt-2">
+          <div className="flex flex-grow items-center w-full  md:mt-80 mt-2 pl-8">
             <div className="flex flex-col md:flex-row gap-10">
               {buttonTexts.map((text, index) => (
                 <button
@@ -1483,7 +1483,7 @@ const Home = () => {
                       transition: 'expand 1s linear',
                     }}
                   />
-                  <span className="relative z-10 font-regola-pro text-[14px] font-[400] leading-[16px] text-[#333333] text-left
+                  <span className="relative z-10 font-regola-pro text-[14px] font-[600] leading-[16px] text-[#333333] text-left
                              md:text-[16.95px] md:leading-[20.34px]">
                     {text}
                   </span>
@@ -1495,29 +1495,29 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="pt-16">
+      <div className="pt-16 mb-12">
         <div className="px-8 mx-5 pt-10">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-3/5 mb-10">
               <h2 className="md:text-[48px] md:leading-[37px] font-[400] text-[30px] leading-[22px] font-skillet text-[#333333]">
                 Your Health is Our Priority
               </h2>
-              <p className="md:text-[24px] md:leading-[37px] text-[20px] leading-[20px] text-[#757575] font-[500] font-regola-pro">
+              <p className="md:text-[23px] md:leading-[37px] text-[19px] leading-[20px] text-[#757575] font-[500] font-regola-pro">
                 Don’t Believe Us, Believe Our Happy Customers
               </p>
             </div>
             <div className="w-full md:w-2/5 flex flex-row justify-between items-start mb-10">
               <div className="text-center">
-                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[500] text-[#FB7D36] font-regola-pro">9/10</h3>
-                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[##333333] font-regola-pro font-[500]">Packaging</p>
+                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[600] text-[#FB7D36] font-regola-pro">9/10</h3>
+                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[#333333] font-regola-pro font-[600]">Packaging</p>
               </div>
               <div className="text-center">
-                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[500] text-[#FB7D36] font-regola-pro">10/10</h3>
-                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[##333333] font-regola-pro font-[500]">Products</p>
+                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[600] text-[#FB7D36] font-regola-pro">10/10</h3>
+                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[#333333] font-regola-pro font-[600]">Products</p>
               </div>
               <div className="text-center">
-                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[500] text-[#FB7D36] font-regola-pro">9/10</h3>
-                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[##333333] font-regola-pro font-[500]">Service</p>
+                <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[600] text-[#FB7D36] font-regola-pro">9/10</h3>
+                <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[#333333] font-regola-pro font-[600]">Service</p>
               </div>
             </div>
           </div>
@@ -1536,21 +1536,21 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className="w-[31%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col"
+                    className="w-[31%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
                     style={{ backgroundColor: getBackgroundColor(index) }}
                   >
-                    <div className="relative flex flex-col mb-[10px] pt-6">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-0 left-0" height="44" viewBox="0 0 58 44" fill="none">
+                    <div className="flex flex-col mb-[10px] pt-6">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-6 left-4" height="44" viewBox="0 0 58 44" fill="none">
                         <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="white" fill-opacity="0.45" />
                       </svg>
-                      <p className="font-regola-pro leading-[28.8px] py-1 pl-[58px] pr-[40px] text-[20px] md:text-[24px] font-[500] text-[#FFFFFF]">
+                      <p className="font-regola-pro leading-[30px] py-1 pl-[65px] pr-[45px] text-[20px] md:text-[24px] font-[500] text-[#FFFFFF]">
                         {testimonial.text}
                       </p>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-0 right-0" viewBox="0 0 58 44" fill="none">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute top-20 right-4" viewBox="0 0 58 44" fill="none">
                         <path d="M57.0166 8.39233e-05V11.5058C57.0166 15.0001 56.3987 18.7075 55.1629 22.6279C53.8845 26.591 52.0521 30.4049 49.6657 34.0697C47.2368 37.7771 44.3177 40.9944 40.9086 43.7217L32.7268 37.074C35.4115 33.2387 37.7552 29.233 39.7581 25.0569C41.7183 20.9234 42.6984 16.4916 42.6984 11.7615V8.39233e-05H57.0166ZM24.2893 8.39233e-05V11.5058C24.2893 15.0001 23.6714 18.7075 22.4356 22.6279C21.1572 26.591 19.3248 30.4049 16.9385 34.0697C14.5095 37.7771 11.5905 40.9944 8.18137 43.7217L-0.000442505 37.074C2.68422 33.2387 5.02796 29.233 7.0308 25.0569C8.99103 20.9234 9.97115 16.4916 9.97115 11.7615V8.39233e-05H24.2893Z" fill="white" fill-opacity="0.45" />
                       </svg>
                     </div>
-                    <div className="flex justify-between mt-auto pb-3">
+                    <div className="flex justify-between mt-auto pb-3 px-5">
                       <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#FFFFFF]">{testimonial.reviewerName}</p>
 
                       <Tooltip data={testimonial.typeformMessage} style={`bottom-3 ${index === isLastInRow ? '-left-[70px]' : 'left-6'}  px-8`} >
@@ -1563,24 +1563,29 @@ const Home = () => {
             </div>
           </div>
           <div className="flex justify-end pt-8 pr-[60px]">
-            <div className="flex gap-3">
+            <div className="flex gap-3 testimonial-navigation">
               {/* Previous Button */}
               <button
                 onClick={prevSlide}
                 type="button"
-                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full"
+                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
                 disabled={currentSlide === 0} // Disable button if on the first slide
               >
-                &#8592;
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white"/>
+                </svg>
+
               </button>
               {/* Next Button */}
               <button
                 onClick={nextSlide}
                 type="button"
-                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full"
+                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
                 disabled={currentSlide >= Math.ceil(totalSlides - 3)}
               >
-                &#8594;
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white"/>
+                </svg>
               </button>
             </div>
           </div>
@@ -1589,7 +1594,7 @@ const Home = () => {
       </div>
 
 
-      <div className='bg-[#EFE9DA] relative -bottom-[124px]'>
+      <div className='bg-[#EFE9DA] relative mt-12'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           {/* <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div> */}
           <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
@@ -1601,13 +1606,13 @@ const Home = () => {
                 Diverse Recipes
               </h2>
 
-              <p className="font-[300] text-[16px] leading-[17.6px] text-[#D5D5D5] mt-4 font-regola-pro">
+              <p className="font-[300] text-[16px] leading-[22px] text-[#D5D5D5] mt-4 font-regola-pro">
                 Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
             <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          <div className="w-full lg:min-w-3/4 lg:pb-[70px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-7">
+          <div className="w-full lg:min-w-3/4 lg:pb-[70px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}
@@ -1615,7 +1620,7 @@ const Home = () => {
                   <img
                     src={recipe?.imageUrl}
                     alt={recipe?.fields?.find(field => field.key === "name")?.value}
-                    className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px] cursor-pointer"
+                    className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px] cursor-pointer object-cover"
                   />
                 </div>
 
