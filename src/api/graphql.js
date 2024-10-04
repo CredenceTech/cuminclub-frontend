@@ -1041,7 +1041,7 @@ export const customerEmailMarketingConsentUpdateMutation = gql`
 
 export const getCategoriesQuery = gql`
 {
-   collections (first: 4, sortKey: UPDATED_AT, reverse: true){
+   collections (first: 4){
         edges {
             node {
                 id
