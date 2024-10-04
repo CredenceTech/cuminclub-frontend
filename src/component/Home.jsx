@@ -261,7 +261,7 @@ const Home = () => {
           )[0];
           collections.collections.edges.push(bundleItem);
         }
-        setApiResponse(collections?.collections?.edges[0]?.node?.products?.edges.splice(0, 6));
+        setApiResponse(collections?.collections?.edges[0]?.node?.products?.edges.splice(1, 10));
         setSelecteRandomPro(collections?.collections?.edges[0]?.node?.products?.edges[0])
         setRawResponse(collections);
       } catch (error) {
@@ -1076,30 +1076,34 @@ const Home = () => {
             <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
               {apiResponse?.map((item, i) => (
                 <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
+                <div
+                  style={{ background: `${colors[i]}` }}
+                  className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
+                >
                   <div
-                    style={{ background: `${colors[i]}` }}
-                    className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
+                    className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
+                    style={{
+                      position: 'absolute',
+                      top: '51%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      borderRadius: '50%'
+                    }}
                   >
                     <img
-                      src={item?.node?.featuredImage?.url}
+                      src={item?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
                       alt=""
-                      className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
-                      style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        overflow: 'visible',
-                      }}
+                      className="rounded-full object-cover"
                     />
                   </div>
-                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
-                    {item?.node?.title}
-                  </p>
-                  <p className='text-[#757575] text-[18px] font-[400] leading-[21.6px] pt-1 font-regola-pro'>
-                    ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
-                  </p>
                 </div>
+                <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
+                  {item?.node?.title}
+                </p>
+                <p className='text-[#757575] text-[18px] font-[400] leading-[21.6px] pt-1 font-regola-pro'>
+                  ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
+                </p>
+              </div>
               ))}
             </div>
 
@@ -1229,7 +1233,7 @@ const Home = () => {
           </p>
         </div>
         <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
-          <div className='relative right-[-48px] top-[-15px] z-[-1] mt-2'>
+          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2'>
             <div
               className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px]'
               onClick={handleSpinClick}
@@ -1244,7 +1248,7 @@ const Home = () => {
             </div>
             <div className="absolute">
               <div className="h-[175px]">
-                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[300px] font-[600] leading-[50.47px] font-regola-pro mb-3' >
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[330px] font-[600] leading-[50.47px] font-regola-pro mb-3' >
                   {selecteRandomPro?.node?.title}
                 </p>
                 <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
@@ -1270,9 +1274,9 @@ const Home = () => {
               transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
             >
               <img
-                src={selecteRandomPro?.node?.featuredImage?.url}
+                src={selecteRandomPro?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
                 alt=''
-                className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px]'
+                className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px] rounded-full'
                 draggable={false}
               />
             </motion.div>
