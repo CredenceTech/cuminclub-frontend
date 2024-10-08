@@ -260,7 +260,7 @@ function ProductDetail() {
             {!loading ?
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
-                        <div className="md:w-1/2 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center">
+                        <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center">
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
                             <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-16' : 'pr-6'}`}>
                                 <img
@@ -305,7 +305,7 @@ function ProductDetail() {
                                 </div>
                             </div>
                         </div>
-                        <div className="lg:flex-grow md:max-w-[645px] md:w-1/2 mt-14 lg:mr-20 2xl:mr-40 w-full mb-10 md:mb-0">
+                        <div className="lg:flex-grow md:max-w-[645px] md:w-2/5 mt-14 lg:mr-20 2xl:mr-40 w-full mb-10 md:mb-0">
                             {/*  accordion sadasdasd */}
                             <div className='px-4 md:px-0'>
                                 <h1
