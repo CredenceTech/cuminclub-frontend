@@ -142,6 +142,7 @@ export const Bulk = () => {
 
     useEffect(() => {
         const apiCall = async () => {
+            setLoading(true);
             try {
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
                     first: 15,
@@ -183,8 +184,10 @@ export const Bulk = () => {
                 setApiResponse(collections);
                 setRawResponse(collections);
                 setTransformedProducts(transformedProducts)
+                setLoading(false);
             } catch (error) {
                 // Handle errors here
+                setLoading(false);
                 console.error("Error fetching data:", error);
             }
         };
@@ -434,8 +437,6 @@ export const Bulk = () => {
         }
     }, [productDetails]);
 
-    console.log(isBulk)
-
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
@@ -588,6 +589,7 @@ export const Bulk = () => {
                     </motion.div>
                 </AnimatePresence>
             </div>
+            {isLoading && <LoadingAnimation />}
         </div>
     )
 }
