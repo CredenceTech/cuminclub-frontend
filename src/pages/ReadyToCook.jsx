@@ -62,7 +62,7 @@ function ReadyToCook() {
     const [isLoading, setIsLoading] = useState(false);
     const [playing, setPlaying] = useState(true);
     const [transformedProducts, setTransformedProducts] = useState(null);
-    const [muted, setMuted] = useState(false);
+    const [muted, setMuted] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {

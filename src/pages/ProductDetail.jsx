@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -234,15 +234,35 @@ function ProductDetail() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, [homeImg]);
+
+
+    const scrollContainerRef = useRef(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const slidesPerView = 4;
+    const totalSlides = productData?.images?.edges?.length || 0;
+
+    const nextSlide = () => {
+        if (scrollContainerRef.current && currentSlide < Math.ceil(totalSlides - slidesPerView)) {
+            scrollContainerRef.current.scrollBy({ top: 150, behavior: 'smooth' });
+            setCurrentSlide((prev) => prev + 1);
+        }
+    };
+
+    const prevSlide = () => {
+        if (scrollContainerRef.current && currentSlide > 0) {
+            scrollContainerRef.current.scrollBy({ top: -150, behavior: 'smooth' });
+            setCurrentSlide((prev) => prev - 1);
+        }
+    };
     return (
         <div className='bg-white'>
 
             {!loading ?
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
-                        <div className="md:w-1/2 w-full  relative my-10 md:pr-7 gap-x-[40px] flex items-center">
+                        <div className="md:w-1/2 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center">
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className='relative -left-16  '>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-16' : 'pr-6'}`}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
@@ -251,19 +271,38 @@ function ProductDetail() {
                                     alt={``}
                                 />
                             </div>
-                            <div className='flex relative -left-10 flex-col gap-y-2'>
+                            <div className='flex h-full relative -left-10 flex-col gap-y-2'>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                {productData?.images?.edges?.map((item, i) => (
-                                    <div key={i}>
-                                        <img
-                                            onClick={() => { setHomeImage(item?.node?.src); setRotation(0) }}
-                                            src={item?.node?.src}
-                                            className=" h-[163px] w-[130px] rounded-md"
-                                            alt={`carousel-`}
-                                        />
-                                    </div>
-                                ))}
+                                <div ref={scrollContainerRef} className="flex flex-col overflow-x-auto h-[600px] scrollbar-hide">
+                                    {productData?.images?.edges?.map((item, i) => (
+                                        <div key={i} className="flex-shrink-0 w-[130px] cursor-pointer h-[150px] p-2">
+                                            <img
+                                                onClick={() => { setHomeImage(item?.node?.src); setRotation(0); }}
+                                                src={item?.node?.src}
+                                                className="w-full h-full rounded-md object-cover"
+                                                alt={`carousel-${i}`}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
 
+                                <div className="flex flex-col gap-y-4 -right-[55px] absolute bottom-0 mt-4">
+                                    <button
+                                        onClick={prevSlide}
+                                        className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                        disabled={currentSlide === 0}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" /></svg>
+                                    </button>
+
+                                    <button
+                                        onClick={nextSlide}
+                                        className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                        disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" /></svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <div className="lg:flex-grow md:max-w-[645px] md:w-1/2 mt-14 lg:mr-20 2xl:mr-40 w-full mb-10 md:mb-0">
@@ -294,7 +333,9 @@ function ProductDetail() {
                                     {productData?.description}
                                 </p>
 
-                                {isBulk && <button className='w-[200px] ml-2 my-3 text-center bg-[#EB7E01] font-[600] leading-[25px] font-regola-pro py-2 rounded text-[22px] text-[#FFFFFF]' type='button'>Send Enquiry</button>
+                                {isBulk && <button
+                                    style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
+                                    onClick={() => { window.open('https://wa.me/919510537693?text=Hello') }} className='w-[200px] ml-2 my-3 text-center font-[600] leading-[25px] font-regola-pro py-2 rounded text-[22px] text-[#FFFFFF]' type='button'>Send Enquiry</button>
                                 }
                                 <div className="accordion-container m-2  text-[#333333] pt-4">
                                     {accordianData.map((item, i) => (
@@ -394,6 +435,7 @@ function ProductDetail() {
                                                         url={steps[imageIndex]?.video}
                                                         width="100%"
                                                         height="100%"
+                                                        muted={true}
                                                         playing={playing}
                                                         controls={true}
                                                         onEnded={handleVideoEnd}
@@ -476,7 +518,7 @@ function ProductDetail() {
                     </div> */}
                         </div>
                     </section >
-                    {
+                    {/* {
                         !isBulk && <div className='p-10'>
                             <div className="relative bg-cover bg-no-repeat 2xl:h-[600px]  rounded-lg flex flex-col justify-center">
                                 <img src={middleImg} className="2xl:h-full w-full  rounded-lg" style={{ zIndex: 1 }} />
@@ -500,8 +542,8 @@ function ProductDetail() {
                                 </div>
                             </div>
                         </div>
-                    }
-                    <div className="py-[90px] md:px-[51px]">
+                    } */}
+                    {feedbacks && <div className="py-[90px] md:px-[51px]">
                         <div className="">
                             <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-1/2 mb-10">
@@ -548,50 +590,53 @@ function ProductDetail() {
 
                             </div>
                         </div>
-                    </div>
-                    <div><p className='px-5 md:px-[51px] text-[36px] leading-[37.34px] font-skillet'>You May Also Like</p></div>
-                    <div className='px-5 md:px-[51px] flex justify-between items-center py-14 '>
-                        <div className='flex flex-row justify-start gap-x-8 flex-wrap w-full '>
-                            {productData?.relatedProducts?.references?.edges?.map((item, i) => (
-                                <div key={i} className='flex flex-col justify-between lg:justify-start'>
-                                    <div
-                                        style={{ background: `${colors[i]}` }}
-                                        className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
-                                    >
-                                        <img
-                                            src={item?.node?.metafield?.reference?.image?.originalSrc}
-                                            alt=""
-                                            className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
-                                            style={{
-                                                position: 'absolute',
-                                                top: '50%',
-                                                left: '50%',
-                                                transform: 'translate(-50%, -50%)',
-                                                overflow: 'visible',
-                                            }}
-                                        />
-                                    </div>
-                                    <div
-                                        className='flex justify-between items-start  w-[110px] pt-2 sm:w-[150px]  md:w-[170px]  overflow-visible'
-                                    >
-                                        <div>
-                                            <p className='text-[#231F20] text-base font-[600] md:text-[20px] font-regola-pro leading-[25px] '>
-                                                {item?.node?.title}
-                                            </p>
-                                            <p className='text-[#757575] mt-1 font-[400] md:text-[18px] font-regola-pro leading-[21.6px]'>
-                                                ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
-                                            </p>
-                                        </div>
-                                        <div className='h-auto'>
-                                            <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded'>+</button>
-                                        </div>
-                                    </div>
+                    </div>}
+                    {productData?.relatedProducts?.references?.edges &&
+                        <>
+                            <div><p className='px-5 md:px-[51px] text-[36px] pt-10 leading-[37.34px] font-skillet'>You May Also Like</p></div>
+                            <div className='px-5 md:px-[51px] flex justify-between items-center py-14 '>
+                                <div className='flex flex-row justify-start gap-x-8 flex-wrap w-full '>
+                                    {productData?.relatedProducts?.references?.edges?.map((item, i) => (
+                                        <div key={i} className='flex flex-col justify-between lg:justify-start'>
+                                            <div
+                                                style={{ background: `${colors[i]}` }}
+                                                className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
+                                            >
+                                                <img
+                                                    src={item?.node?.metafield?.reference?.image?.originalSrc}
+                                                    alt=""
+                                                    className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
+                                                    style={{
+                                                        position: 'absolute',
+                                                        top: '50%',
+                                                        left: '50%',
+                                                        transform: 'translate(-50%, -50%)',
+                                                        overflow: 'visible',
+                                                    }}
+                                                />
+                                            </div>
+                                            <div
+                                                className='flex justify-between items-start  w-[110px] pt-2 sm:w-[150px]  md:w-[170px]  overflow-visible'
+                                            >
+                                                <div>
+                                                    <p className='text-[#231F20] text-base font-[600] md:text-[20px] font-regola-pro leading-[25px] '>
+                                                        {item?.node?.title}
+                                                    </p>
+                                                    <p className='text-[#757575] mt-1 font-[400] md:text-[18px] font-regola-pro leading-[21.6px]'>
+                                                        ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
+                                                    </p>
+                                                </div>
+                                                <div className='h-auto'>
+                                                    <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded'>+</button>
+                                                </div>
+                                            </div>
 
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
 
-                    </div>
+                            </div>
+                        </>}
                 </> : <LoadingAnimation />}
         </div >
     )
