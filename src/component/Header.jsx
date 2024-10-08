@@ -176,16 +176,17 @@ const Header = () => {
   const onMenuClick = (index) => {
     if (index === 0) {
       navigate('/products');
-      dispatch(subscribeClose());
+      dispatch(addCategoryData(null))
     } else if (index === 1) {
       navigate('/ready-to-eat');
+      dispatch(subscribeClose());
     } else if (index === 2) {
       navigate('/ready-to-cook');
     } else if (index === 4) {
-      navigate('/products');
+      navigate('/ready-to-eat');
       dispatch(subscribeOpen());
     } else if (index === 3) {
-      navigate('/product-details', { state: { isBulk: true } });
+      navigate('/bulk');
     } else {
       navigate('/');
     }
@@ -218,7 +219,7 @@ const Header = () => {
                   onMouseEnter={() => setShowHeaderMain(true)}
                   // onMouseLeave={() => setShowHeaderMain(false)}
                   onClick={() => { setShowHeaderMain(true) }}
-                  className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] pr-4 whitespace-nowrap relative  ${pathname.includes('ready-to-cook') ? 'text-[#FFFFFF]' : 'text-[#231F20]'} `}>
+                  className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] pr-4 whitespace-nowrap relative  ${pathname.includes('ready-to-cook') ? 'text-[#FFFFFF]' : 'text-[#231F20]'} `}>
                   OUR MENU
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content
@@ -292,7 +293,7 @@ const Header = () => {
                 </NavigationMenu.Content> */}
               </NavigationMenu.Item>
               <NavigationMenu.Item>
-                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ${pathname.includes('ready-to-cook') ? 'text-[#FFFFFF]' : 'text-[#231F20]'}  `}>
+                <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ${pathname.includes('ready-to-cook') ? 'text-[#FFFFFF]' : 'text-[#231F20]'}  `}>
                   LEARN
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content className="NavigationMenuContent absolute  top-12 bg-[#D9D9D9] z-1000 w-auto h-auto rounded-[4px]">
@@ -325,8 +326,25 @@ const Header = () => {
               </NavigationMenu.Item>
             </NavigationMenu.List>
           </NavigationMenu.Root>
+          <button className="lg:hidden btn-hamburger" onClick={() => setIsMenuOpen(true)}>
+            <svg
+              width="37"
+              height="31"
+              viewBox="0 0 37 31"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z"
+                fill="#E91D24"
+                className={`fill-current ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#E91D24]'}`}
+              />
+            </svg>
+          </button>
         </div>
-        <div className="flex flex-1 justify-center gap-3 ">
+        <div className="flex flex-1 justify-center gap-3 logo">
           <Link to="/">
             <svg
               width="143"
@@ -442,23 +460,7 @@ const Header = () => {
               </span>
             </div>
           </button>
-          <button className="lg:hidden" onClick={() => setIsMenuOpen(true)}>
-            <svg
-              width="37"
-              height="31"
-              viewBox="0 0 37 31"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z"
-                fill="#E91D24"
-                className={`fill-current ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#E91D24]'}`}
-              />
-            </svg>
-          </button>
+          
           {userId === null &&
             <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
               <Link className={`font-[600] font-regola-pro leading-[21.6px] text-[18px] uppercase ${pathname.includes('ready-to-cook') ? 'text-[#ffffff]' : 'text-[#231F20]'}`} to="/login">

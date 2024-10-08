@@ -15,8 +15,8 @@ export const Footer = () => {
 
   return (
     <>
-      <div className={`bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-[100px]' : '-bottom-[100px]'}  `}>
-        <div className="flex flex-col md:flex-row justify-between px-[60px]  pt-10 pb-4">
+      <div className={`footer bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-[100px]' : '-bottom-[100px]'}  `}>
+        <div className="flex flex-col md:flex-row justify-between px-[60px]  pt-10 pb-4 footer-content">
           <div className="flex lg:flex-row flex-col  lg:pr-0 gap-y-4 md:gap-y-1">
             <div className="">
               <svg width="125" height="55" viewBox="0 0 125 55" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,7 +38,7 @@ export const Footer = () => {
               </svg>
 
             </div>
-            <div className="mt-6 md:ml-[150px] md:mt-0">
+            <div className="mt-6 md:ml-[150px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">MENU</h2>
               <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3">CURRIES</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">LENTILS</p>
@@ -46,7 +46,7 @@ export const Footer = () => {
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">READT TO EAT</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">BULK ORDER</p>
             </div>
-            <div className="mt-6 md:ml-16 md:mt-0">
+            <div className="mt-6 md:ml-16 md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">QUICK LINKS</h2>
               <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3">ABOUT US</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">OUR TEAM</p>
@@ -55,15 +55,15 @@ export const Footer = () => {
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">SUBSCRIBE</p>
             </div>
           </div>
-          <div className="mt-10 w-[385px] md:mt-0 mr-6">
-            <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#000000] mb-2">Subscribe to our newsletter</h2>
+          <div className="mt-10 sm:w-[385px] md:mt-0 mr-6">
+            <h2 className="sm:text-[24px] text-[16px] leading-[28.8px] font-[600] font-regola-pro text-[#000000] mb-2">Subscribe to our newsletter</h2>
             <div className="relative flex items-center">
               <input
                 type="text"
-                className={`bg-[#EADEC1] placeholder:text-[#757575] px-5 py-4 border-[3px] w-full border-[#AA9460] text-[#757575] rounded-lg text-[21px] font-[400] leading-[28.8px] my-3 focus:outline-[#AA9460] focus:ring-0 `}
+                className={`input-box bg-[#EADEC1] placeholder:text-[#757575] px-5 py-4 border-[3px] w-full border-[#AA9460] text-[#757575] rounded-lg text-[21px] font-[400] leading-[28.8px] my-3 focus:outline-[#AA9460] focus:ring-0 `}
                 placeholder="Email ID"
               />
-              <button type="button" className="rounded-full flex justify-center items-center absolute right-3 h-[38px] w-[38px] text-2xl bg-[#AA946080]" >
+              <button type="button" className="send-button rounded-full flex justify-center items-center absolute right-3 h-[38px] w-[38px] text-2xl bg-[#AA946080]" >
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M10.3996 17.3336L15.5996 12.1336L10.3996 6.93359" stroke="#695118" stroke-width="2.6" stroke-linecap="square" />
                 </svg>
@@ -73,7 +73,7 @@ export const Footer = () => {
         </div>
         <div className="flex flex-col-reverse md:flex-row justify-between px-8 md:px-16 pb-10">
           <div>
-            <div className="flex gap-x-2  md:gap-x-6 mt-8 md:mt-0">
+            <div className="flex sm:gap-x-2 gap-x-8  md:gap-x-6 mt-8 md:mt-0">
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" className="w-[18px]"><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg>
               </div>
@@ -91,7 +91,7 @@ export const Footer = () => {
             <p className="text-[#757575] text-[14px] font-[300] mt-4 font-regola-pro">© IY EASY MEALS LLP</p>
           </div>
           <div>
-            <div className="flex flex-wrap gap-x-4 justify-between gap-y-2 md:text-md text-[#333333] font-regola-pro font-[400] text-[16px] leading-[19.2px]">
+            <div className="footer-bottom-link flex flex-wrap gap-x-4 justify-between gap-y-2 md:text-md text-[#333333] font-regola-pro font-[400] text-[16px] leading-[19.2px]">
               <Link className="border-b border-b-gray-900  " to="/term-of-services">Privacy Policy</Link>
               <Link className="border-b border-b-gray-900 " to="/privacy-policy">Service Terms</Link>
               <Link className="border-b border-b-gray-900   " to="/refund">Cancellation Policy</Link>

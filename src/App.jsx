@@ -3,7 +3,7 @@ import Login from "./component/Login";
 import Home from "./component/Home";
 import WithoutLoginCheckout from "./pages/WithoutLoginCheckout";
 import Header from "./component/Header"
-import Product from "./pages/Product";
+import {Product} from "./pages/Product";
 import Accessibility from "./component/Accessibility";
 import Refund from "./component/Refund";
 import TermOfServices from "./component/TermOfServices";
@@ -28,7 +28,8 @@ import RecipeList from "./pages/RecipeList";
 import ProductDetails from "./pages/ProductDetail";
 import ReadyToEat from "./pages/ReadyToEat";
 import { HowItWorks } from "./pages/HowItWorks";
-import { ReadyToCook } from "./pages/ReadyToCook";
+import ReadyToCook  from "./pages/ReadyToCook";
+import {Bulk} from "./pages/Bulk"
 
 function App() {
   return (
@@ -43,7 +44,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/meal-package" element={<MealPackage />} />
-            <Route path="/products" element={<Product />} />
+            <Route path="/ready-to-eat" element={<ReadyToEat />} />
             <Route path="/privacy-policy" element={<Privacy />} />
             <Route path="/accessibility" element={<Accessibility />} />
             <Route path="/refund" element={<Refund />} />
@@ -63,9 +64,10 @@ function App() {
             <Route path="/facilities" element={<Facility />} />
             <Route path="*" element={<Home />} />
             <Route path="/product-details" element={<ProductDetails />} />
-            <Route path="/ready-to-cook" element={<ReadyToEat />} />
+            <Route path="/ready-to-cook" element={<ReadyToCook />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/ready-to-eat" element={<ReadyToCook />} />
+            <Route path="/products" element={<Product />} />
+            <Route path="/bulk" element={<Bulk/>}/>
           </Routes>
         </div>
         <Footer />

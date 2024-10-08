@@ -229,7 +229,7 @@ const Home = () => {
       try {
         const result = await graphQLClient.request(getCategoriesQuery);
         setCategoryData(result?.collections?.edges?.slice(0, 4));
-        dispatch(addCategoryData(result?.collections?.edges[0]))
+        // dispatch(addCategoryData(result?.collections?.edges[0]))
       } catch (error) {
         // Handle errors here
         console.error("Error fetching data:", error);
@@ -297,16 +297,17 @@ const Home = () => {
   const onMenuClick = (index) => {
     if (index === 0) {
       navigate('/products');
-      dispatch(subscribeClose());
+      dispatch(addCategoryData(null))
     } else if (index === 1) {
       navigate('/ready-to-eat');
+      dispatch(subscribeClose());
     } else if (index === 2) {
       navigate('/ready-to-cook');
     } else if (index === 4) {
-      navigate('/products');
+      navigate('/ready-to-eat');
       dispatch(subscribeOpen());
     } else if (index === 3) {
-      navigate('/product-details', { state: { isBulk: true } });
+      navigate('/bulk');
     } else {
       navigate('/');
     }
@@ -654,7 +655,7 @@ const Home = () => {
         />
         <button
           onClick={handlePrevClick}
-          className="absolute -left-1 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
+          className="absolute left-1 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
           aria-label="Previous Slide"
         >
           <svg
@@ -673,7 +674,7 @@ const Home = () => {
 
         <button
           onClick={handleNextClick}
-          className="absolute -right-1 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
+          className="absolute right-1 top-1/2 transform -translate-y-1/2 text-white p-2 rounded-full z-20 opacity-50 hover:opacity-100 transition-opacity"
           aria-label="Next Slide"
         >
           <svg
@@ -700,7 +701,7 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#ffffff]'} `}>
+                    className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#ffffff]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content
@@ -737,7 +738,7 @@ const Home = () => {
 
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[500] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
                     LEARN
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content className="NavigationMenuContent mx-4 absolute top-12  bg-[#D9D9D9] rounded-[4px]">
@@ -764,8 +765,26 @@ const Home = () => {
                 </NavigationMenu.Item>
               </NavigationMenu.List>
             </NavigationMenu.Root>
+            <button className="lg:hidden btn-hamburger" onClick={() => setIsMenuOpen(true)}>
+              <svg
+                width="37"
+                height="31"
+                viewBox="0 0 37 31"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z"
+                  fill="#E91D24"
+                  className={`fill-current ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#E91D24]'}`}
+                />
+              </svg>
+            </button>
           </div>
-          <div className="flex flex-1 justify-center gap-3 z-10">
+          
+          <div className="flex flex-1 justify-center gap-3 z-10 logo">
             <Link to="/">
               <svg
                 width="143"
@@ -877,23 +896,7 @@ const Home = () => {
                 </span>
               </div>
             </button>
-            <button className="lg:hidden" onClick={() => setIsMenuOpen(true)}>
-              <svg
-                width="37"
-                height="31"
-                viewBox="0 0 37 31"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z"
-                  fill="#E91D24"
-                  className={`fill-current ${pathname === '/' ? 'text-[#FFFFFF] black-text-shadow' : 'text-[#E91D24]'}`}
-                />
-              </svg>
-            </button>
+            
             {userId === null &&
               <button className="bg-[#FBAE36] hidden lg:block px-9 rounded-full ">
                 <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest" to="/login">
@@ -1005,8 +1008,8 @@ const Home = () => {
 
         {isCartOpen && <CartDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
-          <div className="h-[200px] ml-10">
-            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] leading-[44.4px] ${currentIndex === 0 ? 'text-[#333333]'
+          <div className="h-[200px] ml-10 banner-text">
+            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#333333]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'
                 : 'text-white'
               } text-left `}>
@@ -1016,7 +1019,7 @@ const Home = () => {
               {bannerData[currentIndex].description}
             </p>
           </div>
-          <div className="flex justify-end pb-[40px] px-8 pt-[110px]">
+          <div className="flex justify-end pb-[40px] px-8 pt-[110px] subscribe-button">
             <Link to='/products' className='flex flex-row py-2 px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
               <button className="text-[#231F20] font-regola-pro font-[400] text-[20px] leading-[24px]">Subscribe at ₹80/meal </button>
               <svg width="15" height="11" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1033,9 +1036,9 @@ const Home = () => {
           categoryData?.map((item, i) => (
             <div
               key={item?.node?.id}
-              onClick={() => { dispatch(addCategoryData(item)); navigate('/products') }}
+              onClick={() => { dispatch(addCategoryData(item)); navigate('/products');}}
               style={{ background: `${colorCategory[i]}` }}
-              className={`group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
+              className={`product-box group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
             >
               <div className="relative">
                 <img
@@ -1063,7 +1066,7 @@ const Home = () => {
 
 
       <div className="bg-[#EFE9DA] mt-5">
-        <div className='flex flex-row px-4 md:px-14 lg:pl-15 items-center'>
+        <div className='section-title flex flex-row px-4 md:px-14 lg:pl-15 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
@@ -1071,16 +1074,16 @@ const Home = () => {
           </svg>
           <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400] lg:leading-[48.43px]'>Fan Favourites</p>
         </div>
-        <div className="w-full ">
-          <div className='pt-9 pb-14 overflow-x-auto whitespace-nowrap scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
+        <div className="w-full">
+          <div className='product-slider pt-9 pb-14 overflow-x-auto whitespace-nowrap scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
             <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
               {apiResponse?.map((item, i) => (
                 <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
-                <div
-                  style={{ background: `${colors[i]}` }}
-                  className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
-                >
                   <div
+                    style={{ background: `${colors[i]}` }}
+                    className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
+                  >
+                     <div
                     className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
                     style={{
                       position: 'absolute',
@@ -1096,14 +1099,14 @@ const Home = () => {
                       className="rounded-full object-cover"
                     />
                   </div>
+                  </div>
+                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
+                    {item?.node?.title}
+                  </p>
+                  <p className='text-[#757575] text-[18px] font-[400] leading-[21.6px] pt-1 font-regola-pro'>
+                    ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
+                  </p>
                 </div>
-                <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
-                  {item?.node?.title}
-                </p>
-                <p className='text-[#757575] text-[18px] font-[400] leading-[21.6px] pt-1 font-regola-pro'>
-                  ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
-                </p>
-              </div>
               ))}
             </div>
 
@@ -1147,8 +1150,8 @@ const Home = () => {
           </div>
         </div>
       </div> */}
-      <div className="bg-[#EFE9DA]">
-        <div className='flex flex-row px-4 md:px-14 lg:pl-15 items-center'>
+      <div className="bg-[#EFE9DA] sm:mt-0 mt-10">
+        <div className='section-title flex flex-row px-4 md:px-14 lg:pl-15 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M64.1258 38.223C63.4723 53.1821 50.8158 64.7793 35.8568 64.1258C20.8977 63.4723 9.3007 50.8162 9.95398 35.8568C10.6075 20.8977 23.2636 9.30074 38.2227 9.95421C53.182 10.6075 64.7792 23.2639 64.1258 38.223Z" fill="#F15E2A" />
             <path d="M32.8251 41.104C32.2105 40.433 31.9758 40.1254 31.9933 39.7298C32.0276 38.9389 32.8899 38.4813 36.0615 37.3315C38.6842 36.257 39.536 36.0466 40.2282 36.077C40.8215 36.1026 41.1977 36.5651 41.1498 37.6528C41.1005 38.7901 40.8271 40.5125 40.6174 45.3082L40.4554 49.0167C40.3821 50.6981 41.3431 51.3841 41.2995 52.3729C41.2543 53.4117 39.6503 53.8367 37.0793 53.7243L36.5844 53.7028C33.964 53.5885 32.4033 53.0249 32.4486 51.9864C32.4919 50.9978 33.5587 50.4001 33.6321 48.7191L33.7378 46.2962C33.9059 42.4394 33.8138 42.2865 32.8251 41.104Z" fill="#FBAE36" />
@@ -1158,9 +1161,9 @@ const Home = () => {
         </div>
 
         <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[509px] md:h-[509px] md:ml-[10px] lg:ml-[135px] md:rounded-l-lg flex flex-col justify-center mt-[35px]">
-          <img src={middleImg} className="h-[509px] w-full " style={{ zIndex: 1 }} />
+          <img src={middleImg} className="h-[509px] w-full object-cover" style={{ zIndex: 1 }} />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
-          <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px]">
+          <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
             <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">Ready to Eat</h2>
             <div className="w-full md:w-2/5">
               <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]" >
@@ -1224,7 +1227,7 @@ const Home = () => {
       </div>
 
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
-        <div className='absolute top-10 left-5 lg:left-[127px] z-20'>
+        <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
           <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title'>
             Not Sure What to Eat?
           </p>
@@ -1232,10 +1235,10 @@ const Home = () => {
             Give it a Spin!
           </p>
         </div>
-        <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px]'>
-          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2'>
+        <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
+          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'>
             <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px]'
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px] btn-spin'
               onClick={handleSpinClick}
               style={{
                 boxShadow: '0px 4px 22.7px 0px #0000001F inset',
@@ -1246,8 +1249,8 @@ const Home = () => {
                 {`Spin >>`}
               </button>
             </div>
-            <div className="absolute">
-              <div className="h-[175px]">
+            <div className="absolute spin-product-info">
+              <div className="spin-product-info-text h-[175px]">
                 <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[330px] font-[600] leading-[50.47px] font-regola-pro mb-3' >
                   {selecteRandomPro?.node?.title}
                 </p>
@@ -1357,7 +1360,7 @@ const Home = () => {
               <p className="font-regola-pro text-[20px] font-normal leading-[23.2px] text-[#333333]">
                 Our Process is
               </p>
-              <div className="flex flex-col md:flex-row items-center justify-between w-full mt-4 md:mt-0">
+              <div className="flex flex-col md:flex-row items-center justify-between w-full mt-4 md:mt-0 process-section-title">
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
@@ -1443,20 +1446,20 @@ const Home = () => {
           }}
         />
         <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
-          <div className="flex pl-8 pt-2">
+          <div className="flex pl-8 pt-2 flavour-options-title">
             <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
                   md:text-[48px] md:leading-[48.43px] font-[400]">
               What makes us instantly yours
             </h1>
           </div>
 
-          <div className="flex items-start  mb-4 md:mt-8 mt-0 flex-col md:flex-row  pl-8">
+          <div className="flex items-start flavour-options-title-text mb-4 md:mt-8 mt-0 flex-col md:flex-row  pl-8">
             <img
               src={noPreservativeWhite}
               alt="Icon"
               className="w-[76px] h-[76px] object-cover"
             />
-            <div className="w-full md:w-1/2 ml-5">
+            <div className="w-full md:w-1/2 ml-5 flavour-options-title-text-content">
               <h2 className="font-skillet text-[26px] leading-[20px] text-[#FFFFFF] mb-2 
                     md:text-[36px] md:leading-[35px] font-[400]">
                 {currentData?.title}
@@ -1468,7 +1471,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="flex flex-grow items-center w-full  md:mt-80 mt-2 pl-8">
+          <div className="flex flex-grow items-center w-full  md:mt-80 mt-2 pl-8 flavour-options">
             <div className="flex flex-col md:flex-row gap-10">
               {buttonTexts.map((text, index) => (
                 <button
@@ -1500,7 +1503,7 @@ const Home = () => {
       </div>
 
       <div className="pt-16 mb-12">
-        <div className="px-8 mx-5 pt-10">
+        <div className="px-8 sm:mx-5 mx-0 pt-10">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-3/5 mb-10">
               <h2 className="md:text-[48px] md:leading-[37px] font-[400] text-[30px] leading-[22px] font-skillet text-[#333333]">
@@ -1528,7 +1531,7 @@ const Home = () => {
 
         </div>
 
-        <div className="pl-[45px] relative w-full">
+        <div className="sm:pl-[45px] pl-0 relative w-full">
           <div className="overflow-hidden w-full">
             <div
               className="flex transition-transform duration-500"
@@ -1540,7 +1543,7 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className="w-[31%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
+                    className="sm:w-[31%] w-[80%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
                     style={{ backgroundColor: getBackgroundColor(index) }}
                   >
                     <div className="flex flex-col mb-[10px] pt-6">
@@ -1566,7 +1569,7 @@ const Home = () => {
               })}
             </div>
           </div>
-          <div className="flex justify-end pt-8 pr-[60px]">
+          <div className="flex sm:justify-end justify-center pt-8 sm:pr-[60px] pr-0">
             <div className="flex gap-3 testimonial-navigation">
               {/* Previous Button */}
               <button
@@ -1598,7 +1601,7 @@ const Home = () => {
       </div>
 
 
-      <div className='bg-[#EFE9DA] relative mt-12'>
+      <div className='bg-[#EFE9DA] relative mt-12 mb-[-113px]'>
         <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
           {/* <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div> */}
           <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
@@ -1639,7 +1642,7 @@ const Home = () => {
             ))}
           </div>
 
-          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro m-7 text-[#333333] rounded font-[300] text-[16px]" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
+          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro my-7 mx-auto text-[#333333] rounded font-[300] text-[16px] py-2 px-5" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
         </div>
       </div>
 

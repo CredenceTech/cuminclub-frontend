@@ -12,7 +12,7 @@ import subscribe from './subscribeData'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cartData', 'user', 'selectedCountry', 'mealData', 'selectedCategory', 'subscribe'],
+  whitelist: ['cartData', 'user', 'selectedCountry', 'mealData', 'subscribe'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
