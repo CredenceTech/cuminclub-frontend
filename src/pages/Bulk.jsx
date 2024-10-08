@@ -33,14 +33,14 @@ import productImage from '../assets/Dish-1.jpg';
 import { categoryrData } from "../state/selectedCategory";
 import headerImage2 from '../assets/header2.png'
 
-export const Product = () => {
-
+export const Bulk = () => {
     const [apiResponse, setApiResponse] = useState(null);
     const [rawResonse, setRawResponse] = useState(null);
     const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [filteredOptions, setFilteredOptions] = useState([]);
     const mealData = useSelector(selectMealItems);
+    const [isBulk, setIsBulk] = useState(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isCartOpen = useSelector(cartIsOpen);
@@ -166,12 +166,16 @@ export const Product = () => {
                 const transformedProducts = collections.collections.edges.flatMap(category =>
                     category.node.products.edges
                         .map(product => {
-                           
+                            const bulk = product.node.metafields.find(mf => mf && mf.key === "bulk");
+                            const shouldInclude = bulk?.value === "true";
+                            if (shouldInclude) {
+                                setIsBulk(true);
                                 return {
                                     ...product.node,
                                     superTitle: category.node.title,
                                 };
-                           
+                            }
+                            return null;
                         })
                         .filter(product => product !== null)
                 );
@@ -430,15 +434,13 @@ export const Product = () => {
         }
     }, [productDetails]);
 
+    console.log(isBulk)
+
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
     };
-
-
     return (
-
         <div className="w-full bg-[#EFE9DA]">
-           
             <div className="p-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -468,7 +470,7 @@ export const Product = () => {
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
                                 return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }} key={product.id}>
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id, isBulk: isBulk } }) }} key={product.id}>
                                         <AnimatePresence mode="popLayout">
                                             <motion.div
                                                 initial={{ y: 500, opacity: 0 }}
@@ -529,7 +531,7 @@ export const Product = () => {
                                         </AnimatePresence>
                                     </div>
                                 ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }}>
+                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id, isBulk: isBulk } }) }}>
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 initial={{ y: 500, x: -500, opacity: 0 }}
@@ -586,8 +588,6 @@ export const Product = () => {
                     </motion.div>
                 </AnimatePresence>
             </div>
-   
         </div>
-
     )
 }

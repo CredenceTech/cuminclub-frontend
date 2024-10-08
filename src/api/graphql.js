@@ -168,6 +168,7 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
                 { namespace: "custom", key: "image_for_home" },
                 { namespace: "custom", key: "rte" },
                 { namespace: "custom", key: "rtc" },
+                { namespace: "custom", key: "bulk" },
               ]) {
                 value
                 key
