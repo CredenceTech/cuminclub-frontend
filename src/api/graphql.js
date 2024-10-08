@@ -1197,6 +1197,13 @@ query getProductData($id: ID!) {
       id
       title
       description
+      collections(first: 1) {
+      edges {
+        node {
+          title
+        }
+      }
+    }
       onlineStoreUrl
       priceRange {
         minVariantPrice {
@@ -1237,6 +1244,8 @@ query getProductData($id: ID!) {
         { namespace: "custom", key: "image_for_home" },
         { namespace: "custom", key: "add_product_steps" },
         { namespace: "shopify--discovery--product_recommendation", key: "related_products" }
+         { namespace: "custom", key: "add_feedbacks" },
+         { namespace: "custom", key: "bulk" },
       ]) {
         value
         key
@@ -1304,6 +1313,17 @@ export const getStepDetails = gql`
         }
       }
     }
+  }
+`;
+export const getFeedbackDetails = gql`
+  query getFeedbackDetails($id: ID!) {
+  metaobject(id: $id) {
+    id
+    fields {
+      key
+      value
+  }
+  }
   }
 `;
 

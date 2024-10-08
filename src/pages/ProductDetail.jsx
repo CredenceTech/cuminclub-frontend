@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails } from '../api/graphql';
+import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails } from '../api/graphql';
 import Rating from '../component/Rating';
 import middleImg from '../assets/middle1-image1.png'
 import { wrap } from "popmotion";
@@ -37,17 +37,19 @@ const swipePower = (offset, velocity) => {
 
 function ProductDetail() {
     const location = useLocation();
+    const productId = location.state?.productId;
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [openCategoryMeals, setOpenCategoryMeals] = useState(null);
-    const [productId, setProductId] = useState("gid://shopify/Product/8729273008354");
     const [currentIndex, setCurrentIndex] = useState(0);
     const isBulk = location.state?.isBulk || false;
     const [[page, direction], setPage] = useState([0, 0]);
+    const [[testiPage, testidirection], settestiPage] = useState([0, 0]);
     const [playing, setPlaying] = useState(true);
     const [productData, setProductData] = useState(null);
     const [homeImg, setHomeImage] = useState(null);
     const [steps, setSteps] = useState(null);
+    const [feedbacks, setFeedbacks] = useState(null);
     const [loading, setLoading] = useState(false);
     const previousIndex = currentIndex === 0 ? steps?.length - 1 : currentIndex - 1;
 
@@ -69,12 +71,14 @@ function ProductDetail() {
         setPlaying(true);
     };
 
-    console.log("stepstestajsdAnuj umnada", steps)
-
+    const ActiveTestimonialIndex = wrap(0, feedbacks?.length, testiPage);
     const imageIndex = wrap(0, steps?.length, page);
     const nextImageIndex = wrap(0, steps?.length, page + 1);
     const paginate = (newDirection) => {
         setPage([page + newDirection, newDirection]);
+    };
+    const paginateTestimonial = (newDirection) => {
+        settestiPage([testiPage + newDirection, newDirection]);
     };
 
     const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
@@ -96,6 +100,19 @@ function ProductDetail() {
             return '';
         }
     };
+    const fetchFeedbackQueyDetails = async (feedbacks) => {
+        try {
+            const feedbackPromises = feedbacks.map(async (feedback) => {
+                const feedbackData = await graphQLClient.request(getFeedbackDetails, { id: feedback });
+                return feedbackData;
+            });
+            const feedbackData = await Promise.all(feedbackPromises);
+            return feedbackData;
+        } catch (error) {
+            console.error("Error fetching image:", error);
+            return '';
+        }
+    };
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -107,6 +124,7 @@ function ProductDetail() {
                     setProductData(response?.product)
                     setHomeImage(response?.product?.metafields?.find(field => field?.key === 'image_for_home'))
                     const stepsField = response?.product?.metafields?.find(field => field?.key === 'add_product_steps');
+                    const feedbackField = response?.product?.metafields?.find(field => field?.key === 'add_feedbacks');
                     if (stepsField && stepsField.value) {
                         const stepIds = JSON.parse(stepsField.value);
                         if (Array.isArray(stepIds) && stepIds.length > 0) {
@@ -128,6 +146,22 @@ function ProductDetail() {
                                 };
                             }));
                             setSteps(parsedSteps);
+                        }
+                    }
+                    if (feedbackField && feedbackField.value) {
+                        const feedbackIds = JSON.parse(feedbackField.value);
+                        if (Array.isArray(feedbackIds) && feedbackIds.length > 0) {
+                            const feedbackData = await fetchFeedbackQueyDetails(feedbackIds);
+                            const parsedFeedback = await Promise.all(feedbackData?.map(async (feedback) => {
+                                const reviewerNameField = feedback.metaobject.fields.find(field => field.key === 'reviewer_name');
+                                const reviewField = feedback.metaobject.fields.find(field => field.key === 'review');
+                                return {
+                                    id: feedback?.metaobject?.id,
+                                    review: JSON.parse(reviewField?.value)?.children[0]?.children[0]?.value || '',
+                                    reviewerName: reviewerNameField?.value,
+                                };
+                            }));
+                            setFeedbacks(parsedFeedback);
                         }
                     }
                 };
@@ -187,10 +221,9 @@ function ProductDetail() {
 
     useEffect(() => {
         const handleScroll = () => {
-            // Check if the image URL exists
             if (homeImg?.reference?.image?.originalSrc) {
                 const scrollPosition = window.scrollY;
-                const rotationAngle = scrollPosition * 0.2; // Adjust the multiplier as needed
+                const rotationAngle = scrollPosition * 0.2;
                 setRotation(rotationAngle);
             }
         };
@@ -247,7 +280,7 @@ function ProductDetail() {
                                 <div className='flex items-center'>
                                     <button type='button'
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{isBulk ? "Bulk Packaging" : "DIY COOKING KIT"} </button>
+                                        className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
                                     <div className="flex ml-4">
                                         <Rating rating={4} text={"200 Reviews"} />
                                     </div>
@@ -487,14 +520,12 @@ function ProductDetail() {
                                                 <svg width="58" height="44" viewBox="0 0 58 44" className="absolute -top-4 -left-9 w-[57.02px] h-[43.72px]" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="#B2B2B2" />
                                                 </svg>
-                                                <p className="px-6 py-1 font-[400] md:text-[24px] font-inter leading-[29px] text-[#757575]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                                </p>
-
+                                                {feedbacks && <p className="px-6 py-1 font-[400] md:text-[24px] font-inter leading-[29px] text-[#757575]">{feedbacks[ActiveTestimonialIndex]?.review}</p>}
                                                 <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute -bottom-7 right-0 w-[57.02px] h-[43.72px]" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M57.0156 8.39233e-05V11.5058C57.0156 15.0001 56.3977 18.7075 55.1619 22.6279C53.8835 26.591 52.0511 30.4049 49.6648 34.0697C47.2358 37.7771 44.3168 40.9944 40.9077 43.7217L32.7259 37.074C35.4105 33.2387 37.7543 29.233 39.7571 25.0569C41.7173 20.9234 42.6974 16.4916 42.6974 11.7615V8.39233e-05H57.0156ZM24.2884 8.39233e-05V11.5058C24.2884 15.0001 23.6705 18.7075 22.4347 22.6279C21.1563 26.591 19.3239 30.4049 16.9375 34.0697C14.5085 37.7771 11.5895 40.9944 8.1804 43.7217L-0.00141907 37.074C2.68324 33.2387 5.02699 29.233 7.02982 25.0569C8.99005 20.9234 9.97017 16.4916 9.97017 11.7615V8.39233e-05H24.2884Z" fill="#B2B2B2" />
                                                 </svg>
                                             </div>
-                                            <p className="text-left pl-5 text-[#333333] pt-4 font-[400] md:text-[24px] font-inter leading-[29px]">Person Name</p>
+                                            {feedbacks && <p className="text-left pl-5 text-[#333333] pt-4 font-[400] md:text-[24px] font-inter leading-[29px]">{feedbacks[ActiveTestimonialIndex]?.reviewerName}</p>}
                                         </div>
                                     </div>
                                 </div>
@@ -502,13 +533,13 @@ function ProductDetail() {
                             <div className='flex justify-end'>
                                 <div className='flex gap-3'>
                                     {/* next button */}
-                                    <button type='button' className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
+                                    <button type='button' onClick={() => { paginateTestimonial(-1) }} className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="white" />
                                         </svg>
                                     </button>
                                     {/* prev button */}
-                                    <button type='button' className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
+                                    <button type='button' onClick={() => { paginateTestimonial(1) }} className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="white" />
                                         </svg>
