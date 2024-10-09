@@ -456,11 +456,28 @@ const Home = () => {
   };
 
   const totalSlides = testimonials.length;
-  const slidesPerView = 3;
+  const [slidesPerView, setSlidesPerView] = useState(3);
   const [isLastInRow, setIsLastInRow] = useState(2)
 
+  useEffect(() => {
+    const updateSlidesPerView = () => {
+      if (window.innerWidth >= 1024) {
+        setSlidesPerView(3); 
+      } else if (window.innerWidth >= 768) {
+        setSlidesPerView(2); 
+      } else {
+        setSlidesPerView(1);
+      }
+    };
+    updateSlidesPerView();
+    window.addEventListener("resize", updateSlidesPerView);
+    return () => {
+      window.removeEventListener("resize", updateSlidesPerView);
+    };
+  }, []);
+
   const nextSlide = () => {
-    if (currentSlide < Math.ceil(totalSlides - 3)) {
+    if (currentSlide < Math.ceil(totalSlides - slidesPerView)) {
       setCurrentSlide((prev) => prev + 1);
       setIsLastInRow((isLastInRow) => isLastInRow + 1);
     }
@@ -1543,7 +1560,7 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className="sm:w-[31%] w-[80%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
+                    className="md:w-[48%] lg:w-[31%] w-[98%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
                     style={{ backgroundColor: getBackgroundColor(index) }}
                   >
                     <div className="flex flex-col mb-[10px] pt-6">
@@ -1560,7 +1577,7 @@ const Home = () => {
                     <div className="flex justify-between mt-auto pb-3 px-5">
                       <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#FFFFFF]">{testimonial.reviewerName}</p>
 
-                      <Tooltip data={testimonial.typeformMessage} style={`bottom-3 ${index === isLastInRow ? '-left-[70px]' : 'left-6'}  px-8`} >
+                      <Tooltip data={testimonial.typeformMessage} style={`bottom-3 ${index === isLastInRow ? '-left-[70px]' : 'lg:left-6 -left-[100px]'}  px-8`} >
                         <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#FFFFFF]">{testimonial.typeform}</p>
                       </Tooltip>
                     </div>
@@ -1588,7 +1605,7 @@ const Home = () => {
                 onClick={nextSlide}
                 type="button"
                 className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
-                disabled={currentSlide >= Math.ceil(totalSlides - 3)}
+                disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white"/>
