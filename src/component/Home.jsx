@@ -42,6 +42,7 @@ import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import middleImg from '../assets/middle1-image1.png'
+import rtcImg from '../assets/ready-to-cook-img.jpg'
 
 const Home = () => {
 
@@ -1192,11 +1193,12 @@ const Home = () => {
         </div>
 
         <div className="flex coverImage flex-col md:flex-row h-auto md:h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
-          <div className="w-full relative md:w-3/5 flex-shrink-0 h-[300px] md:h-full order-2 md:order-1">
+          <div className="w-full relative md:w-3/5 flex-shrink-0 md:h-[300px] h-auto md:h-full order-2 md:order-1">
             <div className="relative w-full h-full">
-              <div className="absolute top-[20%] left-[40%] md:top-[160px] md:left-[300px]">
+              <img src={rtcImg} className="rtcimg" alt="" />
+              <div className="absolute top-[40%] left-[35%] md:top-[160px] md:left-[300px]">
                 <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
-                  <div className="cursor-pointer">
+                  <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
                       <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
@@ -1204,9 +1206,9 @@ const Home = () => {
                   </div>
                 </Tooltip>
               </div>
-              <div className="absolute bottom-[30%] right-[20%] md:bottom-[150px] md:left-[480px]">
+              <div className="absolute bottom-[35%] right-[25%] md:bottom-[150px] md:left-[480px]">
                 <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
-                  <div className="cursor-pointer">
+                  <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
                       <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
@@ -1214,9 +1216,9 @@ const Home = () => {
                   </div>
                 </Tooltip>
               </div>
-              <div className="absolute bottom-[10%] left-[40%] md:bottom-[60px] md:left-[360px]">
+              <div className="absolute bottom-[22%] left-[47%] md:bottom-[60px] md:left-[360px]">
                 <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
-                  <div className="cursor-pointer">
+                  <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
                       <circle cx="34.3277" cy="33.9937" r="20.2029" fill="#D1D1D1" />
@@ -1294,7 +1296,7 @@ const Home = () => {
               transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
             >
               <img
-                src={selecteRandomPro?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
+                 src={selecteRandomPro?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
                 alt=''
                 className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px] rounded-full'
                 draggable={false}

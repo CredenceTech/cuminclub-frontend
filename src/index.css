@@ -240,10 +240,15 @@ body {
 
 
 .coverImage {
-  background-image: url(./assets/cover.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: linear-gradient(180deg, #E9EEED 0%, #DDDFE3 100%);
+
+}
+
+.coverImage .rtcimg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .link {
@@ -399,9 +404,21 @@ body {
   overflow-x: hidden;
 } */
 
-/* .footer{
-  margin-top: -113px;
-} */
+  /* .footer{
+    margin-top: -113px;
+  } */
+
+ @media(max-width:767.98px){
+  .coverImage .rtcimg {
+    margin-top: 30px;
+    width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .coverImage{
+    padding-bottom: 40px;
+  }
+ } 
 
 @media(max-width:575px){
   .btn-hamburger svg{
@@ -539,6 +556,10 @@ body {
     text-decoration: none;
     border-bottom: 0;
     font-size: 14px;
+  }
+  .img-svg svg{
+    width: 40px;
+    height: 40px;
   }
 }
 
