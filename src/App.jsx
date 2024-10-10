@@ -58,12 +58,12 @@ function App() {
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/Invoices" element={<Invoices />} />
             <Route path="/cardReview" element={<CardReview />} />
-            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/recipes/:handle" element={<Recipes />} />
             <Route path="/recipe-list" element={<RecipeList />} />
             <Route path="aboutUs" element={<AboutUs />} />
             <Route path="/facilities" element={<Facility />} />
             <Route path="*" element={<Home />} />
-            <Route path="/product-details" element={<ProductDetails />} />
+            <Route path="/product-details/:handle" element={<ProductDetails />} />
             <Route path="/ready-to-cook" element={<ReadyToCook />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/products" element={<Product />} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll } from "framer-motion";
-import { getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRecipeDetailsQuery, graphQLClient } from '../api/graphql';
-import { useLocation } from 'react-router-dom';
+import { getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRecipeDetailsQuery, getRecipeStepsDetailsQuery, graphQLClient } from '../api/graphql';
+import { useLocation, useParams } from 'react-router-dom';
 import ShareModel from '../component/ShareModel';
 import LoadingAnimation from "../component/Loader";
 import jsPDF from 'jspdf';
@@ -18,6 +18,7 @@ const Recipes = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { scrollY } = useScroll({ container: containerRef })
+    const { handle } = useParams();
 
     const fetchImageById = async (imageId) => {
         setIsLoading(true);
@@ -36,7 +37,7 @@ const Recipes = () => {
         setIsLoading(true);
         try {
             const stepPromises = stepIds.map(async (stepId) => {
-                const stepData = await graphQLClient.request(getRecipeDetailsQuery, { id: stepId });
+                const stepData = await graphQLClient.request(getRecipeStepsDetailsQuery, { id: stepId });
                 setIsLoading(false);
                 return stepData;
             });
@@ -69,7 +70,7 @@ const Recipes = () => {
         const apiCall = async () => {
             setIsLoading(true);
             try {
-                const result = await graphQLClient.request(getRecipeDetailsQuery, { id: recipeId });
+                const result = await graphQLClient.request(getRecipeDetailsQuery, { handle });
                 const recipeData = result?.metaobject;
                 setIsLoading(false);
                 const imageField = recipeData?.fields.find(field => field.key === 'image');
@@ -132,10 +133,10 @@ const Recipes = () => {
             }
         };
 
-        if (recipeId) {
+        if (handle) {
             apiCall();
         }
-    }, [recipeId]);
+    }, [handle]);
 
 
     useEffect(() => {

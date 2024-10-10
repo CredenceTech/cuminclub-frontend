@@ -72,6 +72,40 @@ const Home = () => {
   const [lastMouseX, setLastMouseX] = useState(0);
 
   const [recipeList, setRecipeList] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [positionX, setPositionX] = useState(0);
+  const handleMouseDowns = () => {
+    setIsDragging(true);
+  };
+
+  const handleMouseMoves = (e) => {
+    if (!isDragging) return;
+    const parentWidth = e.target.parentNode.offsetWidth;
+    const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
+    if (newX >= 0 && newX <= parentWidth - 60) {
+      setPositionX(newX);
+      // setRotation((prevRotation) => {
+      //   const newRotation = prevRotation + 360;
+      //   const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+      //   setSelecteRandomPro(apiResponse[selectedIndex]);
+
+      //   return newRotation;
+      // });
+    }
+  };
+
+  const handleMouseUps = () => {
+    setIsDragging(false);
+    setPositionX(0);
+    setRotation((prevRotation) => {
+      const newRotation = prevRotation + 360;
+      const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+      setSelecteRandomPro(apiResponse[selectedIndex]);
+
+      return newRotation;
+    });
+  };
+
   const fetchImageById = async (imageId) => {
     try {
       const result = await graphQLClient.request(getMediaImageQuery, { id: imageId });
@@ -463,9 +497,9 @@ const Home = () => {
   useEffect(() => {
     const updateSlidesPerView = () => {
       if (window.innerWidth >= 1024) {
-        setSlidesPerView(3); 
+        setSlidesPerView(3);
       } else if (window.innerWidth >= 768) {
-        setSlidesPerView(2); 
+        setSlidesPerView(2);
       } else {
         setSlidesPerView(1);
       }
@@ -801,7 +835,7 @@ const Home = () => {
               </svg>
             </button>
           </div>
-          
+
           <div className="flex flex-1 justify-center gap-3 z-10 logo">
             <Link to="/">
               <svg
@@ -914,7 +948,7 @@ const Home = () => {
                 </span>
               </div>
             </button>
-            
+
             {userId === null &&
               <button className="bg-[#FBAE36] hidden lg:block px-9 rounded-full ">
                 <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest" to="/login">
@@ -1054,7 +1088,7 @@ const Home = () => {
           categoryData?.map((item, i) => (
             <div
               key={item?.node?.id}
-              onClick={() => { dispatch(addCategoryData(item)); navigate('/products');}}
+              onClick={() => { dispatch(addCategoryData(item)); navigate('/products'); }}
               style={{ background: `${colorCategory[i]}` }}
               className={`product-box group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
             >
@@ -1099,24 +1133,25 @@ const Home = () => {
                 <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
                   <div
                     style={{ background: `${colors[i]}` }}
+                    onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
                     className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                   >
-                     <div
-                    className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
-                    style={{
-                      position: 'absolute',
-                      top: '51%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      borderRadius: '50%'
-                    }}
-                  >
-                    <img
-                      src={item?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
-                      alt=""
-                      className="rounded-full object-cover"
-                    />
-                  </div>
+                    <div
+                      className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
+                      style={{
+                        position: 'absolute',
+                        top: '51%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        borderRadius: '50%'
+                      }}
+                    >
+                      <img
+                        src={item?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
+                        alt=""
+                        className="rounded-full object-cover"
+                      />
+                    </div>
                   </div>
                   <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
                     {item?.node?.title}
@@ -1188,7 +1223,7 @@ const Home = () => {
                 Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]">DISCOVER</button>
+            <button className="bg-white text-[#333333] mt-4 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]" onClick={() => { navigate('/ready-to-eat') }}>DISCOVER</button>
           </div>
         </div>
 
@@ -1238,7 +1273,7 @@ const Home = () => {
                 Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center">
+            <button className="bg-white text-[#333333] mt-4 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center" onClick={() => { navigate('/ready-to-cook') }}>
               VIEW PRODUCTS
             </button>
           </div>
@@ -1257,16 +1292,32 @@ const Home = () => {
         <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
           <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'>
             <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] w-[300px] btn-spin'
-              onClick={handleSpinClick}
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] h-[76px] w-[300px] btn-spin'
+              onMouseMove={handleMouseMoves}
+              onMouseUp={handleMouseUps}
               style={{
                 boxShadow: '0px 4px 22.7px 0px #0000001F inset',
+                position: 'relative',
               }}
             >
-              <div className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'></div>
-              <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
-                {`Spin >>`}
-              </button>
+              <div
+                className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
+                style={{
+                  position: 'absolute',
+                  left: `${8 + positionX}px`,
+                  cursor: 'grab',
+                  top: '8px',
+                  bottom: '8px',
+                  transition: isDragging ? 'none' : 'left 0.3s ease', 
+                }}
+                onMouseDown={handleMouseDowns}
+              ></div>
+
+              <div className="pl-[76px]">
+                <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                  {`Spin >>`}
+                </button>
+              </div>
             </div>
             <div className="absolute spin-product-info">
               <div className="spin-product-info-text h-[175px]">
@@ -1296,7 +1347,7 @@ const Home = () => {
               transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
             >
               <img
-                 src={selecteRandomPro?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
+                src={selecteRandomPro?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
                 alt=''
                 className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px] rounded-full'
                 draggable={false}
@@ -1598,7 +1649,7 @@ const Home = () => {
                 disabled={currentSlide === 0} // Disable button if on the first slide
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
                 </svg>
 
               </button>
@@ -1610,7 +1661,7 @@ const Home = () => {
                 disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white" />
                 </svg>
               </button>
             </div>
@@ -1647,6 +1698,7 @@ const Home = () => {
                     src={recipe?.imageUrl}
                     alt={recipe?.fields?.find(field => field.key === "name")?.value}
                     className="min-w-[250px] md:min-w-[300px] h-[300px] md:h-[362px] cursor-pointer object-cover"
+                    onClick={() => { navigate(`/recipes/${recipe?.handle}`) }}
                   />
                 </div>
 

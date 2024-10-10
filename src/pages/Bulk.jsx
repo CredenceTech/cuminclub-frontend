@@ -471,7 +471,7 @@ export const Bulk = () => {
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
                                 return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id, isBulk: isBulk } }) }} key={product.id}>
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`, { state: {isBulk: isBulk } }) }} key={product.id}>
                                         <AnimatePresence mode="popLayout">
                                             <motion.div
                                                 initial={{ y: 500, opacity: 0 }}
@@ -532,7 +532,7 @@ export const Bulk = () => {
                                         </AnimatePresence>
                                     </div>
                                 ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id, isBulk: isBulk } }) }}>
+                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }}>
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 initial={{ y: 500, x: -500, opacity: 0 }}

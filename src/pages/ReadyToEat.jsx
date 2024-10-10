@@ -429,130 +429,6 @@ const ReadyToEat = () => {
     }
   }, [productDetails]);
 
-  const options = [
-    {
-      id: 1,
-      noMeal: "6 Meals",
-      price: "for ₹999.00",
-      discountPrice: "₹2510.12/meal",
-      no: 6,
-      subscriptionType: [
-        {
-          id: 1,
-          type: "oneTime",
-          noMeal: "One Time",
-          price: "₹2110.12/meal",
-          discountPrice: "₹2510.12/meal",
-        },
-        {
-          id: 2,
-          type: "subscription",
-          noMeal: "Subscription",
-          price: "₹2110.12/meal",
-          discountPrice: "2000.12/meal",
-        },
-      ],
-    },
-    {
-      id: 2,
-      noMeal: "12 Meals",
-      price: "for ₹999.00",
-      discountPrice: "₹1110.12/meal",
-      no: 12,
-      subscriptionType: [
-        {
-          id: 1,
-          type: "oneTime",
-          noMeal: "One Time",
-          price: "₹1210.12/meal",
-          discountPrice: "₹1110.12/meal",
-        },
-        {
-          id: 2,
-          type: "subscription",
-          noMeal: "Subscription",
-          price: "₹1210.12/meal",
-          discountPrice: "₹1000.12/meal",
-        },
-      ],
-    },
-    {
-      id: 3,
-      noMeal: "18 Meals",
-      price: "for ₹999.00",
-      discountPrice: "₹1110.12/meal",
-      no: 18,
-      subscriptionType: [
-        {
-          id: 1,
-          type: "oneTime",
-          noMeal: "One Time",
-          price: "₹1210.12/meal",
-          discountPrice: "₹1110.12/meal",
-        },
-        {
-          id: 2,
-          type: "subscription",
-          noMeal: "Subscription",
-          price: "₹1210.12/meal",
-          discountPrice: "₹1000.12/meal",
-        },
-      ],
-    },
-  ]
-
-  const product = [
-    {
-      id: 1,
-      isLong: true,
-      image: food1,
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Dal makhani'
-    },
-    {
-      id: 2,
-      isLong: false,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Punjabi chole'
-    },
-    {
-      id: 3,
-      isLong: false,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Dal makhani'
-    },
-    {
-      id: 4,
-      isLong: false,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Dal makhani'
-    },
-    {
-      id: 5,
-      isLong: false,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Dal makhani'
-    },
-    {
-      id: 6,
-      isLong: false,
-      image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Dal makhani'
-    },
-    {
-      id: 7,
-      isLong: true,
-      image: food1,
-      description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-      name: 'Dal makhani'
-    },
-  ]
-
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -887,7 +763,7 @@ const ReadyToEat = () => {
                       const categoryTag = product.superTitle; // Replace with appropriate category if available
 
                       return isLong ? (
-                        <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer"  onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }} key={product.id}>
+                        <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer"  onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
                           <AnimatePresence mode="popLayout">
                             <motion.div
                               initial={{ y: 500, opacity: 0 }}
@@ -947,7 +823,7 @@ const ReadyToEat = () => {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer"  onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }}>
+                        <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer"  onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                           <AnimatePresence mode="wait">
                             <motion.div
                               initial={{ y: 500, x: -500, opacity: 0 }}

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails } from '../api/graphql';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle } from '../api/graphql';
 import Rating from '../component/Rating';
 import middleImg from '../assets/middle1-image1.png'
 import { wrap } from "popmotion";
@@ -52,6 +52,7 @@ function ProductDetail() {
     const [feedbacks, setFeedbacks] = useState(null);
     const [loading, setLoading] = useState(false);
     const previousIndex = currentIndex === 0 ? steps?.length - 1 : currentIndex - 1;
+    const { handle } = useParams();
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % steps?.length);
@@ -118,8 +119,8 @@ function ProductDetail() {
             setLoading(true);
             try {
                 const getProductDetail = async () => {
-                    const response = await graphQLClient.request(getProductDetailFull, {
-                        id: productId
+                    const response = await graphQLClient.request(getProductDetailByHandle, {
+                        handle: handle
                     });
                     setProductData(response?.product)
                     setHomeImage(response?.product?.metafields?.find(field => field?.key === 'image_for_home'))
