@@ -468,7 +468,7 @@ export const Product = () => {
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
                                 return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }} key={product.id}>
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
                                         <AnimatePresence mode="popLayout">
                                             <motion.div
                                                 initial={{ y: 500, opacity: 0 }}
@@ -529,7 +529,7 @@ export const Product = () => {
                                         </AnimatePresence>
                                     </div>
                                 ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }}>
+                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 initial={{ y: 500, x: -500, opacity: 0 }}

@@ -436,121 +436,6 @@ function ReadyToCook() {
         setSelectedValue(event.target.value);
     };
 
-    const product = [
-        {
-            id: 1,
-            isLong: true,
-            image: food1,
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 2,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Punjabi chole'
-        },
-        {
-            id: 3,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31_1.png?v=1718710992"',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 4,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 5,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 6,
-            isLong: true,
-            image: food1,
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 7,
-            isLong: false,
-            image: "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992",
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 8,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 9,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 10,
-            isLong: true,
-            image: food1,
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 11,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 12,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 13,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 14,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 15,
-            isLong: false,
-            image: 'https://cdn.shopify.com/s/files/1/0682/8458/0066/files/Rectangle_31.png?v=1718710992',
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-        {
-            id: 16,
-            isLong: true,
-            image: food1,
-            description: 'lorem ipusn for teh test pesreuse on the roof tof the icn pressure',
-            name: 'Dal makhani'
-        },
-    ]
-
     const handleVideoEnd = () => {
         setPlaying(false);
     };
@@ -586,7 +471,7 @@ function ReadyToCook() {
                                             >
                                                 {transformedProducts?.slice(0, 1)?.map((product, productIndex) => (
                                                     <>
-                                                        <div className='bg-[#EADEC1] rounded-3xl cursor-pointer' key={product?.id} onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }}>
+                                                        <div className='bg-[#EADEC1] rounded-3xl cursor-pointer' key={product?.id} onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                                                             <AnimatePresence mode="popLayout">
                                                                 <motion.div
                                                                     initial={{ y: 500, opacity: 0 }}
@@ -703,7 +588,7 @@ function ReadyToCook() {
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
                                 return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" key={product.id} onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }}>
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer" key={product.id} onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                                         <AnimatePresence mode="popLayout">
                                             <motion.div
                                                 initial={{ y: 500, opacity: 0 }}
@@ -764,7 +649,7 @@ function ReadyToCook() {
                                         </AnimatePresence>
                                     </div>
                                 ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate('/product-details', { state: { productId: product?.id } }) }}>
+                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 initial={{ y: 500, x: -500, opacity: 0 }}

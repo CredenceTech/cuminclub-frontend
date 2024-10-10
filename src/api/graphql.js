@@ -139,6 +139,7 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
             node {
               id
               title
+              handle
               description
               tags
               priceRange {
@@ -1092,6 +1093,20 @@ export const getRecipeListQuery = gql`
 `;
 
 export const getRecipeDetailsQuery = gql`
+  query getRecipeDetails($handle: String!) {
+    metaobject(handle: { handle: $handle, type: "recipes" }) {
+      id
+      type
+      handle
+      fields {
+        key
+        value
+      }
+    }
+  }
+`;
+
+export const getRecipeStepsDetailsQuery = gql`
   query getRecipeDetails($id: ID!) {
     metaobject(id: $id) {
       id
@@ -1328,5 +1343,107 @@ export const getFeedbackDetails = gql`
   }
 `;
 
-
+export const getProductDetailByHandle = gql`
+query productByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      title
+      handle
+      description
+      collections(first: 1) {
+      edges {
+        node {
+          title
+        }
+      }
+    }
+      onlineStoreUrl
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 10) {
+        edges {
+          node {
+            altText
+            src
+          }
+        }
+      }
+      handle
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
+      metafields(identifiers: [
+        { namespace: "custom", key: "spice_level" },
+        { namespace: "custom", key: "how_to_prepare" },
+        { namespace: "custom", key: "nutrition_facts" },
+        { namespace: "custom", key: "ingredient" },
+        { namespace: "custom", key: "component_reference" },
+        { namespace: "custom", key: "rte" },
+        { namespace: "custom", key: "rtc" },
+        { namespace: "custom", key: "product_background_color" },
+        { namespace: "custom", key: "product_text_color" },
+        { namespace: "custom", key: "product_large_card_image" },
+        { namespace: "custom", key: "product_small_card_image" },
+        { namespace: "custom", key: "image_for_home" },
+        { namespace: "custom", key: "add_product_steps" },
+        { namespace: "shopify--discovery--product_recommendation", key: "related_products" }
+         { namespace: "custom", key: "add_feedbacks" },
+         { namespace: "custom", key: "bulk" },
+      ]) {
+        value
+        key
+        reference {
+          ... on MediaImage {
+            image {
+              originalSrc
+              altText
+            }
+          }
+        }
+      }
+      relatedProducts: metafield(namespace: "shopify--discovery--product_recommendation", key: "related_products") {
+        value
+        references(first: 10) {
+          edges {
+            node {
+              ... on Product {
+                id
+                title
+                description
+                onlineStoreUrl
+                priceRange {
+                  minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+                metafield(namespace: "custom", key: "image_for_home") {
+                  value
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        originalSrc
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 

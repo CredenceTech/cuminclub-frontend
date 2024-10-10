@@ -159,7 +159,7 @@ const RecipeList = () => {
                 <div className="pl-[60px] pt-[60px] pr-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
                     {filteredRecipes.length > 0 ? (
                         filteredRecipes.map((recipe) => (
-                            <div key={recipe?.id} className="bg-[#FFFFFF] cursor-pointer" onClick={() => { navigate('/recipes', { state: { recipeId: recipe?.id } }) }}>
+                            <div key={recipe?.id} className="bg-[#FFFFFF] cursor-pointer" onClick={() => { navigate(`/recipes/${recipe?.handle}`) }}>
                                 <img
                                     src={recipe?.imageUrl}
                                     alt={recipe?.fields?.find(field => field.key === "name")?.value}
