@@ -5,6 +5,7 @@ import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { cartIsOpen, openCart } from "../state/cart";
 import { useDispatch, useSelector } from "react-redux";
 import { CartDrawer } from "./CartComponent";
+import Rating from "./Rating";
 import {
   cartData,
   clearCartData,
@@ -31,7 +32,7 @@ import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.png'
 import authenticMeal from '../assets/authentic-flavors.png'
 import noPreservativeWhite from '../assets/no-preservative.svg'
-import headerImage1 from '../assets/header.png'
+import headerImage1 from '../assets/header.jpg'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
 import Tooltip from "./Tooltip";
@@ -74,6 +75,37 @@ const Home = () => {
   const [recipeList, setRecipeList] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [positionX, setPositionX] = useState(0);
+  const reviews = [
+    {
+      name: 'Rashmi Bansal',
+      text: 'Lorem Ipsum ',
+      rating: 4,
+    },
+    {
+      name: 'John Doe',
+      text: 'John has ',
+      rating: 5,
+    },
+    {
+      name: 'Jane Smith',
+      text: 'The product',
+      rating: 4,
+    },
+  ];
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const [fadeIn, setFadeIn] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeIn(true);
+      setTimeout(() => {
+        setCurrentReviewIndex((prevIndex) =>
+          prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+        );
+        setFadeIn(false);
+      }, 500);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
   const handleMouseDowns = () => {
     setIsDragging(true);
   };
@@ -529,6 +561,16 @@ const Home = () => {
     return index % 2 === 0 ? '#FAA634' : '#FB7D36';
   };
 
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const toggleSearch = () => {
+    setSearchOpen(!searchOpen);
+    setSearchQuery('');
+  };
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   const [activeButton, setActiveButton] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -587,17 +629,23 @@ const Home = () => {
     {
       image: headerImage1,
       title: "Bring the Taste of Home, Anywhere",
-      description: "Ready-to-eat comfort food, delivered right at your door."
+      description: "Ready-to-eat comfort food, delivered right at your door.",
+      ctaText: "Subscribe at ₹80/meal",
+      navigationLink: "/products"
     },
     {
       image: headerImage2,
       title: "Real Indian Food, Ready in 2 Minutes",
-      description: "Heat, Cook, and Repeat – Get deliciousness served to your plate in minutes."
+      description: "Heat, Cook, and Repeat – Get deliciousness served to your plate in minutes.",
+      ctaText: "All Ready to Eat Products",
+      navigationLink: "/ready-to-eat"
     },
     {
       image: headerImage3,
       title: "From Kitchen to Table, Cooked in 7 Minutes",
-      description: "Delicious meals cooked instantly in 7 minutes. Experience ease on busy days with your favourite protein."
+      description: "Delicious meals cooked instantly in 7 minutes. Experience ease on busy days with your favourite protein.",
+      ctaText: "All Ready to Cook Products",
+      navigationLink: "/ready-to-cook"
     }
   ];
 
@@ -753,7 +801,7 @@ const Home = () => {
                     onMouseEnter={() => setShowHeaderMain(true)}
                     // onMouseLeave={() => setShowHeaderMain(false)}
                     onClick={() => { setShowHeaderMain(true) }}
-                    className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#ffffff]'} `}>
+                    className={`NavigationMenuTrigger text-[18px] font-bold font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ml-14 ${!showHeaderMain ? 'text-[#ffffff]' : 'text-[#ffffff]'} `}>
                     OUR MENU
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content
@@ -790,7 +838,7 @@ const Home = () => {
 
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-[600] font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
+                  <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-bold font-regola-pro leading-[21.6px] whitespace-nowrap px-4 relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
                     LEARN
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content className="NavigationMenuContent mx-4 absolute top-12  bg-[#D9D9D9] rounded-[4px]">
@@ -811,7 +859,7 @@ const Home = () => {
                   </NavigationMenu.Content>
                 </NavigationMenu.Item>
                 <NavigationMenu.Item>
-                  <NavigationMenu.Trigger onClick={() => { navigate('/recipe-list') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-[500] font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
+                  <NavigationMenu.Trigger onClick={() => { navigate('/recipe-list') }} className={`NavigationMenuTrigger px-4 whitespace-nowrap text-[18px] font-bold font-regola-pro leading-[21.6px]  relative  ${!showHeaderMain ? 'text-[#FFFFFF]' : 'text-[#FFFFFF]'} `}>
                     RECIPES
                   </NavigationMenu.Trigger>
                 </NavigationMenu.Item>
@@ -922,7 +970,34 @@ const Home = () => {
             />
           )} */}
           </div>
+          
           <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
+          <div className="relative flex justify-center items-center">
+              <button onClick={toggleSearch} className="focus:outline-none">
+                <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke="#FFFFFF" stroke-width="3.02041" />
+                </svg>
+              </button>
+              {searchOpen && (
+                <div className="absolute -right-2 bg-[#FFFFFF] rounded-full flex">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="pl-4 pr-[50px] py-2 w-64 text-[#333333] border border-[#333333] rounded-full focus:outline-none"
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                    />
+                    <button
+                      onClick={toggleSearch}
+                      className="px-4 py-2 absolute right-0 top-0 bottom-0 bg-[#FBAE36]  text-white rounded-full"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             <button
               onClick={() => { navigate('/cardReview') }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
@@ -1060,20 +1135,20 @@ const Home = () => {
 
         {isCartOpen && <CartDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
-          <div className="h-[200px] ml-10 banner-text">
-            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#333333]'
+          <div className="ml-10 banner-text">
+            <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'
                 : 'text-white'
               } text-left `}>
               {bannerData[currentIndex].title}
             </h1>
-            <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#606060]' : 'text-[#DFDFDF]'}`}>
+            <p className={`font-regola-pro max-w-[600px] text-xl lg:text-[20px] font-normal leading-[24px] text-left ${currentIndex == 0 ? 'text-[#EEEEEE]' : 'text-[#DFDFDF]'}`}>
               {bannerData[currentIndex].description}
             </p>
           </div>
-          <div className="flex justify-end pb-[40px] px-8 pt-[110px] subscribe-button">
-            <Link to='/products' className='flex flex-row py-2 px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
-              <button className="text-[#231F20] font-regola-pro font-[400] text-[20px] leading-[24px]">Subscribe at ₹80/meal </button>
+          <div className="flex px-8 subscribe-button pt-4 ml-1">
+            <Link to={bannerData[currentIndex].navigationLink} className='flex flex-row py-2 px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
+              <button className="text-[#231F20] font-regola-pro font-[400] text-[20px] leading-[24px] py-1">{bannerData[currentIndex].ctaText}</button>
               <svg width="15" height="11" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
@@ -1156,7 +1231,7 @@ const Home = () => {
                   <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
                     {item?.node?.title}
                   </p>
-                  <p className='text-[#757575] text-[18px] font-[400] leading-[21.6px] pt-1 font-regola-pro'>
+                  <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
                     ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
                   </p>
                 </div>
@@ -1167,42 +1242,6 @@ const Home = () => {
         </div>
       </div>
 
-
-      {/* <div className='w-full bannerbottom h-[600px]'>
-        <div className='mx-auto container'>
-          <div className='flex justify-between '>
-            <div className='px-10'>
-              <p className='text-white text-lg font-skillet lg:text-5xl pt-6'>Confused?</p>
-              <p className='text-[#FBAE36] text-lg lg:text-4xl font-futura'>Spin it </p>
-            </div>
-            <div className='flex h-[500px] relative z-10 justify-end items-center '>
-              <div className='relative right-[-24px] top-[70px] z-[-1]'>
-                <div onClick={() => { setSelecteRandomPro(apiResponse[getRandomNumber()]) }} className='flex cursor-pointer flex-row py-2 pl-2 pr-10  rounded-full items-center gap-x-5 bg-[#EFE9DA]'>
-                  <div className='h-10 w-10 rounded-full bg-[#FBAE36]'></div>
-                  <button className=" text-[#B25220] font-xl">{`spin >>`} </button>
-                </div>
-                <p className='text-[#FFFFFF] text-lg font-futuraBold pr-[50px] lg:text-2xl mt-4'>{selecteRandomPro?.node?.title}</p>
-                <p className='text-[#FFFFFF] text-lg '>₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}</p>
-                <button type='button' className="bg-[#FBAE36] mt-2 rounded-full py-1 px-4 font-bold text-black">Add to cart </button>
-              </div>
-              <AnimatePresence>
-                <motion.div initial={{ opacity: 0, scale: 0.5 }}
-                  key={selecteRandomPro?.node?.title}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 20,
-                    duration: 0.8
-                  }}
-                >
-                  <img src={selecteRandomPro?.node?.featuredImage?.url} alt="" className='lg:h-[400px] rounded-full h-[250px]' />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-      </div> */}
       <div className="bg-[#EFE9DA] sm:mt-0 mt-10">
         <div className='section-title flex flex-row px-4 md:px-14 lg:pl-15 items-center'>
           <svg width="75" height="75" viewBox="0 0 75 75" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1214,7 +1253,7 @@ const Home = () => {
         </div>
 
         <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[509px] md:h-[509px] md:ml-[10px] lg:ml-[135px] md:rounded-l-lg flex flex-col justify-center mt-[35px]">
-          <img src={middleImg} className="h-[509px] w-full object-cover" style={{ zIndex: 1 }} />
+          <img src={middleImg} className="h-[509px] w-full object-cover md:rounded-l-lg" style={{ zIndex: 1 }} />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
           <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
             <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">Ready to Eat</h2>
@@ -1224,6 +1263,16 @@ const Home = () => {
               </p>
             </div>
             <button className="bg-white text-[#333333] mt-4 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]" onClick={() => { navigate('/ready-to-eat') }}>DISCOVER</button>
+            <div className="pt-[80px]">
+              <div
+                className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
+                  } transition-all duration-500 ease-in-out`}
+              >
+                <Rating rating={reviews[currentReviewIndex]?.rating} text={""} color="#FFFFFF" emptyColor="#FFFFFF" />
+                <h1 className="text-[#EBEBEB] text-[20px] leading-[24px] pt-3 font-[400] font-regola-pro ">{reviews[currentReviewIndex]?.name}</h1>
+                <p className="text-[#EBEBEB] text-[14px] leading-[16.8px] pt-1 font-[300] font-regola-pro ">{reviews[currentReviewIndex]?.text}</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1308,7 +1357,7 @@ const Home = () => {
                   cursor: 'grab',
                   top: '8px',
                   bottom: '8px',
-                  transition: isDragging ? 'none' : 'left 0.3s ease', 
+                  transition: isDragging ? 'none' : 'left 0.3s ease',
                 }}
                 onMouseDown={handleMouseDowns}
               ></div>
@@ -1321,9 +1370,11 @@ const Home = () => {
             </div>
             <div className="absolute spin-product-info">
               <div className="spin-product-info-text h-[175px]">
-                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[330px] font-[600] leading-[50.47px] font-regola-pro mb-3' >
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[330px] font-[600] leading-[50.47px] font-regola-pro mb-3'
+                  style={{ textShadow: '0px 4px 9.9px #00000040' }}>
                   {selecteRandomPro?.node?.title}
                 </p>
+
                 <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
                   ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
                 </p>
