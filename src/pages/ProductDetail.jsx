@@ -85,19 +85,15 @@ function ProductDetail() {
     const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
 
     const fetchStepsQueyDetails = async (stepId) => {
-        // setIsLoading(true);
         try {
             const stepPromises = stepId.map(async (stepId) => {
                 const stepData = await graphQLClient.request(getStepDetails, { id: stepId });
-                // setIsLoading(false);
                 return stepData;
             });
             const stepsData = await Promise.all(stepPromises);
-            // setIsLoading(false);
             return stepsData;
         } catch (error) {
             console.error("Error fetching image:", error);
-            // setIsLoading(false);
             return '';
         }
     };
@@ -130,9 +126,7 @@ function ProductDetail() {
                         const stepIds = JSON.parse(stepsField.value);
                         if (Array.isArray(stepIds) && stepIds.length > 0) {
                             const stepsData = await fetchStepsQueyDetails(stepIds);
-                            console.log("stepsDatastepsDataAnuj", stepsData)
                             const parsedSteps = await Promise.all(stepsData?.map(async (step) => {
-                                console.log("stepstepstep", step)
                                 const descriptionField = step.metaobject.fields.find(field => field.key === 'description');
                                 const videoField = step.metaobject.fields.find(field => field.key === 'video');
                                 const refField = step.metaobject.fields.find(field => field.key === 'name');
@@ -255,6 +249,7 @@ function ProductDetail() {
             setCurrentSlide((prev) => prev - 1);
         }
     };
+
     return (
         <div className='bg-white'>
 
@@ -320,16 +315,12 @@ function ProductDetail() {
                                 <div className='flex items-center'>
                                     <button type='button'
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='text-[14px] font-[400] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
+                                        className='font-[400] text-[14px] leading-[18.62px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
                                     <div className="flex ml-4">
                                         <Rating rating={4} text={"200 Reviews"} />
                                     </div>
                                 </div>
                                 <p className='text-[24px] font-[500] font-regola-pro mt-3 pl-2 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
-
-                                <div className="flex justify-center items-center relative">
-
-                                </div>
                                 <p className="text-[24px] font-[400] font-regola-pro leading-[28.8px] mt-3 pl-2 text-[#757575]">
                                     {productData?.description}
                                 </p>
@@ -387,10 +378,10 @@ function ProductDetail() {
                                 {!isBulk && <div className='flex pl-2 flex-row gap-x-5 pt-4'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className='px-8 py-2 bg-[#EDEDED] font-[600] leading-[25px] rounded text-[22px]' type='button'>Add to Cart</button>
+                                        className='px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro leading-[24.47px] rounded text-[22.8px]' type='button'>Add to Cart</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='px-8 py-2 bg-[#FEB14E] font-[600] leading-[25px] rounded text-[22px] text-[#FFFFFF]' type='button'>Subscribe</button>
+                                        className='px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro leading-[24.47px] rounded text-[22.8px] text-[#FFFFFF]' type='button'>Subscribe</button>
                                 </div>}
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                                     *Suitable for vegetarians, No dairy ingredients useds
@@ -402,33 +393,35 @@ function ProductDetail() {
                     <section>
                         <div
                             style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                            className=" grid grid-cols-6 pt-10">
-                            <div className="col-span-6 md:col-span-1 pl-20 text-[#FFFFFF]">
-                                <h2 className="text-[48px] font-skillet font-[400 leading-[52px] mb-4">Steps</h2>
-                                <p className="text-[18px] font-[600] leading-[23px] font-regola-pro ">
-                                    Perfect garnishes:
-                                </p>
-                                <p className="text-[18px] font-[400] leading-[23px] font-regola-pro">
-                                    Fresh coriander leaves A swirl of cream A small piece of butter
-                                </p>
+                            className=" grid grid-cols-10 pt-10">
+                            <div className="col-span-10 md:col-span-2 pl-[122px] text-[#FFFFFF]">
+                                <div className='md:max-w-[157px]'>
+                                    <h2 className="text-[48px] font-skillet font-[400 leading-[52px] mb-4">Steps</h2>
+                                    <p className="text-[18px] font-[600] leading-[23px] font-regola-pro ">
+                                        Perfect garnishes:
+                                    </p>
+                                    <p className="text-[18px] font-[400] leading-[23px] font-regola-pro">
+                                        Fresh coriander leaves A swirl of cream A small piece of butter
+                                    </p>
+                                </div>
                             </div>
-                            <div className="col-span-6 md:col-span-5 pl-3 pt-4 relative overflow-hidden">
+                            <div className="col-span-10 md:col-span-8 pl-3 pt-4 relative overflow-hidden">
                                 <div className="w-full mb-4  flex lg:mb-0 ">
-                                    <div className="w-[80vw] flex gap-x-7">
+                                    <div className="w-[80vw] flex gap-x-5">
                                         <AnimatePresence initial={false} custom={direction}>
                                             <motion.div
                                                 key={page}
-                                                custom={direction}
-                                                variants={variants}
-                                                initial="enter"
-                                                animate="center"
-                                                exit="exit"
-                                                transition={{
-                                                    x: { type: "spring", stiffness: 300, damping: 30 },
-                                                    opacity: { duration: 0.2 }
-                                                }}
+                                                // custom={direction}
+                                                // variants={variants}
+                                                // initial="enter"
+                                                // animate="center"
+                                                // exit="exit"
+                                                // transition={{
+                                                //     x: { type: "spring", stiffness: 300, damping: 30 },
+                                                //     opacity: { duration: 0.2 }
+                                                // }}
 
-                                                className='w-5/6  '
+                                                className={`w-5/6 ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
                                             >
                                                 <div className='relative h-[505px] bg-[#333333] rounded-[11.2px] '>
                                                     {steps && <ReactPlayer
@@ -463,7 +456,9 @@ function ProductDetail() {
                                                     <h3
                                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#FFFFFF82'}` }}
                                                         className="text-[104px] p-3 pr-8 font-[500] font-regola-pro leading-[125px] mb-4">{imageIndex + 1}</h3>
-                                                    {steps && <p className="text-[24px] font-[500] leading-[31px] font-regola-pro w-5/6 pt-8 text-[#FFFFFF]">{steps[imageIndex]?.description}</p>}
+                                                    {steps && <p className="text-[24px] font-[500] leading-[31px] font-regola-pro w-5/6 pt-8 text-[#FFFFFF]">{steps[imageIndex]?.description?.length > 140
+                                                        ? `${steps[imageIndex].description.slice(0, 130)}...`
+                                                        : steps[imageIndex].description}</p>}
                                                 </div>
                                             </motion.div>
                                         </AnimatePresence>

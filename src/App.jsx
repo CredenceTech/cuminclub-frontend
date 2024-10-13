@@ -3,7 +3,7 @@ import Login from "./component/Login";
 import Home from "./component/Home";
 import WithoutLoginCheckout from "./pages/WithoutLoginCheckout";
 import Header from "./component/Header"
-import {Product} from "./pages/Product";
+import { Product } from "./pages/Product";
 import Accessibility from "./component/Accessibility";
 import Refund from "./component/Refund";
 import TermOfServices from "./component/TermOfServices";
@@ -28,8 +28,9 @@ import RecipeList from "./pages/RecipeList";
 import ProductDetails from "./pages/ProductDetail";
 import ReadyToEat from "./pages/ReadyToEat";
 import { HowItWorks } from "./pages/HowItWorks";
-import ReadyToCook  from "./pages/ReadyToCook";
-import {Bulk} from "./pages/Bulk"
+import ReadyToCook from "./pages/ReadyToCook";
+import { Bulk } from "./pages/Bulk"
+import AnnouncementBar from "./component/AnnouncementBar";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         style={{}}
       >
         <ScrollToTop />
+        <AnnouncementBar />
         <Header />
         <div className={`relative min-h-[82vh] top-[100px]  `}>
           <Routes>
@@ -67,7 +69,7 @@ function App() {
             <Route path="/ready-to-cook" element={<ReadyToCook />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/products" element={<Product />} />
-            <Route path="/bulk" element={<Bulk/>}/>
+            <Route path="/bulk" element={<Bulk />} />
           </Routes>
         </div>
         <Footer />
