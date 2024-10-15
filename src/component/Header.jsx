@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { cartIsOpen, openCart } from "../state/cart";
@@ -214,12 +214,30 @@ const Header = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+  const [isSticky, setIsSticky] = useState(false);
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (headerRef.current) {
+        const headerTop = headerRef.current.getBoundingClientRect().top;
+        setIsSticky(headerTop <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
 
   return (
-    <div>
+    <div ref={headerRef}>
       <div
-        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') ? 'bg-transparent' : 'bg-[#EADEC1]'}  items-center ${pathname.includes('recipes') || pathname.includes('ready-to-cook') ? 'absolute' : 'absolute'}  z-50 px-10 py-6`}
+        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" ? 'bg-transparent' : 'bg-[#EADEC1]'}  items-center ${pathname.includes('recipes') || pathname.includes('ready-to-cook') ? 'absolute' : ''}  ${isSticky ? 'fixed top-0 ' : 'absolute'}
+          } transition-all duration-300  z-50 px-10 py-6`}
       >
         <div className="hidden lg:flex gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot ">
@@ -403,7 +421,7 @@ const Header = () => {
           )} */}
         </div>
         <div className="flex gap-x-8 flex-1 justify-end">
-        <div className="relative flex justify-center items-center">
+          <div className="relative flex justify-center items-center">
             <button onClick={toggleSearch} className="focus:outline-none">
               <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke={pathname?.includes('ready-to-cook') ? '#FFFFFF' : '#333333'} stroke-width="3.02041" />
@@ -423,7 +441,7 @@ const Header = () => {
                     onClick={toggleSearch}
                     className="px-4 py-2 absolute right-0 top-0 bottom-0 bg-[#FBAE36]  text-white rounded-full"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
                   </button>
                 </div>
               </div>
@@ -458,7 +476,7 @@ const Header = () => {
               </span>
             </div>
           </button>
-          
+
           {userId === null &&
             <button className="bg-[#FBAE36] hidden lg:block px-7 rounded-full ">
               <Link className={`font-[600] font-regola-pro leading-[21.6px] text-[18px] uppercase ${pathname.includes('ready-to-cook') ? 'text-[#ffffff]' : 'text-[#231F20]'}`} to="/login">
