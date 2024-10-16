@@ -484,7 +484,7 @@ export const Product = () => {
                                                     />
                                                     <button
                                                         type="button"
-                                                        className="bg-[#FBAE36] text-[20.36px] leading-[27.08px] absolute top-5 left-5 text-[#333333] uppercase px-3 rounded-[10px] pt-2 pb-[8px] tracking-[0.12em] font-regola-pro font-[600]"
+                                                        className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#333333] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
                                                     >
                                                         {categoryTag}
                                                     </button>
@@ -546,7 +546,7 @@ export const Product = () => {
                                                     <div className="p-5">
                                                         <button
                                                             type="button"
-                                                            className="bg-[#279C66] text-[#FAFAFA] text-[20.36px] leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] pt-2 pb-[8px] font-regola-pro font-[600]"
+                                                            className="bg-[#279C66] text-[#FAFAFA] text-[18px] leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
                                                         >
                                                             {categoryTag}
                                                         </button>
