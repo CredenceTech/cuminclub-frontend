@@ -1207,7 +1207,7 @@ const Home = () => {
               {apiResponse?.map((item, i) => (
                 <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
                   <div
-                    style={{ background: `${colors[i]}` }}
+                    style={{ background: `${colors[i % colors.length]}` }}
                     onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
                     className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                   >

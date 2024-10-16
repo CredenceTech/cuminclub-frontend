@@ -394,11 +394,33 @@ export const createCartMutation = gql`
           edges {
             node {
               id
-              merchandise {
-                ... on ProductVariant {
-                  id
+             estimatedCost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                product {
+                  title
+                  featuredImage {
+                    altText
+                    url
+                  }
+                  handle
+                }
+                priceV2 {
+                  amount
+                  currencyCode
                 }
               }
+            }
             }
           }
         }
@@ -505,11 +527,33 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
                 node{
                   id
                     quantity
-                    merchandise{
-                        ... on ProductVariant {   						
-                            id
-                        }
-                    }
+                   estimatedCost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                product {
+                  title
+                  featuredImage {
+                    altText
+                    url
+                  }
+                  handle
+                }
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+              }
+            }
                 }
             }
         }
@@ -1437,6 +1481,39 @@ query productByHandle($handle: String!) {
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
+export const getRelatedProducts = gql`
+  query GetProducts($first: Int!, $sortKey: ProductSortKeys!, $reverse: Boolean!) {
+    products(first: $first, sortKey: $sortKey, reverse: $reverse) {
+      edges {
+        node {
+          id
+          title
+          description
+          onlineStoreUrl
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          metafield(namespace: "custom", key: "image_for_home") {
+            value
+            reference {
+              ... on MediaImage {
+                image {
+                  originalSrc
+                  altText
                 }
               }
             }
