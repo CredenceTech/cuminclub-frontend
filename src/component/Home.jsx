@@ -1202,7 +1202,7 @@ const Home = () => {
           <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400] lg:leading-[48.43px]'>Fan Favourites</p>
         </div>
         <div className="w-full">
-          <div className='product-slider pt-9 pb-14 overflow-x-auto whitespace-nowrap scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
+          <div className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
             <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
               {apiResponse?.map((item, i) => (
                 <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
@@ -1222,15 +1222,16 @@ const Home = () => {
                       }}
                     >
                       <img
-                        src={item?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
+                        src={item?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
                         alt=""
                         className="rounded-full object-cover"
                       />
                     </div>
                   </div>
-                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4'>
+                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4 max-w-[140px]'>
                     {item?.node?.title}
                   </p>
+
                   <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
                     ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
                   </p>
