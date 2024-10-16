@@ -552,9 +552,15 @@ export const Product = () => {
                                                         </button>
                                                     </div>
                                                     <div className="px-3 md:pl-8 pb-6 pt-[120px] bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
-                                                        <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase mb-5">
-                                                            {product.title}
-                                                        </p>
+                                                        <div className="flex flex-row justify-between items-center mb-5">
+                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
+                                                                {product.title}
+                                                            </p>
+                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
+                                                                ₹ {Math.floor(productPrice)}
+                                                            </p>
+                                                        </div>
+
                                                         <div className="flex flex-col md:flex-row md:gap-4">
                                                             <button
                                                                 type="button"
