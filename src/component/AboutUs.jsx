@@ -77,7 +77,7 @@ const AboutUs = () => {
                     <h1 className='md:text-[36px] md:leading-[43.2px] text-2xl font-regola-pro font-[500] mb-4 text-[#333333]'>
                         The Story Behind Instantly Yours
                     </h1>
-                    <p className='text-[24px] leading-[28.8px] font-[400] text-[#757575] mb-14'>We’re all about making mealtime effortless and enjoyable. With X+ ready-to-eat and ready-to-cook products – comfort and convenience come first.</p>
+                    <p className='text-[24px] leading-[28.8px] font-[400] text-[#757575] mb-14 font-regola-pro'>We’re all about making mealtime effortless and enjoyable. With 40+ ready-to-eat and ready-to-cook products – comfort and convenience come first.</p>
                 </div>
                 <div className=''>
                     <h1 className='md:text-[36px] md:leading-[43.2px] font-regola-pro text-2xl font-[500] mb-4 text-[#333333]'>How did We Become a Reality?</h1>

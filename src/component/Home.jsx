@@ -731,7 +731,7 @@ const Home = () => {
 
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-[100px]' : ' z-[100]'} bg-[#EFE9DA]`}>
-      <div className="w-full relative md:h-[522px]">
+      <div className="w-full relative home-page-background-img">
         {bannerData.map((data, index) => (
           <img
             key={index}

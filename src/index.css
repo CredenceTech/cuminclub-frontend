@@ -600,3 +600,20 @@ body {
 .spin-on-scroll {
   transition: transform 0.1s ease-out;
 }
+
+
+.home-page-background-img {
+  height: 522px;
+}
+
+@media (min-width: 1800px) {
+  .home-page-background-img {
+    height: 650px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .home-page-background-img {
+    height: 800px;
+  }
+}
