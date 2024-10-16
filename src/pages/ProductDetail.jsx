@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle } from '../api/graphql';
+import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle, getRelatedProducts } from '../api/graphql';
 import Rating from '../component/Rating';
 import middleImg from '../assets/middle1-image1.png'
 import { wrap } from "popmotion";
@@ -52,6 +52,7 @@ function ProductDetail() {
     const [feedbacks, setFeedbacks] = useState(null);
     const [loading, setLoading] = useState(false);
     const previousIndex = currentIndex === 0 ? steps?.length - 1 : currentIndex - 1;
+    const [relatedProducts, setRelatedProducts] = useState(null)
     const { handle } = useParams();
 
     const handleNext = () => {
@@ -83,6 +84,27 @@ function ProductDetail() {
     };
 
     const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
+
+
+    const fetchRelatedProducts = async (first) => {
+        setLoading(true);
+        try {
+            const result = await graphQLClient.request(getRelatedProducts, {
+                first, // Dynamically pass the count
+                sortKey: "TITLE",
+                reverse: false
+            });
+
+            const collections = result;
+            console.log(collections); // Log the fetched related products
+            return collections?.products?.edges; // Return the fetched products
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            return []; // Return an empty array in case of error
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchStepsQueyDetails = async (stepId) => {
         try {
@@ -159,6 +181,31 @@ function ProductDetail() {
                             setFeedbacks(parsedFeedback);
                         }
                     }
+
+                    let currentRelatedProducts = response?.product?.relatedProducts?.references?.edges || [];
+                    let relatedAdditionalProucts = await fetchRelatedProducts(6);
+                    if (currentRelatedProducts.length < 6) {
+                        const remainingCount = 6 - currentRelatedProducts.length;
+                        const existingProductIds = new Set(currentRelatedProducts.map(product => product.node.id));
+                        const filteredAdditionalProducts = relatedAdditionalProucts
+                            .filter(product => !existingProductIds.has(product.node.id))
+                            .map(product => ({
+                                node: product.node
+                            }));
+                        const additionalProducts = filteredAdditionalProducts.slice(0, remainingCount)
+                        currentRelatedProducts = [
+                            ...currentRelatedProducts,
+                            ...additionalProducts
+                        ];
+                    }
+                    setProductData({
+                        ...response?.product,
+                        relatedProducts: {
+                            references: {
+                                edges: currentRelatedProducts
+                            }
+                        }
+                    });
                 };
 
                 await Promise.all([getProductDetail()]);
@@ -595,22 +642,27 @@ function ProductDetail() {
                                     {productData?.relatedProducts?.references?.edges?.map((item, i) => (
                                         <div key={i} className='flex flex-col justify-between lg:justify-start'>
                                             <div
-                                                style={{ background: `${colors[i]}` }}
+                                                style={{ background: `${colors[i % colors.length]}` }} // Cycle through colors using modulus
                                                 className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                                             >
-                                                <img
-                                                    src={item?.node?.metafield?.reference?.image?.originalSrc}
-                                                    alt=""
-                                                    className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-cover'
+                                                <div
+                                                    className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
                                                     style={{
                                                         position: 'absolute',
-                                                        top: '50%',
+                                                        top: '51%',
                                                         left: '50%',
                                                         transform: 'translate(-50%, -50%)',
-                                                        overflow: 'visible',
+                                                        borderRadius: '50%'
                                                     }}
-                                                />
+                                                >
+                                                    <img
+                                                        src={item?.node?.metafield?.reference?.image?.originalSrc}
+                                                        alt=""
+                                                        className="rounded-full object-cover"
+                                                    />
+                                                </div>
                                             </div>
+
                                             <div
                                                 className='flex justify-between items-start  w-[110px] pt-2 sm:w-[150px]  md:w-[170px]  overflow-visible'
                                             >
