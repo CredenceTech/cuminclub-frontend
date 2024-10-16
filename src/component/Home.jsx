@@ -730,7 +730,7 @@ const Home = () => {
   ]
 
   return (
-    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-28' : ' z-[100]'} bg-[#EFE9DA]`}>
+    <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-[100px]' : ' z-[100]'} bg-[#EFE9DA]`}>
       <div className="w-full relative md:h-[522px]">
         {bannerData.map((data, index) => (
           <img
@@ -970,9 +970,9 @@ const Home = () => {
             />
           )} */}
           </div>
-          
+
           <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
-          <div className="relative flex justify-center items-center">
+            <div className="relative flex justify-center items-center">
               <button onClick={toggleSearch} className="focus:outline-none">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke="#FFFFFF" stroke-width="3.02041" />
@@ -992,7 +992,7 @@ const Home = () => {
                       onClick={toggleSearch}
                       className="px-4 py-2 absolute right-0 top-0 bottom-0 bg-[#FBAE36]  text-white rounded-full"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
                     </button>
                   </div>
                 </div>
@@ -1634,7 +1634,7 @@ const Home = () => {
                 Don’t Believe Us, Believe Our Happy Customers
               </p>
             </div>
-            <div className="w-full md:w-2/5 flex flex-row justify-between items-start mb-10">
+            {/* <div className="w-full md:w-2/5 flex flex-row justify-between items-start mb-10">
               <div className="text-center">
                 <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[600] text-[#FB7D36] font-regola-pro">9/10</h3>
                 <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[#333333] font-regola-pro font-[600]">Packaging</p>
@@ -1647,7 +1647,7 @@ const Home = () => {
                 <h3 className="md:text-[32px] md:leading-[38.4px] text-[22px] leading-[24px] font-[600] text-[#FB7D36] font-regola-pro">9/10</h3>
                 <p className="text-[16px] md:text-[24px] md:leading-[28.8px] leading-[20px] text-[#333333] font-regola-pro font-[600]">Service</p>
               </div>
-            </div>
+            </div> */}
           </div>
 
         </div>
