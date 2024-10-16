@@ -763,7 +763,7 @@ const ReadyToEat = () => {
                       const categoryTag = product.superTitle; // Replace with appropriate category if available
 
                       return isLong ? (
-                        <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden"  onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
+                        <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
                           <AnimatePresence mode="popLayout">
                             <motion.div
                               initial={{ y: 500, opacity: 0 }}
@@ -800,18 +800,32 @@ const ReadyToEat = () => {
                                 </p>
 
                                 <div className="flex gap-x-4 mt-1">
+                                  {issubscribe ? (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
+                                      }}
+                                      className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                    >
+                                      ADD TO BOX
+                                    </button>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO CART"
+                                      }}
+                                      className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                    >
+                                      ADD TO CART
+                                    </button>
+                                  )}
+
                                   <button
-                                    type="button"
-                                    onClick={(e) =>{
-                                      e.stopPropagation();
-                                       handleAddToCart(product.variants.edges[0].node.id)}
-                                    }
-                                    className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                  >
-                                    ADD TO CART
-                                  </button>
-                                  <button
-                                  onClick={(e) => e.stopPropagation()}
+                                    onClick={(e) => e.stopPropagation()}
                                     type="button"
                                     className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                   >
@@ -823,7 +837,7 @@ const ReadyToEat = () => {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden"  onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                        <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                           <AnimatePresence mode="wait">
                             <motion.div
                               initial={{ y: 500, x: -500, opacity: 0 }}
@@ -845,23 +859,38 @@ const ReadyToEat = () => {
                                     {categoryTag}
                                   </button>
                                 </div>
-                                <div className="px-3 md:pl-8 pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
+                                <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                   <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase mb-5">
                                     {product.title}
                                   </p>
                                   <div className="flex flex-col md:flex-row md:gap-4">
+                                    {issubscribe ? (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleAddToCart(product.variants.edges[0].node.id); // Different function for Add to Box
+                                        }}
+                                        className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                      >
+                                        ADD TO BOX
+                                      </button>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
+                                        }}
+                                        className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                      >
+                                        ADD TO CART
+                                      </button>
+                                    )}
+
+
                                     <button
-                                      type="button"
-                                      onClick={(e) =>{
-                                        e.stopPropagation();
-                                         handleAddToCart(product.variants.edges[0].node.id)}
-                                      }
-                                      className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                    >
-                                      ADD TO CART
-                                    </button>
-                                    <button
-                                     onClick={(e) => e.stopPropagation()}
+                                      onClick={(e) => e.stopPropagation()}
                                       type="button"
                                       className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                     >

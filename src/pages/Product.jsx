@@ -551,7 +551,7 @@ export const Product = () => {
                                                             {categoryTag}
                                                         </button>
                                                     </div>
-                                                    <div className="px-3 md:pl-8 pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
+                                                    <div className="px-3 md:pl-8 pb-6 pt-[120px] bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                                         <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase mb-5">
                                                             {product.title}
                                                         </p>
