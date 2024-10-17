@@ -32,7 +32,7 @@ import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.png'
 import authenticMeal from '../assets/authentic-flavors.png'
 import noPreservativeWhite from '../assets/no-preservative.svg'
-import headerImage1 from '../assets/header.jpg'
+import headerImage1 from '../assets/bannerHowItWorks.png'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
 import Tooltip from "./Tooltip";
@@ -1171,7 +1171,7 @@ const Home = () => {
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className='md:h-[80px] rounded-full md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
+                  className='md:h-[80px] rounded-full object-cover md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
@@ -1263,7 +1263,7 @@ const Home = () => {
                 Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]" onClick={() => { navigate('/ready-to-eat') }}>DISCOVER</button>
+            <button className="bg-white text-[#333333] mt-1 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]" onClick={() => { navigate('/ready-to-eat') }}>DISCOVER</button>
             <div className="pt-[80px]">
               <div
                 className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
@@ -1735,13 +1735,13 @@ const Home = () => {
                 Diverse Recipes
               </h2>
 
-              <p className="font-[300] text-[16px] leading-[22px] text-[#D5D5D5] mt-4 font-regola-pro">
+              <p className="font-[300] text-[16px] leading-[22px] text-[#FDFDFD] mt-4 font-regola-pro">
                 Discover the freshest, ready-to-eat meals made for every taste and lifestyle
               </p>
             </div>
-            <button className="hidden lg:flex bg-white mb-0 text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
+            <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          <div className="w-full lg:min-w-3/4 lg:pb-[70px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
+          <div className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}
@@ -1755,8 +1755,8 @@ const Home = () => {
                 </div>
 
                 <div className="absolute bottom-[-12px] left-0 w-full">
-                  <div className="bg-gradient-to-b from-primary to-secondary">
-                    <p className="font-regola-pro text-white font-[500] text-[21.75px] leading-[26.1px] px-4 pb-8">
+                  <div className="bg-gradient-to-b from-primary to-secondary pt-10">
+                    <p className="font-regola-pro text-[#FFFFFF] font-[500] text-[21.75px] leading-[26.1px] px-4 pb-8">
                       {recipe?.fields?.find(field => field.key === "name")?.value}
                     </p>
                   </div>

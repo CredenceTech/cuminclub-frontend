@@ -161,9 +161,8 @@ body {
 }
 
 .bg-custom-image-footer {
-  background-image: url('./assets/footer-upper-image.png');
-  background-size: cover;
-  background-position: center;
+  /* background-image: url('./assets/footer-upper-image.png'); */
+ background-color: #F79E1B;
 }
 
 .bg-custom-image-middle1 {
