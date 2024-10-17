@@ -309,7 +309,7 @@ function ProductDetail() {
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className="h-[553px] w-[553px] spin-on-scroll"
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[553px] w-[553px]' : 'h-auto w-[553px]'}`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />
