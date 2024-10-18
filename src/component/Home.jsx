@@ -32,12 +32,12 @@ import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.png'
 import authenticMeal from '../assets/authentic-flavors.png'
 import noPreservativeWhite from '../assets/no-preservative.svg'
-import headerImage1 from '../assets/bannerHowItWorks.png'
+import headerImage1 from '../assets/header.png'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
 import Tooltip from "./Tooltip";
 import headerMenu1 from "../assets/header-menu1.png"
-import headerMenu2 from "../assets/header-menu2.png"
+import headerMenu2 from "../assets/header-menu2.jpg"
 import headerMenu3 from "../assets/header-menu3.png"
 import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
@@ -706,10 +706,7 @@ const Home = () => {
       image: headerMenu4,
       title: "Bulk"
     },
-    {
-      image: headerMenu5,
-      title: "Made for Subscription"
-    }
+
   ]
 
   const learnMenuData = [
@@ -809,7 +806,7 @@ const Home = () => {
                     onMouseLeave={() => setShowHeaderMain(false)}
                     className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
                   >
-                    <div className="grid grid-cols-5 gap-4 w-full px-4 z-1000">
+                    <div className={`grid grid-cols-${headerMenuData.length < 5 ? headerMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
                       {headerMenuData.map((menuItem, index) => (
                         <div
                           key={index}
@@ -819,7 +816,7 @@ const Home = () => {
                           <img
                             src={menuItem.image}
                             alt={menuItem.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200"
+                            className="w-full header-menu-background-img object-cover group-hover:scale-110 transform transition-transform duration-200"
                           />
                           <div
                             className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
@@ -835,6 +832,7 @@ const Home = () => {
                         </div>
                       ))}
                     </div>
+
                   </NavigationMenu.Content>
 
                 </NavigationMenu.Item>
@@ -1328,7 +1326,7 @@ const Home = () => {
                 Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.
               </p>
             </div>
-            <button className="bg-white text-[#333333] mt-4 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center" onClick={() => { navigate('/ready-to-cook') }}>
+            <button className="bg-white text-[#333333] mt-1 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center" onClick={() => { navigate('/ready-to-cook') }}>
               VIEW PRODUCTS
             </button>
           </div>

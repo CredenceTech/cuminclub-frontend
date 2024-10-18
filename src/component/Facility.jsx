@@ -189,7 +189,7 @@ const Facility = () => {
 
 
       <div className='p-8 lg:p-[60px]'>
-        <div className="relative w-full h-[500px]">
+        <div className="relative w-full h-[575px]">
           {videoLoaded ? (
             <iframe
               className="absolute top-0 left-0 w-full h-full"

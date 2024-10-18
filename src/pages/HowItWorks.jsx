@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import banner from '../assets/bannerHowItWorks.png'
+import banner from '../assets/bannerHowItWorks.jpg'
 import howitworks1 from '../assets/howitworks1.png'
 import howitworks2 from '../assets/howitworks2.png'
 import map1 from '../assets/map1.png'
@@ -65,34 +65,24 @@ export const HowItWorks = () => {
         },
         {
             title: 'Traditional Cooking, Just Like Home',
-            desc: "Imported from Korea, these two machines fill 30 pouches per minute, combining speed with precision.",
+            desc: "Our approach to cooking is simple: Do it the way you’d do it in your own kitchen. We use traditional methods to bring out the natural flavours of each ingredient. Just like your mom’s cooking, every dish is prepared with care and attention to detail, so it tastes as close to homemade as you can get—no preservatives, just pure and delicious flavour.",
             img: ''
         },
         {
             title: 'Keeping It Safe and Delicious',
-            desc: 'A Turkish marvel that seals 24 trays per minute. It guarantees every product is packaged securely.',
+            desc: 'Every batch of food we make goes through a series of testing. We run chemical, sensory and microbial tests to make sure everything is as safe and delicious as it should be. You can trust that your meal isn’t just tasty, it’s made to meet the highest safety standards.',
             img: map3
         },
         {
             title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
+            desc: 'Right after cooking, we seal in all the goodness while the food is still at a steamy 70℃. Just a smart way to keep your meals fresh and full of flavour. Every bite tastes as good as the moment it was made. On top of that, we sterilise the food to make sure any bacteria is wiped out. The result? You get meals that stay safe and ready to enjoy whenever you are.',
             img: map4
         },
         {
-            title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
+            title: 'Constant Care and Attention',
+            desc: 'We don’t just pack the meals and call it a day. We’re constantly testing, checking and tasting to make sure every batch meets our high standards. From flavour to texture to safety, you can trust that each meal will deliver the quality and taste you expect—every single time.',
             img: ""
-        },
-        {
-            title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
-            img: ""
-        },
-        {
-            title: 'Sealing in Freshness',
-            desc: 'This semi-automatic machine handles spout pouch filling and sealing with complete efficiency.',
-            img: ""
-        },
+        }
     ]
 
     const handleNextClick = () => {
@@ -107,27 +97,27 @@ export const HowItWorks = () => {
     const accordianData = [
         {
             title: "How do you keep your meals fresh without preservatives?",
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!',
+            description: 'We use methods like vacuum sealing and sterilisation to lock in freshness and eliminate bacteria, which keeps our meals safe and tasty without the need for artificial preservatives.',
             id: 1,
         },
         {
             title: "Are your meals truly preservative-free?",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
+            description: "Yes! All of our meals are completely free from artificial preservatives and have no additives at all. We rely on natural ingredients and traditional cooking methods to make sure the food stays fresh and delicious.",
             id: 2,
         },
         {
             title: "What’s the difference between your ready-to-eat and ready-to-cook meals?",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
+            description: "Our ready-to-eat meals are fully cooked and only need to be heated up before serving. Ready-to-cook meals, on the other hand, include all the materials you need to quickly prepare a fresh meal on your stove.",
             id: 3,
         },
         {
             title: " How long do the meals stay fresh?",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
+            description: "Once the pack is open, be sure to consume it within two days for the best taste and safety. Always check the packaging for specific storage instructions.",
             id: 4,
         },
         {
             title: "How does your subscription service work?",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur quod perferendis eum quo fuga eius consequuntur voluptatum, explicabo consectetur aperiam dignissimos itaque, accusamus ab fugit aliquid ut mollitia? Unde ipsam enim, eum cupiditate totam eligendi molestiae sint minima alias corporis!",
+            description: "With our subscription plan, you can choose how often you’d like to receive deliveries. You can easily change your meals, skip a week or cancel anytime. It’s a flexible, hassle-free way to enjoy our meals regularly.",
             id: 5,
         },
     ];
@@ -330,7 +320,7 @@ export const HowItWorks = () => {
                                         exit={{ height: 0, opacity: 0 }}
                                         className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
                                     >
-                                        <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939]">
+                                        <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939] text-left items-start">
                                             {item.description}
                                         </p>
                                     </motion.div>
