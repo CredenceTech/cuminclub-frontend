@@ -973,7 +973,10 @@ const Home = () => {
           </div>
 
           <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
-            <SearchQuery />
+            <div className="z-[2000]">
+              <SearchQuery />
+            </div>
+
             {/* <div className="relative flex justify-center items-center">
               <button onClick={toggleSearch} className="focus:outline-none">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">

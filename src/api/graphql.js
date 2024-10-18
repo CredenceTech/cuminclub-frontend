@@ -1553,22 +1553,6 @@ query SearchProductsAndCollections($keyword: String!)
       }
     }
   }
-  # Search Collections by keyword
-  collections(first: 10, query: $keyword) {
-    edges {
-      node {
-        id
-        title
-        description
-        handle
-        image  {
-                        id
-                        altText
-                        originalSrc
-                        }
-      }
-    }
-  }
   metaobjects(type: "recipes", first: 10) {
     edges {
       node {
