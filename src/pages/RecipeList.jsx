@@ -78,11 +78,11 @@ const RecipeList = () => {
 
                 setRecipeList(recipesWithImages);
                 setFilteredRecipes(recipesWithImages);
-                setApiCallsComplete(true);  // Set this to true when API calls are complete
+                setApiCallsComplete(true);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
-                setIsLoading(false);  // Loading complete
+                setIsLoading(false);
             }
         };
 
@@ -98,7 +98,7 @@ const RecipeList = () => {
     };
 
     useEffect(() => {
-        filterRecipes(); // Apply filtering when state changes
+        filterRecipes();
     }, [selectedProduct, recipeList]);
 
     const handleProductChange = (e) => {
@@ -115,29 +115,41 @@ const RecipeList = () => {
                     <div className="col-span-1 lg:col-span-2"></div>
                     <div className="col-span-2 lg:col-span-3  pt-4">
                         <div className="flex items-center gap-x-10 ">
-                            <div>
+                            <div className='relative w-[100px]'>
                                 <label htmlFor="type-select" className="block">
                                     <h2 className="text-[#757575] font-regola-pro text-[24px] leading-[30.91px] font-[300]">Type</h2>
                                 </label>
                                 <select
                                     id="type-select"
-                                    className="mt-2  bg-[#FAFAFA] text-[#333333] font-regola-pro text-[22px] leading-[24.21px] font-[300]" >
-                                    <option className='text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300]' value="" disabled selected>
+                                    className="mt-2 appearance-none w-[100px] bg-[#FAFAFA] text-[#333333] font-regola-pro text-[22px] leading-[24.21px] font-[300] focus:outline-none" >
+                                    <option className='text-[#333333] w-auto font-regola-pro text-[22px] leading-[30.21px] font-[300]' value="" disabled selected>
                                         Select
                                     </option>
                                 </select>
+                                <div className="absolute inset-y-0 right-0 top-10 flex items-center px-2 pointer-events-none">
+                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                    </svg>
+                                </div>
                             </div>
-                            <div>
+                            <div className={`relative `}
+                                style={{
+                                    width: selectedProduct ? `auto` : '100px',
+                                }}
+                            >
                                 <label htmlFor="product-select" className="block">
                                     <h2 className="text-[#757575] font-regola-pro text-[24px] leading-[30.91px] font-[300]">Products</h2>
                                 </label>
                                 <select
                                     id="product-select"
-                                    className="mt-2 bg-[#FAFAFA] text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300]"
+                                    className="mt-2 appearance-none bg-[#FAFAFA] text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300] focus:outline-none"
                                     onChange={handleProductChange}
                                     defaultValue=""
+                                    style={{
+                                        width: selectedProduct ? `auto` : '100px',
+                                    }}
                                 >
-                                    <option className='text-[#333333] font-regola-pro text-[22px] leading-[30.21px] font-[300]' value="" disabled>
+                                    <option className='text-[#333333] font-regola-pro text-[22px] w-auto leading-[30.21px] font-[300]' value="" disabled>
                                         Select
                                     </option>
                                     {productList.map(product => (
@@ -150,12 +162,18 @@ const RecipeList = () => {
                                         </option>
                                     ))}
                                 </select>
+                                <div className="absolute inset-y-0 right-0 top-10 flex items-center px-2 pointer-events-none">
+                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                    </svg>
+
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="bg-[#FAFAFA] min-h-[80vh]">
+            <div className="bg-[#FAFAFA] min-h-[80vh] pb-[60px]">
                 <div className="pl-[60px] pt-[60px] pr-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
                     {filteredRecipes.length > 0 ? (
                         filteredRecipes.map((recipe) => (

@@ -1524,3 +1524,70 @@ export const getRelatedProducts = gql`
   }
 `;
 
+
+export const queryProductWithKeyword = gql`
+query SearchProductsAndCollections($keyword: String!)
+{
+  # Search Products by keyword
+  products(first: 10, query: $keyword) {
+    edges {
+      node {
+       id
+    title
+    handle
+    description
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              src
+              altText
+            }
+          }
+        }
+      }
+    }
+  }
+  # Search Collections by keyword
+  collections(first: 10, query: $keyword) {
+    edges {
+      node {
+        id
+        title
+        description
+        handle
+        image  {
+                        id
+                        altText
+                        originalSrc
+                        }
+      }
+    }
+  }
+  metaobjects(type: "recipes", first: 10) {
+    edges {
+      node {
+        id
+        handle
+         fields {
+            reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+            value
+            key
+          }
+    }
+  }
+}
+}
+`
+

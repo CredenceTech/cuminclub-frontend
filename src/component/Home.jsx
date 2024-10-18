@@ -44,6 +44,7 @@ import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import middleImg from '../assets/middle1-image1.png'
 import rtcImg from '../assets/ready-to-cook-img.jpg'
+import SearchQuery from "./SearchQuery";
 
 const Home = () => {
 
@@ -972,7 +973,8 @@ const Home = () => {
           </div>
 
           <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
-            <div className="relative flex justify-center items-center">
+            <SearchQuery />
+            {/* <div className="relative flex justify-center items-center">
               <button onClick={toggleSearch} className="focus:outline-none">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke="#FFFFFF" stroke-width="3.02041" />
@@ -997,7 +999,7 @@ const Home = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
             <button
               onClick={() => { navigate('/cardReview') }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
