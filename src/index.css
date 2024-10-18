@@ -305,12 +305,13 @@ body {
 
 
 .how-it-works-banner {
-  background-image: url('../src/assets/bannerHowItWorks.png');
-  /* height: 490px;
-  object-fit: fill;
-  width: 100%; */
+  background-image: url('../src/assets/bannerHowItWorks.jpg');
+  background-position: 72% 28%; 
+  background-size: cover;
+  background-repeat: no-repeat; 
 
 }
+
 
 
 .spinner {
@@ -616,3 +617,43 @@ body {
     height: 800px;
   }
 }
+
+.header-menu-background-img {
+  height: 320px;
+}
+
+@media (min-width: 1800px) {
+  .header-menu-background-img {
+    height: 440px;
+  }
+  .how-it-works-banner{
+    background-position: 78% 22%;
+  }
+}
+
+@media (min-width: 2000px) {
+  .header-menu-background-img {
+    height: 540px;
+  }
+  .how-it-works-banner{
+    background-position: 80% 20%;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888; 
+  border-radius: 10px; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

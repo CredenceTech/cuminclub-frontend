@@ -217,7 +217,7 @@ function ProductDetail() {
         };
 
         fetchData();
-    }, []);
+    }, [handle]);
 
     const getMetafieldData = (key, list) => {
         let metaContent = "";
@@ -305,11 +305,11 @@ function ProductDetail() {
                     <div className="flex md:flex-row flex-col pb-10">
                         <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center">
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-16' : 'pr-6'}`}>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-16' : 'pr-6'} h-[553px] w-[553px]`}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[553px] w-[553px]' : 'h-auto w-[450px]'}`}
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[553px] w-[553px]' : 'h-[553px] w-auto'}`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />

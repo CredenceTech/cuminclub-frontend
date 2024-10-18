@@ -125,7 +125,7 @@ const SearchQuery = () => {
                     </div>
 
                     {keyword && <div className="mt-6">
-                        <div className="mt-4 space-y-4 overflow-scroll scrollbar-hide max-h-[500px]">
+                        <div className="mt-4 space-y-4 overflow-y-auto max-h-[500px] custom-scrollbar">
                             {combinedData?.length > 0 > 0 ? (
                                 combinedData?.map(product => (
                                     <div key={product?.id} onClick={() => { navigate(product?.nagivatiLink); setSearchOpen(false) }} className="flex items-center gap-4 cursor-pointer">

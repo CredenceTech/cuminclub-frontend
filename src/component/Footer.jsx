@@ -38,29 +38,42 @@ export const Footer = () => {
               </svg>
 
             </div>
-            <div className="mt-6 md:ml-[150px] md:mt-0 footer-link">
+            <div className="mt-6 md:ml-[100px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">MENU</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3">CURRIES</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">LENTILS</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">READY TO COOK</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">READT TO EAT</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">BULK ORDER</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Ready to eat</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Ready to cook</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Bulk products </p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">All products</p>
             </div>
-            <div className="mt-6 md:ml-16 md:mt-0 footer-link">
+            <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
+              <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">OUR COMPANY</h2>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">ABOUT US</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">HOW IT WORKS</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Facility</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Sustainability</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">SUBSCRIBE</p>
+            </div>
+            <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">QUICK LINKS</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3">ABOUT US</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">OUR TEAM</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">CAREERS</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">CONTACT US</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">SUBSCRIBE</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Recipes</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Subscribe</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Linktree</p>
             </div>
+            <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
+              <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">CONTACT US</h2>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">FAQs</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Careers</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Influencers</p>
+            </div>
+            
           </div>
           <div className="mt-10 sm:w-[385px] md:mt-0 mr-6">
             <h2 className="sm:text-[24px] text-[16px] leading-[28.8px] font-[600] font-regola-pro text-[#000000] mb-2">Subscribe to our newsletter</h2>
             <div className="relative flex items-center">
               <input
                 type="text"
-                className={`input-box bg-[#EADEC1] placeholder:text-[#757575] px-5 py-4 border-[3px] w-full border-[#AA9460] text-[#757575] rounded-lg text-[21px] font-[400] leading-[28.8px] my-3 focus:outline-[#AA9460] focus:ring-0 `}
+                className={`input-box bg-[#EADEC1] placeholder:text-[#757575] font-regola-pro px-5 py-4 border-[3px] w-full border-[#AA9460] text-[#757575] rounded-lg text-[21px] font-[400] leading-[28.8px] my-3 focus:outline-[#AA9460] focus:ring-0 `}
                 placeholder="Email ID"
               />
               <button type="button" className="send-button rounded-full flex justify-center items-center absolute right-3 h-[38px] w-[38px] text-2xl bg-[#AA946080]" >
