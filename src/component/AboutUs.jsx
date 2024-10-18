@@ -3,6 +3,10 @@ import image from '../assets/Rectangle 150.png'
 import team from '../assets/team.png'
 import mission from '../assets/mission.png'
 import beginin from '../assets/beginin.png'
+import third from '../assets/2021.jpg'
+import four from '../assets/2022.jpg'
+import five from '../assets/2023.jpeg'
+import six from '../assets/2024.jpg'
 import { useState } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 const slides = [
@@ -15,44 +19,32 @@ const slides = [
     {
         year: "2020",
         image: image,
-        title: "Growth Phase",
-        description: "Expansion of facilities and new partnerships...",
+        title: "Going Global",
+        description: "We celebrated a significant milestone by exporting our very first international container to the USA. This marked the start of our global adventure, with our flavours travelling across borders to meet the needs of food lovers worldwide",
     },
     {
         year: "2021",
-        image: beginin,
-        title: "New Horizons",
-        description: "Entering new markets and increasing our product range...",
+        image: third,
+        title: "Packaging Innovation & Growth",
+        description: "Innovation took centre stage as we expanded our packaging options to include trays, jars, cups and spout pouches—making our products even more accessible and convenient. This year saw a remarkable 101% year-on-year growth, proving that more people were falling in love with the ease and taste of Instantly Yours.",
     },
     {
         year: "2022",
-        image: image,
-        title: "New Horizons",
-        description: "Entering new markets and increasing our product range...",
+        image: four,
+        title: "Scaling Up & Ensuring Quality",
+        description: "With demand on the rise, we added a second production line to keep up with the growing appetite for our meals. This year also saw us achieve the prestigious BRCGS A certification, which only adds to our commitment to food safety and quality.",
     },
     {
         year: "2023",
-        image: beginin,
-        title: "New Horizons",
-        description: "Entering new markets and increasing our product range...",
+        image: five,
+        title: "Continued Excellence & Global Reach",
+        description: "We took our quality standards even higher by upgrading to the BRCGS A+ certification. We believe in continuous improvement. By now, our reach extended to five continents, with over 25 global clients enjoying the convenience of our meals.",
     },
     {
         year: "2024",
-        image: image,
-        title: "New Horizons",
-        description: "Entering new markets and increasing our product range...",
-    },
-    {
-        year: "2025",
-        image: beginin,
-        title: "New Horizons",
-        description: "Entering new markets and increasing our product range...",
-    },
-    {
-        year: "2021",
-        image: image,
-        title: "New Horizons",
-        description: "Entering new markets and increasing our product range...",
+        image: six,
+        title: "Instantly Yours was Born as a Brand",
+        description: "A landmark year for us—2024 was when we officially became a brand, named Instantly Yours. With a bold new identity, we’re more committed than ever to delivering natural, most convenient meals to our growing global community.",
     },
 ];
 
@@ -67,6 +59,50 @@ const AboutUs = () => {
 
     const handlePrev = () => {
         setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
+    };
+
+    const [selectedSection, setSelectedSection] = useState('mission');
+    const [content, setContent] = useState({
+        text: {
+            title: "Our Mission",
+            description: [
+                "Food should bring comfort, not compromise. That’s why we focus on creating meals that are convenient without cutting corners on quality.",
+                "Our mission is to make wholesome, preservative - free food accessible to everyone, whether they’re in a rush or just craving something familiar.We understand that life gets busy, but that doesn’t mean your food should suffer.",
+                "We’re here to prove that convenience doesn’t have to come with a trade-off. Each dish is a promise that you can have both—a quick meal that’s ready when you are and made with the same care as a dish you cooked yourself (from scratch).",
+                "Our goal? To bring the taste of home to everyone, no matter where they are."
+            ]
+        },
+        image: mission
+    });
+
+    const handleSectionChange = (section) => {
+        if (section === 'mission') {
+            setContent({
+                text: {
+                    title: "Our Mission",
+                    description: [
+                        "Food should bring comfort, not compromise. That’s why we focus on creating meals that are convenient without cutting corners on quality.",
+                        "Our mission is to make wholesome, preservative - free food accessible to everyone, whether they’re in a rush or just craving something familiar.We understand that life gets busy, but that doesn’t mean your food should suffer.",
+                        "We’re here to prove that convenience doesn’t have to come with a trade-off. Each dish is a promise that you can have both—a quick meal that’s ready when you are and made with the same care as a dish you cooked yourself (from scratch).",
+                        "Our goal? To bring the taste of home to everyone, no matter where they are."
+                    ]
+                },
+                image: mission
+            });
+        } else {
+            setContent({
+                text: {
+                    title: "Our Vision",
+                    description: [
+                        "Imagine a future where grabbing a quick meal doesn’t mean compromising on quality. That’s the future we’re working towards. That’s our vision.",
+                        "We want to bring you a wide range of ready-to-eat and ready-to-cook meals that fit into your life effortlessly, no matter where you are.",
+                        "And while we’re at it, we’re also finding ways to be kinder to the planet, ensuring that what we do today leaves a positive mark for tomorrow. It’s not just about what’s on your plate. It’s about creating a better way to eat, live and connect. "
+                    ]
+                },
+                image: ""
+            });
+        }
+        setSelectedSection(section);
     };
 
     return (
@@ -145,22 +181,45 @@ const AboutUs = () => {
             <div className='pl-5 lg:pl-[45px] pt-7 pr-7 3xl:pl-0 mt-20'>
                 <div className='flex flex-col md:flex-row'>
                     <div className='w-full md:w-[60vw] h-[711px]'>
-                        <img src={mission} alt="" className='w-full h-[711px]' />
+                        <img
+                            src={content.image}
+                            alt={content.text.title}
+                            className='w-full h-[711px] transition-opacity duration-500 ease-in-out'
+                        />
                     </div>
+
                     <div className='px-10 w-full md:w-[40vw] mt-0 pt-0'>
+                        {/* Section buttons */}
                         <div className='flex gap-10 mt-0 pt-0'>
-                            <button type='button' className='text-[#000000] font-inter text-[18px] leading-[21.78px] pr-3 font-[400] border-b-2 border-b-[#000000]'>Our Mission</button>
-                            <button type='button' className='text-[#000000] font-inter text-[18px] leading-[21.78px] pr-3 font-[400] hover:border-b-2 border-b-[#000000] '>Our Vision</button>
+                            <button
+                                type='button'
+                                className={`text-[#000000] font-inter text-[18px] leading-[21.78px] pr-3 font-[400] border-b-2 ${selectedSection === 'mission' ? 'border-b-[#000000]' : 'hover:border-b-2 border-b-transparent'
+                                    }`}
+                                onClick={() => handleSectionChange('mission')}
+                            >
+                                Our Mission
+                            </button>
+                            <button
+                                type='button'
+                                className={`text-[#000000] font-inter text-[18px] leading-[21.78px] pr-3 font-[400] border-b-2 ${selectedSection === 'vision' ? 'border-b-[#000000]' : 'hover:border-b-2 border-b-transparent'
+                                    }`}
+                                onClick={() => handleSectionChange('vision')}
+                            >
+                                Our Vision
+                            </button>
                         </div>
+
+                        {/* Conditionally render the text */}
                         <div className='pt-3'>
-                            <h1 className='md:text-[36px] md:leading-[43.2px] font-[400] text-[#333333] font-inter mt-10'>Our Mission</h1>
-                            <p className='mt-6 text-[#757575] text-[22px] leading-[26.63px] font-inter font-[400]'>Food should bring comfort, not compromise. That’s why we focus on creating meals that are convenient without cutting corners on quality.</p>
-                            <p className='mt-6 text-[#757575] text-[22px] leading-[26.63px] font-inter font-[400]'>Our mission is to make wholesome, preservative-free food accessible to everyone, whether they’re in a rush or just craving something familiar. We understand that life gets busy, but that doesn’t mean your food should suffer.</p>
-                            <p className='mt-6 text-[#757575] text-[22px] leading-[26.63px] font-inter font-[400]'>We’re here to prove that convenience doesn’t have to come with a trade-off. Each dish is a promise that you can have both—a quick meal that’s ready when you are and made with the same care as a dish you cooked yourself (from scratch).
-                                <span>Our goal? To bring the taste of home to everyone, no matter where they are.</span>
-                            </p>
+                            <h1 className='md:text-[36px] md:leading-[43.2px] font-[400] text-[#333333] font-inter mt-10'>
+                                {content.text.title}
+                            </h1>
+                            {content.text.description.map((paragraph, index) => (
+                                <p key={index} className='mt-6 text-[#757575] text-[22px] leading-[26.63px] font-inter font-[400]'>
+                                    {paragraph}
+                                </p>
+                            ))}
                         </div>
-                        {/* <div>Our Vision</div> */}
                     </div>
                 </div>
             </div>
@@ -171,11 +230,11 @@ const AboutUs = () => {
                     <img
                         src={slides[currentSlide].image}
                         alt={slides[currentSlide].title}
-                        className='lg:w-[519px] ml-6 lg:ml-0 pr-7 lg:pr-0 lg:h-[322px] object-cover rounded-[13px]'
+                        className='lg:w-[519px] ml-6 lg:ml-0 pr-7 lg:pr-0 lg:h-[322px] object-cover transition-all duration-500 ease-in-out rounded-[13px]'
                     />
                     <div className='lg:w-[60vw] ml-10 pr-20 mt-8 lg:mt-0'>
-                        <h1 className='md:text-[32px] leading-[38.73px] text-2xl font-inter font-[400] text-[#333333]'>{slides[currentSlide].title}</h1>
-                        <p className='text-[16px] leading-[19.36px] font-inter text-[#757575] font-[400] mt-3 mb-16 lg:mb-0'>
+                        <h1 className='md:text-[32px] leading-[38.73px] text-2xl transition-all duration-500 ease-in-out font-inter font-[400] text-[#333333]'>{slides[currentSlide].title}</h1>
+                        <p className='text-[16px] leading-[19.36px] font-inter text-[#757575] font-[400] mt-3 mb-16 lg:mb-0 transition-all duration-500 ease-in-out'>
                             {slides[currentSlide].description}
                         </p>
                     </div>

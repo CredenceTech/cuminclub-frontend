@@ -31,6 +31,7 @@ import headerMenu3 from "../assets/header-menu3.png"
 import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
+import SearchQuery from "./SearchQuery";
 
 
 const Header = () => {
@@ -205,15 +206,6 @@ const Header = () => {
     }
   };
 
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const toggleSearch = () => {
-    setSearchOpen(!searchOpen);
-    setSearchQuery('');
-  };
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
   const [isSticky, setIsSticky] = useState(false);
   const headerRef = useRef(null);
 
@@ -421,32 +413,7 @@ const Header = () => {
           )} */}
         </div>
         <div className="flex gap-x-8 flex-1 justify-end">
-          <div className="relative flex justify-center items-center">
-            <button onClick={toggleSearch} className="focus:outline-none">
-              <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke={pathname?.includes('ready-to-cook') ? '#FFFFFF' : '#333333'} stroke-width="3.02041" />
-              </svg>
-            </button>
-            {searchOpen && (
-              <div className="absolute -right-2 bg-[#FFFFFF] rounded-full flex">
-                <div className="relative">
-                  <input
-                    type="text"
-                    className="pl-4 pr-[50px] py-2 w-64 text-[#333333] border border-[#333333] rounded-full focus:outline-none"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                  <button
-                    onClick={toggleSearch}
-                    className="px-4 py-2 absolute right-0 top-0 bottom-0 bg-[#FBAE36]  text-white rounded-full"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
+          <SearchQuery />
           <button
             // onClick={
             //   cartDatas !== null ? () => dispatch(openCart()) : undefined
