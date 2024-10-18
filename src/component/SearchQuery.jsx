@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import React, { useEffect, useRef, useState, useCallback } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
 import { graphQLClient, queryProductWithKeyword } from '../api/graphql';
+import debounce from 'lodash.debounce';
 
-const keyword = () => {
+const SearchQuery = () => {
     const location = useLocation();
     const { pathname } = location;
     const modalRef = useRef(null);
@@ -11,17 +12,16 @@ const keyword = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [combinedData, setCombinedData] = useState([]);
+    const navigate = useNavigate();
 
-
-    useEffect(() => {
-        console.log("query data to load", keyword)
-        const fetchData = async () => {
-            if (keyword.length < 2) return;
+    const debouncedFetchData = useCallback(
+        debounce(async (searchTerm) => {
+            if (!searchTerm) return;
             setLoading(true);
             setError(null);
 
             try {
-                const data = await graphQLClient.request(queryProductWithKeyword, { keyword });
+                const data = await graphQLClient.request(queryProductWithKeyword, { keyword: searchTerm });
 
                 const products = (data?.products?.edges || []).map(edge => ({
                     id: edge?.node?.id || '',
@@ -29,28 +29,23 @@ const keyword = () => {
                     handle: edge?.node?.handle || '',
                     price: edge?.node?.priceRange?.minVariantPrice?.amount || 'N/A',
                     image: edge?.node?.images?.edges?.[0]?.node?.src || '',
-                    collectionName: 'in products'
+                    collectionName: 'in products',
+                    nagivatiLink: `/product-details/${edge?.node?.handle}`
                 }));
 
-                const collections = (data?.collections?.edges || []).map(edge => ({
-                    id: edge?.node?.id || '',
-                    title: edge?.node?.title || 'No Title',
-                    handle: edge?.node?.handle || '',
-                    image: edge?.node?.image?.originalSrc || '',
-                    collectionName: 'in collections'
-                }));
 
                 const filteredRecipes = (data?.metaobjects?.edges || [])
-                    .filter(edge => edge?.node?.fields.some(field => field?.key === "name" && field?.value?.toLowerCase().includes(keyword.toLowerCase())))
+                    .filter(edge => edge?.node?.fields.some(field => field?.key === "name" && field?.value?.toLowerCase().includes(searchTerm.toLowerCase())))
                     .map(edge => ({
                         id: edge?.node?.id || '',
                         title: edge?.node?.fields.find(field => field?.key === "name")?.value || 'No Title',
                         handle: edge?.node?.handle || '',
                         image: edge?.node?.fields.find(field => field?.key === "image")?.reference?.image?.url || '',
-                        collectionName: 'in recipes'
+                        collectionName: 'in recipes',
+                        nagivatiLink: `/recipes/${edge?.node?.handle}`
                     }));
 
-                const combined = [...products, ...collections, ...filteredRecipes];
+                const combined = [...products, ...filteredRecipes];
                 setCombinedData(combined);
 
             } catch (err) {
@@ -58,10 +53,14 @@ const keyword = () => {
             } finally {
                 setLoading(false);
             }
-        };
+        }, 500),
+        []
+    );
 
-        fetchData();
-    }, [keyword]);
+    useEffect(() => {
+        setLoading(true)
+        debouncedFetchData(keyword);
+    }, [keyword, debouncedFetchData]);
 
     const toggleSearch = () => {
         setSearchOpen(!searchOpen);
@@ -97,7 +96,6 @@ const keyword = () => {
         };
     }, [searchOpen]);
 
-    console.log("combinedDatacombinedDatacombinedData", combinedData)
     return (
         <div className="relative flex justify-center items-center">
             <button onClick={toggleSearch} className="focus:outline-none">
@@ -111,7 +109,7 @@ const keyword = () => {
                     <div className="flex justify-between items-center">
                         <input
                             type="text"
-                            className="pl-4 text-2xl font-bold border-b border-black flex-1 focus:outline-none"
+                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none"
                             placeholder="Search..."
                             value={keyword}
                             onChange={handleSearchChange}
@@ -126,12 +124,11 @@ const keyword = () => {
                         </button>
                     </div>
 
-                    <div className="mt-6">
-                        <h2 className="text-xl font-semibold">Products</h2>
-                        <div className="mt-4 space-y-4 overflow-scroll max-h-[500px]">
+                    {keyword && <div className="mt-6">
+                        <div className="mt-4 space-y-4 overflow-scroll scrollbar-hide max-h-[500px]">
                             {combinedData?.length > 0 > 0 ? (
                                 combinedData?.map(product => (
-                                    <div key={product?.id} className="flex items-center gap-4">
+                                    <div key={product?.id} onClick={() => { navigate(product?.nagivatiLink); setSearchOpen(false) }} className="flex items-center gap-4 cursor-pointer">
                                         <img src={product?.image} alt={''} className="w-16 h-16 rounded" />
                                         <div>
                                             <p className="font-medium text-lg">{product?.title}</p>
@@ -145,14 +142,17 @@ const keyword = () => {
                                     </div>
                                 ))
                             ) : (
-                                <p>No products found</p>
+                                <>
+                                    {!loading && <p>No products found</p>}
+                                </>
+
                             )}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             )}
         </div>
     )
 }
 
-export default keyword
+export default SearchQuery
