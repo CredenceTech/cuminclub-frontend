@@ -64,9 +64,13 @@ export const Footer = () => {
               <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">FAQs</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Careers</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Influencers</p>
+              <a href="https://forms.gle/oPgzLHpysBe8aWsCA" target="_blank" rel="noopener noreferrer">
+                <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
+                  Influencers
+                </p>
+              </a>
             </div>
-            
+
           </div>
           <div className="mt-10 sm:w-[385px] md:mt-0 mr-6">
             <h2 className="sm:text-[24px] text-[16px] leading-[28.8px] font-[600] font-regola-pro text-[#000000] mb-2">Subscribe to our newsletter</h2>

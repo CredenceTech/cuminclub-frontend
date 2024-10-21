@@ -47,14 +47,14 @@ function FrequencyDropDown({
         },
         {
             id: 2,
-            title: "Monthly",
+            title: "Bi-Weekly",
             price: "1020",
             discountPrice: "1110.12/meal",
             no: 12,
         },
         {
             id: 3,
-            title: "Yearly",
+            title: "Monthly",
             price: "1530",
             discountPrice: "1110.12/meal",
             no: 18,
