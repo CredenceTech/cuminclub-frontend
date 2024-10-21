@@ -170,6 +170,7 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
                 { namespace: "custom", key: "rte" },
                 { namespace: "custom", key: "rtc" },
                 { namespace: "custom", key: "bulk" },
+                  { namespace: "custom", key: "premium" },
               ]) {
                 value
                 key
@@ -414,6 +415,20 @@ export const createCartMutation = gql`
                     url
                   }
                   handle
+                   metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
                 }
                 priceV2 {
                   amount
@@ -484,6 +499,20 @@ mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
                     url
                   }
                   handle
+                  metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
                 }
                 priceV2 {
                   amount
@@ -547,6 +576,20 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
                     url
                   }
                   handle
+                  metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
                 }
                 priceV2 {
                   amount
@@ -632,6 +675,20 @@ export const getCartQuery = gql`
                     }
                     }
                   handle
+                  metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
                 }
                 priceV2 {
                   amount
@@ -1306,6 +1363,7 @@ query getProductData($id: ID!) {
         { namespace: "shopify--discovery--product_recommendation", key: "related_products" }
          { namespace: "custom", key: "add_feedbacks" },
          { namespace: "custom", key: "bulk" },
+           { namespace: "custom", key: "premium" },
       ]) {
         value
         key
@@ -1443,6 +1501,7 @@ query productByHandle($handle: String!) {
         { namespace: "shopify--discovery--product_recommendation", key: "related_products" }
          { namespace: "custom", key: "add_feedbacks" },
          { namespace: "custom", key: "bulk" },
+           { namespace: "custom", key: "premium" },
       ]) {
         value
         key

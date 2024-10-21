@@ -71,7 +71,7 @@ const CardReview = () => {
                                     <div className='flex flex-row items-center'>
                                         <img src={
                                             line?.node?.merchandise?.product
-                                                ?.featuredImage?.url
+                                                ?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc
                                         }
                                             alt={line?.node?.merchandise?.product?.title} className='h-[85.1px] w-[85.1px] rounded-lg' />
                                         <div className='ml-4'>
@@ -92,10 +92,10 @@ const CardReview = () => {
                         </div>
                         <div className='bg-[#EFE9DA]  w-full md:w-1/2'>
                             <div className='bg-[#EADEC1] p-8 rounded-2xl'>
-                                <div className="flex flex-row justify-between">
+                                {/* <div className="flex flex-row justify-between">
                                     <p className="text-base font-skillet  lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">Subtotal</p>
                                     <p className="text-lg font-skillet lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">₹ <span className='lg:text-[32px] font-[400] leading-[32.5px]'>803.6</span></p>
-                                </div>
+                                </div> */}
                                 <div className="flex mt-3 flex-row justify-between">
                                     <p className="text-lg font-skillet  lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                     <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{cartResponse?.cart?.estimatedCost?.totalAmount?.amount}</span></p>

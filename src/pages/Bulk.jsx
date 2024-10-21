@@ -32,6 +32,7 @@ import FilterButton from '../component/DropdownFilter';
 import productImage from '../assets/Dish-1.jpg';
 import { categoryrData } from "../state/selectedCategory";
 import headerImage2 from '../assets/header2.png'
+import ProductFliter from "../component/ProductFliter";
 
 export const Bulk = () => {
     const [apiResponse, setApiResponse] = useState(null);
@@ -144,13 +145,12 @@ export const Bulk = () => {
         const apiCall = async () => {
             setLoading(true);
             try {
+                const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
                     first: 15,
                     reverse: false,
-                    query: selectedCategory?.node?.title ? selectedCategory?.node?.title : '',
+                    query: query,
                 });
-
-
                 const collections = result;
 
                 const bundleIndex = collections.collections.edges.findIndex(
@@ -164,11 +164,18 @@ export const Bulk = () => {
                     )[0];
                     collections.collections.edges.push(bundleItem);
                 }
+
                 const transformedProducts = collections.collections.edges.flatMap(category =>
                     category.node.products.edges
                         .map(product => {
                             const bulk = product.node.metafields.find(mf => mf && mf.key === "bulk");
-                            const shouldInclude = bulk?.value === "true";
+                            const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
+
+                            let shouldInclude = bulk?.value === "true";
+                            if (selectedCategory?.node?.title === "Premium") {
+                                shouldInclude = isPremium;
+                            }
+
                             if (shouldInclude) {
                                 setIsBulk(true);
                                 return {
@@ -183,16 +190,17 @@ export const Bulk = () => {
 
                 setApiResponse(collections);
                 setRawResponse(collections);
-                setTransformedProducts(transformedProducts)
-                setLoading(false);
+                setTransformedProducts(transformedProducts);
             } catch (error) {
-                // Handle errors here
-                setLoading(false);
                 console.error("Error fetching data:", error);
+            } finally {
+                setLoading(false);
             }
         };
+
         apiCall();
     }, [selectedCategory]);
+
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -442,6 +450,7 @@ export const Bulk = () => {
     };
     return (
         <div className="w-full bg-[#EFE9DA]">
+            <ProductFliter />
             <div className="p-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -471,7 +480,7 @@ export const Bulk = () => {
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
                                 return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: {isBulk: isBulk } }) }} key={product.id}>
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }} key={product.id}>
                                         <AnimatePresence mode="popLayout">
                                             <motion.div
                                                 initial={{ y: 500, opacity: 0 }}
@@ -555,7 +564,7 @@ export const Bulk = () => {
                                                         </button>
                                                     </div>
                                                     <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
-                                                    <div className="flex flex-row justify-between items-center mb-5">
+                                                        <div className="flex flex-row justify-between items-center mb-5">
                                                             <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
                                                                 {product.title}
                                                             </p>

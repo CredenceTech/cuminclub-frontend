@@ -33,6 +33,8 @@ import productImage from '../assets/Dish-11.png';
 import { categoryrData } from "../state/selectedCategory";
 import { isSubscribe, subscribeClose, subscribeOpen, } from "../state/subscribeData";
 import FrequencyDropDown from "../component/FrequencyDropDown";
+import ProductFliter from "../component/ProductFliter";
+
 const ReadyToEat = () => {
   const [apiResponse, setApiResponse] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
@@ -142,49 +144,62 @@ const ReadyToEat = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-      try {
-        const result = await graphQLClient.request(getProductCollectionsQuery, {
-          first: 15,
-          reverse: false,
-          query: '',
-        });
-        const collections = result;
-        const bundleIndex = collections.collections.edges.findIndex(
-          (item) => item.node.title === "Bundles"
-        );
+        try {
+            const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
 
-        if (bundleIndex !== -1) {
-          const bundleItem = collections.collections.edges.splice(
-            bundleIndex,
-            1
-          )[0];
-          collections.collections.edges.push(bundleItem);
+            const result = await graphQLClient.request(getProductCollectionsQuery, {
+                first: 15,
+                reverse: false,
+                query: query, 
+            });
+
+            const collections = result;
+
+            const bundleIndex = collections.collections.edges.findIndex(
+                (item) => item.node.title === "Bundles"
+            );
+
+            if (bundleIndex !== -1) {
+                const bundleItem = collections.collections.edges.splice(
+                    bundleIndex,
+                    1
+                )[0];
+                collections.collections.edges.push(bundleItem);
+            }
+
+            const transformedProducts = collections.collections.edges.flatMap(category =>
+                category.node.products.edges
+                    .map(product => {
+                        const rte = product.node.metafields.find(mf => mf && mf.key === "rte");
+                        const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
+                        const shouldInclude = (rte?.value === "true") || (issubscribe && isPremium);
+                        if (selectedCategory?.node?.title === "Premium") {
+                            return isPremium ? {
+                                ...product.node,
+                                superTitle: category.node.title,
+                            } : null; 
+                        } else if (shouldInclude) {
+                            return {
+                                ...product.node,
+                                superTitle: category.node.title,
+                            };
+                        }
+                        return null; 
+                    })
+                    .filter(product => product !== null)
+            );
+
+            setApiResponse(collections);
+            setRawResponse(collections);
+            setTransformedProducts(transformedProducts);
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
-
-        const transformedProducts = collections.collections.edges.flatMap(category =>
-          category.node.products.edges
-            .map(product => {
-              const rte = product.node.metafields.find(mf => mf && mf.key === "rte");
-              const shouldInclude = rte?.value === "true";
-              if (shouldInclude) {
-                return {
-                  ...product.node,
-                  superTitle: category.node.title,
-                };
-              }
-              return null;
-            })
-            .filter(product => product !== null)
-        );
-        setApiResponse(collections);
-        setRawResponse(collections);
-        setTransformedProducts(transformedProducts)
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
     };
+
     apiCall();
-  }, [selectedCategory, issubscribe]);
+}, [selectedCategory, issubscribe]);
+
 
   const handleAddToCart = (productId, sellingPlanId) => {
     setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -734,7 +749,9 @@ const ReadyToEat = () => {
             </div> */}
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
+            <div className=""><ProductFliter /></div>
             <div className="p-[60px]">
+          
               <AnimatePresence mode="wait">
                 <motion.div
                   initial={{ y: 100, x: -100, opacity: 0 }}
@@ -789,9 +806,9 @@ const ReadyToEat = () => {
                                   <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
                                     {product.title}
                                   </p>
-                                  <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
+                                  {!issubscribe && <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
                                     ₹ {Math.floor(productPrice)}
-                                  </p>
+                                  </p>}
                                 </div>
                                 <p className="text-[16px] leading-[12.73px] font-[400] font-regola-pro text-[#757575] pt-2 pb-3">
                                   {product.description.length > 80
@@ -864,9 +881,9 @@ const ReadyToEat = () => {
                                     <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
                                       {product.title}
                                     </p>
-                                    <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
+                                    {!issubscribe && <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
                                       ₹ {Math.floor(productPrice)}
-                                    </p>
+                                    </p>}
                                   </div>
                                   <div className="flex flex-col md:flex-row md:gap-4">
                                     {issubscribe ? (

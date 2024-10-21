@@ -12,7 +12,16 @@ const ProductFliter = () => {
         const getCategory = async () => {
             try {
                 const result = await graphQLClient.request(getCategoriesQuery);
-                setCategoryData(result?.collections?.edges);
+                const fetchedCategories = result?.collections?.edges || [];
+                const premiumCategory = {
+                    node: {
+                        id: 'premium', 
+                        title: 'Premium', 
+                        description: 'Premium category description', 
+                        handle: 'premium' 
+                    }
+                };
+                setCategoryData([...fetchedCategories, premiumCategory]);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }

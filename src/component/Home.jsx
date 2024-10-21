@@ -369,13 +369,17 @@ const Home = () => {
     } else if (index === 1) {
       navigate('/ready-to-eat');
       dispatch(subscribeClose());
+      dispatch(addCategoryData(null))
     } else if (index === 2) {
       navigate('/ready-to-cook');
+      dispatch(addCategoryData(null))
     } else if (index === 4) {
       navigate('/ready-to-eat');
+      dispatch(addCategoryData(null))
       dispatch(subscribeOpen());
     } else if (index === 3) {
       navigate('/bulk');
+      dispatch(addCategoryData(null))
     } else {
       navigate('/');
     }
@@ -1489,9 +1493,9 @@ const Home = () => {
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
-                <a href="#learn-more" class="link">
-                  <span class="text-content">Learn How It Works</span>
-                  <span class="shadow-text">Learn How It Works</span>
+                <a  onClick={() => { navigate(`/how-it-works`) }} class="link cursor-pointer">
+                  <span class="text-content font-inter">Learn How It Works</span>
+                  <span class="shadow-text font-inter">Learn How It Works</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -1511,44 +1515,61 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-8 md:mt-5">
-            <div className="flex flex-wrap -mx-2">
-              <div className="w-full md:w-1/3 px-2 mb-6">
-                <div className="py-4">
-                  <img src={selectMeal} alt="Select Meal" className="w-auto h-[195px] object-cover mb-4" />
-                  <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
-                    Select Your Meals
-                  </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-4/5">
-                    Browse our ready-to-eat and ready-to-cook dishes. From rice to sweets, get what you’re
-                    craving for half the price! Pick your favourite meals and customise your order to match your taste buds.
-                  </p>
-                </div>
-              </div>
-              <div className="w-full md:w-1/3 px-2 mb-6">
-                <div className="py-4">
-                  <img src={recieveBox} alt="Receive Box" className="w-auto h-[195px] object-cover mb-4" />
-                  <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
-                    Receive Your Box
-                  </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-4/5">
-                    Your meals are packed with love and delivered straight to your doorstep. We ensure everything arrives fresh and ready to enjoy. If you’ve subscribed to a plan, you can easily skip,
-                    reschedule, change meals, or cancel anytime—no strings attached.
-                  </p>
-                </div>
-              </div>
-              <div className="w-full md:w-1/3 px-2 mb-6">
-                <div className="py-4">
-                  <img src={heatEat} alt="Heat and Enjoy" className="w-auto h-[195px] object-cover mb-4" />
-                  <h3 className="font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] text-[#333333] mb-2">
-                    Heat and Enjoy
-                  </h3>
-                  <p className="font-regola-pro text-[12px] md:text-[14px] font-light leading-[14px] md:leading-[16.8px] text-[#333333] w-4/5">
-                    For ready-to-eat meals, just heat them up, and you’re good to go. For ready-to-cook kits, follow the simple instructions, and you'll have a delicious meal ready in under 7 minutes.
-                    Enjoy the taste of home-cooked goodness (without the hassle).
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="flex flex-wrap -mx-2">
+  <div className="w-full md:w-1/3 px-2 mb-6 relative">
+    <div className="py-4">
+      <div className="relative">
+        <img
+          src={selectMeal}
+          alt="Select Meal"
+          className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+        />
+        <div className="absolute bottom-0 left-0 right-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
+            Select Your Meals
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="w-full md:w-1/3 px-2 mb-6 relative">
+    <div className="py-4">
+      <div className="relative">
+        <img
+          src={recieveBox}
+          alt="Receive Box"
+          className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+        />
+        <div className="absolute bottom-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] left-0 right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
+            Receive Your Box
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="w-full md:w-1/3 px-2 mb-6 relative">
+    <div className="py-4">
+      <div className="relative">
+        <img
+          src={heatEat}
+          alt="Heat and Enjoy"
+          className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+        />
+        <div className="absolute bottom-0 left-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
+            Heat and Enjoy
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
           </div>
         </div>
       </div>

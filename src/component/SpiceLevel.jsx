@@ -42,7 +42,7 @@ const SpiceLevel = () => {
             cartResponse?.cart?.lines?.edges?.forEach((item) => {
                 if (item && item?.node?.quantity) {
                     for (let index = 0; index < item?.node?.quantity; index++) {
-                        const imageUrl = item?.node?.merchandise?.product?.featuredImage?.url;
+                        const imageUrl = item?.node?.merchandise?.product?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc;
                         if (imageUrl) {
                             newImages.push(imageUrl);
                         }
