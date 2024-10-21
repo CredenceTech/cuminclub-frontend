@@ -32,6 +32,7 @@ import FilterButton from '../component/DropdownFilter';
 import productImage from '../assets/Dish-1.jpg';
 import { categoryrData } from "../state/selectedCategory";
 import headerImage2 from '../assets/header2.png'
+import ProductFliter from "../component/ProductFliter";
 
 export const Product = () => {
 
@@ -57,7 +58,6 @@ export const Product = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showModel, setShowModel] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
     useEffect(() => {
         const handleScroll = () => {
             for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -146,7 +146,7 @@ export const Product = () => {
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
                     first: 15,
                     reverse: false,
-                    query: selectedCategory?.node?.title ? selectedCategory?.node?.title : '',
+                    query: selectedCategory?.node?.title || '',
                 });
 
 
@@ -434,11 +434,10 @@ export const Product = () => {
         setSelectedValue(event.target.value);
     };
 
-
     return (
 
         <div className="w-full bg-[#EFE9DA]">
-
+            <ProductFliter />
             <div className="p-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
