@@ -32,7 +32,7 @@ import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import SearchQuery from "./SearchQuery";
-
+import { addCategoryData } from "../state/selectedCategory";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -177,13 +177,17 @@ const Header = () => {
     } else if (index === 1) {
       navigate('/ready-to-eat');
       dispatch(subscribeClose());
+      dispatch(addCategoryData(null))
     } else if (index === 2) {
       navigate('/ready-to-cook');
+      dispatch(addCategoryData(null))
     } else if (index === 4) {
       navigate('/ready-to-eat');
       dispatch(subscribeOpen());
+      dispatch(addCategoryData(null))
     } else if (index === 3) {
       navigate('/bulk');
+      dispatch(addCategoryData(null))
     } else {
       navigate('/');
     }

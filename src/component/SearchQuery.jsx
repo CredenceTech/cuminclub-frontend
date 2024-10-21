@@ -105,11 +105,11 @@ const SearchQuery = () => {
             </button>
 
             {searchOpen && (
-                <div ref={modalRef} className="absolute top-0 right-0 w-[450px] h-auto bg-white z-50 p-8 flex flex-col">
+                <div ref={modalRef} className="absolute top-0 right-0 w-[450px] h-auto  bg-[#FAFAFAE5] z-50 p-8 flex flex-col">
                     <div className="flex justify-between items-center">
                         <input
                             type="text"
-                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none"
+                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none  bg-[#FAFAFAE5]"
                             placeholder="Search..."
                             value={keyword}
                             onChange={handleSearchChange}

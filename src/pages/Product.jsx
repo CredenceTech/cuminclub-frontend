@@ -143,19 +143,17 @@ export const Product = () => {
     useEffect(() => {
         const apiCall = async () => {
             try {
+                const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
                     first: 15,
                     reverse: false,
-                    query: selectedCategory?.node?.title || '',
+                    query: query,
                 });
-
-
                 const collections = result;
-
                 const bundleIndex = collections.collections.edges.findIndex(
                     (item) => item.node.title === "Bundles"
                 );
-
+    
                 if (bundleIndex !== -1) {
                     const bundleItem = collections.collections.edges.splice(
                         bundleIndex,
@@ -163,29 +161,33 @@ export const Product = () => {
                     )[0];
                     collections.collections.edges.push(bundleItem);
                 }
-                const transformedProducts = collections.collections.edges.flatMap(category =>
-                    category.node.products.edges
+                const transformedProducts = collections.collections.edges.flatMap(category => {
+                    return category.node.products.edges
                         .map(product => {
-
+                            const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
+    
                             return {
                                 ...product.node,
                                 superTitle: category.node.title,
+                                isPremium, 
                             };
-
                         })
-                        .filter(product => product !== null)
-                );
-
+                        .filter(product => {
+                            return selectedCategory?.node?.title === "Premium" ? product.isPremium : true; 
+                        });
+                });
+    
                 setApiResponse(collections);
                 setRawResponse(collections);
-                setTransformedProducts(transformedProducts)
+                setTransformedProducts(transformedProducts);
             } catch (error) {
-                // Handle errors here
                 console.error("Error fetching data:", error);
             }
         };
+    
         apiCall();
     }, [selectedCategory]);
+    
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));

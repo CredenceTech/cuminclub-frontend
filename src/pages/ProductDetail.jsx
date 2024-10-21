@@ -297,6 +297,17 @@ function ProductDetail() {
         }
     };
 
+    const weightUnitSymbols = {
+        GRAMS: 'g',
+        KILOGRAMS: 'kg',
+        POUNDS: 'lbs',
+        OUNCES: 'oz',
+    };
+
+    const getWeightSymbol = (weightUnit) => {
+        return weightUnitSymbols[weightUnit] || weightUnit;
+    };
+
     return (
         <div className='bg-white'>
 
@@ -367,7 +378,8 @@ function ProductDetail() {
                                         <Rating rating={4} text={"200 Reviews"} />
                                     </div>
                                 </div>
-                                <p className='text-[24px] font-[500] font-regola-pro mt-3 pl-2 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
+                                <p className='text-[24px] font-[500] font-regola-pro mt-3 pl-2 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
+                                <p className='text-[24px] font-[500] font-regola-pro mt-2 pl-2 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
                                 <p className="text-[24px] font-[400] font-regola-pro leading-[28.8px] mt-3 pl-2 text-[#757575]">
                                     {productData?.description}
                                 </p>
@@ -413,9 +425,12 @@ function ProductDetail() {
                                                         exit={{ height: 0, opacity: 0 }}
                                                         className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
                                                     >
-                                                        <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939]">
-                                                            {item.description}
-                                                        </p>
+                                                        {item.title === "Nutrition Facts" ? (
+                                                            <div dangerouslySetInnerHTML={{ __html: item.description }} />
+                                                        ) : (
+                                                            <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939]">{item.description}</p>
+                                                        )}
+
                                                     </motion.div>
                                                 )}
                                             </AnimatePresence>
