@@ -90,17 +90,21 @@ function ProductDetail() {
         setLoading(true);
         try {
             const result = await graphQLClient.request(getRelatedProducts, {
-                first, // Dynamically pass the count
+                first: 50,
                 sortKey: "TITLE",
                 reverse: false
             });
 
-            const collections = result;
-            console.log(collections); // Log the fetched related products
-            return collections?.products?.edges; // Return the fetched products
+            const products = result?.products?.edges || [];
+            const filteredProducts = products.filter(product => {
+                const bulkValue = product.node.bulkMetafield?.value;
+                return bulkValue === null || bulkValue === "false";
+            });
+
+            return filteredProducts;
         } catch (error) {
             console.error("Error fetching data:", error);
-            return []; // Return an empty array in case of error
+            return [];
         } finally {
             setLoading(false);
         }
@@ -248,7 +252,7 @@ function ProductDetail() {
             id: 1,
         },
         {
-            title: "Nutrition Facts",
+            title: "Nutritional Facts",
             description: getMetafieldData("nutrition_facts", productData?.metafields),
             id: 2,
         },
@@ -314,7 +318,7 @@ function ProductDetail() {
             {!loading ?
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
-                        <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center">
+                        <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center h-[650px]">
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
                             <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-16' : 'pr-6'} h-[553px] w-[553px]`}>
                                 <img
@@ -380,7 +384,7 @@ function ProductDetail() {
                                 </div>
                                 <p className='text-[24px] font-[500] font-regola-pro mt-3 pl-2 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
                                 <p className='text-[24px] font-[500] font-regola-pro mt-2 pl-2 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
-                                <p className="text-[24px] font-[400] font-regola-pro leading-[28.8px] mt-3 pl-2 text-[#757575]">
+                                <p className="text-[22px] font-[400] font-regola-pro leading-[26px] mt-3 pl-2 text-[#757575]">
                                     {productData?.description}
                                 </p>
 
@@ -425,7 +429,7 @@ function ProductDetail() {
                                                         exit={{ height: 0, opacity: 0 }}
                                                         className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
                                                     >
-                                                        {item.title === "Nutrition Facts" ? (
+                                                        {item.title === "Nutritional Facts" ? (
                                                             <div dangerouslySetInnerHTML={{ __html: item.description }} />
                                                         ) : (
                                                             <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939]">{item.description}</p>
