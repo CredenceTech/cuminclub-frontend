@@ -1178,7 +1178,7 @@ const Home = () => {
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className='md:h-[80px] rounded-full object-cover md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
+                  className='md:h-[80px] rounded-full md:w-[80px] h-[60px] w-[60px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
@@ -1406,7 +1406,7 @@ const Home = () => {
               transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
             >
               <img
-                src={selecteRandomPro?.node?.metafields.find(metafield => metafield && metafield.key === "image_for_home").reference.image.originalSrc}
+                src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
                 alt=''
                 className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px] rounded-full'
                 draggable={false}

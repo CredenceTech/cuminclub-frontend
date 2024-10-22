@@ -1566,6 +1566,9 @@ export const getRelatedProducts = gql`
               currencyCode
             }
           }
+        bulkMetafield: metafield(namespace: "custom", key: "bulk") {
+          value
+        }
           metafield(namespace: "custom", key: "image_for_home") {
             value
             reference {
