@@ -10,7 +10,6 @@ import { addCustomerAccessToken, addUserEmail } from "../state/user";
 import toast from "react-hot-toast";
 import LoadingAnimation from "./Loader";
 import { clearCartData, clearCartResponse } from "../state/cartData";
-
 function Login() {
   const [loginRes, setLoginRes] = useState(null);
   const [isError, setIsError] = useState(null);
@@ -37,7 +36,7 @@ function Login() {
     validationSchema: Yup.object({
       email: Yup.string()
         .email("Invalid email format")
-        .required("Email is required"),
+        .required("Username is required"),
       password: Yup.string()
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
@@ -63,16 +62,10 @@ function Login() {
 
   return (
     <div
-      style={{
-        display: "flex",
-        height: "89.9vh",
-        width: "100%",
-      }}
+      className="flex loginbackgraound relative -top-[100px]"
     >
       <div
         style={{
-          backgroundImage: "url('/login_bg_img.jpg')",
-          height: "89.9vh",
           width: "50%",
         }}
         className="hidden lg:block"
@@ -81,30 +74,25 @@ function Login() {
         <div className="" >
           <LoadingAnimation />
         </div> : null}
-      <div className="flex items-center flex-col justify-center flex-1 text-[#53940F] bg-[#f4efea] w-full">
-        <h2
-          style={{ fontFamily: "Gela" }}
-          className="font-bold text-2xl italic md:text-4xl lg:text-5xl text-center"
-        >
-          Login
-        </h2>
-        <p className="mt-5 text-base md:text-xl lg:text-2xl text-center">
-          Welcome back! Please enter your details.
-        </p>
-        <form className="flex flex-col mt-5" onSubmit={formik.handleSubmit}>
-          <div className="flex gap-10 items-center justify-between">
-            <label className="text-xl font-medium" htmlFor="email">Email*</label>
+      <div className="flex items-center flex-col justify-center flex-1 text-[#53940F]  w-full">
+        <div className="bg-[#EADEC1] w-full md:mr-[120px] mt-[120px] rounded-lg p-9">
+          <h2
+            className="font-[400] text-[37.24px] font-skillet text-[#333333] leading-[37.58px] "
+          >
+            Sign in
+          </h2>
+          <form className="flex flex-col mt-5" onSubmit={formik.handleSubmit}>
             <div>
               <input
                 id="email"
                 name="email"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Username"
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={
-                  `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.email && formik.errors.email
+                  `border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.email && formik.errors.email
                     ? "border-red-500"
                     : ""
                   }`
@@ -114,21 +102,18 @@ function Login() {
                 <div className="text-red-500 ml-5 text-sm">{formik.errors.email}</div>
               )}
             </div>
-          </div>
 
-          <div className="flex gap-10 items-center mt-5 justify-between">
-            <label className="text-xl font-medium" htmlFor="password">Password*</label>
-            <div>
+            <div className="mt-4">
               <input
                 id="password"
                 name="password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={
-                  `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.password && formik.errors.password
+                  `border border-[#EFE9DA] placeholder:text-[#757575] text-[#757575] font-[400] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.password && formik.errors.password
                     ? "border-red-500"
                     : ""
                   }`
@@ -138,17 +123,21 @@ function Login() {
                 <div className="text-red-500 ml-5 text-sm">{formik.errors.password}</div>
               )}
             </div>
-          </div>
+            <div className="my-5 flex justify-between">
+              <Link to="/" className="text-[#2A2A2A] text-[20px] font-regola-pro leading-[24px] font-[400] ">Forget Password</Link>
+              <Link to="/registration" className="text-[#2A2A2A] text-[20px] font-regola-pro leading-[24px] font-[400] ">Create an account</Link>
+            </div>
 
-          {isError && <div className="my-5 text-xl text-[#E91D24]">{isError}</div>}
-          <button type="submit" className="mt-5 border border-[#53940F] rounded-full py-2.5 text-xl px-5 bg-[#53940F] text-white">
-            Login
-          </button>
-        </form>
+
+            {isError && <div className="my-5 text-xl text-[#E91D24]">{isError}</div>}
+            <button type="submit" className="mt-10 border border-[#53940F] rounded-[15.1px] py-4 text-[40px] font-[400] px-5 bg-[#000000E8] leading-[40.36px] font-skillet text-[#FAFAFA]">
+              Sign In
+            </button>
+          </form>
+        </div>
 
         {/* <button className="my-5 text-xl font-semibold underline">Forgot Password?</button> */}
 
-        <div className="my-5 text-xl">Haven’t an account? <Link to="/registration" className="underline font-semibold text-[#E91D24]">Create an account</Link></div>
       </div>
     </div>
   );
