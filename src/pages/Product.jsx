@@ -161,21 +161,25 @@ export const Product = () => {
                     )[0];
                     collections.collections.edges.push(bundleItem);
                 }
-                const transformedProducts = collections.collections.edges.flatMap(category => {
-                    return category.node.products.edges
+                const transformedProducts = collections.collections.edges.flatMap(category =>
+                    category.node.products.edges
                         .map(product => {
+                            const bulk = product.node.metafields.find(mf => mf && mf.key === "bulk");
                             const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
-    
+                            if (bulk?.value === "true") {
+                                return null; 
+                            }
+                            if (selectedCategory?.node?.title === "Premium" && !isPremium) {
+                                return null; 
+                            }
                             return {
                                 ...product.node,
                                 superTitle: category.node.title,
-                                isPremium, 
                             };
                         })
-                        .filter(product => {
-                            return selectedCategory?.node?.title === "Premium" ? product.isPremium : true; 
-                        });
-                });
+                        .filter(product => product !== null) 
+                );
+                
     
                 setApiResponse(collections);
                 setRawResponse(collections);

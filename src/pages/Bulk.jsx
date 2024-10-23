@@ -172,6 +172,9 @@ export const Bulk = () => {
                             const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
 
                             let shouldInclude = bulk?.value === "true";
+                            if (bulk?.value !== "true") {
+                                return null;
+                            }
                             if (selectedCategory?.node?.title === "Premium") {
                                 shouldInclude = isPremium;
                             }
@@ -465,139 +468,71 @@ export const Bulk = () => {
                         >
                             {transformedProducts?.map((product, productIndex) => {
                                 // Determine if this is a long product layout
-                                const isLong =
-                                    (productIndex % 15 === 0) ||
-                                    (productIndex % 15 === 6) ||
-                                    (productIndex % 15 === 10);
+                                // const isLong =
+                                //     (productIndex % 15 === 0) ||
+                                //     (productIndex % 15 === 6) ||
+                                //     (productIndex % 15 === 10);
 
 
-                                const productLargeImage =
-                                    product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
+                                // const productLargeImage =
+                                //     product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
                                 const productSmallImage =
                                     product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
 
                                 const productPrice = product.priceRange.minVariantPrice.amount;
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
-                                return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }} key={product.id}>
-                                        <AnimatePresence mode="popLayout">
-                                            <motion.div
-                                                initial={{ y: 500, opacity: 0 }}
-                                                animate={{ y: 0, opacity: 1 }}
-                                                exit={{ y: -500, opacity: 0 }}
-                                                transition={{ duration: 0.3 }}
-                                            >
-                                                <div className="relative flex justify-center items-center">
-                                                    <img
-                                                        src={productLargeImage}
-                                                        alt={product.title}
-                                                        className="w-full h-[290px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200"
-                                                    />
-                                                    <button
-                                                        type="button"
-                                                        className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 uppercase text-[#333333] px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
-                                                    >
-                                                        {categoryTag}
-                                                    </button>
-                                                </div>
-                                                <div className="px-10 py-3">
-                                                    <div className="flex flex-row justify-between pt-[18px] pb-2">
-                                                        <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
-                                                            {product.title}
-                                                        </p>
-                                                        <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
-                                                            ₹ {Math.floor(productPrice)}
-                                                        </p>
-                                                    </div>
-                                                    <p className="text-[16px] leading-[12.73px] font-[400] font-regola-pro text-[#757575] pt-2 pb-3">
-                                                        {product.description.length > 80
-                                                            ? `${product.description.substring(0, 80)}...`
-                                                            : product.description}
-                                                    </p>
-
-                                                    <div className="flex gap-x-4 mt-1">
-                                                        <button
-                                                            type="button"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleAddToCart(product.variants.edges[0].node.id)
-                                                            }
-                                                            }
-                                                            className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                                        >
-                                                            ADD TO CART
-                                                        </button>
-                                                        <button
-                                                            onClick={(e) => e.stopPropagation()}
-                                                            type="button"
-                                                            className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                                        >
-                                                            BUY NOW
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        </AnimatePresence>
-                                    </div>
-                                ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }}>
-                                        <AnimatePresence mode="wait">
-                                            <motion.div
-                                                initial={{ y: 500, x: -500, opacity: 0 }}
-                                                animate={{ y: 0, x: 0, opacity: 1 }}
-                                                exit={{ y: -500, x: 500, opacity: 0 }}
-                                                transition={{ duration: 0.4 }}
-                                            >
-                                                <img
-                                                    src={productSmallImage}
-                                                    alt={product.title}
-                                                    className="w-full h-[250px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
-                                                />
-                                                <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
-                                                    <div className="p-5">
-                                                        <button
-                                                            type="button"
-                                                            className="bg-[#279C66] text-[#FAFAFA] text-[18px] uppercase leading-[27.08px] px-3 tracking-[0.12em] rounded-[10px] py-[4px] font-regola-pro font-[600]"
-                                                        >
-                                                            {categoryTag}
-                                                        </button>
-                                                    </div>
-                                                    <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
-                                                        <div className="flex flex-row justify-between items-center mb-5">
-                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
-                                                                {product.title}
-                                                            </p>
-                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
-                                                                ₹ {Math.floor(productPrice)}
-                                                            </p>
-                                                        </div>
-                                                        <div className="flex flex-col md:flex-row md:gap-4">
-                                                            <button
-                                                                type="button"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    handleAddToCart(product.variants.edges[0].node.id)
-                                                                }
-                                                                }
-                                                                className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                                            >
-                                                                ADD TO CART
-                                                            </button>
-                                                            <button
-                                                                onClick={(e) => e.stopPropagation()}
-                                                                type="button"
-                                                                className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                                            >
-                                                                BUY NOW
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        </AnimatePresence>
-                                    </div>
-                                );
+                               return <> <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }}>
+                               <AnimatePresence mode="wait">
+                                   <motion.div
+                                       initial={{ y: 500, x: -500, opacity: 0 }}
+                                       animate={{ y: 0, x: 0, opacity: 1 }}
+                                       exit={{ y: -500, x: 500, opacity: 0 }}
+                                       transition={{ duration: 0.4 }}
+                                   >
+                                       <img
+                                           src={productSmallImage}
+                                           alt={product.title}
+                                           className="w-full h-[250px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                       />
+                                       <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
+                                           <div className="p-5">
+                                              
+                                           </div>
+                                           <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
+                                               <div className="flex flex-row justify-between items-center mb-5">
+                                                   <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
+                                                       {product.title}
+                                                   </p>
+                                                   <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
+                                                       ₹ {Math.floor(productPrice)}
+                                                   </p>
+                                               </div>
+                                               <div className="flex flex-col md:flex-row md:gap-4">
+                                                   <button
+                                                       type="button"
+                                                       onClick={(e) => {
+                                                           e.stopPropagation();
+                                                           handleAddToCart(product.variants.edges[0].node.id)
+                                                       }
+                                                       }
+                                                       className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                   >
+                                                       ADD TO CART
+                                                   </button>
+                                                   <button
+                                                       onClick={(e) => e.stopPropagation()}
+                                                       type="button"
+                                                       className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                   >
+                                                       BUY NOW
+                                                   </button>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </motion.div>
+                               </AnimatePresence>
+                           </div></>
                             })}
                         </div>
                     </motion.div>

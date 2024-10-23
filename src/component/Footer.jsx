@@ -1,5 +1,5 @@
 import React, { } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import amazonapy from '../assets/amazon-pay.png';
 import american from '../assets/american-express.png';
 import googlepay from '../assets/google-pay.png';
@@ -9,9 +9,11 @@ import unionpay from '../assets/unionpay.png';
 import visa from '../assets/visa.png';
 import applepay from '../assets/apple-pay.png';
 import linkedin from '../assets/linkedin.png'
+import { addCategoryData } from "../state/selectedCategory";
 export const Footer = () => {
   const location = useLocation();
   const { pathname } = location;
+  const navigate = useNavigate();
 
   return (
     <>
@@ -40,28 +42,30 @@ export const Footer = () => {
             </div>
             <div className="mt-6 md:ml-[100px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">MENU</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Ready to eat</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Ready to cook</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Bulk products </p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">All products</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/ready-to-eat'); dispatch(addCategoryData(null)) }}>Ready to eat</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/ready-to-cook'); dispatch(addCategoryData(null)) }}>Ready to cook</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/bulk'); dispatch(addCategoryData(null)) }}>Bulk products </p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/products'); dispatch(addCategoryData(null)) }}>All products</p>
             </div>
             <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">OUR COMPANY</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">ABOUT US</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">HOW IT WORKS</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Facility</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/aboutus') }}>ABOUT US</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/how-it-works') }}>HOW IT WORKS</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/facilities') }}>Facility</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Sustainability</p>
             </div>
             <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">QUICK LINKS</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Recipes</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/recipe-list') }}>Recipes</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Subscribe</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Linktree</p>
+              <a href="https://linktr.ee/instantlyyours" target="_blank" rel="noopener noreferrer">
+                <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Linktree</p>
+              </a>
             </div>
             <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">CONTACT US</h2>
               <a href="https://forms.gle/M5RJVRG8919hh6Fg8" target="_blank" rel="noopener noreferrer">
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
+                <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
               </a>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">FAQs</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Careers</p>
