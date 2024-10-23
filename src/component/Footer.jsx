@@ -121,10 +121,10 @@ export const Footer = () => {
           </div>
           <div>
             <div className="footer-bottom-link flex flex-wrap gap-x-4 justify-between gap-y-2 md:text-md text-[#333333] font-regola-pro font-[400] text-[16px] leading-[19.2px]">
-              <Link className="border-b border-b-gray-900  " to="/term-of-services">Privacy Policy</Link>
-              <Link className="border-b border-b-gray-900 " to="/privacy-policy">Service Terms</Link>
-              <Link className="border-b border-b-gray-900   " to="/refund">Cancellation Policy</Link>
-              <Link className="border-b border-b-gray-900  " to="/accessibility">Refund Policy</Link>
+              <Link className="border-b border-b-gray-900  " to="/privacy-policy">Privacy Policy</Link>
+              <Link className="border-b border-b-gray-900 " to="/term-of-services">Service Terms</Link>
+              <Link className="border-b border-b-gray-900   " to="/cancellation-policy">Cancellation Policy</Link>
+              <Link className="border-b border-b-gray-900  " to="/refund">Refund Policy</Link>
             </div>
             <div className="md:flex flex-wrap gap-y-2 gap-x-3 mt-5 hidden">
               <div>

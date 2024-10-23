@@ -941,6 +941,15 @@ query getPageByHandle($handle: String!) {
 	}
 }`;
 
+export const getPageCancellationPolicyQuery = gql`
+query getPageByHandle($handle: String!) {
+	page(handle: $handle) {
+		id
+		title
+        body
+	}
+}`;
+
 export const getPageRefundQuery = gql`
 query getShopPolicies {
 	shop {

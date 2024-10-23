@@ -25,7 +25,7 @@ const Refund = () => {
         <section className="text-gray-600 body-font">
             <div className="container  px-5 py-24 mx-auto">
                 <div className="mb-20">
-                    <h1>{data?.shop?.refundPolicy?.title}</h1>
+                    <h1 className='mb-2 text-[24px] font-bold'>{data?.shop?.refundPolicy?.title}</h1>
                     <div dangerouslySetInnerHTML={{ __html: refeundBody }} />
                 </div>
             </div>
