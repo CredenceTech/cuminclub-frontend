@@ -26,7 +26,7 @@ import {
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { addCategoryData } from "../state/selectedCategory";
 import imagefooter from '../assets/footer-image.png'
-import heatEat from '../assets/heat-enjoy.png'
+import heatEat from '../assets/heat-enjoy.jpg'
 import selectMeal from '../assets/select-meal.png'
 import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.png'
@@ -315,13 +315,13 @@ const Home = () => {
           reverse: false,
           query: "",
         });
-
+  
         const collections = result;
-
+  
         const bundleIndex = collections.collections.edges.findIndex(
           (item) => item.node.title === "Bundles"
         );
-
+  
         if (bundleIndex !== -1) {
           const bundleItem = collections.collections.edges.splice(
             bundleIndex,
@@ -329,16 +329,26 @@ const Home = () => {
           )[0];
           collections.collections.edges.push(bundleItem);
         }
-        setApiResponse(collections?.collections?.edges[0]?.node?.products?.edges.splice(1, 10));
-        setSelecteRandomPro(collections?.collections?.edges[0]?.node?.products?.edges[0])
+  
+        const products = collections?.collections?.edges[0]?.node?.products?.edges || [];
+  
+        const filteredProducts = products.filter((product) => {
+          const bulkMetafield = product.node.metafields.find(mf => mf && mf.key === "bulk");
+          return  bulkMetafield.value !== "true";
+        });
+        setApiResponse(filteredProducts.splice(1, 10)); 
+        setSelecteRandomPro(filteredProducts[0]); 
         setRawResponse(collections);
       } catch (error) {
         // Handle errors here
         console.error("Error fetching data:", error);
       }
     };
+  
     apiCall();
   }, []);
+  
+  
 
   const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
   const colorCategory = ['#FBAE36', '#26965C', '#555555', '#FB7D36'];
@@ -1378,7 +1388,7 @@ const Home = () => {
             </div>
             <div className="absolute spin-product-info">
               <div className="spin-product-info-text h-[175px]">
-                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[330px] font-[600] leading-[50.47px] font-regola-pro mb-3'
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
                   style={{ textShadow: '0px 4px 9.9px #00000040' }}>
                   {selecteRandomPro?.node?.title}
                 </p>

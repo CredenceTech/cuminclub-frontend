@@ -173,6 +173,9 @@ const ReadyToEat = () => {
                         const rte = product.node.metafields.find(mf => mf && mf.key === "rte");
                         const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
                         const shouldInclude = (rte?.value === "true") || (issubscribe && isPremium);
+                        if(rte?.value !== "true"){
+                          return null;
+                        }
                         if (selectedCategory?.node?.title === "Premium") {
                             return isPremium ? {
                                 ...product.node,
