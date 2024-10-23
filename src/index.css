@@ -162,7 +162,7 @@ body {
 
 .bg-custom-image-footer {
   /* background-image: url('./assets/footer-upper-image.png'); */
- background-color: #F79E1B;
+  background-color: #F79E1B;
 }
 
 .bg-custom-image-middle1 {
@@ -306,9 +306,9 @@ body {
 
 .how-it-works-banner {
   background-image: url('../src/assets/bannerHowItWorks.jpg');
-  background-position: 72% 28%; 
+  background-position: 72% 28%;
   background-size: cover;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
 
 }
 
@@ -626,7 +626,8 @@ body {
   .header-menu-background-img {
     height: 440px;
   }
-  .how-it-works-banner{
+
+  .how-it-works-banner {
     background-position: 78% 22%;
   }
 }
@@ -635,25 +636,32 @@ body {
   .header-menu-background-img {
     height: 540px;
   }
-  .how-it-works-banner{
+
+  .how-it-works-banner {
     background-position: 80% 20%;
   }
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px; 
+  width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #888; 
-  border-radius: 10px; 
+  background-color: #888;
+  border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
+.loginbackgraound {
+  background-image: url(./assets/login_bg_img.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 95vh;
+}

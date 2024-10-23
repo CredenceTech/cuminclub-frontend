@@ -17,7 +17,7 @@ export const Footer = () => {
 
   return (
     <>
-      <div className={`footer bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-[100px]' : '-bottom-[100px]'}  `}>
+      <div className={`footer bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-[100px]' : '-bottom-[100px]'} ${pathname?.includes('/login') ? 'hidden' : ''} `}>
         <div className="flex flex-col md:flex-row justify-between px-[60px]  pt-10 pb-4 footer-content">
           <div className="flex lg:flex-row flex-col  lg:pr-0 gap-y-4 md:gap-y-1">
             <div className="">
