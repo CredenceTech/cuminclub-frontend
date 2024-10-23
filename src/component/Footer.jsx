@@ -10,10 +10,13 @@ import visa from '../assets/visa.png';
 import applepay from '../assets/apple-pay.png';
 import linkedin from '../assets/linkedin.png'
 import { addCategoryData } from "../state/selectedCategory";
+import { subscribeClose, subscribeOpen } from "../state/subscribeData";
+import { useDispatch } from "react-redux";
 export const Footer = () => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -42,7 +45,7 @@ export const Footer = () => {
             </div>
             <div className="mt-6 md:ml-[100px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">MENU</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/ready-to-eat'); dispatch(addCategoryData(null)) }}>Ready to eat</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/ready-to-eat'); dispatch(addCategoryData(null));  dispatch(subscribeClose()); }}>Ready to eat</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/ready-to-cook'); dispatch(addCategoryData(null)) }}>Ready to cook</p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/bulk'); dispatch(addCategoryData(null)) }}>Bulk products </p>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/products'); dispatch(addCategoryData(null)) }}>All products</p>
@@ -57,7 +60,7 @@ export const Footer = () => {
             <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
               <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">QUICK LINKS</h2>
               <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/recipe-list') }}>Recipes</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Subscribe</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"  onClick={() => { navigate('/ready-to-eat'); dispatch(addCategoryData(null));  dispatch(subscribeOpen()); }}>Subscribe</p>
               <a href="https://linktr.ee/instantlyyours" target="_blank" rel="noopener noreferrer">
                 <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Linktree</p>
               </a>
@@ -68,7 +71,9 @@ export const Footer = () => {
                 <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
               </a>
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">FAQs</p>
+              <a href="https://www.linkedin.com/company/instantly-yours-inc/jobs/" target="_blank" rel="noopener noreferrer">
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Careers</p>
+             </a>
               <a href="https://forms.gle/oPgzLHpysBe8aWsCA" target="_blank" rel="noopener noreferrer">
                 <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
                   Influencers
