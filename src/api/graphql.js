@@ -74,6 +74,18 @@ export const logoutMutation = gql`
         }
     `;
 
+export const forgotPasswordMutation = gql`
+    mutation ForgotPassword($email: String!) {
+      customerRecover(email: $email) {
+        customerUserErrors {
+          code
+          message
+        }
+      }
+    }
+  `;
+  
+
 export const getAllProductsQuery = gql`
 {
   products(first: 100, reverse: true) {

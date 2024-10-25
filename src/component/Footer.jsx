@@ -20,7 +20,7 @@ export const Footer = () => {
 
   return (
     <>
-      <div className={`footer bg-[#EADEC1] relative z-[100] ${pathname === '/' ? '-bottom-[100px]' : '-bottom-[100px]'} ${pathname?.includes('/login') ? 'hidden' : ''} `}>
+      <div className={`footer bg-[#EADEC1] relative z-[100] ${pathname === '/login' || pathname === '/registration' || pathname === '/forgot-password' ? 'bottom-[0px]' : '-bottom-[100px]'} `}>
         <div className="flex flex-col md:flex-row justify-between px-[60px]  pt-10 pb-4 footer-content">
           <div className="flex lg:flex-row flex-col  lg:pr-0 gap-y-4 md:gap-y-1">
             <div className="">
@@ -102,7 +102,7 @@ export const Footer = () => {
           <div>
             <div className="flex sm:gap-x-2 gap-x-8  md:gap-x-6 mt-8 md:mt-0">
               <div>
-                <a href="" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.facebook.com/people/Instantly-Yours/100079508513629/" target="_blank" rel="noopener noreferrer">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" className="w-[18px]">
                     <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z" />
                   </svg>
