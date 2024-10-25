@@ -663,5 +663,6 @@ body {
   background-image: url(./assets/login_bg_img.png);
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 95vh;
+  height: 100%;
+  top: -100px
 }

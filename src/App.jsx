@@ -32,6 +32,7 @@ import ReadyToCook from "./pages/ReadyToCook";
 import { Bulk } from "./pages/Bulk"
 import AnnouncementBar from "./component/AnnouncementBar";
 import {CancellationPolicy} from "./component/CancellationPolicy";
+import ForgotPassword from "./component/ForgotPassword";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
             <Route path="/products" element={<Product />} />
             <Route path="/bulk" element={<Bulk />} />
             <Route path="/cancellation-policy" element={<CancellationPolicy/>}/>
+            <Route path="/forgot-password" element={<ForgotPassword/>}/>
           </Routes>
         </div>
         <Footer />

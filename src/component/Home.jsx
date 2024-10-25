@@ -1041,12 +1041,27 @@ const Home = () => {
               </div>
             </button>
 
-            {userId === null &&
+            {loginUserCustomerId === null &&
               <button className="bg-[#FBAE36] hidden lg:block px-9 rounded-full ">
                 <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest" to="/login">
                   Login
                 </Link>
               </button>}
+
+              {loginUserCustomerId !== null ? (
+                <button
+                 className={`bg-[#FBAE36] hidden lg:block px-9 rounded-full text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest`}
+                  onClick={() => {
+                    navigate('/login')
+                    dispatch(clearCustomerAccessToken());
+                    dispatch(clearCartData());
+                    dispatch(clearCartResponse());
+                  }}
+                >
+                  
+                  Logout
+                </button>
+              ) : null}
           </div>
         </div>
 
