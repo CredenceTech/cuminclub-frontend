@@ -14,12 +14,13 @@ import {
 import menu1 from '../assets/menu.png'
 import menu2 from '../assets/heateat.png'
 import menu3 from '../assets/cookeat.png'
-import { getCartQuery, graphQLClient } from "../api/graphql";
+import { getCartQuery, graphQLClient, queryCustomer } from "../api/graphql";
 import { selectMealItems } from "../state/mealdata";
 import { useLocation } from "react-router-dom";
 import { totalQuantity } from "../utils";
 import { addFilterData, addInnerFilterData } from "../state/selectedCountry";
 import {
+  addUserEmail,
   clearCustomerAccessToken,
   customerAccessTokenData,
   registerUserId,
@@ -33,7 +34,7 @@ import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import SearchQuery from "./SearchQuery";
 import { addCategoryData } from "../state/selectedCategory";
-
+import UserMenu from '../component/DropdownProfile';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
@@ -136,6 +137,22 @@ const Header = () => {
       window.removeEventListener("popstate", handlePopstate);
     };
   }, []);
+
+
+  const fetchCustomerDetails = async (customerAccessToken) => {
+    try {
+      const response = await graphQLClient.request(queryCustomer, { customerAccessToken: customerAccessToken })
+      // console.log("Product Detail", response);
+      // setData(response);
+      dispatch(addUserEmail(response?.customer));
+    } catch (error) {
+    }
+  };
+
+  useEffect(() => {
+    fetchCustomerDetails(loginUserCustomerId)
+  }, [loginUserCustomerId])
+
 
   const fetchCountryFilters = async () => {
     try {
@@ -460,20 +477,12 @@ const Header = () => {
                 Login
               </Link>
             </button>}
-            {loginUserCustomerId !== null ? (
-                <button
-                 className={`bg-[#FBAE36] hidden lg:block px-7 rounded-full font-[600] font-regola-pro leading-[21.6px] text-[18px] uppercase ${pathname.includes('ready-to-cook') ? 'text-[#ffffff]' : 'text-[#231F20]'}`}
-                  onClick={() => {
-                    navigate('/login')
-                    dispatch(clearCustomerAccessToken());
-                    dispatch(clearCartData());
-                    dispatch(clearCartResponse());
-                  }}
-                >
-                  
-                  Logout
-                </button>
-              ) : null}
+          {loginUserCustomerId !== null ? (
+            <div className="flex items-center space-x-3">
+              <hr className="w-px h-full bg-[#000000]  border-none" />
+              <UserMenu align="right" />
+            </div>
+          ) : null}
         </div>
       </div>
 
@@ -622,16 +631,10 @@ const Header = () => {
                 </Link>
               ) : null}
               {loginUserCustomerId !== null ? (
-                <button
-                  className="py-5"
-                  onClick={() => {
-                    dispatch(clearCustomerAccessToken());
-                    dispatch(clearCartData());
-                    dispatch(clearCartResponse());
-                  }}
-                >
-                  Logout
-                </button>
+                <div className="flex items-center space-x-3">
+                  <hr className="w-px h-6 bg-slate-200  border-none" />
+                  <UserMenu align="right" />
+                </div>
               ) : null}
             </div>
           </motion.div>

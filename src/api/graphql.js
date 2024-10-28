@@ -84,7 +84,7 @@ export const forgotPasswordMutation = gql`
       }
     }
   `;
-  
+
 
 export const getAllProductsQuery = gql`
 {
@@ -1657,4 +1657,16 @@ query SearchProductsAndCollections($keyword: String!)
 }
 }
 `
+export const queryCustomer = gql`
+query getCustomer($customerAccessToken: String!) {
+  customer(customerAccessToken: $customerAccessToken) {
+    firstName
+    lastName
+    email
+    acceptsMarketing
+    phone
+  }
+}
+`;
+
 
