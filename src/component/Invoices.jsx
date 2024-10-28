@@ -14,7 +14,7 @@ const Invoices = () => {
         const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/stripe/invoices/customers`;
 
         const params = {
-          email: userEmail,
+          email: userEmail?.email,
           limit: 50,
         };
 
@@ -63,6 +63,7 @@ const Invoices = () => {
       {invoices !== null ? (
         Object.keys(invoices).length === 0 ? <DataNotFound /> : <section className="body-font relative">
           <div className="container p-5 pt-10 mx-auto">
+            <h2 className="font-[400] my-10 text-[37.24px] font-skillet text-[#333333] leading-[37.58px]">My Order</h2>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-100 ">

@@ -45,7 +45,7 @@ import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import middleImg from '../assets/middle1-image1.png'
 import rtcImg from '../assets/ready-to-cook-img.jpg'
 import SearchQuery from "./SearchQuery";
-
+import UserMenu from '../component/DropdownProfile';
 const Home = () => {
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -315,13 +315,13 @@ const Home = () => {
           reverse: false,
           query: "",
         });
-  
+
         const collections = result;
-  
+
         const bundleIndex = collections.collections.edges.findIndex(
           (item) => item.node.title === "Bundles"
         );
-  
+
         if (bundleIndex !== -1) {
           const bundleItem = collections.collections.edges.splice(
             bundleIndex,
@@ -329,26 +329,26 @@ const Home = () => {
           )[0];
           collections.collections.edges.push(bundleItem);
         }
-  
+
         const products = collections?.collections?.edges[0]?.node?.products?.edges || [];
-  
+
         const filteredProducts = products.filter((product) => {
           const bulkMetafield = product.node.metafields.find(mf => mf && mf.key === "bulk");
-          return  bulkMetafield.value !== "true";
+          return bulkMetafield.value !== "true";
         });
-        setApiResponse(filteredProducts.splice(1, 10)); 
-        setSelecteRandomPro(filteredProducts[0]); 
+        setApiResponse(filteredProducts.splice(1, 10));
+        setSelecteRandomPro(filteredProducts[0]);
         setRawResponse(collections);
       } catch (error) {
         // Handle errors here
         console.error("Error fetching data:", error);
       }
     };
-  
+
     apiCall();
   }, []);
-  
-  
+
+
 
   const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
   const colorCategory = ['#FBAE36', '#26965C', '#555555', '#FB7D36'];
@@ -1048,20 +1048,12 @@ const Home = () => {
                 </Link>
               </button>}
 
-              {loginUserCustomerId !== null ? (
-                <button
-                 className={`bg-[#FBAE36] hidden lg:block px-9 rounded-full text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest`}
-                  onClick={() => {
-                    navigate('/login')
-                    dispatch(clearCustomerAccessToken());
-                    dispatch(clearCartData());
-                    dispatch(clearCartResponse());
-                  }}
-                >
-                  
-                  Logout
-                </button>
-              ) : null}
+            {loginUserCustomerId !== null ? (
+              <div className="flex items-center space-x-3">
+                <hr className="w-px h-full bg-[#000000]  border-none" />
+                <UserMenu align="right" />
+              </div>
+            ) : null}
           </div>
         </div>
 
@@ -1518,7 +1510,7 @@ const Home = () => {
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
-                <a  onClick={() => { navigate(`/how-it-works`) }} class="link cursor-pointer">
+                <a onClick={() => { navigate(`/how-it-works`) }} class="link cursor-pointer">
                   <span class="text-content font-inter">Learn How It Works</span>
                   <span class="shadow-text font-inter">Learn How It Works</span>
                   <svg
@@ -1540,58 +1532,58 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-8 md:mt-5">
-          <div className="flex flex-wrap -mx-2">
-  <div className="w-full md:w-1/3 px-2 mb-6 relative">
-    <div className="py-4">
-      <div className="relative">
-        <img
-          src={selectMeal}
-          alt="Select Meal"
-          className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
-        />
-        <div className="absolute bottom-0 left-0 right-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
-            Select Your Meals
-          </h3>
-        </div>
-      </div>
-    </div>
-  </div>
+            <div className="flex flex-wrap -mx-2">
+              <div className="w-full md:w-1/3 px-2 mb-6 relative">
+                <div className="py-4">
+                  <div className="relative">
+                    <img
+                      src={selectMeal}
+                      alt="Select Meal"
+                      className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                      <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
+                        Select Your Meals
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-  <div className="w-full md:w-1/3 px-2 mb-6 relative">
-    <div className="py-4">
-      <div className="relative">
-        <img
-          src={recieveBox}
-          alt="Receive Box"
-          className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
-        />
-        <div className="absolute bottom-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] left-0 right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
-            Receive Your Box
-          </h3>
-        </div>
-      </div>
-    </div>
-  </div>
+              <div className="w-full md:w-1/3 px-2 mb-6 relative">
+                <div className="py-4">
+                  <div className="relative">
+                    <img
+                      src={recieveBox}
+                      alt="Receive Box"
+                      className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+                    />
+                    <div className="absolute bottom-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] left-0 right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                      <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
+                        Receive Your Box
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-  <div className="w-full md:w-1/3 px-2 mb-6 relative">
-    <div className="py-4">
-      <div className="relative">
-        <img
-          src={heatEat}
-          alt="Heat and Enjoy"
-          className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
-        />
-        <div className="absolute bottom-0 left-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
-            Heat and Enjoy
-          </h3>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+              <div className="w-full md:w-1/3 px-2 mb-6 relative">
+                <div className="py-4">
+                  <div className="relative">
+                    <img
+                      src={heatEat}
+                      alt="Heat and Enjoy"
+                      className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+                    />
+                    <div className="absolute bottom-0 left-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                      <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
+                        Heat and Enjoy
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
 
 
