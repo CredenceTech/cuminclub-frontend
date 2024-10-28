@@ -114,14 +114,16 @@ const Facility = () => {
               All About Our Facilities!
             </span>
           </div>
-          <button className="flex items-center justify-between h-[50px] md:h-[65px] rounded-[4px] bg-[#EADEC1] px-4 md:px-6">
-            <span className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[20px] md:leading-[28.8px] text-left text-[#333333]">
-              Enquire for business
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 19 14" fill="none" className="ml-4">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5338 0.141846L18.3918 6.99985L11.5338 13.8579L9.74245 12.0665L13.5425 8.26652H0.133789V5.73318H13.5425L9.74245 1.93318L11.5338 0.141846Z" fill="#1D1929" />
-            </svg>
-          </button>
+          <a href="https://forms.gle/M5RJVRG8919hh6Fg8" target="_blank" rel="noopener noreferrer">
+            <button className="flex items-center justify-between h-[50px] md:h-[65px] rounded-[4px] bg-[#EADEC1] px-4 md:px-6">
+              <span className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[20px] md:leading-[28.8px] text-left text-[#333333]">
+                Enquire for business
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 19 14" fill="none" className="ml-4">
+                <path fillRule="evenodd" clipRule="evenodd" d="M11.5338 0.141846L18.3918 6.99985L11.5338 13.8579L9.74245 12.0665L13.5425 8.26652H0.133789V5.73318H13.5425L9.74245 1.93318L11.5338 0.141846Z" fill="#1D1929" />
+              </svg>
+            </button>
+          </a>
         </div>
         <div className="w-full text-left mt-4">
           <p className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575]">

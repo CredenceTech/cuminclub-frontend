@@ -13,6 +13,7 @@ import {
   selectCartResponse,
   setCartResponse,
 } from "../state/cartData";
+import { CartDataDrawer } from "./CartDataDrawer";
 import { getCartQuery, getCategoriesQuery, getMediaImageQuery, getProductCollectionsQuery, getRecipeListQuery, graphQLClient } from "../api/graphql";
 import { selectMealItems } from "../state/mealdata";
 import { useLocation } from "react-router-dom";
@@ -68,7 +69,7 @@ const Home = () => {
   const navigate = useNavigate();
   const { pathname } = location;
   const [categoryData, setCategoryData] = useState([]);
-
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [dragging, setDragging] = useState(false);
   const [lastMouseX, setLastMouseX] = useState(0);
@@ -1063,7 +1064,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 bg-[#610B15] z-50"
+            className="fixed inset-0 bg-[#EADEC1] z-50"
           >
             <motion.div
               initial={{ opacity: 0, y: -50 }}
@@ -1074,55 +1075,117 @@ const Home = () => {
             >
               <div className="flex w-full to-gray-300 justify-between items-center px-8 pt-3 h-24 font-custom-font">
                 <div>
-                  <svg
-                    width="130"
-                    height="55"
-                    viewBox="0 0 130 50"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xlinkHref="http://www.w3.org/1999/xlink"
-                  >
-                    <rect width="130" height="50" fill="url(#pattern0)" />
-                    <defs>
-                      <pattern
-                        id="pattern0"
-                        patternContentUnits="objectBoundingBox"
-                        width="1"
-                        height="1"
-                      >
-                        <use
-                          xlinkHref="#image0_1_1467"
-                          transform="scale(0.00598802 0.0147059)"
-                        />
-                      </pattern>
-                      <image
-                        id="image0_1_1467"
-                        width="167"
-                        height="68"
-                        xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKcAAABECAYAAADkxiXAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ4IDc5LjE2NDAzNiwgMjAxOS8wOC8xMy0wMTowNjo1NyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RkE1QjZGNjZEOTlEMTFFQUIzOTM5NjMyNDk0NThCRDMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RkE1QjZGNjVEOTlEMTFFQUIzOTM5NjMyNDk0NThCRDMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QjYyMEYwNDA3MTRCMTFFOUE1OTNFQjc0MUIzNEUwQTkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QjYyMEYwNDE3MTRCMTFFOUE1OTNFQjc0MUIzNEUwQTkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5J8dbAAAART0lEQVR42uxdCZgUxRWu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"
-                      />
-                    </defs>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="143" height="64" viewBox="0 0 143 64" fill="none">
+                    <path d="M2.57435 19.9025C1.96189 19.2901 1.72656 19.0077 1.72656 18.6308C1.72656 17.8769 2.52729 17.4059 5.49485 16.181C7.94439 15.0505 8.74542 14.8152 9.40495 14.8152C9.97004 14.8152 10.3469 15.2391 10.3469 16.2754C10.3469 17.3588 10.1586 19.0077 10.1586 23.577V27.1099C10.1586 28.7114 11.1008 29.3238 11.1008 30.2661C11.1008 31.2554 9.59321 31.7263 7.14367 31.7263H6.67271C4.1758 31.7263 2.66848 31.2554 2.66848 30.2661C2.66848 29.3238 3.65777 28.7114 3.65777 27.1099V24.8016C3.65777 21.1274 3.56364 20.9859 2.57435 19.9025Z" fill="#333333" />
+                    <path d="M13.5049 20.2323C12.8454 19.6672 12.5156 19.3845 12.5156 18.772C12.5156 18.0654 13.034 17.5471 15.4361 16.2281C17.933 14.8619 19.0165 14.438 19.9116 14.438C20.6653 14.438 20.995 14.8619 20.995 15.71C20.995 16.0398 20.948 16.4166 20.9006 16.9349C22.0785 15.663 23.6328 14.8152 25.4228 14.8152C28.4848 14.8152 29.0502 16.9817 29.4741 21.0801C29.7568 23.9067 30.0395 25.9794 30.2278 27.2985C30.4634 28.5231 30.8873 29.0885 31.7354 29.3238C32.3005 29.4653 32.3946 30.0775 31.9707 30.5017C31.3115 31.1139 29.7098 31.7263 27.8253 31.7263C24.8578 31.7263 23.8685 30.5017 23.7273 28.0522C23.5858 26.3092 23.4916 24.7545 23.3501 21.9752C23.256 18.9606 23.0677 17.7827 22.2197 17.7827C21.2304 17.7827 20.8065 19.9496 20.7594 22.7759V27.1099C20.7594 28.7114 21.7016 29.3238 21.7016 30.2661C21.7016 31.2554 20.2414 31.7263 17.7445 31.7263H17.3206C14.824 31.7263 13.3163 31.2554 13.3163 30.2661C13.3163 29.3238 14.2586 28.7114 14.2586 27.1099V24.7545C14.2586 21.787 14.2586 20.9389 13.5049 20.2323Z" fill="#333333" />
+                    <path d="M43.2736 21.504C47.8429 22.823 49.3506 24.3774 49.3506 26.8273C49.3506 30.2658 45.629 31.9617 40.8711 31.9617C37.0084 31.9617 34.135 31.1139 33.1457 28.7114C32.392 26.8273 33.5696 24.9899 35.7835 24.9899C37.4323 24.9899 38.7514 25.885 38.8455 27.6751C38.9399 29.3709 39.5521 30.0775 40.5414 30.0775C41.7192 30.0775 42.3314 29.1824 42.3314 27.8633C42.3314 26.5916 41.1538 25.3196 38.987 24.7546C36.0191 23.9535 33.5225 22.6348 33.5225 19.9496C33.5225 16.5578 37.4794 14.7678 42.0019 14.7678C45.3934 14.7678 47.7488 15.8512 48.5495 17.6883C49.3032 19.5728 48.1727 21.2687 46.0059 21.2687C44.357 21.2687 43.3681 20.515 42.9909 18.6776C42.7085 17.1703 42.6144 16.652 41.6248 16.652C40.6829 16.652 40.4943 17.453 40.4943 18.489C40.4943 19.6198 41.295 20.9389 43.2736 21.504Z" fill="#333333" />
+                    <path d="M59.9045 17.7827H58.0201V23.7652C58.0201 26.5916 58.2557 27.3455 59.245 27.3455C59.9986 27.3455 60.1872 26.9213 60.4696 26.5916C60.9879 26.0262 61.5533 26.2618 61.3177 27.157C60.7523 29.4179 59.4335 31.9619 56.1359 31.9619C53.121 31.9619 51.5195 29.7477 51.5195 25.2255V17.7827H51.0956C50.4832 17.7827 49.9648 17.2644 49.9648 16.6522C49.9648 15.9927 50.4358 15.5214 51.0483 15.4744H51.0956C53.6393 15.4744 54.7227 14.2968 55.4764 12.177C55.8532 11.0936 56.4657 10.5282 57.1723 10.5282C57.8789 10.5282 58.2086 11.0936 58.2086 11.9414C58.2086 13.4958 58.0674 14.438 58.0201 15.4744H59.9045C60.517 15.4744 61.0821 15.9927 61.0821 16.6522C61.0821 17.2644 60.517 17.7827 59.9045 17.7827Z" fill="#333333" />
+                    <path d="M71.7745 22.3991L71.1149 22.6818C69.5603 23.5299 68.9952 25.1784 68.9952 26.4975C68.9952 27.9107 69.5132 28.6643 70.5025 28.6643C71.4447 28.6643 72.4811 27.5809 72.0098 24.1421L71.7745 22.3991ZM76.6735 31.7263C74.0828 31.7263 73.1406 30.5958 72.8108 29.0411C71.7274 30.6429 69.9841 31.6793 67.6761 31.6793C64.52 31.6793 62.4473 30.1719 62.4473 27.7221C62.4473 25.4141 64.2843 23.7652 67.5349 22.5877C70.8793 21.3628 71.4447 20.8918 71.4447 20.0908C71.162 17.7827 70.9267 16.7934 70.2671 16.7934C69.7018 16.7934 69.4661 17.5942 69.1364 18.9132C68.7595 20.4679 67.7232 21.5513 65.839 21.4098C64.1431 21.3628 63.248 20.0908 63.5778 18.5364C64.1431 16.181 66.7339 14.8149 70.5025 14.8149C75.3074 14.8149 77.6155 16.8876 78.1809 20.9859C78.6051 23.9064 78.9816 27.1099 79.1231 27.7221C79.3116 28.8529 79.594 29.0882 80.4421 29.3709C81.0546 29.5121 81.1487 30.1246 80.6775 30.5485C80.1124 31.0668 78.6051 31.7263 76.6735 31.7263Z" fill="#333333" />
+                    <path d="M82.6573 20.2323C81.9977 19.6672 81.668 19.3845 81.668 18.772C81.668 18.0654 82.1863 17.5471 84.5885 16.2281C87.0854 14.8619 88.1688 14.438 89.064 14.438C89.8176 14.438 90.1474 14.8619 90.1474 15.71C90.1474 16.0398 90.1 16.4166 90.0529 16.9349C91.2305 15.663 92.7852 14.8152 94.5752 14.8152C97.6372 14.8152 98.2026 16.9817 98.6265 21.0801C98.9089 23.9067 99.1919 25.9794 99.3801 27.2985C99.6158 28.5231 100.04 29.0885 100.888 29.3238C101.453 29.4653 101.547 30.0775 101.123 30.5017C100.464 31.1139 98.8621 31.7263 96.9777 31.7263C94.0101 31.7263 93.0208 30.5017 92.8796 28.0522C92.7381 26.3092 92.644 24.7545 92.5025 21.9752C92.4084 18.9606 92.2201 17.7827 91.372 17.7827C90.3827 17.7827 89.9588 19.9496 89.9117 22.7759V27.1099C89.9117 28.7114 90.854 29.3238 90.854 30.2661C90.854 31.2554 89.3934 31.7263 86.8968 31.7263H86.4729C83.9763 31.7263 82.4687 31.2554 82.4687 30.2661C82.4687 29.3238 83.4109 28.7114 83.4109 27.1099V24.7545C83.4109 21.787 83.4109 20.9389 82.6573 20.2323Z" fill="#333333" />
+                    <path d="M110.92 17.7827H109.036V23.7652C109.036 26.5916 109.271 27.3455 110.261 27.3455C111.014 27.3455 111.203 26.9213 111.485 26.5916C112.004 26.0262 112.569 26.2618 112.333 27.157C111.768 29.4179 110.449 31.9619 107.152 31.9619C104.137 31.9619 102.535 29.7477 102.535 25.2255V17.7827H102.111C101.499 17.7827 100.98 17.2644 100.98 16.6522C100.98 15.9927 101.451 15.5214 102.064 15.4744H102.111C104.655 15.4744 105.738 14.2968 106.492 12.177C106.869 11.0936 107.481 10.5282 108.188 10.5282C108.894 10.5282 109.224 11.0936 109.224 11.9414C109.224 13.4958 109.083 14.438 109.036 15.4744H110.92C111.533 15.4744 112.098 15.9927 112.098 16.6522C112.098 17.2644 111.533 17.7827 110.92 17.7827Z" fill="#333333" />
+                    <path d="M113.935 12.0827C113.322 11.6117 112.945 11.329 112.945 10.7166C112.945 10.01 113.793 9.49165 116.243 8.1729C118.692 6.85385 119.776 6.47702 120.624 6.47702C121.425 6.47702 121.849 6.94798 121.849 7.70163C121.849 8.73799 121.472 10.01 121.472 15.5686V27.1097C121.472 28.7114 122.461 29.3239 122.461 30.2658C122.461 31.2551 121.001 31.7261 118.457 31.7261H118.033C115.489 31.7261 114.029 31.2551 114.029 30.2658C114.029 29.3239 115.018 28.7114 115.018 27.1097V16.6991C115.018 13.6374 114.877 12.8834 113.935 12.0827Z" fill="#333333" />
+                    <path d="M125.949 21.08C124.111 16.9817 122.887 17.2644 122.887 15.9927C122.887 15.0031 125.148 14.4851 127.739 14.4851H128.163C130.754 14.4851 132.496 14.9563 132.496 15.9453C132.496 16.8875 131.413 17.4056 131.978 18.8658C132.496 20.4205 133.768 24.095 134.663 26.1206C135.606 23.6711 136.171 21.6454 136.877 19.8084C137.678 17.8298 137.207 17.3585 136.359 16.9817C135.417 16.5578 135.134 16.181 135.134 15.8512C135.134 15.0031 136.077 14.5792 139.044 14.5792C142.154 14.5792 143.001 14.909 143.001 15.7097C143.001 16.3692 140.976 17.2644 140.269 18.9603C138.997 21.9752 138.526 24.0476 136.453 29.1352C134.098 34.9295 132.591 37.0022 128.916 37.0022C126.561 37.0022 124.441 36.1544 123.782 34.1288C123.264 32.5741 124.347 31.1138 126.043 31.1138C127.786 31.1138 128.634 32.1502 128.539 33.6575C128.398 34.8824 128.822 35.4004 129.576 35.4004C130.801 35.4004 131.601 33.8931 130.565 31.4436C129.435 28.8529 126.797 23.0586 125.949 21.08Z" fill="#333333" />
+                    <path d="M14.7431 45.5339C15.2814 44.3487 15.9279 43.1102 16.4666 41.8172C17.4364 39.6088 17.8133 38.5852 16.9515 37.9387C16.2513 37.5078 16.0357 36.9154 16.0357 36.592C16.0357 35.7303 17.1131 35.1916 20.5607 35.1916C23.9002 35.1916 24.6004 35.8381 24.6004 36.6461C24.6004 37.885 21.7455 38.3699 20.3988 41.117C18.6753 44.6721 17.4364 47.2577 16.6281 49.0353V56.8457C16.6281 58.6774 17.9211 60.3471 17.9211 61.4245C17.9211 62.5556 16.0357 63.0942 13.1808 63.0942H12.6424C9.78752 63.0942 7.90216 62.5556 7.90216 61.4245C7.90216 60.3471 9.19479 58.6774 9.19479 56.8457V50.3817C8.11744 47.7423 6.9326 45.2108 6.28613 43.8641C4.34703 39.7163 1.59961 38.2083 1.59961 36.9154C1.59961 35.7843 3.70056 35.1916 6.50142 35.1916H7.36348C10.3262 35.1916 12.5346 35.5687 12.5346 36.6998C12.5346 37.5619 11.8341 38.5852 12.2112 39.6088C12.5346 40.6321 13.5042 42.9483 14.7431 45.5339Z" fill="#333333" />
+                    <path d="M38.7668 48.2274C37.4742 41.6555 35.9119 37.508 33.865 37.8314C31.8181 38.1545 32.7339 47.1501 33.2188 50.005C34.2959 56.2535 36.3968 60.8319 38.3359 60.4551C40.0057 60.1854 40.0057 54.3681 38.7668 48.2274ZM48.3011 49.1432C48.3011 58.1385 43.2377 63.4175 36.0197 63.4175C28.8016 63.4175 23.7383 58.1385 23.7383 49.1432C23.7383 40.0936 28.8016 34.8687 36.0197 34.8687C43.2377 34.8687 48.3011 40.0936 48.3011 49.1432Z" fill="#333333" />
+                    <path d="M61.1201 63.3635C55.0331 63.3635 50.5625 60.7242 50.5625 52.3751V41.3863C50.5625 39.555 49.2695 37.8849 49.2695 36.8076C49.2695 35.6765 51.2086 35.1378 54.0098 35.1378H54.5485C57.4034 35.1378 59.2887 35.6765 59.2887 36.8076C59.2887 37.8849 57.9958 39.555 57.9958 41.3863V52.3751C57.9958 57.8155 59.181 59.9699 62.0896 59.9699C65.2139 59.9699 66.1834 57.0613 66.1834 52.3751V41.3863C66.1834 39.555 64.4599 37.8849 64.4599 36.8076C64.4599 35.6765 65.9678 35.1378 68.2844 35.1378H68.6612C70.9774 35.1378 72.5397 35.6765 72.5397 36.8076C72.5397 37.8849 70.8159 39.555 70.8159 41.3863V52.3751C70.8159 58.5158 68.2306 63.3635 61.1201 63.3635Z" fill="#333333" />
+                    <path d="M89.0227 44.1874C89.0227 41.4403 88.5918 38.4239 84.2827 38.4239C82.6664 38.4239 82.6664 38.9622 82.6664 41.3863V47.4732C82.6664 49.143 82.936 49.5739 84.4442 49.5739C87.9994 49.5739 89.0227 46.8808 89.0227 44.1874ZM96.6178 43.9719C96.6178 47.0961 95.1634 49.5201 92.3625 51.0284C93.3858 53.1831 94.086 54.9606 95.8636 57.0613C97.4796 59.0004 98.6647 59.2697 99.6343 59.6468C100.496 59.9702 101.089 60.4549 100.981 61.1013C100.873 62.1787 99.2034 63.0945 96.0254 63.0945C92.3085 63.0945 89.7229 61.8015 88.2146 59.216C85.6291 54.9606 86.2755 52.6981 84.1749 52.6981C83.0975 52.7522 82.6664 53.2368 82.6664 55.1759V56.846C82.6664 58.6773 83.9593 60.3471 83.9593 61.4244C83.9593 62.5558 82.0739 63.0945 79.219 63.0945H78.6804C75.8795 63.0945 73.9941 62.5558 73.9941 61.4244C73.9941 60.3471 75.233 58.6773 75.233 56.846V41.3863C75.233 39.555 73.9941 37.8852 73.9941 36.8079C73.9941 35.6768 75.8795 35.1381 78.6804 35.1381H83.9056C92.524 35.1381 96.6178 38.6392 96.6178 43.9719Z" fill="#333333" />
+                    <path d="M115.308 46.3958C122.203 48.2274 124.573 51.7285 124.573 55.1221C124.573 60.401 119.294 63.4175 112.346 63.4175C106.151 63.4175 102.65 60.9394 101.303 57.8155C100.064 54.6375 101.303 52.0516 104.158 51.8363C106.582 51.6748 108.144 52.7521 108.521 55.6067C108.898 58.3001 110.514 60.0779 113.154 60.0779C115.362 60.0779 117.248 58.5694 117.248 56.3072C117.248 54.5834 115.578 52.8599 109.76 51.2436C104.966 49.7894 102.488 47.3654 102.488 43.2716C102.488 38.0467 106.744 34.9224 113.262 34.9224C118.217 34.9224 121.234 37.1849 122.527 40.2014C123.765 43.3256 122.096 45.48 119.187 45.48C117.355 45.48 115.739 44.1333 115.093 41.494C114.608 39.2856 113.585 37.7773 112.238 37.7773C110.299 37.7773 109.491 39.3933 109.491 41.1709C109.491 43.0022 110.514 45.1569 115.308 46.3958Z" fill="#333333" />
+                    <path d="M6.5556 2.48221L8.84937 0.0612144C8.97204 -0.06814 9.18976 0.02174 9.1849 0.199983L9.09532 3.53405C9.09229 3.64549 9.18338 3.73659 9.29482 3.73385L12.6286 3.64397C12.8071 3.63912 12.8973 3.85683 12.7677 3.97951L10.3467 6.27327C10.2659 6.3501 10.2659 6.47885 10.3467 6.55567L12.7677 8.84974C12.8973 8.97241 12.8071 9.18983 12.6286 9.18527L9.29482 9.09539C9.18338 9.09236 9.09229 9.18345 9.09532 9.29489L9.1849 12.629C9.18976 12.8072 8.97204 12.8974 8.84937 12.768L6.5556 10.3467C6.47878 10.266 6.35003 10.266 6.27321 10.3467L3.97944 12.768C3.85676 12.8974 3.63905 12.8072 3.64391 12.629L3.73379 9.29489C3.73652 9.18345 3.64542 9.09236 3.53398 9.09539L0.199913 9.18527C0.021671 9.18983 -0.0682094 8.97241 0.0611452 8.84974L2.48184 6.55567C2.56291 6.47885 2.56291 6.3501 2.48184 6.27327L0.0611452 3.97951C-0.0682094 3.85683 0.021671 3.63912 0.199913 3.64397L3.53398 3.73385C3.64542 3.73659 3.73652 3.64549 3.73379 3.53405L3.64391 0.199983C3.63905 0.02174 3.85676 -0.06814 3.97944 0.0612144L6.27321 2.48221C6.35003 2.56298 6.47878 2.56298 6.5556 2.48221Z" fill="#333333" />
                   </svg>
+
                 </div>
                 <button onClick={() => setIsMenuOpen(false)}>
                   <svg
-                    width="36"
-                    height="36"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 36 36"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="m2 2 32 32M34 2 2 34"
-                      stroke="yellow"
-                      strokeWidth="1.5"
-                      strokeLinecap="square"
-                    ></path>
+                      d="M2 2L34 34M34 2L2 34"
+                      stroke="#231F20"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
                   </svg>
+
                 </button>
               </div>
-              <div className="grid grid-rows-6 justify-items-center place-items-center lg:grid-cols-2 text-2xl lg:text-3xl font-bold text-[#F7C144] gap-5 lg:gap-20 h-screen w-full ">
+              <NavigationMenu.Root className="NavigationMenuRoot lg:hidden flex ">
+                <NavigationMenu.List className="NavigationMenuList px-8">
+                  <NavigationMenu.Item className="">
+                    <NavigationMenu.Trigger
+                      onMouseEnter={() => setShowHeaderMain(true)}
+                      // onMouseLeave={() => setShowHeaderMain(false)}
+                      onClick={() => { setShowHeaderMain(true) }}
+                      className={`NavigationMenuTrigger text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 relative text-[#231F20] `}>
+                      OUR MENU
+                    </NavigationMenu.Trigger>
+                    <NavigationMenu.Content
+                      onMouseLeave={() => setShowHeaderMain(false)}
+                      className="NavigationMenuContent absolute left-0 top-10 bg-[#FAFAFAE5] z-[1000] w-[100vw] px-5 py-11 rounded-[4px]"
+                    >
+                      <div className={`grid grid-cols-${headerMenuData.length < 2 ? headerMenuData.length : 2} gap-4 w-full z-1000`}>
+                        {headerMenuData.map((menuItem, index) => (
+                          <div
+                            key={index}
+                            className="relative group cursor-pointer overflow-hidden"
+                            onClick={() => onMenuClick(index)}
+                          >
+                            <img
+                              src={menuItem.image}
+                              alt={menuItem.title}
+                              className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200"
+                            />
+                            <div
+                              className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
+                              style={{
+                                background:
+                                  "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
+                              }}
+                            >
+                              <span className="absolute top-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mt-[20px] ml-2">
+                                {menuItem.title}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </NavigationMenu.Content>
+                  </NavigationMenu.Item>
+                  <NavigationMenu.Item>
+                    <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-bold font-regola-pro leading-[21.6px] px-4 pb-4 whitespace-nowrap relative text-[#231F20]`}>
+                      LEARN
+                    </NavigationMenu.Trigger>
+                    <NavigationMenu.Content className="NavigationMenuContent absolute  top-12 bg-[#D9D9D9] z-[1000] w-auto h-auto rounded-[4px]">
+                      <div className="flex flex-col gap-4 w-full p-4 z-1000">
+                        {learnMenuData.map((menuItem, index) => (
+                          <div
+                            key={index}
+                            className="relative group cursor-pointer"
+                            onClick={() => onLearnClick(index)}
+                          >
+                            <span className=" text-[#333333] font-[400] whitespace-nowrap font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
+                              {menuItem.title}
+                            </span>
+
+                          </div>
+                        ))}
+                      </div>
+                    </NavigationMenu.Content>
+                  </NavigationMenu.Item>
+                  <NavigationMenu.Item>
+                    <NavigationMenu.Trigger onClick={() => { navigate('/recipe-list') }} className={`NavigationMenuTrigger text-[18px] font-bold font-regola-pro leading-[21.6px] whitespace-nowrap px-4  relative text-[#231F20]`}>
+                      RECIPES
+                    </NavigationMenu.Trigger>
+
+                  </NavigationMenu.Item>
+                </NavigationMenu.List>
+              </NavigationMenu.Root>
+              <div className="flex flex-col text-[18px] px-12 font-bold font-regola-pro leading-[21.6px]  pb-4 whitespace-nowrap relative text-[#231F20]">
                 {loginUserCustomerId === null ? (
-                  <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Link to="/login" className="py-5" onClick={() => setIsMenuOpen(false)}>
                     Login
                   </Link>
                 ) : null}
@@ -1132,7 +1195,7 @@ const Home = () => {
                   </Link>
                 ) : null}
                 {loginUserCustomerId !== null ? (
-                  <Link to="/Invoices" onClick={() => setIsMenuOpen(false)}>
+                  <Link to="/Invoices" className="py-5" onClick={() => setIsMenuOpen(false)}>
                     Invoices
                   </Link>
                 ) : null}
@@ -1143,6 +1206,7 @@ const Home = () => {
                 ) : null}
                 {loginUserCustomerId !== null ? (
                   <button
+                    className="py-5"
                     onClick={() => {
                       dispatch(clearCustomerAccessToken());
                       dispatch(clearCartData());
@@ -1157,7 +1221,7 @@ const Home = () => {
           </motion.div>
         )}
 
-        {isCartOpen && <CartDrawer />}
+{isDrawerOpen && <CartDataDrawer />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
           <div className="ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'

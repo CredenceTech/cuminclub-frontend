@@ -36,7 +36,7 @@ const AnnouncementBar = () => {
             </button>
 
             {/* Announcement Text */}
-            <div className="text-center text-[#FFFFFF] font-[500] leading-[21.6px] text-[18px] font-regola-pro">
+            <div className="text-center text-[#FFFFFF] font-[500] md:leading-[21.6px] leading-[16.6px] md:text-[18px] text-[14px] md:px-0 px-2 font-regola-pro">
                 {announcements[currentAnnouncement]}
             </div>
 

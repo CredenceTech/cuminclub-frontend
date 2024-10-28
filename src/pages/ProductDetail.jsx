@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle, getRelatedProducts } from '../api/graphql';
 import Rating from '../component/Rating';
 import middleImg from '../assets/middle1-image1.png'
+import AddFeedback from '../component/AddFeedback';
 import { wrap } from "popmotion";
 import ReactPlayer from 'react-player';
 import LoadingAnimation from '../component/Loader';
@@ -54,6 +55,15 @@ function ProductDetail() {
     const previousIndex = currentIndex === 0 ? steps?.length - 1 : currentIndex - 1;
     const [relatedProducts, setRelatedProducts] = useState(null)
     const { handle } = useParams();
+    const [isAddFeedbackOpen, setIsAddFeedbackOpen] = useState(false);
+
+    const openAddFeedback = () => {
+        setIsAddFeedbackOpen(true);
+    };
+
+    const closeAddFeedback = () => {
+        setIsAddFeedbackOpen(false);
+    };
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % steps?.length);
@@ -136,6 +146,13 @@ function ProductDetail() {
             return '';
         }
     };
+
+    const getRandomProducts = (filteredAdditionalProducts, remainingCount) => {
+        const shuffledProducts = filteredAdditionalProducts.sort(() => 0.5 - Math.random());
+        const additionalProducts = shuffledProducts.slice(0, remainingCount);
+        return additionalProducts;
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -175,11 +192,13 @@ function ProductDetail() {
                             const feedbackData = await fetchFeedbackQueyDetails(feedbackIds);
                             const parsedFeedback = await Promise.all(feedbackData?.map(async (feedback) => {
                                 const reviewerNameField = feedback.metaobject.fields.find(field => field.key === 'reviewer_name');
-                                const reviewField = feedback.metaobject.fields.find(field => field.key === 'review');
+                                const reviewField = feedback.metaobject.fields.find(field => field.key === 'feedback');
+                                const ratingField = feedback.metaobject.fields.find(field => field.key === 'rating');
                                 return {
                                     id: feedback?.metaobject?.id,
-                                    review: JSON.parse(reviewField?.value)?.children[0]?.children[0]?.value || '',
+                                    review: reviewField?.value,
                                     reviewerName: reviewerNameField?.value,
+                                    rating: ratingField?.value
                                 };
                             }));
                             setFeedbacks(parsedFeedback);
@@ -196,7 +215,7 @@ function ProductDetail() {
                             .map(product => ({
                                 node: product.node
                             }));
-                        const additionalProducts = filteredAdditionalProducts.slice(0, remainingCount)
+                        const additionalProducts = getRandomProducts(filteredAdditionalProducts, remainingCount)
                         currentRelatedProducts = [
                             ...currentRelatedProducts,
                             ...additionalProducts
@@ -223,6 +242,13 @@ function ProductDetail() {
         fetchData();
     }, [handle]);
 
+    const calculateAverageRating = (reviews) => {
+        const totalRating = reviews?.reduce((acc, review) => acc + parseInt(review?.rating), 0);
+        return (totalRating / reviews?.length).toFixed(2);
+    };
+
+    const averageRating = calculateAverageRating(feedbacks);
+
     const getMetafieldData = (key, list) => {
         let metaContent = "";
         if (list) {
@@ -233,6 +259,7 @@ function ProductDetail() {
         }
         return metaContent;
     };
+    console.log("first feednablk ", feedbacks)
 
     const categoryVariants = {
         open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
@@ -313,27 +340,27 @@ function ProductDetail() {
     };
 
     return (
-        <div className='bg-white'>
+        <div className='bg-white other-page'>
 
             {!loading ?
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
-                        <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center h-[650px]">
+                        <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center md:flex-row flex-col md:h-[650px] h-auto">
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-16' : 'pr-6'} h-[553px] w-[553px]`}>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-16' : 'pr-6 pl-6'} left-0 md:h-[553px] h-auto md:w-[553px] w-auto`}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[553px] w-[553px]' : 'h-[553px] w-auto'}`}
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'md:h-[553px] w-[553px]' : 'md:h-[553px] w-auto'} h-auto`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />
                             </div>
-                            <div className='flex h-full relative -left-10 flex-col gap-y-2'>
+                            <div className='flex md:h-full h-auto flex-col relative md:-left-10 left-0  gap-y-2'>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                <div ref={scrollContainerRef} className="flex flex-col overflow-x-auto h-[600px] scrollbar-hide">
+                                <div ref={scrollContainerRef} className="flex  md:flex-col flex-row overflow-x-auto md:h-[600px] h-auto scrollbar-hide">
                                     {productData?.images?.edges?.map((item, i) => (
-                                        <div key={i} className="flex-shrink-0 w-[130px] cursor-pointer h-[150px] p-2">
+                                        <div key={i} className="flex-shrink-0 md:w-[130px] w-[100px] cursor-pointer md:h-[150px] h-[100px] p-2">
                                             <img
                                                 onClick={() => { setHomeImage(item?.node?.src); setRotation(0); }}
                                                 src={item?.node?.src}
@@ -344,7 +371,7 @@ function ProductDetail() {
                                     ))}
                                 </div>
 
-                                <div className="flex flex-col gap-y-4 -right-[55px] absolute bottom-0 mt-4">
+                                <div className="flex md:flex-col flex-row md:justify-start justify-center gap-y-4 gap-3 -right-[55px] md:absolute unset bottom-0 mt-4">
                                     <button
                                         onClick={prevSlide}
                                         className="p-2 bg-[#1c1515ae] text-white rounded-full"
@@ -363,28 +390,27 @@ function ProductDetail() {
                                 </div>
                             </div>
                         </div>
-                        <div className="lg:flex-grow md:max-w-[645px] md:w-2/5 mt-14 lg:mr-20 2xl:mr-40 w-full mb-10 md:mb-0">
+                        <div className="lg:flex-grow md:max-w-[645px] md:w-2/5 md:mt-14 mt-7 lg:mr-20 2xl:mr-40 w-full mb-0 md:mb-0">
                             {/*  accordion sadasdasd */}
                             <div className='px-4 md:px-0'>
                                 <h1
                                     style={{
                                         color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}`
                                     }}
-                                    className={`sm:text-5xl font-skillet text-[52.87px] leading-[56.74px] font-[400]  `
+                                    className={`sm:text-5xl font-skillet md:text-[52.87px] text-[40px] md:leading-[56.74px] leading-[40px] font-[400] md:mb-0 mb-2 `
                                     } >
                                     {productData?.title}
                                 </h1>
                                 <div className='flex items-center'>
                                     <button type='button'
-                                        style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='font-[400] text-[14px] leading-[18.62px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
+                                        className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
                                     <div className="flex ml-4">
-                                        <Rating rating={4} text={"200 Reviews"} />
+                                        <Rating rating={averageRating} text={`${feedbacks?.length} Reviews`} />
                                     </div>
                                 </div>
-                                <p className='text-[24px] font-[500] font-regola-pro mt-3 pl-2 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
-                                <p className='text-[24px] font-[500] font-regola-pro mt-2 pl-2 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
-                                <p className="text-[22px] font-[400] font-regola-pro leading-[26px] mt-3 pl-2 text-[#757575]">
+                                <p className='md:text-[20px] text-[16px] font-[500] font-regola-pro mt-3 md:pl-2 pl-0 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
+                                <p className='md:text-[20px] text-[16px] font-[500] font-regola-pro md:mt-2 mt-1 md:pl-2 pl-0 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
+                                <p className="md:text-[20px] text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-3 mt-1 md:pl-2 pl-0 text-[#757575]">
                                     {productData?.description}
                                 </p>
 
@@ -392,7 +418,7 @@ function ProductDetail() {
                                     style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                     onClick={() => { window.open('https://wa.me/919510537693?text=Hello') }} className='w-[200px] ml-2 my-3 text-center font-[600] leading-[25px] font-regola-pro py-2 rounded text-[22px] text-[#FFFFFF]' type='button'>Send Enquiry</button>
                                 }
-                                <div className="accordion-container m-2  text-[#333333] pt-4">
+                                <div className="accordion-container md:m-2 ml-0 mr-0 mt-2 mb-2 text-[#333333] md:pt-4 pt-3">
                                     {accordianData.map((item, i) => (
                                         <div key={i} className="mb-2">
                                             <motion.button
@@ -405,7 +431,7 @@ function ProductDetail() {
                                                 }
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <span className="text-[22px] font-[400] leading-[23px] font-regola-pro text-[#393939]">{item.title}</span>
+                                                <span className="md:text-[22px] text-[16px] font-[400] md:leading-[23px] leading-[16px] font-regola-pro text-[#393939]">{item.title}</span>
                                                 <span>
                                                     <motion.svg width="14"
                                                         height="10"
@@ -432,7 +458,7 @@ function ProductDetail() {
                                                         {item.title === "Nutritional Facts" ? (
                                                             <div dangerouslySetInnerHTML={{ __html: item.description }} />
                                                         ) : (
-                                                            <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939]">{item.description}</p>
+                                                            <p className="md:pt-2 pt-0 md:text-[18px] text-[15px] font-[400] font-regola-pro text-[#393939]">{item.description}</p>
                                                         )}
 
                                                     </motion.div>
@@ -441,13 +467,13 @@ function ProductDetail() {
                                         </div>
                                     ))}
                                 </div>
-                                {!isBulk && <div className='flex pl-2 flex-row gap-x-5 pt-4'>
+                                {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className='px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro leading-[24.47px] rounded text-[22.8px]' type='button'>Add to Cart</button>
+                                        className='product-buttons px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button'>Add to Cart</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro leading-[24.47px] rounded text-[22.8px] text-[#FFFFFF]' type='button'>Subscribe</button>
+                                        className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Subscribe</button>
                                 </div>}
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                                     *Suitable for vegetarians, No dairy ingredients useds
@@ -459,21 +485,21 @@ function ProductDetail() {
                     <section>
                         <div
                             style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                            className=" grid grid-cols-10 pt-10">
-                            <div className="col-span-10 md:col-span-2 pl-[122px] text-[#FFFFFF]">
+                            className=" grid grid-cols-10 md:pt-10 pt-7">
+                            <div className="col-span-10 md:col-span-2 md:pl-[122px] pl-3 text-[#FFFFFF]">
                                 <div className='md:max-w-[157px]'>
-                                    <h2 className="text-[48px] font-skillet font-[400 leading-[52px] mb-4">Steps</h2>
-                                    <p className="text-[18px] font-[600] leading-[23px] font-regola-pro ">
+                                    <h2 className="md:text-[48px] text-[44px] font-skillet font-[400 md:leading-[52px] leading-[44px] md:mb-4 mb-2">Steps</h2>
+                                    <p className="md:text-[18px] text-[16px] font-[600] md:leading-[23px] leading-[16px] font-regola-pro">
                                         Perfect garnishes:
                                     </p>
-                                    <p className="text-[18px] font-[400] leading-[23px] font-regola-pro">
+                                    <p className="md:text-[18px] text-[16px] font-[400] md:leading-[23px] leading-[20px] md:mt-0 mt-2 font-regola-pro">
                                         Fresh coriander leaves A swirl of cream A small piece of butter
                                     </p>
                                 </div>
                             </div>
                             <div className="col-span-10 md:col-span-8 pl-3 pt-4 relative overflow-hidden">
                                 <div className="w-full mb-4  flex lg:mb-0 ">
-                                    <div className="w-[80vw] flex gap-x-5">
+                                    <div className="md:w-[80vw] w-[100vw] flex gap-x-5">
                                         <AnimatePresence initial={false} custom={direction}>
                                             <motion.div
                                                 key={page}
@@ -489,7 +515,7 @@ function ProductDetail() {
 
                                                 className={`w-5/6 ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
                                             >
-                                                <div className='relative h-[505px] bg-[#333333] rounded-[11.2px] '>
+                                                <div className='relative md:h-[505px] h-[200px] bg-[#333333] rounded-[11.2px] '>
                                                     {steps && <ReactPlayer
                                                         className="bg-cover"
                                                         url={steps[imageIndex]?.video}
@@ -521,7 +547,7 @@ function ProductDetail() {
                                                 <div className="flex ">
                                                     <h3
                                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#FFFFFF82'}` }}
-                                                        className="text-[104px] p-3 pr-8 font-[500] font-regola-pro leading-[125px] mb-4">{imageIndex + 1}</h3>
+                                                        className="md:text-[104px] text-[64px] md:p-3 p-2 md:mt-0 mt-4 md:pr-8 pr-4 font-[500] font-regola-pro md:leading-[125px] leading-[64px] mb-4">{imageIndex + 1}</h3>
                                                     {steps && <p className="text-[24px] font-[500] leading-[31px] font-regola-pro w-5/6 pt-8 text-[#FFFFFF]">{steps[imageIndex]?.description?.length > 140
                                                         ? `${steps[imageIndex].description.slice(0, 130)}...`
                                                         : steps[imageIndex].description}</p>}
@@ -536,7 +562,7 @@ function ProductDetail() {
                                             // transition={{ duration: 0.3 }}
                                             className='w-1/6 ml-10 relative'
                                         >
-                                            <div className="w-[430%] h-[505px] rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden">
+                                            <div className="w-[430%] md:h-[505px] h-[200px] rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden">
                                                 {steps && <ReactPlayer
                                                     className="bg-cover"
                                                     url={steps[nextImageIndex]?.video}
@@ -545,9 +571,9 @@ function ProductDetail() {
                                                     playing={false}
                                                 />}
                                             </div>
-                                            <div className='absolute bottom-20 right-0'>
+                                            <div className='absolute md:bottom-20 bottom-0 right-0'>
 
-                                                <div className='flex gap-3 pr-[60px] pt-[32px]'>
+                                                <div className='flex gap-3 md:pr-[60px] pr-[10px] pt-[32px]'>
                                                     {/* next button */}
                                                     <button type='button' onClick={() => { paginate(-1); setPlaying(true) }} className='text-lg h-[51px] w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
                                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -605,27 +631,43 @@ function ProductDetail() {
                             </div>
                         </div>
                     } */}
-                    {feedbacks && <div className="py-[90px] md:px-[51px]">
-                        <div className="">
-                            <div className="flex flex-col md:flex-row">
-                                <div className="w-full md:w-1/2 mb-10">
-                                    <h2 className="text-[36px] font-[400] leading-[37.34px] font-skillet text-[#333333]">
-                                        Your Health is Our Priority
-                                    </h2>
-                                    <p className="text-[28px] font-[400] leading-[29.04px] text-[#757575] font-skillet">
-                                        Don’t Believe Us, Believe Our Happy Customers
-                                    </p>
-                                </div>
-                                <div className="w-full md:w-1/2 flex justify-between items-start">
+                    <div className="py-[90px] md:px-[51px]">
+                        {isAddFeedbackOpen && (
+                            <AddFeedback
+                                productId={productData?.id}
+                                productName={productData?.title}
+                                onClose={closeAddFeedback}
+                            />
+                        )}
+                        <div className="flex flex-col md:flex-row">
+                            <div className="w-full md:w-1/2 mb-10">
+                                <h2 className="text-[36px] font-[400] leading-[37.34px] font-skillet text-[#333333]">
+                                    Your Health is Our Priority
+                                </h2>
+                                <p className="text-[28px] font-[400] leading-[29.04px] text-[#757575] font-skillet">
+                                    Don’t Believe Us, Believe Our Happy Customers
+                                </p>
+                            </div>
+                            {feedbacks &&
+                                <div className="w-full md:w-1/2 flex  flex-col lg:mr-[60px]">
                                     {/* Quotation Section */}
+                                    <div className='inline-flex justify-end  md:-mr-[40px]'>
+                                        <button
+                                            onClick={openAddFeedback}
+                                            className="mt-4 bg-[#EB7E01] text-[#333333] px-4 py-2 rounded"
+                                        >
+                                            Add Review
+                                        </button>
+                                    </div>
+
                                     <div>
-                                        <div className="flex flex-col lg:ml-20">
+                                        <div className="flex flex-col mt-[70px]">
                                             <div className="relative">
-                                                <svg width="58" height="44" viewBox="0 0 58 44" className="absolute -top-4 -left-9 w-[57.02px] h-[43.72px]" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg width="58" height="44" viewBox="0 0 58 44" className="absolute -top-10 md:-top-4  left-0 md:-left-9 w-[57.02px] h-[43.72px]" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="#B2B2B2" />
                                                 </svg>
-                                                {feedbacks && <p className="px-6 py-1 font-[400] md:text-[24px] font-inter leading-[29px] max-w-[515px] text-[#757575] ">{feedbacks[ActiveTestimonialIndex]?.review}</p>}
-                                                <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute -bottom-7 -right-10 w-[57.02px] h-[43.72px]" xmlns="http://www.w3.org/2000/svg">
+                                                {feedbacks && <p className="px-6 py-1 font-[400] md:text-[24px] font-inter leading-[29px]  text-[#757575] ">{feedbacks[ActiveTestimonialIndex]?.review}</p>}
+                                                <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute -bottom-7  right-0 md:-right-10 w-[57.02px] h-[43.72px]" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M57.0156 8.39233e-05V11.5058C57.0156 15.0001 56.3977 18.7075 55.1619 22.6279C53.8835 26.591 52.0511 30.4049 49.6648 34.0697C47.2358 37.7771 44.3168 40.9944 40.9077 43.7217L32.7259 37.074C35.4105 33.2387 37.7543 29.233 39.7571 25.0569C41.7173 20.9234 42.6974 16.4916 42.6974 11.7615V8.39233e-05H57.0156ZM24.2884 8.39233e-05V11.5058C24.2884 15.0001 23.6705 18.7075 22.4347 22.6279C21.1563 26.591 19.3239 30.4049 16.9375 34.0697C14.5085 37.7771 11.5895 40.9944 8.1804 43.7217L-0.00141907 37.074C2.68324 33.2387 5.02699 29.233 7.02982 25.0569C8.99005 20.9234 9.97017 16.4916 9.97017 11.7615V8.39233e-05H24.2884Z" fill="#B2B2B2" />
                                                 </svg>
                                             </div>
@@ -633,29 +675,29 @@ function ProductDetail() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+
+                        </div>
+                        {feedbacks &&
                             <div className='flex justify-end'>
                                 <div className='flex gap-3'>
-                                    {/* next button */}
                                     <button type='button' onClick={() => { paginateTestimonial(-1) }} className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="white" />
                                         </svg>
                                     </button>
-                                    {/* prev button */}
                                     <button type='button' onClick={() => { paginateTestimonial(1) }} className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="white" />
                                         </svg>
                                     </button>
                                 </div>
+                            </div>}
 
-                            </div>
-                        </div>
-                    </div>}
+                    </div>
                     {productData?.relatedProducts?.references?.edges &&
                         <>
-                            <div><p className='px-5 md:px-[51px] text-[36px] pt-10 leading-[37.34px] font-skillet'>You May Also Like</p></div>
+                            <div><p className='px-5 md:px-[51px] text-[36px] md:pt-10 pt-6 leading-[37.34px] font-skillet'>You May Also Like</p></div>
                             <div className='px-5 md:px-[51px] flex justify-between items-center py-14 '>
                                 <div className='flex flex-row justify-start gap-x-8 flex-wrap w-full '>
                                     {productData?.relatedProducts?.references?.edges?.map((item, i) => (
