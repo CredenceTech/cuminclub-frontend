@@ -253,6 +253,10 @@ const Header = () => {
     };
   }, []);
 
+  const closeCartDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
 
   return (
     <div ref={headerRef}>
@@ -444,7 +448,7 @@ const Header = () => {
         <div className="flex gap-x-8 flex-1 justify-end">
           <SearchQuery />
           <button
-            onMouseOver={() => setIsDrawerOpen(true)} 
+            onMouseOver={() => setIsDrawerOpen(true)}
             onClick={() => {
               navigate('/cardReview')
             }}
@@ -622,7 +626,7 @@ const Header = () => {
                   Register
                 </Link>
               ) : null}
-              {loginUserCustomerId !== null ? (
+              {/* {loginUserCustomerId !== null ? (
                 <Link to="/Invoices" className="py-5" onClick={() => setIsMenuOpen(false)}>
                   Invoices
                 </Link>
@@ -631,19 +635,13 @@ const Header = () => {
                 <Link to="/subscription" onClick={() => setIsMenuOpen(false)}>
                   Subscription
                 </Link>
-              ) : null}
-              {loginUserCustomerId !== null ? (
-                <div className="flex items-center space-x-3">
-                  <hr className="w-px h-6 bg-slate-200  border-none" />
-                  <UserMenu align="right" />
-                </div>
-              ) : null}
+              ) : null} */}
             </div>
           </motion.div>
         </motion.div>
       )}
 
-      {isDrawerOpen && <CartDataDrawer />}
+      {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
     </div>
   );
 };

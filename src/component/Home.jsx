@@ -703,6 +703,9 @@ const Home = () => {
       );
     }, 5000);
   };
+  const closeCartDrawer = () => {
+    setIsDrawerOpen(false);
+  };
 
   const headerMenuData = [
     {
@@ -805,7 +808,7 @@ const Home = () => {
         </button>
 
 
-        <div className={`flex ${showHeaderMain ? 'z-[1000]' : ''} w-full justify-between items-center relative pt-7`} >
+        <div className={`flex ${showHeaderMain ? '' : ''} w-full justify-between items-center relative pt-7`} >
           <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
             <NavigationMenu.Root className="NavigationMenuRoot">
               <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
@@ -986,7 +989,7 @@ const Home = () => {
           </div>
 
           <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
-            <div className="z-[2000]">
+            <div className="z-[2000]" >
               <SearchQuery />
             </div>
 
@@ -1017,6 +1020,7 @@ const Home = () => {
               )}
             </div> */}
             <button
+              onMouseOver={() => setIsDrawerOpen(true)}
               onClick={() => { navigate('/cardReview') }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
               }
@@ -1073,7 +1077,7 @@ const Home = () => {
               transition={{ duration: 0.5 }}
               className="h-screen"
             >
-              <div className="flex w-full to-gray-300 justify-between items-center px-8 pt-3 h-24 font-custom-font">
+              <div className="flex w-full to-gray-300 z-[2002] justify-between items-center px-8 pt-3 h-24 font-custom-font">
                 <div>
                   <svg xmlns="http://www.w3.org/2000/svg" width="143" height="64" viewBox="0 0 143 64" fill="none">
                     <path d="M2.57435 19.9025C1.96189 19.2901 1.72656 19.0077 1.72656 18.6308C1.72656 17.8769 2.52729 17.4059 5.49485 16.181C7.94439 15.0505 8.74542 14.8152 9.40495 14.8152C9.97004 14.8152 10.3469 15.2391 10.3469 16.2754C10.3469 17.3588 10.1586 19.0077 10.1586 23.577V27.1099C10.1586 28.7114 11.1008 29.3238 11.1008 30.2661C11.1008 31.2554 9.59321 31.7263 7.14367 31.7263H6.67271C4.1758 31.7263 2.66848 31.2554 2.66848 30.2661C2.66848 29.3238 3.65777 28.7114 3.65777 27.1099V24.8016C3.65777 21.1274 3.56364 20.9859 2.57435 19.9025Z" fill="#333333" />
@@ -1194,7 +1198,7 @@ const Home = () => {
                     Register
                   </Link>
                 ) : null}
-                {loginUserCustomerId !== null ? (
+                {/* {loginUserCustomerId !== null ? (
                   <Link to="/Invoices" className="py-5" onClick={() => setIsMenuOpen(false)}>
                     Invoices
                   </Link>
@@ -1203,8 +1207,8 @@ const Home = () => {
                   <Link to="/subscription" onClick={() => setIsMenuOpen(false)}>
                     Subscription
                   </Link>
-                ) : null}
-                {loginUserCustomerId !== null ? (
+                ) : null} */}
+                {/* {loginUserCustomerId !== null ? (
                   <button
                     className="py-5"
                     onClick={() => {
@@ -1215,13 +1219,12 @@ const Home = () => {
                   >
                     Logout
                   </button>
-                ) : null}
+                ) : null} */}
               </div>
             </motion.div>
           </motion.div>
         )}
-
-{isDrawerOpen && <CartDataDrawer />}
+        {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
         <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
           <div className="ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
