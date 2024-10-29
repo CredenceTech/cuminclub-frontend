@@ -448,9 +448,8 @@ const Header = () => {
         <div className="flex gap-x-8 flex-1 justify-end">
           <SearchQuery />
           <button
-            onMouseOver={() => setIsDrawerOpen(true)}
             onClick={() => {
-              navigate('/cardReview')
+              setIsDrawerOpen(true)
             }}
             className="flex relative items-center gap-2 py-2  text-white px-3 rounded-xl"
           >

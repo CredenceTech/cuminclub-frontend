@@ -1020,8 +1020,8 @@ const Home = () => {
               )}
             </div> */}
             <button
-              onMouseOver={() => setIsDrawerOpen(true)}
-              onClick={() => { navigate('/cardReview') }
+          
+              onClick={() => { setIsDrawerOpen(true) }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
               }
               className="flex relative items-center gap-2 py-2  text-white px-3 rounded-xl"

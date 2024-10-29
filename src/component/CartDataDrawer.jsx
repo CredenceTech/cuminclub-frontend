@@ -285,7 +285,7 @@ export const CartDataDrawer = ({ onClose }) => {
                                 </div>
                                 <p className='text-[#757575] text-[18px] font-[500] leading-[26.45px] text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
 
-                                <button type='button' className='rounded-lg font-skillet text-2xl lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4'>Checkout</button>
+                                <button type='button' className='rounded-lg font-skillet text-2xl lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4' onClick={() => { navigate('/cardReview') }}>Checkout</button>
 
                             </div>
                         </div>
