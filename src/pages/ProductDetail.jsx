@@ -56,6 +56,54 @@ function ProductDetail() {
     const [relatedProducts, setRelatedProducts] = useState(null)
     const { handle } = useParams();
     const [isAddFeedbackOpen, setIsAddFeedbackOpen] = useState(false);
+    const [deliveryPostcode, setDeliveryPostcode] = useState('');
+    const [etd, setEtd] = useState(null)
+
+    const pickupPostcode = '394421';
+
+    const fetchServiceability = async () => {
+        const url = `${import.meta.env.VITE_SHIP_ROCKET_API}/courier/serviceability/?pickup_postcode=${pickupPostcode}&delivery_postcode=${deliveryPostcode}&weight=1&cod=1`;
+        const token = import.meta.env.VITE_SHIP_ROCKET_API_TOKEN
+
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`,
+                },
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const estimated_date = new Date(data?.data.available_courier_companies[0].etd);
+            setEtd(estimated_date);
+        } catch (error) {
+            console.error("Error details:", error);
+            console.log("Something went wrong!!");
+        } finally {
+            console.log("");
+        }
+    };
+
+    const options = { weekday: 'long' };
+    const dayOfWeek = etd?.toLocaleDateString('en-US', options);
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDeliveryDate = etd?.toLocaleDateString('en-US', dateOptions);
+
+    const handleBlur = () => {
+        if (deliveryPostcode) {
+            fetchServiceability();
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter' && deliveryPostcode) {
+            fetchServiceability();
+        }
+    };
 
     const openAddFeedback = () => {
         setIsAddFeedbackOpen(true);
@@ -467,6 +515,41 @@ function ProductDetail() {
                                         </div>
                                     ))}
                                 </div>
+
+                                <div className='flex items-center ml-2 pt-4'>
+                                    <span className='font-regola-pro text-[#333333] font-[400] text-[20px] mr-2'>Check Delivery Date:</span>
+                                    <input
+                                        type="text"
+                                        className='text-[18px] font-regola-pro font-[400] text-[#333333] px-[10px] py-[7px]'
+                                        value={deliveryPostcode}
+                                        onChange={(e) => setDeliveryPostcode(e.target.value)}
+                                        placeholder="Pincode"
+                                        style={{
+                                            border: '1px solid #ccc',
+                                            marginRight: '10px',
+                                            flex: 1,
+                                            borderRadius: '4px',
+                                        }}
+                                        required
+                                    />
+                                    <button
+                                        className='text-[18px] font-regola-pro font-[400]'
+                                        onClick={() => { handleBlur() }}
+                                        style={{
+                                            padding: '8px 15px',
+                                            backgroundColor: '#FBAE36',
+                                            color: '#333333',
+                                            border: 'none',
+                                            borderRadius: '4px',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        Check
+                                    </button>
+                                </div>
+
+                                {etd && <div className='ml-2 pt-3'>Will delivered by {dayOfWeek}, {formattedDeliveryDate}</div>}
+
                                 {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}

@@ -141,6 +141,7 @@ const Facility = () => {
           </div>
 
           <div className="absolute bottom-4 right-10 flex items-center cursor-pointer">
+          <a href="https://g.co/kgs/bZfmdTz" target="_blank" rel="noopener noreferrer">
             <button className="flex items-center bg-[#94949491] rounded-[8px] px-4 py-2">
               <span className="text-[14px] md:text-[18px] font-regola-pro leading-[18px] md:leading-[21.6px] text-[#FAFAFA]">
                 Get Directions
@@ -149,6 +150,7 @@ const Facility = () => {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.4334 0.266113L14.6671 5.49985L9.4334 10.7336L8.06633 9.36652L10.9663 6.46652H0.733398V4.53319H10.9663L8.06633 1.63319L9.4334 0.266113Z" fill="#FAFAFA" />
               </svg>
             </button>
+            </a>
           </div>
 
           <div className="absolute inset-0 flex items-center justify-center">

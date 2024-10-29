@@ -527,7 +527,7 @@ const ReadyToEat = () => {
     <>
       {apiResponse ? (
         <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
-          <div className="border-b-2 border-b-[#cfc19f]">
+          {/* <div className="border-b-2 border-b-[#cfc19f]">
             <div className="flex flex-row justify-around pt-6">
               <div onClick={() => { dispatch(subscribeClose()); }} className="px-16 relative cursor-pointer ">
                 <p className="text-base font-regola-pro lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]" >BUY NOW </p>
@@ -542,7 +542,7 @@ const ReadyToEat = () => {
                 ) : null}
               </div>
             </div>
-          </div>
+          </div> */}
 
           {issubscribe ?
             <>

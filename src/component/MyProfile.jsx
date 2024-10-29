@@ -13,7 +13,7 @@ const MyProfile = () => {
                     alt="Profile"
                     className="w-24 h-24 rounded-full border-2 border-gray-800"
                 />
-                <h1 className="text-2xl font-bold text-gray-800">John Doe</h1>
+                <h1 className="text-2xl font-bold text-gray-800">{userEmail?.firstName} {userEmail?.lastName}</h1>
             </div>
 
             {/* Personal Information Section */}
