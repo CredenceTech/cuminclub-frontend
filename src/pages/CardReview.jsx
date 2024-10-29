@@ -533,7 +533,7 @@ const CardReview = () => {
                                                     {formikForWitoutLogin.touched.lastName && formikForWitoutLogin.errors.lastName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName}</label>)}
                                                 </div>
                                             </div>
-                                            <h2 className="text-[#333333] text-[28px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-4">Shipping Address</h2>
+                                            <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-4">Shipping Address</h2>
                                             <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                                 <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                     <input type="text" placeholder='First Name' name="firstName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
