@@ -516,11 +516,11 @@ function ProductDetail() {
                                     ))}
                                 </div>
 
-                                <div className='flex items-center ml-2 pt-4'>
-                                    <span className='font-regola-pro text-[#333333] font-[400] text-[20px] mr-2'>Check Delivery Date:</span>
+                                <div className='flex md:flex-row md:items-center flex-col ml-2 pt-4 '>
+                                    <span className='font-regola-pro text-[#333333] font-[400] mt-2 text-[20px] mr-2 md:mt-0'>Check Delivery Date:</span>
                                     <input
                                         type="text"
-                                        className='text-[18px] font-regola-pro font-[400] text-[#333333] px-[10px] py-[7px]'
+                                        className='text-[18px] font-regola-pro mt-2 font-[400] text-[#333333] px-[10px] py-[7px] md:mt-0'
                                         value={deliveryPostcode}
                                         onChange={(e) => setDeliveryPostcode(e.target.value)}
                                         placeholder="Pincode"
@@ -533,7 +533,7 @@ function ProductDetail() {
                                         required
                                     />
                                     <button
-                                        className='text-[18px] font-regola-pro font-[400]'
+                                        className='text-[18px] font-regola-pro mt-2 font-[400] md:mt-0'
                                         onClick={() => { handleBlur() }}
                                         style={{
                                             padding: '8px 15px',
