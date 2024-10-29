@@ -445,7 +445,7 @@ const CardReview = () => {
                             })}
 
                         </div>
-                        <div className='bg-[#EFE9DA]  w-full md:w-1/2'>
+                        <div className='bg-[#EFE9DA]  w-full md:w-1/2 mb-10'>
                             <div className='bg-[#EADEC1] p-8 rounded-2xl'>
                                 {/* <div className="flex flex-row justify-between">
                                     <p className="  font-skillet  lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">Subtotal</p>
@@ -471,10 +471,10 @@ const CardReview = () => {
 
                                 {isLogin && !isMoreAddress ?
                                     <>
-                                        <h2 className="text-[#333333] text-lg lg:text-2xl mb-2  mt-2font-medium title-font">Account Details</h2>
+                                        <h2 className="text-[#333333] text-[28px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-2 mt-5 ">Account Details</h2>
                                         <form onSubmit={formikForLogin.handleSubmit}>
                                             {userDetail?.customer?.addresses?.edges.map((address, i) => (
-                                                <div onClick={() => { setAddress(address?.node) }} className="flex w-full md:w-4/6 flex-row items-start mb-4" key={i}>
+                                                <div onClick={() => { setAddress(address?.node) }} className="flex w-full flex-row items-start my-4 " key={i}>
                                                     <input
                                                         type="radio"
                                                         id={`address${i + 1}`}
@@ -485,7 +485,7 @@ const CardReview = () => {
                                                         className="bg-[#EFE9DA] mt-2 rounded border outline-none mr-2"
                                                     />
                                                     <div className='pl-3'>
-                                                        <label htmlFor={`address${i + 1}`} className="  text-gray-600">
+                                                        <label htmlFor={`address${i + 1}`} className="text-[24px] font-regola-pro leading-[28.8px] font-[400] text-[#757575]">
                                                             {`${address?.node?.address1}   ${address?.node?.city} ${address?.node?.province}  ${address?.node?.country}  ${address?.node?.zip}`}
                                                         </label>
                                                     </div>
@@ -500,8 +500,8 @@ const CardReview = () => {
                                             <div className="relative flex flex-row items-start mb-2 ">
                                                 <input type="checkbox" id="consent" name="consent" onChange={formikForLogin.handleChange} value={formikForLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                                 <div className='pl-3'>
-                                                    <label htmlFor="consent" className="text-xs text-gray-600">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
-                                                    <p className="text-xs text-gray-500 mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
+                                                    <label htmlFor="consent" className="text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
+                                                    <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                                 </div>
                                             </div>
                                             {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)}
@@ -513,7 +513,7 @@ const CardReview = () => {
                                 }
                                 {!isLogin ?
                                     <>
-                                        <h2 className="text-[#333333] text-lg lg:text-2xl mb-2  mt-2font-medium title-font">Account Details</h2>
+                                        <h2 className="text-[#333333] text-[28px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] my-5">Account Details</h2>
                                         <form onSubmit={formikForWitoutLogin.handleSubmit}>
                                             <div className="relative flex flex-col mb-4">
                                                 <input type="text" placeholder='Email' name="email" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.email} className="w-full lg:w-[70%] bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]   py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
@@ -533,7 +533,7 @@ const CardReview = () => {
                                                     {formikForWitoutLogin.touched.lastName && formikForWitoutLogin.errors.lastName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName}</label>)}
                                                 </div>
                                             </div>
-                                            <h2 className="text-[#333333] text-lg lg:text-2xl mb-2 font-medium title-font">Shipping Address</h2>
+                                            <h2 className="text-[#333333] text-[28px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-4">Shipping Address</h2>
                                             <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                                 <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                     <input type="text" placeholder='First Name' name="firstName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
@@ -575,8 +575,8 @@ const CardReview = () => {
                                             <div className="relative flex flex-row items-start mb-2">
                                                 <input type="checkbox" id="consent" name="consent" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                                 <div className='pl-3'>
-                                                    <label htmlFor="consent" className="text-xs text-gray-600">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
-                                                    <p className="text-xs text-gray-500 mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
+                                                    <label htmlFor="consent" className=" text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
+                                                    <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                                 </div>
                                             </div>
                                             {formikForWitoutLogin.touched.consent && formikForWitoutLogin.errors.consent && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.consent}</label>)}
@@ -586,13 +586,13 @@ const CardReview = () => {
                                 }
                                 {isMoreAddress && isLogin ?
                                     <form onSubmit={formikForAddMoreAdd.handleSubmit}>
-                                        <div className="flex items-center mb-2">
+                                        <div className="flex items-center mt-4 mb-2">
                                             {userDetail?.customer?.addresses?.edges.length > 0 && <span title='Go back' className='mr-5 cursor-pointer' onClick={() => { setIsMoreAddress(false) }}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-6 h-6">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="mb-4 w-6 h-6">
                                                     <path fill="#333333" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
                                                 </svg>
                                             </span>}
-                                            <h2 className="text-[#333333] text-lg lg:text-2xl font-medium title-font mr-2">Shipping Address</h2>
+                                            <h2 className="text-[#333333] text-[28px] md:text-[36px] font-regola-pro leading-[43.2px] font-[500] mb-4 mr-2">Shipping Address</h2>
                                         </div>
                                         <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                             <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
@@ -635,8 +635,8 @@ const CardReview = () => {
                                         <div className="relative flex flex-row items-start mb-2">
                                             <input type="checkbox" id="consent" name="consent" onChange={formikForAddMoreAdd.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                             <div className='pl-3'>
-                                                <label htmlFor="consent" className="text-xs text-gray-600">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
-                                                <p className="text-xs text-gray-500 mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
+                                                <label htmlFor="consent" className="text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
+                                                <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                             </div>
                                         </div>
                                         {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)}
