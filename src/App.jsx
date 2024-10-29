@@ -34,6 +34,7 @@ import AnnouncementBar from "./component/AnnouncementBar";
 import { CancellationPolicy } from "./component/CancellationPolicy";
 import ForgotPassword from "./component/ForgotPassword";
 import MyProfile from "./component/MyProfile";
+import { Faqs } from "./component/Faqs";
 
 function App() {
   return (
@@ -76,6 +77,7 @@ function App() {
             <Route path="/cancellation-policy" element={<CancellationPolicy />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/faqs" element={<Faqs/>}/>
           </Routes>
         </div>
         <Footer />

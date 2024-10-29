@@ -114,14 +114,16 @@ const Facility = () => {
               All About Our Facilities!
             </span>
           </div>
-          <button className="flex items-center justify-between h-[50px] md:h-[65px] rounded-[4px] bg-[#EADEC1] px-4 md:px-6">
-            <span className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[20px] md:leading-[28.8px] text-left text-[#333333]">
-              Enquire for business
-            </span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 19 14" fill="none" className="ml-4">
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.5338 0.141846L18.3918 6.99985L11.5338 13.8579L9.74245 12.0665L13.5425 8.26652H0.133789V5.73318H13.5425L9.74245 1.93318L11.5338 0.141846Z" fill="#1D1929" />
-            </svg>
-          </button>
+          <a href="https://forms.gle/M5RJVRG8919hh6Fg8" target="_blank" rel="noopener noreferrer">
+            <button className="flex items-center justify-between h-[50px] md:h-[65px] rounded-[4px] bg-[#EADEC1] px-4 md:px-6">
+              <span className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[20px] md:leading-[28.8px] text-left text-[#333333]">
+                Enquire for business
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 19 14" fill="none" className="ml-4">
+                <path fillRule="evenodd" clipRule="evenodd" d="M11.5338 0.141846L18.3918 6.99985L11.5338 13.8579L9.74245 12.0665L13.5425 8.26652H0.133789V5.73318H13.5425L9.74245 1.93318L11.5338 0.141846Z" fill="#1D1929" />
+              </svg>
+            </button>
+          </a>
         </div>
         <div className="w-full text-left mt-4">
           <p className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[18px] md:leading-[28.8px] text-[#757575]">
@@ -139,6 +141,7 @@ const Facility = () => {
           </div>
 
           <div className="absolute bottom-4 right-10 flex items-center cursor-pointer">
+          <a href="https://g.co/kgs/bZfmdTz" target="_blank" rel="noopener noreferrer">
             <button className="flex items-center bg-[#94949491] rounded-[8px] px-4 py-2">
               <span className="text-[14px] md:text-[18px] font-regola-pro leading-[18px] md:leading-[21.6px] text-[#FAFAFA]">
                 Get Directions
@@ -147,6 +150,7 @@ const Facility = () => {
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M9.4334 0.266113L14.6671 5.49985L9.4334 10.7336L8.06633 9.36652L10.9663 6.46652H0.733398V4.53319H10.9663L8.06633 1.63319L9.4334 0.266113Z" fill="#FAFAFA" />
               </svg>
             </button>
+            </a>
           </div>
 
           <div className="absolute inset-0 flex items-center justify-center">

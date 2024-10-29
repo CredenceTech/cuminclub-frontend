@@ -5,6 +5,7 @@ import {
   getProductCollectionsQuery,
   getProductDetailQuery,
   graphQLClient,
+  graphQLClientAdmin,
   updateCartItemMutation,
   updateCartMutation,
 } from "../api/graphql";
@@ -34,6 +35,8 @@ import { categoryrData } from "../state/selectedCategory";
 import { isSubscribe, subscribeClose, subscribeOpen, } from "../state/subscribeData";
 import FrequencyDropDown from "../component/FrequencyDropDown";
 import ProductFliter from "../component/ProductFliter";
+import { draftOrderData, selectDraftOrderResponse, setDraftOrderResponse } from "../state/draftOrder";
+import { addDraftOrderData } from "../state/draftOrder";
 
 const ReadyToEat = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -60,6 +63,11 @@ const ReadyToEat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const issubscribe = useSelector(isSubscribe);
   const [transformedProducts, setTransformedProducts] = useState(null);
+  const draftOrderItem = useSelector(draftOrderData);
+  const draftOrderResponse = useSelector(selectDraftOrderResponse);
+
+  console.log(draftOrderResponse)
+
   useEffect(() => {
     const handleScroll = () => {
       for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -144,64 +152,64 @@ const ReadyToEat = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-        try {
-            const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
+      try {
+        const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
 
-            const result = await graphQLClient.request(getProductCollectionsQuery, {
-                first: 15,
-                reverse: false,
-                query: query, 
-            });
+        const result = await graphQLClient.request(getProductCollectionsQuery, {
+          first: 15,
+          reverse: false,
+          query: query,
+        });
 
-            const collections = result;
+        const collections = result;
 
-            const bundleIndex = collections.collections.edges.findIndex(
-                (item) => item.node.title === "Bundles"
-            );
+        const bundleIndex = collections.collections.edges.findIndex(
+          (item) => item.node.title === "Bundles"
+        );
 
-            if (bundleIndex !== -1) {
-                const bundleItem = collections.collections.edges.splice(
-                    bundleIndex,
-                    1
-                )[0];
-                collections.collections.edges.push(bundleItem);
-            }
-
-            const transformedProducts = collections.collections.edges.flatMap(category =>
-                category.node.products.edges
-                    .map(product => {
-                        const rte = product.node.metafields.find(mf => mf && mf.key === "rte");
-                        const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
-                        const shouldInclude = (rte?.value === "true") || (issubscribe && isPremium);
-                        if(rte?.value !== "true"){
-                          return null;
-                        }
-                        if (selectedCategory?.node?.title === "Premium") {
-                            return isPremium ? {
-                                ...product.node,
-                                superTitle: category.node.title,
-                            } : null; 
-                        } else if (shouldInclude) {
-                            return {
-                                ...product.node,
-                                superTitle: category.node.title,
-                            };
-                        }
-                        return null; 
-                    })
-                    .filter(product => product !== null)
-            );
-
-            setApiResponse(collections);
-            setRawResponse(collections);
-            setTransformedProducts(transformedProducts);
-        } catch (error) {
-            console.error("Error fetching data:", error);
+        if (bundleIndex !== -1) {
+          const bundleItem = collections.collections.edges.splice(
+            bundleIndex,
+            1
+          )[0];
+          collections.collections.edges.push(bundleItem);
         }
+
+        const transformedProducts = collections.collections.edges.flatMap(category =>
+          category.node.products.edges
+            .map(product => {
+              const rte = product.node.metafields.find(mf => mf && mf.key === "rte");
+              const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
+              const shouldInclude = (rte?.value === "true") || (issubscribe && isPremium);
+              if (rte?.value !== "true") {
+                return null;
+              }
+              if (selectedCategory?.node?.title === "Premium") {
+                return isPremium ? {
+                  ...product.node,
+                  superTitle: category.node.title,
+                } : null;
+              } else if (shouldInclude) {
+                return {
+                  ...product.node,
+                  superTitle: category.node.title,
+                };
+              }
+              return null;
+            })
+            .filter(product => product !== null)
+        );
+
+        setApiResponse(collections);
+        setRawResponse(collections);
+        setTransformedProducts(transformedProducts);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     apiCall();
-}, [selectedCategory, issubscribe]);
+  }, [selectedCategory, issubscribe]);
 
 
   const handleAddToCart = (productId, sellingPlanId) => {
@@ -248,31 +256,6 @@ const ReadyToEat = () => {
         });
       } else {
         updateCart(cartId, { merchandiseId: productId, quantity: 1 });
-      }
-    }
-  };
-
-  const handleRemoveFromCart = (productId, sellingPlanId) => {
-    setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
-    const productInCart = cartResponse.cart.lines.edges.find((cartItem) => {
-      return cartItem.node.merchandise.id === productId;
-    });
-
-    if (productInCart) {
-      const quantityInCart = productInCart.node.quantity;
-      const cartId = cartDatas?.cartCreate?.cart?.id;
-      const id = productInCart?.node?.id;
-      if (sellingPlanId) {
-        updateCartItem(productId, cartId, {
-          id: id,
-          sellingPlanId: sellingPlanId,
-          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-        });
-      } else {
-        updateCartItem(productId, cartId, {
-          id: id,
-          quantity: quantityInCart === 1 ? 0 : quantityInCart - 1,
-        });
       }
     }
   };
@@ -325,6 +308,93 @@ const ReadyToEat = () => {
       [cartItem.merchandiseId]: false,
     }));
   };
+
+
+  const handleAddToDraftOrder = (productId) => {
+
+    // Check if draftOrder is null to decide between create or update
+    if (draftOrderItem === null) {
+
+      addToDraftOrder({ variantId: productId, quantity: 1 });
+    } else {
+      let lineItemsArray = draftOrderResponse?.draftOrder?.lineItems?.edges.map((edge) => ({
+        variantId: edge.node.variant.id,
+        quantity: edge.node.quantity,
+      })) || [];
+      const productIndex = lineItemsArray.findIndex(item => item.variantId === productId);
+      const draftOrderId = draftOrderItem?.draftOrderCreate?.draftOrder?.id;
+
+      if (productIndex !== -1) {
+        lineItemsArray[productIndex].quantity += 1;
+        updateDraftOrder(draftOrderId, lineItemsArray);
+      } else {
+        lineItemsArray.push({ variantId: productId, quantity: 1 });
+        updateDraftOrder(draftOrderId, lineItemsArray);
+      }
+    }
+  };
+
+  const addToDraftOrder = async (draftOrderItems) => {
+    const params = {
+      lineItems: [draftOrderItems],
+    };
+
+    const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/create-draft-order`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+
+    const data = await response.json();
+
+    dispatch(addDraftOrderData(data?.data?.data));
+    dispatch(setDraftOrderResponse(data?.data?.data?.draftOrderCreate))
+  };
+
+
+  const handleRemoveToDraftOrder = (productId) => {
+    let lineItemsArray = draftOrderResponse?.draftOrder?.lineItems?.edges.map((edge) => ({
+      variantId: edge.node.variant.id,
+      quantity: edge.node.quantity,
+    })) || [];
+
+    const productIndex = lineItemsArray.findIndex(item => item.variantId === productId);
+    const draftOrderId = draftOrderItem?.draftOrderCreate?.draftOrder?.id;
+
+    if (productIndex !== -1) {
+      if (lineItemsArray[productIndex].quantity > 1) {
+        lineItemsArray[productIndex].quantity -= 1;
+      } else {
+        lineItemsArray.splice(productIndex, 1);
+      }
+    } else {
+      console.log("Product not found in the draft order.");
+    }
+    updateDraftOrder(draftOrderId, lineItemsArray);
+  }
+
+
+  const updateDraftOrder = async (draftOrderId, draftOrderItems) => {
+    const params = {
+      draftOrderId: draftOrderId,
+      lineItems: draftOrderItems
+    };
+    const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/update-draft-order`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    });
+    const data = await response.json();
+    dispatch(setDraftOrderResponse(data?.data?.data?.draftOrderUpdate))
+  };
+
 
   const getProductQuantityInCart = (productId) => {
     const productInCart = cartResponse?.cart?.lines?.edges?.find((cartItem) => {
@@ -457,7 +527,7 @@ const ReadyToEat = () => {
     <>
       {apiResponse ? (
         <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
-          <div className="border-b-2 border-b-[#cfc19f]">
+          {/* <div className="border-b-2 border-b-[#cfc19f]">
             <div className="flex flex-row justify-around pt-6">
               <div onClick={() => { dispatch(subscribeClose()); }} className="px-16 relative cursor-pointer ">
                 <p className="text-base font-regola-pro lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]" >BUY NOW </p>
@@ -472,7 +542,7 @@ const ReadyToEat = () => {
                 ) : null}
               </div>
             </div>
-          </div>
+          </div> */}
 
           {issubscribe ?
             <>
@@ -754,7 +824,7 @@ const ReadyToEat = () => {
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div className=""><ProductFliter /></div>
             <div className="p-[60px]">
-          
+
               <AnimatePresence mode="wait">
                 <motion.div
                   initial={{ y: 100, x: -100, opacity: 0 }}
@@ -825,7 +895,7 @@ const ReadyToEat = () => {
                                       type="button"
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
+                                        handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
                                       }}
                                       className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                     >
@@ -894,7 +964,7 @@ const ReadyToEat = () => {
                                         type="button"
                                         onClick={(e) => {
                                           e.stopPropagation();
-                                          handleAddToCart(product.variants.edges[0].node.id); // Different function for Add to Box
+                                          handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
                                         }}
                                         className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                       >
@@ -955,61 +1025,37 @@ const ReadyToEat = () => {
             <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-full md:w-[500px] bg-[#EADEC1] gap-2 h-full relative top-[100px] }`}>
               <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your monthly box</h1>
               <div className="p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
-                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
-                  </div>
-                </div>
-                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
-                  </div>
-                </div>
-                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
-                  </div>
-                </div>
-                <div className='flex  items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
-                  </div>
-                </div>
-                <div className='flex  items-end justify-between pb-2 pt-1'>
-                  <div className='flex flex-row '>
-                    <img src={productImage} alt="" className='h-[58px] w-[58px] rounded-lg' />
-                    <div className='ml-4'>
-                      <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333] '>Pav Bhaji</h1>
-                    </div>
-                  </div>
-                  <div>
-                    <button type='button' className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg '>Remove</button>
-                  </div>
-                </div>
+                {draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item, index) => {
+                  const productId = item?.node?.variant?.id; 
+                  const quantity = item?.node?.quantity || 0;
+                  const title = item?.node?.variant?.product?.title || "Product Title";
+                  const imageUrl = item?.node?.variant?.product?.metafields?.edges?.find(edge => edge.node.key === "image_for_home")
+                    ?.node?.reference?.image?.originalSrc || '';
+
+                  return (
+                    Array.from({ length: quantity }).map((_, i) => (
+                      <div key={`${index}-${i}`} className='flex items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
+                        <div className='flex flex-row'>
+                          <img src={imageUrl} alt={title} className='h-[58px] w-[58px] rounded-lg' />
+                          <div className='ml-4'>
+                            <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333]'>
+                              {title}
+                            </h1>
+                          </div>
+                        </div>
+                        <div>
+                          <button
+                            type='button'
+                            className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg'
+                            onClick={() => handleRemoveToDraftOrder(productId)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  );
+                })}
               </div>
               <div className="fixed bottom-0 bg-[#EADEC1]  px-[40px] py-8 shadow-[0px_-3px_5px_#0000002E] w-full md:w-[500px] z-[500] ">
                 <div className="flex justify-between">

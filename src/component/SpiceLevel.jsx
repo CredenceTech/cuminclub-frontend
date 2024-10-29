@@ -3,46 +3,54 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMealItems } from '../state/mealdata';
 import { cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 import { getCartQuery, graphQLClient } from '../api/graphql';
-import { totalQuantity } from '../utils';
+import { totalQuantity, totalQuantityInDraftOrder } from '../utils';
+import {draftOrderData, selectDraftOrderResponse, setDraftOrderResponse} from '../state/draftOrder';
 
 const SpiceLevel = () => {
     const dispatch = useDispatch();
     const selectedMealData = useSelector(selectMealItems);
     const cartDatas = useSelector(cartData);
     const cartResponse = useSelector(selectCartResponse);
+    const draftOrderDatas = useSelector(draftOrderData);
+    const draftOrderResponse=useSelector(selectDraftOrderResponse)
 
     const [images, setImages] = useState([]);
 
-    useEffect(() => {
-        if (cartDatas !== null) {
-            getCartData();
-        }
-    }, [cartDatas]);
+    // useEffect(() => {
+    //     if (cartDatas !== null) {
+    //         getCartData();
+    //     }
+    // }, [cartDatas]);
 
-    const getCartData = async () => {
-        const params = {
-            cartId: cartDatas?.cartCreate?.cart?.id,
-        };
-        const response = await graphQLClient.request(getCartQuery, params);
-        dispatch(setCartResponse(response));
-    };
+    // const getCartData = async () => {
+    //     const params = {
+    //         cartId: cartDatas?.cartCreate?.cart?.id,
+    //     };
+    //     const response = await graphQLClient.request(getCartQuery, params);
+    //     dispatch(setCartResponse(response));
+    // };
 
-    const total = cartDatas !== null ? totalQuantity(cartResponse) : 0;
+    const total = draftOrderDatas !== null ? totalQuantityInDraftOrder(draftOrderResponse) : 0;
 
     const filledStars = Math.min(Math.max(0, Math.round(total)), selectedMealData?.no);
     const emptyStars = Math.max(0, +selectedMealData?.no - filledStars);
 
     useEffect(() => {
+        console.log(draftOrderResponse)
         handleAddImage();
-    }, [cartResponse]);
+    }, [draftOrderResponse]);
 
     const handleAddImage = () => {
         const newImages = [];
-        if (cartDatas) {
-            cartResponse?.cart?.lines?.edges?.forEach((item) => {
+        console.log(draftOrderDatas);
+        if (draftOrderDatas) {
+            console.log(draftOrderResponse);
+            draftOrderResponse?.draftOrder?.lineItems?.edges?.forEach((item) => {
                 if (item && item?.node?.quantity) {
                     for (let index = 0; index < item?.node?.quantity; index++) {
-                        const imageUrl = item?.node?.merchandise?.product?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc;
+                        const imageUrl = item?.node?.variant?.product?.metafields?.edges?.find(edge => edge.node.key === "image_for_home")
+                        ?.node?.reference?.image?.originalSrc;
+                        console.log(imageUrl);
                         if (imageUrl) {
                             newImages.push(imageUrl);
                         }
@@ -54,6 +62,8 @@ const SpiceLevel = () => {
     };
 
     const starElements = [];
+
+    console.log(images)
 
     for (let i = 0; i < filledStars; i++) {
         starElements.push(
