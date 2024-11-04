@@ -245,7 +245,7 @@ function Login() {
     }
   };
 
-  const clientId="652594248974-3kg10e0k3et9lqmhmtbj4bj9icikfnud.apps.googleusercontent.com"
+  const clientId=import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   return (
     <GoogleOAuthProvider clientId={clientId}>

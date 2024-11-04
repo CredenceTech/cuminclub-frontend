@@ -541,11 +541,12 @@ export const Product = () => {
                                                 animate={{ y: 0, x: 0, opacity: 1 }}
                                                 exit={{ y: -500, x: 500, opacity: 0 }}
                                                 transition={{ duration: 0.4 }}
+                                                className="h-full"
                                             >
                                                 <img
                                                     src={productSmallImage}
                                                     alt={product.title}
-                                                    className="w-full h-[250px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                                    className="w-full h-[300px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                                                 />
                                                 <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                                     <div className="p-5">
@@ -558,10 +559,10 @@ export const Product = () => {
                                                     </div>
                                                     <div className="px-3 md:pl-8 pb-6 pt-[120px] bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                                         <div className="flex flex-row justify-between items-center mb-5">
-                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
+                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase max-w-[80%]">
                                                                 {product.title}
                                                             </p>
-                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
+                                                            <p className="font-skillet font-[400] text-[#FAFAFA]  text-[24px] md:text-[36px] leading-[28.65px] uppercase">
                                                                 ₹ {Math.floor(productPrice)}
                                                             </p>
                                                         </div>

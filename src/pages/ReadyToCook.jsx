@@ -656,11 +656,12 @@ function ReadyToCook() {
                                                 animate={{ y: 0, x: 0, opacity: 1 }}
                                                 exit={{ y: -500, x: 500, opacity: 0 }}
                                                 transition={{ duration: 0.4 }}
+                                                className="h-full"
                                             >
                                                 <img
                                                     src={productSmallImage}
                                                     alt={product.title}
-                                                    className="w-full h-[250px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                                    className="w-full h-[300px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                                                 />
                                                 <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                                     <div className="p-5">
