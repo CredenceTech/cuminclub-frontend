@@ -70,7 +70,7 @@ export const Footer = () => {
               <a href="https://forms.gle/M5RJVRG8919hh6Fg8" target="_blank" rel="noopener noreferrer">
                 <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
               </a>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] ">FAQs</p>
+              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333]" onClick={() => { navigate('/faqs') }}>FAQs</p>
               <a href="https://www.linkedin.com/company/instantly-yours-inc/jobs/" target="_blank" rel="noopener noreferrer">
               <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Careers</p>
              </a>
