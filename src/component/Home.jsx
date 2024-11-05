@@ -745,9 +745,27 @@ const Home = () => {
     // }
   ]
 
+  const [isSticky, setIsSticky] = useState(false);
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (headerRef.current) {
+        const headerTop = headerRef.current.getBoundingClientRect().top;
+        setIsSticky(headerTop <= 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-[100px]' : ' z-[100]'} bg-[#EFE9DA]`}>
-      <div className="w-full relative home-page-background-img">
+      <div ref={headerRef} className="w-full relative home-page-background-img">
         {bannerData.map((data, index) => (
           <img
             key={index}
@@ -808,7 +826,7 @@ const Home = () => {
         </button>
 
 
-        <div className={`flex ${showHeaderMain ? '' : ''} w-full justify-between items-center relative pt-7`} >
+        <div className={`flex ${showHeaderMain ? '' : ''} ${isSticky ? 'fixed top-0 ' : ''} z-[201] w-full justify-between bg-[#333333] items-center py-4`} >
           <div className=" my-6 text-[18px] font-[600] flex-1 font-regola-pro z-50">
             <NavigationMenu.Root className="NavigationMenuRoot">
               <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
@@ -1021,7 +1039,7 @@ const Home = () => {
               )}
             </div> */}
             <button
-          
+
               onClick={() => { setIsDrawerOpen(true) }
                 // cartDatas !== null ? () => dispatch(openCart()) : undefined
               }
