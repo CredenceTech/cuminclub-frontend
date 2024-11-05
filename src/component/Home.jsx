@@ -989,9 +989,10 @@ const Home = () => {
           </div>
 
           <div className="flex gap-x-8 flex-1 justify-end mr-6 z-10">
-            <div className="z-[2000]" >
+           <div className="z-[9999] ">
               <SearchQuery />
-            </div>
+              </div>
+        
 
             {/* <div className="relative flex justify-center items-center">
               <button onClick={toggleSearch} className="focus:outline-none">
@@ -1225,7 +1226,7 @@ const Home = () => {
           </motion.div>
         )}
         {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
-        <div className="relative w-full px-4 md:px-8 z-10 mt-5" >
+        <div className="relative w-full px-4 md:px-8 z-10 mt-5 md:w-[50%]" >
           <div className="ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'

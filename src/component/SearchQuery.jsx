@@ -105,19 +105,19 @@ const SearchQuery = () => {
             </button>
 
             {searchOpen && (
-                <div ref={modalRef} className="absolute top-0 right-0 w-[450px] h-auto  bg-[#FAFAFAE5] z-50 p-8 flex flex-col">
+                <div ref={modalRef} className="absolute top-0 right-0 w-[450px]  h-auto  bg-[#FAFAFAE5] p-8 flex flex-col">
                     <div className="flex justify-between items-center">
                         <input
                             type="text"
-                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none  bg-[#FAFAFAE5]"
+                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none  bg-[#FAFAFAE5] font-regola-pro"
                             placeholder="Search..."
                             value={keyword}
                             onChange={handleSearchChange}
                         />
-                        <button onClick={clearQuery} className="ml-4 text-gray-700 focus:outline-none">
+                        <button onClick={clearQuery} className="ml-4 text-gray-700 focus:outline-none font-regola-pro">
                             Clear
                         </button>
-                        <button onClick={toggleSearch} className="ml-4 focus:outline-none">
+                        <button onClick={toggleSearch} className="ml-4 focus:outline-none font-regola-pro">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#333">
                                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
                             </svg>
@@ -131,11 +131,11 @@ const SearchQuery = () => {
                                     <div key={product?.id} onClick={() => { navigate(product?.nagivatiLink); setSearchOpen(false) }} className="flex items-center gap-4 cursor-pointer">
                                         <img src={product?.image} alt={''} className="w-16 h-16 rounded" />
                                         <div>
-                                            <p className="font-medium text-lg">{product?.title}</p>
-                                            {product?.price && <p className="text-sm text-gray-500">Rs. {product?.price}
+                                            <p className="font-medium text-lg font-regola-pro">{product?.title}</p>
+                                            {product?.price && <p className="text-sm text-gray-500 font-regola-pro">Rs. {product?.price}
                                                 {/* <span className="line-through">Rs. {product?.price}</span> */}
                                             </p>}
-                                            {!product?.price && <p className="text-sm text-[#2828e6]">{product?.collectionName}
+                                            {!product?.price && <p className="text-sm text-[#2828e6] font-regola-pro">{product?.collectionName}
                                                 {/* <span className="line-through">Rs. {product?.price}</span> */}
                                             </p>}
                                         </div>

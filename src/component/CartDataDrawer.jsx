@@ -205,28 +205,28 @@ export const CartDataDrawer = ({ onClose }) => {
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
                     transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                    className="fixed top-0 right-0 w-full shadow-md z-50"
+                    className="fixed top-0 right-0 w-full z-50"
                     style={{
-                        background: "rgba(255, 255, 255, 0.2)",
-                        height: "100%",
+                        // background: "rgba(255, 255, 255, 0.2)",
+                        height: "88%",
                     }}
                 >
                     <div id="cart-modal">
-                        <div className="relative">
+                        <div className="relative ">
                             <div
-                                className="lg:w-[35%] w-full overflow-y-auto"
+                                className="lg:w-[35%] w-full overflow-y-auto custom-scrollbar"
                                 style={{
-                                    background: "#EADEC1",
+                                    background: "#EFE9DA",
                                     backdropFilter: "blur(2px)",
                                     position: "fixed",
                                     right: "0",
-                                    height: "70%",
+                                    height: "65%",
                                 }}
                             >
-                                <div className="h-20 flex sticky top-0 flex-col justify-around  w-full">
+                                <div className="h-20 flex top-0 sticky bg-[#EFE9DA] flex-col justify-around  w-full">
                                     <div className="flex justify-between w-full  items-center ">
                                         <div className="flex gap-3 ml-2 justify-between items-center">
-                                            <h1 className="text-[54px] font-[400] leading-[54.49px] font-skillet p-[40px] pt-[20px] pb-0">Review your Cart</h1>
+                                            <h1 className="md:text-[54px] text-[30px] font-[400] md:leading-[54.49px] leading-[20px] font-skillet p-[40px] pt-[20px] pb-0">Review your Cart</h1>
                                             <button onClick={onClose} className=" relative -right-10 text-gray-500 pt-[20px] hover:text-gray-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" height="36" width="36" viewBox="0 0 384 512"><path fill="#000000" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg>
                                             </button>
@@ -245,9 +245,9 @@ export const CartDataDrawer = ({ onClose }) => {
                                                     line?.node?.merchandise?.product
                                                         ?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc
                                                 }
-                                                    alt={line?.node?.merchandise?.product?.title} className='h-[75px] w-[75px] rounded-lg' />
+                                                    alt={line?.node?.merchandise?.product?.title} className='md:h-[75px] md:w-[75px] h-[50px] w-[50px] rounded-lg' />
                                                 <div className='ml-4'>
-                                                    <h1 className='text-xl md:text-[30px] leading-[30px] font-[400] font-skillet text-[#333333] '>{line?.node?.merchandise?.product?.title}</h1>
+                                                    <h1 className='text-xl md:text-[30px] md:leading-[30px] leading-4 font-[400] font-skillet text-[#333333] '>{line?.node?.merchandise?.product?.title}</h1>
                                                     <p className='font-skillet text-[#757575] text-[24px] leading-[24.18px] font-[400]'><span className='text-[18px] leading-[20.1px] '>₹</span> {line?.node?.merchandise?.priceV2?.amount}</p>
                                                 </div>
                                             </div>
@@ -256,7 +256,7 @@ export const CartDataDrawer = ({ onClose }) => {
                                                     handleRemoveFromCart(
                                                         line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
                                                     )
-                                                } type='button' className='text-[#F15E2A] ml-2 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]'>Remove</button>
+                                                } type='button' className='text-[#F15E2A] ml-2 font-regola-pro font-[500] md:text-xl text-[18px] border-b border-b-[#F15E2A]'>Remove</button>
                                             </div>
                                         </div>
                                     })}
@@ -268,14 +268,14 @@ export const CartDataDrawer = ({ onClose }) => {
                         </div>
 
                         <div
-                            className="lg:w-[35%] w-full  py-5"
+                            className="lg:w-[35%] w-full  md:py-5 py-1"
                             style={{
-                                background: "#EADEC1",
+                                background: "#EFE9DA",
                                 backdropFilter: "blur(2px)",
                                 position: "fixed",
                                 bottom: "0",
                                 right: "0",
-                                height: "30%",
+                                height: "35%",
                             }}
                         >
                             <div className="p-[40px]">
@@ -283,9 +283,13 @@ export const CartDataDrawer = ({ onClose }) => {
                                     <p className="text-lg font-skillet  lg:text-[30.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                     <p className="text-xl text-[#279C66] font-skillet lg:text-[32px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[33px] font-[400] leading-[32px]'>{cartResponse?.cart?.estimatedCost?.totalAmount?.amount}</span></p>
                                 </div>
-                                <p className='text-[#757575] text-[18px] font-[500] leading-[26.45px] text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
+                                <p className='text-[#757575] md:text-[18px] font-[500] md:leading-[26.45px] text-[14px] leading-3 text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
 
-                                <button type='button' className='rounded-lg font-skillet text-2xl lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4' onClick={() => { navigate('/cardReview') }}>Checkout</button>
+                                <button type='button' className='rounded-lg font-skillet text-2xl lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4' onClick={() => {
+                                    navigate('/cardReview');
+                                    onClose(); 
+                                }}
+                                >Checkout</button>
 
                             </div>
                         </div>
