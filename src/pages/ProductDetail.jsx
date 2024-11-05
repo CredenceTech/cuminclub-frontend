@@ -204,15 +204,24 @@ function ProductDetail() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
+            setProductData(null); 
+            setFeedbacks(null); 
+            setSteps(null)
             try {
                 const getProductDetail = async () => {
                     const response = await graphQLClient.request(getProductDetailByHandle, {
                         handle: handle
                     });
-                    setProductData(response?.product)
-                    setHomeImage(response?.product?.metafields?.find(field => field?.key === 'image_for_home'))
+    
+                    setProductData(response?.product);
+    
+                    const homeImage = response?.product?.metafields?.find(field => field?.key === 'image_for_home');
+                    setHomeImage(homeImage);
+    
                     const stepsField = response?.product?.metafields?.find(field => field?.key === 'add_product_steps');
                     const feedbackField = response?.product?.metafields?.find(field => field?.key === 'add_feedbacks');
+    
+                    // Fetch steps
                     if (stepsField && stepsField.value) {
                         const stepIds = JSON.parse(stepsField.value);
                         if (Array.isArray(stepIds) && stepIds.length > 0) {
@@ -221,19 +230,21 @@ function ProductDetail() {
                                 const descriptionField = step.metaobject.fields.find(field => field.key === 'description');
                                 const videoField = step.metaobject.fields.find(field => field.key === 'video');
                                 const refField = step.metaobject.fields.find(field => field.key === 'name');
-                                const time = step.metaobject.fields.find(field => field.key === 'time');
-
+                                const timeField = step.metaobject.fields.find(field => field.key === 'time');
+    
                                 return {
                                     id: step?.metaobject?.id,
                                     description: JSON.parse(descriptionField?.value)?.children[0]?.children[0]?.value || '',
                                     video: videoField?.reference?.sources[0]?.url,
                                     ref: refField ? refField.value : '',
-                                    time: time ? time?.value : ''
+                                    time: timeField ? timeField.value : ''
                                 };
                             }));
                             setSteps(parsedSteps);
                         }
                     }
+    
+                    // Fetch feedbacks
                     if (feedbackField && feedbackField.value) {
                         const feedbackIds = JSON.parse(feedbackField.value);
                         if (Array.isArray(feedbackIds) && feedbackIds.length > 0) {
@@ -242,6 +253,7 @@ function ProductDetail() {
                                 const reviewerNameField = feedback.metaobject.fields.find(field => field.key === 'reviewer_name');
                                 const reviewField = feedback.metaobject.fields.find(field => field.key === 'feedback');
                                 const ratingField = feedback.metaobject.fields.find(field => field.key === 'rating');
+    
                                 return {
                                     id: feedback?.metaobject?.id,
                                     review: reviewField?.value,
@@ -252,51 +264,61 @@ function ProductDetail() {
                             setFeedbacks(parsedFeedback);
                         }
                     }
-
+    
+                    // Related Products Logic
                     let currentRelatedProducts = response?.product?.relatedProducts?.references?.edges || [];
-                    let relatedAdditionalProucts = await fetchRelatedProducts(6);
+                    let relatedAdditionalProducts = await fetchRelatedProducts(6);
                     if (currentRelatedProducts.length < 6) {
                         const remainingCount = 6 - currentRelatedProducts.length;
                         const existingProductIds = new Set(currentRelatedProducts.map(product => product.node.id));
-                        const filteredAdditionalProducts = relatedAdditionalProucts
+                        const filteredAdditionalProducts = relatedAdditionalProducts
                             .filter(product => !existingProductIds.has(product.node.id))
                             .map(product => ({
                                 node: product.node
                             }));
-                        const additionalProducts = getRandomProducts(filteredAdditionalProducts, remainingCount)
+                        const additionalProducts = getRandomProducts(filteredAdditionalProducts, remainingCount);
                         currentRelatedProducts = [
                             ...currentRelatedProducts,
                             ...additionalProducts
                         ];
                     }
-                    setProductData({
-                        ...response?.product,
+    
+                    setProductData(prevData => ({
+                        ...prevData,
                         relatedProducts: {
                             references: {
                                 edges: currentRelatedProducts
                             }
                         }
-                    });
+                    }));
                 };
-
-                await Promise.all([getProductDetail()]);
+    
+                await getProductDetail();
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
-
+    
         fetchData();
-    }, [handle]);
+    }, [handle]); 
+    
 
     const calculateAverageRating = (reviews) => {
-        const totalRating = reviews?.reduce((acc, review) => acc + parseInt(review?.rating), 0);
-        return (totalRating / reviews?.length).toFixed(2);
+        if (!reviews || reviews.length === 0) {
+            return 0; 
+        } 
+        const totalRating = reviews.reduce((acc, review) => {
+            const rating = parseInt(review?.rating);
+            return acc + (isNaN(rating) ? 5 : rating);
+        }, 0);
+    
+        return (totalRating / reviews.length).toFixed(2); 
     };
-
-    const averageRating = calculateAverageRating(feedbacks);
-
+    
+    const averageRating = parseFloat(calculateAverageRating(feedbacks)); 
+    
     const getMetafieldData = (key, list) => {
         let metaContent = "";
         if (list) {
@@ -453,7 +475,7 @@ function ProductDetail() {
                                     <button type='button'
                                         className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
                                     <div className="flex ml-4">
-                                        <Rating rating={averageRating} text={`${feedbacks?.length} Reviews`} />
+                                        <Rating rating={averageRating} text={`${feedbacks?.length !== undefined ? feedbacks?.length : 0} Reviews`} />
                                     </div>
                                 </div>
                                 <p className='md:text-[20px] text-[16px] font-[500] font-regola-pro mt-3 md:pl-2 pl-0 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
@@ -731,18 +753,18 @@ function ProductDetail() {
                                     Don’t Believe Us, Believe Our Happy Customers
                                 </p>
                             </div>
-                            {feedbacks &&
+                           
                                 <div className="w-full md:w-1/2 flex  flex-col lg:mr-[60px]">
                                     {/* Quotation Section */}
                                     <div className='inline-flex justify-end  md:-mr-[40px]'>
                                         <button
                                             onClick={openAddFeedback}
-                                            className="mt-4 bg-[#EB7E01] text-[#333333] px-4 py-2 rounded"
+                                            className="mt-4 bg-[#EB7E01] text-[#333333] px-4 py-2 rounded font-regola-pro"
                                         >
                                             Add Review
                                         </button>
                                     </div>
-
+                                    {feedbacks &&
                                     <div>
                                         <div className="flex flex-col mt-[70px]">
                                             <div className="relative">
@@ -757,8 +779,9 @@ function ProductDetail() {
                                             {feedbacks && <p className="text-left pl-5 text-[#333333] pt-4 font-[400] md:text-[24px] font-inter leading-[29px]">{feedbacks[ActiveTestimonialIndex]?.reviewerName}</p>}
                                         </div>
                                     </div>
+}
                                 </div>
-                            }
+                          
 
                         </div>
                         {feedbacks &&

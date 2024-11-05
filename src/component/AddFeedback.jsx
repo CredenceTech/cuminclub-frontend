@@ -138,63 +138,63 @@ const AddFeedback = ({ productId, productName, onClose }) => {
     <Modal onClose={onClose}>
       <div className="w-full max-w-md mx-auto">
         <div className='flex flex-row justify-between'>
-          <h2 className="text-2xl font-bold mb-2">Add Review</h2>
-          <button onClick={onClose} className=" text-gray-500 hover:text-gray-700">
+          <h2 className="text-2xl font-bold mb-2 font-regola-pro">Add Review</h2>
+          <button onClick={onClose} className=" text-gray-500 hover:text-gray-700 font-regola-pro">
             <svg xmlns="http://www.w3.org/2000/svg" height="25" width="25" viewBox="0 0 384 512"><path fill="#000000" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg>
           </button>
         </div>
-        <p className="text-gray-600">We value your opinion. Please share your feedback with us.</p>
+        <p className="text-gray-600 font-regola-pro">We value your opinion. Please share your feedback with us.</p>
         <form onSubmit={formik.handleSubmit} className="space-y-4 mt-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="firstName" className="block mb-1">First Name</label>
+              <label htmlFor="firstName" className="block mb-1 font-regola-pro">First Name</label>
               <input
                 id="firstName"
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} // Add onBlur for validation
-                className={`w-full px-3 py-2 border rounded-md ${formik.touched.firstName && formik.errors.firstName ? 'border-red-500' : ''} focus:outline-none`}
+                className={`w-full px-3 py-2 border rounded-md font-regola-pro ${formik.touched.firstName && formik.errors.firstName ? 'border-red-500' : ''} focus:outline-none`}
               />
               {formik.touched.firstName && formik.errors.firstName ? (
-                <div className="text-red-500 text-sm">{formik.errors.firstName}</div>
+                <div className="text-red-500 text-sm font-regola-pro">{formik.errors.firstName}</div>
               ) : null}
             </div>
             <div>
-              <label htmlFor="lastName" className="block mb-1">Last Name</label>
+              <label htmlFor="lastName" className="block mb-1 font-regola-pro">Last Name</label>
               <input
                 id="lastName"
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`w-full px-3 py-2 border rounded-md ${formik.touched.lastName && formik.errors.lastName ? 'border-red-500' : ''} focus:outline-none`}
+                className={`w-full px-3 py-2 border rounded-md font-regola-pro ${formik.touched.lastName && formik.errors.lastName ? 'border-red-500' : ''} focus:outline-none`}
               />
               {formik.touched.lastName && formik.errors.lastName ? (
-                <div className="text-red-500 text-sm">{formik.errors.lastName}</div>
+                <div className="text-red-500 text-sm font-regola-pro">{formik.errors.lastName}</div>
               ) : null}
             </div>
           </div>
           <div>
-            <label htmlFor="feedback" className="block mb-1">Review</label>
+            <label htmlFor="feedback" className="block mb-1 font-regola-pro">Review</label>
             <textarea
               id="feedback"
               value={formik.values.feedback}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full px-3 py-2 border rounded-md ${formik.touched.feedback && formik.errors.feedback ? 'border-red-500' : ''} focus:outline-none`}
+              className={`w-full px-3 py-2 border rounded-md font-regola-pro ${formik.touched.feedback && formik.errors.feedback ? 'border-red-500' : ''} focus:outline-none`}
               rows={4}
             />
             {formik.touched.feedback && formik.errors.feedback ? (
-              <div className="text-red-500 text-sm">{formik.errors.feedback}</div>
+              <div className="text-red-500 text-sm font-regola-pro">{formik.errors.feedback}</div>
             ) : null}
           </div>
           <div>
-            <label className="block mb-1">Rating</label>
+            <label className="block mb-1 font-regola-pro">Rating</label>
             <StarRating rating={formik.values.rating} setRating={(value) => formik.setFieldValue('rating', value)} />
             {formik.touched.rating && formik.errors.rating ? (
-              <div className="text-red-500 text-sm">{formik.errors.rating}</div>
+              <div className="text-red-500 text-sm font-regola-pro">{formik.errors.rating}</div>
             ) : null}
           </div>
-          <button type="submit" className="w-full bg-[#EB7E01] text-[#333333] py-2 rounded-md  transition-colors">
+          <button type="submit" className="w-full bg-[#EB7E01] text-[#333333] py-2 rounded-md  transition-colors font-regola-pro">
             Submit Review
           </button>
         </form>
