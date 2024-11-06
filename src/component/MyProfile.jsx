@@ -8,11 +8,9 @@ const MyProfile = () => {
         <div className="max-w-xl mx-auto mt-10 p-6 border rounded-lg bg-gray-50 shadow-md">
             {/* Header Section with Profile Picture */}
             <div className="flex items-center gap-4 mb-8">
-                <img
-                    src={UserAvatar}
-                    alt="Profile"
-                    className="w-24 h-24 rounded-full border-2 border-gray-800"
-                />
+            <div className="w-[90px] h-[90px] rounded-full bg-gray-400 flex items-center justify-center text-white font-medium text-[36px]">
+        {userEmail?.firstName ? userEmail.firstName.charAt(0).toUpperCase() : ''}
+      </div>
                 <h1 className="text-2xl font-bold text-gray-800">{userEmail?.firstName} {userEmail?.lastName}</h1>
             </div>
 
