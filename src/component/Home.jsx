@@ -242,11 +242,11 @@ const Home = () => {
 
   // console.log(userId)
 
-  useEffect(() => {
-    if (cartData !== null) {
-      getCartData();
-    }
-  }, [cartDatas]);
+  // useEffect(() => {
+  //   if (cartData !== null) {
+  //     getCartData();
+  //   }
+  // }, [cartDatas]);
 
   useEffect(() => {
     if (countryList === null) fetchCountryFilters();
@@ -257,13 +257,13 @@ const Home = () => {
     visible: { opacity: 1, scale: 1, rotate: 360 },
   };
 
-  const getCartData = async () => {
-    const params = {
-      cartId: cartDatas?.cartCreate?.cart?.id,
-    };
-    const response = await graphQLClient.request(getCartQuery, params);
-    setCartResponse(response);
-  };
+  // const getCartData = async () => {
+  //   const params = {
+  //     cartId: cartDatas?.cartCreate?.cart?.id,
+  //   };
+  //   const response = await graphQLClient.request(getCartQuery, params);
+  //   setCartResponse(response);
+  // };
 
   const openCountryDrawer = () => {
     setIsCountryDrawerOpen(true);
