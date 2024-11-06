@@ -70,13 +70,9 @@ function DropdownProfile({
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-[45px] h-[45px] rounded-full" src={UserAvatar} alt="User" />
-        {/* <div className="flex items-center truncate">
-          <span className="truncate ml-2 text-sm font-medium  group-hover:text-slate-800 ">UserName</span>
-          <svg className="w-3 h-3 shrink-0 ml-1 fill-current text-slate-400" viewBox="0 0 12 12">
-            <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-          </svg>
-        </div> */}
+       <div className="w-[45px] h-[45px] rounded-full bg-gray-400 flex items-center justify-center text-white font-medium text-lg">
+        {userEmail?.firstName ? userEmail.firstName.charAt(0).toUpperCase() : ''}
+      </div>
       </button>
 
       <Transition

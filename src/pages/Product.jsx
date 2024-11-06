@@ -444,7 +444,7 @@ export const Product = () => {
 
         <div className="w-full bg-[#EFE9DA]">
             <ProductFliter />
-            <div className="p-[60px]">
+            <div className="p-[20px] md:p-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
                         initial={{ y: 100, x: -100, opacity: 0 }}
@@ -534,7 +534,7 @@ export const Product = () => {
                                         </AnimatePresence>
                                     </div>
                                 ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center group overflow-hidden cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                                    <div key={product.id} className="col-span-2 md:col-span-1 bg-[#EADEC1] relative rounded-3xl flex justify-center items-center group overflow-hidden cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 initial={{ y: 500, x: -500, opacity: 0 }}
@@ -546,7 +546,7 @@ export const Product = () => {
                                                 <img
                                                     src={productSmallImage}
                                                     alt={product.title}
-                                                    className="w-full h-[300px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                                    className="w-full h-full md:h-[300px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                                                 />
                                                 <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                                     <div className="p-5">
@@ -582,7 +582,7 @@ export const Product = () => {
                                                             <button
                                                                 onClick={(e) => e.stopPropagation()}
                                                                 type="button"
-                                                                className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                                className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
                                                             >
                                                                 BUY NOW
                                                             </button>

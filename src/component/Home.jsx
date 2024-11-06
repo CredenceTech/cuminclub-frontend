@@ -1087,7 +1087,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 bg-[#EADEC1] z-50"
+            className="fixed inset-0 bg-[#EADEC1] z-[500]"
           >
             <motion.div
               initial={{ opacity: 0, y: -50 }}
@@ -1315,7 +1315,7 @@ const Home = () => {
           <div className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
             <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
               {apiResponse?.map((item, i) => (
-                <div key={i} className='flex flex-col justify-between lg:justify-start pr-4 pl-4'>
+                <div key={i} className='flex flex-col justify-start pr-4 pl-4'>
                   <div
                     style={{ background: `${colors[i % colors.length]}` }}
                     onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
@@ -1625,9 +1625,9 @@ const Home = () => {
                     <img
                       src={selectMeal}
                       alt="Select Meal"
-                      className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+                      className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                    <div className="absolute bottom-0 left-0 right-0 w-full rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
                       <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
                         Select Your Meals
                       </h3>
@@ -1642,9 +1642,9 @@ const Home = () => {
                     <img
                       src={recieveBox}
                       alt="Receive Box"
-                      className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+                      className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
                     />
-                    <div className="absolute bottom-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] left-0 right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                    <div className="absolute bottom-0 w-full rounded-bl-[8px] rounded-br-[8px] left-0 right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
                       <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
                         Receive Your Box
                       </h3>
@@ -1659,9 +1659,9 @@ const Home = () => {
                     <img
                       src={heatEat}
                       alt="Heat and Enjoy"
-                      className="w-[400px] h-[500px] object-cover mb-4 rounded-[8px]"
+                      className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
                     />
-                    <div className="absolute bottom-0 left-0 w-[400px] rounded-bl-[8px] rounded-br-[8px] right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                    <div className="absolute bottom-0 left-0 w-full rounded-bl-[8px] rounded-br-[8px] right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
                       <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
                         Heat and Enjoy
                       </h3>
@@ -1868,7 +1868,7 @@ const Home = () => {
             </div>
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          <div className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
+          <div className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}

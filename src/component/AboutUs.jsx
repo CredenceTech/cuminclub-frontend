@@ -107,7 +107,7 @@ const AboutUs = () => {
 
     return (
         <div className=' bg-[#ffffff]'>
-            <div className='2xl:container md:pl-[45px] 3xl:pl-0'>
+            <div className='2xl:container pl-[20px] md:pl-[45px] pr-[20px] md:pr-0 3xl:pl-0'>
                 <div className='pt-12'>
                     <h3 className='text-[24px] leading-[28.8px] font-[400] font-regola-pro text-[#333333]'>Read About Us</h3>
                     <h1 className='md:text-[36px] md:leading-[43.2px] text-2xl font-regola-pro font-[500] mb-4 text-[#333333]'>
@@ -122,16 +122,16 @@ const AboutUs = () => {
             </div>
             <div className=''>
                 <div className='flex md:flex-row flex-col-reverse' >
-                    <div className='w-full h-[439px] '>
-                        <img src={team} alt="team" className='w-full h-[100%]' />
+                    <div className='w-full h-auto md:h-[439px] '>
+                        <img src={team} alt="team" className='w-full h-auto md:h-[100%]' />
                     </div>
                 </div>
                 <div className='flex md:flex-row flex-col' >
 
-                    <div className='w-full md:w-1/2 px-12 py-10 self-center'>
+                    <div className='w-full md:w-1/2 px-[20px] md:px-12 py-10 self-center'>
                         <p className='text-[24px] leading-[28.8px] font-[400] font-regola-pro text-[#757575]'>Nishant Jaiswal and Priyank Shah, originally successful in the textile industry, began exploring agriculture and organic farming. This journey led them to discover a fascinating food preservation method called retorting. It’s a process that keeps food fresh and full of flavour without any preservatives—just pure, authentic taste.</p>
                     </div>
-                    <div className='w-full md:w-1/2 px-24 py-10 self-center'>
+                    <div className='w-full md:w-1/2 px-[20px] md:px-12 self-center'>
                         <p className='text-[24px] leading-[28.8px] font-[400] font-regola-pro text-[#757575]'>Meanwhile, Rahul Jaiswal was studying in the United States. He often said, “I miss the familiar taste of homemade Indian meals. It’s difficult out here.” At the same time, back in Surat, Saurav Dhawan, fresh out of college, was trying to find quick, clean meals while starting his career. </p>
                     </div>
                 </div>
@@ -153,24 +153,24 @@ const AboutUs = () => {
                     <p className='md:w-[50vw] leading-[19.36px] text-[16px] font-inter text-[#757575] font-[400] mb-10'>Every day, we come to work with one simple mindset: To make meals that we’d be proud to serve our own families. It’s not just about creating food. It’s about sharing something real and comforting with people, no matter where they are.</p>
                 </div>
 
-                <div className="flex gap-x-10 pl-5 md:pl-[45px] overflow-x-auto whitespace-nowrap scrollbar-hide">
+                <div className="flex gap-x-5 md:gap-x-10 pl-5 md:pl-[45px] overflow-x-auto whitespace-nowrap scrollbar-hide">
                     <div className="shrink-0">
-                        <div className="md:w-[488px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
+                        <div className="w-[200px] md:w-[488px] h-[200px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
                         <h1 className='md:text-[36px] md:leading-[43.2px] text-xl font-[400] font-inter text-[#333333] md:mt-10 mt-3'>Saurav Dhavan</h1>
                         <p className='leading-[19.36px] text-[16px] text-[#757575] font-inter font-[400] md:mt-3 mt-1'>Lorem, Ipsum.</p>
                     </div>
                     <div className="shrink-0">
-                        <div className="md:w-[488px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
+                        <div className="w-[200px] md:w-[488px] h-[200px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
                         <h1 className='md:text-[36px] md:leading-[43.2px] text-xl font-[400]  font-inter text-[#333333] md:mt-10 mt-3'>Rahul Jaiswal</h1>
                         <p className='leading-[19.36px] text-[16px] text-[#757575] font-inter font-[400] md:mt-3 mt-1'>Lorem, Ipsum.</p>
                     </div>
                     <div className="shrink-0">
-                        <div className="md:w-[488px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
+                        <div className="w-[200px] md:w-[488px] h-[200px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
                         <h1 className='md:text-[36px] md:leading-[43.2px] text-xl font-[400] font-inter  text-[#333333] md:mt-10 mt-3'>Person A</h1>
                         <p className='leading-[19.36px] text-[16px] text-[#757575] font-inter font-[400] md:mt-3 mt-1'>Lorem, Ipsum.</p>
                     </div>
                     <div className="shrink-0">
-                        <div className="md:w-[488px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
+                        <div className="w-[200px] md:w-[488px] h-[200px] md:h-[488px] bg-[#D9D9D9] snap-center"></div>
                         <h1 className='md:text-[36px] md:leading-[43.2px] text-xl font-[400] font-inter text-[#333333] md:mt-10 mt-3'>Person B</h1>
                         <p className='leading-[19.36px] text-[16px] text-[#757575] font-inter font-[400] md:mt-3 mt-1'>Lorem, Ipsum.</p>
                     </div>
@@ -178,17 +178,17 @@ const AboutUs = () => {
             </div>
 
 
-            <div className='pl-5 lg:pl-[45px] pt-7 pr-7 3xl:pl-0 mt-20'>
+            <div className='pl-5 lg:pl-[45px] pt-7 pr-7 3xl:pl-0 mt-2 md:mt-20'>
                 <div className='flex flex-col md:flex-row'>
-                    <div className='w-full md:w-[60vw] h-[711px]'>
+                    <div className='w-full md:w-[60vw] h-auto md:h-[711px] mb-5 md:mb-0'>
                         <img
                             src={content.image}
                             alt={content.text.title}
-                            className='w-full h-[711px] transition-opacity duration-500 ease-in-out'
+                            className='w-full h-auto md:h-[711px] transition-opacity duration-500 ease-in-out'
                         />
                     </div>
 
-                    <div className='px-10 w-full md:w-[40vw] mt-0 pt-0'>
+                    <div className='px-0 md:px-10 w-full md:w-[40vw] mt-0 pt-0'>
                         {/* Section buttons */}
                         <div className='flex gap-10 mt-0 pt-0'>
                             <button
@@ -211,7 +211,7 @@ const AboutUs = () => {
 
                         {/* Conditionally render the text */}
                         <div className='pt-3'>
-                            <h1 className='md:text-[36px] md:leading-[43.2px] font-[400] text-[#333333] font-inter mt-10'>
+                            <h1 className='md:text-[36px] md:leading-[43.2px] font-[400] text-[#333333] font-inter mt-3 md:mt-10'>
                                 {content.text.title}
                             </h1>
                             {content.text.description.map((paragraph, index) => (
@@ -226,7 +226,7 @@ const AboutUs = () => {
 
             {/* Slide Display */}
             <div className='relative'>
-                <div className='flex lg:flex-row flex-col lg:pl-[180px] justify-between mt-28'>
+                <div className='flex lg:flex-row flex-col lg:pl-[180px] justify-between mt-12 md:mt-28'>
                     <img
                         src={slides[currentSlide].image}
                         alt={slides[currentSlide].title}

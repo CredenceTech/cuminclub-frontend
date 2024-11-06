@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import product from '../assets/Dish-1.jpg'
-import { getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
-import { cartData, selectCartResponse, setCartResponse, } from '../state/cartData';
+import { createCartMutation, getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
+import { addCartData, cartData, selectCartResponse, setCartResponse, } from '../state/cartData';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingAnimation from "../component/Loader";
 import {
@@ -73,17 +73,17 @@ const CardReview = () => {
         }
     }, [loginUserCustomerId])
 
-    useEffect(() => {
-        getCartData();
-    }, [cartDatas]);
+    // useEffect(() => {
+    //     getCartData();
+    // }, [cartDatas]);
 
-    const getCartData = async () => {
-        const params = {
-            cartId: cartDatas?.cartCreate?.cart?.id,
-        };
-        const response = await graphQLClient.request(getCartQuery, params);
-        dispatch(setCartResponse(response));
-    };
+    // const getCartData = async () => {
+    //     const params = {
+    //         cartId: cartDatas?.cartCreate?.cart?.id,
+    //     };
+    //     const response = await graphQLClient.request(getCartQuery, params);
+    //     dispatch(setCartResponse(response));
+    // };
 
     useEffect(() => {
         if (userDetail?.customer?.addresses?.edges.length == 0) {
@@ -119,15 +119,41 @@ const CardReview = () => {
         }
     };
 
+    const handleRemoveWholeProductFromCart = (productId, sellingPlanId) => {
+        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
+        const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
+            return cartItem.node.merchandise.id === productId;
+        });
+
+        if (productInCart) {
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            const id = productInCart?.node?.id
+            if (sellingPlanId) {
+                updateCartItem(cartId, {
+                    id: id,
+                    sellingPlanId: sellingPlanId,
+                    quantity: 0,
+                }, productId);
+            } else {
+                updateCartItem(cartId, {
+                    id: id,
+                    quantity: 0,
+                }, productId);
+            }
+        }
+    };
+
     const updateCartItem = async (cartId, cartItem, id) => {
         const params = {
             "cartId": cartId,
             "lines": cartItem
         }
-        setIsLoading(true)
         const response = await graphQLClient.request(updateCartItemMutation, params);
-        setIsLoading(false)
         dispatch(setCartResponse(response.cartLinesUpdate));
+        setLoading((prevLoading) => ({
+            ...prevLoading,
+            [id]: false,
+        }));
     }
 
     const validationSchemaForLogin = Yup.object().shape({
@@ -411,6 +437,71 @@ const CardReview = () => {
         }
     };
 
+    const updateCart = async (cartId, cartItem) => {
+        const params = {
+            "cartId": cartId,
+            "lines": [
+                cartItem
+            ]
+        }
+        const response = await graphQLClient.request(updateCartMutation, params);
+        dispatch(setCartResponse(response.cartLinesAdd));
+        setLoading((prevLoading) => ({
+            ...prevLoading,
+            [cartItem.merchandiseId]: false,
+        }));
+    }
+
+    const handleAddToCart = (productId, sellingPlanId) => {
+        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
+        if (cartDatas === null) {
+            if (sellingPlanId) {
+                addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+            } else {
+                addToCart({ merchandiseId: productId, quantity: 1 });
+            }
+        }
+
+        const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+            return cartItem.node.merchandise.id === productId;
+        });
+
+        if (productInCart) {
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            const id = productInCart?.node?.id
+            if (sellingPlanId) {
+                updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
+            } else {
+                updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
+            }
+        } else {
+            const cartId = cartDatas?.cartCreate?.cart?.id
+            if (sellingPlanId) {
+                updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+            } else {
+                updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+            }
+        }
+    };
+
+    const addToCart = async (cartItems) => {
+        const params = {
+            "cartInput": {
+                "lines": [
+                    cartItems
+                ]
+            }
+        }
+        const response = await graphQLClient.request(createCartMutation, params);
+        dispatch(addCartData(response))
+        setLoading((prevLoading) => ({
+            ...prevLoading,
+            [cartItems.merchandiseId]: false,
+        }));
+    }
+
+
 
 
 
@@ -432,11 +523,56 @@ const CardReview = () => {
                                         <div className='ml-4'>
                                             <h1 className='text-xl md:text-[36px] leading-[36px] font-[400] font-skillet text-[#333333] '>{line?.node?.merchandise?.product?.title}</h1>
                                             <p className='font-skillet text-[#757575] text-[28px] leading-[28.18px] font-[400]'><span className='text-[20px] leading-[20.1px] '>₹</span> {line?.node?.merchandise?.priceV2?.amount}</p>
+                                            {loading[line.node.merchandise.id] ? <svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg> :
+                                <div className="flex gap-2 items-center">
+                                <button
+                                  onClick={() =>
+                                    handleRemoveFromCart(
+                                      line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
+                                    )
+                                  }
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                      fill="#333333"
+                                    />
+                                  </svg>
+                                </button>
+                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                  {line.node.quantity}
+                                </span>
+                                <button
+                                  onClick={() =>
+                                    handleAddToCart(line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
+                                  }
+                                >
+                                  <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                      fill="#333333"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                                }
                                         </div>
                                     </div>
                                     <div>
                                         <button onClick={() =>
-                                            handleRemoveFromCart(
+                                            handleRemoveWholeProductFromCart(
                                                 line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
                                             )
                                         } type='button' className='text-[#F15E2A] m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]'>Remove</button>
@@ -453,7 +589,7 @@ const CardReview = () => {
                                 </div> */}
                                 <div className="flex mt-3 flex-row justify-between">
                                     <p className="text-lg font-skillet  lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
-                                    <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{cartResponse?.cart?.estimatedCost?.totalAmount?.amount}</span></p>
+                                    <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{cartResponse?.cart?.cost?.totalAmount?.amount}</span></p>
                                 </div>
                                 <p className='text-[#757575] text-[20px] font-[500] leading-[26.45px] text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
                                 {/* <div className="flex mt-8 flex-row text-center gap-y-5 whitespace-nowrap justify-between gap-3">

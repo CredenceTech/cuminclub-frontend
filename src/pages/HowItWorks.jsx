@@ -140,10 +140,10 @@ export const HowItWorks = () => {
             </div>
             <div className='md:px-[60px] px-[30px]'>
                 <div className="grid grid-cols-2 gap-10">
-                    <div className="col-span-1 ">
+                    <div className="col-span-2 md:col-span-1 ">
                         <div className='flex flex-col'>
                             <div>
-                                <img src={howitworks1} alt="" className='h-[345px] w-[623px]' />
+                                <img src={howitworks1} alt="" className='h-auto md:h-[345px] w-auto md:w-[623px]' />
                             </div>
                             <div className='flex pt-3 max-w-[623px]'>
                                 <div className='px-4 pr-7 -mt-2'>
@@ -157,10 +157,10 @@ export const HowItWorks = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-span-1 ">
+                    <div className="col-span-2 md:col-span-1 ">
                         <div className='flex flex-col'>
                             <div className='w-full'>
-                                <img src={howitworks2} alt="" className='w-[623px] h-[345px]' />
+                                <img src={howitworks2} alt="" className='w-auto md:w-[623px] h-auto md:h-[345px]' />
                             </div>
                             <div className='flex pt-3 max-w-[623px]'>
                                 <div className='px-4 pr-7 -mt-2'>
@@ -177,7 +177,7 @@ export const HowItWorks = () => {
                     <div className="col-span-2 mt-5">
                         <div className='flex flex-col'>
                             <div className='w-full'>
-                                <img src={howitworks3} alt="" className='w-full h-[634px]' />
+                                <img src={howitworks3} alt="" className='w-full h-auto md:h-[634px]' />
                             </div>
                             <div className='flex pb-[70px] pt-3'>
                                 <div className='px-4 pr-7 -mt-2'>
@@ -195,9 +195,9 @@ export const HowItWorks = () => {
                     </div>
                 </div>
             </div>
-            <div className='bg-[#F2F2F2] md:py-[88px] py-[30px] md:pl-[88px] pl-[30px] relative'>
+            <div className='bg-[#F2F2F2] md:py-[88px] py-[30px] md:pl-[88px] pl-[30px] relative overflow-hidden md:overflow-auto'>
                 <div className="relative flex flex-col lg:flex-row">
-                    <div className="w-full lg:w-1/4 text-section text-white flex flex-col justify-between">
+                    <div className="w-full lg:w-1/4 text-section text-white flex flex-col justify-between mb-5 md:mb-0">
                         <div className=''>
                             <h2 className="text-[20px] md:text-[32px] font-regola-pro leading-[43.2px] font-[600] text-[#333333]">
                                 Who’s This For?
@@ -205,7 +205,7 @@ export const HowItWorks = () => {
                             <p className="font-[400] max-w-[294px] text-[22px] leading-[30px] text-[#757575] mt-1 font-regola-pro">Our meals are for anyone who values great food without the hassle.</p>
                         </div>
                     </div>
-                    <div className="w-full lg:min-w-3/4 ml-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
+                    <div className="w-full lg:min-w-3/4 ml-0 md:ml-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
                         {recipData?.map((item, i) => (
                             <div key={i} className="relative min-w-[250px] bg-[#C4C4C4] h-[300px] md:h-[362px] md:min-w-[280px]">
                                 <div className="absolute inset-0 bottom-0 z-10 bg-gradient-to-b from-[#00000073]  to-[#00000000]"></div>
@@ -226,7 +226,7 @@ export const HowItWorks = () => {
                 </div>
             </div>
 
-            <div className='md:py-[30px] relative pt-[20px] md:pl-[60px] pl-[30px]'>
+            <div className='md:py-[30px] relative pt-[20px] md:pl-[60px] pl-[30px] overflow-hidden md:overflow-auto'>
                 <div ref={swiperContainerRef} className="w-full overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-4">
                     {swiperDta?.map((item, i) => (
                         <div key={i} className="relative min-w-[247px] bg-[#C4C4C4] h-[400px] md:h-[569px] md:min-w-[347px]">
@@ -262,7 +262,7 @@ export const HowItWorks = () => {
                 </div>
             </div>
 
-            <div className="w-full pt-[60px] px-52 pb-[60px] flex justify-center items-center">
+            <div className="w-full pt-[60px] px-[30px] md:px-52 pb-[60px] flex justify-center items-center">
                 {/* Quotation Section */}
                 <div>
                     <div className="flex flex-col">
@@ -270,7 +270,7 @@ export const HowItWorks = () => {
                             <svg width="41" height="28" viewBox="0 0 41 28" className="absolute -top-5 -left-8 w-9 h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.314 0.431999L13.706 27.056H0.266L7.946 0.431999H18.314ZM40.714 0.431999L36.106 27.056H22.666L30.346 0.431999H40.714Z" fill="#757575" />
                             </svg>
-                            <p className="font-regola-pro leading-[43.2px] py-1 text-[36px] text-center font-[500] text-[#333333]">“At the end of the day, it’s about keeping things real. We rely on nature and tradition to make our meals taste great. No artificial preservatives, just clean and wholesome food you can feel good about.”
+                            <p className="font-regola-pro leading-[30px] md:leading-[43.2px] py-1 text-[20px] md:text-[36px] text-center font-[500] text-[#333333]">“At the end of the day, it’s about keeping things real. We rely on nature and tradition to make our meals taste great. No artificial preservatives, just clean and wholesome food you can feel good about.”
                             </p>
                             <svg width="41" height="28" viewBox="0 0 41 28" fill="none" className="absolute -bottom-4 -right-5 w-9 h-9" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M22.686 27.568L27.294 0.944H40.734L33.054 27.568H22.686ZM0.285999 27.568L4.894 0.944H18.334L10.654 27.568H0.285999Z" fill="#757575" />
@@ -281,8 +281,8 @@ export const HowItWorks = () => {
             </div>
 
 
-            <div className='px-[112px] pt-[80px] pb-[70px] items-center justify-center text-center'>
-                <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43.2px] font-[600] mb-8 text-[#333333]'>Frequently Asked Questions</h1>
+            <div className='px-[20px] md:px-[112px] pt-[20px] md:pt-[80px] pb-[30px] md:pb-[70px] items-center justify-center text-center'>
+                <h1 className='text-[20px] md:text-[36px] font-regola-pro leading-[43.2px] font-[600] mb-4 md:mb-8 text-[#333333]'>Frequently Asked Questions</h1>
                 <div className="accordion-container m-2  text-[#333333]">
                     {accordianData.map((item) => (
                         <div key={item.id} className="border-b-2">
@@ -296,7 +296,7 @@ export const HowItWorks = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.title}</span>
+                                <span className="text-[20px] md:text-[26px] font-[400] leading-[28px] md:leading-[31.2px] font-regola-pro text-[#333333]">{item.title}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
