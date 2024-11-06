@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { graphQLClient, queryProductWithKeyword } from '../api/graphql';
 import debounce from 'lodash.debounce';
 
-const SearchQuery = () => {
+const SearchQuery = ({ isSticky }) => {
     const location = useLocation();
     const { pathname } = location;
     const modalRef = useRef(null);
@@ -97,10 +97,10 @@ const SearchQuery = () => {
     }, [searchOpen]);
 
     return (
-        <div className={`relative justify-center items-center ${pathname?.includes('/login')  || pathname?.includes('/registration') || pathname?.includes('/forgot-password') ? 'hidden' : "flex"}`}>
+        <div className={`relative justify-center items-center ${pathname?.includes('/login') || pathname?.includes('/registration') || pathname?.includes('/forgot-password') ? 'hidden' : "flex"}`}>
             <button onClick={toggleSearch} className="focus:outline-none">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke={pathname === '/' || pathname.includes('/ready-to-cook') ? '#FFFFFF' : '#333333'} strokeWidth="3.02041" />
+                    <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke={(pathname === '/' || pathname.includes('/ready-to-cook')) && !isSticky ? '#FFFFFF' : '#333333'} strokeWidth="3.02041" />
                 </svg>
             </button>
 
@@ -109,7 +109,7 @@ const SearchQuery = () => {
                     <div className="flex justify-between items-center">
                         <input
                             type="text"
-                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none  bg-[#FAFAFAE5] font-regola-pro"
+                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none text-[#333333] bg-[#FAFAFAE5] font-regola-pro"
                             placeholder="Search..."
                             value={keyword}
                             onChange={handleSearchChange}
@@ -131,8 +131,8 @@ const SearchQuery = () => {
                                     <div key={product?.id} onClick={() => { navigate(product?.nagivatiLink); setSearchOpen(false) }} className="flex items-center gap-4 cursor-pointer">
                                         <img src={product?.image} alt={''} className="w-16 h-16 rounded" />
                                         <div>
-                                            <p className="font-medium text-lg font-regola-pro">{product?.title}</p>
-                                            {product?.price && <p className="text-sm text-gray-500 font-regola-pro">Rs. {product?.price}
+                                            <p className="font-medium text-lg text-[#333333] font-regola-pro">{product?.title}</p>
+                                            {product?.price && <p className="text-sm text-[#333333] font-regola-pro">Rs. {product?.price}
                                                 {/* <span className="line-through">Rs. {product?.price}</span> */}
                                             </p>}
                                             {!product?.price && <p className="text-sm text-[#2828e6] font-regola-pro">{product?.collectionName}
@@ -143,7 +143,7 @@ const SearchQuery = () => {
                                 ))
                             ) : (
                                 <>
-                                    {!loading && <p>No products found</p>}
+                                    {!loading && <p className='text-[#333333]'>No products found</p>}
                                 </>
 
                             )}
