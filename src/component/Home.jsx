@@ -48,6 +48,8 @@ import middleImg from '../assets/middle1-image1.png'
 import rtcImg from '../assets/ready-to-cook-img.jpg'
 import SearchQuery from "./SearchQuery";
 import UserMenu from '../component/DropdownProfile';
+import { useSwipeable } from "react-swipeable";
+
 const Home = () => {
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -117,6 +119,54 @@ const Home = () => {
       rating: 4,
     },
   ];
+
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [ourProcessDragging, setOurProcessDragging] = useState(false); // Renamed state for dragging
+  const [startX, setStartX] = useState(0); // Starting position of drag
+  const sliderRef = useRef(null); // To reference the slider element
+
+  const ourProcessData = [
+    {
+      src: selectMeal,
+      alt: "Select Meal",
+      title: "Select Your Meals",
+    },
+    {
+      src: recieveBox,
+      alt: "Receive Box",
+      title: "Receive Your Box",
+    },
+    {
+      src: heatEat,
+      alt: "Heat and Enjoy",
+      title: "Heat and Enjoy",
+    },
+  ];
+
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => setActiveSlide((prev) => (prev === ourProcessData.length - 1 ? 0 : prev + 1)),
+    onSwipedRight: () => setActiveSlide((prev) => (prev === 0 ? ourProcessData.length - 1 : prev - 1)),
+    preventDefaultTouchmoveEvent: true,
+    trackTouch: true,
+    trackMouse: true,
+  });
+
+  const nextOurProcessSlide = () => {
+    setActiveSlide((prevSlide) => (prevSlide + 1) % ourProcessData.length);
+  };
+
+  const prevOurProcessSlide = () => {
+    setActiveSlide(
+      (prevSlide) => (prevSlide - 1 + ourProcessData.length) % ourProcessData.length
+    );
+  };
+
+  const handleSegmentClick = (index) => {
+    setActiveSlide(index);
+  };
+
+
+
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
   useEffect(() => {
@@ -1710,62 +1760,71 @@ const Home = () => {
             </div>
           </div>
           <div className="mt-8 md:mt-5">
-            <div className="flex flex-wrap -mx-2">
-              <div className="w-full md:w-1/3 px-2 mb-6 relative">
-                <div className="py-4">
-                  <div className="relative">
-                    <img
-                      src={selectMeal}
-                      alt="Select Meal"
-                      className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 w-full rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-                      <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
-                        Select Your Meals
-                      </h3>
+            {isMobile ? (
+              <div className="relative">
+                <div className="flex justify-center" >
+                  <div className="w-full md:w-1/3 px-2 mb-6 relative">
+                    <div className="py-4">
+                      <div className="relative" >
+                        <img
+                          src={ourProcessData[activeSlide].src}
+                          alt={ourProcessData[activeSlide].alt}
+                          className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
+                          {...swipeHandlers}
+                        />
+                        <div className="absolute bottom-0 left-0 w-full rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
+                            {ourProcessData[activeSlide].title}
+                          </h3>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div className="absolute top-0 left-0 w-1/2 h-full cursor-pointer" onClick={prevOurProcessSlide}></div>
+                <div className="absolute top-0 right-0 w-1/2 h-full cursor-pointer" onClick={nextOurProcessSlide}></div>
 
-              <div className="w-full md:w-1/3 px-2 mb-6 relative">
-                <div className="py-4">
-                  <div className="relative">
-                    <img
-                      src={recieveBox}
-                      alt="Receive Box"
-                      className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
+                <div className="relative mt-4 w-full h-1 bg-gray-300">
+                  {Array.from({ length: ourProcessData.length }).map((_, index) => (
+                    <div
+                      key={index}
+                      className={`absolute top-0 h-full transition-all duration-300 cursor-pointer`}
+                      style={{
+                        width: `${100 / ourProcessData.length}%`,
+                        left: `${(index / ourProcessData.length) * 100}%`,
+                        backgroundColor: index === activeSlide ? "white" : "gray",
+                      }}
+                      onClick={() => handleSegmentClick(index)}
                     />
-                    <div className="absolute bottom-0 w-full rounded-bl-[8px] rounded-br-[8px] left-0 right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-                      <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
-                        Receive Your Box
-                      </h3>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
-
-              <div className="w-full md:w-1/3 px-2 mb-6 relative">
-                <div className="py-4">
-                  <div className="relative">
-                    <img
-                      src={heatEat}
-                      alt="Heat and Enjoy"
-                      className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
-                    />
-                    <div className="absolute bottom-0 left-0 w-full rounded-bl-[8px] rounded-br-[8px] right-0 h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-                      <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] mb-8 ml-4 font-semibold leading-[24px] md:leading-[28.8px] text-white">
-                        Heat and Enjoy
-                      </h3>
+            ) : (
+              <div className="flex flex-wrap -mx-2">
+                {ourProcessData.map((image, index) => (
+                  <div key={index} className="w-full md:w-1/3 px-2 mb-6 relative">
+                    <div className="py-4">
+                      <div className="relative">
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 w-full rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
+                            {image.title}
+                          </h3>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
-            </div>
-
-
-
+            )}
           </div>
+
+
+
         </div>
       </div>
 
