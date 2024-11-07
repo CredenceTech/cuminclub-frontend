@@ -1,4 +1,4 @@
-import React, { } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import amazonapy from '../assets/amazon-pay.png';
 import american from '../assets/american-express.png';
@@ -11,12 +11,17 @@ import applepay from '../assets/apple-pay.png';
 import linkedin from '../assets/linkedin.png'
 import { addCategoryData } from "../state/selectedCategory";
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
+import { FaChevronDown } from 'react-icons/fa';
 import { useDispatch } from "react-redux";
 export const Footer = () => {
   const location = useLocation();
   const { pathname } = location;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCompanyOpen, setIsCompanyOpen] = useState(false);
+  const [isLinksOpen, setIsLinksOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <>
@@ -43,42 +48,183 @@ export const Footer = () => {
               </svg>
 
             </div>
-            <div className="mt-6 md:ml-[100px] md:mt-0 footer-link">
-              <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">MENU</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/ready-to-eat'); dispatch(addCategoryData(null));  dispatch(subscribeClose()); }}>Ready to eat</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/ready-to-cook'); dispatch(addCategoryData(null)) }}>Ready to cook</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/bulk'); dispatch(addCategoryData(null)) }}>Bulk products </p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/products'); dispatch(addCategoryData(null)) }}>All products</p>
-            </div>
-            <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
-              <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">OUR COMPANY</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/aboutus') }}>ABOUT US</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/how-it-works') }}>HOW IT WORKS</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase" onClick={() => { navigate('/facilities') }}>Facility</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Sustainability</p>
-            </div>
-            <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
-              <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">QUICK LINKS</h2>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase" onClick={() => { navigate('/recipe-list') }}>Recipes</p>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"  onClick={() => { navigate('/ready-to-eat'); dispatch(addCategoryData(null));  dispatch(subscribeOpen()); }}>Subscribe</p>
-              <a href="https://linktr.ee/instantlyyours" target="_blank" rel="noopener noreferrer">
-                <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Linktree</p>
-              </a>
-            </div>
-            <div className="mt-6 md:ml-[30px] md:mt-0 footer-link">
-              <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">CONTACT US</h2>
-              <a href="https://forms.gle/M5RJVRG8919hh6Fg8" target="_blank" rel="noopener noreferrer">
-                <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">Get in touch</p>
-              </a>
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333]" onClick={() => { navigate('/faqs') }}>FAQs</p>
-              <a href="https://www.linkedin.com/company/instantly-yours-inc/jobs/" target="_blank" rel="noopener noreferrer">
-              <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">Careers</p>
-             </a>
-              <a href="https://forms.gle/oPgzLHpysBe8aWsCA" target="_blank" rel="noopener noreferrer">
-                <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
-                  Influencers
+            <div className="mt-6 md:ml-[100px] md:mt-0 footer-link border-b pb-6 md:pb-0 border-[#333333] md:border-0">
+              <div
+                className="flex items-center justify-between cursor-pointer md:cursor-default"
+                onClick={() => { setIsMenuOpen(!isMenuOpen); setIsCompanyOpen(false); setIsContactOpen(false); setIsLinksOpen(false) }}
+              >
+                <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">
+                  MENU
+                </h2>
+                <FaChevronDown
+                  className={`transform transition-transform duration-300 ${isMenuOpen ? 'rotate-180' : 'rotate-0'
+                    } md:hidden`}
+                />
+              </div>
+              <div className={`${isMenuOpen ? 'block' : 'hidden'} md:block mt-3`}>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase"
+                  onClick={() => {
+                    navigate('/ready-to-eat');
+                    dispatch(addCategoryData(null));
+                    dispatch(subscribeClose());
+                  }}
+                >
+                  Ready to eat
                 </p>
-              </a>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
+                  onClick={() => {
+                    navigate('/ready-to-cook');
+                    dispatch(addCategoryData(null));
+                  }}
+                >
+                  Ready to cook
+                </p>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
+                  onClick={() => {
+                    navigate('/bulk');
+                    dispatch(addCategoryData(null));
+                  }}
+                >
+                  Bulk products
+                </p>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
+                  onClick={() => {
+                    navigate('/products');
+                    dispatch(addCategoryData(null));
+                  }}
+                >
+                  All products
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 md:ml-[30px] md:mt-0 footer-link border-b pb-6 md:pb-0 border-[#333333] md:border-0">
+              <div
+                className="flex items-center justify-between cursor-pointer md:cursor-default"
+                onClick={() => { setIsCompanyOpen(!isCompanyOpen); setIsMenuOpen(false); setIsContactOpen(false); setIsLinksOpen(false) }}
+              >
+                <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">
+                  OUR COMPANY
+                </h2>
+                <FaChevronDown
+                  className={`transform transition-transform duration-300 ${isCompanyOpen ? 'rotate-180' : 'rotate-0'
+                    } md:hidden`}
+                />
+              </div>
+              <div className={`${isCompanyOpen ? 'block' : 'hidden'} md:block mt-3`}>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase"
+                  onClick={() => navigate('/aboutus')}
+                >
+                  ABOUT US
+                </p>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
+                  onClick={() => navigate('/how-it-works')}
+                >
+                  HOW IT WORKS
+                </p>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
+                  onClick={() => navigate('/facilities')}
+                >
+                  Facility
+                </p>
+                <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
+                  Sustainability
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 md:ml-[30px] md:mt-0 footer-link border-b pb-6 md:pb-0 border-[#333333] md:border-0">
+              <div
+                className="flex items-center justify-between cursor-pointer md:cursor-default"
+                onClick={() => { setIsLinksOpen(!isLinksOpen); setIsCompanyOpen(false); setIsContactOpen(false); setIsMenuOpen(false) }}
+              >
+                <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">
+                  QUICK LINKS
+                </h2>
+                <FaChevronDown
+                  className={`transform transition-transform duration-300 ${isLinksOpen ? 'rotate-180' : 'rotate-0'
+                    } md:hidden`}
+                />
+              </div>
+              <div className={`${isLinksOpen ? 'block' : 'hidden'} md:block mt-3`}>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase"
+                  onClick={() => navigate('/recipe-list')}
+                >
+                  Recipes
+                </p>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
+                  onClick={() => {
+                    navigate('/ready-to-eat');
+                    dispatch(addCategoryData(null));
+                    dispatch(subscribeOpen());
+                  }}
+                >
+                  Subscribe
+                </p>
+                <a href="https://linktr.ee/instantlyyours" target="_blank" rel="noopener noreferrer">
+                  <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
+                    Linktree
+                  </p>
+                </a>
+              </div>
+            </div>
+            <div className="mt-4 md:ml-[30px] md:mt-0 footer-link ">
+              <div
+                className="flex items-center justify-between cursor-pointer md:cursor-default"
+                onClick={() => { setIsContactOpen(!isContactOpen); setIsMenuOpen(false); setIsCompanyOpen(false); setIsLinksOpen(false) }}
+              >
+                <h2 className="text-[24px] leading-[28.8px] font-[600] font-regola-pro text-[#333333]">
+                  CONTACT US
+                </h2>
+                <FaChevronDown
+                  className={`transform transition-transform duration-300 ${isContactOpen ? 'rotate-180' : 'rotate-0'
+                    } md:hidden`}
+                />
+              </div>
+              <div className={`${isContactOpen ? 'block' : 'hidden'} md:block mt-3`}>
+                <a
+                  href="https://forms.gle/M5RJVRG8919hh6Fg8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">
+                    Get in touch
+                  </p>
+                </a>
+                <p
+                  className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333]"
+                  onClick={() => {
+                    navigate('/faqs');
+                  }}
+                >
+                  FAQs
+                </p>
+                <a
+                  href="https://www.linkedin.com/company/instantly-yours-inc/jobs/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
+                    Careers
+                  </p>
+                </a>
+                <a
+                  href="https://forms.gle/oPgzLHpysBe8aWsCA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
+                    Influencers
+                  </p>
+                </a>
+              </div>
             </div>
 
           </div>

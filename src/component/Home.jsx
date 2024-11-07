@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CartDrawer } from "./CartComponent";
 import Rating from "./Rating";
 import {
+  addCartData,
   cartData,
   clearCartData,
   clearCartResponse,
@@ -14,7 +15,7 @@ import {
   setCartResponse,
 } from "../state/cartData";
 import { CartDataDrawer } from "./CartDataDrawer";
-import { getCartQuery, getCategoriesQuery, getMediaImageQuery, getProductCollectionsQuery, getRecipeListQuery, graphQLClient } from "../api/graphql";
+import { createCartMutation, getCartQuery, getCategoriesQuery, getMediaImageQuery, getProductCollectionsQuery, getRecipeListQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { selectMealItems } from "../state/mealdata";
 import { useLocation } from "react-router-dom";
 import { totalQuantity } from "../utils";
@@ -77,6 +78,28 @@ const Home = () => {
   const [recipeList, setRecipeList] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [positionX, setPositionX] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const handleImageClick = () => {
+    if (isMobile) {
+      setActiveButton((prevIndex) => (prevIndex + 1) % buttonTexts.length)
+      setProgress(0)
+      setIsPaused(false)
+      // setCurrentIndex();
+    }
+  };
   const reviews = [
     {
       name: 'Rashmi Bansal',
@@ -108,37 +131,130 @@ const Home = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
   const handleMouseDowns = () => {
     setIsDragging(true);
   };
+
+  const handleMouseLeave = (e) => {
+    if (isDragging) {
+      setPositionX(0);
+      setIsDragging(false);
+    }
+  };
+
+
 
   const handleMouseMoves = (e) => {
     if (!isDragging) return;
     const parentWidth = e.target.parentNode.offsetWidth;
     const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
-    if (newX >= 0 && newX <= parentWidth - 60) {
-      setPositionX(newX);
-      // setRotation((prevRotation) => {
-      //   const newRotation = prevRotation + 360;
-      //   const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
-      //   setSelecteRandomPro(apiResponse[selectedIndex]);
 
-      //   return newRotation;
-      // });
+    if (newX >= 0 && newX <= 220) {
+      setPositionX(newX);
+      if (newX >= 200) {
+        setRotation((prevRotation) => {
+          const newRotation = prevRotation + 360;
+          const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+          setSelecteRandomPro(apiResponse[selectedIndex]);
+
+          return newRotation;
+        });
+      }
     }
   };
 
-  const handleMouseUps = () => {
+
+  const handleMouseUps = (e) => {
     setIsDragging(false);
     setPositionX(0);
-    setRotation((prevRotation) => {
-      const newRotation = prevRotation + 360;
-      const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
-      setSelecteRandomPro(apiResponse[selectedIndex]);
-
-      return newRotation;
-    });
+    const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
+    if (newX < 200) {
+      setRotation((prevRotation) => {
+        const newRotation = prevRotation + 360;
+        const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+        setSelecteRandomPro(apiResponse[selectedIndex]);
+        return newRotation;
+      });
+    }
   };
+
+  const handleAddToCart = (productId, sellingPlanId) => {
+
+    if (cartDatas === null) {
+      if (sellingPlanId) {
+        addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        addToCart({ merchandiseId: productId, quantity: 1 });
+      }
+    }
+
+    const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+      return cartItem.node.merchandise.id === productId;
+    });
+
+    if (productInCart) {
+      const quantityInCart = productInCart.node.quantity;
+      const cartId = cartDatas?.cartCreate?.cart?.id
+      const id = productInCart?.node?.id
+      if (sellingPlanId) {
+        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
+      } else {
+        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
+      }
+    } else {
+      const cartId = cartDatas?.cartCreate?.cart?.id
+      if (sellingPlanId) {
+        updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+      } else {
+        updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+      }
+    }
+  };
+
+  const addToCart = async (cartItems) => {
+    const params = {
+      "cartInput": {
+        "lines": [
+          cartItems
+        ]
+      }
+    }
+    const response = await graphQLClient.request(createCartMutation, params);
+    dispatch(addCartData(response))
+    // setLoading((prevLoading) => ({
+    //     ...prevLoading,
+    //     [cartItems.merchandiseId]: false,
+    // }));
+  }
+
+  const updateCartItem = async (cartId, cartItem, id) => {
+    const params = {
+      "cartId": cartId,
+      "lines": cartItem
+    }
+    const response = await graphQLClient.request(updateCartItemMutation, params);
+    dispatch(setCartResponse(response.cartLinesUpdate));
+    // setLoading((prevLoading) => ({
+    //     ...prevLoading,
+    //     [id]: false,
+    // }));
+  }
+
+  const updateCart = async (cartId, cartItem) => {
+    const params = {
+      "cartId": cartId,
+      "lines": [
+        cartItem
+      ]
+    }
+    const response = await graphQLClient.request(updateCartMutation, params);
+    dispatch(setCartResponse(response.cartLinesAdd));
+    // setLoading((prevLoading) => ({
+    //     ...prevLoading,
+    //     [cartItem.merchandiseId]: false,
+    // }));
+  }
 
   const fetchImageById = async (imageId) => {
     try {
@@ -179,11 +295,10 @@ const Home = () => {
 
   const imgRef = useRef(null);
 
-  // Handle mouse drag start
   const handleMouseDown = (e) => {
     setDragging(true);
     setLastMouseX(e.clientX);
-    e.preventDefault(); // Prevent default drag behavior
+    e.preventDefault();
   };
 
   // Handle mouse movement during drag (rotate image and update product)
@@ -1421,7 +1536,8 @@ const Home = () => {
           </p>
         </div>
         <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
-          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'>
+          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
+            style={{ userSelect: 'none' }}>
             <div
               className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] h-[76px] w-[300px] btn-spin'
               onMouseMove={handleMouseMoves}
@@ -1442,6 +1558,7 @@ const Home = () => {
                   transition: isDragging ? 'none' : 'left 0.3s ease',
                 }}
                 onMouseDown={handleMouseDowns}
+                onMouseLeave={handleMouseLeave}
               ></div>
 
               <div className="pl-[76px]">
@@ -1464,6 +1581,10 @@ const Home = () => {
               <button
                 type='button'
                 className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn'
+                onClick={() => {
+                  handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
+                }
+                }
               >
                 Add to cart
               </button>
@@ -1650,7 +1771,8 @@ const Home = () => {
 
       <div className="relative bg-center h-[691px] w-full cursor-pointer mb-[-40px]" onMouseDown={handleMouseHold}
         onMouseUp={handleMouseRelease}
-        onMouseLeave={handleMouseRelease} >
+        onMouseLeave={handleMouseRelease}
+        onClick={() => handleImageClick()} >
         <img
           src={currentData?.image}
           alt="Banner"
@@ -1668,12 +1790,12 @@ const Home = () => {
         <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
           <div className="flex pl-8 pt-2 flavour-options-title">
             <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
-                  md:text-[48px] md:leading-[48.43px] font-[400]">
+            md:text-[48px] md:leading-[48.43px] font-[400]">
               What makes us instantly yours
             </h1>
           </div>
 
-          <div className="flex items-start flavour-options-title-text mb-4 md:mt-8 mt-0 flex-col md:flex-row  pl-8">
+          <div className="flex items-start flavour-options-title-text mb-4 md:mt-8 mt-0 flex-col md:flex-row pl-8">
             <img
               src={noPreservativeWhite}
               alt="Icon"
@@ -1681,46 +1803,44 @@ const Home = () => {
             />
             <div className="w-full md:w-1/2 ml-5 flavour-options-title-text-content">
               <h2 className="font-skillet text-[26px] leading-[20px] text-[#FFFFFF] mb-2 
-                    md:text-[36px] md:leading-[35px] font-[400]">
+              md:text-[36px] md:leading-[35px] font-[400]">
                 {currentData?.title}
               </h2>
               <p className="font-regola-pro text-[14px] leading-[20px] text-[#EBEBEB] 
-                   md:text-[18px] md:leading-[24px] font-[500]">
+             md:text-[18px] md:leading-[24px] font-[500]">
                 {currentData?.description}
               </p>
             </div>
           </div>
-
-          <div className="flex flex-grow items-center w-full  md:mt-80 mt-2 pl-8 flavour-options">
-            <div className="flex flex-col md:flex-row gap-10">
-              {buttonTexts.map((text, index) => (
-                <button
-                  key={index}
-                  className={`relative inline-flex items-center justify-center h-[47px] pt-[9.42px] pr-[22.6px] pb-[9.42px] pl-[22.6px] rounded-[7.53px] text-[#333333] bg-[#FFFFFF] overflow-hidden`}
-                  onClick={() => handleButtonClick(index)}
-                >
-                  <span
-                    className={`absolute top-0 left-0 h-full`}
-                    style={{
-                      height: '100%',
-                      borderRadius: '7.53px',
-                      width: activeButton === index ? `${progress}%` : '0%',
-                      backgroundColor: '#7D7D7DAB',
-                      zIndex: 0,
-                      transition: 'expand 1s linear',
-                    }}
-                  />
-                  <span className="relative z-10 font-regola-pro text-[14px] font-[600] leading-[16px] text-[#333333] text-left
-                             md:text-[16.95px] md:leading-[20.34px]">
-                    {text}
-                  </span>
-                </button>
-              ))}
-            </div>
-
+          <div className="flavour-options flex flex-row gap-4 items-center z-10 md:mt-80 mt-2 pl-8">
+            {buttonTexts.map((text, index) => (
+              <button
+                key={index}
+                className={`relative inline-flex items-center justify-center h-[47px] pt-[9.42px] pr-[22.6px] pb-[9.42px] pl-[22.6px] rounded-[7.53px] text-[#333333] bg-[#FFFFFF] overflow-hidden`}
+                onClick={() => handleButtonClick(index)}
+              >
+                <span
+                  className={`absolute top-0 left-0 h-full`}
+                  style={{
+                    height: '100%',
+                    borderRadius: '7.53px',
+                    width: activeButton === index ? `${progress}%` : '0%',
+                    backgroundColor: '#7D7D7DAB',
+                    zIndex: 0,
+                    transition: 'expand 1s linear',
+                  }}
+                />
+                <span className="relative z-10 font-regola-pro text-[14px] font-[600] leading-[16px] text-[#333333] text-left
+                     md:text-[16.95px] md:leading-[20.34px] flavour-button-text">
+                  {text}
+                </span>
+              </button>
+            ))}
           </div>
+
         </div>
       </div>
+
 
       <div className="pt-16 mb-12">
         <div className="px-8 sm:mx-5 mx-0 pt-10">
