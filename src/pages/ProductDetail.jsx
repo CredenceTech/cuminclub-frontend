@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle, getRelatedProducts } from '../api/graphql';
+import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle, getRelatedProducts, createCartMutation, updateCartItemMutation, updateCartMutation } from '../api/graphql';
 import Rating from '../component/Rating';
 import middleImg from '../assets/middle1-image1.png'
 import AddFeedback from '../component/AddFeedback';
 import { wrap } from "popmotion";
 import ReactPlayer from 'react-player';
 import LoadingAnimation from '../component/Loader';
+import { addCartData, cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 
 const variants = {
     enter: (direction) => {
@@ -59,8 +60,108 @@ function ProductDetail() {
     const [deliveryPostcode, setDeliveryPostcode] = useState('');
     const [etd, setEtd] = useState(null);
     const [logo, setLogo] = useState(null);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const cartDatas = useSelector(cartData);
+    const cartResponse = useSelector(selectCartResponse);
     const pickupPostcode = '394421';
+
+    const handleAddToCart = (productId, sellingPlanId) => {
+        // setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
+        if (cartDatas === null) {
+            if (sellingPlanId) {
+                addToCart({
+                    merchandiseId: productId,
+                    sellingPlanId: sellingPlanId,
+                    quantity: 1,
+                });
+            } else {
+                addToCart({ merchandiseId: productId, quantity: 1 });
+            }
+        }
+
+        const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
+            return cartItem.node.merchandise.id === productId;
+        });
+
+        if (productInCart) {
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id;
+            const id = productInCart?.node?.id;
+            if (sellingPlanId) {
+                updateCartItem(productId, cartId, {
+                    id: id,
+                    sellingPlanId: sellingPlanId,
+                    quantity: quantityInCart + 1,
+                });
+            } else {
+                updateCartItem(productId, cartId, {
+                    id: id,
+                    quantity: quantityInCart + 1,
+                });
+            }
+        } else {
+            const cartId = cartDatas?.cartCreate?.cart?.id;
+            if (sellingPlanId) {
+                updateCart(cartId, {
+                    merchandiseId: productId,
+                    sellingPlanId: sellingPlanId,
+                    quantity: 1,
+                });
+            } else {
+                updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+            }
+        }
+    };
+
+
+    const addToCart = async (cartItems) => {
+        const params = {
+            cartInput: {
+                lines: [cartItems],
+            },
+        };
+        // setIsLoading(true);
+        const response = await graphQLClient.request(createCartMutation, params);
+        // setIsLoading(false);
+        dispatch(addCartData(response));
+        // setLoading((prevLoading) => ({
+        //     ...prevLoading,
+        //     [cartItems.merchandiseId]: false,
+        // }));
+    };
+
+    const updateCartItem = async (a, cartId, cartItem) => {
+        const params = {
+            cartId: cartId,
+            lines: cartItem,
+        };
+        // setIsLoading(true);
+        const response = await graphQLClient.request(
+            updateCartItemMutation,
+            params
+        );
+        // setIsLoading(false);
+        dispatch(setCartResponse(response.cartLinesUpdate));
+        // setLoading((prevLoading) => ({
+        //     ...prevLoading,
+        //     [a]: false,
+        // }));
+    };
+
+    const updateCart = async (cartId, cartItem) => {
+        const params = {
+            cartId: cartId,
+            lines: [cartItem],
+        };
+        // setIsLoading(true);
+        const response = await graphQLClient.request(updateCartMutation, params);
+        // setIsLoading(false);
+        dispatch(setCartResponse(response.cartLinesAdd));
+        // setLoading((prevLoading) => ({
+        //     ...prevLoading,
+        //     [cartItem.merchandiseId]: false,
+        // }));
+    };
 
     const fetchServiceability = async () => {
         const url = `${import.meta.env.VITE_SHIP_ROCKET_API}/courier/serviceability/?pickup_postcode=${pickupPostcode}&delivery_postcode=${deliveryPostcode}&weight=1&cod=1`;
@@ -447,7 +548,7 @@ function ProductDetail() {
                         </div>
                         <div className={`md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center ${homeImg?.reference?.image?.originalSrc ? 'flex-row' : 'md:flex-row flex-col'} md:h-[650px] h-auto`}>
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-[30%] md:-left-16' : 'md:pr-6 md:pl-6'} left-0 md:h-[553px] h-auto md:w-[553px] w-auto`}>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-[30%] md:-left-16' : 'md:pr-6 md:pl-6'} md:h-[553px] h-auto md:w-[553px] w-auto`}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
@@ -844,7 +945,8 @@ function ProductDetail() {
                                     {productData?.relatedProducts?.references?.edges?.map((item, i) => (
                                         <div key={i} className='flex flex-col justify-between lg:justify-start'>
                                             <div
-                                                style={{ background: `${colors[i % colors.length]}` }} // Cycle through colors using modulus
+                                                style={{ background: `${colors[i % colors.length]}` }}
+                                                onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
                                                 className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                                             >
                                                 <div
@@ -877,7 +979,10 @@ function ProductDetail() {
                                                     </p>
                                                 </div>
                                                 <div className='h-auto'>
-                                                    <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded'>+</button>
+                                                    <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded' onClick={() => {
+                                                        handleAddToCart(item?.node?.variants.edges[0].node.id)
+                                                    }
+                                                    }>+</button>
                                                 </div>
                                             </div>
 

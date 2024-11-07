@@ -548,7 +548,7 @@ body {
     gap: 10px;
   }
 
-  .flavour-options {
+  /* .flavour-options {
     display: none;
   }
 
@@ -560,7 +560,7 @@ body {
   .flavour-options-title-text-content {
     margin-left: 0;
     margin-top: 10px;
-  }
+  } */
 
   .footer-content {
     padding: 40px 48px 24px;
@@ -671,4 +671,27 @@ body {
   background-size: cover;
   height: 100%;
   top: -100px
+}
+
+@media (max-width: 768px) {
+  .flavour-options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    justify-content: center;
+    gap: 5px; 
+    z-index: 20;
+  }
+  .flavour-options button {
+    height: 4px; 
+    padding: 0;
+    width: calc(100% / 5); 
+    font-size: 10px; 
+    background-color: white;
+  }
+  .flavour-button-text{
+    visibility: hidden;
+  }
 }

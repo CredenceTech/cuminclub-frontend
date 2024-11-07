@@ -1544,6 +1544,7 @@ query productByHandle($handle: String!) {
                 id
                 title
                 description
+                handle
                 onlineStoreUrl
                 priceRange {
                   minVariantPrice {
@@ -1551,6 +1552,15 @@ query productByHandle($handle: String!) {
                     currencyCode
                   }
                 }
+                   variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
                 metafield(namespace: "custom", key: "image_for_home") {
                   value
                   reference {
@@ -1580,7 +1590,17 @@ export const getRelatedProducts = gql`
           id
           title
           description
+          handle
           onlineStoreUrl
+           variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
           priceRange {
             minVariantPrice {
               amount
