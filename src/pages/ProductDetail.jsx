@@ -57,7 +57,8 @@ function ProductDetail() {
     const { handle } = useParams();
     const [isAddFeedbackOpen, setIsAddFeedbackOpen] = useState(false);
     const [deliveryPostcode, setDeliveryPostcode] = useState('');
-    const [etd, setEtd] = useState(null)
+    const [etd, setEtd] = useState(null);
+    const [logo, setLogo] = useState(null);
 
     const pickupPostcode = '394421';
 
@@ -217,6 +218,7 @@ function ProductDetail() {
 
                     const homeImage = response?.product?.metafields?.find(field => field?.key === 'image_for_home');
                     setHomeImage(homeImage);
+                    setLogo(homeImage);
 
                     const stepsField = response?.product?.metafields?.find(field => field?.key === 'add_product_steps');
                     const feedbackField = response?.product?.metafields?.find(field => field?.key === 'add_feedbacks');
@@ -409,28 +411,59 @@ function ProductDetail() {
         return weightUnitSymbols[weightUnit] || weightUnit;
     };
 
+    const leftPositions = ['-left-[70px]', '-left-[50px]', 'left-[0px]', '-left-[50px]', '-left-[70px]',];
+
     return (
         <div className='bg-white other-page'>
 
             {!loading ?
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
-                        <div className="md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center md:flex-row flex-col md:h-[650px] h-auto">
+                        <div className={`${homeImg?.reference?.image?.originalSrc ? 'flex' : 'flex'} mt-3 flex-row md:hidden`} >
+                            <div className={`ml-5 mr-10 ${homeImg?.reference?.image?.originalSrc ? 'hidden' : 'flex'} `}>
+                                <img
+                                    src={logo?.reference?.image?.originalSrc}
+                                    className={`w-[100px] h-auto`}
+                                    alt={``}
+                                />
+                            </div>
+                            <div className='flex flex-col ml-5'>
+                                <h1
+                                    style={{
+                                        color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}`
+                                    }}
+                                    className={`sm:text-5xl font-skillet md:text-[52.87px] text-[40px] md:leading-[56.74px] leading-[40px] font-[400] md:mb-0 mb-2 `
+                                    } >
+                                    {productData?.title}
+                                </h1>
+                                <div className='flex flex-col items-start'>
+                                    <button type='button'
+                                        className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
+                                    <div className="flex">
+                                        <Rating rating={averageRating} text={`${feedbacks?.length !== undefined ? feedbacks?.length : 0} Reviews`} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={`md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center ${homeImg?.reference?.image?.originalSrc ? 'flex-row' : 'md:flex-row flex-col'} md:h-[650px] h-auto`}>
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-16' : 'pr-6 pl-6'} left-0 md:h-[553px] h-auto md:w-[553px] w-auto`}>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-[30%] md:-left-16' : 'md:pr-6 md:pl-6'} left-0 md:h-[553px] h-auto md:w-[553px] w-auto`}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'md:h-[553px] w-[553px]' : 'md:h-[553px] w-auto'} h-auto`}
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[300px] md:h-[553px] w-[300px] md:w-[553px]' : 'md:h-[553px] w-auto'} h-auto`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />
                             </div>
-                            <div className='flex md:h-full h-auto flex-col relative md:-left-10 left-0  gap-y-2'>
+                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 -left-20' : ''} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                <div ref={scrollContainerRef} className="flex  md:flex-col flex-row overflow-x-auto md:h-[600px] h-auto scrollbar-hide">
+                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-auto scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
-                                        <div key={i} className="flex-shrink-0 md:w-[130px] w-[100px] cursor-pointer md:h-[150px] h-[100px] p-2">
+                                        <div
+                                            key={i}
+                                            className={`flex-shrink-0 cursor-pointer p-2 relative ${homeImg?.reference?.image?.originalSrc ? `${leftPositions[i % leftPositions.length]} my-2 md:my-0 md:left-0 w-[60px] md:w-[130px] md:h-[150px] h-[80px]` : 'md:w-[130px] w-[100px] md:h-[150px] h-[100px]'} `}
+                                        >
                                             <img
                                                 onClick={() => { setHomeImage(item?.node?.src); setRotation(0); }}
                                                 src={item?.node?.src}
@@ -463,19 +496,21 @@ function ProductDetail() {
                         <div className="lg:flex-grow md:max-w-[645px] md:w-2/5 md:mt-14 mt-7 lg:mr-20 2xl:mr-40 w-full mb-0 md:mb-0">
                             {/*  accordion sadasdasd */}
                             <div className='px-4 md:px-0'>
-                                <h1
-                                    style={{
-                                        color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}`
-                                    }}
-                                    className={`sm:text-5xl font-skillet md:text-[52.87px] text-[40px] md:leading-[56.74px] leading-[40px] font-[400] md:mb-0 mb-2 `
-                                    } >
-                                    {productData?.title}
-                                </h1>
-                                <div className='flex items-center'>
-                                    <button type='button'
-                                        className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
-                                    <div className="flex ml-4">
-                                        <Rating rating={averageRating} text={`${feedbacks?.length !== undefined ? feedbacks?.length : 0} Reviews`} />
+                                <div className='hidden md:flex flex-col '>
+                                    <h1
+                                        style={{
+                                            color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}`
+                                        }}
+                                        className={`sm:text-5xl font-skillet md:text-[52.87px] text-[40px] md:leading-[56.74px] leading-[40px] font-[400] md:mb-0 mb-2 `
+                                        } >
+                                        {productData?.title}
+                                    </h1>
+                                    <div className='flex items-center'>
+                                        <button type='button'
+                                            className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
+                                        <div className="flex ml-4">
+                                            <Rating rating={averageRating} text={`${feedbacks?.length !== undefined ? feedbacks?.length : 0} Reviews`} />
+                                        </div>
                                     </div>
                                 </div>
                                 <p className='md:text-[20px] text-[16px] font-[500] font-regola-pro mt-3 md:pl-2 pl-0 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
@@ -852,7 +887,8 @@ function ProductDetail() {
 
                             </div>
                         </>}
-                </> : <LoadingAnimation />}
+                </> : <LoadingAnimation />
+            }
         </div >
     )
 }
