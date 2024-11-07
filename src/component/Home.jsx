@@ -48,8 +48,6 @@ import middleImg from '../assets/middle1-image1.png'
 import rtcImg from '../assets/ready-to-cook-img.jpg'
 import SearchQuery from "./SearchQuery";
 import UserMenu from '../component/DropdownProfile';
-import { useSwipeable } from "react-swipeable";
-
 const Home = () => {
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -120,10 +118,7 @@ const Home = () => {
     },
   ];
 
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [ourProcessDragging, setOurProcessDragging] = useState(false); // Renamed state for dragging
-  const [startX, setStartX] = useState(0); // Starting position of drag
-  const sliderRef = useRef(null); // To reference the slider element
+
 
   const ourProcessData = [
     {
@@ -143,13 +138,62 @@ const Home = () => {
     },
   ];
 
-  const swipeHandlers = useSwipeable({
-    onSwipedLeft: () => setActiveSlide((prev) => (prev === ourProcessData.length - 1 ? 0 : prev + 1)),
-    onSwipedRight: () => setActiveSlide((prev) => (prev === 0 ? ourProcessData.length - 1 : prev - 1)),
-    preventDefaultTouchmoveEvent: true,
-    trackTouch: true,
-    trackMouse: true,
-  });
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [startX, setStartX] = useState(0)
+  const [isSwiping, setIsSwiping] = useState(false)
+  const sliderRef = useRef(null)
+
+  const handleTouchStart = (e) => {
+    setStartX(e.touches[0].clientX)
+    setIsSwiping(true)
+  }
+
+  const handleTouchMove = (e) => {
+    if (!isSwiping) return
+    const currentX = e.touches[0].clientX
+    const diff = startX - currentX
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        setActiveSlide((prev) => (prev + 1) % ourProcessData.length)
+      } else {
+        setActiveSlide((prev) => (prev - 1 + ourProcessData.length) % ourProcessData.length)
+      }
+      setIsSwiping(false)
+    }
+  }
+
+  const handleTouchEnd = () => {
+    setIsSwiping(false)
+  }
+
+  const handleOurProcessMouseDown = (e) => {
+    setStartX(e.clientX)
+    setIsSwiping(true)
+  }
+
+  const handleOurProcessMouseMove = (e) => {
+    if (!isSwiping) return
+    const currentX = e.clientX
+    const diff = startX - currentX
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        setActiveSlide((prev) => (prev + 1) % ourProcessData.length)
+      } else {
+        setActiveSlide((prev) => (prev - 1 + ourProcessData.length) % ourProcessData.length)
+      }
+      setIsSwiping(false)
+    }
+  }
+
+  const handleOurProcessMouseUp = () => {
+    setIsSwiping(false)
+  }
+
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.style.transform = `translateX(-${activeSlide * 100}%)`
+    }
+  }, [activeSlide])
 
   const nextOurProcessSlide = () => {
     setActiveSlide((prevSlide) => (prevSlide + 1) % ourProcessData.length);
@@ -1761,22 +1805,38 @@ const Home = () => {
           </div>
           <div className="mt-8 md:mt-5">
             {isMobile ? (
-              <div className="relative">
+              <div>
                 <div className="flex justify-center" >
                   <div className="w-full md:w-1/3 px-2 mb-6 relative">
-                    <div className="py-4">
-                      <div className="relative" >
-                        <img
-                          src={ourProcessData[activeSlide].src}
-                          alt={ourProcessData[activeSlide].alt}
-                          className="w-full h-[500px] object-cover mb-4 rounded-[8px]"
-                          {...swipeHandlers}
-                        />
-                        <div className="absolute bottom-0 left-0 w-full rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
-                          <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
-                            {ourProcessData[activeSlide].title}
-                          </h3>
-                        </div>
+                    <div className="relative max-w-md mx-auto overflow-hidden">
+                      <div
+                        ref={sliderRef}
+                        className="flex transition-transform duration-300 ease-in-out"
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                        onMouseDown={handleOurProcessMouseDown}
+                        onMouseMove={handleOurProcessMouseMove}
+                        onMouseUp={handleOurProcessMouseUp}
+                        onMouseLeave={handleOurProcessMouseUp}
+                      >
+                        {ourProcessData.map((slide, index) => (
+                          <div key={index} className="w-full flex-shrink-0">
+                            <div className="relative">
+                              <img
+                                src={slide.src}
+                                alt={slide.alt}
+                                className="w-full h-[500px] object-cover rounded-[8px]"
+                                draggable="false"
+                              />
+                              <div className="absolute bottom-0 left-0 w-full rounded-bl-[8px] rounded-br-[8px] h-[100px] bg-gradient-to-b from-primary to-secondary flex items-end">
+                                <h3 className="p-4 font-regola-pro text-[20px] md:text-[24px] font-semibold leading-[24px] md:leading-[28.8px] mb-8 ml-4 text-white">
+                                  {slide.title}
+                                </h3>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
