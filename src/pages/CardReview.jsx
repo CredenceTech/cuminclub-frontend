@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 import { addCustomerAccessToken, addUserId, customerAccessTokenData, userEmails } from '../state/user';
 import { filterData } from '../state/selectedCountry';
 import toast from 'react-hot-toast';
+import BlazeSDK from '@juspay/blaze-sdk-web';
 
 const CardReview = () => {
     const cartDatas = useSelector(cartData);
@@ -363,6 +364,7 @@ const CardReview = () => {
 
 
     const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken, body) => {
+
         const params = {
             checkoutId: checkoutId,
             customerAccessToken: customerAccessToken,
@@ -371,9 +373,113 @@ const CardReview = () => {
         const response = await graphQLClient.request(checkoutConnectWithCustomerMutation, params);
         setIsLoading(false);
         if (response && response.checkoutCustomerAssociateV2) {
-            continuePayment(body);
+            const updatedBody = {
+                ...body,
+                checkoutUrlId: checkoutId,  
+            };
+            console.log(updatedBody)
+            continuePayment(updatedBody);
         }
     }
+
+    function extractCheckoutIdAndKey(gidString) {
+        const parts = gidString.split('Checkout/');
+        if (parts.length > 1) {
+            return parts[1];
+        } else {
+            console.error("Invalid gid format:", gidString); 
+            return null;
+        }
+    }
+
+    const generateUUID = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = (Math.random() * 16) | 0;
+            return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+        });
+    };
+    
+    function createSDKPayload(data) {
+        return {
+            requestId: Math.random().toString(36).substring(7), 
+            service: 'in.breeze.onecco',
+            payload: data
+        };
+    }
+    
+    function processPayment(payload) {
+        if (!payload.checkoutId) {
+            console.error('Checkout ID is missing');
+            return;
+        }
+    
+        const processPayload = createSDKPayload({
+            action: 'startCheckout',
+            cart: {
+                token: extractCheckoutIdAndKey(payload.checkoutId),
+                items: payload.products.map(product => ({
+                    id: generateUUID(), 
+                    title: product.name,
+                    quantity: product.quantity,
+                    price: product.unit_amount * 100, 
+                    description: product.description,
+                    image: product.images[0]
+                })),
+                total_price: payload.products.reduce((acc, item) => acc + item.unit_amount * item.quantity, 0) * 100, // Total in cents/paise
+                currency: payload.currency,
+                customer: {
+                    email: payload.email,
+                    address: payload.address
+                }
+            }
+        });
+    
+        console.log('Processing payment with payload:', processPayload);
+    
+        BlazeSDK.process(processPayload)
+            .then(response => {
+                console.log('Payment processed:', response);
+                if (response.status === 'success') {
+                    console.log('Payment successful!');
+                } else {
+                    console.error('Payment failed:', response);
+                }
+            })
+            .catch(error => {
+                console.error('Error processing payment:', error);
+            });
+    }
+    
+    function initiatePayment(payload) {
+        const sdkPayload = createSDKPayload({
+            merchantId: 'instantly',
+            environment: 'sandbox',
+            shopUrl: 'https://76ac20-2.myshopify.com'
+        });
+    
+        console.log('Initiating Blaze SDK with payload:', sdkPayload);
+    
+        const initiatePromise = new Promise((resolve, reject) => {
+            BlazeSDK.initiate(sdkPayload, (response) => {
+                if (response && response.status === 'success') {
+                    resolve(response); 
+                } else {
+                    reject('Blaze SDK initiation failed'); 
+                }
+            });
+        });
+    
+        initiatePromise
+            .then(response => {
+                console.log('Blaze SDK initiated:', response);
+                processPayment(payload); 
+            })
+            .catch(error => {
+                console.error('Error initializing Blaze SDK:', error);
+            });
+    }
+    
+    
 
     const continuePayment = async (addressBody) => {
         setIsLoading(true);
@@ -396,45 +502,24 @@ const CardReview = () => {
             setIsLoading(false);
             return
         }
-        try {
-            const url = `${import.meta.env.VITE_SHOPIFY_API_URL}/stripe`;
-            const response = await fetch(url,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        email: userEmail?.email,
-                        products: productList,
-                        currency: filterDatas.currency_code.toLowerCase(),
-                        address: {
-                            first_name: addressBody?.firstName1,
-                            last_name: addressBody?.lastName1,
-                            address1: addressBody?.address1,
-                            address2: '',
-                            city_name: addressBody?.city,
-                            state: addressBody?.province,
-                            zip_code: addressBody?.zip,
-                            country: addressBody?.country
-                        }
-                    }),
-                });
-            const data = await response.json();
-            setIsLoading(false);
-            setAddress(null);
-            if (data && data.success) {
-                let session = data.data ? data.data : null;
-                if (session.url) {
-                    window.location.replace(session.url);
-                }
-            } else {
-                toast.error(data?.message)
-            }
-            console.log("stripe", data);
-
-        } catch (error) {
-            setIsLoading(false);
-            toast.error("Something went wrong.");
-            console.error('Error fetching Get stripe Detail:', error);
+        const payload={
+            email: userEmail?.email,
+            products: productList,
+            currency: filterDatas.currency_code.toLowerCase(),
+            checkoutId:addressBody.checkoutUrlId,
+            address: {
+                first_name: userEmail.firstName,
+                last_name: userEmail.lastName,
+                address1: addressBody?.address1,
+                address2: '',
+                city_name: addressBody?.city,
+                state: addressBody?.province,
+                zip_code: addressBody?.zip,
+                country: addressBody?.country
         }
+    }
+
+        initiatePayment(payload);
     };
 
     const updateCart = async (cartId, cartItem) => {
@@ -524,50 +609,50 @@ const CardReview = () => {
                                             <h1 className='text-xl md:text-[36px] leading-[36px] font-[400] font-skillet text-[#333333] '>{line?.node?.merchandise?.product?.title}</h1>
                                             <p className='font-skillet text-[#757575] text-[28px] leading-[28.18px] font-[400]'><span className='text-[20px] leading-[20.1px] '>₹</span> {line?.node?.merchandise?.priceV2?.amount}</p>
                                             {loading[line.node.merchandise.id] ? <svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg> :
-                                <div className="flex gap-2 items-center">
-                                <button
-                                  onClick={() =>
-                                    handleRemoveFromCart(
-                                      line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
-                                    )
-                                  }
-                                >
-                                  <svg
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                      fill="#333333"
-                                    />
-                                  </svg>
-                                </button>
-                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                  {line.node.quantity}
-                                </span>
-                                <button
-                                  onClick={() =>
-                                    handleAddToCart(line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
-                                  }
-                                >
-                                  <svg
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                  >
-                                    <path
-                                      d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                      fill="#333333"
-                                    />
-                                  </svg>
-                                </button>
-                              </div>
-                                }
+                                                <div className="flex gap-2 items-center">
+                                                    <button
+                                                        onClick={() =>
+                                                            handleRemoveFromCart(
+                                                                line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
+                                                            )
+                                                        }
+                                                    >
+                                                        <svg
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 18 18"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                            <path
+                                                                d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                                                fill="#333333"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                    <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                                        {line.node.quantity}
+                                                    </span>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleAddToCart(line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id)
+                                                        }
+                                                    >
+                                                        <svg
+                                                            width="18"
+                                                            height="18"
+                                                            viewBox="0 0 18 18"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                            <path
+                                                                d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                                                fill="#333333"
+                                                            />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                     <div>
