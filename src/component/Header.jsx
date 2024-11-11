@@ -310,7 +310,7 @@ const Header = () => {
   return (
     <div ref={headerRef}>
       <div
-        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'} ${pathname.includes('product-details') ? 'bg-[#FFFFFF] lg:bg-[#EADEC1] pb-7' : ''}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] px-4 lg:px-10 py-6`}
+        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'} ${pathname.includes('product-details') && !isSticky ? 'bg-[#FFFFFF] lg:bg-[#EADEC1] pb-7' : ''}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] px-4 lg:px-10 py-6`}
       >
         <div className="lg:gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] md:flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot hidden lg:flex ">
