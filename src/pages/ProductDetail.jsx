@@ -64,6 +64,7 @@ function ProductDetail() {
     const cartDatas = useSelector(cartData);
     const cartResponse = useSelector(selectCartResponse);
     const pickupPostcode = '394421';
+    const [isRte, setIsRte] = useState(false)
 
     const handleAddToCart = (productId, sellingPlanId) => {
         // setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -318,6 +319,13 @@ function ProductDetail() {
                     setProductData(response?.product);
 
                     const homeImage = response?.product?.metafields?.find(field => field?.key === 'image_for_home');
+                    const rte = response?.product?.metafields?.find(mf => mf && mf.key === "rte");
+                    if (rte.value === "true") {
+                        setIsRte(true)
+                    }
+                    else {
+                        setIsRte(false)
+                    }
                     setHomeImage(homeImage);
                     setLogo(homeImage);
 
@@ -334,6 +342,7 @@ function ProductDetail() {
                                 const videoField = step.metaobject.fields.find(field => field.key === 'video');
                                 const refField = step.metaobject.fields.find(field => field.key === 'name');
                                 const timeField = step.metaobject.fields.find(field => field.key === 'time');
+
 
                                 return {
                                     id: step?.metaobject?.id,
@@ -512,7 +521,7 @@ function ProductDetail() {
         return weightUnitSymbols[weightUnit] || weightUnit;
     };
 
-    const leftPositions = ['-left-[70px]', '-left-[50px]', 'left-[0px]', '-left-[50px]', '-left-[70px]',];
+    const leftPositions = ['left-[0px]', 'left-[30px]', 'left-[20px]', 'left-[0px]'];
 
     return (
         <div className='bg-white other-page'>
@@ -521,19 +530,19 @@ function ProductDetail() {
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
                         <div className={`${homeImg?.reference?.image?.originalSrc ? 'flex' : 'flex'} mt-3 flex-row md:hidden`} >
-                            <div className={`ml-5 mr-10 ${homeImg?.reference?.image?.originalSrc ? 'hidden' : 'flex'} `}>
+                            <div className={`ml-6 mr-4 -mt-2 ${homeImg?.reference?.image?.originalSrc ? 'hidden' : 'flex'} `}>
                                 <img
                                     src={logo?.reference?.image?.originalSrc}
-                                    className={`w-[100px] h-auto`}
+                                    className={`w-[150px] h-auto`}
                                     alt={``}
                                 />
                             </div>
-                            <div className='flex flex-col ml-5'>
+                            <div className={`flex flex-col md:ml-5 ${homeImg?.reference?.image?.originalSrc ? 'ml-[60%]' : 'ml-5'}`}>
                                 <h1
                                     style={{
                                         color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}`
                                     }}
-                                    className={`sm:text-5xl font-skillet md:text-[52.87px] text-[40px] md:leading-[56.74px] leading-[40px] font-[400] md:mb-0 mb-2 `
+                                    className={`leading-[22px] font-skillet md:text-[52.87px] text-[35px] md:leading-[56.74px] font-[400] md:mb-0 mb-2 `
                                     } >
                                     {productData?.title}
                                 </h1>
@@ -546,24 +555,30 @@ function ProductDetail() {
                                 </div>
                             </div>
                         </div>
-                        <div className={`md:w-3/5 w-full  relative pt-8 md:pr-7 gap-x-[40px] flex items-center ${homeImg?.reference?.image?.originalSrc ? 'flex-row' : 'md:flex-row flex-col'} md:h-[650px] h-auto`}>
+                        <div className={`md:w-3/5 w-full pt-1  relative md:pt-8 md:pr-7 gap-x-[40px] flex items-center ${homeImg?.reference?.image?.originalSrc ? 'flex-row' : 'md:flex-row flex-col'} md:h-[650px] h-auto`}>
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-[30%] md:-left-16' : 'md:pr-6 md:pl-6'} md:h-[553px] h-auto md:w-[553px] w-auto`}>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-[48%] mt-[-31%] md:mt-0 md:-left-16 md:h-[553px] h-auto md:w-[553px] w-[80%]' : 'md:pr-6 md:pl-6 md:h-[553px] h-[553px] md:w-[553px] w-[553px] flex justify-center items-center'} `}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[300px] md:h-[553px] w-[300px] md:w-[553px]' : 'md:h-[553px] w-auto'} h-auto`}
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[500px] md:h-[553px] w-[500px] md:w-[553px] max-w-[150%] md:max-w-[100%]' : 'md:h-[553px] w-auto h-[500px]'}`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />
                             </div>
-                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 -left-20' : ''} gap-y-2`}>
+
+                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-60px] w-[25%]' : ''} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-auto scrollbar-hide`}>
+                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  overflow-x-auto w-[115%] md:w-full' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-[400px] scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
                                         <div
                                             key={i}
-                                            className={`flex-shrink-0 cursor-pointer p-2 relative ${homeImg?.reference?.image?.originalSrc ? `${leftPositions[i % leftPositions.length]} my-2 md:my-0 md:left-0 w-[60px] md:w-[130px] md:h-[150px] h-[80px]` : 'md:w-[130px] w-[100px] md:h-[150px] h-[100px]'} `}
+                                            className={`flex-shrink-0 cursor-pointer p-2 relative ${homeImg?.reference?.image?.originalSrc
+                                                ? `${i > 3
+                                                    ? leftPositions[Math.max(0, leftPositions.length - (i - 3) - 1)]
+                                                    : leftPositions[i % leftPositions.length]} 
+                                            my-0 md:my-0 md:left-0 w-[80px] md:w-[130px] md:h-[150px] h-[100px]`
+                                                : 'md:w-[130px] w-[100px] md:h-[150px] h-[100px]'}`}
                                         >
                                             <img
                                                 onClick={() => { setHomeImage(item?.node?.src); setRotation(0); }}
@@ -740,7 +755,7 @@ function ProductDetail() {
                             </div>
                             <div className="col-span-10 md:col-span-8 pl-3 pt-4 relative overflow-hidden">
                                 <div className="w-full mb-4  flex lg:mb-0 ">
-                                    <div className="md:w-[80vw] w-[100vw] flex gap-x-5">
+                                    <div className={`md:w-[80vw] ${isRte ? 'w-[80vw]' : 'w-[100vw]'} flex gap-x-5`}>
                                         <AnimatePresence initial={false} custom={direction}>
                                             <motion.div
                                                 key={page}
@@ -754,9 +769,9 @@ function ProductDetail() {
                                                 //     opacity: { duration: 0.2 }
                                                 // }}
 
-                                                className={`w-5/6 ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
+                                                className={`md:w-5/6 ${isRte ? 'w-4/6' : 'w-5/6'} ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
                                             >
-                                                <div className='relative md:h-[505px] h-[200px] bg-[#333333] rounded-[11.2px] '>
+                                                <div className={`relative md:h-[505px] ${isRte ? 'h-[500px]' : 'h-[200px]'} bg-[#333333] rounded-[11.2px] `}>
                                                     {steps && <ReactPlayer
                                                         className="bg-cover"
                                                         url={steps[imageIndex]?.video}
@@ -803,7 +818,7 @@ function ProductDetail() {
                                             // transition={{ duration: 0.3 }}
                                             className='w-1/6 ml-10 relative'
                                         >
-                                            <div className="w-[430%] md:h-[505px] h-[200px] rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden">
+                                            <div className={`w-[430%] md:h-[505px] ${isRte ? 'h-[500px]' : 'h-[200px]'} rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden`}>
                                                 {steps && <ReactPlayer
                                                     className="bg-cover"
                                                     url={steps[nextImageIndex]?.video}
@@ -939,8 +954,8 @@ function ProductDetail() {
                     </div>
                     {productData?.relatedProducts?.references?.edges &&
                         <>
-                            <div><p className='px-5 md:px-[51px] text-[36px] md:pt-10 pt-6 leading-[37.34px] font-skillet'>You May Also Like</p></div>
-                            <div className='px-5 md:px-[51px] flex justify-between items-center py-14 '>
+                            <div><p className='pl-[50px] pr-5 md:pr-[51px] md:pl-[51px] text-[36px] md:pt-10 pt-6 leading-[37.34px] font-skillet'>You May Also Like</p></div>
+                            <div className='pl-[50px] pr-5 md:pr-[51px] md:pl-[51px] flex justify-between items-center py-14 '>
                                 <div className='flex flex-row justify-start gap-x-8 flex-wrap w-full '>
                                     {productData?.relatedProducts?.references?.edges?.map((item, i) => (
                                         <div key={i} className='flex flex-col justify-between lg:justify-start'>
