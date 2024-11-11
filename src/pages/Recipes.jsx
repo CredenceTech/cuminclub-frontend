@@ -326,12 +326,12 @@ const Recipes = () => {
                             <p className='text-[#231F20] font-regola-pro text-[16px] leading-[17.17px] font-[400]'>{recipe?.fields?.find(field => field.key === "cook_time")?.value}</p>
                         </div>
                     </div>
-                    <div className='col-span-3 md:col-span-2  flex overflow-x-auto bg-[#FFFFFF] flex-1 whitespace-nowrap scrollbar-hide justify-between items-center'>
+                    <div className='col-span-3 md:col-span-2 md:mt-0 mt-[-4px] flex overflow-x-auto bg-[#FFFFFF] flex-1 whitespace-nowrap scrollbar-hide justify-between items-center'>
                         <div className='flex flex-row w-full'>
                             {InstructionsText?.map((progress, index) => (
-                                <div key={index} className={`relative h-[61px] flex items-center justify-center w-full px-10   ${index === InstructionsText.length - 1 ? '' : 'border-r-[#C75801] border-r'} `}>
+                                <div key={index} className={`relative h-[61px] flex items-center justify-center w-full px-10   ${index === InstructionsText.length - 1 ? '' : 'border-r-[#C75801] border-r'} `} >
                                     <motion.div className="progress-bar" style={{ scaleX: scrollYProgress[index] }} />
-                                    <p className='text-[20px] leading-[21.47px] font-[400] font-regola-pro text-[#231F20]'> Step {progress.id} <span className='text-[#757575] text-[14px] leading-[15.03px] font-[400]'> {"("}{progress.time}{")"}</span> </p>
+                                    <p className='text-[20px] leading-[21.47px] font-[400] font-regola-pro text-[#231F20]' > Step {progress.id} <span className='text-[#757575] text-[14px] leading-[15.03px] font-[400]'> {"("}{progress.time}{")"}</span> </p>
                                 </div>
                             ))}
                         </div>
@@ -360,7 +360,7 @@ const Recipes = () => {
                                     </div>
                                 </div>
                                 <div className='pb-5'>
-                                    <img src={item.img} alt="" className='h-[400px] w-full lg:max-w-[600px] border-b border-b-[#C6C6C6] pb-5' />
+                                    <img src={item.img} alt="" className='lg:h-[400px] h-full w-full lg:max-w-[600px] border-b border-b-[#C6C6C6] pb-5' />
                                 </div>
                             </div>
                         ))}

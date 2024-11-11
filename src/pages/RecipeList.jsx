@@ -108,7 +108,7 @@ const RecipeList = () => {
     return (
         <div className='relative'>
             <div className="bg-[#FAFAFA]">
-                <div className="px-[60px] grid pt-2 grid-cols-2 lg:grid-cols-3">
+                <div className="md:px-[60px] px-[20px] grid pt-2 grid-cols-2 lg:grid-cols-3">
                     <div className="col-span-1">
                         <p className="text-[#2B2B2B] pt-4 font-regola-pro text-[12px] leading-[9.55px] font-[300]">{"Home > Recipes"}</p>
                     </div>
@@ -174,7 +174,7 @@ const RecipeList = () => {
                 </div>
             </div>
             <div className="bg-[#FAFAFA] min-h-[80vh] pb-[60px]">
-                <div className="pl-[60px] pt-[60px] pr-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+                <div className="md:pl-[60px] pl-[20px] pt-[60px] pr-[20px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
                     {filteredRecipes.length > 0 ? (
                         filteredRecipes.map((recipe) => (
                             <div key={recipe?.id} className="bg-[#FFFFFF] cursor-pointer" onClick={() => { navigate(`/recipes/${recipe?.handle}`) }}>
@@ -183,11 +183,31 @@ const RecipeList = () => {
                                     alt={recipe?.fields?.find(field => field.key === "name")?.value}
                                     className="w-full h-auto object-cover"
                                 />
-                                <div className="p-4">
-                                    <h3 className="text-[#333333] font-skillet text-[40px] leading-[26px] font-[400]">
+                                <div className="md:px-4 md:py-4 px-2 py-4 flex justify-between">
+                                    <div className='flex items-center'>
+                                    <h3 className="text-[#333333] font-skillet md:text-[40px] text-[35px] leading-[26px] font-[400]">
                                         {recipe?.fields?.find(field => field.key === "name")?.value}
                                     </h3>
-                                    <div className='flex justify-between'>
+                                    </div>
+                                    <div className="flex items-center text-gray-600">
+                                            <svg
+                                                width="21"
+                                                height="21"
+                                                viewBox="0 0 21 21"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M10.5016 6.99971V11.8997H14.0016M8.40156 0.699707H12.6016M10.5016 3.49971C5.86237 3.49971 2.10156 7.26052 2.10156 11.8997C2.10156 16.5389 5.86237 20.2997 10.5016 20.2997C15.1408 20.2997 18.9016 16.5389 18.9016 11.8997C18.9016 7.26052 15.1408 3.49971 10.5016 3.49971Z"
+                                                    stroke="#1D1929"
+                                                    strokeWidth="1.4"
+                                                />
+                                            </svg>
+                                            <span className="text-[#393939] font-regola-pro text-[24px] leading-[15.6px] font-[300] md:pl-3 pl-1">
+                                                {recipe?.fields?.find(field => field.key === "cook_time")?.value}
+                                            </span>
+                                        </div>
+                                        
+                                    {/* <div className='flex justify-between'>
                                         <div className="flex items-center mt-6 text-gray-600">
                                             <svg
                                                 width="21"
@@ -214,7 +234,7 @@ const RecipeList = () => {
                                                 {recipe?.handle}
                                             </span>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         ))
