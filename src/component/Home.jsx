@@ -1283,7 +1283,7 @@ const Home = () => {
             {loginUserCustomerId === null &&
               <button className="bg-[#FBAE36] hidden lg:block px-9 rounded-full ">
                 <Link className="text-[#FFFFFF] text-[18px] font-regola-pro font-[600] leading-[21.6px] uppercase tracking-widest" to="/login">
-                  Login
+                  LOGIN
                 </Link>
               </button>}
 
@@ -1311,8 +1311,8 @@ const Home = () => {
               transition={{ duration: 0.5 }}
               className="h-screen w-[90vw] bg-[#EADEC1]"
             >
-              <div className="flex to-gray-300 justify-between items-center px-8 pt-3 h-24 font-custom-font">
-                <button className="ml-3 " onClick={() => setIsMenuOpen(false)}>
+              <div className="flex to-gray-300 justify-between items-center pl-4 pt-0 h-24 font-custom-font">
+                <button className="-mt-4" onClick={() => setIsMenuOpen(false)}>
                   <svg
                     width="20"
                     height="20"
@@ -1415,7 +1415,7 @@ const Home = () => {
                 <div className=" py-3" >
                   {loginUserCustomerId === null ? (
                     <Link to="/registration" className="text-[18px] font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]" onClick={() => setIsMenuOpen(false)}>
-                      Register
+                      REGISTER
                     </Link>
                   ) : null}
                 </div>
@@ -1424,7 +1424,7 @@ const Home = () => {
           </motion.div>
         )}
         {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
-        <div className="relative w-full px-4 md:px-8 z-10 mt-5 md:w-[50%]" >
+        <div className="relative w-full h-auto px-4 md:px-8 z-10 mt-5 md:w-[50%]" >
           <div className="ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'
@@ -1518,7 +1518,7 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-[600] leading-[24px] pt-4 max-w-[140px]'>
+                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]'>
                     {item?.node?.title}
                   </p>
 
@@ -1622,7 +1622,7 @@ const Home = () => {
 
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
         <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title'>
+          <p className='text-white tracking-[0.04em] text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title max-w-[280px] md:max-w-full'>
             Not Sure What to Eat?
           </p>
           <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
@@ -1633,7 +1633,7 @@ const Home = () => {
           <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
             style={{ userSelect: 'none' }}>
             <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] h-[76px] w-[300px] btn-spin'
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[300px] btn-spin'
               onMouseMove={handleMouseMoves}
               onMouseUp={handleMouseUps}
               style={{
@@ -1662,7 +1662,7 @@ const Home = () => {
               </div>
             </div>
             <div className="absolute spin-product-info">
-              <div className="spin-product-info-text h-[175px]">
+              <div className="spin-product-info-text md:h-[175px] h-auto">
                 <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
                   style={{ textShadow: '0px 4px 9.9px #00000040' }}>
                   {selecteRandomPro?.node?.title}
@@ -1697,7 +1697,7 @@ const Home = () => {
               <img
                 src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
                 alt=''
-                className='lg:h-[676px] lg:w-[676px] h-[250px] w-[250px] rounded-full'
+                className='lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0 spin-image'
                 draggable={false}
               />
             </motion.div>
@@ -1809,6 +1809,7 @@ const Home = () => {
                 <div className="flex justify-center" >
                   <div className="w-full md:w-1/3 px-2 mb-6 relative">
                     <div className="relative max-w-md mx-auto overflow-hidden">
+                      
                       <div
                         ref={sliderRef}
                         className="flex transition-transform duration-300 ease-in-out"
@@ -1823,6 +1824,8 @@ const Home = () => {
                         {ourProcessData.map((slide, index) => (
                           <div key={index} className="w-full flex-shrink-0">
                             <div className="relative">
+                            <div className="absolute top-0 left-0 w-1/2 h-[500px] cursor-pointer" onClick={prevOurProcessSlide}></div>
+                            <div className="absolute top-0 right-0 w-1/2 h-[500px] cursor-pointer" onClick={nextOurProcessSlide}></div>
                               <img
                                 src={slide.src}
                                 alt={slide.alt}
@@ -1841,8 +1844,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                <div className="absolute top-0 left-0 w-1/2 h-full cursor-pointer" onClick={prevOurProcessSlide}></div>
-                <div className="absolute top-0 right-0 w-1/2 h-full cursor-pointer" onClick={nextOurProcessSlide}></div>
+               
 
                 <div className="relative mt-4 w-full h-1 bg-gray-300">
                   {Array.from({ length: ourProcessData.length }).map((_, index) => (

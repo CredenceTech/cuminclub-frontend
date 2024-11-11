@@ -37,6 +37,45 @@ const CardReview = () => {
     const [address, setAddress] = useState(null);
     const [loading, setLoading] = useState({});
     const userEmail = useSelector(userEmails);
+    const statesOfIndia = [
+        { name: "Andhra Pradesh" },
+        { name: "Arunachal Pradesh" },
+        { name: "Assam" },
+        { name: "Bihar" },
+        { name: "Chhattisgarh" },
+        { name: "Goa" },
+        { name: "Gujarat" },
+        { name: "Haryana" },
+        { name: "Himachal Pradesh" },
+        { name: "Jharkhand" },
+        { name: "Karnataka" },
+        { name: "Kerala" },
+        { name: "Madhya Pradesh" },
+        { name: "Maharashtra" },
+        { name: "Manipur" },
+        { name: "Meghalaya" },
+        { name: "Mizoram" },
+        { name: "Nagaland" },
+        { name: "Odisha" },
+        { name: "Punjab" },
+        { name: "Rajasthan" },
+        { name: "Sikkim" },
+        { name: "Tamil Nadu" },
+        { name: "Telangana" },
+        { name: "Tripura" },
+        { name: "Uttar Pradesh" },
+        { name: "Uttarakhand" },
+        { name: "West Bengal" },
+        { name: "Andaman and Nicobar Islands" },
+        { name: "Chandigarh" },
+        { name: "Dadra and Nagar Haveli and Daman and Diu" },
+        { name: "Delhi" },
+        { name: "Jammu and Kashmir" },
+        { name: "Ladakh" },
+        { name: "Lakshadweep" },
+        { name: "Puducherry" }
+    ];
+
     useEffect(() => {
         if (loginUserCustomerId) {
             setIsLogin(true)
@@ -169,7 +208,7 @@ const CardReview = () => {
         firstName1: Yup.string().required('First Name is required'),
         lastName1: Yup.string().required('Last Name is required'),
         address1: Yup.string().required('Address is required'),
-        country: Yup.string().required('Country is required'),
+        // country: Yup.string().required('Country is required'),
         province: Yup.string().required('State is required'),
         city: Yup.string().required('City is required'),
         zip: Yup.string().required('Zip Code is required'),
@@ -181,7 +220,7 @@ const CardReview = () => {
         firstName1: Yup.string().required('First Name is required'),
         lastName1: Yup.string().required('Last Name is required'),
         address1: Yup.string().required('Address is required'),
-        country: Yup.string().required('Country is required'),
+        // country: Yup.string().required('Country is required'),
         province: Yup.string().required('State is required'),
         city: Yup.string().required('City is required'),
         zip: Yup.string().required('Zip Code is required'),
@@ -194,7 +233,7 @@ const CardReview = () => {
         firstName1: '',
         lastName1: '',
         address1: '',
-        country: '',
+        // country: '',
         province: '',
         city: '',
         zip: '',
@@ -210,7 +249,7 @@ const CardReview = () => {
         firstName1: '',
         lastName1: '',
         address1: '',
-        country: '',
+        // country: '',
         province: '',
         city: '',
         zip: '',
@@ -284,7 +323,7 @@ const CardReview = () => {
                     const body = {
                         customerAccessToken: response?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
                         address1: values.address1,
-                        country: values.country,
+                        country: "India",
                         province: values.province,
                         city: values.city,
                         zip: values.zip
@@ -310,7 +349,7 @@ const CardReview = () => {
                     const body = {
                         customerAccessToken: responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
                         address1: values.address1,
-                        country: values.country,
+                        country: "India",
                         province: values.province,
                         city: values.city,
                         zip: values.zip
@@ -329,7 +368,7 @@ const CardReview = () => {
             const body = {
                 customerAccessToken: loginUserCustomerId,
                 address1: values.address1,
-                country: values.country,
+                country: "India",
                 province: values.province,
                 city: values.city,
                 zip: values.zip
@@ -375,7 +414,7 @@ const CardReview = () => {
         if (response && response.checkoutCustomerAssociateV2) {
             const updatedBody = {
                 ...body,
-                checkoutUrlId: checkoutId,  
+                checkoutUrlId: checkoutId,
             };
             console.log(updatedBody)
             continuePayment(updatedBody);
@@ -387,7 +426,7 @@ const CardReview = () => {
         if (parts.length > 1) {
             return parts[1];
         } else {
-            console.error("Invalid gid format:", gidString); 
+            console.error("Invalid gid format:", gidString);
             return null;
         }
     }
@@ -398,30 +437,30 @@ const CardReview = () => {
             return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
         });
     };
-    
+
     function createSDKPayload(data) {
         return {
-            requestId: Math.random().toString(36).substring(7), 
+            requestId: Math.random().toString(36).substring(7),
             service: 'in.breeze.onecco',
             payload: data
         };
     }
-    
+
     function processPayment(payload) {
         if (!payload.checkoutId) {
             console.error('Checkout ID is missing');
             return;
         }
-    
+
         const processPayload = createSDKPayload({
             action: 'startCheckout',
             cart: {
                 token: extractCheckoutIdAndKey(payload.checkoutId),
                 items: payload.products.map(product => ({
-                    id: generateUUID(), 
+                    id: generateUUID(),
                     title: product.name,
                     quantity: product.quantity,
-                    price: product.unit_amount * 100, 
+                    price: product.unit_amount * 100,
                     description: product.description,
                     image: product.images[0]
                 })),
@@ -433,9 +472,9 @@ const CardReview = () => {
                 }
             }
         });
-    
+
         console.log('Processing payment with payload:', processPayload);
-    
+
         BlazeSDK.process(processPayload)
             .then(response => {
                 console.log('Payment processed:', response);
@@ -449,37 +488,36 @@ const CardReview = () => {
                 console.error('Error processing payment:', error);
             });
     }
-    
+
     function initiatePayment(payload) {
         const sdkPayload = createSDKPayload({
             merchantId: 'instantly',
             environment: 'sandbox',
             shopUrl: 'https://76ac20-2.myshopify.com'
         });
-    
+
         console.log('Initiating Blaze SDK with payload:', sdkPayload);
-    
+
         const initiatePromise = new Promise((resolve, reject) => {
             BlazeSDK.initiate(sdkPayload, (response) => {
-                if (response && response.status === 'success') {
-                    resolve(response); 
+                if (response && response.payload.status === 'success') {
+                    resolve(response);
                 } else {
-                    reject('Blaze SDK initiation failed'); 
+                    reject('Blaze SDK initiation failed');
                 }
             });
         });
-    
+
         initiatePromise
             .then(response => {
                 console.log('Blaze SDK initiated:', response);
-                processPayment(payload); 
+                processPayment(payload);
             })
             .catch(error => {
                 console.error('Error initializing Blaze SDK:', error);
             });
     }
-    
-    
+
 
     const continuePayment = async (addressBody) => {
         setIsLoading(true);
@@ -502,22 +540,22 @@ const CardReview = () => {
             setIsLoading(false);
             return
         }
-        const payload={
+        const payload = {
             email: userEmail?.email,
             products: productList,
             currency: filterDatas.currency_code.toLowerCase(),
-            checkoutId:addressBody.checkoutUrlId,
+            checkoutId: addressBody.checkoutUrlId,
             address: {
-                first_name: userEmail.firstName,
-                last_name: userEmail.lastName,
+                first_name: userEmail?.firstName,
+                last_name: userEmail?.lastName,
                 address1: addressBody?.address1,
                 address2: '',
                 city_name: addressBody?.city,
                 state: addressBody?.province,
                 zip_code: addressBody?.zip,
-                country: addressBody?.country
+                country: "India"
+            }
         }
-    }
 
         initiatePayment(payload);
     };
@@ -707,7 +745,8 @@ const CardReview = () => {
                                                     />
                                                     <div className='pl-3'>
                                                         <label htmlFor={`address${i + 1}`} className="text-[20px] font-regola-pro leading-[22.8px] font-[400] text-[#757575]">
-                                                            {`${address?.node?.address1}   ${address?.node?.city} ${address?.node?.province}  ${address?.node?.country}  ${address?.node?.zip}`}
+                                                            {`${address?.node?.address1}   ${address?.node?.city} ${address?.node?.province}
+                                                              ${address?.node?.zip}`}
                                                         </label>
                                                     </div>
                                                 </div>
@@ -741,7 +780,7 @@ const CardReview = () => {
                                                 {formikForWitoutLogin.touched.email && formikForWitoutLogin.errors.email && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.email}</label>)}
                                             </div>
                                             <div className="relative flex flex-col mb-4">
-                                                <input type="text" placeholder='Password' name="password" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.password} className="w-full lg:w-[70%] bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
+                                                <input type="password" placeholder='Password' name="password" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.password} className="w-full lg:w-[70%] bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForWitoutLogin.touched.password && formikForWitoutLogin.errors.password && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.password}</label>)}
                                             </div>
                                             <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
@@ -770,29 +809,45 @@ const CardReview = () => {
                                                 {formikForWitoutLogin.touched.address1 && formikForWitoutLogin.errors.address1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.address1}</label>)}
                                             </div>
                                             <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                                <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
+                                                {/* <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                     <input type="text" placeholder='Country' name="country" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.country} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                     {formikForWitoutLogin.touched.country && formikForWitoutLogin.errors.country && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.country}</label>)}
-                                                </div>
+                                                </div> */}
                                                 <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                    <input type="text" placeholder='State' name="province" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.province} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.province && formikForWitoutLogin.errors.province && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.province}</label>)}
+                                                    <select
+                                                        name="province"
+                                                        onChange={formikForWitoutLogin.handleChange}
+                                                        value={formikForWitoutLogin.values.province}
+                                                        className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro text-[20px] py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out"
+                                                    >
+                                                        <option value="" disabled>Select State</option>
+                                                        {statesOfIndia.map((state, index) => (
+                                                            <option key={index} value={state.name}>{state.name}</option>
+                                                        ))}
+                                                    </select>
+                                                    {formikForWitoutLogin.touched.province && formikForWitoutLogin.errors.province && (
+                                                        <label className="text-sm text-red-500">{formikForWitoutLogin.errors.province}</label>
+                                                    )}
                                                 </div>
-                                            </div>
-                                            <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                                 <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                     <input type="text" placeholder='City' name="city" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.city} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                     {formikForWitoutLogin.touched.city && formikForWitoutLogin.errors.city && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.city}</label>)}
                                                 </div>
+                                            </div>
+                                            <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                                 <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                                     <input type="text" placeholder='Zip Code' name="zip" onChange={formikForWitoutLogin.handleChange} value={formikForLogin.values.zip} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                     {formikForWitoutLogin.touched.zip && formikForWitoutLogin.errors.zip && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.zip}</label>)}
                                                 </div>
+                                                <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
+                                                    <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
+                                                    {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
+                                                </div>
                                             </div>
-                                            <div className="relative flex flex-col mb-4">
+                                            {/* <div className="relative flex flex-col mb-4">
                                                 <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
-                                            </div>
+                                            </div> */}
                                             <div className="relative flex flex-row items-start mb-2">
                                                 <input type="checkbox" id="consent" name="consent" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                                 <div className='pl-3'>
@@ -830,29 +885,48 @@ const CardReview = () => {
                                             {formikForAddMoreAdd.touched.address1 && formikForAddMoreAdd.errors.address1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.address1}</label>)}
                                         </div>
                                         <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                            <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
+                                            {/* <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                 <input type="text" placeholder='Country' name="country" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.country} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForAddMoreAdd.touched.country && formikForAddMoreAdd.errors.country && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.country}</label>)}
-                                            </div>
+                                            </div> */}
                                             <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                <input type="text" placeholder='State' name="province" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.province} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.province && formikForAddMoreAdd.errors.province && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.province}</label>)}
+                                                {/* Dropdown for selecting state */}
+                                                <select
+                                                    name="province"
+                                                    onChange={formikForAddMoreAdd.handleChange}
+                                                    value={formikForAddMoreAdd.values.province}
+                                                    className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro text-[20px] py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out"
+                                                >
+                                                    <option value="" disabled>Select State</option>
+                                                    {statesOfIndia.map((state, index) => (
+                                                        <option key={index} value={state.name}>{state.name}</option>
+                                                    ))}
+                                                </select>
+
+                                                {/* Error message */}
+                                                {formikForAddMoreAdd.touched.province && formikForAddMoreAdd.errors.province && (
+                                                    <label className="text-sm text-red-500">{formikForAddMoreAdd.errors.province}</label>
+                                                )}
                                             </div>
-                                        </div>
-                                        <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                             <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                 <input type="text" placeholder='City' name="city" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.city} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForAddMoreAdd.touched.city && formikForAddMoreAdd.errors.city && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.city}</label>)}
                                             </div>
+                                        </div>
+                                        <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                             <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                                 <input type="text" placeholder='Zip Code' name="zip" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.zip} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForAddMoreAdd.touched.zip && formikForAddMoreAdd.errors.zip && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.zip}</label>)}
                                             </div>
+                                            <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
+                                                <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
+                                                {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
+                                            </div>
                                         </div>
-                                        <div className="relative flex flex-col mb-4">
+                                        {/* <div className="relative flex flex-col mb-4">
                                             <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                             {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
-                                        </div>
+                                        </div> */}
                                         <div className="relative flex flex-row items-start mb-2">
                                             <input type="checkbox" id="consent" name="consent" onChange={formikForAddMoreAdd.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                             <div className='pl-3'>

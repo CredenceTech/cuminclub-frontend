@@ -490,11 +490,13 @@ body {
     margin-top: 15px;
     font-size: 34px;
     line-height: 34px;
+    font-weight: 400;
   }
 
   .spin-banner-area .title {
-    font-size: 48px;
+    font-size: 51px;
     padding: 0;
+    font-weight: 700;
   }
 
   .spin-content {
@@ -527,7 +529,7 @@ body {
   }
 
   .spin-product-info .cart-btn {
-    background-color: #FBAE36;
+    background-color: white;
     color: #231F20;
     font-size: 15px;
     border-radius: 4px;
@@ -694,4 +696,10 @@ body {
   .flavour-button-text{
     visibility: hidden;
   }
+}
+
+@media (max-width: 500px) {
+ .spin-image{
+  margin-left: 200px;
+ }
 }

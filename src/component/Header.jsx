@@ -509,8 +509,8 @@ const Header = () => {
             transition={{ duration: 0.5 }}
             className="h-screen w-[90vw] bg-[#EADEC1]"
           >
-            <div className="flex to-gray-300 justify-between items-center px-8 pt-3 h-24 font-custom-font">
-              <button className="ml-3 " onClick={() => setIsMenuOpen(false)}>
+            <div className="flex to-gray-300 justify-between items-center pl-4 pt-0 h-24 font-custom-font">
+              <button className="-mt-4" onClick={() => setIsMenuOpen(false)}>
                 <svg
                   width="20"
                   height="20"
@@ -606,14 +606,14 @@ const Header = () => {
               {loginUserCustomerId === null ? (
                 <div className="border-y border-[#333333] py-3" >
                   <Link to="/login" className="text-[18px] font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]" onClick={() => setIsMenuOpen(false)}>
-                    Login
+                    LOGIN
                   </Link>
                 </div>
               ) : null}
               <div className=" py-3" >
                 {loginUserCustomerId === null ? (
                   <Link to="/registration" className="text-[18px] font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]" onClick={() => setIsMenuOpen(false)}>
-                    Register
+                    REGISTER
                   </Link>
                 ) : null}
               </div>
