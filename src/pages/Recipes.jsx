@@ -19,6 +19,19 @@ const Recipes = () => {
 
     const { scrollY } = useScroll({ container: containerRef })
     const { handle } = useParams();
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const fetchImageById = async (imageId) => {
         setIsLoading(true);
@@ -286,8 +299,8 @@ const Recipes = () => {
     const textColor = recipe?.fields?.find(field => field.key === "background_color")?.value || "#C75801";
     return (
         <div className='relative' ref={contentRef}>
-            <div
-                className='h-[445px]'
+            {!isMobile && <div
+                className={`h-[445px] `}
                 style={{
                     backgroundColor: backgroundColor,
                 }}
@@ -311,6 +324,37 @@ const Recipes = () => {
                         />
                     </div>
 
+
+                </div>
+            </div>}
+            <div
+                className={`md:hidden relative flex h-[445px] bg-[${backgroundColor}] md:bg-none bg-cover bg-center`}
+                style={{
+                    backgroundImage: `url(${recipe?.recipeImageUrl})`,
+                }}
+            >
+                <div
+                    className="absolute inset-0 w-full md:rounded-l-lg"
+                    style={{
+                        zIndex: 2,
+                        background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.448) 0%, rgba(0, 0, 0, 0.448) 100%)',
+                    }}
+                ></div>
+                <div className=' grid grid-cols-2 lg:grid-cols-3'>
+                    <div className=" col-span-2 md:col-span-1 pl-[60px] z-10">
+                        <p className='text-[#FFFFFF] pt-[30px] font-regola-pro font-[300] text-[16px] leading-[12.73px]'>Recipes {">"} {recipe?.fields?.find(field => field.key === "name")?.value}</p>
+                        <h1 className='pb-[20px] h-[300px] max-w-[278px] font-skillet font-[400] leading-[62.4px] text-[96px] text-[#F4E8DF] pt-8'>{recipe?.fields?.find(field => field.key === "name")?.value}</h1>
+                        <div className='col-span-1 md:hidden flex gap-x-16 items-center'>
+                            <div className=''>
+                                <p className='text-[#FAFAFA] font-regola-pro text-[14px] leading-[15.03px] font-[400] '>Prep Time</p>
+                                <p className='text-[#FAFAFA] font-regola-pro text-[16px] leading-[17.17px] font-[400]'>{recipe?.fields?.find(field => field.key === "prep_time")?.value}</p>
+                            </div>
+                            <div className=''>
+                                <p className='text-[#FAFAFA] font-regola-pro text-[14px] leading-[15.03px] font-[400]'>Cook Time</p>
+                                <p className='text-[#FAFAFA] font-regola-pro text-[16px] leading-[17.17px] font-[400]'>{recipe?.fields?.find(field => field.key === "cook_time")?.value}</p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
