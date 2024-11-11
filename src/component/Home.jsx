@@ -45,6 +45,7 @@ import headerMenu4 from "../assets/header-menu4.png"
 import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import middleImg from '../assets/middle1-image1.png'
+import readytocook from '../assets/readytocook.png'
 import rtcImg from '../assets/ready-to-cook-img.jpg'
 import SearchQuery from "./SearchQuery";
 import UserMenu from '../component/DropdownProfile';
@@ -1010,6 +1011,43 @@ const Home = () => {
     setOpenSection(openSection === section ? null : section);
   };
 
+  const [currentSlide1, setCurrentSlide1] = useState(0);
+  const [startX1, setStartX1] = useState(0);
+
+  const slides = [
+    {
+      title: 'Ready to Eat',
+      description:
+        'Need a quick meal that doesn\'t compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.',
+      buttonText: 'DISCOVER',
+      buttonLink: '/ready-to-eat',
+      image: middleImg,
+    },
+    {
+      title: 'Ready to Cook',
+      description:
+        'Love cooking but short on time? Give our DIY cooking kits a try! Each kit comes with pre-measured ingredients and easy-to-follow instructions. This allows you to make a gourmet meal in under 7 minutes. Enjoy the fun of cooking without the prep work or cleanup. Perfect for busy weeknights or when you want to impress without the stress.',
+      buttonText: 'VIEW PRODUCTS',
+      buttonLink: '/ready-to-cook',
+      image: readytocook,
+    },
+  ];
+
+  const nextSlide1 = () => setCurrentSlide1((prev) => (prev + 1) % slides.length);
+
+  const handleTouchStart1 = (e) => {
+    setStartX1(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd1 = (e) => {
+    const endX = e.changedTouches[0].clientX;
+    if (startX1 - endX > 50) {
+      setCurrentSlide1((prevSlide) => (prevSlide + 1) % slides.length);
+    } else if (endX - startX1 > 50) {
+      setCurrentSlide1((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
+    }
+  };
+
   return (
     <div className={`z-[100] ${pathname === '/' ? 'relative z-[100] -top-[100px]' : ' z-[100]'} bg-[#EFE9DA]`}>
       <div ref={headerRef} className="w-full relative home-page-background-img">
@@ -1610,30 +1648,76 @@ const Home = () => {
         </div>
 
         <div className="relative bg-cover bg-right bg-no-repeat 2xl:h-[509px] md:h-[509px] md:ml-[10px] lg:ml-[135px] md:rounded-l-lg flex flex-col justify-center mt-[35px]">
-          <img src={middleImg} className="h-[509px] w-full object-cover md:rounded-l-lg" style={{ zIndex: 1 }} />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
-          <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
-            <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">Ready to Eat</h2>
-            <div className="w-full md:w-2/5">
-              <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]" >
-                Need a quick meal that doesn't compromise on taste and feels close to home? Our RTE meals are packed in convenient tear-away pouches. Just heat them up and you’re ready to eat in 2 minutes. Perfect for on-the-go lunches, late-night snacks, or whenever you crave a delicious, homemade meal without any effort.
-              </p>
-            </div>
-            <button className="bg-white text-[#333333] mt-1 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]" onClick={() => { navigate('/ready-to-eat') }}>DISCOVER</button>
-            <div className="pt-[80px]">
-              <div
-                className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
-                  } transition-all duration-500 ease-in-out`}
-              >
-                <Rating rating={reviews[currentReviewIndex]?.rating} text={""} color="#FFFFFF" emptyColor="#FFFFFF" />
-                <h1 className="text-[#EBEBEB] text-[20px] leading-[24px] pt-3 font-[400] font-regola-pro ">{reviews[currentReviewIndex]?.name}</h1>
-                <p className="text-[#EBEBEB] text-[14px] leading-[16.8px] pt-1 font-[300] font-regola-pro ">{reviews[currentReviewIndex]?.text}</p>
+          <div className="hidden md:flex relative">
+            <img src={slides[0].image} className="h-[509px] w-full object-cover md:rounded-l-lg" style={{ zIndex: 1 }} />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
+            <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
+              <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">{slides[0].title}</h2>
+              <div className="w-full md:w-2/5">
+                <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]">
+                  {slides[0].description}
+                </p>
               </div>
+              <button
+                className="bg-white text-[#333333] mt-1 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]"
+                onClick={() => navigate(slides[0].buttonLink)}
+              >
+                {slides[0].buttonText}
+              </button>
+              <div className="pt-[80px]">
+                <div
+                  className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
+                    } transition-all duration-500 ease-in-out`}
+                >
+                  <Rating rating={reviews[currentReviewIndex]?.rating} text={""} color="#FFFFFF" emptyColor="#FFFFFF" />
+                  <h1 className="text-[#EBEBEB] text-[20px] leading-[24px] pt-3 font-[400] font-regola-pro ">{reviews[currentReviewIndex]?.name}</h1>
+                  <p className="text-[#EBEBEB] text-[14px] leading-[16.8px] pt-1 font-[300] font-regola-pro ">{reviews[currentReviewIndex]?.text}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="md:hidden relative mb-[60px]" onTouchStart={handleTouchStart1} onTouchEnd={handleTouchEnd1}>
+            <img src={slides[currentSlide1].image} className="h-[509px] w-full object-cover md:rounded-l-lg" style={{ zIndex: 1 }} />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
+            <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
+              <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">{slides[currentSlide1].title}</h2>
+              <div className="w-full md:w-2/5">
+                <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]">
+                  {slides[currentSlide1].description}
+                </p>
+              </div>
+              <button
+                className="bg-white text-[#333333] mt-1 py-2 px-10 rounded font-regola-pro font-[300] text-[16px]"
+                onClick={() => navigate(slides[currentSlide1].buttonLink)}
+              >
+                {slides[currentSlide1].buttonText}
+              </button>
+              <div className={`pt-[80px] ${slides[currentSlide1].title === 'Ready to Eat' ? 'flex' : 'hidden'}`}>
+                <div
+                  className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
+                    } transition-all duration-500 ease-in-out`}
+                >
+                  <Rating rating={reviews[currentReviewIndex]?.rating} text={""} color="#FFFFFF" emptyColor="#FFFFFF" />
+                  <h1 className="text-[#EBEBEB] text-[20px] leading-[24px] pt-3 font-[400] font-regola-pro ">{reviews[currentReviewIndex]?.name}</h1>
+                  <p className="text-[#EBEBEB] text-[14px] leading-[16.8px] pt-1 font-[300] font-regola-pro ">{reviews[currentReviewIndex]?.text}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="absolute bottom-4 w-full flex justify-center z-30 space-x-2">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  className={`w-3 h-3 rounded-full ${currentSlide1 === index ? 'bg-white' : 'bg-gray-500'}`}
+                  onClick={() => setCurrentSlide1(index)}
+                ></button>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="flex coverImage flex-col md:flex-row h-auto md:h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
+        <div className="hidden md:flex coverImage flex-col md:flex-row h-auto md:h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
           <div className="w-full relative md:w-3/5 flex-shrink-0 md:h-[300px] h-auto md:h-full order-2 md:order-1">
             <div className="relative w-full h-full">
               <img src={rtcImg} className="rtcimg" alt="" />
