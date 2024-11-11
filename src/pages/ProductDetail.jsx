@@ -561,13 +561,13 @@ function ProductDetail() {
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[500px] md:h-[553px] w-[500px] md:w-[553px] max-w-[150%] md:max-w-[100%]' : 'md:h-[553px] w-auto h-[500px]'}`}
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[500px] md:h-[553px] w-[500px] md:w-[553px] max-w-[180%] md:max-w-[100%]' : 'md:h-[553px] w-auto h-[500px]'}`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />
                             </div>
 
-                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-60px] w-[25%]' : ''} gap-y-2`}>
+                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-20px] w-[25%]' : ''} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
                                 <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  overflow-x-auto w-[115%] md:w-full' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-[400px] scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
@@ -755,7 +755,7 @@ function ProductDetail() {
                             </div>
                             <div className="col-span-10 md:col-span-8 pl-3 pt-4 relative overflow-hidden">
                                 <div className="w-full mb-4  flex lg:mb-0 ">
-                                    <div className={`md:w-[80vw] ${isRte ? 'w-[80vw]' : 'w-[100vw]'} flex gap-x-5`}>
+                                    <div className={`md:w-[80vw] ${isRte ? 'w-[100vw]' : 'w-[100vw]'} flex gap-x-5`}>
                                         <AnimatePresence initial={false} custom={direction}>
                                             <motion.div
                                                 key={page}
@@ -769,9 +769,9 @@ function ProductDetail() {
                                                 //     opacity: { duration: 0.2 }
                                                 // }}
 
-                                                className={`md:w-5/6 ${isRte ? 'w-4/6' : 'w-5/6'} ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
+                                                className={`md:w-5/6 ${isRte ? 'w-[100%]' : 'w-5/6'} ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
                                             >
-                                                <div className={`relative md:h-[505px] ${isRte ? 'h-[500px]' : 'h-[200px]'} bg-[#333333] rounded-[11.2px] `}>
+                                                <div className={`relative md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} bg-[#333333] rounded-[11.2px] `}>
                                                     {steps && <ReactPlayer
                                                         className="bg-cover"
                                                         url={steps[imageIndex]?.video}
@@ -818,7 +818,7 @@ function ProductDetail() {
                                             // transition={{ duration: 0.3 }}
                                             className='w-1/6 ml-10 relative'
                                         >
-                                            <div className={`w-[430%] md:h-[505px] ${isRte ? 'h-[500px]' : 'h-[200px]'} rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden`}>
+                                            <div className={`w-[430%] md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden`}>
                                                 {steps && <ReactPlayer
                                                     className="bg-cover"
                                                     url={steps[nextImageIndex]?.video}
