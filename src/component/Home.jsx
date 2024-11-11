@@ -582,6 +582,38 @@ const Home = () => {
     }
   };
 
+  const myProfile = [
+    {
+      title: 'My Profile',
+    },
+    {
+      title: 'My Order',
+    },
+    {
+      title: 'Log Out',
+    },
+  ]
+
+  const onProfileClick = (index) => {
+    if (index === 0) {
+      navigate('/my-profile')
+      setIsMenuOpen(false)
+    } else if (index === 1) {
+      navigate('/Invoices');;
+      setIsMenuOpen(false)
+    }
+    else if (index === 2) {
+      dispatch(clearCustomerAccessToken());
+      dispatch(clearCartData());
+      dispatch(clearCartResponse());
+      navigate('/login');
+      setIsMenuOpen(false)
+    } else {
+      navigate('/');
+      setIsMenuOpen(false)
+    }
+  };
+
   const onMenuClick = (index) => {
     if (index === 0) {
       navigate('/products');
@@ -1288,7 +1320,7 @@ const Home = () => {
               </button>}
 
             {loginUserCustomerId !== null ? (
-              <div className="flex items-center space-x-3">
+              <div className="hidden lg:flex items-center space-x-3">
                 <hr className="w-px h-full bg-[#000000]  border-none" />
                 <UserMenu align="right" />
               </div>
@@ -1397,7 +1429,7 @@ const Home = () => {
                   )}
                 </div>
 
-                <div className="" >
+                <div className="border-b border-[#333333]" >
                   <button
                     onClick={() => { navigate('/recipe-list'); setIsMenuOpen(false) }}
                     className="text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]"
@@ -1405,6 +1437,40 @@ const Home = () => {
                     RECIPES
                   </button>
                 </div>
+                {loginUserCustomerId !== null ? (
+                  <div className="">
+                    <button
+                      onClick={() => handleToggle('MY PROFILE')}
+                      className="flex justify-between items-center w-full text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]"
+                    >
+                      MY ACCOUNT
+                      <span className="text-[34px] font-bold font-regola-pro leading-[21.6px] ">
+                        {openSection === 'MY PROFILE' ? '-' : '+'}
+                      </span>
+                    </button>
+
+                    {openSection === 'MY PROFILE' && (
+                      <>
+                        {
+                          myProfile.map((menuItem, index) => (
+                            <div
+                              key={index}
+                              className="my-3 ml-8"
+                            >
+                              <div
+                                className="cursor-pointer"
+                                onClick={() => { onProfileClick(index) }}
+                              >
+                                <span className=" text-[18px]  font-[400] font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]">
+                                  {menuItem.title}
+                                </span>
+                              </div>
+                            </div>
+                          ))
+                        }</>
+                    )}
+                  </div>
+                ) : null}
                 {loginUserCustomerId === null ? (
                   <div className="border-y border-[#333333] py-3" >
                     <Link to="/login" className="text-[18px] font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]" onClick={() => setIsMenuOpen(false)}>
@@ -1809,7 +1875,7 @@ const Home = () => {
                 <div className="flex justify-center" >
                   <div className="w-full md:w-1/3 px-2 mb-6 relative">
                     <div className="relative max-w-md mx-auto overflow-hidden">
-                      
+
                       <div
                         ref={sliderRef}
                         className="flex transition-transform duration-300 ease-in-out"
@@ -1824,8 +1890,8 @@ const Home = () => {
                         {ourProcessData.map((slide, index) => (
                           <div key={index} className="w-full flex-shrink-0">
                             <div className="relative">
-                            <div className="absolute top-0 left-0 w-1/2 h-[500px] cursor-pointer" onClick={prevOurProcessSlide}></div>
-                            <div className="absolute top-0 right-0 w-1/2 h-[500px] cursor-pointer" onClick={nextOurProcessSlide}></div>
+                              <div className="absolute top-0 left-0 w-1/2 h-[500px] cursor-pointer" onClick={prevOurProcessSlide}></div>
+                              <div className="absolute top-0 right-0 w-1/2 h-[500px] cursor-pointer" onClick={nextOurProcessSlide}></div>
                               <img
                                 src={slide.src}
                                 alt={slide.alt}
@@ -1844,7 +1910,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-               
+
 
                 <div className="relative mt-4 w-full h-1 bg-gray-300">
                   {Array.from({ length: ourProcessData.length }).map((_, index) => (

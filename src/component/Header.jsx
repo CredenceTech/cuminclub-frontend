@@ -90,6 +90,49 @@ const Header = () => {
     //   title: "Sustainability"
     // }
   ]
+  const logout = async () => {
+    try {
+      dispatch(clearCustomerAccessToken());
+      dispatch(clearCartData());
+      dispatch(clearCartResponse());
+      nagivate('/login');
+      setIsMenuOpen(false)
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const myProfile = [
+    {
+      title: 'My Profile',
+    },
+    {
+      title: 'My Order',
+    },
+    {
+      title: 'Log Out',
+    },
+  ]
+
+  const onProfileClick = (index) => {
+    if (index === 0) {
+      navigate('/my-profile')
+      setIsMenuOpen(false)
+    } else if (index === 1) {
+      navigate('/Invoices');;
+      setIsMenuOpen(false)
+    }
+    else if (index === 2) {
+      dispatch(clearCustomerAccessToken());
+      dispatch(clearCartData());
+      dispatch(clearCartResponse());
+      navigate('/login');
+      setIsMenuOpen(false)
+    } else {
+      navigate('/');
+      setIsMenuOpen(false)
+    }
+  };
 
 
   console.log(userId)
@@ -267,7 +310,7 @@ const Header = () => {
   return (
     <div ref={headerRef}>
       <div
-        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] px-4 lg:px-10 py-6`}
+        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'} ${pathname.includes('product-details') ? 'bg-[#FFFFFF] lg:bg-[#EADEC1] pb-7' : ''}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] px-4 lg:px-10 py-6`}
       >
         <div className="lg:gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] md:flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot hidden lg:flex ">
@@ -486,7 +529,7 @@ const Header = () => {
               </Link>
             </button>}
           {loginUserCustomerId !== null ? (
-            <div className="flex items-center space-x-3">
+            <div className="hidden lg:flex items-center space-x-3">
               <hr className="w-px h-full bg-[#000000]  border-none" />
               <UserMenu align="right" />
             </div>
@@ -595,7 +638,7 @@ const Header = () => {
                 )}
               </div>
 
-              <div className="" >
+              <div className="border-b border-[#333333]" >
                 <button
                   onClick={() => { navigate('/recipe-list'); setIsMenuOpen(false) }}
                   className="text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]"
@@ -603,6 +646,40 @@ const Header = () => {
                   RECIPES
                 </button>
               </div>
+              {loginUserCustomerId !== null ? (
+                <div>
+                  <button
+                    onClick={() => handleToggle('MY PROFILE')}
+                    className="flex justify-between items-center w-full text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]"
+                  >
+                    MY ACCOUNT
+                    <span className="text-[34px] font-bold font-regola-pro leading-[21.6px] ">
+                      {openSection === 'MY PROFILE' ? '-' : '+'}
+                    </span>
+                  </button>
+
+                  {openSection === 'MY PROFILE' && (
+                    <>
+                      {
+                        myProfile.map((menuItem, index) => (
+                          <div
+                            key={index}
+                            className="my-3 ml-8"
+                          >
+                            <div
+                              className="cursor-pointer"
+                              onClick={() => { onProfileClick(index) }}
+                            >
+                              <span className=" text-[18px]  font-[400] font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]">
+                                {menuItem.title}
+                              </span>
+                            </div>
+                          </div>
+                        ))
+                      }</>
+                  )}
+                </div>
+              ) : null}
               {loginUserCustomerId === null ? (
                 <div className="border-y border-[#333333] py-3" >
                   <Link to="/login" className="text-[18px] font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]" onClick={() => setIsMenuOpen(false)}>
