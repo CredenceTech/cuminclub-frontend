@@ -334,7 +334,7 @@ export const Faqs = () => {
 
     return (
         <section>
-            <div className='px-[112px] pt-[40px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Shipping Policy</h1>
                 <div className="accordion-container  text-[#333333]">
                     {shippingPolicyData.map((item) => (
@@ -384,7 +384,7 @@ export const Faqs = () => {
                 </div>
             </div>
 
-            <div className='px-[112px] pt-[40px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Returns And Refunds Policy</h1>
                 <div className="accordion-container  text-[#333333]">
                     {returnRefundPolicyData.map((item) => (
@@ -434,7 +434,7 @@ export const Faqs = () => {
                 </div>
             </div>
 
-            <div className='px-[112px] pt-[40px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Cancellation Policy</h1>
                 <div className="accordion-container  text-[#333333]">
                     {orderCancellationPolicyData.map((item) => (
@@ -484,7 +484,7 @@ export const Faqs = () => {
                 </div>
             </div>
 
-            <div className='px-[112px] pt-[40px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Product Information</h1>
                 <div className="accordion-container  text-[#333333]">
                     {productInformationData.map((item) => (
@@ -534,7 +534,7 @@ export const Faqs = () => {
                 </div>
             </div>
 
-            <div className='px-[112px] pt-[40px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Gifting & Bulk Orders </h1>
                 <div className="accordion-container  text-[#333333]">
                     {giftingBulkOrdersData.map((item) => (
@@ -584,7 +584,7 @@ export const Faqs = () => {
                 </div>
             </div>
 
-            <div className='px-[112px] pt-[40px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Order Feedback </h1>
                 <div className="accordion-container  text-[#333333]">
                     {orderFeedbackData.map((item) => (
@@ -634,7 +634,7 @@ export const Faqs = () => {
                 </div>
             </div>
 
-            <div className='px-[112px] pt-[40px] pb-[70px]'>
+            <div className='px-[20px] md:px-[30px] lg:px-[112px] pt-[40px] pb-[70px]'>
                 <h1 className='text-[20px] md:text-[30px] font-regola-pro leading-[36px] font-[600] mb-6 text-[#333333]'>Subscription</h1>
                 <div className="accordion-container text-[#333333]">
                     {subscriptionData.map((section, index) => (
