@@ -436,10 +436,10 @@ function ReadyToCook() {
     return (
 
         <div className="w-full bg-[#EFE9DA] relative -top-[100px]">
-            <div className="grid grid-cols-2 lg:grid-cols-3 " >
-                <div className=" col-span-2">
-                    <div className="h-[357px] bg-[#0F0B05] "></div>
-                    <div className="pt-[60px] px-[60px]">
+            <div className="grid grid-cols-2 lg:grid-cols-3" >
+                <div className="col-span-2 order-last lg:order-first">
+                    <div className="h-[100px] hidden lg:flex lg:h-[357px] bg-[#0F0B05] "></div>
+                    <div className="pt-[20px] lg:pt-[60px] px-[20px] lg:px-[60px]">
                         <div className="grid grid-cols-2 gap-4 md:gap-10">
                             <>
                                 <div className="col-span-2 relative rounded-3xl">
@@ -465,19 +465,19 @@ function ReadyToCook() {
                                                                     transition={{ duration: 0.3 }}
                                                                 >
                                                                     <div className="relative">
-                                                                        <img src={product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc} alt="product" className="w-full h-[300px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200" />
-                                                                        <button type="button" className="bg-[#FBAE36] text-[18px] leading-[27.08px] uppercase absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]">{product.superTitle}</button>
+                                                                        <img src={product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc} alt="product" className="w-full h-[290px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200" />
+                                                                        <button type="button" className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#333333] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]">{product.superTitle}</button>
                                                                     </div>
-                                                                    <div className=" px-10 py-5">
+                                                                    <div className="px-10 py-3">
                                                                         <div className="flex flex-row justify-between pt-[18px] pb-2">
                                                                             <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">{product.title}</p>
-                                                                            <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">₹ {Math.floor(product.priceRange.minVariantPrice.amount)}</p>
+                                                                            <p className="font-skillet font-[400]  text-[#333333] text-[36px] leading-[28.65px]">₹ {Math.floor(product.priceRange.minVariantPrice.amount)}</p>
                                                                         </div>
-                                                                        <p className="text-[16px] leading-[12.73px] font-[400] font-regola-pro text-[#757575] pt-2 pb-3">{product.description.length > 80
+                                                                        <p className="text-[16px] leading-[12.73px] font-[500] font-regola-pro text-[#757575] pt-2 pb-3">{product.description.length > 80
                                                                             ? `${product.description.substring(0, 80)}...`
                                                                             : product.description}</p>
                                                                         <div className="flex gap-x-4 mt-1">
-                                                                            <button type="button" className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-3 rounded-lg py-[4px] font-regola-pro  text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`} onClick={(e) => {
+                                                                            <button type="button" className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`} onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                                             }
@@ -503,7 +503,7 @@ function ReadyToCook() {
                     </div>
 
                 </div>
-                <div className="col-span-1 relative h-[891px] w-full bg-[#0F0B05]">
+                <div className="col-span-2 lg:col-span-1 relative h-[500px] lg:h-[891px] w-full bg-[#0F0B05]">
                     {/* {!playing && (
                         <img
                             src={videoimage}
@@ -548,7 +548,7 @@ function ReadyToCook() {
                 </div>
             </div>
 
-            <div className="p-[60px]">
+            <div className="p-[20px] lg:p-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
                         initial={{ y: 100, x: -100, opacity: 0 }}
@@ -573,7 +573,7 @@ function ReadyToCook() {
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
                                 return isLong ? (
-                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" key={product.id} onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                                    <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
                                         <AnimatePresence mode="popLayout">
                                             <motion.div
                                                 initial={{ y: 500, opacity: 0 }}
@@ -581,7 +581,7 @@ function ReadyToCook() {
                                                 exit={{ y: -500, opacity: 0 }}
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <div className="relative flex justify-center items-center">
+                                                <div className="relative flex justify-center items-center ">
                                                     <img
                                                         src={productLargeImage}
                                                         alt={product.title}
@@ -589,7 +589,7 @@ function ReadyToCook() {
                                                     />
                                                     <button
                                                         type="button"
-                                                        className="bg-[#FBAE36] text-[18px] leading-[27.08px] uppercase absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
+                                                        className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#333333] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
                                                     >
                                                         {categoryTag}
                                                     </button>
@@ -599,11 +599,11 @@ function ReadyToCook() {
                                                         <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
                                                             {product.title}
                                                         </p>
-                                                        <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
+                                                        <p className="font-skillet font-[400] text-[#333333] text-[36px] leading-[28.65px]">
                                                             ₹ {Math.floor(productPrice)}
                                                         </p>
                                                     </div>
-                                                    <p className="text-[16px] leading-[12.73px] font-[400] font-regola-pro text-[#757575] pt-2 pb-3">
+                                                    <p className="text-[16px] leading-[12.73px] font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
                                                         {product.description.length > 80
                                                             ? `${product.description.substring(0, 80)}...`
                                                             : product.description}
@@ -634,7 +634,7 @@ function ReadyToCook() {
                                         </AnimatePresence>
                                     </div>
                                 ) : (
-                                    <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl group flex justify-center items-center cursor-pointer overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                                    <div key={product.id} className="col-span-2 md:col-span-1 bg-[#EADEC1] relative rounded-3xl flex justify-center items-center group overflow-hidden cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                                         <AnimatePresence mode="wait">
                                             <motion.div
                                                 initial={{ y: 500, x: -500, opacity: 0 }}
@@ -646,26 +646,27 @@ function ReadyToCook() {
                                                 <img
                                                     src={productSmallImage}
                                                     alt={product.title}
-                                                    className="w-full h-[300px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                                    className="w-full h-full  rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                                                 />
                                                 <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                                     <div className="p-5">
                                                         <button
                                                             type="button"
-                                                            className="bg-[#279C66] text-[#FAFAFA] text-[18px] uppercase leading-[27.08px] px-3 tracking-[0.12em] rounded-[10px] py-[4px] font-regola-pro font-[600]"
+                                                            className="bg-[#279C66] text-[#FAFAFA] text-[18px] leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
                                                         >
                                                             {categoryTag}
                                                         </button>
                                                     </div>
-                                                    <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
+                                                    <div className="px-3 md:pl-8 pb-6 pt-[120px] bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                                         <div className="flex flex-row justify-between items-center mb-5">
-                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
+                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase max-w-[80%]">
                                                                 {product.title}
                                                             </p>
-                                                            <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
+                                                            <p className="font-skillet font-[400] text-[#FAFAFA]  text-[24px] md:text-[36px] leading-[28.65px] uppercase">
                                                                 ₹ {Math.floor(productPrice)}
                                                             </p>
                                                         </div>
+
                                                         <div className="flex flex-col md:flex-row md:gap-4">
                                                             <button
                                                                 type="button"
@@ -681,7 +682,7 @@ function ReadyToCook() {
                                                             <button
                                                                 onClick={(e) => e.stopPropagation()}
                                                                 type="button"
-                                                                className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                                className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
                                                             >
                                                                 BUY NOW
                                                             </button>
