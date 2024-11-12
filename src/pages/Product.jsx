@@ -58,6 +58,8 @@ export const Product = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showModel, setShowModel] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [shaking, setIsShaking]=useState(null);
+
     useEffect(() => {
         const handleScroll = () => {
             for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -194,7 +196,7 @@ export const Product = () => {
     
 
     const handleAddToCart = (productId, sellingPlanId) => {
-        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
+        setIsShaking(productId);
         if (cartDatas === null) {
             if (sellingPlanId) {
                 addToCart({
@@ -272,14 +274,9 @@ export const Product = () => {
                 lines: [cartItems],
             },
         };
-        setIsLoading(true);
         const response = await graphQLClient.request(createCartMutation, params);
-        setIsLoading(false);
         dispatch(addCartData(response));
-        setLoading((prevLoading) => ({
-            ...prevLoading,
-            [cartItems.merchandiseId]: false,
-        }));
+        setIsShaking(null);
     };
 
     const updateCartItem = async (a, cartId, cartItem) => {
@@ -287,17 +284,12 @@ export const Product = () => {
             cartId: cartId,
             lines: cartItem,
         };
-        setIsLoading(true);
         const response = await graphQLClient.request(
             updateCartItemMutation,
             params
         );
-        setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesUpdate));
-        setLoading((prevLoading) => ({
-            ...prevLoading,
-            [a]: false,
-        }));
+        setIsShaking(null);
     };
 
     const updateCart = async (cartId, cartItem) => {
@@ -305,14 +297,9 @@ export const Product = () => {
             cartId: cartId,
             lines: [cartItem],
         };
-        setIsLoading(true);
         const response = await graphQLClient.request(updateCartMutation, params);
-        setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesAdd));
-        setLoading((prevLoading) => ({
-            ...prevLoading,
-            [cartItem.merchandiseId]: false,
-        }));
+        setIsShaking(null);
     };
 
     const getProductQuantityInCart = (productId) => {
@@ -517,9 +504,9 @@ export const Product = () => {
                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                             }
                                                             }
-                                                            className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                            className={` ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                         >
-                                                            ADD TO CART
+                                                            {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
                                                         </button>
                                                         <button
                                                             onClick={(e) => e.stopPropagation()}
@@ -575,9 +562,9 @@ export const Product = () => {
                                                                     handleAddToCart(product.variants.edges[0].node.id)
                                                                 }
                                                                 }
-                                                                className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                                className={` ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                             >
-                                                                ADD TO CART
+                                                                 {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
                                                             </button>
                                                             <button
                                                                 onClick={(e) => e.stopPropagation()}

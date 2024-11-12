@@ -37,6 +37,9 @@ const CardReview = () => {
     const [address, setAddress] = useState(null);
     const [loading, setLoading] = useState({});
     const userEmail = useSelector(userEmails);
+    const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
+
+    const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
     const statesOfIndia = [
         { name: "Andhra Pradesh" },
         { name: "Arunachal Pradesh" },
@@ -464,7 +467,7 @@ const CardReview = () => {
                     description: product.description,
                     image: product.images[0]
                 })),
-                total_price: payload.products.reduce((acc, item) => acc + item.unit_amount * item.quantity, 0) * 100, // Total in cents/paise
+                total_price: (parseInt(payload.products.reduce((acc, item) => acc + item.unit_amount * item.quantity, 0) * 100) + shippingCost), // Total in cents/paise
                 currency: payload.currency,
                 customer: {
                     email: payload.email,
@@ -710,9 +713,27 @@ const CardReview = () => {
                                     <p className="  font-skillet  lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">Subtotal</p>
                                     <p className="text-lg font-skillet lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">₹ <span className='lg:text-[32px] font-[400] leading-[32.5px]'>803.6</span></p>
                                 </div> */}
-                                <div className="flex mt-3 flex-row justify-between">
-                                    <p className="text-lg font-skillet  lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
-                                    <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{cartResponse?.cart?.cost?.totalAmount?.amount}</span></p>
+                                <div className="mt-3">
+                                    <div className="flex flex-row justify-between mb-2">
+                                        <p className="text-lg font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
+                                        <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
+                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0}</span>
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-row justify-between">
+                                        <p className="text-lg font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">Shipping</p>
+                                        <p className="text-lg font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">
+                                            {shippingCost === 0 ? "FREE" : `₹${shippingCost}`}
+                                        </p>
+                                    </div>
+
+                                    <div className="flex flex-row justify-between mt-3 border-t border-[#333333] pt-3">
+                                        <p className="text-lg font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
+                                        <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
+                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{(parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0) + shippingCost}</span>
+                                        </p>
+                                    </div>
                                 </div>
                                 <p className='text-[#757575] text-[20px] font-[500] leading-[26.45px] text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
                                 {/* <div className="flex mt-8 flex-row text-center gap-y-5 whitespace-nowrap justify-between gap-3">
@@ -757,6 +778,53 @@ const CardReview = () => {
                                             <div className='flex justify-center items-center pt-3'>
                                                 <button onClick={() => setIsMoreAddress(true)} type='button' className="text-white text-center w-full lg:w-1/2 bg-[#EB7E01] mb-3 border-0 py-2 px-6 focus:outline-none  hover:bg-[#fa9017] rounded-3xl text-lg"> + Add New Address</button>
                                             </div>
+
+                                            <div className="mt-5 mb-6">
+                                                <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
+                                                <div className='border border-[#333333] rounded-lg'>
+                                                    <div
+                                                        className={`flex items-center rounded-t-lg justify-between p-3 cursor-pointer ${shippingMethod === "prepaidStandard" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
+                                                        onClick={() => setShippingMethod("prepaidStandard")} // Update state on click
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            id="prepaidStandard"
+                                                            name="shippingMethod"
+                                                            value="prepaidStandard"
+                                                            checked={shippingMethod === "prepaidStandard"}
+                                                            className="mr-3"
+                                                        />
+                                                        <label htmlFor="prepaidStandard" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
+                                                            <span>Prepaid Standard (4-10 Business Days)</span>
+                                                            <span>FREE</span>
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        className={`flex items-center justify-between p-3 rounded-b-lg cursor-pointer ${shippingMethod === "expressShipping" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
+                                                        onClick={() => setShippingMethod("expressShipping")}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            id="expressShipping"
+                                                            name="shippingMethod"
+                                                            value="expressShipping"
+                                                            checked={shippingMethod === "expressShipping"}
+                                                            className="mr-3"
+                                                        />
+                                                        <label htmlFor="expressShipping" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
+                                                            <div className="flex flex-col">
+                                                                <span>Express Shipping</span>
+                                                                <span className="text-[14px] text-[#757575]">(Prepaid Order Only)</span>
+                                                            </div>
+                                                            <span className="text-right">₹150</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {shippingMethod === '' && (
+                                                    <label className="text-sm text-red-500">Please select a shipping method</label>
+                                                )}
+                                            </div>
+
                                             <div className="relative flex flex-row items-start mb-2 ">
                                                 <input type="checkbox" id="consent" name="consent" onChange={formikForLogin.handleChange} value={formikForLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                                 <div className='pl-3'>
@@ -765,6 +833,8 @@ const CardReview = () => {
                                                 </div>
                                             </div>
                                             {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)}
+
+
                                             <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                         </form>
                                     </>
@@ -848,6 +918,51 @@ const CardReview = () => {
                                                 <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
                                             </div> */}
+                                            <div className="mt-5 mb-6">
+                                                <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
+                                                <div className='border border-[#333333] rounded-lg'>
+                                                    <div
+                                                        className={`flex items-center rounded-t-lg justify-between p-3 cursor-pointer ${shippingMethod === "prepaidStandard" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
+                                                        onClick={() => setShippingMethod("prepaidStandard")} // Update state on click
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            id="prepaidStandard"
+                                                            name="shippingMethod"
+                                                            value="prepaidStandard"
+                                                            checked={shippingMethod === "prepaidStandard"}
+                                                            className="mr-3"
+                                                        />
+                                                        <label htmlFor="prepaidStandard" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
+                                                            <span>Prepaid Standard (4-10 Business Days)</span>
+                                                            <span>FREE</span>
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        className={`flex items-center justify-between p-3 rounded-b-lg cursor-pointer ${shippingMethod === "expressShipping" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
+                                                        onClick={() => setShippingMethod("expressShipping")}
+                                                    >
+                                                        <input
+                                                            type="radio"
+                                                            id="expressShipping"
+                                                            name="shippingMethod"
+                                                            value="expressShipping"
+                                                            checked={shippingMethod === "expressShipping"}
+                                                            className="mr-3"
+                                                        />
+                                                        <label htmlFor="expressShipping" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
+                                                            <div className="flex flex-col">
+                                                                <span>Express Shipping</span>
+                                                                <span className="text-[14px] text-[#757575]">(Prepaid Order Only)</span>
+                                                            </div>
+                                                            <span className="text-right">₹150</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                {shippingMethod === '' && (
+                                                    <label className="text-sm text-red-500">Please select a shipping method</label>
+                                                )}
+                                            </div>
                                             <div className="relative flex flex-row items-start mb-2">
                                                 <input type="checkbox" id="consent" name="consent" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                                 <div className='pl-3'>
@@ -927,6 +1042,51 @@ const CardReview = () => {
                                             <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                             {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
                                         </div> */}
+                                        <div className="mt-5 mb-6">
+                                            <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
+                                            <div className='border border-[#333333] rounded-lg'>
+                                                <div
+                                                    className={`flex items-center rounded-t-lg justify-between p-3 cursor-pointer ${shippingMethod === "prepaidStandard" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
+                                                    onClick={() => setShippingMethod("prepaidStandard")} // Update state on click
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        id="prepaidStandard"
+                                                        name="shippingMethod"
+                                                        value="prepaidStandard"
+                                                        checked={shippingMethod === "prepaidStandard"}
+                                                        className="mr-3"
+                                                    />
+                                                    <label htmlFor="prepaidStandard" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
+                                                        <span>Prepaid Standard (4-10 Business Days)</span>
+                                                        <span>FREE</span>
+                                                    </label>
+                                                </div>
+                                                <div
+                                                    className={`flex items-center justify-between p-3 rounded-b-lg cursor-pointer ${shippingMethod === "expressShipping" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
+                                                    onClick={() => setShippingMethod("expressShipping")}
+                                                >
+                                                    <input
+                                                        type="radio"
+                                                        id="expressShipping"
+                                                        name="shippingMethod"
+                                                        value="expressShipping"
+                                                        checked={shippingMethod === "expressShipping"}
+                                                        className="mr-3"
+                                                    />
+                                                    <label htmlFor="expressShipping" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
+                                                        <div className="flex flex-col">
+                                                            <span>Express Shipping</span>
+                                                            <span className="text-[14px] text-[#757575]">(Prepaid Order Only)</span>
+                                                        </div>
+                                                        <span className="text-right">₹150</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {shippingMethod === '' && (
+                                                <label className="text-sm text-red-500">Please select a shipping method</label>
+                                            )}
+                                        </div>
                                         <div className="relative flex flex-row items-start mb-2">
                                             <input type="checkbox" id="consent" name="consent" onChange={formikForAddMoreAdd.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
                                             <div className='pl-3'>
