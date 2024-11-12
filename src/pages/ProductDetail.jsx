@@ -65,8 +65,10 @@ function ProductDetail() {
     const cartResponse = useSelector(selectCartResponse);
     const pickupPostcode = '394421';
     const [isRte, setIsRte] = useState(false)
+    const [shaking, setIsShaking]=useState(null);
 
     const handleAddToCart = (productId, sellingPlanId) => {
+        setIsShaking(productId)
         // setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
         if (cartDatas === null) {
             if (sellingPlanId) {
@@ -125,6 +127,7 @@ function ProductDetail() {
         const response = await graphQLClient.request(createCartMutation, params);
         // setIsLoading(false);
         dispatch(addCartData(response));
+        setIsShaking(null)
         // setLoading((prevLoading) => ({
         //     ...prevLoading,
         //     [cartItems.merchandiseId]: false,
@@ -147,6 +150,7 @@ function ProductDetail() {
         //     ...prevLoading,
         //     [a]: false,
         // }));
+        setIsShaking(null)
     };
 
     const updateCart = async (cartId, cartItem) => {
@@ -162,6 +166,7 @@ function ProductDetail() {
         //     ...prevLoading,
         //     [cartItem.merchandiseId]: false,
         // }));
+        setIsShaking(null)
     };
 
     const fetchServiceability = async () => {
@@ -689,7 +694,7 @@ function ProductDetail() {
                                     ))}
                                 </div>
 
-                                <div className='flex md:flex-row md:items-center flex-col ml-2 pt-4 '>
+                                {/* <div className='flex md:flex-row md:items-center flex-col ml-2 pt-4 '>
                                     <span className='font-regola-pro text-[#333333] font-[400] mt-2 text-[20px] mr-2 md:mt-0'>Check Delivery Date:</span>
                                     <input
                                         type="text"
@@ -721,12 +726,14 @@ function ProductDetail() {
                                     </button>
                                 </div>
 
-                                {etd && <div className='ml-2 pt-3'>Will delivered by {dayOfWeek}, {formattedDeliveryDate}</div>}
+                                {etd && <div className='ml-2 pt-3'>Will delivered by {dayOfWeek}, {formattedDeliveryDate}</div>} */}
 
                                 {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className='product-buttons px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button'>Add to Cart</button>
+                                        className={` ${shaking===productData?.variants.edges[0].node.id? 'animate-shake' : ''} product-buttons px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`}  onClick={() => {
+                                            handleAddToCart(productData?.variants.edges[0].node.id)
+                                        }}> {shaking === productData?.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Subscribe</button>

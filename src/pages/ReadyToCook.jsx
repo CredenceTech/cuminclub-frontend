@@ -63,7 +63,7 @@ function ReadyToCook() {
     const [playing, setPlaying] = useState(true);
     const [transformedProducts, setTransformedProducts] = useState(null);
     const [muted, setMuted] = useState(true);
-
+    const [shaking, setIsShaking] = useState(null);
     useEffect(() => {
         const handleScroll = () => {
             for (let i = 0; i < categoryTitleRefs.current.length; i++) {
@@ -189,7 +189,7 @@ function ReadyToCook() {
     }, [selectedCategory]);
 
     const handleAddToCart = (productId, sellingPlanId) => {
-        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
+        setIsShaking(productId);
         if (cartDatas === null) {
             if (sellingPlanId) {
                 addToCart({
@@ -267,14 +267,9 @@ function ReadyToCook() {
                 lines: [cartItems],
             },
         };
-        setIsLoading(true);
         const response = await graphQLClient.request(createCartMutation, params);
-        setIsLoading(false);
         dispatch(addCartData(response));
-        setLoading((prevLoading) => ({
-            ...prevLoading,
-            [cartItems.merchandiseId]: false,
-        }));
+        setIsShaking(null);
     };
 
     const updateCartItem = async (a, cartId, cartItem) => {
@@ -282,17 +277,12 @@ function ReadyToCook() {
             cartId: cartId,
             lines: cartItem,
         };
-        setIsLoading(true);
         const response = await graphQLClient.request(
             updateCartItemMutation,
             params
         );
-        setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesUpdate));
-        setLoading((prevLoading) => ({
-            ...prevLoading,
-            [a]: false,
-        }));
+        setIsShaking(null);
     };
 
     const updateCart = async (cartId, cartItem) => {
@@ -300,14 +290,9 @@ function ReadyToCook() {
             cartId: cartId,
             lines: [cartItem],
         };
-        setIsLoading(true);
         const response = await graphQLClient.request(updateCartMutation, params);
-        setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesAdd));
-        setLoading((prevLoading) => ({
-            ...prevLoading,
-            [cartItem.merchandiseId]: false,
-        }));
+        setIsShaking(null);
     };
 
     const getProductQuantityInCart = (productId) => {
@@ -492,11 +477,11 @@ function ReadyToCook() {
                                                                             ? `${product.description.substring(0, 80)}...`
                                                                             : product.description}</p>
                                                                         <div className="flex gap-x-4 mt-1">
-                                                                            <button type="button" className="border-2 border-[#333333] text-[#333333] px-3 rounded-lg py-[4px] font-regola-pro  text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]" onClick={(e) => {
+                                                                            <button type="button" className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-3 rounded-lg py-[4px] font-regola-pro  text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`} onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                                             }
-                                                                            }>ADD TO CART</button>
+                                                                            }> {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}</button>
                                                                             <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg py-[4px] font-regola-pro  text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]" onClick={(e) => e.stopPropagation()}>BUY NOW</button>
                                                                         </div>
                                                                     </div>
@@ -632,9 +617,9 @@ function ReadyToCook() {
                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                             }
                                                             }
-                                                            className="border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                            className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                         >
-                                                            ADD TO CART
+                                                            {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
                                                         </button>
                                                         <button
                                                             onClick={(e) => e.stopPropagation()}
@@ -673,7 +658,7 @@ function ReadyToCook() {
                                                         </button>
                                                     </div>
                                                     <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
-                                                    <div className="flex flex-row justify-between items-center mb-5">
+                                                        <div className="flex flex-row justify-between items-center mb-5">
                                                             <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
                                                                 {product.title}
                                                             </p>
@@ -689,9 +674,9 @@ function ReadyToCook() {
                                                                     handleAddToCart(product.variants.edges[0].node.id)
                                                                 }
                                                                 }
-                                                                className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                                className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                             >
-                                                                ADD TO CART
+                                                                {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
                                                             </button>
                                                             <button
                                                                 onClick={(e) => e.stopPropagation()}
