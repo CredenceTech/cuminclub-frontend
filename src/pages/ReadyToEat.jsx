@@ -809,7 +809,7 @@ const ReadyToEat = () => {
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
             <div className=""><ProductFliter /></div>
-            <div className="p-[60px]">
+            <div className="p-[20px] lg:p-[60px]">
 
               <AnimatePresence mode="wait">
                 <motion.div
@@ -869,7 +869,7 @@ const ReadyToEat = () => {
                                     ₹ {Math.floor(productPrice)}
                                   </p>}
                                 </div>
-                                <p className="text-[16px] leading-[12.73px] font-[400] font-regola-pro text-[#757575] pt-2 pb-3">
+                                <p className="text-[16px] leading-[12.73px] font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
                                   {product.description.length > 80
                                     ? `${product.description.substring(0, 80)}...`
                                     : product.description}
@@ -913,7 +913,7 @@ const ReadyToEat = () => {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <div key={product.id} className="bg-[#EADEC1] relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                        <div key={product.id} className="bg-[#EADEC1] col-span-2 md:col-span-1 relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                           <AnimatePresence mode="wait">
                             <motion.div
                               initial={{ y: 500, x: -500, opacity: 0 }}
@@ -925,7 +925,7 @@ const ReadyToEat = () => {
                               <img
                                 src={productSmallImage}
                                 alt={product.title}
-                                className="w-full h-[300px] md:h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                className="w-full h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                               />
                               <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                 <div className="p-5">
@@ -938,10 +938,10 @@ const ReadyToEat = () => {
                                 </div>
                                 <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
                                   <div className="flex flex-row justify-between items-center mb-5">
-                                    <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase max-w-[80%]">
+                                    <p className="font-skillet font-[400] text-[#FAFAFA]  text-[24px] md:text-[36px] leading-[28.65px] uppercase max-w-[80%]">
                                       {product.title}
                                     </p>
-                                    {!issubscribe && <p className="font-skillet font-[400] text-[#FAFAFA] text-[36px] leading-[28.65px] uppercase">
+                                    {!issubscribe && <p className="font-skillet font-[400] text-[#FAFAFA]  text-[24px] md:text-[36px] leading-[28.65px] uppercase">
                                       ₹ {Math.floor(productPrice)}
                                     </p>}
                                   </div>
@@ -974,7 +974,7 @@ const ReadyToEat = () => {
                                     <button
                                       onClick={(e) => e.stopPropagation()}
                                       type="button"
-                                      className="bg-[#279C66] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                      className="bg-[#279C66] mt-2 md:mt-0 text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                     >
                                       BUY NOW
                                     </button>

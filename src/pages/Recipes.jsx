@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll } from "framer-motion";
-import { getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRecipeDetailsQuery, getRecipeStepsDetailsQuery, graphQLClient } from '../api/graphql';
+import { createCartMutation, getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRecipeDetailsQuery, getRecipeStepsDetailsQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
 import { useLocation, useParams } from 'react-router-dom';
 import ShareModel from '../component/ShareModel';
 import LoadingAnimation from "../component/Loader";
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import {
+    addCartData,
+    cartData,
+    selectCartResponse,
+    setCartResponse,
+} from "../state/cartData";
+import { useDispatch, useSelector } from 'react-redux';
 
 const Recipes = () => {
     const location = useLocation();
@@ -20,6 +27,10 @@ const Recipes = () => {
     const { scrollY } = useScroll({ container: containerRef })
     const { handle } = useParams();
     const [isMobile, setIsMobile] = useState(false);
+    const [shaking, setIsShaking] = useState(null);
+    const cartDatas = useSelector(cartData);
+    const cartResponse = useSelector(selectCartResponse);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const handleResize = () => {
@@ -72,6 +83,7 @@ const Recipes = () => {
                 title: product.title,
                 description: product.description,
                 image: product.images.edges.length > 0 ? product.images.edges[0].node.src : null,
+                variants: product?.variants
             };
         } catch (error) {
             console.error('Error fetching product details:', error);
@@ -199,6 +211,8 @@ const Recipes = () => {
         time: step.time
     })) : []
 
+
+
     const handleDownloadPDF = async (id) => {
         try {
             const response = await graphQLClient.request(getDownloadPdfQuery, { id });
@@ -297,6 +311,90 @@ const Recipes = () => {
     const shareUrl = 'https://dev-prahlad-latest.d30jgbp3exhvrx.amplifyapp.com/recipes';
     const backgroundColor = recipe?.fields?.find(field => field.key === "background_color")?.value || "#C75801";
     const textColor = recipe?.fields?.find(field => field.key === "background_color")?.value || "#C75801";
+
+    const handleAddToCart = (productId, sellingPlanId) => {
+        console.log(productDetails)
+        setIsShaking(productId);
+        if (cartDatas === null) {
+            if (sellingPlanId) {
+                addToCart({
+                    merchandiseId: productId,
+                    sellingPlanId: sellingPlanId,
+                    quantity: 1,
+                });
+            } else {
+                addToCart({ merchandiseId: productId, quantity: 1 });
+            }
+        }
+
+        const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
+            return cartItem.node.merchandise.id === productId;
+        });
+
+        if (productInCart) {
+            const quantityInCart = productInCart.node.quantity;
+            const cartId = cartDatas?.cartCreate?.cart?.id;
+            const id = productInCart?.node?.id;
+            if (sellingPlanId) {
+                updateCartItem(productId, cartId, {
+                    id: id,
+                    sellingPlanId: sellingPlanId,
+                    quantity: quantityInCart + 1,
+                });
+            } else {
+                updateCartItem(productId, cartId, {
+                    id: id,
+                    quantity: quantityInCart + 1,
+                });
+            }
+        } else {
+            const cartId = cartDatas?.cartCreate?.cart?.id;
+            if (sellingPlanId) {
+                updateCart(cartId, {
+                    merchandiseId: productId,
+                    sellingPlanId: sellingPlanId,
+                    quantity: 1,
+                });
+            } else {
+                updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+            }
+        }
+    };
+
+    const addToCart = async (cartItems) => {
+        const params = {
+            cartInput: {
+                lines: [cartItems],
+            },
+        };
+        const response = await graphQLClient.request(createCartMutation, params);
+        dispatch(addCartData(response));
+        setIsShaking(null);
+    };
+
+    const updateCartItem = async (a, cartId, cartItem) => {
+        const params = {
+            cartId: cartId,
+            lines: cartItem,
+        };
+        const response = await graphQLClient.request(
+            updateCartItemMutation,
+            params
+        );
+        dispatch(setCartResponse(response.cartLinesUpdate));
+        setIsShaking(null);
+    };
+
+    const updateCart = async (cartId, cartItem) => {
+        const params = {
+            cartId: cartId,
+            lines: [cartItem],
+        };
+        const response = await graphQLClient.request(updateCartMutation, params);
+        dispatch(setCartResponse(response.cartLinesAdd));
+        setIsShaking(null);
+    };
+
     return (
         <div className='relative' ref={contentRef}>
             {!isMobile && <div
@@ -436,27 +534,26 @@ const Recipes = () => {
                                     {productDetails[0]?.description}
                                 </p>
                                 <div className='hidden md:flex gap-x-2 pb-8'>
-                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf' type='button'>
-                                        Add to Cart
+                                    <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                        handleAddToCart(productDetails[0]?.variants?.edges[0]?.node?.id)
+                                    }} type='button'>
+                                        {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
                                     </button>
-                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf' type='button'>
-                                        Buy Now
+                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                        BUY NOW
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div className='md:hidden flex-row'>
-                            <p className='pb-20 font-regola-pro text-[20px] leading-[17.17px] font-[400] pl-8 pt-6'>
-                                About the product
-                            </p>
-                            <div className='gap-5'>
-                                <button className='px-4 w-1/2 py-4 bg-[#231F20] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF] hide-for-pdf' type='button'>
-                                    Add to Cart
-                                </button>
-                                <button className='px-4 w-1/2 py-4 bg-[#C75801] font-regola-pro text-[16px] font-[400] leading-[17.17px] text-[#FFFFFF] hide-for-pdf' type='button'>
-                                    Buy Now
-                                </button>
-                            </div>
+                        <div className='md:hidden flex justify-center items-center gap-10'>
+                        <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                        handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
+                                    }} type='button'>
+                                        {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
+                                    </button>
+                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                        BUY NOW
+                                    </button>
                         </div>
                     </div>
                 ) : productDetails && productDetails.length > 1 ? (
@@ -490,17 +587,24 @@ const Recipes = () => {
                                                     {product?.description}
                                                 </p>
                                                 <div className="hidden md:flex gap-x-2 pb-8">
-                                                    <button
-                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf"
-                                                        type="button"
-                                                    >
-                                                        Add to Cart
+                                                    <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                                        handleAddToCart(product?.variants?.edges[0]?.node?.id);
+                                                    }} type='button'>
+                                                        {shaking === product?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
                                                     </button>
-                                                    <button
-                                                        className="px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf"
-                                                        type="button"
-                                                    >
-                                                        Buy Now
+                                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                                        BUY NOW
+                                                    </button>
+                                                </div>
+
+                                                <div className='md:hidden flex justify-center items-center gap-10'>
+                                                    <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                                        handleAddToCart(product?.variants?.edges[0]?.node?.id);
+                                                    }} type='button'>
+                                                        {shaking === product?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
+                                                    </button>
+                                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                                        BUY NOW
                                                     </button>
                                                 </div>
                                             </div>
