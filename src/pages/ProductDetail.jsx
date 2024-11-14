@@ -65,7 +65,7 @@ function ProductDetail() {
     const cartResponse = useSelector(selectCartResponse);
     const pickupPostcode = '394421';
     const [isRte, setIsRte] = useState(false)
-    const [shaking, setIsShaking]=useState(null);
+    const [shaking, setIsShaking] = useState(null);
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
@@ -731,7 +731,7 @@ function ProductDetail() {
                                 {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className={` ${shaking===productData?.variants.edges[0].node.id? 'animate-shake' : ''} product-buttons px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`}  onClick={() => {
+                                        className={` ${shaking === productData?.variants.edges[0].node.id ? 'animate-shake' : ''} product-buttons px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
                                         }}> {shaking === productData?.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}</button>
                                     <button
@@ -963,9 +963,9 @@ function ProductDetail() {
                         <>
                             <div><p className='pl-[50px] pr-5 md:pr-[51px] md:pl-[51px] text-[36px] md:pt-10 pt-6 leading-[37.34px] font-skillet'>You May Also Like</p></div>
                             <div className='pl-[50px] pr-5 md:pr-[51px] md:pl-[51px] flex justify-between items-center py-14 '>
-                                <div className='flex flex-row justify-start gap-x-8 flex-wrap w-full '>
+                                <div className='flex flex-row justify-between pr-[50px] md:pr-[0px] md:justify-start gap-x-8 flex-wrap w-full '>
                                     {productData?.relatedProducts?.references?.edges?.map((item, i) => (
-                                        <div key={i} className='flex flex-col justify-between lg:justify-start'>
+                                        <div key={i} className='flex flex-col lg:justify-start mb-[20px]'>
                                             <div
                                                 style={{ background: `${colors[i % colors.length]}` }}
                                                 onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
