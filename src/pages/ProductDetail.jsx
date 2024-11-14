@@ -542,7 +542,7 @@ function ProductDetail() {
                                     alt={``}
                                 />
                             </div>
-                            <div className={`flex flex-col md:ml-5 ${homeImg?.reference?.image?.originalSrc ? 'ml-[60%]' : 'ml-5'}`}>
+                            <div className={`flex flex-col md:ml-5 ${homeImg?.reference?.image?.originalSrc ? 'ml-[60%]' : 'ml-2 w-[48%]'}`}>
                                 <h1
                                     style={{
                                         color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}`
@@ -574,7 +574,7 @@ function ProductDetail() {
 
                             <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-20px] w-[25%]' : ''} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  overflow-x-auto w-[115%] md:w-full' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-[400px] scrollbar-hide`}>
+                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  overflow-x-auto w-[115%] md:w-full' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-auto scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
                                         <div
                                             key={i}
