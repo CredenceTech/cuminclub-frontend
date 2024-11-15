@@ -530,7 +530,7 @@ const Recipes = () => {
                                 <h1 className='text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]'>
                                     {productDetails[0]?.title}
                                 </h1>
-                                <p className='md:pb-[150px] text-[16px] font-regola-pro font-[400] leading-[17.17px] pt-2'>
+                                <p className='md:pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] pt-2'>
                                     {productDetails[0]?.description}
                                 </p>
                                 <div className='hidden md:flex gap-x-2 pb-8'>
@@ -545,7 +545,11 @@ const Recipes = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='md:hidden flex justify-center items-center gap-10'>
+
+                        <p className='md:pb-[150px] md:hidden flex text-[16px] font-regola-pro font-[400] leading-[17.17px] mt-4 mb-4 mx-4'>
+                            {productDetails[0]?.description}
+                        </p>
+                        <div className='md:hidden flex justify-start items-start gap-10 ml-4'>
                             <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
                                 handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
                             }} type='button'>
@@ -584,16 +588,17 @@ const Recipes = () => {
                                                     <h1 className="text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]">
                                                         {product?.title}
                                                     </h1>
-                                                    <p className="text-[16px] font-regola-pro font-[400] leading-[17.17px]">
-                                                        {product?.description}
-                                                    </p>
                                                     <div className='lg:hidden py-4 flex'>
                                                         <img
-                                                            src={productDetails[0]?.image}
+                                                            src={product.image}
                                                             alt=""
                                                             className='w-auto h-[300px] lg:h-[450px]'
                                                         />
                                                     </div>
+                                                    <p className="text-[16px] font-regola-pro font-[400] leading-[17.17px] mb-4 md:mb-0 h-[160px] md:h-auto">
+                                                        {product?.description}
+                                                    </p>
+
                                                 </div>
                                                 <div className="flex whitespace-nowrap gap-x-2 pb-8">
                                                     <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
