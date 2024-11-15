@@ -19,17 +19,17 @@ export const CartDrawer = () => {
   const [loading, setLoading] = useState({});
   const [recommendedProduct, setRecommendedProduct] = useState(null)
 
-  useEffect(() => {
-    getCartData();
-  }, [cartDatas]);
+  // useEffect(() => {
+  //   getCartData();
+  // }, [cartDatas]);
 
-  const getCartData = async () => {
-    const params = {
-      cartId: cartDatas?.cartCreate?.cart?.id,
-    };
-    const response = await graphQLClient.request(getCartQuery, params);
-    dispatch(setCartResponse(response));
-  };
+  // const getCartData = async () => {
+  //   const params = {
+  //     cartId: cartDatas?.cartCreate?.cart?.id,
+  //   };
+  //   const response = await graphQLClient.request(getCartQuery, params);
+  //   dispatch(setCartResponse(response));
+  // };
 
   const categoryVariants = {
     open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },

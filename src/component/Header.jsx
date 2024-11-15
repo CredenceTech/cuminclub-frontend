@@ -137,23 +137,23 @@ const Header = () => {
 
   console.log(userId)
 
-  useEffect(() => {
-    if (cartData !== null) {
-      getCartData();
-    }
-  }, [cartDatas]);
+  // useEffect(() => {
+  //   if (cartData !== null) {
+  //     getCartData();
+  //   }
+  // }, [cartDatas]);
 
   useEffect(() => {
     if (countryList === null) fetchCountryFilters();
   });
 
-  const getCartData = async () => {
-    const params = {
-      cartId: cartDatas?.cartCreate?.cart?.id,
-    };
-    const response = await graphQLClient.request(getCartQuery, params);
-    setCartResponse(response);
-  };
+  // const getCartData = async () => {
+  //   const params = {
+  //     cartId: cartDatas?.cartCreate?.cart?.id,
+  //   };
+  //   const response = await graphQLClient.request(getCartQuery, params);
+  //   setCartResponse(response);
+  // };
 
   const openCountryDrawer = () => {
     setIsCountryDrawerOpen(true);

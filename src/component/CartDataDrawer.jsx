@@ -236,29 +236,40 @@ export const CartDataDrawer = ({ onClose }) => {
                     }}
                 >
                     <div id="cart-modal">
-                        <div className="relative  bg-[#EFE9DA] lg:w-[35%] w-[90%] h-full"  style={{
-                                    background: "#EFE9DA",
-                                    backdropFilter: "blur(2px)",
-                                    position: "fixed",
-                                    right: "0",
-                                }}>
-                        <div className="h-20 flex top-0 sticky bg-[#EFE9DA] flex-col justify-around  w-full">
-                                    <div className="flex justify-between w-full  items-center ">
-                                        <div className="flex gap-3 ml-2 justify-between items-center">
-                                            <h1 className="md:text-[54px] text-[30px] font-[400] md:leading-[54.49px] leading-[20px] font-skillet p-[40px] pt-[20px] pb-0">Review your Cart</h1>
-                                            <button onClick={onClose} className=" relative md:-right-10 -right-[140px] text-gray-500 pt-[20px] hover:text-gray-700">
-                                                <svg xmlns="http://www.w3.org/2000/svg" height="36" width="36" viewBox="0 0 384 512"><path fill="#000000" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" /></svg>
-                                            </button>
-                                        </div>
-
+                        <div className="relative  bg-[#EFE9DA] lg:w-[35%] w-[90%] h-full" style={{
+                            background: "#EFE9DA",
+                            backdropFilter: "blur(2px)",
+                            position: "fixed",
+                            right: "0",
+                        }}>
+                            <div className="h-20 flex top-0 sticky bg-[#EFE9DA] flex-col justify-around w-full">
+                                {/* <div className="flex justify-between w-full items-center"> */}
+                                    <div className="flex ml-2 justify-between items-center md:mr-[60px] mr-4">
+                                        <h1 className="md:text-[54px] text-[30px] font-[400] md:leading-[54.49px] leading-[20px] font-skillet p-[30px] pb-0">
+                                            Review your Cart
+                                        </h1>
+                                        <button onClick={onClose} className="relative text-gray-500 pt-[30px] md:pt-0 hover:text-gray-700 p-0">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height="36"
+                                                width="36"
+                                                viewBox="0 0 384 512"
+                                                className="md:absolute "
+                                            >
+                                                <path
+                                                    fill="#000000"
+                                                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                                                />
+                                            </svg>
+                                        </button>
                                     </div>
+                                {/* </div> */}
+                            </div>
 
-
-                                </div>
                             <div
                                 className=" overflow-y-auto custom-scrollbar border-none md:h-[55%] h-[68%]"
                             >
-                                
+
 
                                 {!cartResponse || cartResponse.cart?.lines?.edges?.length === 0 && <div className="flex flex-col items-center justify-center py-10 text-center font-regola-pro md:text-xl text-lg space-y-4 mt-[150px]">
                                     <p>Your cart is empty</p>
@@ -347,25 +358,25 @@ export const CartDataDrawer = ({ onClose }) => {
                             </div>
 
                             <div
-                            className="md:py-5 py-1 md:h-[30%] h-[20%]"
-                        >
-                            {cartResponse && cartResponse.cart?.lines?.edges?.length > 0 &&
-                                <div className="p-[40px]">
-                                    <div className="flex mt-0 flex-row justify-between">
-                                        <p className="text-[26px] font-skillet  lg:text-[30.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
-                                        <p className="text-[28px] text-[#279C66] font-skillet lg:text-[32px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[33px] font-[400] leading-[32px]'>{cartResponse?.cart?.cost?.totalAmount?.amount}</span></p>
+                                className="md:py-5 py-1 md:h-[30%] h-[20%]"
+                            >
+                                {cartResponse && cartResponse.cart?.lines?.edges?.length > 0 &&
+                                    <div className="p-[40px]">
+                                        <div className="flex mt-0 flex-row justify-between">
+                                            <p className="text-[26px] font-skillet  lg:text-[30.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
+                                            <p className="text-[28px] text-[#279C66] font-skillet lg:text-[32px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[33px] font-[400] leading-[32px]'>{cartResponse?.cart?.cost?.totalAmount?.amount}</span></p>
+                                        </div>
+                                        <p className='text-[#757575] md:text-[18px] font-[500] md:leading-[26.45px] text-[14px] leading-3 text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
+
+                                        <button type='button' className='rounded-lg font-skillet text-2xl lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4' onClick={() => {
+                                            navigate('/cardReview');
+                                            onClose();
+                                        }}
+                                        >Checkout</button>
+
                                     </div>
-                                    <p className='text-[#757575] md:text-[18px] font-[500] md:leading-[26.45px] text-[14px] leading-3 text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
-
-                                    <button type='button' className='rounded-lg font-skillet text-2xl lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4' onClick={() => {
-                                        navigate('/cardReview');
-                                        onClose();
-                                    }}
-                                    >Checkout</button>
-
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </motion.div>
