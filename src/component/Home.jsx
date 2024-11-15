@@ -274,6 +274,35 @@ const Home = () => {
     }
   };
 
+
+  const handleSpinTouchStart = () => {
+    setIsDragging(true);
+  };
+
+  const handleSpinTouchMove = (e) => {
+    if (!isDragging) return;
+    const touch = e.touches[0];
+    const newX = touch.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
+
+    if (newX >= 0 && newX <= 240) {
+      setPositionX(newX);
+      if (newX >= 220) {
+        setRotation((prevRotation) => {
+          const newRotation = prevRotation + 360;
+          const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
+          setSelecteRandomPro(apiResponse[selectedIndex]);
+          return newRotation;
+        });
+      }
+    }
+  };
+
+  const handleSpinTouchEnd = () => {
+    setIsDragging(false);
+    setPositionX(0);
+  };
+
+
   const handleAddToCart = (productId, sellingPlanId) => {
 
     if (cartDatas === null) {
@@ -1786,6 +1815,8 @@ const Home = () => {
               className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[300px] btn-spin'
               onMouseMove={handleMouseMoves}
               onMouseUp={handleMouseUps}
+              onTouchMove={handleSpinTouchMove}
+              onTouchEnd={handleSpinTouchEnd}
               style={{
                 boxShadow: '0px 4px 22.7px 0px #0000001F inset',
                 position: 'relative',
@@ -1803,6 +1834,8 @@ const Home = () => {
                 }}
                 onMouseDown={handleMouseDowns}
                 onMouseLeave={handleMouseLeave}
+                onTouchStart={handleSpinTouchStart}
+                onTouchCancel={handleSpinTouchEnd}
               ></div>
 
               <div className="pl-[76px]">
@@ -1835,23 +1868,52 @@ const Home = () => {
             </div>
           </div>
 
-          <AnimatePresence>
-            <motion.div
-              ref={imgRef}
-              onMouseDown={handleMouseDown}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1, rotate: rotation }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
-            >
-              <img
-                src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
-                alt=''
-                className='lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0 spin-image'
-                draggable={false}
-              />
-            </motion.div>
-          </AnimatePresence>
+          {!isMobile && (
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1, rotate: rotation }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+          >
+            <img
+              src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+              alt="Rotating image"
+              className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
+              draggable={false}
+            />
+          </motion.div>
+        </AnimatePresence>
+      )}
+
+      {/* For mobile: */}
+      {isMobile && (
+       <AnimatePresence>
+       <motion.div
+         initial={{ opacity: 0, scale: 0.5 }}
+         animate={{ opacity: 1, scale: 1, rotate: rotation }}
+         exit={{ opacity: 0, scale: 0.5 }}
+         transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+         style={{
+           position: 'relative',
+           display: 'block',
+           transformOrigin: '90% 50%',
+         }}
+       >
+         <img
+           src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+           alt="Rotating image"
+           className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full mt-[-50px]"
+           style={{
+             transition: 'transform 0.8s ease', 
+             marginLeft: '40%' 
+           }}
+           draggable={false}
+         />
+       </motion.div>
+     </AnimatePresence>
+     
+      )}
         </div>
       </div>
 
