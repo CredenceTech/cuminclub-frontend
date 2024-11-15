@@ -43,16 +43,16 @@ const WithoutLoginCheckout = () => {
         }
     }, [loginUserCustomerId])
 
-    const fetchData = async () => {
-        const body = {
-            cartId: cartDatas?.cartCreate?.cart?.id,
-        }
-        try {
-            const response = await graphQLClient.request(getCartQuery, body)
-            dispatch(setCartResponse(response));
-        } catch (error) {
-        }
-    };
+    // const fetchData = async () => {
+    //     const body = {
+    //         cartId: cartDatas?.cartCreate?.cart?.id,
+    //     }
+    //     try {
+    //         const response = await graphQLClient.request(getCartQuery, body)
+    //         dispatch(setCartResponse(response));
+    //     } catch (error) {
+    //     }
+    // };
 
     const getCustomerDetail = async () => {
         setIsLoading(true);
@@ -74,13 +74,13 @@ const WithoutLoginCheckout = () => {
         }
     }, [loginUserCustomerId])
 
-    useEffect(() => {
-        fetchData()
-    }, [cartDatas]);
+    // useEffect(() => {
+    //     fetchData()
+    // }, [cartDatas]);
 
-    useEffect(() => {
-        fetchData()
-    }, [cartResponse?.cart?.estimatedCost?.totalAmount?.amount])
+    // useEffect(() => {
+    //     fetchData()
+    // }, [cartResponse?.cart?.estimatedCost?.totalAmount?.amount])
 
 
     useEffect(() => {

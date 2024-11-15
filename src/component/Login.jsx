@@ -229,7 +229,11 @@ function Login() {
             toast.success("Registration successful! Please log in.");
           }
         } else {
-          setIsError(error.message);
+          if (error.message==='Email has already been taken') {
+            setIsError('You have already registered using email and password. Please use those to login.');
+        } else {
+            setIsError(error.message); 
+        }
           toast.error(error.message);
         }
       } else {
