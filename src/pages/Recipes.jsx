@@ -496,7 +496,7 @@ const Recipes = () => {
                 </div>
             </div>
             <div className='bg-[#FAFAFA]'>
-                <div className='grid grid-cols-3 z-[10] sticky top-[100px] h-[61px] items-center bg-[#FAFAFA]'>
+                <div className='grid grid-cols-3 z-[10] sticky md:top-[110px] top-[100px] h-[61px] items-center bg-[#FAFAFA]'>
                     <div className='col-span-1 pl-[64px] hidden md:flex gap-x-16 items-center'>
                         <div className=''>
                             <p className='text-[#757575] font-regola-pro text-[14px] leading-[15.03px] font-[400] '>Prep Time</p>
