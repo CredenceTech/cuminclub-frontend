@@ -520,7 +520,7 @@ const Recipes = () => {
                                     className='w-auto h-[300px] md:h-[450px]'
                                 />
                             </div>
-                            <div className='md:w-1/2 pl-6 md:pl-0'>
+                            <div className='md:w-1/2 pl-6 md:pl-0 md:pr-5'>
                                 <h1 className='text-[#C75801] font-skillet text-[36px] font-[400] leading-[36.32px]'>
                                     Make this recipe Instantly Yours
                                 </h1>
@@ -530,7 +530,7 @@ const Recipes = () => {
                                 <h1 className='text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]'>
                                     {productDetails[0]?.title}
                                 </h1>
-                                <p className='pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex pt-2'>
+                                <p className='md:pb-[150px] text-[16px] font-regola-pro font-[400] leading-[17.17px] pt-2'>
                                     {productDetails[0]?.description}
                                 </p>
                                 <div className='hidden md:flex gap-x-2 pb-8'>
@@ -546,14 +546,14 @@ const Recipes = () => {
                             </div>
                         </div>
                         <div className='md:hidden flex justify-center items-center gap-10'>
-                        <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
-                                        handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
-                                    }} type='button'>
-                                        {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
-                                    </button>
-                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
-                                        BUY NOW
-                                    </button>
+                            <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
+                            }} type='button'>
+                                {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
+                            </button>
+                            <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                BUY NOW
+                            </button>
                         </div>
                     </div>
                 ) : productDetails && productDetails.length > 1 ? (
@@ -568,36 +568,34 @@ const Recipes = () => {
                         </div>
 
                         <div className="overflow-x-auto scrollbar-hide">
-                            <div className="flex space-x-4 pb-4">
+                            <div className="flex space-x-4 whitespace-nowrap pb-4">
                                 {productDetails.map((product, index) => (
                                     <div key={index} className="flex-none w-full md:w-1/2">
                                         <div className="flex border-r border-gray-300 pr-4">
-                                            <div className="w-1/2">
+                                            <div className="hidden lg:flex md:w-1/2">
                                                 <img
                                                     src={product?.image}
                                                     alt={product?.title}
                                                     className="w-auto h-[300px] md:h-[400px]"
                                                 />
                                             </div>
-                                            <div className="w-1/2 pl-4">
-                                                <h1 className="text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]">
-                                                    {product?.title}
-                                                </h1>
-                                                <p className="pb-[150px] hidden text-[16px] font-regola-pro font-[400] leading-[17.17px] md:flex">
-                                                    {product?.description}
-                                                </p>
-                                                <div className="hidden md:flex gap-x-2 pb-8">
-                                                    <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
-                                                        handleAddToCart(product?.variants?.edges[0]?.node?.id);
-                                                    }} type='button'>
-                                                        {shaking === product?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
-                                                    </button>
-                                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
-                                                        BUY NOW
-                                                    </button>
+                                            <div className="w-full lg:w-1/2 whitespace-normal flex flex-col justify-between md:pl-4">
+                                                <div>
+                                                    <h1 className="text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]">
+                                                        {product?.title}
+                                                    </h1>
+                                                    <p className="text-[16px] font-regola-pro font-[400] leading-[17.17px]">
+                                                        {product?.description}
+                                                    </p>
+                                                    <div className='lg:hidden py-4 flex'>
+                                                        <img
+                                                            src={productDetails[0]?.image}
+                                                            alt=""
+                                                            className='w-auto h-[300px] lg:h-[450px]'
+                                                        />
+                                                    </div>
                                                 </div>
-
-                                                <div className='md:hidden flex justify-center items-center gap-10'>
+                                                <div className="flex whitespace-nowrap gap-x-2 pb-8">
                                                     <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
                                                         handleAddToCart(product?.variants?.edges[0]?.node?.id);
                                                     }} type='button'>
