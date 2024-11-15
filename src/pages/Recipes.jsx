@@ -31,6 +31,8 @@ const Recipes = () => {
     const cartDatas = useSelector(cartData);
     const cartResponse = useSelector(selectCartResponse);
     const dispatch = useDispatch();
+    const [activeStep, setActiveStep] = useState(0)
+    const stepsContainerRef = useRef(null)
 
     useEffect(() => {
         const handleResize = () => {
@@ -202,6 +204,43 @@ const Recipes = () => {
         const unsubscribeScroll = scrollY.onChange(updateScrollProgress);
         return () => unsubscribeScroll();
     }, [scrollY, recipe, scrollYProgress]);
+
+
+    useEffect(() => {
+        const updateActiveStep = () => {
+            const windowHeight = window.innerHeight
+            const activeIndex = instructionsRef.current.findIndex((ref, index) => {
+                if (ref.current) {
+                    const { top, bottom } = ref.current.getBoundingClientRect()
+                    return top < windowHeight / 2 && bottom > windowHeight / 2
+                }
+                return false
+            })
+
+            if (activeIndex !== -1 && activeIndex !== activeStep) {
+                setActiveStep(activeIndex)
+
+                if (stepsContainerRef.current) {
+                    const stepElements = stepsContainerRef.current.children
+                    if (stepElements[activeIndex]) {
+                        stepElements[activeIndex].scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                            inline: 'center'
+                        })
+                    }
+                }
+            }
+        }
+
+        const handleScroll = () => {
+            requestAnimationFrame(updateActiveStep)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [activeStep])
+
 
     const InstructionsText = recipe?.steps ? recipe.steps.map((step, index) => ({
         id: index + 1,
@@ -469,7 +508,7 @@ const Recipes = () => {
                         </div>
                     </div>
                     <div className='col-span-3 md:col-span-2 md:mt-0 mt-[-4px] flex overflow-x-auto bg-[#FFFFFF] flex-1 whitespace-nowrap scrollbar-hide justify-between items-center'>
-                        <div className='flex flex-row w-full'>
+                        <div className='flex flex-row w-full' ref={stepsContainerRef}>
                             {InstructionsText?.map((progress, index) => (
                                 <div key={index} className={`relative h-[61px] flex items-center justify-center w-full px-10   ${index === InstructionsText.length - 1 ? '' : 'border-r-[#C75801] border-r'} `} >
                                     <motion.div className="progress-bar" style={{ scaleX: scrollYProgress[index] }} />
