@@ -1320,8 +1320,8 @@ const Home = () => {
           )} */}
           </div>
 
-          <div className="flex gap-x-3 md:gap-x-8 flex-1 justify-end md:mr-6 z-10">
-            <div className="z-[9999] ">
+          <div className="flex gap-x-3 md:gap-x-8 flex-1 justify-end md:mr-6 z-[9999]">
+            <div >
               <SearchQuery isSticky={isSticky} />
             </div>
 
@@ -1897,16 +1897,16 @@ const Home = () => {
          style={{
            position: 'relative',
            display: 'block',
-           transformOrigin: '90% 50%',
+           left: '35%',
+          //  transformOrigin: '90% 50%',
          }}
        >
          <img
            src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
            alt="Rotating image"
-           className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full mt-[-50px]"
+           className="h-[353px] w-[353px] rounded-full mt-[-50px]"
            style={{
              transition: 'transform 0.8s ease', 
-             marginLeft: '40%' 
            }}
            draggable={false}
          />
