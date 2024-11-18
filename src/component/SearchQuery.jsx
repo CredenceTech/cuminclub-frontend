@@ -97,7 +97,7 @@ const SearchQuery = ({ isSticky }) => {
     }, [searchOpen]);
 
     return (
-        <div className={`relative justify-center items-center ${pathname?.includes('/login') || pathname?.includes('/registration') || pathname?.includes('/forgot-password') ? 'hidden' : "flex"}`}>
+        <div className={`relative z-[9999] justify-center items-center ${pathname?.includes('/login') || pathname?.includes('/registration') || pathname?.includes('/forgot-password') ? 'hidden' : "flex"}`}>
             <button onClick={toggleSearch} className="focus:outline-none">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke={(pathname === '/' || pathname.includes('/ready-to-cook')) && !isSticky ? '#FFFFFF' : '#333333'} strokeWidth="3.02041" />

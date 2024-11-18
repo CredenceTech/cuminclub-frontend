@@ -500,6 +500,20 @@ function ProductDetail() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const slidesPerView = 4;
     const totalSlides = productData?.images?.edges?.length || 0;
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
 
     const nextSlide = () => {
         if (scrollContainerRef.current && currentSlide < Math.ceil(totalSlides - slidesPerView)) {
@@ -514,6 +528,21 @@ function ProductDetail() {
             setCurrentSlide((prev) => prev - 1);
         }
     };
+
+    const nextleftSlide = () => {
+        if (scrollContainerRef.current && currentSlide < Math.ceil(totalSlides - slidesPerView)) {
+            scrollContainerRef.current.scrollBy({ left: 150, behavior: 'smooth' });
+            setCurrentSlide((prev) => prev + 1);
+        }
+    };
+
+    const prevRightSlide = () => {
+        if (scrollContainerRef.current && currentSlide > 0) {
+            scrollContainerRef.current.scrollBy({ left: -150, behavior: 'smooth' });
+            setCurrentSlide((prev) => prev - 1);
+        }
+    };
+
 
     const weightUnitSymbols = {
         GRAMS: 'g',
@@ -574,7 +603,7 @@ function ProductDetail() {
 
                             <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-20px] w-[25%]' : ''} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  overflow-x-auto w-[115%] md:w-full' : 'md:flex-col flex-row overflow-x-auto'}  md:h-[600px] h-auto scrollbar-hide`}>
+                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  md:h-[600px] h-[400px] overflow-x-auto w-[115%] md:w-full' : 'md:flex-col  md:h-[600px] h-auto flex-row overflow-x-auto w-[80%] md:w-auto ml-[10%] md:ml-0'}  scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
                                         <div
                                             key={i}
@@ -596,21 +625,56 @@ function ProductDetail() {
                                 </div>
 
                                 <div className="flex md:flex-col flex-row md:justify-start justify-center gap-y-4 gap-3 -right-[55px] md:absolute unset bottom-0 mt-4">
-                                    <button
-                                        onClick={prevSlide}
-                                        className="p-2 bg-[#1c1515ae] text-white rounded-full"
-                                        disabled={currentSlide === 0}
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" /></svg>
-                                    </button>
+                                    {/* Conditional Rendering for Previous Slide Button */}
+                                    {isMobile && !homeImg?.reference?.image?.originalSrc ? (
+                                        <button
+                                            onClick={prevRightSlide}
+                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            disabled={currentSlide === 0}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+                                                <path d="M416-480 600-296l-56 56-240-240 240-240 56 56-184 184Z" />
+                                            </svg>
 
-                                    <button
-                                        onClick={nextSlide}
-                                        className="p-2 bg-[#1c1515ae] text-white rounded-full"
-                                        disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" /></svg>
-                                    </button>
+
+                                        </button>
+                                    ) : (
+                                        // Previous Slide Button
+                                        <button
+                                            onClick={prevSlide}
+                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            disabled={currentSlide === 0}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+                                                <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" />
+                                            </svg>
+                                        </button>
+                                    )}
+
+                                    {/* Conditional Rendering for Next Slide Button */}
+                                    {isMobile && !homeImg?.reference?.image?.originalSrc ? (
+                                        <button
+                                            onClick={nextleftSlide}
+                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+                                                <path d="M544-480 360-296l56 56 240-240-240-240-56 56 184 184Z" />
+                                            </svg>
+
+                                        </button>
+                                    ) : (
+                                        // Next Slide Button
+                                        <button
+                                            onClick={nextSlide}
+                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
+                                                <path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z" />
+                                            </svg>
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
