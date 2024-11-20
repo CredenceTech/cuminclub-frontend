@@ -477,11 +477,11 @@ function ReadyToCook() {
                                                                             ? `${product.description.substring(0, 80)}...`
                                                                             : product.description}</p>
                                                                         <div className="flex gap-x-4 mt-1">
-                                                                            <button type="button" className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`} onClick={(e) => {
+                                                                            <button type="button" className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] text-[#333333] px-2 w-[150px] flex justify-center items-center rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`} onClick={(e) => {
                                                                                 e.stopPropagation();
                                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                                             }
-                                                                            }> {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}</button>
+                                                                            }> {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}</button>
                                                                             <button type="button" className="bg-[#26965C] text-[#FAFAFA] px-3 rounded-lg py-[4px] font-regola-pro  text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]" onClick={(e) => e.stopPropagation()}>BUY NOW</button>
                                                                         </div>
                                                                     </div>
@@ -626,9 +626,9 @@ function ReadyToCook() {
                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                             }
                                                             }
-                                                            className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                                            className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                         >
-                                                            {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
+                                                            {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
                                                         </button>
                                                         <button
                                                             onClick={(e) => e.stopPropagation()}
@@ -684,9 +684,9 @@ function ReadyToCook() {
                                                                     handleAddToCart(product.variants.edges[0].node.id)
                                                                 }
                                                                 }
-                                                                className={` ${shaking === product.variants.edges[0].node.id ? 'animate-shake' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                                                className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                             >
-                                                                {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
+                                                                {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
                                                             </button>
                                                             <button
                                                                 onClick={(e) => e.stopPropagation()}

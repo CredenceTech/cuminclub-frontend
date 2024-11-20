@@ -65,7 +65,7 @@ const ReadyToEat = () => {
   const [transformedProducts, setTransformedProducts] = useState(null);
   const draftOrderItem = useSelector(draftOrderData);
   const draftOrderResponse = useSelector(selectDraftOrderResponse);
-  const [shaking, setIsShaking]=useState(null);
+  const [shaking, setIsShaking] = useState(null);
 
   console.log(draftOrderResponse)
 
@@ -894,9 +894,9 @@ const ReadyToEat = () => {
                                         e.stopPropagation();
                                         handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO CART"
                                       }}
-                                      className={` ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                      className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] text-[#333333] w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                     >
-                                     {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
+                                      {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
                                     </button>
                                   )}
 
@@ -964,9 +964,9 @@ const ReadyToEat = () => {
                                           e.stopPropagation();
                                           handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
                                         }}
-                                        className={` ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                        className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                       >
-                                        {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
+                                        {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
                                       </button>
                                     )}
 
@@ -1013,7 +1013,7 @@ const ReadyToEat = () => {
               <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your monthly box</h1>
               <div className="p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
                 {draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item, index) => {
-                  const productId = item?.node?.variant?.id; 
+                  const productId = item?.node?.variant?.id;
                   const quantity = item?.node?.quantity || 0;
                   const title = item?.node?.variant?.product?.title || "Product Title";
                   const imageUrl = item?.node?.variant?.product?.metafields?.edges?.find(edge => edge.node.key === "image_for_home")
