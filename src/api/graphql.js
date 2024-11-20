@@ -1690,3 +1690,18 @@ query getCustomer($customerAccessToken: String!) {
 `;
 
 
+export const stagedUploadsCreateMutation = `
+  mutation StagedUploadsCreate($input: [StagedUploadInput!]!) {
+    stagedUploadsCreate(input: $input) {
+    stagedTargets {
+      url
+      resourceUrl
+      parameters {
+        name
+        value
+      }
+    }
+  }
+  }
+`;
+
