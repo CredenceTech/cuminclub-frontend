@@ -58,7 +58,7 @@ export const Bulk = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showModel, setShowModel] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [shaking, setIsShaking]=useState(null);
+    const [shaking, setIsShaking] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -305,7 +305,7 @@ export const Bulk = () => {
         );
         // setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesUpdate));
-       setIsShaking(null);
+        setIsShaking(null);
     };
 
     const updateCart = async (cartId, cartItem) => {
@@ -317,7 +317,7 @@ export const Bulk = () => {
         const response = await graphQLClient.request(updateCartMutation, params);
         // setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesAdd));
-       setIsShaking(null);
+        setIsShaking(null);
     };
 
     const getProductQuantityInCart = (productId) => {
@@ -475,58 +475,58 @@ export const Bulk = () => {
                                 const productPrice = product.priceRange.minVariantPrice.amount;
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
-                               return <> <div key={product.id} className="bg-[#EADEC1] col-span-2 md:col-span-1 relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }}>
-                               <AnimatePresence mode="wait">
-                                   <motion.div
-                                       initial={{ y: 500, x: -500, opacity: 0 }}
-                                       animate={{ y: 0, x: 0, opacity: 1 }}
-                                       exit={{ y: -500, x: 500, opacity: 0 }}
-                                       transition={{ duration: 0.4 }}
-                                       className="h-full"
-                                   >
-                                       <img
-                                           src={productSmallImage}
-                                           alt={product.title}
-                                           className="w-full h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
-                                       />
-                                       <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
-                                           <div className="p-5">
-                                              
-                                           </div>
-                                           <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
-                                               <div className="flex flex-row justify-between items-center mb-5">
-                                                   <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase max-w-[80%]">
-                                                       {product.title}
-                                                   </p>
-                                                   <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase">
-                                                       ₹ {Math.floor(productPrice)}
-                                                   </p>
-                                               </div>
-                                               <div className="flex flex-col md:flex-row md:gap-4">
-                                                   <button
-                                                       type="button"
-                                                       onClick={(e) => {
-                                                           e.stopPropagation();
-                                                           handleAddToCart(product.variants.edges[0].node.id)
-                                                       }
-                                                       }
-                                                       className={`border-2 ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
-                                                   >
-                                                       {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
-                                                   </button>
-                                                   <button
-                                                       onClick={(e) => e.stopPropagation()}
-                                                       type="button"
-                                                       className="bg-[#279C66] text-[#FAFAFA]  mt-2 md:mt-0 px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                                   >
-                                                       BUY NOW
-                                                   </button>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </motion.div>
-                               </AnimatePresence>
-                           </div></>
+                                return <> <div key={product.id} className="bg-[#EADEC1] col-span-2 md:col-span-1 relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }}>
+                                    <AnimatePresence mode="wait">
+                                        <motion.div
+                                            initial={{ y: 500, x: -500, opacity: 0 }}
+                                            animate={{ y: 0, x: 0, opacity: 1 }}
+                                            exit={{ y: -500, x: 500, opacity: 0 }}
+                                            transition={{ duration: 0.4 }}
+                                            className="h-full"
+                                        >
+                                            <img
+                                                src={productSmallImage}
+                                                alt={product.title}
+                                                className="w-full h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                            />
+                                            <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
+                                                <div className="p-5">
+
+                                                </div>
+                                                <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
+                                                    <div className="flex flex-row justify-between items-center mb-5">
+                                                        <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase max-w-[80%]">
+                                                            {product.title}
+                                                        </p>
+                                                        <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase">
+                                                            ₹ {Math.floor(productPrice)}
+                                                        </p>
+                                                    </div>
+                                                    <div className="flex flex-col md:flex-row md:gap-4">
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleAddToCart(product.variants.edges[0].node.id)
+                                                            }
+                                                            }
+                                                            className={`border-2 ${shaking === product.variants.edges[0].node.id ? '' : ''} border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                                        >
+                                                            {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                                        </button>
+                                                        <button
+                                                            onClick={(e) => e.stopPropagation()}
+                                                            type="button"
+                                                            className="bg-[#279C66] text-[#FAFAFA]  mt-2 md:mt-0 px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                                        >
+                                                            BUY NOW
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    </AnimatePresence>
+                                </div></>
                             })}
                         </div>
                     </motion.div>

@@ -795,9 +795,9 @@ function ProductDetail() {
                                 {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className={` ${shaking === productData?.variants.edges[0].node.id ? 'animate-shake' : ''} product-buttons px-8 py-3 bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
+                                        className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-8 py-3 md:w-[250px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
-                                        }}> {shaking === productData?.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}</button>
+                                        }}> {shaking === productData?.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Subscribe</button>
