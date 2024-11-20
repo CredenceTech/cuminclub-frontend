@@ -211,7 +211,7 @@ const Home = () => {
   };
 
 
-
+  const [dragThreshold, setDragThreshold] = useState(false);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [fadeIn, setFadeIn] = useState(false);
   useEffect(() => {
@@ -229,22 +229,20 @@ const Home = () => {
 
   const handleMouseDowns = () => {
     setIsDragging(true);
+    setDragThreshold(false);
   };
-
-  const handleMouseLeave = (e) => {
-    if (isDragging) {
-      setPositionX(0);
-      setIsDragging(false);
-    }
+  const handleMouseLeave = () => {
+    setPositionX(0);
+    setIsDragging(false);
+    setDragThreshold(false);
   };
-
-
-
   const handleMouseMoves = (e) => {
     if (!isDragging) return;
     const parentWidth = e.target.parentNode.offsetWidth;
     const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
-
+    if (Math.abs(newX - positionX) > 5) {
+      setDragThreshold(true);
+    }
     if (newX >= 0 && newX <= 220) {
       setPositionX(newX);
       if (newX >= 200) {
@@ -252,17 +250,23 @@ const Home = () => {
           const newRotation = prevRotation + 360;
           const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
           setSelecteRandomPro(apiResponse[selectedIndex]);
-
           return newRotation;
         });
       }
     }
+    else {
+      setDragThreshold(false);
+      setIsDragging(false)
+      setPositionX(0);
+    }
   };
-
-
   const handleMouseUps = (e) => {
+    if (!dragThreshold) {
+      return;
+    }
     setIsDragging(false);
     setPositionX(0);
+    setDragThreshold(false)
     const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
     if (newX < 200) {
       setRotation((prevRotation) => {
@@ -273,20 +277,20 @@ const Home = () => {
       });
     }
   };
-
-
   const handleSpinTouchStart = () => {
     setIsDragging(true);
+    setDragThreshold(false);
   };
-
   const handleSpinTouchMove = (e) => {
     if (!isDragging) return;
     const touch = e.touches[0];
     const newX = touch.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
-
-    if (newX >= 0 && newX <= 240) {
+    if (Math.abs(newX - positionX) > 5) {
+      setDragThreshold(true);
+    }
+    if (newX >= 0 && newX <= 145) {
       setPositionX(newX);
-      if (newX >= 220) {
+      if (newX >= 135) {
         setRotation((prevRotation) => {
           const newRotation = prevRotation + 360;
           const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
@@ -296,9 +300,12 @@ const Home = () => {
       }
     }
   };
-
   const handleSpinTouchEnd = () => {
+    if (!dragThreshold) {
+      return;
+    }
     setIsDragging(false);
+    setDragThreshold(false);
     setPositionX(0);
   };
 
@@ -1792,7 +1799,7 @@ const Home = () => {
 
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
         <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white tracking-[0.04em] text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title max-w-[280px] md:max-w-full'>
+          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title max-w-[280px] md:max-w-full'>
             Not Sure What to Eat?
           </p>
           <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
@@ -1803,7 +1810,9 @@ const Home = () => {
           <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
             style={{ userSelect: 'none' }}>
             <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[300px] btn-spin'
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[202px] md:w-[300px] btn-spin' onClick={(event) => {
+                event.stopPropagation();
+              }}
               onMouseMove={handleMouseMoves}
               onMouseUp={handleMouseUps}
               onTouchMove={handleSpinTouchMove}
@@ -1814,6 +1823,9 @@ const Home = () => {
               }}
             >
               <div
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
                 className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
                 style={{
                   position: 'absolute',
@@ -1828,8 +1840,7 @@ const Home = () => {
                 onTouchStart={handleSpinTouchStart}
                 onTouchCancel={handleSpinTouchEnd}
               ></div>
-
-              <div className="pl-[76px]">
+              <div className="pl-[50px] md:pl-[76px]">
                 <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
                   {`Spin >>`}
                 </button>
@@ -1841,14 +1852,13 @@ const Home = () => {
                   style={{ textShadow: '0px 4px 9.9px #00000040' }}>
                   {selecteRandomPro?.node?.title}
                 </p>
-
                 <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
                   ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
                 </p>
               </div>
               <button
                 type='button'
-                className='w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn'
+                className='w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn'
                 onClick={() => {
                   handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                 }
@@ -1858,7 +1868,6 @@ const Home = () => {
               </button>
             </div>
           </div>
-
           {!isMobile && (
             <AnimatePresence>
               <motion.div
@@ -1876,7 +1885,6 @@ const Home = () => {
               </motion.div>
             </AnimatePresence>
           )}
-
           {/* For mobile: */}
           {isMobile && (
             <AnimatePresence>
@@ -1903,7 +1911,6 @@ const Home = () => {
                 />
               </motion.div>
             </AnimatePresence>
-
           )}
         </div>
       </div>
