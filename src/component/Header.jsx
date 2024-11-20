@@ -312,7 +312,7 @@ const Header = () => {
       <div
         className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'} ${pathname.includes('product-details') && !isSticky ? 'bg-[#FFFFFF] lg:bg-[#EADEC1] pb-7' : ''}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] px-4 lg:px-10 py-6`}
       >
-        <div className="lg:gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] md:flex-1">
+        <div className="lg:gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] flex flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot hidden lg:flex ">
             <NavigationMenu.List className="NavigationMenuList hidden lg:flex">
               <NavigationMenu.Item className="pl-4">
@@ -390,20 +390,11 @@ const Header = () => {
             </NavigationMenu.List>
           </NavigationMenu.Root>
           <button className="lg:hidden md:btn-hamburger" onClick={() => setIsMenuOpen(true)}>
-            <svg
-              width="37"
-              height="31"
-              viewBox="0 0 37 31"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+            <svg width="40" height="16" viewBox="0 0 40 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0.800781 2.58333C0.800781 1.89819 1.0717 1.24111 1.55394 0.756641C2.03617 0.272172 2.69022 0 3.37221 0H34.2294C34.9113 0 35.5654 0.272172 36.0476 0.756641C36.5299 1.24111 36.8008 1.89819 36.8008 2.58333C36.8008 3.26848 36.5299 3.92556 36.0476 4.41003C35.5654 4.89449 34.9113 5.16667 34.2294 5.16667H3.37221C2.69022 5.16667 2.03617 4.89449 1.55394 4.41003C1.0717 3.92556 0.800781 3.26848 0.800781 2.58333ZM0.800781 15.5C0.800781 14.8149 1.0717 14.1578 1.55394 13.6733C2.03617 13.1888 2.69022 12.9167 3.37221 12.9167H34.2294C34.9113 12.9167 35.5654 13.1888 36.0476 13.6733C36.5299 14.1578 36.8008 14.8149 36.8008 15.5C36.8008 16.1851 36.5299 16.8422 36.0476 17.3267C35.5654 17.8112 34.9113 18.0833 34.2294 18.0833H3.37221C2.69022 18.0833 2.03617 17.8112 1.55394 17.3267C1.0717 16.8422 0.800781 16.1851 0.800781 15.5ZM0.800781 28.4167C0.800781 27.7315 1.0717 27.0744 1.55394 26.59C2.03617 26.1055 2.69022 25.8333 3.37221 25.8333H34.2294C34.9113 25.8333 35.5654 26.1055 36.0476 26.59C36.5299 27.0744 36.8008 27.7315 36.8008 28.4167C36.8008 29.1018 36.5299 29.7589 36.0476 30.2434C35.5654 30.7278 34.9113 31 34.2294 31H3.37221C2.69022 31 2.03617 30.7278 1.55394 30.2434C1.0717 29.7589 0.800781 29.1018 0.800781 28.4167Z"
-                fill="#E91D24"
-                className={`fill-current ${pathname.includes("/ready-to-cook") || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') || pathname === '/' ? 'black-text-shadow' : 'text-[#231F20]'} ${isSticky ? 'text-[#231F20]' : ''}`}
-              />
+                className={`fill-current ${pathname.includes("/ready-to-cook") || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') || pathname === '/' ? 'black-text-shadow' : 'text-[#333333]'} ${isSticky ? 'text-[#333333]' : ''}`}
+                fill="#FFFFFF"
+                d="M-6.67794e-07 15.2773L40 15.2773L40 12.2717L-5.36414e-07 12.2717L-3.99542e-07 9.14045L40 9.14045L40 6.13483L-2.68162e-07 6.13483L-1.3138e-07 3.00561L40 3.00561L40 1.74846e-06L0 0L-1.3138e-07 3.00561L-2.68162e-07 6.13483L-3.99542e-07 9.14045L-5.36414e-07 12.2717L-6.67794e-07 15.2773Z" />
             </svg>
           </button>
         </div>
