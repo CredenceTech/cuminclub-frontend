@@ -58,7 +58,7 @@ export const Product = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [showModel, setShowModel] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [shaking, setIsShaking]=useState(null);
+    const [shaking, setIsShaking] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -155,7 +155,7 @@ export const Product = () => {
                 const bundleIndex = collections.collections.edges.findIndex(
                     (item) => item.node.title === "Bundles"
                 );
-    
+
                 if (bundleIndex !== -1) {
                     const bundleItem = collections.collections.edges.splice(
                         bundleIndex,
@@ -169,20 +169,20 @@ export const Product = () => {
                             const bulk = product.node.metafields.find(mf => mf && mf.key === "bulk");
                             const isPremium = product.node.metafields.find(mf => mf && mf.key === "premium")?.value === "true";
                             if (bulk?.value === "true") {
-                                return null; 
+                                return null;
                             }
                             if (selectedCategory?.node?.title === "Premium" && !isPremium) {
-                                return null; 
+                                return null;
                             }
                             return {
                                 ...product.node,
                                 superTitle: category.node.title,
                             };
                         })
-                        .filter(product => product !== null) 
+                        .filter(product => product !== null)
                 );
-                
-    
+
+
                 setApiResponse(collections);
                 setRawResponse(collections);
                 setTransformedProducts(transformedProducts);
@@ -190,10 +190,10 @@ export const Product = () => {
                 console.error("Error fetching data:", error);
             }
         };
-    
+
         apiCall();
     }, [selectedCategory]);
-    
+
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId);
@@ -504,9 +504,9 @@ export const Product = () => {
                                                                 handleAddToCart(product.variants.edges[0].node.id)
                                                             }
                                                             }
-                                                            className={` ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-2 border-[#333333] text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                                            className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                         >
-                                                            {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
+                                                            {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
                                                         </button>
                                                         <button
                                                             onClick={(e) => e.stopPropagation()}
@@ -562,9 +562,9 @@ export const Product = () => {
                                                                     handleAddToCart(product.variants.edges[0].node.id)
                                                                 }
                                                                 }
-                                                                className={` ${shaking===product.variants.edges[0].node.id? 'animate-shake' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                                                className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                                                             >
-                                                                 {shaking === product.variants.edges[0].node.id ? 'Adding...' : 'ADD TO CART'}
+                                                                {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
                                                             </button>
                                                             <button
                                                                 onClick={(e) => e.stopPropagation()}

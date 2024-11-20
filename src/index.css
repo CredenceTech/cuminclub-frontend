@@ -798,3 +798,19 @@ input[type="file"] {
   border-radius: 4px;
 }
 
+.spinner1 {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid;
+  border-color: #bcbcc1;
+  border-right-color: #29292b;
+  animation: spinner1-d3wgkg 1s infinite linear;
+}
+
+@keyframes spinner1-d3wgkg {
+  to {
+     transform: rotate(1turn);
+  }
+}
+
