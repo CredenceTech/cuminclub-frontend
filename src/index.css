@@ -779,3 +779,22 @@ body {
 .animate-shake {
   animation: shake 0.5s ease-in-out;
 }
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column; /* Stack label and input in a column */
+  gap: 8px; /* Optional: adds spacing between the label and input */
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px; /* Optional: adds space below the label */
+}
+
+input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

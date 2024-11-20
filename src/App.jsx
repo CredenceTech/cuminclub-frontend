@@ -35,6 +35,8 @@ import { CancellationPolicy } from "./component/CancellationPolicy";
 import ForgotPassword from "./component/ForgotPassword";
 import MyProfile from "./component/MyProfile";
 import { Faqs } from "./component/Faqs";
+import { BusinessInquiryForm } from "./component/BusinessInquiryForm";
+import { AddInfluencersForm } from "./component/AddInfluencersForm";
 
 function App() {
   return (
@@ -78,6 +80,8 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/faqs" element={<Faqs/>}/>
+            <Route path="/business-inquiry" element={<BusinessInquiryForm/>}/>
+            <Route path="/influencers" element={<AddInfluencersForm/>}/>
           </Routes>
         </div>
         <Footer />
