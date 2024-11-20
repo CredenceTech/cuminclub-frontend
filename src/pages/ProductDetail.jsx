@@ -852,6 +852,15 @@ function ProductDetail() {
                                                         playing={playing}
                                                         controls={true}
                                                         onEnded={handleVideoEnd}
+                                                        playsinline
+                                                        config={{
+                                                            file: {
+                                                                attributes: {
+                                                                    playsInline: true, // For iOS
+                                                                    controls: true,
+                                                                },
+                                                            },
+                                                        }}
                                                     />}
                                                     {/* {!playing && (
                                             <div className="absolute inset-0 flex justify-center z-20 items-center">
