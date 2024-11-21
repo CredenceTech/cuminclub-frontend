@@ -1667,7 +1667,7 @@ const Home = () => {
                     </div>
 
                     <div className='h-auto pt-4'>
-                      <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[37px] w-[37px] bg-[#ffffff] text-[#333333] rounded`} onClick={() => {
+                      <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#ffffff] text-[#333333] rounded`} onClick={() => {
                         handleAddToCart(item?.node?.variants.edges[0].node.id)
                       }
                       }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
