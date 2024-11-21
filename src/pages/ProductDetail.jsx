@@ -495,11 +495,6 @@ function ProductDetail() {
         };
     }, [homeImg]);
 
-
-    const scrollContainerRef = useRef(null);
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const slidesPerView = 4;
-    const totalSlides = productData?.images?.edges?.length || 0;
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -514,6 +509,11 @@ function ProductDetail() {
         };
     }, []);
 
+
+    const scrollContainerRef = useRef(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const slidesPerView = isMobile && !homeImg?.reference?.image?.originalSrc ? 3 : 4;
+    const totalSlides = productData?.images?.edges?.length || 0;
 
     const nextSlide = () => {
         if (scrollContainerRef.current && currentSlide < Math.ceil(totalSlides - slidesPerView)) {
@@ -591,11 +591,11 @@ function ProductDetail() {
                         </div>
                         <div className={`md:w-3/5 w-full pt-1  relative md:pt-8 md:pr-7 gap-x-[40px] flex items-center ${homeImg?.reference?.image?.originalSrc ? 'flex-row' : 'md:flex-row flex-col'} md:h-[650px] h-auto`}>
                             {/* <div className='relative w-4/6 max-w-[553px] shrink-1'> */}
-                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? '-left-[48%] mt-[-31%] md:mt-0 md:-left-16 md:h-[553px] h-auto md:w-[553px] w-[80%]' : 'md:pr-6 md:pl-6 md:h-[553px] h-[553px] md:w-[553px] w-[553px] flex justify-center items-center'} `}>
+                            <div className={`relative ${homeImg?.reference?.image?.originalSrc ? 'product-detail-spin-home' : 'md:pr-6 md:pl-6 md:h-[553px] h-[553px] md:w-[553px] w-[553px] flex justify-center items-center'} `}>
                                 <img
                                     src={homeImg?.reference?.image?.originalSrc ? homeImg?.reference?.image?.originalSrc : homeImg}
                                     // src={data?.images?.edges[0]?.node?.src}
-                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'h-[500px] md:h-[553px] w-[500px] md:w-[553px] max-w-[180%] md:max-w-[100%]' : 'md:h-[553px] w-auto h-[500px]'}`}
+                                    className={`spin-on-scroll ${homeImg?.reference?.image?.originalSrc ? 'product-detail-spin-home-img' : 'md:h-[553px] w-auto h-[500px]'}`}
                                     style={{ transform: `rotate(${rotation}deg)` }}
                                     alt={``}
                                 />
@@ -795,7 +795,7 @@ function ProductDetail() {
                                 {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-8 py-3 md:w-[250px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
+                                        className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[250px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
                                         }}> {shaking === productData?.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}</button>
                                     <button
@@ -1074,10 +1074,10 @@ function ProductDetail() {
                                                     </p>
                                                 </div>
                                                 <div className='h-auto'>
-                                                    <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded' onClick={() => {
+                                                    <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded`} onClick={() => {
                                                         handleAddToCart(item?.node?.variants.edges[0].node.id)
                                                     }
-                                                    }>+</button>
+                                                    }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
                                                 </div>
                                             </div>
 
