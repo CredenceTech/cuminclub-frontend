@@ -98,21 +98,22 @@ const SearchQuery = ({ isSticky }) => {
 
     return (
         <div className={`relative z-[9999] justify-center items-center ${pathname?.includes('/login') || pathname?.includes('/registration') || pathname?.includes('/forgot-password') ? 'hidden' : "flex"}`}>
-            <button onClick={toggleSearch} className="focus:outline-none">
+            <button onClick={toggleSearch} className="focus:outline-none mt-1">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke={(pathname === '/' || pathname.includes('/ready-to-cook')) && !isSticky ? '#FFFFFF' : '#333333'} strokeWidth="3.02041" />
                 </svg>
             </button>
 
             {searchOpen && (
-                <div ref={modalRef} className="absolute top-0 md:right-0 -right-20 w-[450px]  h-auto  bg-[#FAFAFAE5] p-8 flex flex-col">
+                <div ref={modalRef} className="absolute top-[-25px] md:top-[-30px] md:right-0 -right-[65px] w-[94vw] md:w-[450px]  h-auto  bg-[#FAFAFAE5] pt-8 pb-8 pr-2 flex flex-col">
                     <div className="flex justify-between items-center">
                         <input
                             type="text"
-                            className="pl-4 text-2xl w-[250px] font-bold border-b border-black focus:outline-none text-[#333333] bg-[#FAFAFAE5] font-regola-pro"
+                            className="pl-4 text-2xl w-[50vw] md:w-[250px] font-bold border-b border-black focus:outline-none text-[#333333] font-regola-pro"
                             placeholder="Search..."
                             value={keyword}
                             onChange={handleSearchChange}
+                            style={{ background: 'none' }}
                         />
                         <button onClick={clearQuery} className="ml-4 text-gray-700 focus:outline-none font-regola-pro">
                             Clear

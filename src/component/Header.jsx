@@ -484,7 +484,7 @@ const Header = () => {
             />
           )} */}
         </div>
-        <div className="flex gap-x-2 md:gap-x-8 pr-3 lg:pr-0 flex-1 justify-end">
+        <div className="flex gap-x-6 md:gap-x-8 pr-3 lg:pr-0 flex-1 justify-end">
           <SearchQuery isSticky={isSticky} />
           <button
             onClick={() => {
