@@ -223,7 +223,7 @@ export const CartDataDrawer = ({ onClose }) => {
 
     return (
         <AnimatePresence>
-            <div className="relative z-[500]">
+            <div className="relative z-[10000]">
                 <motion.div
                     initial={{ x: "100%" }}
                     animate={{ x: 0 }}

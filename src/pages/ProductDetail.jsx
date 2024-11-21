@@ -446,7 +446,6 @@ function ProductDetail() {
         }
         return metaContent;
     };
-    console.log("first feednablk ", feedbacks)
 
     const categoryVariants = {
         open: { borderBottomRightRadius: 0, borderBottomLeftRadius: 0 },
@@ -746,7 +745,7 @@ function ProductDetail() {
                                                         className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
                                                     >
                                                         {item.title === "Nutritional Facts" ? (
-                                                            <div dangerouslySetInnerHTML={{ __html: item.description }} />
+                                                            <div className='font-regola-pro' dangerouslySetInnerHTML={{ __html: item.description }} />
                                                         ) : (
                                                             <p className="md:pt-2 pt-0 md:text-[18px] text-[15px] font-[400] font-regola-pro text-[#393939]">{item.description}</p>
                                                         )}

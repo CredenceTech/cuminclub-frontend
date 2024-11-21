@@ -475,58 +475,88 @@ export const Bulk = () => {
                                 const productPrice = product.priceRange.minVariantPrice.amount;
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
-                                return <> <div key={product.id} className="bg-[#EADEC1] col-span-2 md:col-span-1 relative rounded-3xl flex justify-center items-center cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`, { state: { isBulk: isBulk } }) }}>
-                                    <AnimatePresence mode="wait">
-                                        <motion.div
-                                            initial={{ y: 500, x: -500, opacity: 0 }}
-                                            animate={{ y: 0, x: 0, opacity: 1 }}
-                                            exit={{ y: -500, x: 500, opacity: 0 }}
-                                            transition={{ duration: 0.4 }}
-                                            className="h-full"
-                                        >
-                                            <img
-                                                src={productSmallImage}
-                                                alt={product.title}
-                                                className="w-full h-full rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
-                                            />
-                                            <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
-                                                <div className="p-5">
+                                return <>
+                                    <div key={product.id} className="md:col-span-1 bg-[#EADEC1] rounded-3xl  group overflow-hidden cursor-pointer" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                initial={{ y: 500, x: -500, opacity: 0 }}
+                                                animate={{ y: 0, x: 0, opacity: 1 }}
+                                                exit={{ y: -500, x: 500, opacity: 0 }}
+                                                transition={{ duration: 0.4 }}
+                                                className="h-full"
+                                            >
+                                                <div className="relative rounded-t-3xl rounded-b-[0px]  md:rounded-3xl flex justify-center items-center">
+                                                    <img
+                                                        src={productSmallImage}
+                                                        alt={product.title}
+                                                        className="w-full h-full md:h-full rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                                    />
+                                                    <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
+                                                        <div className="p-2 md:p-5">
+                                                            <button
+                                                                type="button"
+                                                                className="bg-[#279C66] text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
+                                                            >
+                                                                {categoryTag}
+                                                            </button>
+                                                        </div>
+                                                        <div className="px-3 md:pl-8 pb-2 md:pb-6 p-[20px] md:pt-[120px] bg-gradient-to-b from-primary rounded-b-[0px]  md:rounded-b-3xl to-secondary w-full">
+                                                            <div className="flex flex-row justify-between items-center mb-2 md:mb-5">
+                                                                <p className="font-skillet font-[400] text-[#FAFAFA] text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase max-w-[80%]">
+                                                                    {product.title}
+                                                                </p>
+                                                                <p className="font-skillet font-[400] text-[#FAFAFA]   text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase">
+                                                                    ₹ {Math.floor(productPrice)}
+                                                                </p>
+                                                            </div>
 
-                                                </div>
-                                                <div className="px-3 md:pl-8 pt-[120px] pb-6 bg-gradient-to-b from-primary rounded-3xl to-secondary w-full">
-                                                    <div className="flex flex-row justify-between items-center mb-5">
-                                                        <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase max-w-[80%]">
-                                                            {product.title}
-                                                        </p>
-                                                        <p className="font-skillet font-[400] text-[#FAFAFA] text-[24px] md:text-[36px] leading-[28.65px] uppercase">
-                                                            ₹ {Math.floor(productPrice)}
-                                                        </p>
-                                                    </div>
-                                                    <div className="flex flex-col md:flex-row md:gap-4">
-                                                        <button
-                                                            type="button"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleAddToCart(product.variants.edges[0].node.id)
-                                                            }
-                                                            }
-                                                            className={`border-2 ${shaking === product.variants.edges[0].node.id ? '' : ''} border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
-                                                        >
-                                                            {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
-                                                        </button>
-                                                        <button
-                                                            onClick={(e) => e.stopPropagation()}
-                                                            type="button"
-                                                            className="bg-[#279C66] text-[#FAFAFA]  mt-2 md:mt-0 px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                                        >
-                                                            BUY NOW
-                                                        </button>
+                                                            <div className="hidden md:flex md:flex-row md:gap-4">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleAddToCart(product.variants.edges[0].node.id)
+                                                                    }
+                                                                    }
+                                                                    className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center md:px-2 px-[2px] text-[12px] leading-1 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em]`}
+                                                                >
+                                                                    {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                                                </button>
+                                                                <button
+                                                                    onClick={(e) => e.stopPropagation()}
+                                                                    type="button"
+                                                                    className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
+                                                                >
+                                                                    BUY NOW
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </motion.div>
-                                    </AnimatePresence>
-                                </div></>
+
+                                                <div className="mt-3 mb-3 gap-1 md:hidden flex justify-center items-center flex-row ">
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleAddToCart(product.variants.edges[0].node.id)
+                                                        }
+                                                        }
+                                                        className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
+                                                    >
+                                                        {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        type="button"
+                                                        className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
+                                                    >
+                                                        BUY NOW
+                                                    </button>
+                                                </div>
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div></>
                             })}
                         </div>
                     </motion.div>
