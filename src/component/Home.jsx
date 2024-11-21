@@ -80,6 +80,7 @@ const Home = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [positionX, setPositionX] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [shaking, setIsShaking] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -311,7 +312,7 @@ const Home = () => {
 
 
   const handleAddToCart = (productId, sellingPlanId) => {
-
+    setIsShaking(productId)
     if (cartDatas === null) {
       if (sellingPlanId) {
         addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
@@ -353,6 +354,7 @@ const Home = () => {
     }
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response))
+    setIsShaking(null)
     // setLoading((prevLoading) => ({
     //     ...prevLoading,
     //     [cartItems.merchandiseId]: false,
@@ -366,6 +368,7 @@ const Home = () => {
     }
     const response = await graphQLClient.request(updateCartItemMutation, params);
     dispatch(setCartResponse(response.cartLinesUpdate));
+    setIsShaking(null);
     // setLoading((prevLoading) => ({
     //     ...prevLoading,
     //     [id]: false,
@@ -381,6 +384,7 @@ const Home = () => {
     }
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
+    setIsShaking(null);
     // setLoading((prevLoading) => ({
     //     ...prevLoading,
     //     [cartItem.merchandiseId]: false,
@@ -1649,13 +1653,26 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                  <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]'>
-                    {item?.node?.title}
-                  </p>
+                  <div
+                    className='flex justify-between items-start'
+                  >
+                    <div>
+                      <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]'>
+                        {item?.node?.title}
+                      </p>
 
-                  <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
-                    ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
-                  </p>
+                      <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
+                        ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
+                      </p>
+                    </div>
+
+                    <div className='h-auto pt-4'>
+                      <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[37px] w-[37px] bg-[#ffffff] text-[#333333] rounded`} onClick={() => {
+                        handleAddToCart(item?.node?.variants.edges[0].node.id)
+                      }
+                      }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -1858,13 +1875,13 @@ const Home = () => {
               </div>
               <button
                 type='button'
-                className='w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn'
+                className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
                 onClick={() => {
                   handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                 }
                 }
               >
-                Add to cart
+                {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : 'Add to cart'}
               </button>
             </div>
           </div>

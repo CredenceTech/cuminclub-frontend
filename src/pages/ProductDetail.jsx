@@ -1074,10 +1074,10 @@ function ProductDetail() {
                                                     </p>
                                                 </div>
                                                 <div className='h-auto'>
-                                                    <button type='button' className='text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded' onClick={() => {
+                                                    <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded`} onClick={() => {
                                                         handleAddToCart(item?.node?.variants.edges[0].node.id)
                                                     }
-                                                    }>+</button>
+                                                    }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
                                                 </div>
                                             </div>
 
