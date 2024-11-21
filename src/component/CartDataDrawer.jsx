@@ -229,20 +229,20 @@ export const CartDataDrawer = ({ onClose }) => {
                     animate={{ x: 0 }}
                     exit={{ x: "100%" }}
                     transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                    className="fixed top-0 right-0 w-full z-50 h-full lg:h-full"
+                    className="fixed top-0 right-0 w-full z-50 h-[100vh] lg:h-full"
                     style={{
                         // background: "rgba(255, 255, 255, 0.2)",
                         // height: "88%",
                     }}
                 >
                     <div id="cart-modal">
-                        <div className="relative  bg-[#EFE9DA] lg:w-[35%] w-[90%] h-full" style={{
+                        <div className="relative  bg-[#EFE9DA] lg:w-[35%] w-[90%] h-[100vh]" style={{
                             background: "#EFE9DA",
                             backdropFilter: "blur(2px)",
                             position: "fixed",
                             right: "0",
                         }}>
-                            <div className="h-20 flex top-0 sticky bg-[#EFE9DA] flex-col justify-around w-full">
+                            <div className="h-[12vh] flex top-0 sticky bg-[#EFE9DA] flex-col justify-around w-full">
                                 {/* <div className="flex justify-between w-full items-center"> */}
                                     <div className="flex ml-2 justify-between items-center md:mr-[60px] mr-4">
                                         <h1 className="md:text-[54px] text-[30px] font-[400] md:leading-[54.49px] leading-[20px] font-skillet p-[30px] pb-0">
@@ -267,7 +267,7 @@ export const CartDataDrawer = ({ onClose }) => {
                             </div>
 
                             <div
-                                className=" overflow-y-auto custom-scrollbar border-none md:h-[55%] h-[68%]"
+                                className=" overflow-y-auto custom-scrollbar border-none md:h-[58vh] h-[65vh]"
                             >
 
 
@@ -358,7 +358,7 @@ export const CartDataDrawer = ({ onClose }) => {
                             </div>
 
                             <div
-                                className="md:py-5 py-1 md:h-[30%] h-[20%]"
+                                className="md:py-5 py-1 md:h-[30vh] h-[23vh]"
                             >
                                 {cartResponse && cartResponse.cart?.lines?.edges?.length > 0 &&
                                     <div className="p-[40px]">

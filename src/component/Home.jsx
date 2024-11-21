@@ -1403,7 +1403,7 @@ const Home = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: "-100%" }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 bg-[#00000084] z-[103]"
+            className="fixed inset-0 bg-[#00000084] z-[10000]"
           >
             <motion.div
               initial={{ opacity: 0, y: -50 }}
