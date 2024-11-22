@@ -236,7 +236,7 @@ export const CartDataDrawer = ({ onClose }) => {
                     }}
                 >
                     <div id="cart-modal">
-                        <div className="relative  bg-[#EFE9DA] lg:w-[35%] w-[90%] h-[100vh]" style={{
+                        <div className="relative  bg-[#EFE9DA] md:w-[70%] lg:w-[50%] xl:w-[40%] w-[90%] h-[100vh]" style={{
                             background: "#EFE9DA",
                             backdropFilter: "blur(2px)",
                             position: "fixed",
@@ -244,25 +244,25 @@ export const CartDataDrawer = ({ onClose }) => {
                         }}>
                             <div className="h-[12vh] flex top-0 sticky bg-[#EFE9DA] flex-col justify-around w-full">
                                 {/* <div className="flex justify-between w-full items-center"> */}
-                                    <div className="flex ml-2 justify-between items-center md:mr-[60px] mr-4">
-                                        <h1 className="md:text-[54px] text-[30px] font-[400] md:leading-[54.49px] leading-[20px] font-skillet p-[30px] pb-0">
-                                            Review your Cart
-                                        </h1>
-                                        <button onClick={onClose} className="relative text-gray-500 pt-[30px] md:pt-0 hover:text-gray-700 p-0">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                height="36"
-                                                width="36"
-                                                viewBox="0 0 384 512"
-                                                className="md:absolute "
-                                            >
-                                                <path
-                                                    fill="#000000"
-                                                    d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
+                                <div className="flex ml-2 justify-between items-center md:mr-[60px] mr-4">
+                                    <h1 className="md:text-[54px] text-[30px] font-[400] md:leading-[54.49px] leading-[20px] font-skillet p-[30px] pb-0">
+                                        Review your Cart
+                                    </h1>
+                                    <button onClick={onClose} className="relative text-gray-500 pt-[30px] md:pt-0 hover:text-gray-700 p-0">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            height="36"
+                                            width="36"
+                                            viewBox="0 0 384 512"
+                                            className="md:absolute "
+                                        >
+                                            <path
+                                                fill="#000000"
+                                                d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+                                            />
+                                        </svg>
+                                    </button>
+                                </div>
                                 {/* </div> */}
                             </div>
 
@@ -282,7 +282,7 @@ export const CartDataDrawer = ({ onClose }) => {
                                     </button>
                                 </div>}
 
-                                {cartResponse && cartResponse.cart?.lines?.edges?.length > 0 && <div className="p-[40px] pt-5">
+                                {cartResponse && cartResponse.cart?.lines?.edges?.length > 0 && <div className="p-[20px] md:p-[40px] pt-5">
                                     {cartResponse?.cart?.lines?.edges?.map((line, index) => {
                                         return <div key={index} className='flex  items-center justify-between py-3 border-b-[0.99px] border-[#A3A3A3]'>
                                             <div className='flex flex-row items-center w-full'>
@@ -361,7 +361,7 @@ export const CartDataDrawer = ({ onClose }) => {
                                 className="md:py-5 py-1 md:h-[30vh] h-[23vh]"
                             >
                                 {cartResponse && cartResponse.cart?.lines?.edges?.length > 0 &&
-                                    <div className="p-[40px]">
+                                    <div className="px-[20px] md:p-[40px]">
                                         <div className="flex mt-0 flex-row justify-between">
                                             <p className="text-[26px] font-skillet  lg:text-[30.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                             <p className="text-[28px] text-[#279C66] font-skillet lg:text-[32px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[33px] font-[400] leading-[32px]'>{cartResponse?.cart?.cost?.totalAmount?.amount}</span></p>

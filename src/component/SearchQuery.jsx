@@ -125,7 +125,7 @@ const SearchQuery = ({ isSticky }) => {
                         </button>
                     </div>
 
-                    {keyword && <div className="mt-6">
+                    {keyword && <div className="mt-6 pl-4">
                         <div className="mt-4 space-y-4 overflow-y-auto max-h-[500px] custom-scrollbar">
                             {combinedData?.length > 0 > 0 ? (
                                 combinedData?.map(product => (
