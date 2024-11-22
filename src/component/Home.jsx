@@ -1737,7 +1737,7 @@ const Home = () => {
               >
                 {slides[currentSlide1].buttonText}
               </button>
-              <div className={`pt-[80px] ${slides[currentSlide1].title === 'Ready to Eat' ? 'flex' : 'hidden'}`}>
+              <div className={`pt-[40px] ${slides[currentSlide1].title === 'Ready to Eat' ? 'flex' : 'hidden'}`}>
                 <div
                   className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
                     } transition-all duration-500 ease-in-out`}

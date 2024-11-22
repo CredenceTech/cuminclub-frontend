@@ -479,11 +479,17 @@ function ProductDetail() {
     const [rotation, setRotation] = useState(0);
 
     useEffect(() => {
+        let ticking = false;
+
         const handleScroll = () => {
-            if (homeImg?.reference?.image?.originalSrc) {
-                const scrollPosition = window.scrollY;
-                const rotationAngle = scrollPosition * 0.2;
-                setRotation(rotationAngle);
+            if (!ticking && homeImg?.reference?.image?.originalSrc) {
+                ticking = true;
+                requestAnimationFrame(() => {
+                    const scrollPosition = window.scrollY;
+                    const rotationAngle = scrollPosition * 0.2;
+                    setRotation(rotationAngle);
+                    ticking = false;
+                });
             }
         };
 
