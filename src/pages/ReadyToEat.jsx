@@ -859,7 +859,7 @@ const ReadyToEat = () => {
                               exit={{ y: -500, opacity: 0 }}
                               transition={{ duration: 0.3 }}
                             >
-                              <div className="relative flex justify-center items-center">
+                              <div className="relative flex overflow-hidden justify-center items-center">
                                 <img
                                   src={productLargeImage}
                                   alt={product.title}
@@ -925,7 +925,7 @@ const ReadyToEat = () => {
                           </AnimatePresence>
                         </div>
                       ) : (
-                        <div key={product.id} className="bg-[#EADEC1] md:col-span-1 rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                        <div key={product.id} className="bg-[#EADEC1] md:col-span-1 rounded-3xl cursor-pointer group" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
                           <AnimatePresence mode="wait">
                             <motion.div
                               initial={{ y: 500, x: -500, opacity: 0 }}
@@ -934,7 +934,7 @@ const ReadyToEat = () => {
                               transition={{ duration: 0.4 }}
                               className="h-full"
                             >
-                              <div className="relative rounded-t-3xl rounded-b-[0px]  md:rounded-3xl flex justify-center items-center">
+                              <div className="relative rounded-t-3xl md:h-full rounded-b-[0px]  md:rounded-3xl flex justify-center overflow-hidden items-center">
                                 <img
                                   src={productSmallImage}
                                   alt={product.title}
