@@ -144,7 +144,7 @@ const Header = () => {
   // }, [cartDatas]);
 
   useEffect(() => {
-    if (countryList === null) fetchCountryFilters();
+    // if (countryList === null) fetchCountryFilters();
   });
 
   // const getCartData = async () => {
@@ -199,19 +199,19 @@ const Header = () => {
   }, [loginUserCustomerId])
 
 
-  const fetchCountryFilters = async () => {
-    try {
-      const url = `${import.meta.env.VITE_SHOPIFY_API_URL}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      setCountryList(data.data.countries);
-      setSelectedCountry(data.data.countries[0]);
-      dispatch(addFilterData(data.data.countries[0]));
-      setFilterData(data.data.countries[0]);
-    } catch (error) {
-      console.error("Error fetching Get Store Detail:", error);
-    }
-  };
+  // const fetchCountryFilters = async () => {
+  //   try {
+  //     const url = `${import.meta.env.VITE_SHOPIFY_API_URL}`;
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     setCountryList(data.data.countries);
+  //     setSelectedCountry(data.data.countries[0]);
+  //     dispatch(addFilterData(data.data.countries[0]));
+  //     setFilterData(data.data.countries[0]);
+  //   } catch (error) {
+  //     console.error("Error fetching Get Store Detail:", error);
+  //   }
+  // };
 
   function setFilterData(country) {
     const list = [];
