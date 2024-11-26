@@ -109,10 +109,21 @@ const CardReview = () => {
             setIsLoading(false);
         }
     };
-
+// response will be an json object
+const callbackMethod = (response) => {
+    console.log('Response from SDK:', response);
+  };
     useEffect(() => {
         if (loginUserCustomerId) {
-            getCustomerDetail()
+            getCustomerDetail();
+            const sdkPayload = createSDKPayload({
+                merchantId: 'instantly',
+                environment: 'sandbox',
+                shopUrl: 'https://76ac20-2.myshopify.com'
+            });
+    
+            console.log('Initiating Blaze SDK with payload:', sdkPayload);
+            BlazeSDK.initiate(sdkPayload, callbackMethod);
         }
     }, [loginUserCustomerId])
 
@@ -456,75 +467,96 @@ const CardReview = () => {
         }
 
         const processPayload = createSDKPayload({
-            action: 'startCheckout',
-            cart: {
-                token: extractCheckoutIdAndKey(payload.checkoutId),
-                items: payload.products.map(product => ({
-                    id: generateUUID(),
-                    title: product.name,
-                    quantity: product.quantity,
-                    price: product.unit_amount * 100,
-                    description: product.description,
-                    image: product.images[0]
-                })),
-                total_price: (parseInt(payload.products.reduce((acc, item) => acc + item.unit_amount * item.quantity, 0) * 100) + shippingCost), // Total in cents/paise
-                currency: payload.currency,
-                customer: {
-                    email: payload.email,
-                    address: payload.address
-                }
-            }
+            "action": "startCheckout",
+     "cart":
+     {
+        "token": "Z2NwLXVzLWVhc3QxOjAxSkRLVlEwTUdFQzgxWFE0NkNZR0pIU0hC?key=f89f38d04e372cfb9b6ceff386d3c4f8",
+        "note": "",
+        "attributes": {
+      
+        },
+        "original_total_price": 28500,
+        "total_price": 28500,
+        "total_discount": 0,
+        "total_weight": 285,
+        "item_count": 1,
+        "items": [
+          {
+            "id": 46025132048610,
+            "properties": {
+      
+            },
+            "quantity": 1,
+            "variant_id": 46025132048610,
+            "key": "46025132048610:90bf090315ce26b26591d95fb18e3105",
+            "title": "Butter Chicken Curry",
+            "price": 28500,
+            "original_price": 28500,
+            "presentment_price": 285,
+            "discounted_price": 28500,
+            "line_price": 28500,
+            "original_line_price": 28500,
+            "total_discount": 0,
+            "discounts": [],
+            "sku": "",
+            "grams": 285,
+            "vendor": "Instanly Yours",
+            "taxable": true,
+            "product_id": 8729273008354,
+            "product_has_only_default_variant": true,
+            "gift_card": false,
+            "final_price": 28500,
+            "final_line_price": 28500,
+            "url": "/products/butter-chicken-curry?variant=46025132048610",
+            "featured_image": {
+              "aspect_ratio": 1,
+              "alt": "Butter Chicken Curry",
+              "height": 2000,
+              "url": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/TBS_0085_5a763c64-b9ec-4a05-90c0-096308b24807.jpg?v=1729685350",
+              "width": 2000
+            },
+            "image": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/TBS_0085_5a763c64-b9ec-4a05-90c0-096308b24807.jpg?v=1729685350",
+            "handle": "butter-chicken-curry",
+            "requires_shipping": true,
+            "product_type": "",
+            "product_title": "Butter Chicken Curry",
+            "product_description": "Indulge in the creamy, rich goodness of our Butter Chicken Curry. This ready-to-cook kit brings the authentic flavors of the classic dish to your kitchen. The sauce is made with a blend of butter, tomatoes, and spices, offering a delightful cooking experience. Just cook, simmer, and relish the mouthwatering taste in minutes.",
+            "variant_title": null,
+            "variant_options": [
+              "Default Title"
+            ],
+            "options_with_values": [
+              {
+                "name": "Title",
+                "value": "Default Title"
+              }
+            ],
+            "line_level_discount_allocations": [],
+            "line_level_total_discount": 0,
+            "has_components": false
+          }
+        ],
+        "requires_shipping": true,
+        "currency": "INR",
+        "items_subtotal_price": 28500,
+        "cart_level_discount_applications": []
+      },
         });
 
         console.log('Processing payment with payload:', processPayload);
 
-        BlazeSDK.process(processPayload)
-            .then(response => {
-                console.log('Payment processed:', response);
-                if (response.status === 'success') {
-                    console.log('Payment successful!');
-                } else {
-                    console.error('Payment failed:', response);
-                }
-            })
-            .catch(error => {
-                console.error('Error processing payment:', error);
-            });
+        BlazeSDK.process(processPayload);
     }
 
     function initiatePayment(payload) {
-        const sdkPayload = createSDKPayload({
-            merchantId: 'instantly',
-            environment: 'sandbox',
-            shopUrl: 'https://76ac20-2.myshopify.com'
-        });
-
-        console.log('Initiating Blaze SDK with payload:', sdkPayload);
-
-        const initiatePromise = new Promise((resolve, reject) => {
-            BlazeSDK.initiate(sdkPayload, (response) => {
-                if (response && response.payload.status === 'success') {
-                    resolve(response);
-                } else {
-                    reject('Blaze SDK initiation failed');
-                }
-            });
-        });
-
-        initiatePromise
-            .then(response => {
-                console.log('Blaze SDK initiated:', response);
+        
                 processPayment(payload);
-            })
-            .catch(error => {
-                console.error('Error initializing Blaze SDK:', error);
-            });
     }
 
 
     const continuePayment = async (addressBody) => {
         setIsLoading(true);
-
+        debugger;
         let productList = [];
         cartResponse?.cart?.lines?.edges.map((data) => {
             let pro = {
