@@ -118,7 +118,7 @@ const callbackMethod = (response) => {
             getCustomerDetail();
             const sdkPayload = createSDKPayload({
                 merchantId: 'instantly',
-                environment: 'sandbox',
+                environment: 'release',
                 shopUrl: 'https://76ac20-2.myshopify.com'
             });
     
