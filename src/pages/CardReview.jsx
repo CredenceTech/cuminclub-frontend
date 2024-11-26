@@ -554,7 +554,7 @@ const CardReview = () => {
         setIsLoading(true);
         const payload = {
             email: userEmail?.email,
-            currency: filterDatas.currency_code.toLowerCase(),
+            // currency: filterDatas.currency_code.toLowerCase(),
             checkoutId: addressBody.checkoutUrlId
         }
 
