@@ -420,7 +420,9 @@ export const createCartMutation = gql`
             merchandise {
               ... on ProductVariant {
                 id
+                 weight
                 product {
+                id
                   title
                   featuredImage {
                     altText
@@ -504,7 +506,9 @@ mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
             merchandise {
               ... on ProductVariant {
                 id
+                 weight
                 product {
+                  id
                   title
                   featuredImage {
                     altText
@@ -581,7 +585,9 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
             merchandise {
               ... on ProductVariant {
                 id
+                 weight
                 product {
+                  id
                   title
                   featuredImage {
                     altText

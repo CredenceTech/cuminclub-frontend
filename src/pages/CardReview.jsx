@@ -34,50 +34,50 @@ const CardReview = () => {
     const [userDetail, setUserDetail] = useState(null);
     const [isMoreAddress, setIsMoreAddress] = useState(false);
     const filterDatas = useSelector(filterData);
-    const [address, setAddress] = useState(null);
+    // const [address, setAddress] = useState(null);
     const [loading, setLoading] = useState({});
     const userEmail = useSelector(userEmails);
     const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
 
     const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
-    const statesOfIndia = [
-        { name: "Andhra Pradesh" },
-        { name: "Arunachal Pradesh" },
-        { name: "Assam" },
-        { name: "Bihar" },
-        { name: "Chhattisgarh" },
-        { name: "Goa" },
-        { name: "Gujarat" },
-        { name: "Haryana" },
-        { name: "Himachal Pradesh" },
-        { name: "Jharkhand" },
-        { name: "Karnataka" },
-        { name: "Kerala" },
-        { name: "Madhya Pradesh" },
-        { name: "Maharashtra" },
-        { name: "Manipur" },
-        { name: "Meghalaya" },
-        { name: "Mizoram" },
-        { name: "Nagaland" },
-        { name: "Odisha" },
-        { name: "Punjab" },
-        { name: "Rajasthan" },
-        { name: "Sikkim" },
-        { name: "Tamil Nadu" },
-        { name: "Telangana" },
-        { name: "Tripura" },
-        { name: "Uttar Pradesh" },
-        { name: "Uttarakhand" },
-        { name: "West Bengal" },
-        { name: "Andaman and Nicobar Islands" },
-        { name: "Chandigarh" },
-        { name: "Dadra and Nagar Haveli and Daman and Diu" },
-        { name: "Delhi" },
-        { name: "Jammu and Kashmir" },
-        { name: "Ladakh" },
-        { name: "Lakshadweep" },
-        { name: "Puducherry" }
-    ];
+    // const statesOfIndia = [
+    //     { name: "Andhra Pradesh" },
+    //     { name: "Arunachal Pradesh" },
+    //     { name: "Assam" },
+    //     { name: "Bihar" },
+    //     { name: "Chhattisgarh" },
+    //     { name: "Goa" },
+    //     { name: "Gujarat" },
+    //     { name: "Haryana" },
+    //     { name: "Himachal Pradesh" },
+    //     { name: "Jharkhand" },
+    //     { name: "Karnataka" },
+    //     { name: "Kerala" },
+    //     { name: "Madhya Pradesh" },
+    //     { name: "Maharashtra" },
+    //     { name: "Manipur" },
+    //     { name: "Meghalaya" },
+    //     { name: "Mizoram" },
+    //     { name: "Nagaland" },
+    //     { name: "Odisha" },
+    //     { name: "Punjab" },
+    //     { name: "Rajasthan" },
+    //     { name: "Sikkim" },
+    //     { name: "Tamil Nadu" },
+    //     { name: "Telangana" },
+    //     { name: "Tripura" },
+    //     { name: "Uttar Pradesh" },
+    //     { name: "Uttarakhand" },
+    //     { name: "West Bengal" },
+    //     { name: "Andaman and Nicobar Islands" },
+    //     { name: "Chandigarh" },
+    //     { name: "Dadra and Nagar Haveli and Daman and Diu" },
+    //     { name: "Delhi" },
+    //     { name: "Jammu and Kashmir" },
+    //     { name: "Ladakh" },
+    //     { name: "Lakshadweep" },
+    //     { name: "Puducherry" }
+    // ];
 
     useEffect(() => {
         if (loginUserCustomerId) {
@@ -109,10 +109,10 @@ const CardReview = () => {
             setIsLoading(false);
         }
     };
-// response will be an json object
-const callbackMethod = (response) => {
-    console.log('Response from SDK:', response);
-  };
+    // response will be an json object
+    const callbackMethod = (response) => {
+        console.log('Response from SDK:', response);
+    };
     useEffect(() => {
         if (loginUserCustomerId) {
             getCustomerDetail();
@@ -121,7 +121,7 @@ const callbackMethod = (response) => {
                 environment: 'release',
                 shopUrl: 'https://76ac20-2.myshopify.com'
             });
-    
+
             console.log('Initiating Blaze SDK with payload:', sdkPayload);
             BlazeSDK.initiate(sdkPayload, callbackMethod);
         }
@@ -139,11 +139,11 @@ const callbackMethod = (response) => {
     //     dispatch(setCartResponse(response));
     // };
 
-    useEffect(() => {
-        if (userDetail?.customer?.addresses?.edges.length == 0) {
-            setIsMoreAddress(true);
-        }
-    }, [userDetail])
+    // useEffect(() => {
+    //     if (userDetail?.customer?.addresses?.edges.length == 0) {
+    //         setIsMoreAddress(true);
+    //     }
+    // }, [userDetail])
 
 
 
@@ -211,7 +211,7 @@ const callbackMethod = (response) => {
     }
 
     const validationSchemaForLogin = Yup.object().shape({
-        address: Yup.string().required('Select an address'),
+        // address: Yup.string().required('Select an address'),
         consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     })
     const validationSchemaForWithoutLogin = Yup.object().shape({
@@ -219,39 +219,23 @@ const callbackMethod = (response) => {
         password: Yup.string().required('Password is required'),
         firstName: Yup.string().required('First Name is required'),
         lastName: Yup.string().required('Last Name is required'),
-        firstName1: Yup.string().required('First Name is required'),
-        lastName1: Yup.string().required('Last Name is required'),
-        address1: Yup.string().required('Address is required'),
-        // country: Yup.string().required('Country is required'),
-        province: Yup.string().required('State is required'),
-        city: Yup.string().required('City is required'),
-        zip: Yup.string().required('Zip Code is required'),
-        phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid').required('Phone Number is required'),
+        // firstName1: Yup.string().required('First Name is required'),
+        // lastName1: Yup.string().required('Last Name is required'),
+
         consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
     const validationSchemaForAddMoreAdd = Yup.object().shape({
-        firstName1: Yup.string().required('First Name is required'),
-        lastName1: Yup.string().required('Last Name is required'),
-        address1: Yup.string().required('Address is required'),
-        // country: Yup.string().required('Country is required'),
-        province: Yup.string().required('State is required'),
-        city: Yup.string().required('City is required'),
-        zip: Yup.string().required('Zip Code is required'),
-        phoneNumber: Yup.string().matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid').required('Phone Number is required'),
+        // firstName1: Yup.string().required('First Name is required'),
+        // lastName1: Yup.string().required('Last Name is required'),
+
         consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
 
     const initialValuesForAddMoreAdd = {
-        firstName1: '',
-        lastName1: '',
-        address1: '',
-        // country: '',
-        province: '',
-        city: '',
-        zip: '',
-        phoneNumber: '',
+        // firstName1: '',
+        // lastName1: '',
         consent: false,
     }
 
@@ -260,37 +244,32 @@ const callbackMethod = (response) => {
         password: '',
         firstName: '',
         lastName: '',
-        firstName1: '',
-        lastName1: '',
-        address1: '',
-        // country: '',
-        province: '',
-        city: '',
-        zip: '',
-        phoneNumber: '',
+        // firstName1: '',
+        // lastName1: '',
+
         consent: false,
     }
 
-    const addAddress = async (values, body, customerAccessToken) => {
-        setIsLoading(true);
-        const response = await graphQLClient.request(createAddressMutation, body);
-        setIsLoading(false);
-        if (response?.customerAddressCreate?.customerUserErrors[0]?.code === "TAKEN") {
-            toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
-            return
-        }
-        if (response?.customerAddressCreate?.customerUserErrors[0]?.code) {
-            toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
-            return
-        }
-        if (response?.customerAddressCreate?.customerAddress?.id) {
-            // setAddress(body);
-            createCheckoutURL(customerAccessToken, values);
-        }
-    }
+    // const addAddress = async (values, body, customerAccessToken) => {
+    //     setIsLoading(true);
+    //     const response = await graphQLClient.request(createAddressMutation, body);
+    //     setIsLoading(false);
+    //     if (response?.customerAddressCreate?.customerUserErrors[0]?.code === "TAKEN") {
+    //         toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
+    //         return
+    //     }
+    //     if (response?.customerAddressCreate?.customerUserErrors[0]?.code) {
+    //         toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
+    //         return
+    //     }
+    //     if (response?.customerAddressCreate?.customerAddress?.id) {
+    //         // setAddress(body);
+    //         createCheckoutURL(customerAccessToken, values);
+    //     }
+    // }
 
     const initialValuesForLogin = {
-        address: userDetail?.customer?.addresses?.edges[0]?.node?.id || null,
+        // address: userDetail?.customer?.addresses?.edges[0]?.node?.id || null,
         consent: false
     }
 
@@ -300,7 +279,7 @@ const callbackMethod = (response) => {
         onSubmit: async (values) => {
             console.log('formikForLogin submitted with values:', values);
             // Handle form submission logic here
-            createCheckoutURL(loginUserCustomerId, address);
+            createCheckoutURL(loginUserCustomerId);
 
         },
     });
@@ -334,15 +313,15 @@ const callbackMethod = (response) => {
                 }
                 if (response?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
                     dispatch(addCustomerAccessToken(response?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
-                    const body = {
-                        customerAccessToken: response?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
-                        address1: values.address1,
-                        country: "India",
-                        province: values.province,
-                        city: values.city,
-                        zip: values.zip
-                    }
-                    addAddress(values, body, response?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
+                    // const body = {
+                    //     customerAccessToken: response?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
+                    //     address1: values.address1,
+                    //     country: "India",
+                    //     province: values.province,
+                    //     city: values.city,
+                    //     zip: values.zip
+                    // }
+                    // addAddress(values, body, response?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             if (response?.customerCreate?.customer?.id) {
@@ -360,15 +339,15 @@ const callbackMethod = (response) => {
                 }
                 if (responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
                     dispatch(addCustomerAccessToken(responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
-                    const body = {
-                        customerAccessToken: responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
-                        address1: values.address1,
-                        country: "India",
-                        province: values.province,
-                        city: values.city,
-                        zip: values.zip
-                    }
-                    addAddress(values, body, responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
+                    // const body = {
+                    //     customerAccessToken: responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
+                    //     address1: values.address1,
+                    //     country: "India",
+                    //     province: values.province,
+                    //     city: values.city,
+                    //     zip: values.zip
+                    // }
+                    // addAddress(values, body, responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             // Handle form submission logic here
@@ -379,20 +358,20 @@ const callbackMethod = (response) => {
         validationSchema: validationSchemaForAddMoreAdd || null,
         onSubmit: (values) => {
             console.log('formikForAddMoreAdd submitted with values:', values);
-            const body = {
-                customerAccessToken: loginUserCustomerId,
-                address1: values.address1,
-                country: "India",
-                province: values.province,
-                city: values.city,
-                zip: values.zip
-            }
-            addAddress(values, body, loginUserCustomerId);
+            // const body = {
+            //     customerAccessToken: loginUserCustomerId,
+            //     address1: values.address1,
+            //     country: "India",
+            //     province: values.province,
+            //     city: values.city,
+            //     zip: values.zip
+            // }
+            // addAddress(values, body, loginUserCustomerId);
             // Handle form submission logic here
         },
     });
 
-    const createCheckoutURL = async (customerAccessToken, body) => {
+    const createCheckoutURL = async (customerAccessToken) => {
         let lineItemList = [];
         console.log("cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
         cartResponse?.cart?.lines?.edges.map((data) => {
@@ -411,12 +390,12 @@ const callbackMethod = (response) => {
         if (response && response.checkoutCreate) {
             let checkoutId = response.checkoutCreate.checkout.id;
             if (checkoutId)
-                checkoutConnectWithCustomer(checkoutId, customerAccessToken, body);
+                checkoutConnectWithCustomer(checkoutId, customerAccessToken);
         }
     }
 
 
-    const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken, body) => {
+    const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken) => {
 
         const params = {
             checkoutId: checkoutId,
@@ -427,7 +406,6 @@ const callbackMethod = (response) => {
         setIsLoading(false);
         if (response && response.checkoutCustomerAssociateV2) {
             const updatedBody = {
-                ...body,
                 checkoutUrlId: checkoutId,
             };
             console.log(updatedBody)
@@ -460,136 +438,124 @@ const callbackMethod = (response) => {
         };
     }
 
+    function calculateTotalWeight(cartData) {
+        return cartData.edges.reduce((total, edge) => {
+            const { quantity, merchandise } = edge.node;
+            const productWeight = merchandise.weight;
+            return total + (quantity * productWeight);
+        }, 0);
+    }
+
+    function calculateTotalQuantity(cartData) {
+        return cartData.edges.reduce((total, edge) => {
+            const { quantity } = edge.node;
+            return total + quantity;
+        }, 0);
+    }
+
     function processPayment(payload) {
+        console.log(cartResponse);
         if (!payload.checkoutId) {
             console.error('Checkout ID is missing');
             return;
         }
+        const cart = cartResponse?.cart;
 
+        console.log(cart);
         const processPayload = createSDKPayload({
             "action": "startCheckout",
-     "cart":
-     {
-        "token": "Z2NwLXVzLWVhc3QxOjAxSkRLVlEwTUdFQzgxWFE0NkNZR0pIU0hC?key=f89f38d04e372cfb9b6ceff386d3c4f8",
-        "note": "",
-        "attributes": {
-      
-        },
-        "original_total_price": 28500,
-        "total_price": 28500,
-        "total_discount": 0,
-        "total_weight": 285,
-        "item_count": 1,
-        "items": [
-          {
-            "id": 46025132048610,
-            "properties": {
-      
+            "cart":
+            {
+                "token": cart.id.split('Cart/')[1],
+                "note": "",
+                "attributes": {},
+                "original_total_price": cart.cost.totalAmount.amount * 100,
+                "total_price": cart.cost.totalAmount.amount * 100,
+                "total_discount": 0,
+                "total_weight": parseInt(calculateTotalWeight(cart.lines)),
+                "item_count": parseInt(calculateTotalQuantity(cart.lines)),
+                "items": cart.lines.edges.map(edge => {
+                    const product = edge.node.merchandise.product;
+                    const variant = edge.node.merchandise;
+                    const quantity = edge.node.quantity;
+                    const price = variant.priceV2.amount * 100;
+
+                    return {
+                        "id": parseInt(variant.id.split("/").pop()),
+                        "properties": {},
+                        "quantity": quantity,
+                        "variant_id": parseInt(variant.id.split("/").pop()),
+                        "key": `${variant.id.split("/").pop()}:${new URLSearchParams(cart.id.split('?')[1]).get('key')}`,
+                        "title": product.title,
+                        "price": price,
+                        "original_price": price,
+                        "presentment_price": parseInt(variant.priceV2.amount),
+                        "discounted_price": price,
+                        "line_price": price * quantity,
+                        "original_line_price": price * quantity,
+                        "total_discount": 0,
+                        "discounts": [],
+                        "sku": "",
+                        "grams": variant.weight,
+                        "vendor": "Instanly Yours",
+                        "taxable": true,
+                        "product_id": parseInt(product.id.split("/").pop()),
+                        "product_has_only_default_variant": true,
+                        "gift_card": false,
+                        "final_price": price,
+                        "final_line_price": price * quantity,
+                        "url": `/products/${product.handle}?variant=${variant.id.split("/").pop()}`,
+                        "featured_image": {
+                            "aspect_ratio": 1,
+                            "alt": product.featuredImage.altText || product.title,
+                            "height": 2000,
+                            "url": product.featuredImage.url,
+                            "width": 2000
+                        },
+                        "image": product.featuredImage.url,
+                        "handle": product.handle,
+                        "requires_shipping": true,
+                        "product_type": "",
+                        "product_title": product.title,
+                        "product_description": "",
+                        "variant_title": null,
+                        "variant_options": ["Default Title"],
+                        "options_with_values": [
+                            {
+                                "name": "Title",
+                                "value": "Default Title"
+                            }
+                        ],
+                        "line_level_discount_allocations": [],
+                        "line_level_total_discount": 0,
+                        "has_components": false
+                    };
+                }),
+                "requires_shipping": true,
+                "currency": cart.cost.totalAmount.currencyCode,
+                "items_subtotal_price": cart.cost.subtotalAmount.amount * 100,
+                "cart_level_discount_applications": []
             },
-            "quantity": 1,
-            "variant_id": 46025132048610,
-            "key": "46025132048610:90bf090315ce26b26591d95fb18e3105",
-            "title": "Butter Chicken Curry",
-            "price": 28500,
-            "original_price": 28500,
-            "presentment_price": 285,
-            "discounted_price": 28500,
-            "line_price": 28500,
-            "original_line_price": 28500,
-            "total_discount": 0,
-            "discounts": [],
-            "sku": "",
-            "grams": 285,
-            "vendor": "Instanly Yours",
-            "taxable": true,
-            "product_id": 8729273008354,
-            "product_has_only_default_variant": true,
-            "gift_card": false,
-            "final_price": 28500,
-            "final_line_price": 28500,
-            "url": "/products/butter-chicken-curry?variant=46025132048610",
-            "featured_image": {
-              "aspect_ratio": 1,
-              "alt": "Butter Chicken Curry",
-              "height": 2000,
-              "url": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/TBS_0085_5a763c64-b9ec-4a05-90c0-096308b24807.jpg?v=1729685350",
-              "width": 2000
-            },
-            "image": "https://cdn.shopify.com/s/files/1/0682/8458/0066/files/TBS_0085_5a763c64-b9ec-4a05-90c0-096308b24807.jpg?v=1729685350",
-            "handle": "butter-chicken-curry",
-            "requires_shipping": true,
-            "product_type": "",
-            "product_title": "Butter Chicken Curry",
-            "product_description": "Indulge in the creamy, rich goodness of our Butter Chicken Curry. This ready-to-cook kit brings the authentic flavors of the classic dish to your kitchen. The sauce is made with a blend of butter, tomatoes, and spices, offering a delightful cooking experience. Just cook, simmer, and relish the mouthwatering taste in minutes.",
-            "variant_title": null,
-            "variant_options": [
-              "Default Title"
-            ],
-            "options_with_values": [
-              {
-                "name": "Title",
-                "value": "Default Title"
-              }
-            ],
-            "line_level_discount_allocations": [],
-            "line_level_total_discount": 0,
-            "has_components": false
-          }
-        ],
-        "requires_shipping": true,
-        "currency": "INR",
-        "items_subtotal_price": 28500,
-        "cart_level_discount_applications": []
-      },
         });
 
         console.log('Processing payment with payload:', processPayload);
 
         BlazeSDK.process(processPayload);
+        setIsLoading(false)
     }
 
     function initiatePayment(payload) {
-        
-                processPayment(payload);
+
+        processPayment(payload);
     }
 
 
     const continuePayment = async (addressBody) => {
         setIsLoading(true);
-        debugger;
-        let productList = [];
-        cartResponse?.cart?.lines?.edges.map((data) => {
-            let pro = {
-                name: data?.node?.merchandise?.product?.title,
-                description: data?.node?.merchandise?.product?.title,
-                images: data?.node?.merchandise?.product?.featuredImage?.url,
-                unit_amount: data?.node?.merchandise?.priceV2?.amount,
-                quantity: data?.node?.quantity,
-                interval: 'week',
-                interval_count: 2
-            }
-            productList.push(pro);
-        });
-        if (!addressBody) {
-            toast.error('Please add address');
-            setIsLoading(false);
-            return
-        }
         const payload = {
             email: userEmail?.email,
-            products: productList,
             currency: filterDatas.currency_code.toLowerCase(),
-            checkoutId: addressBody.checkoutUrlId,
-            address: {
-                first_name: userEmail?.firstName,
-                last_name: userEmail?.lastName,
-                address1: addressBody?.address1,
-                address2: '',
-                city_name: addressBody?.city,
-                state: addressBody?.province,
-                zip_code: addressBody?.zip,
-                country: "India"
-            }
+            checkoutId: addressBody.checkoutUrlId
         }
 
         initiatePayment(payload);
@@ -783,9 +749,9 @@ const callbackMethod = (response) => {
 
                                 {isLogin && !isMoreAddress ?
                                     <>
-                                        <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2>
+                                        {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2> */}
                                         <form onSubmit={formikForLogin.handleSubmit}>
-                                            {userDetail?.customer?.addresses?.edges.map((address, i) => (
+                                            {/* {userDetail?.customer?.addresses?.edges.map((address, i) => (
                                                 <div onClick={() => { setAddress(address?.node) }} className="flex w-full flex-row items-start my-2 " key={i}>
                                                     <input
                                                         type="radio"
@@ -804,12 +770,12 @@ const callbackMethod = (response) => {
                                                     </div>
                                                 </div>
                                             ))}
-                                            {formikForLogin.touched.address && formikForLogin.errors.address && (<label className="text-sm text-red-500">{formikForLogin.errors.address}</label>)}
+                                            {formikForLogin.touched.address && formikForLogin.errors.address && (<label className="text-sm text-red-500">{formikForLogin.errors.address}</label>)} */}
 
 
-                                            <div className='flex justify-center items-center pt-3'>
+                                            {/* <div className='flex justify-center items-center pt-3'>
                                                 <button onClick={() => setIsMoreAddress(true)} type='button' className="text-white text-center w-full lg:w-1/2 bg-[#EB7E01] mb-3 border-0 py-2 px-6 focus:outline-none  hover:bg-[#fa9017] rounded-3xl text-lg"> + Add New Address</button>
-                                            </div>
+                                            </div> */}
 
                                             <div className="mt-5 mb-6">
                                                 <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
@@ -864,7 +830,7 @@ const callbackMethod = (response) => {
                                                     <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                                 </div>
                                             </div>
-                                            {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)}
+                                            {/* {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)} */}
 
 
                                             <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
@@ -895,7 +861,7 @@ const callbackMethod = (response) => {
                                                     {formikForWitoutLogin.touched.lastName && formikForWitoutLogin.errors.lastName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName}</label>)}
                                                 </div>
                                             </div>
-                                            <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-4">Shipping Address</h2>
+                                            {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-4">Shipping Address</h2>
                                             <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                                 <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
                                                     <input type="text" placeholder='First Name' name="firstName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
@@ -905,16 +871,12 @@ const callbackMethod = (response) => {
                                                     <input type="text" placeholder='Last Name' name="lastName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.lastName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                     {formikForWitoutLogin.touched.lastName1 && formikForWitoutLogin.errors.lastName1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName1}</label>)}
                                                 </div>
-                                            </div>
-                                            <div className="relative flex flex-col mb-4">
+                                            </div> */}
+                                            {/* <div className="relative flex flex-col mb-4">
                                                 <input type="text" placeholder='Shipping Address' name="address1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.address1} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForWitoutLogin.touched.address1 && formikForWitoutLogin.errors.address1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.address1}</label>)}
-                                            </div>
-                                            <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                                {/* <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                    <input type="text" placeholder='Country' name="country" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.country} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.country && formikForWitoutLogin.errors.country && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.country}</label>)}
-                                                </div> */}
+                                            </div> */}
+                                            {/* <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
                                                 <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
                                                     <select
                                                         name="province"
@@ -945,7 +907,7 @@ const callbackMethod = (response) => {
                                                     <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                     {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             {/* <div className="relative flex flex-col mb-4">
                                                 <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
@@ -1009,7 +971,7 @@ const callbackMethod = (response) => {
                                 }
                                 {isMoreAddress && isLogin ?
                                     <form onSubmit={formikForAddMoreAdd.handleSubmit}>
-                                        <div className="flex items-center mt-4 mb-2">
+                                        {/* <div className="flex items-center mt-4 mb-2">
                                             {userDetail?.customer?.addresses?.edges.length > 0 && <span title='Go back' className='mr-5 cursor-pointer' onClick={() => { setIsMoreAddress(false) }}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="mb-4 w-6 h-6">
                                                     <path fill="#333333" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
@@ -1032,12 +994,9 @@ const callbackMethod = (response) => {
                                             {formikForAddMoreAdd.touched.address1 && formikForAddMoreAdd.errors.address1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.address1}</label>)}
                                         </div>
                                         <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                            {/* <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                <input type="text" placeholder='Country' name="country" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.country} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.country && formikForAddMoreAdd.errors.country && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.country}</label>)}
-                                            </div> */}
+                                          
                                             <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                {/* Dropdown for selecting state */}
+                                               
                                                 <select
                                                     name="province"
                                                     onChange={formikForAddMoreAdd.handleChange}
@@ -1050,7 +1009,7 @@ const callbackMethod = (response) => {
                                                     ))}
                                                 </select>
 
-                                                {/* Error message */}
+                                               
                                                 {formikForAddMoreAdd.touched.province && formikForAddMoreAdd.errors.province && (
                                                     <label className="text-sm text-red-500">{formikForAddMoreAdd.errors.province}</label>
                                                 )}
@@ -1069,11 +1028,8 @@ const callbackMethod = (response) => {
                                                 <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
                                             </div>
-                                        </div>
-                                        {/* <div className="relative flex flex-col mb-4">
-                                            <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                            {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
                                         </div> */}
+
                                         <div className="mt-5 mb-6">
                                             <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
                                             <div className='border border-[#333333] rounded-lg'>
