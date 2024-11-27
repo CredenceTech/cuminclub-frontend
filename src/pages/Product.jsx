@@ -374,6 +374,7 @@ export const Product = () => {
                                         product={product}
                                         categoryTag={categoryTag}
                                         productLargeImage={productLargeImage}
+                                        productSmallImage={productSmallImage}
                                         shaking={shaking}
                                         setIsShaking={setIsShaking}
                                         cartResponse={cartResponse}
