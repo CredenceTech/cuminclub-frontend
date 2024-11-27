@@ -82,6 +82,31 @@ const Home = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [shaking, setIsShaking] = useState(null);
   const swiperContainerRef = useRef(null);
+
+
+
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = swiperContainerRef.current;
+      if (container) {
+        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1; // Adding margin for precision
+        setAtEnd(isAtEnd);
+      }
+    };
+
+    const container = swiperContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -1113,7 +1138,7 @@ const Home = () => {
         ))}
 
         <div
-          className="absolute inset-0 h-[250px]"
+          className="absolute inset-0 md:h-[250px] h-full"
           style={{
             background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.32) 0%, rgba(115, 115, 115, 0) 100%)',
             transition: 'background 1s ease-in-out',
@@ -1330,7 +1355,7 @@ const Home = () => {
           )} */}
           </div>
 
-          <div className="flex gap-x-3 md:gap-x-8 flex-1 justify-end md:mr-6 z-[9999]">
+          <div className="flex gap-x-3 md:gap-x-8 flex-1 justify-center md:justify-end md:mr-6 z-[9999]">
             <div >
               <SearchQuery isSticky={isSticky} />
             </div>
@@ -1382,8 +1407,8 @@ const Home = () => {
                 />
               </svg>
 
-              <div className="rounded-full absolute left-6 md:left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
-                <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro">
+              <div className="rounded-full absolute left-6 md:left-10 bottom-8 md:bottom-6 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+                <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
                   {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
               </div>
@@ -1568,7 +1593,7 @@ const Home = () => {
         )}
         {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
         <div className="relative w-full h-auto px-4 md:px-8 z-10 mt-5 md:w-[50%]" >
-          <div className="ml-8 md:ml-10 banner-text">
+          <div className="ml-8 mr-[35px] md:mr-0 md:ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'
                 : 'text-white'
@@ -1579,8 +1604,8 @@ const Home = () => {
               {bannerData[currentIndex].description}
             </p>
           </div>
-          <div className="flex px-8 subscribe-button pt-4 ml-1">
-            <Link to={bannerData[currentIndex].navigationLink} className='flex flex-row py-2 px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
+          <div className="flex subscribe-button pt-4 ml-8">
+            <Link to={bannerData[currentIndex].navigationLink} className='flex flex-row py-5 md:py-2 px-5 md:px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
               <button className="text-[#231F20] font-regola-pro font-[400] text-[20px] leading-[24px] py-1">{bannerData[currentIndex].ctaText}</button>
               <svg width="15" height="11" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -1598,17 +1623,17 @@ const Home = () => {
               key={item?.node?.id}
               onClick={() => { dispatch(addCategoryData(item)); navigate('/products'); }}
               style={{ background: `${colorCategory[i]}` }}
-              className={`product-box group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
+              className={`product-box md:group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
             >
               <div className="relative z-10">
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className='md:h-[80px] rounded-full z-50 md:w-[80px] h-[50px] w-[50px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
+                  className='md:h-[80px] rounded-full z-50 md:w-[80px] h-[71px] w-[71px] transition-transform duration-200 group-hover:scale-150 group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
-                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-xl lg:text-[40px] font-skillet rounded-lg group-hover:translate-x-2`}
+                className={`transition-transform duration-200 ${i === 0 ? 'text-[#231F20]' : 'text-[#FFFFFF]'} pl-5 text-[31.44px] lg:text-[40px] font-skillet rounded-lg group-hover:translate-x-2`}
               >
                 {item?.node?.title}
               </p>
@@ -1635,58 +1660,66 @@ const Home = () => {
           <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400] lg:leading-[48.43px]'>Fan Favourites</p>
         </div>
         <div className="w-full">
-          <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
-            <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
-              {apiResponse?.map((item, i) => (
-                <div key={i} className='flex flex-col justify-start pr-4 pl-4'>
-                  <div
-                    style={{ background: `${colors[i % colors.length]}` }}
-                    onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
-                    className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
-                  >
+          <div className="relative">
+            {isMobile && atEnd && (
+              <div className="absolute right-0 top-0 bottom-0 w-5 z-10 h-[300px] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0) 100%)" }}></div>
+            )}
+            <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
+              <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
+                {apiResponse?.map((item, i) => (
+                  <div key={i} className='flex flex-col justify-start pr-4 pl-4'>
                     <div
-                      className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
-                      style={{
-                        position: 'absolute',
-                        top: '51%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        borderRadius: '50%'
-                      }}
+                      style={{ background: `${colors[i % colors.length]}` }}
+                      className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                     >
-                      <img
-                        src={item?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
-                        alt=""
-                        className="rounded-full object-cover"
-                      />
+                      <div
+                        className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
+                        style={{
+                          position: 'absolute',
+                          top: '51%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          borderRadius: '50%'
+                        }}
+                      >
+                        <img
+                          src={item?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                          alt=""
+                          onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
+                          className="rounded-full object-cover"
+                        />
+                        <div onClick={(e) => { e.preventDefault(); handleAddToCart(item?.node?.variants.edges[0].node.id) }} className='md:hidden flex absolute -bottom-[4px] right-[13px]'>
+                          <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
+                          }
+                          }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className='flex justify-between items-start'
+                    >
+                      <div>
+                        <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]'>
+                          {item?.node?.title}
+                        </p>
+                        <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
+                          ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
+                        </p>
+                      </div>
+                      <div className='hidden md:flex h-auto pt-4'>
+                        <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
+                          handleAddToCart(item?.node?.variants.edges[0].node.id)
+                        }
+                        }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                      </div>
                     </div>
                   </div>
-                  <div
-                    className='flex justify-between items-start'
-                  >
-                    <div>
-                      <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]'>
-                        {item?.node?.title}
-                      </p>
-
-                      <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
-                        ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
-                      </p>
-                    </div>
-
-                    <div className='h-auto pt-4'>
-                      <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#ffffff] text-[#333333] rounded`} onClick={() => {
-                        handleAddToCart(item?.node?.variants.edges[0].node.id)
-                      }
-                      }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-
           </div>
-          <div className="flex md:hidden justify-end pr-4">
+
+          {/* <div className="flex md:hidden justify-end pr-4">
             <div className="flex gap-3 testimonial-navigation">
               <button
                 onClick={() => handleProductSlideLeft(-300)}
@@ -1708,7 +1741,7 @@ const Home = () => {
                 </svg>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -1729,7 +1762,7 @@ const Home = () => {
             <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
               <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">{slides[0].title}</h2>
               <div className="w-full md:w-2/5">
-                <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]">
+                <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px] pr-[28px]">
                   {slides[0].description}
                 </p>
               </div>
@@ -1758,7 +1791,7 @@ const Home = () => {
             <div className="z-10 text-white absolute inset-0 pl-[40px] pb-[280px] pt-[30px] sm:pt-[50px] sm:pl-[60px]">
               <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">{slides[currentSlide1].title}</h2>
               <div className="w-full md:w-2/5">
-                <p className="text-[16px] text-[#CECECE] text-left font-normal font-regola-pro mb-4 leading-[22px]">
+                <p className="text-[16px] text-[#CECECE] text-left font-normal font-regola-pro mb-4 leading-[22px] pr-[28px]">
                   {slides[currentSlide1].description}
                 </p>
               </div>
@@ -2162,12 +2195,14 @@ const Home = () => {
           className="absolute inset-0 h-[350px]"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
+              window.innerWidth <= 768
+                ? "linear-gradient(180deg, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0) 100%)"
+                : "linear-gradient(180deg, rgba(0, 0, 0, 0.56) 0%, rgba(0, 0, 0, 0) 100%)",
             zIndex: 1,
           }}
         />
         <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
-          <div className="flex md:pl-8 pt-2 flavour-options-title">
+          <div className="flex md:pl-8 md:pt-2 pt-8 flavour-options-title">
             <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
             md:text-[48px] md:leading-[48.43px] font-[400]">
               What makes us instantly yours
@@ -2228,7 +2263,7 @@ const Home = () => {
               <h2 className="md:text-[48px] md:leading-[37px] font-[400] text-[30px] leading-[22px] font-skillet text-[#333333]">
                 Your Health is Our Priority
               </h2>
-              <p className="md:text-[23px] md:leading-[37px] text-[19px] leading-[20px] text-[#757575] font-[500] font-regola-pro">
+              <p className="md:text-[23px] pt-[10px] md:leading-[37px] text-[19px] leading-[20px] text-[#757575] font-[500] font-regola-pro">
                 Don’t Believe Us, Believe Our Happy Customers
               </p>
             </div>
@@ -2247,9 +2282,7 @@ const Home = () => {
               </div>
             </div> */}
           </div>
-
         </div>
-
         <div className="sm:pl-[45px] px-2 sm:px-0 relative w-full">
           <div className="overflow-hidden w-full">
             <div
@@ -2262,47 +2295,49 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className="md:w-[48%] lg:w-[31%] w-[98%] p-3 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
-                    style={{ backgroundColor: getBackgroundColor(index) }}
+                    className={`md:w-[48%] lg:w-[31%] w-[98%] p-3 h-[229px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
                   >
-                    <div className="flex flex-col mb-[10px] pt-6">
+                    <div className="md:hidden flex justify-center">
+                      <Tooltip data={testimonial.typeformMessage} style={`top-0 -left-[70px] px-8`} >
+                        <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#333333] md:text-[#FFFFFF]">{testimonial.typeform}</p>
+                      </Tooltip>
+                    </div>
+                    <div className="flex flex-col md:mb-[10px] pt-6">
                       <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-6 left-4" height="44" viewBox="0 0 58 44" fill="none">
-                        <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="white" fill-opacity="0.45" />
+                        <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" className={`fill-current text-[#333333] md:text-white `} fill-opacity="0.45" />
                       </svg>
-                      <p className="font-regola-pro leading-[30px] py-1 pl-[65px] pr-[45px] text-[20px] md:text-[24px] font-[500] text-[#FFFFFF]">
+                      <p className="font-regola-pro leading-[30px] py-1 pl-[65px] pr-[45px] text-center md:text-start text-[20px] md:text-[24px] font-[500] text-[#333333] md:text-[#FFFFFF]">
                         {testimonial.text}
                       </p>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute top-20 right-4" viewBox="0 0 58 44" fill="none">
-                        <path d="M57.0166 8.39233e-05V11.5058C57.0166 15.0001 56.3987 18.7075 55.1629 22.6279C53.8845 26.591 52.0521 30.4049 49.6657 34.0697C47.2368 37.7771 44.3177 40.9944 40.9086 43.7217L32.7268 37.074C35.4115 33.2387 37.7552 29.233 39.7581 25.0569C41.7183 20.9234 42.6984 16.4916 42.6984 11.7615V8.39233e-05H57.0166ZM24.2893 8.39233e-05V11.5058C24.2893 15.0001 23.6714 18.7075 22.4356 22.6279C21.1572 26.591 19.3248 30.4049 16.9385 34.0697C14.5095 37.7771 11.5905 40.9944 8.18137 43.7217L-0.000442505 37.074C2.68422 33.2387 5.02796 29.233 7.0308 25.0569C8.99103 20.9234 9.97115 16.4916 9.97115 11.7615V8.39233e-05H24.2893Z" fill="white" fill-opacity="0.45" />
+                      <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-10 md:bottom-auto md:top-20 right-4" viewBox="0 0 58 44" fill="none">
+                        <path d="M57.0166 8.39233e-05V11.5058C57.0166 15.0001 56.3987 18.7075 55.1629 22.6279C53.8845 26.591 52.0521 30.4049 49.6657 34.0697C47.2368 37.7771 44.3177 40.9944 40.9086 43.7217L32.7268 37.074C35.4115 33.2387 37.7552 29.233 39.7581 25.0569C41.7183 20.9234 42.6984 16.4916 42.6984 11.7615V8.39233e-05H57.0166ZM24.2893 8.39233e-05V11.5058C24.2893 15.0001 23.6714 18.7075 22.4356 22.6279C21.1572 26.591 19.3248 30.4049 16.9385 34.0697C14.5095 37.7771 11.5905 40.9944 8.18137 43.7217L-0.000442505 37.074C2.68422 33.2387 5.02796 29.233 7.0308 25.0569C8.99103 20.9234 9.97115 16.4916 9.97115 11.7615V8.39233e-05H24.2893Z" className={`fill-current text-[#333333] md:text-white `} fill-opacity="0.45" />
                       </svg>
                     </div>
-                    <div className="flex justify-between mt-auto pb-3 px-5">
-                      <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#FFFFFF]">{testimonial.reviewerName}</p>
-
-                      <Tooltip data={testimonial.typeformMessage} style={`bottom-3 ${index === isLastInRow ? '-left-[70px]' : 'lg:left-6 -left-[100px]'}  px-8`} >
-                        <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#FFFFFF]">{testimonial.typeform}</p>
-                      </Tooltip>
+                    <div className="flex justify-center md:justify-between mt-auto pb-3 px-5">
+                      <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] text-[#333333] md:text-[#FFFFFF]">{testimonial.reviewerName}</p>
+                      <div className="hidden md:flex">
+                        <Tooltip data={testimonial.typeformMessage} style={`bottom-3 ${index === isLastInRow ? '-left-[70px]' : 'lg:left-6 -left-[100px]'}  px-8`} >
+                          <p className="font-regola-pro font-[400] md:text-[20px] text-[18px] leading-[24px] cursor-pointer text-[#333333] md:text-[#FFFFFF]">{testimonial.typeform}</p>
+                        </Tooltip>
+                      </div>
                     </div>
                   </div>
                 )
               })}
             </div>
           </div>
-          <div className="flex sm:justify-end justify-center pt-8 sm:pr-[60px] pr-0">
+          <div className="flex justify-end md:pt-8 sm:pr-[60px] pr-0">
             <div className="flex gap-3 testimonial-navigation">
-              {/* Previous Button */}
               <button
                 onClick={prevSlide}
                 type="button"
                 className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
-                disabled={currentSlide === 0} // Disable button if on the first slide
+                disabled={currentSlide === 0}
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
                 </svg>
-
               </button>
-              {/* Next Button */}
               <button
                 onClick={nextSlide}
                 type="button"
@@ -2316,13 +2351,10 @@ const Home = () => {
             </div>
           </div>
         </div>
-
       </div>
-
 
       <div className='bg-[#EFE9DA] relative mt-12 mb-[-113px]'>
         <div className="relative bg-custom-image-footer flex flex-col justify-start lg:flex-row">
-          {/* <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div> */}
           <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
             <div>
               <h2 className="font-[600] text-[36px] leading-[36.72px] text-left font-regola-pro">

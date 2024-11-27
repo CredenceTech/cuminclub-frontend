@@ -48,7 +48,6 @@ const CardReview = () => {
     useEffect(() => {
         console.log(loginUserCustomerId)
         if (loginUserCustomerId) {
-            debugger;
             setIsLogin(true)
             getCustomerDetail();
             const sdkPayload = createSDKPayload({
