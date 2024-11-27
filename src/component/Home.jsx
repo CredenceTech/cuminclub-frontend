@@ -81,7 +81,7 @@ const Home = () => {
   const [positionX, setPositionX] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [shaking, setIsShaking] = useState(null);
-
+  const swiperContainerRef = useRef(null);
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -500,7 +500,7 @@ const Home = () => {
 
   useEffect(() => {
     // if (countryList === null) fetchCountryFilters();
-  });
+  }, []);
 
   const spinVariants = {
     hidden: { opacity: 0, scale: 0.5, rotate: 0 },
@@ -609,19 +609,19 @@ const Home = () => {
   };
 
 
-  // const fetchCountryFilters = async () => {
-  //   try {
-  //     const url = `${import.meta.env.VITE_SHOPIFY_API_URL}`;
-  //     const response = await fetch(url);
-  //     const data = await response.json();
-  //     setCountryList(data.data.countries);
-  //     setSelectedCountry(data.data.countries[0]);
-  //     dispatch(addFilterData(data.data.countries[0]));
-  //     setFilterData(data.data.countries[0]);
-  //   } catch (error) {
-  //     console.error("Error fetching Get Store Detail:", error);
-  //   }
-  // };
+  const fetchCountryFilters = async () => {
+    try {
+      const url = `${import.meta.env.VITE_SHOPIFY_API_URL}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      setCountryList(data.data.countries);
+      setSelectedCountry(data.data.countries[0]);
+      dispatch(addFilterData(data.data.countries[0]));
+      setFilterData(data.data.countries[0]);
+    } catch (error) {
+      console.error("Error fetching Get Store Detail:", error);
+    }
+  };
 
   const myProfile = [
     {
@@ -1085,6 +1085,14 @@ const Home = () => {
       setCurrentSlide1((prevSlide) => (prevSlide + 1) % slides.length);
     } else if (endX - startX1 > 50) {
       setCurrentSlide1((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
+    }
+  };
+  const handleProductSlideLeft = (scrollbY) => {
+    if (swiperContainerRef.current) {
+      swiperContainerRef.current.scrollBy({
+        left: scrollbY,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -1560,7 +1568,7 @@ const Home = () => {
         )}
         {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
         <div className="relative w-full h-auto px-4 md:px-8 z-10 mt-5 md:w-[50%]" >
-          <div className="ml-10 banner-text">
+          <div className="ml-8 md:ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'
                 : 'text-white'
@@ -1627,7 +1635,7 @@ const Home = () => {
           <p className='text-[#231F20] font-skillet px-1 py-4 text-3xl lg:text-[48px] font-[400] lg:leading-[48.43px]'>Fan Favourites</p>
         </div>
         <div className="w-full">
-          <div className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
+          <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
             <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
               {apiResponse?.map((item, i) => (
                 <div key={i} className='flex flex-col justify-start pr-4 pl-4'>
@@ -1678,6 +1686,29 @@ const Home = () => {
             </div>
 
           </div>
+          <div className="flex md:hidden justify-end pr-4">
+            <div className="flex gap-3 testimonial-navigation">
+              <button
+                onClick={() => handleProductSlideLeft(-300)}
+                type="button"
+                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
+              >
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
+                </svg>
+
+              </button>
+              <button
+                onClick={() => handleProductSlideLeft(300)}
+                type="button"
+                className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
+              >
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1721,13 +1752,13 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="md:hidden relative mb-[60px]" onTouchStart={handleTouchStart1} onTouchEnd={handleTouchEnd1}>
+          <div className="md:hidden relative" onTouchStart={handleTouchStart1} onTouchEnd={handleTouchEnd1}>
             <img src={slides[currentSlide1].image} className="h-[509px] w-full object-cover md:rounded-l-lg" style={{ zIndex: 1 }} />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#000000a6] md:rounded-l-lg w-full md:w-3/5" style={{ zIndex: 2 }}></div>
-            <div className="z-10 text-white absolute inset-0 pl-[60px] pb-[280px] pt-[10px] sm:pt-[50px] sm:pl-[60px] info-section">
+            <div className="z-10 text-white absolute inset-0 pl-[40px] pb-[280px] pt-[30px] sm:pt-[50px] sm:pl-[60px]">
               <h2 className="text-[36px] text-[#FAFAFA] font-normal leading-[43.57px] mb-4 font-regola-pro">{slides[currentSlide1].title}</h2>
               <div className="w-full md:w-2/5">
-                <p className="text-[16px] text-[#CECECE] font-normal font-regola-pro mb-4 leading-[22px]">
+                <p className="text-[16px] text-[#CECECE] text-left font-normal font-regola-pro mb-4 leading-[22px]">
                   {slides[currentSlide1].description}
                 </p>
               </div>
@@ -1816,7 +1847,7 @@ const Home = () => {
 
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
         <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] title max-w-[280px] md:max-w-full'>
+          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] sm:title max-w-[280px] md:max-w-full'>
             Not Sure What to Eat?
           </p>
           <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
@@ -2136,20 +2167,20 @@ const Home = () => {
           }}
         />
         <div className="absolute inset-0 flex flex-col items-start p-10 rounded-lg z-10">
-          <div className="flex pl-8 pt-2 flavour-options-title">
+          <div className="flex md:pl-8 pt-2 flavour-options-title">
             <h1 className="font-skillet text-[30px] leading-[26px] text-[#FFFFFF] mb-4 
             md:text-[48px] md:leading-[48.43px] font-[400]">
               What makes us instantly yours
             </h1>
           </div>
 
-          <div className="flex items-start flavour-options-title-text mb-4 md:mt-8 mt-0 flex-col md:flex-row pl-8">
+          <div className="flex items-start flavour-options-title-text mb-4 md:mt-8 mt-0 flex-col md:flex-row md:pl-8">
             <img
               src={noPreservativeWhite}
               alt="Icon"
               className="w-[76px] h-[76px] object-cover"
             />
-            <div className="w-full md:w-1/2 ml-5 flavour-options-title-text-content">
+            <div className="w-full md:w-1/2 mt-4 md:mt-0 md:ml-5 flavour-options-title-text-content">
               <h2 className="font-skillet text-[26px] leading-[20px] text-[#FFFFFF] mb-2 
               md:text-[36px] md:leading-[35px] font-[400]">
                 {currentData?.title}
@@ -2191,7 +2222,7 @@ const Home = () => {
 
 
       <div className="pt-16 mb-12">
-        <div className="px-8 sm:mx-5 mx-0 pt-10">
+        <div className="px-4 md:px-8 sm:mx-5 mx-0 pt-10">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-3/5 mb-10">
               <h2 className="md:text-[48px] md:leading-[37px] font-[400] text-[30px] leading-[22px] font-skillet text-[#333333]">
@@ -2219,7 +2250,7 @@ const Home = () => {
 
         </div>
 
-        <div className="sm:pl-[45px] pl-0 relative w-full">
+        <div className="sm:pl-[45px] px-2 sm:px-0 relative w-full">
           <div className="overflow-hidden w-full">
             <div
               className="flex transition-transform duration-500"
@@ -2231,7 +2262,7 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className="md:w-[48%] lg:w-[31%] w-[98%] p-5 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
+                    className="md:w-[48%] lg:w-[31%] w-[98%] p-3 h-[229px] flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative"
                     style={{ backgroundColor: getBackgroundColor(index) }}
                   >
                     <div className="flex flex-col mb-[10px] pt-6">
@@ -2290,7 +2321,7 @@ const Home = () => {
 
 
       <div className='bg-[#EFE9DA] relative mt-12 mb-[-113px]'>
-        <div className="relative bg-custom-image-footer flex flex-col lg:flex-row">
+        <div className="relative bg-custom-image-footer flex flex-col justify-start lg:flex-row">
           {/* <div className="absolute -z-10 inset-0 bg-gradient-to-l from-transparent to-[#000000a6] rounded-l-lg"></div> */}
           <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
             <div>
@@ -2307,7 +2338,7 @@ const Home = () => {
             </div>
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          <div className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
+          <div className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}
@@ -2330,8 +2361,9 @@ const Home = () => {
               </div>
             ))}
           </div>
-
-          <button className="mt-4 lg:hidden text-center bg-white w-[250px] font-regola-pro my-7 mx-auto text-[#333333] rounded font-[300] text-[16px] py-2 px-5" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
+          <div className="pl-6 md:pl-14 lg:hidden">
+            <button className="mt-4  text-center bg-white w-[250px] font-regola-pro my-7 mx-auto text-[#333333] rounded font-[300] text-[16px] py-2 px-5" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
+          </div>
         </div>
       </div>
 
