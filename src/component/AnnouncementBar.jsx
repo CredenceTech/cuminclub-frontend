@@ -24,7 +24,7 @@ const AnnouncementBar = () => {
     };
 
     return (
-        <div className="flex items-center justify-between bg-[#EB7E01] text-white h-[43px] px-4">
+        <div className="flex items-center justify-between bg-[#EB7E01] text-white h-[48px] md:h-[43px] px-4">
             {/* Previous Button */}
             <button
                 onClick={prevAnnouncement}
@@ -55,3 +55,4 @@ const AnnouncementBar = () => {
 };
 
 export default AnnouncementBar;
+

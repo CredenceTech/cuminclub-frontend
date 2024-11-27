@@ -145,7 +145,7 @@ const Header = () => {
 
   useEffect(() => {
     // if (countryList === null) fetchCountryFilters();
-  });
+  }, []);
 
   // const getCartData = async () => {
   //   const params = {
@@ -766,3 +766,4 @@ const CountryDrawer = ({ onClose, onSelectCountry, allCountryList }) => {
     </motion.div>
   );
 };
+
