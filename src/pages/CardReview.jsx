@@ -40,61 +40,27 @@ const CardReview = () => {
     const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
 
     const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
-    // const statesOfIndia = [
-    //     { name: "Andhra Pradesh" },
-    //     { name: "Arunachal Pradesh" },
-    //     { name: "Assam" },
-    //     { name: "Bihar" },
-    //     { name: "Chhattisgarh" },
-    //     { name: "Goa" },
-    //     { name: "Gujarat" },
-    //     { name: "Haryana" },
-    //     { name: "Himachal Pradesh" },
-    //     { name: "Jharkhand" },
-    //     { name: "Karnataka" },
-    //     { name: "Kerala" },
-    //     { name: "Madhya Pradesh" },
-    //     { name: "Maharashtra" },
-    //     { name: "Manipur" },
-    //     { name: "Meghalaya" },
-    //     { name: "Mizoram" },
-    //     { name: "Nagaland" },
-    //     { name: "Odisha" },
-    //     { name: "Punjab" },
-    //     { name: "Rajasthan" },
-    //     { name: "Sikkim" },
-    //     { name: "Tamil Nadu" },
-    //     { name: "Telangana" },
-    //     { name: "Tripura" },
-    //     { name: "Uttar Pradesh" },
-    //     { name: "Uttarakhand" },
-    //     { name: "West Bengal" },
-    //     { name: "Andaman and Nicobar Islands" },
-    //     { name: "Chandigarh" },
-    //     { name: "Dadra and Nagar Haveli and Daman and Diu" },
-    //     { name: "Delhi" },
-    //     { name: "Jammu and Kashmir" },
-    //     { name: "Ladakh" },
-    //     { name: "Lakshadweep" },
-    //     { name: "Puducherry" }
-    // ];
+
+    const callbackMethod = (response) => {
+        console.log('Response from SDK:', response);
+    };
 
     useEffect(() => {
+        console.log(loginUserCustomerId)
         if (loginUserCustomerId) {
+            debugger;
             setIsLogin(true)
+            getCustomerDetail();
+            const sdkPayload = createSDKPayload({
+                merchantId: 'instantly',
+                environment: 'release',
+                shopUrl: 'https://76ac20-2.myshopify.com'
+            });
+
+            console.log('Initiating Blaze SDK with payload:', sdkPayload);
+            BlazeSDK.initiate(sdkPayload, callbackMethod);
         }
     }, [loginUserCustomerId])
-
-    const fetchData = async () => {
-        const body = {
-            cartId: cartDatas?.cartCreate?.cart?.id,
-        }
-        try {
-            const response = await graphQLClient.request(getCartQuery, body)
-            dispatch(setCartResponse(response));
-        } catch (error) {
-        }
-    };
 
     const getCustomerDetail = async () => {
         setIsLoading(true);
@@ -109,42 +75,6 @@ const CardReview = () => {
             setIsLoading(false);
         }
     };
-    // response will be an json object
-    const callbackMethod = (response) => {
-        console.log('Response from SDK:', response);
-    };
-    useEffect(() => {
-        if (loginUserCustomerId) {
-            getCustomerDetail();
-            const sdkPayload = createSDKPayload({
-                merchantId: 'instantly',
-                environment: 'release',
-                shopUrl: 'https://76ac20-2.myshopify.com'
-            });
-
-            console.log('Initiating Blaze SDK with payload:', sdkPayload);
-            BlazeSDK.initiate(sdkPayload, callbackMethod);
-        }
-    }, [loginUserCustomerId])
-
-    // useEffect(() => {
-    //     getCartData();
-    // }, [cartDatas]);
-
-    // const getCartData = async () => {
-    //     const params = {
-    //         cartId: cartDatas?.cartCreate?.cart?.id,
-    //     };
-    //     const response = await graphQLClient.request(getCartQuery, params);
-    //     dispatch(setCartResponse(response));
-    // };
-
-    // useEffect(() => {
-    //     if (userDetail?.customer?.addresses?.edges.length == 0) {
-    //         setIsMoreAddress(true);
-    //     }
-    // }, [userDetail])
-
 
 
 
@@ -211,7 +141,6 @@ const CardReview = () => {
     }
 
     const validationSchemaForLogin = Yup.object().shape({
-        // address: Yup.string().required('Select an address'),
         consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     })
     const validationSchemaForWithoutLogin = Yup.object().shape({
@@ -219,23 +148,15 @@ const CardReview = () => {
         password: Yup.string().required('Password is required'),
         firstName: Yup.string().required('First Name is required'),
         lastName: Yup.string().required('Last Name is required'),
-        // firstName1: Yup.string().required('First Name is required'),
-        // lastName1: Yup.string().required('Last Name is required'),
-
         consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
     const validationSchemaForAddMoreAdd = Yup.object().shape({
-        // firstName1: Yup.string().required('First Name is required'),
-        // lastName1: Yup.string().required('Last Name is required'),
-
         consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
 
     const initialValuesForAddMoreAdd = {
-        // firstName1: '',
-        // lastName1: '',
         consent: false,
     }
 
@@ -244,32 +165,11 @@ const CardReview = () => {
         password: '',
         firstName: '',
         lastName: '',
-        // firstName1: '',
-        // lastName1: '',
-
         consent: false,
     }
 
-    // const addAddress = async (values, body, customerAccessToken) => {
-    //     setIsLoading(true);
-    //     const response = await graphQLClient.request(createAddressMutation, body);
-    //     setIsLoading(false);
-    //     if (response?.customerAddressCreate?.customerUserErrors[0]?.code === "TAKEN") {
-    //         toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
-    //         return
-    //     }
-    //     if (response?.customerAddressCreate?.customerUserErrors[0]?.code) {
-    //         toast.error(response?.customerAddressCreate?.customerUserErrors[0]?.message)
-    //         return
-    //     }
-    //     if (response?.customerAddressCreate?.customerAddress?.id) {
-    //         // setAddress(body);
-    //         createCheckoutURL(customerAccessToken, values);
-    //     }
-    // }
 
     const initialValuesForLogin = {
-        // address: userDetail?.customer?.addresses?.edges[0]?.node?.id || null,
         consent: false
     }
 
@@ -278,7 +178,6 @@ const CardReview = () => {
         validationSchema: validationSchemaForLogin || null,
         onSubmit: async (values) => {
             console.log('formikForLogin submitted with values:', values);
-            // Handle form submission logic here
             createCheckoutURL(loginUserCustomerId);
 
         },
@@ -313,15 +212,6 @@ const CardReview = () => {
                 }
                 if (response?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
                     dispatch(addCustomerAccessToken(response?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
-                    // const body = {
-                    //     customerAccessToken: response?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
-                    //     address1: values.address1,
-                    //     country: "India",
-                    //     province: values.province,
-                    //     city: values.city,
-                    //     zip: values.zip
-                    // }
-                    // addAddress(values, body, response?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             if (response?.customerCreate?.customer?.id) {
@@ -339,15 +229,6 @@ const CardReview = () => {
                 }
                 if (responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken) {
                     dispatch(addCustomerAccessToken(responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken))
-                    // const body = {
-                    //     customerAccessToken: responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken,
-                    //     address1: values.address1,
-                    //     country: "India",
-                    //     province: values.province,
-                    //     city: values.city,
-                    //     zip: values.zip
-                    // }
-                    // addAddress(values, body, responseLogin?.customerAccessTokenCreate?.customerAccessToken?.accessToken);
                 }
             }
             // Handle form submission logic here
@@ -358,16 +239,6 @@ const CardReview = () => {
         validationSchema: validationSchemaForAddMoreAdd || null,
         onSubmit: (values) => {
             console.log('formikForAddMoreAdd submitted with values:', values);
-            // const body = {
-            //     customerAccessToken: loginUserCustomerId,
-            //     address1: values.address1,
-            //     country: "India",
-            //     province: values.province,
-            //     city: values.city,
-            //     zip: values.zip
-            // }
-            // addAddress(values, body, loginUserCustomerId);
-            // Handle form submission logic here
         },
     });
 
@@ -413,22 +284,7 @@ const CardReview = () => {
         }
     }
 
-    function extractCheckoutIdAndKey(gidString) {
-        const parts = gidString.split('Checkout/');
-        if (parts.length > 1) {
-            return parts[1];
-        } else {
-            console.error("Invalid gid format:", gidString);
-            return null;
-        }
-    }
 
-    const generateUUID = () => {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            const r = (Math.random() * 16) | 0;
-            return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
-        });
-    };
 
     function createSDKPayload(data) {
         return {
