@@ -851,173 +851,291 @@ const ReadyToEat = () => {
                       const categoryTag = product.superTitle; // Replace with appropriate category if available
 
                       return isLong ? (
-                        <div className="col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
-                          <AnimatePresence mode="popLayout">
-                            <motion.div
-                              initial={{ y: 500, opacity: 0 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              exit={{ y: -500, opacity: 0 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              <div className="relative flex overflow-hidden justify-center items-center">
-                                <img
-                                  src={productLargeImage}
-                                  alt={product.title}
-                                  className="w-full h-[290px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200"
-                                />
-                                <button
-                                  type="button"
-                                  className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro uppercase font-[600]"
-                                >
-                                  {categoryTag}
-                                </button>
-                              </div>
-                              <div className="px-10 py-3">
-                                <div className="flex flex-row justify-between pt-[18px] pb-2">
-                                  <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
-                                    {product.title}
-                                  </p>
-                                  {!issubscribe && <p className="font-skillet whitespace-nowrap font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
-                                    ₹ {Math.floor(productPrice)}
-                                  </p>}
-                                </div>
-                                <p className="text-[16px] md:leading-[12.73px] leading-4 font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
-                                  {product.description.length > 80
-                                    ? `${product.description.substring(0, 80)}...`
-                                    : product.description}
-                                </p>
-
-                                <div className="flex gap-x-2 md:gap-x-4 mt-1">
-                                  {issubscribe ? (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
-                                      }}
-                                      className="border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
-                                    >
-                                      ADD TO BOX
-                                    </button>
-                                  ) : (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO CART"
-                                      }}
-                                      className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]`}
-                                    >
-                                      {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
-                                    </button>
-                                  )}
-
+                        <>
+                          <div
+                            key={product.id + 123}
+                            className="flex md:hidden group cursor-pointer col-span-2 border-b-2 border-[#CCCCCC]  p-2"
+                            onClick={() => {
+                              navigate(`/product-details/${product.handle}`);
+                            }}
+                          >
+                            <div className="w-2/5 relative flex justify-center items-center overflow-hidden">
+                              <img
+                                src={productSmallImage}
+                                alt={product.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200 rounded-3xl"
+                              />
+                            </div>
+                            <div className="w-3/5 flex flex-col justify-between pl-3 py-1">
+                              <div>
+                                <div className='flex flex-row justify-between'>
                                   <button
-                                    onClick={(e) => e.stopPropagation()}
                                     type="button"
-                                    className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                    className="bg-[#279C66] flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                                   >
-                                    BUY NOW
+                                    {categoryTag}
                                   </button>
+                                  <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
+                                    ₹ {Math.floor(productPrice)}
+                                  </p>
                                 </div>
+                                <p className="font-skillet font-[400] text-[#333333] text-[24px] leading-5 uppercase">
+                                  {product.title}
+                                </p>
                               </div>
-                            </motion.div>
-                          </AnimatePresence>
-                        </div>
-                      ) : (
-                        <div key={product.id} className="bg-[#EADEC1] md:col-span-1 rounded-3xl cursor-pointer group" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
-                          <AnimatePresence mode="wait">
-                            <motion.div
-                              initial={{ y: 500, x: -500, opacity: 0 }}
-                              animate={{ y: 0, x: 0, opacity: 1 }}
-                              exit={{ y: -500, x: 500, opacity: 0 }}
-                              transition={{ duration: 0.4 }}
-                              className="h-full"
-                            >
-                              <div className="relative rounded-t-3xl md:h-full rounded-b-[0px]  md:rounded-3xl flex justify-center overflow-hidden items-center">
-                                <img
-                                  src={productSmallImage}
-                                  alt={product.title}
-                                  className="w-full h-full  rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
-                                />
-                                <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
-                                  <div className="p-2 md:p-5">
-                                    <button
-                                      type="button"
-                                      className="bg-[#279C66] text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
-                                    >
-                                      {categoryTag}
-                                    </button>
-                                  </div>
-                                  <div className="px-3 md:pl-8 pb-2 md:pb-6 p-[20px] md:pt-[120px] bg-gradient-to-b from-primary rounded-b-[0px]  md:rounded-b-3xl to-secondary w-full">
-                                    <div className="flex flex-row justify-between items-center mb-2 md:mb-5">
-                                      <p className="font-skillet font-[400] text-[#FAFAFA] text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase max-w-[80%]">
-                                        {product.title}
-                                      </p>
-                                      {!issubscribe && <p className="font-skillet font-[400] text-[#FAFAFA]   text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase">
-                                        ₹ {Math.floor(productPrice)}
-                                      </p>}
-                                    </div>
-                                    <div className="hidden md:flex md:flex-row md:gap-4">
-                                      {issubscribe ? (
-                                        <button
-                                          type="button"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                                          }}
-                                          className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                        >
-                                          ADD TO BOX
-                                        </button>
-                                      ) : (
-                                        <button
-                                          type="button"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
-                                          }}
-                                          className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
-                                        >
-                                          {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
-                                        </button>
-                                      )}
-
-
-                                      <button
-                                        onClick={(e) => e.stopPropagation()}
-                                        type="button"
-                                        className="bg-[#279C66] mt-2 md:mt-0 text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                      >
-                                        BUY NOW
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="mt-3 mb-3 gap-1 md:hidden flex justify-center items-center flex-row ">
+                              <div className="flex gap-2 mt-3">
                                 <button
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    handleAddToCart(product.variants.edges[0].node.id)
-                                  }
-                                  }
-                                  className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
+                                    handleAddToCart(product.variants.edges[0].node.id);
+                                  }}
+                                  className={`${shaking === product.variants.edges[0].node.id ? '' : ''
+                                    } border-2 border-[#333333] text-[#333333] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
                                 >
-                                  {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                  {shaking === product.variants.edges[0].node.id ? (
+                                    <div className="spinner1"></div>
+                                  ) : (
+                                    'ADD TO CART'
+                                  )}
                                 </button>
                                 <button
                                   onClick={(e) => e.stopPropagation()}
                                   type="button"
-                                  className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
+                                  className="bg-[#279C66] text-[#FAFAFA] w-full rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px]  font-[600]"
                                 >
                                   BUY NOW
                                 </button>
                               </div>
-                            </motion.div>
-                          </AnimatePresence>
-                        </div>
+                            </div>
+                          </div>
+                          <div className="hidden md:grid col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
+                            <AnimatePresence mode="popLayout">
+                              <motion.div
+                                initial={{ y: 500, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -500, opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <div className="relative flex overflow-hidden justify-center items-center">
+                                  <img
+                                    src={productLargeImage}
+                                    alt={product.title}
+                                    className="w-full h-[290px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200"
+                                  />
+                                  <button
+                                    type="button"
+                                    className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#333333] px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro uppercase font-[600]"
+                                  >
+                                    {categoryTag}
+                                  </button>
+                                </div>
+                                <div className="px-10 py-3">
+                                  <div className="flex flex-row justify-between pt-[18px] pb-2">
+                                    <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
+                                      {product.title}
+                                    </p>
+                                    {!issubscribe && <p className="font-skillet whitespace-nowrap font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
+                                      ₹ {Math.floor(productPrice)}
+                                    </p>}
+                                  </div>
+                                  <p className="text-[16px] md:leading-[12.73px] leading-4 font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
+                                    {product.description.length > 80
+                                      ? `${product.description.substring(0, 80)}...`
+                                      : product.description}
+                                  </p>
+
+                                  <div className="flex gap-x-2 md:gap-x-4 mt-1">
+                                    {issubscribe ? (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
+                                        }}
+                                        className="border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                      >
+                                        ADD TO BOX
+                                      </button>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO CART"
+                                        }}
+                                        className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]`}
+                                      >
+                                        {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                      </button>
+                                    )}
+
+                                    <button
+                                      onClick={(e) => e.stopPropagation()}
+                                      type="button"
+                                      className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                    >
+                                      BUY NOW
+                                    </button>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            </AnimatePresence>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div
+                            key={product.id + 1000}
+                            className="flex md:hidden group cursor-pointer col-span-2 border-b-2 border-[#CCCCCC]  p-2"
+                            onClick={() => {
+                              navigate(`/product-details/${product.handle}`);
+                            }}
+                          >
+                            <div className="w-2/5 relative flex justify-center items-center overflow-hidden">
+                              <img
+                                src={productSmallImage}
+                                alt={product.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200 rounded-3xl"
+                              />
+                            </div>
+                            <div className="w-3/5 flex flex-col justify-between pl-3 py-1">
+                              <div>
+                                <div className='flex flex-row justify-between'>
+                                  <button
+                                    type="button"
+                                    className="bg-[#279C66] flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                  >
+                                    {categoryTag}
+                                  </button>
+                                  <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
+                                    ₹ {Math.floor(productPrice)}
+                                  </p>
+                                </div>
+                                <p className="font-skillet font-[400] text-[#333333] text-[24px] leading-5 uppercase">
+                                  {product.title}
+                                </p>
+                              </div>
+                              <div className="flex gap-2 mt-3">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleAddToCart(product.variants.edges[0].node.id);
+                                  }}
+                                  className={`${shaking === product.variants.edges[0].node.id ? '' : ''
+                                    } border-2 border-[#333333] text-[#333333] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
+                                >
+                                  {shaking === product.variants.edges[0].node.id ? (
+                                    <div className="spinner1"></div>
+                                  ) : (
+                                    'ADD TO CART'
+                                  )}
+                                </button>
+                                <button
+                                  onClick={(e) => e.stopPropagation()}
+                                  type="button"
+                                  className="bg-[#279C66] text-[#FAFAFA] w-full rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px]  font-[600]"
+                                >
+                                  BUY NOW
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div key={product.id} className="hidden md:flex bg-[#EADEC1] md:col-span-1 rounded-3xl cursor-pointer group" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                            <AnimatePresence mode="wait">
+                              <motion.div
+                                initial={{ y: 500, x: -500, opacity: 0 }}
+                                animate={{ y: 0, x: 0, opacity: 1 }}
+                                exit={{ y: -500, x: 500, opacity: 0 }}
+                                transition={{ duration: 0.4 }}
+                                className="h-full"
+                              >
+                                <div className="relative rounded-t-3xl md:h-full rounded-b-[0px]  md:rounded-3xl flex justify-center overflow-hidden items-center">
+                                  <img
+                                    src={productSmallImage}
+                                    alt={product.title}
+                                    className="w-full h-full  rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                  />
+                                  <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
+                                    <div className="p-2 md:p-5">
+                                      <button
+                                        type="button"
+                                        className="bg-[#279C66] text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
+                                      >
+                                        {categoryTag}
+                                      </button>
+                                    </div>
+                                    <div className="px-3 md:pl-8 pb-2 md:pb-6 p-[20px] md:pt-[120px] bg-gradient-to-b from-primary rounded-b-[0px]  md:rounded-b-3xl to-secondary w-full">
+                                      <div className="flex flex-row justify-between items-center mb-2 md:mb-5">
+                                        <p className="font-skillet font-[400] text-[#FAFAFA] text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase max-w-[80%]">
+                                          {product.title}
+                                        </p>
+                                        {!issubscribe && <p className="font-skillet font-[400] text-[#FAFAFA]   text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase">
+                                          ₹ {Math.floor(productPrice)}
+                                        </p>}
+                                      </div>
+                                      <div className="hidden md:flex md:flex-row md:gap-4">
+                                        {issubscribe ? (
+                                          <button
+                                            type="button"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                                            }}
+                                            className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                          >
+                                            ADD TO BOX
+                                          </button>
+                                        ) : (
+                                          <button
+                                            type="button"
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
+                                            }}
+                                            className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
+                                          >
+                                            {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                          </button>
+                                        )}
+
+
+                                        <button
+                                          onClick={(e) => e.stopPropagation()}
+                                          type="button"
+                                          className="bg-[#279C66] mt-2 md:mt-0 text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                        >
+                                          BUY NOW
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="mt-3 mb-3 gap-1 md:hidden flex justify-center items-center flex-row ">
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAddToCart(product.variants.edges[0].node.id)
+                                    }
+                                    }
+                                    className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
+                                  >
+                                    {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                                  </button>
+                                  <button
+                                    onClick={(e) => e.stopPropagation()}
+                                    type="button"
+                                    className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
+                                  >
+                                    BUY NOW
+                                  </button>
+                                </div>
+                              </motion.div>
+                            </AnimatePresence>
+                          </div>
+                        </>
                       );
                     })}
                   </div>

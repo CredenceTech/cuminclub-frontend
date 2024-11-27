@@ -371,6 +371,7 @@ function ReadyToCook() {
                                                             product={product}
                                                             categoryTag={product.superTitle}
                                                             productLargeImage={product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc}
+                                                            productSmallImage={product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc}
                                                             shaking={shaking}
                                                             setIsShaking={setIsShaking}
                                                             cartResponse={cartResponse}
@@ -477,6 +478,7 @@ function ReadyToCook() {
                                         product={product}
                                         categoryTag={categoryTag}
                                         productLargeImage={productLargeImage}
+                                        productSmallImage={productSmallImage}
                                         shaking={shaking}
                                         setIsShaking={setIsShaking}
                                         cartResponse={cartResponse}
