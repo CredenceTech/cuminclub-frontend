@@ -1623,7 +1623,7 @@ const Home = () => {
               key={item?.node?.id}
               onClick={() => { dispatch(addCategoryData(item)); navigate('/products'); }}
               style={{ background: `${colorCategory[i]}` }}
-              className={`product-box md:group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
+              className={`product-box group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
             >
               <div className="relative z-10">
                 <img
