@@ -375,6 +375,8 @@ export const Bulk = () => {
                                         addCartData={addCartData}
                                         productPrice={productPrice}
                                         setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
                                     />
                                 </>
                             })}

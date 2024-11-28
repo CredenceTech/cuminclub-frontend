@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, } from 'react-redux';
-import { handleAddToCart } from '../../utils/cartUtils';
+import { handleAddToCart, handleRemoveFromCart } from '../../utils/cartUtils';
+
 
 const ProductBigCard = ({
     product,
@@ -15,10 +16,56 @@ const ProductBigCard = ({
     addCartData,
     setCartResponse,
     setIsShaking,
-    productPrice
+    productPrice,
+    setLoading,
+    loading
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [categoryColor, setCategoryColor] = useState(null);
+    useEffect(() => {
+        if (categoryTag?.toUpperCase() === "CURRIES") {
+            setCategoryColor("#FB7D36");
+        } else if (categoryTag?.toUpperCase() === "LENTILS") {
+            setCategoryColor("#FBAE36");
+        }
+        else if (categoryTag?.toUpperCase() === "RICE") {
+            setCategoryColor("#279C66");
+        } else if (categoryTag?.toUpperCase() === "SWEETS") {
+            setCategoryColor("#ba7e05");
+        }
+        else {
+            setCategoryColor('#279C66');
+        }
+    }, [categoryTag]);
+
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    const [productQuantity, setProductQuantity] = useState(0);
+    const getProductQuantityInCart = (productId) => {
+        const productInCart = cartResponse?.cart.lines?.edges?.find((cartItem) => {
+            return cartItem.node.merchandise.id === productId;
+        });
+        return productInCart ? productInCart.node.quantity : 0;
+    };
+
+    useEffect(() => {
+        const productId = product.variants.edges[0].node.id;
+        const quantity = getProductQuantityInCart(productId);
+        setProductQuantity(quantity);
+
+    }, [cartResponse, product]);
+
+
     const handleAdd = async (productId, sellingPlanId) => {
         await handleAddToCart({
             productId,
@@ -28,14 +75,27 @@ const ProductBigCard = ({
             addCartData,
             setCartResponse,
             setIsShaking,
-            dispatch
+            dispatch,
+            setLoading
         });
     };
+
+    const handleRemove = async (productId, sellingPlanId) => {
+        await handleRemoveFromCart({
+            productId,
+            sellingPlanId,
+            cartResponse,
+            cartDatas,
+            dispatch,
+            setCartResponse,
+            setLoading,
+        });
+    }
     return (
         <>
             <div
                 key={product.id + 4567}
-                className="flex md:hidden group cursor-pointer col-span-2 border-b-2 border-[#CCCCCC]  p-2"
+                className="flex md:hidden group cursor-pointer col-span-2 border-b-2 border-[#CCCCCC]  px-2 pt-2 pb-[24px]"
                 onClick={() => {
                     navigate(`/product-details/${product.handle}`);
                 }}
@@ -47,12 +107,13 @@ const ProductBigCard = ({
                         className="w-full h-full object-cover group-hover:scale-110 transform transition-transform duration-200 rounded-3xl"
                     />
                 </div>
-                <div className="w-3/5 flex flex-col justify-between pl-3 py-1">
+                <div className="w-3/5 flex flex-col justify-center pl-3 py-1">
                     <div>
                         <div className='flex flex-row justify-between'>
                             <button
                                 type="button"
-                                className="bg-[#279C66] flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                style={{ backgroundColor: categoryColor }}
+                                className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                             >
                                 {categoryTag}
                             </button>
@@ -65,28 +126,157 @@ const ProductBigCard = ({
                         </p>
                     </div>
                     <div className="flex gap-2 mt-3">
-                        <button
+                        {productQuantity > 0 ? ((loading[product.variants.edges[0].node.id]) ? (
+                            <svg
+                                width="60"
+                                height="60"
+                                viewBox="0 0 120 30"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="#4fa94d"
+                                data-testid="three-dots-svg"
+                            >
+                                <circle cx="15" cy="15" r="15">
+                                    <animate
+                                        attributeName="r"
+                                        from="15"
+                                        to="15"
+                                        begin="0s"
+                                        dur="0.8s"
+                                        values="15;9;15"
+                                        calcMode="linear"
+                                        repeatCount="indefinite"
+                                    />
+                                    <animate
+                                        attributeName="fill-opacity"
+                                        from="1"
+                                        to="1"
+                                        begin="0s"
+                                        dur="0.8s"
+                                        values="1;.5;1"
+                                        calcMode="linear"
+                                        repeatCount="indefinite"
+                                    />
+                                </circle>
+                                <circle
+                                    cx="60"
+                                    cy="15"
+                                    r="9"
+                                    attributeName="fill-opacity"
+                                    from="1"
+                                    to="0.3"
+                                >
+                                    <animate
+                                        attributeName="r"
+                                        from="9"
+                                        to="9"
+                                        begin="0s"
+                                        dur="0.8s"
+                                        values="9;15;9"
+                                        calcMode="linear"
+                                        repeatCount="indefinite"
+                                    />
+                                    <animate
+                                        attributeName="fill-opacity"
+                                        from="0.5"
+                                        to="0.5"
+                                        begin="0s"
+                                        dur="0.8s"
+                                        values=".5;1;.5"
+                                        calcMode="linear"
+                                        repeatCount="indefinite"
+                                    />
+                                </circle>
+                                <circle cx="105" cy="15" r="15">
+                                    <animate
+                                        attributeName="r"
+                                        from="15"
+                                        to="15"
+                                        begin="0s"
+                                        dur="0.8s"
+                                        values="15;9;15"
+                                        calcMode="linear"
+                                        repeatCount="indefinite"
+                                    />
+                                    <animate
+                                        attributeName="fill-opacity"
+                                        from="1"
+                                        to="1"
+                                        begin="0s"
+                                        dur="0.8s"
+                                        values="1;.5;1"
+                                        calcMode="linear"
+                                        repeatCount="indefinite"
+                                    />
+                                </circle>
+                            </svg>
+                        ) : (
+                            <div className="flex gap-2 items-center">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleRemove(product.variants.edges[0].node.id);
+                                    }}
+                                >
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                            fill="#333333"
+                                        />
+                                    </svg>
+                                </button>
+                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                    {productQuantity}
+                                </span>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAdd(product.variants.edges[0].node.id);
+                                    }}
+                                >
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                            fill="#333333"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        )
+                        ) : <button
                             type="button"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleAdd(product.variants.edges[0].node.id);
                             }}
                             className={`${shaking === product.variants.edges[0].node.id ? '' : ''
-                                } border-2 border-[#333333] text-[#333333] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
+                                } bg-[#279C66] text-[#FAFAFA] w-full rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] flex font-[700] items-center justify-center`}
                         >
                             {shaking === product.variants.edges[0].node.id ? (
                                 <div className="spinner1"></div>
                             ) : (
                                 'ADD TO CART'
                             )}
-                        </button>
-                        <button
+                        </button>}
+
+                        {/* <button
                             onClick={(e) => e.stopPropagation()}
                             type="button"
                             className="bg-[#279C66] text-[#FAFAFA] w-full rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px]  font-[600]"
                         >
                             BUY NOW
-                        </button>
+                        </button> */}
                     </div>
                 </div>
             </div>
@@ -126,9 +316,11 @@ const ProductBigCard = ({
                                 </p>
                             </div>
                             <p className="text-[16px] md:leading-[12.73px] leading-4 font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
-                                {product.description.length > 80
+                                {windowWidth <= 1600 ? (product.description.length > 80
                                     ? `${product.description.substring(0, 80)}...`
-                                    : product.description}
+                                    : product.description) : (product.description.length > 80
+                                        ? `${product.description.substring(0, 200)}...`
+                                        : product.description)}
                             </p>
 
                             <div className="flex gap-x-2 md:gap-x-4 mt-1">
