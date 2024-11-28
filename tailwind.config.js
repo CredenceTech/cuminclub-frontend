@@ -25,7 +25,11 @@ export default {
     variants: {
       display: ['group-hover'],
       scale: ['group-hover']
-    }
+    },
+    screens: {
+      ...require('tailwindcss/defaultTheme').screens,
+      'mobile-sm': '400px',
+    },
   },
   plugins: [],
 }
