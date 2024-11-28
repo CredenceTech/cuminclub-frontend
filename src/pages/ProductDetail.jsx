@@ -66,6 +66,8 @@ function ProductDetail() {
     const pickupPostcode = '394421';
     const [isRte, setIsRte] = useState(false)
     const [shaking, setIsShaking] = useState(null);
+    const [initialRating, setInitialRating]=useState(0);
+    const [initialReviewCount, setInitialReviewCount]=useState(0);
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
@@ -325,6 +327,14 @@ function ProductDetail() {
 
                     const homeImage = response?.product?.metafields?.find(field => field?.key === 'image_for_home');
                     const rte = response?.product?.metafields?.find(mf => mf && mf.key === "rte");
+                    const initialRatingString = response?.product?.metafields?.find(mf => mf && mf.key === "initial_star_rating")?.value || "0";
+                    const initialReviewsCountString = response?.product?.metafields?.find(mf => mf && mf.key === "initial_reviews_count")?.value || "0";
+                    const initailRating = parseFloat(initialRatingString);
+                    const initailReviewsCount = parseInt(initialReviewsCountString, 10);
+                    
+                    setInitialRating(initailRating); 
+                    setInitialReviewCount(initailReviewsCount);
+
                     if (rte.value === "true") {
                         setIsRte(true)
                     }
@@ -424,18 +434,20 @@ function ProductDetail() {
 
     const calculateAverageRating = (reviews) => {
         if (!reviews || reviews.length === 0) {
-            return 0;
+            return initialRating ? initialRating : 0;
         }
         const totalRating = reviews.reduce((acc, review) => {
-            const rating = parseInt(review?.rating);
+            const rating = parseFloat(review?.rating);
             return acc + (isNaN(rating) ? 5 : rating);
         }, 0);
-
-        return (totalRating / reviews.length).toFixed(2);
+        const averageReviewRating = totalRating / reviews.length;
+        const combinedRating = (averageReviewRating + initialRating) / 2;
+        return parseFloat(combinedRating.toFixed(2)); 
     };
+ 
+    const averageRating = calculateAverageRating(feedbacks);
 
-    const averageRating = parseFloat(calculateAverageRating(feedbacks));
-
+  
     const getMetafieldData = (key, list) => {
         let metaContent = "";
         if (list) {
@@ -547,6 +559,11 @@ function ProductDetail() {
             setCurrentSlide((prev) => prev - 1);
         }
     };
+  
+
+    const feedbackLength = parseInt(feedbacks?.length || 0, 10); 
+    const initialCount = initialReviewCount;
+    const totalReviewcounts = feedbackLength + initialCount;
 
 
     const weightUnitSymbols = {
@@ -589,7 +606,7 @@ function ProductDetail() {
                                     <button type='button'
                                         className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
                                     <div className="flex">
-                                        <Rating rating={averageRating} text={`${feedbacks?.length !== undefined ? feedbacks?.length : 0} Reviews`} />
+                                        <Rating rating={averageRating} text={`${totalReviewcounts} Reviews`} />
                                     </div>
                                 </div>
                             </div>
@@ -699,7 +716,7 @@ function ProductDetail() {
                                         <button type='button'
                                             className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
                                         <div className="flex ml-4">
-                                            <Rating rating={averageRating} text={`${feedbacks?.length !== undefined ? feedbacks?.length : 0} Reviews`} />
+                                            <Rating rating={averageRating} text={`${totalReviewcounts} Reviews`} />
                                         </div>
                                     </div>
                                 </div>
