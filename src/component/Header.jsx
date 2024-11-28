@@ -27,15 +27,18 @@ import {
   registerUserId,
 } from "../state/user";
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import headerMenu1 from "../assets/header-menu1.png"
+import headerMenu1 from "../assets/header-menu1.jpg"
 import headerMenu2 from "../assets/header-menu2.jpg"
 import headerMenu3 from "../assets/header-menu3.png"
-import headerMenu4 from "../assets/header-menu4.png"
+import headerMenu4 from "../assets/header-menu4.jpg"
 import headerMenu5 from "../assets/header-menu5.png"
 import { subscribeClose, subscribeOpen } from "../state/subscribeData";
 import SearchQuery from "./SearchQuery";
 import { addCategoryData } from "../state/selectedCategory";
 import UserMenu from '../component/DropdownProfile';
+import aboutUsImg from '../assets/about-us.png'
+import facilityImg from '../assets/facility-menu.png'
+import howItworksImg from '../assets/how-t-works.png'
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isCountryDrawerOpen, setIsCountryDrawerOpen] = React.useState(false);
@@ -75,13 +78,16 @@ const Header = () => {
 
   const learnMenuData = [
     {
-      title: "About us"
+      title: "About us",
+      image: aboutUsImg
     },
     {
-      title: "How it works"
+      title: "How it works",
+      image: howItworksImg
     },
     {
-      title: "Facility"
+      title: "Facility",
+      image: facilityImg
     },
     // {
     //   title: "Team"
@@ -90,6 +96,7 @@ const Header = () => {
     //   title: "Sustainability"
     // }
   ]
+
   const logout = async () => {
     try {
       dispatch(clearCustomerAccessToken());
@@ -359,22 +366,38 @@ const Header = () => {
                 <NavigationMenu.Trigger className={`NavigationMenuTrigger text-[18px] font-bold font-regola-pro leading-[21.6px] px-4 whitespace-nowrap relative ${pathname.includes('ready-to-cook') || pathname.includes('login') || pathname.includes('registration') || pathname?.includes('/forgot-password') ? '' : 'text-[#231F20]'} ${isSticky ? 'text-[#231F20]' : ''}`}>
                   LEARN
                 </NavigationMenu.Trigger>
-                <NavigationMenu.Content className="NavigationMenuContent absolute  top-12 bg-[#D9D9D9] z-1000 w-auto h-auto rounded-[4px]">
-                  <div className="flex flex-col gap-4 w-full p-4 z-1000">
-                    {learnMenuData.map((menuItem, index) => (
-                      <div
-                        key={index}
-                        className="relative group cursor-pointer"
-                        onClick={() => onLearnClick(index)}
-                      >
-                        <span className=" text-[#333333] font-[400] font-regola-pro text-[24px] leading-[28.8px] mb-[20px] ml-2">
-                          {menuItem.title}
-                        </span>
+                <NavigationMenu.Content
+                    onMouseLeave={() => setShowHeaderMain(false)}
+                    className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                  >
+                    <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
+                      {learnMenuData.map((menuItem, index) => (
+                        <div
+                          key={index}
+                          className="relative group cursor-pointer overflow-hidden"
+                          onClick={() => onLearnClick(index)}
+                        >
+                          <img
+                            src={menuItem.image}
+                            alt={menuItem.title}
+                            className="w-full header-menu-background-img object-cover group-hover:scale-110 transform transition-transform duration-200"
+                          />
+                          <div
+                            className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
+                            style={{
+                              background:
+                                "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
+                            }}
+                          >
+                            <span className="absolute top-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mt-[20px] ml-2">
+                              {menuItem.title}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
 
-                      </div>
-                    ))}
-                  </div>
-                </NavigationMenu.Content>
+                  </NavigationMenu.Content>
                 {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
                     <div className="">
                       <h1>Anukas adjasd;p9erhj</h1>
