@@ -20,27 +20,27 @@ export const Faqs = () => {
 
     const shippingPolicyData = [
         {
-            id: 1,
+            id: 31,
             question: "Are all products always available for order?",
             answer: "Product availability may vary. If an item is out of stock at the time of your order, you will be promptly notified. A full refund will be issued to your original payment method without delay."
         },
         {
-            id: 2,
+            id: 32,
             question: "How long does it take to deliver my order?",
             answer: "Delivery typically takes 2-5 business days from the shipping date, depending on your location. Please note that business days are Monday to Friday, excluding public holidays."
         },
         {
-            id: 3,
+            id: 33,
             question: "What happens if my delivery is delayed?",
             answer: "In case of any unforeseen delays, we will notify you via email or SMS. For updates, you can also contact us at customersupport@instantlyyours.in."
         },
         {
-            id: 4,
+            id: 34,
             question: "How are shipping charges calculated?",
             answer: "Shipping charges are based on the weight of the products and the delivery method selected during checkout."
         },
         {
-            id: 5,
+            id: 35,
             question: "What should I do if my delivery is delayed?",
             answer: "We aim to deliver within 2-5 business days. If there are any delays, our team will notify you. For further inquiries, please reach out to customersupport@instantlyyours.in."
         }
@@ -48,17 +48,17 @@ export const Faqs = () => {
 
     const returnRefundPolicyData = [
         {
-            id: 1,
+            id: 36,
             question: "Can I return a product if I am unsatisfied?",
             answer: "Unfortunately, we do not accept returns on our products. However, if you receive a damaged or defective product, we offer free replacements."
         },
         {
-            id: 2,
+            id: 37,
             question: "How do I request a refund for a damaged product?",
             answer: "If your product is damaged during transit, contact us within 7 days at customersupport@instantlyyours.in with details and pictures of the damage. Once validated, we will process a replacement or refund."
         },
         {
-            id: 3,
+            id: 38,
             question: "How long does it take to process a refund?",
             answer: "Refunds will be credited to your original mode of payment within 5-10 working days after approval."
         }
@@ -66,17 +66,17 @@ export const Faqs = () => {
 
     const orderCancellationPolicyData = [
         {
-            id: 1,
+            id: 39,
             question: "How do I cancel my order?",
             answer: "Cancellations can be made within 12 hours of placing the order by contacting us at customersupport@instantlyyours.in."
         },
         {
-            id: 2,
+            id: 40,
             question: "Will I receive a full refund for cancelled orders?",
             answer: "Yes, a full refund will be processed to your original payment method within 5-10 working days of cancellation."
         },
         {
-            id: 3,
+            id: 41,
             question: "Can I cancel a subscription order?",
             answer: "Subscription orders can be cancelled via your account settings. Make sure to cancel at least 24 hours before the next delivery date to avoid charges."
         }
@@ -84,32 +84,32 @@ export const Faqs = () => {
 
     const productInformationData = [
         {
-            id: 1,
+            id: 409,
             question: "What kind of products does Instantly Yours offer?",
             answer: "We offer a range of Ready-to-Eat (RTE) and Ready-to-Cook (RTC) products. Our products are free from preservatives and artificial additives, focusing on convenience and authentic taste."
         },
         {
-            id: 2,
+            id: 43,
             question: "How long do the products stay fresh?",
             answer: "All our products have a shelf life of up to two years due to our innovative retort packaging technology, which keeps them fresh without refrigeration."
         },
         {
-            id: 3,
+            id: 44,
             question: "How are your products preservative-free?",
             answer: "Our products are preservative-free due to the use of retort packaging technology, which naturally extends shelf life without compromising quality."
         },
         {
-            id: 4,
+            id: 45,
             question: "Are there any allergens in your products?",
             answer: "While we strive to make our products allergen-free, some items may contain common allergens like dairy or gluten. Please check individual product labels for detailed allergen information."
         },
         {
-            id: 5,
+            id: 46,
             question: "Can your products be stored at room temperature?",
             answer: "Yes! All our products are designed for ambient storage, requiring no refrigeration until opened. This makes them ideal for travel, offices, and quick meals at home."
         },
         {
-            id: 6,
+            id: 47,
             question: "Are your products Jain friendly?",
             answer: "Yes, we offer a selection of Jain-friendly products that do not contain onions or garlic (marked as NONG). Here’s a list of our Jain-friendly offerings:\n- RTE Paneer Butter Masala (NONG)\n- RTE Pav Bhaji (NONG)\n- RTE Shahi Biryani (NONG)\n- RTE Dal Makhni (NONG)"
         }
@@ -117,17 +117,17 @@ export const Faqs = () => {
 
     const giftingBulkOrdersData = [
         {
-            id: 1,
+            id: 48,
             question: "I want to gift Instantly Yours products at my celebration or corporate event. Can you help?",
             answer: "Yes, we offer curated gift hampers and bulk gifting options for special occasions. Let us know your requirements, and we’ll create the perfect package for your event. Reach out to customersupport@instantlyyours.in to explore options."
         },
         {
-            id: 2,
+            id: 49,
             question: "How will my bulk order be delivered?",
             answer: "Bulk orders are carefully packaged and shipped via our trusted delivery partners. Delivery timelines and methods will be coordinated with you to ensure a seamless experience."
         },
         {
-            id: 3,
+            id: 50,
             question: "What’s the minimum advance notice required for bulk orders?",
             answer: "We recommend placing bulk orders at least 7-10 business days in advance to ensure timely delivery. For urgent requests, please contact our team, and we’ll do our best to accommodate your needs."
         }
@@ -135,17 +135,17 @@ export const Faqs = () => {
 
     const orderFeedbackData = [
         {
-            id: 1,
+            id: 51,
             question: "I have not received my order yet.",
             answer: "Please allow 2-5 business days for delivery. If your order is delayed, you will be notified. For further assistance, contact customersupport@instantlyyours.in."
         },
         {
-            id: 2,
+            id: 52,
             question: "My order items arrived damaged.",
             answer: "If your items are damaged in transit, please contact us within 7 days at customersupport@instantlyyours.in with photos of the damage. We will arrange a free replacement."
         },
         {
-            id: 3,
+            id: 53,
             question: "There's an item missing from my order.",
             answer: "If an item is missing, please contact us at customersupport@instantlyyours.in within 7 days of delivery. We will validate the issue and arrange a replacement or refund."
         }
@@ -156,17 +156,17 @@ export const Faqs = () => {
             title: "Sign-Up Process",
             questions: [
                 {
-                    id: 1,
+                    id: 54,
                     question: "How do I sign up for a subscription?",
                     answer: "To sign up for a subscription, visit our 'Subscriptions' page, select the plan that suits you best, and follow the on-screen instructions to complete your sign-up process."
                 },
                 {
-                    id: 2,
+                    id: 55,
                     question: "What are the benefits of subscribing to Instantly Yours?",
                     answer: "Subscribers enjoy exclusive benefits such as discounted rates, priority customer service, early access to new products, and the convenience of regular, hassle-free deliveries."
                 },
                 {
-                    id: 3,
+                    id: 56,
                     question: "Can I choose the products I want in my subscription box?",
                     answer: "Yes, you can customize your subscription box by selecting the products you prefer. Just choose from the available options during the sign-up process or update your preferences later."
                 }

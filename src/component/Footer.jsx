@@ -158,7 +158,7 @@ export const Footer = () => {
                 >
                   Recipes
                 </p>
-                <p
+                {/* <p
                   className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase"
                   onClick={() => {
                     navigate('/ready-to-eat');
@@ -167,7 +167,7 @@ export const Footer = () => {
                   }}
                 >
                   Subscribe
-                </p>
+                </p> */}
                 <a href="https://linktr.ee/instantlyyours" target="_blank" rel="noopener noreferrer">
                   <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
                     Linktree

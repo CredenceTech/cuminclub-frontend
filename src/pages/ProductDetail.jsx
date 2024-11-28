@@ -805,7 +805,7 @@ function ProductDetail() {
                                         }}> {shaking === productData?.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Subscribe</button>
+                                        className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Buy Now</button>
                                 </div>}
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                                     *Suitable for vegetarians, No dairy ingredients useds
@@ -1007,12 +1007,14 @@ function ProductDetail() {
                                                 <svg width="58" height="44" viewBox="0 0 58 44" className="absolute -top-10 md:-top-4  left-0 md:-left-9 w-[57.02px] h-[43.72px]" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" fill="#B2B2B2" />
                                                 </svg>
-                                                {feedbacks && <p className="px-6 py-1 font-[400] md:text-[24px] font-inter leading-[29px]  text-[#757575] ">{feedbacks[ActiveTestimonialIndex]?.review}</p>}
+                                                {feedbacks && <p className="px-6 py-1 text-center font-[400] md:text-[24px] font-inter leading-[29px]  text-[#757575] ">{feedbacks[ActiveTestimonialIndex]?.review}</p>}
                                                 <svg width="58" height="44" viewBox="0 0 58 44" fill="none" className="absolute -bottom-7  right-0 md:-right-10 w-[57.02px] h-[43.72px]" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M57.0156 8.39233e-05V11.5058C57.0156 15.0001 56.3977 18.7075 55.1619 22.6279C53.8835 26.591 52.0511 30.4049 49.6648 34.0697C47.2358 37.7771 44.3168 40.9944 40.9077 43.7217L32.7259 37.074C35.4105 33.2387 37.7543 29.233 39.7571 25.0569C41.7173 20.9234 42.6974 16.4916 42.6974 11.7615V8.39233e-05H57.0156ZM24.2884 8.39233e-05V11.5058C24.2884 15.0001 23.6705 18.7075 22.4347 22.6279C21.1563 26.591 19.3239 30.4049 16.9375 34.0697C14.5085 37.7771 11.5895 40.9944 8.1804 43.7217L-0.00141907 37.074C2.68324 33.2387 5.02699 29.233 7.02982 25.0569C8.99005 20.9234 9.97017 16.4916 9.97017 11.7615V8.39233e-05H24.2884Z" fill="#B2B2B2" />
                                                 </svg>
                                             </div>
-                                            {feedbacks && <p className="text-left pl-5 text-[#333333] pt-4 font-[400] md:text-[24px] font-inter leading-[29px]">{feedbacks[ActiveTestimonialIndex]?.reviewerName}</p>}
+                                            <div className='flex justify-center'>
+                                                {feedbacks && <p className="text-left pl-5 text-[#333333] pt-4 font-[400] md:text-[24px] font-inter leading-[29px]">{feedbacks[ActiveTestimonialIndex]?.reviewerName}</p>}
+                                            </div>
                                         </div>
                                     </div>
                                 }
