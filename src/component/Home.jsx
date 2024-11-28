@@ -86,8 +86,8 @@ const Home = () => {
 
 
 
-  const [atStart, setAtStart] = useState(true); 
-  const [atEnd, setAtEnd] = useState(false); 
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
   const [showRightFade, setShowRightFade] = useState(false);
 
   useEffect(() => {
@@ -106,14 +106,14 @@ const Home = () => {
         const scrollLeft = container.scrollLeft;
         const scrollWidth = container.scrollWidth;
         const clientWidth = container.clientWidth;
-        setAtStart(scrollLeft <= 1); 
-        setAtEnd(scrollLeft + clientWidth >= scrollWidth - 1); 
+        setAtStart(scrollLeft <= 1);
+        setAtEnd(scrollLeft + clientWidth >= scrollWidth - 1);
       }
     };
     const container = swiperContainerRef.current;
     if (container) {
       container.addEventListener("scroll", handleScroll);
-      updateFadeState(); 
+      updateFadeState();
     }
 
     return () => {
@@ -123,8 +123,8 @@ const Home = () => {
     };
   }, []);
 
-  const [atrecipeStart, setAtRecipeStart] = useState(true); 
-  const [atrecipeEnd, setAtRecipeEnd] = useState(false); 
+  const [atrecipeStart, setAtRecipeStart] = useState(true);
+  const [atrecipeEnd, setAtRecipeEnd] = useState(false);
   const [showrecipeRightFade, setShowRecipeRightFade] = useState(false);
   useEffect(() => {
     const updateFadeState = () => {
@@ -142,14 +142,14 @@ const Home = () => {
         const scrollLeft = container.scrollLeft;
         const scrollWidth = container.scrollWidth;
         const clientWidth = container.clientWidth;
-        setAtRecipeStart(scrollLeft <= 1); 
-        setAtRecipeEnd(scrollLeft + clientWidth >= scrollWidth - 1); 
+        setAtRecipeStart(scrollLeft <= 1);
+        setAtRecipeEnd(scrollLeft + clientWidth >= scrollWidth - 1);
       }
     };
     const container = recipeContainerRef.current;
     if (container) {
       container.addEventListener("scroll", handleScroll);
-      updateFadeState(); 
+      updateFadeState();
     }
 
     return () => {
@@ -1013,7 +1013,7 @@ const Home = () => {
       image: headerImage1,
       title: "Bring the Taste of Home, Anywhere",
       description: "Ready-to-eat comfort food, delivered right at your door.",
-      ctaText: "Subscribe at ₹80/meal",
+      ctaText: "Explore all products",
       navigationLink: "/products"
     },
     {
@@ -1558,7 +1558,7 @@ const Home = () => {
                       }</>
                   )}
                 </div>
-                <div className="border-b border-[#333333]">
+                <div className="hidden lg:flex border-b border-[#333333]">
                   <button
                     onClick={() => handleToggle('LEARN')}
                     className="flex justify-between items-center w-full text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]"
@@ -1721,10 +1721,10 @@ const Home = () => {
         </div>
         <div className="w-full">
           <div className="relative">
-          {isMobile  && !atStart && (
-        <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
-      )}
-            {isMobile &&( showRightFade || !atEnd )&& (
+            {isMobile && !atStart && (
+              <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
+            )}
+            {isMobile && (showRightFade || !atEnd) && (
               <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
             )}
             <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
@@ -2454,12 +2454,12 @@ const Home = () => {
             </div>
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          {isMobile  && !atrecipeStart && (
-        <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
-      )}
-            {isMobile &&( showrecipeRightFade || !atrecipeEnd )&& (
-              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
-            )}
+          {isMobile && !atrecipeStart && (
+            <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
+          )}
+          {isMobile && (showrecipeRightFade || !atrecipeEnd) && (
+            <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
+          )}
           <div ref={recipeContainerRef} className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">

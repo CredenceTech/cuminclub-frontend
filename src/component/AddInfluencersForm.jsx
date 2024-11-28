@@ -38,7 +38,7 @@ export const AddInfluencersForm = () => {
             }
 
             const data = await response.json();
-            const resourceUrl = data?.data[0]?.resourceUrl; 
+            const resourceUrl = data?.data[0]?.resourceUrl;
             if (!resourceUrl) {
                 throw new Error('Failed to retrieve resource URL');
             }
@@ -46,7 +46,7 @@ export const AddInfluencersForm = () => {
             return resourceUrl;
         } catch (error) {
             console.error('Error uploading file:', error);
-            throw error; 
+            throw error;
         }
     };
 
@@ -54,8 +54,8 @@ export const AddInfluencersForm = () => {
     const [mediaUrl, setMediaUrl] = useState('');
     const [file, setFile] = useState(null);
     const handleFileChange = async (event) => {
-        const selectedFile = event.target.files[0]; 
-        setFile(selectedFile); 
+        const selectedFile = event.target.files[0];
+        setFile(selectedFile);
 
         if (selectedFile) {
             setLoading(true);
@@ -114,7 +114,7 @@ export const AddInfluencersForm = () => {
                 then: Yup.string().required('Please specify the social media platform'),
             }),
             socialMediaUrl: Yup.string()
-                .required('Social media URL is required'), 
+                .required('Social media URL is required'),
             otherContentType: Yup.string().when('contentType', {
                 is: 'Other', // Only validate if "Other" is selected
                 then: Yup.string().required('Please specify the content type'),
@@ -124,43 +124,43 @@ export const AddInfluencersForm = () => {
         onSubmit: async (values) => {
             setLoading(true);
 
-          
-              const fields= [
-                    { key: 'name', value: values.name },
-                    { key: 'email', value: values.email },
-                    { key: 'phone_number', value: values.phone },
-                    { key: 'social_media_url', value: values.socialMediaUrl }, 
-                    { key: 'about_influencer', value: values.aboutInfluencer },
-                    { key: 'any_media_url', value: mediaUrl },
-                    { key: 'rate_card', value: values.rateCard },
 
-                ]
+            const fields = [
+                { key: 'name', value: values.name },
+                { key: 'email', value: values.email },
+                { key: 'phone_number', value: values.phone },
+                { key: 'social_media_url', value: values.socialMediaUrl },
+                { key: 'about_influencer', value: values.aboutInfluencer },
+                { key: 'any_media_url', value: mediaUrl },
+                { key: 'rate_card', value: values.rateCard },
 
-                if(values.socialMedia==="Other"){
-                    fields.push(
-                        { key: 'social_media_platform_name', value: values.otherSocialMedia },
-                    )
-                }
-                else{
-                    fields.push(
-                        { key: 'social_media_platform_name', value: values.socialMedia },
-                    )
-                }
-           
-                if(values.contentType==="Other"){
-                    fields.push(
-                        { key: 'content_type', value: values.otherContentType },
-                    )
-                }
-                else{
-                    fields.push(
-                        { key: 'content_type', value: values.contentType },
-                    )
-                }
+            ]
 
-                const params = {
-                    fields
-                };
+            if (values.socialMedia === "Other") {
+                fields.push(
+                    { key: 'social_media_platform_name', value: values.otherSocialMedia },
+                )
+            }
+            else {
+                fields.push(
+                    { key: 'social_media_platform_name', value: values.socialMedia },
+                )
+            }
+
+            if (values.contentType === "Other") {
+                fields.push(
+                    { key: 'content_type', value: values.otherContentType },
+                )
+            }
+            else {
+                fields.push(
+                    { key: 'content_type', value: values.contentType },
+                )
+            }
+
+            const params = {
+                fields
+            };
 
             const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/add-influencer-form`;
 
@@ -238,7 +238,7 @@ export const AddInfluencersForm = () => {
                                 onBlur={formik.handleBlur}
                                 className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.phone && formik.errors.phone ? 'border-red-500' : ''}`}
                             />
-                          
+
                         </div>
 
                         <div className='w-full lg:w-1/2  pt-4'>
@@ -319,7 +319,7 @@ export const AddInfluencersForm = () => {
                                     </option>
                                 ))}
                             </select>
-                        
+
                         </div>
                     </div>
 
@@ -352,7 +352,7 @@ export const AddInfluencersForm = () => {
                                 rows="4"
                                 className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.aboutInfluencer && formik.errors.aboutInfluencer ? 'border-red-500' : ''}`}
                             />
-                          
+
                         </div>
 
                         <div className="file-upload-container pt-4 w-full lg:w-1/2">

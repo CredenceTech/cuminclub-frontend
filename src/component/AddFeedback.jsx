@@ -129,7 +129,7 @@ const AddFeedback = ({ productId, productName, onClose }) => {
       }
       const responseData = await response.json();
       if (responseData?.success) {
-        toast.success("Feedback submitted successfully!");
+        toast.success("Thank you for sharing your thoughts! Your feedback helps us serve you better, one delicious meal at a time. 🍽️");
         formik.resetForm();
         onClose();
       }

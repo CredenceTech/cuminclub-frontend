@@ -490,7 +490,7 @@ const Header = () => {
             onClick={() => {
               setIsDrawerOpen(true)
             }}
-             className="flex relative items-center gap-2 py-2  text-white px-3 rounded-xl"
+            className="flex relative items-center gap-2 py-2  text-white px-3 rounded-xl"
           >
             <svg
               width="30"
@@ -506,10 +506,10 @@ const Header = () => {
             </svg>
 
             <div className="rounded-full absolute left-6 md:left-[26px] bottom-8 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
-                <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
-                  {cartDatas !== null ? totalQuantity(cartResponse) : 0}
-                </span>
-              </div>
+              <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
+                {cartDatas !== null ? totalQuantity(cartResponse) : 0}
+              </span>
+            </div>
           </button>
 
           {loginUserCustomerId === null &&
@@ -595,7 +595,7 @@ const Header = () => {
                     }</>
                 )}
               </div>
-              <div className="border-b border-[#333333]">
+              <div className="hidden lg:glex border-b border-[#333333]">
                 <button
                   onClick={() => handleToggle('LEARN')}
                   className="flex justify-between items-center w-full text-[18px]  font-bold font-regola-pro leading-[21.6px] pl-4 whitespace-nowrap py-4 text-[#231F20]"

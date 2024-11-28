@@ -237,10 +237,6 @@ function ProductDetail() {
         setPlaying(false);
     };
 
-    const handlePlayAgain = () => {
-        setPlaying(true);
-    };
-
     const ActiveTestimonialIndex = wrap(0, feedbacks?.length, testiPage);
     const imageIndex = wrap(0, steps?.length, page);
     const nextImageIndex = wrap(0, steps?.length, page + 1);
@@ -625,7 +621,7 @@ function ProductDetail() {
 
                             <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-20px] w-[25%]' : 'w-full md:w-auto'} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
-                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  md:h-[600px] h-[400px] overflow-x-auto w-[115%] md:w-full' : 'md:flex-col  md:h-[600px] h-auto flex-row overflow-x-auto w-[100%] md:w-auto ml-[1%] md:ml-0'}  scrollbar-hide`}>
+                                <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  md:h-[600px] h-[400px] overflow-x-auto w-[115%] md:w-full' : 'md:flex-col  md:h-[600px] h-auto flex-row overflow-x-scroll w-[100%] md:w-auto ml-[1%] md:ml-0'} scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
                                         <div
                                             key={i}
@@ -871,15 +867,15 @@ function ProductDetail() {
                                                         width="100%"
                                                         height="100%"
                                                         muted={true}
-                                                        playing={playing}
-                                                        controls={true}
+                                                        playing={isRte ? true : playing}
+                                                        controls={isRte ? false : true}
                                                         onEnded={handleVideoEnd}
                                                         playsinline
                                                         config={{
                                                             file: {
                                                                 attributes: {
                                                                     playsInline: true, // For iOS
-                                                                    controls: true,
+                                                                    controls: isRte ? false : true,
                                                                 },
                                                             },
                                                         }}
