@@ -189,15 +189,14 @@ export const Footer = () => {
                 />
               </div>
               <div className={`${isContactOpen ? 'block' : 'hidden'} md:block mt-3`}>
-                <a
-                  href="https://forms.gle/M5RJVRG8919hh6Fg8"
-                  target="_blank"
+                <Link
+                  to={'/business-inquiry'}
                   rel="noopener noreferrer"
                 >
                   <p className="text-[16px] cursor-pointer leading-[19.2px] font-[400] font-regola-pro text-[#333333] mt-3 uppercase">
                     Get in touch
                   </p>
-                </a>
+                </Link>
                 <p
                   className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333]"
                   onClick={() => {
@@ -215,15 +214,14 @@ export const Footer = () => {
                     Careers
                   </p>
                 </a>
-                <a
-                  href="https://forms.gle/oPgzLHpysBe8aWsCA"
-                  target="_blank"
+                <Link
+                  to={'/influencers'}
                   rel="noopener noreferrer"
                 >
                   <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
                     Influencers
                   </p>
-                </a>
+                </Link>
               </div>
             </div>
 
