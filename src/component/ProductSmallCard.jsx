@@ -282,7 +282,7 @@ const ProductSmallCard = ({
                             <img
                                 src={productSmallImage}
                                 alt={product.title}
-                                className="w-full h-full md:h-full rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                                className="w-full h-full md:h-full object-cover rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                             />
                             <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                                 <div className="p-2 md:p-5">

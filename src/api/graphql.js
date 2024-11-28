@@ -1184,7 +1184,7 @@ export const customerEmailMarketingConsentUpdateMutation = gql`
 
 export const getCategoriesQuery = gql`
 {
-   collections (first: 4){
+   collections (first: 5){
         edges {
             node {
                 id
@@ -1529,6 +1529,8 @@ query productByHandle($handle: String!) {
          { namespace: "custom", key: "add_feedbacks" },
          { namespace: "custom", key: "bulk" },
            { namespace: "custom", key: "premium" },
+             { namespace: "custom", key: "initial_star_rating" },
+               { namespace: "custom", key: "initial_reviews_count" },
       ]) {
         value
         key

@@ -624,18 +624,24 @@ const Home = () => {
 
   useEffect(() => {
     const getCategory = async () => {
-      try {
-        const result = await graphQLClient.request(getCategoriesQuery);
-        setCategoryData(result?.collections?.edges?.slice(0, 4));
-        // dispatch(addCategoryData(result?.collections?.edges[0]))
-      } catch (error) {
-        // Handle errors here
-        console.error("Error fetching data:", error);
-      }
-    }
+        try {
+            const result = await graphQLClient.request(getCategoriesQuery);
+            
+            // Filter out categories with the title "Sweets"
+            const filteredCategories = result?.collections?.edges
+                ?.filter(edge => edge.node.title !== "Sweets")
+                ?.slice(0, 4); // Limit to first 4 categories
+            
+            setCategoryData(filteredCategories);
+            // dispatch(addCategoryData(filteredCategories[0])) if needed
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
 
     getCategory();
-  }, [])
+}, []);
+
 
   useEffect(() => {
     const apiCall = async () => {

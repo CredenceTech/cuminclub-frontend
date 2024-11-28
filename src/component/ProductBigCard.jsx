@@ -301,7 +301,8 @@ const ProductBigCard = ({
                             />
                             <button
                                 type="button"
-                                className="bg-[#FBAE36] text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#333333] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
+                                style={{ backgroundColor: categoryColor }}
+                                className="text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
                             >
                                 {categoryTag}
                             </button>
