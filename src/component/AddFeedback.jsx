@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ReactDOM from 'react-dom';
 import LoadingAnimation from './Loader';
+import toast from 'react-hot-toast';
 
 const StarRating = ({ rating, setRating }) => {
   return (
@@ -108,31 +109,36 @@ const AddFeedback = ({ productId, productName, onClose }) => {
         fields
       };
 
-      const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/add-feedbacks`;
-
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(params),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        console.log('Feedback submitted successfully:', await response.json());
-
-        formik.resetForm();
-
-        onClose();
-      } catch (error) {
-        setLoading(false)
-        console.error('Error submitting feedback:', error);
-      }
+      handleReviewSubmit(params)
     },
   });
+  async function handleReviewSubmit(params) {
+    const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/add-feedbacks`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(params),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const responseData = await response.json();
+      if (responseData?.success) {
+        toast.success("Feedback submitted successfully!");
+        formik.resetForm();
+        onClose();
+      }
+
+    } catch (error) {
+      setLoading(false)
+      console.error('Error submitting feedback:', error);
+    }
+  }
 
   return (
     <Modal onClose={onClose}>
