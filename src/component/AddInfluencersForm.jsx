@@ -38,9 +38,7 @@ export const AddInfluencersForm = () => {
             }
 
             const data = await response.json();
-
-            // Extract the uploaded file URL from the response
-            const resourceUrl = data?.resourceUrl; // Update this based on API's actual response structure
+            const resourceUrl = data?.data[0]?.resourceUrl; 
             if (!resourceUrl) {
                 throw new Error('Failed to retrieve resource URL');
             }
@@ -48,18 +46,16 @@ export const AddInfluencersForm = () => {
             return resourceUrl;
         } catch (error) {
             console.error('Error uploading file:', error);
-            throw error; // Rethrow the error for further handling
+            throw error; 
         }
     };
 
 
     const [mediaUrl, setMediaUrl] = useState('');
     const [file, setFile] = useState(null);
-
-    // Handle file selection and upload
     const handleFileChange = async (event) => {
-        const selectedFile = event.target.files[0]; // Get the first selected file
-        setFile(selectedFile); // Store the selected file
+        const selectedFile = event.target.files[0]; 
+        setFile(selectedFile); 
 
         if (selectedFile) {
             setLoading(true);
@@ -112,41 +108,61 @@ export const AddInfluencersForm = () => {
         validationSchema: Yup.object({
             name: Yup.string().required('Name is required'),
             email: Yup.string().email('Invalid email format').required('Email is required'),
-            phone: Yup.string(),
             socialMedia: Yup.string().required('Social media platform is required'),
             otherSocialMedia: Yup.string().when('socialMedia', {
                 is: 'Other',
                 then: Yup.string().required('Please specify the social media platform'),
             }),
             socialMediaUrl: Yup.string()
-                .url('Please enter a valid URL')
-                .required('Social media URL is required'), // Ensure the URL is filled
-
-            contentType: Yup.string().required('Content type is required'),
+                .required('Social media URL is required'), 
             otherContentType: Yup.string().when('contentType', {
                 is: 'Other', // Only validate if "Other" is selected
                 then: Yup.string().required('Please specify the content type'),
             }),
-            aboutInfluencer: Yup.string().max(500, 'Description should not exceed 500 characters'),
             rateCard: Yup.string().required('Rate card is required')
         }),
         onSubmit: async (values) => {
             setLoading(true);
 
-            const params = {
-                fields: [
+          
+              const fields= [
                     { key: 'name', value: values.name },
                     { key: 'email', value: values.email },
-                    { key: 'phone', value: values.phone },
-                    { key: 'social_media', value: values.socialMedia },
-                    { key: 'other_social_media', value: values.otherSocialMedia }, // Include "Other" social media if specified
-                    { key: 'social_media_url', value: values.socialMediaUrl }, // Add URL to the params
-                    { key: 'content_type', value: values.contentType },
-                    { key: 'other_content_type', value: values.otherContentType },
-                ]
-            };
+                    { key: 'phone_number', value: values.phone },
+                    { key: 'social_media_url', value: values.socialMediaUrl }, 
+                    { key: 'about_influencer', value: values.aboutInfluencer },
+                    { key: 'any_media_url', value: mediaUrl },
+                    { key: 'rate_card', value: values.rateCard },
 
-            const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/add-influencer`;
+                ]
+
+                if(values.socialMedia==="Other"){
+                    fields.push(
+                        { key: 'social_media_platform_name', value: values.otherSocialMedia },
+                    )
+                }
+                else{
+                    fields.push(
+                        { key: 'social_media_platform_name', value: values.socialMedia },
+                    )
+                }
+           
+                if(values.contentType==="Other"){
+                    fields.push(
+                        { key: 'content_type', value: values.otherContentType },
+                    )
+                }
+                else{
+                    fields.push(
+                        { key: 'content_type', value: values.contentType },
+                    )
+                }
+
+                const params = {
+                    fields
+                };
+
+            const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/add-influencer-form`;
 
             try {
                 const response = await fetch(url, {
@@ -177,7 +193,7 @@ export const AddInfluencersForm = () => {
         <div className="flex h-full ">
             <div className="w-full p-[40px] md:m-10 font-regola-pro bg-[#EADEC1] shadow">
                 <h2 className="text-[37.24px] leading-[37.58px] font-semibold text-[#2A2A2A] mb-4 font-skillet">
-                    Get in touch
+                    Influencers
                 </h2>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='flex flex-col lg:flex-row gap-x-6'>
@@ -222,9 +238,7 @@ export const AddInfluencersForm = () => {
                                 onBlur={formik.handleBlur}
                                 className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.phone && formik.errors.phone ? 'border-red-500' : ''}`}
                             />
-                            {formik.touched.phone && formik.errors.phone ? (
-                                <div className="text-red-500 text-sm font-regola-pro">{formik.errors.phone}</div>
-                            ) : null}
+                          
                         </div>
 
                         <div className='w-full lg:w-1/2  pt-4'>
@@ -305,9 +319,7 @@ export const AddInfluencersForm = () => {
                                     </option>
                                 ))}
                             </select>
-                            {formik.touched.contentType && formik.errors.contentType ? (
-                                <div className="text-red-500 text-sm font-regola-pro">{formik.errors.contentType}</div>
-                            ) : null}
+                        
                         </div>
                     </div>
 
@@ -340,9 +352,7 @@ export const AddInfluencersForm = () => {
                                 rows="4"
                                 className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.aboutInfluencer && formik.errors.aboutInfluencer ? 'border-red-500' : ''}`}
                             />
-                            {formik.touched.aboutInfluencer && formik.errors.aboutInfluencer ? (
-                                <div className="text-red-500 text-sm font-regola-pro">{formik.errors.aboutInfluencer}</div>
-                            ) : null}
+                          
                         </div>
 
                         <div className="file-upload-container pt-4 w-full lg:w-1/2">

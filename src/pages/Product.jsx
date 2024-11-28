@@ -382,6 +382,8 @@ export const Product = () => {
                                         addCartData={addCartData}
                                         productPrice={productPrice}
                                         setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
                                     />
                                 ) : (
                                     <ProductSmallCard
@@ -396,6 +398,8 @@ export const Product = () => {
                                         addCartData={addCartData}
                                         productPrice={productPrice}
                                         setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
                                     />
                                 );
                             })}

@@ -484,13 +484,13 @@ const Header = () => {
             />
           )} */}
         </div>
-        <div className="flex gap-x-6 md:gap-x-8 pr-3 lg:pr-0 flex-1 justify-end">
+        <div className="flex gap-x-6 md:gap-x-8 pl-[20px] pr-3 lg:pr-0 flex-1 justify-end">
           <SearchQuery isSticky={isSticky} />
           <button
             onClick={() => {
               setIsDrawerOpen(true)
             }}
-            className="flex relative items-center gap-2 py-2 text-white md:px-3 rounded-xl"
+             className="flex relative items-center gap-2 py-2  text-white px-3 rounded-xl"
           >
             <svg
               width="30"
@@ -505,12 +505,11 @@ const Header = () => {
               />
             </svg>
 
-            <div className="rounded-full absolute left-4 md:left-10 bottom-6 h-7 w-7 flex items-center justify-center bg-[#279C66]">
-              <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro">
-                {cartDatas !== null ? totalQuantity(cartResponse) : 0}
-                {/* /{selectedMealData.no} */}
-              </span>
-            </div>
+            <div className="rounded-full absolute left-6 md:left-[26px] bottom-8 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+                <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
+                  {cartDatas !== null ? totalQuantity(cartResponse) : 0}
+                </span>
+              </div>
           </button>
 
           {loginUserCustomerId === null &&

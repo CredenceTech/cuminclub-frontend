@@ -82,31 +82,85 @@ const Home = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [shaking, setIsShaking] = useState(null);
   const swiperContainerRef = useRef(null);
+  const recipeContainerRef = useRef(null);
 
 
 
-  const [atEnd, setAtEnd] = useState(false);
+  const [atStart, setAtStart] = useState(true); 
+  const [atEnd, setAtEnd] = useState(false); 
+  const [showRightFade, setShowRightFade] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateFadeState = () => {
       const container = swiperContainerRef.current;
       if (container) {
-        const isAtEnd = container.scrollLeft + container.clientWidth >= container.scrollWidth - 1; // Adding margin for precision
-        setAtEnd(isAtEnd);
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        setShowRightFade(scrollWidth > clientWidth);
       }
     };
 
+    const handleScroll = () => {
+      const container = swiperContainerRef.current;
+      if (container) {
+        const scrollLeft = container.scrollLeft;
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        setAtStart(scrollLeft <= 1); 
+        setAtEnd(scrollLeft + clientWidth >= scrollWidth - 1); 
+      }
+    };
     const container = swiperContainerRef.current;
     if (container) {
-      container.addEventListener('scroll', handleScroll);
+      container.addEventListener("scroll", handleScroll);
+      updateFadeState(); 
     }
 
     return () => {
       if (container) {
-        container.removeEventListener('scroll', handleScroll);
+        container.removeEventListener("scroll", handleScroll);
       }
     };
   }, []);
+
+  const [atrecipeStart, setAtRecipeStart] = useState(true); 
+  const [atrecipeEnd, setAtRecipeEnd] = useState(false); 
+  const [showrecipeRightFade, setShowRecipeRightFade] = useState(false);
+  useEffect(() => {
+    const updateFadeState = () => {
+      const container = recipeContainerRef.current;
+      if (container) {
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        setShowRecipeRightFade(scrollWidth > clientWidth);
+      }
+    };
+
+    const handleScroll = () => {
+      const container = recipeContainerRef.current;
+      if (container) {
+        const scrollLeft = container.scrollLeft;
+        const scrollWidth = container.scrollWidth;
+        const clientWidth = container.clientWidth;
+        setAtRecipeStart(scrollLeft <= 1); 
+        setAtRecipeEnd(scrollLeft + clientWidth >= scrollWidth - 1); 
+      }
+    };
+    const container = recipeContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+      updateFadeState(); 
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
+
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -1407,7 +1461,7 @@ const Home = () => {
                 />
               </svg>
 
-              <div className="rounded-full absolute left-6 md:left-10 bottom-8 md:bottom-6 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+              <div className="rounded-full absolute left-6 md:left-[26px] bottom-8 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
                 <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
                   {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
@@ -1605,8 +1659,8 @@ const Home = () => {
             </p>
           </div>
           <div className="flex subscribe-button pt-4 ml-8">
-            <Link to={bannerData[currentIndex].navigationLink} className='flex flex-row py-5 md:py-2 px-5 md:px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
-              <button className="text-[#231F20] font-regola-pro font-[400] text-[20px] leading-[24px] py-1">{bannerData[currentIndex].ctaText}</button>
+            <Link to={bannerData[currentIndex].navigationLink} className='flex flex-row py-[10px] md:py-2 px-4 md:px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
+              <button className="text-[#231F20] font-regola-pro font-[400] text-[16px] md:text-[20px] leading-[24px] py-1">{bannerData[currentIndex].ctaText}</button>
               <svg width="15" height="11" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M15.0693 0.624305L23.6407 9.08584C23.8 9.24287 23.9264 9.42937 24.0127 9.63467C24.0989 9.83997 24.1433 10.06 24.1433 10.2823C24.1433 10.5046 24.0989 10.7246 24.0127 10.9299C23.9264 11.1352 23.8 11.3217 23.6407 11.4788L15.0693 19.9403C14.9101 20.0974 14.7211 20.2221 14.5132 20.3071C14.3052 20.3921 14.0823 20.4359 13.8573 20.4359C13.6322 20.4359 13.4093 20.3921 13.2013 20.3071C12.9934 20.2221 12.8044 20.0974 12.6453 19.9403C12.4861 19.7832 12.3598 19.5967 12.2737 19.3914C12.1876 19.1861 12.1432 18.966 12.1432 18.7438C12.1432 18.5216 12.1876 18.3016 12.2737 18.0963C12.3598 17.891 12.4861 17.7045 12.6453 17.5474L18.2904 11.9746L1.85725 11.9746C1.40259 11.9746 0.966559 11.7963 0.64507 11.4789C0.323579 11.1616 0.142966 10.7311 0.142966 10.2823C0.142966 9.83348 0.323579 9.40303 0.64507 9.08566C0.966559 8.76829 1.40259 8.59 1.85725 8.59L18.2904 8.59L12.6453 3.01723C12.4855 2.86043 12.3587 2.674 12.2722 2.46867C12.1857 2.26334 12.1412 2.04315 12.1412 1.82077C12.1412 1.59838 12.1857 1.37819 12.2722 1.17286C12.3587 0.967528 12.4855 0.781102 12.6453 0.624305C12.8043 0.467011 12.9932 0.342225 13.2012 0.257083C13.4092 0.171943 13.6321 0.128118 13.8573 0.128118C14.0824 0.128118 14.3053 0.171943 14.5133 0.257083C14.7213 0.342225 14.9102 0.467012 15.0693 0.624305Z"
@@ -1629,7 +1683,7 @@ const Home = () => {
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className='md:h-[80px] rounded-full z-50 md:w-[80px] h-[71px] w-[71px] transition-transform duration-200 md:group-hover:scale-150 md:group-hover:translate-y-4 ml-[10px]'
+                  className='md:h-[80px] z-50 md:w-[80px] h-[71px] w-[71px] transition-transform duration-200 md:group-hover:scale-150 md:group-hover:translate-y-4 ml-[10px]'
                 />
               </div>
               <p
@@ -1661,8 +1715,11 @@ const Home = () => {
         </div>
         <div className="w-full">
           <div className="relative">
-            {isMobile && atEnd && (
-              <div className="absolute right-0 top-0 bottom-0 w-5 z-10 h-[300px] pointer-events-none" style={{ background: "linear-gradient(180deg, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0) 100%)" }}></div>
+          {isMobile  && !atStart && (
+        <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
+      )}
+            {isMobile &&( showRightFade || !atEnd )&& (
+              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
             )}
             <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
               <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
@@ -1828,8 +1885,15 @@ const Home = () => {
         <div className="hidden md:flex coverImage flex-col md:flex-row h-auto md:h-[509px] md:mt-[50px] md:mr-[70px] lg:mr-[127px] md:rounded-r-lg mb-[80px]">
           <div className="w-full relative md:w-3/5 flex-shrink-0 md:h-[300px] h-auto md:h-full order-2 md:order-1">
             <div className="relative w-full h-full">
-              <img src={rtcImg} className="rtcimg" alt="" />
-              <div className="absolute top-[40%] left-[35%] md:top-[160px] md:left-[300px]">
+              <img src={rtcImg} className="rtcimg w-full h-auto" alt="" />
+              <div
+                className="absolute"
+                style={{
+                  top: "25%",
+                  left: "40%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
                 <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1839,7 +1903,14 @@ const Home = () => {
                   </div>
                 </Tooltip>
               </div>
-              <div className="absolute bottom-[35%] right-[25%] md:bottom-[150px] md:left-[480px]">
+              <div
+                className="absolute"
+                style={{
+                  bottom: "35%",
+                  right: "35%",
+                  transform: "translate(50%, 50%)",
+                }}
+              >
                 <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1849,7 +1920,14 @@ const Home = () => {
                   </div>
                 </Tooltip>
               </div>
-              <div className="absolute bottom-[22%] left-[47%] md:bottom-[60px] md:left-[360px]">
+              <div
+                className="absolute"
+                style={{
+                  bottom: "22%",
+                  left: "53%",
+                  transform: "translate(-50%, 50%)",
+                }}
+              >
                 <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1880,7 +1958,7 @@ const Home = () => {
 
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
         <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[40px] font-[400] sm:title max-w-[280px] md:max-w-full'>
+          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[28px] font-[400] sm:title max-w-[200px] md:max-w-full'>
             Not Sure What to Eat?
           </p>
           <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
@@ -2354,7 +2432,7 @@ const Home = () => {
       </div>
 
       <div className='bg-[#EFE9DA] relative mt-12 mb-[-113px]'>
-        <div className="relative bg-custom-image-footer flex flex-col justify-start lg:flex-row">
+        <div className="relative bg-custom-image-footer flex flex-col justify-start lg:flex-row pt-[20px] pb-[35px] md:pt-0 md:pb-0">
           <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
             <div>
               <h2 className="font-[600] text-[36px] leading-[36.72px] text-left font-regola-pro">
@@ -2370,7 +2448,13 @@ const Home = () => {
             </div>
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          <div className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
+          {isMobile  && !atrecipeStart && (
+        <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
+      )}
+            {isMobile &&( showrecipeRightFade || !atrecipeEnd )&& (
+              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
+            )}
+          <div ref={recipeContainerRef} className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}
@@ -2393,7 +2477,7 @@ const Home = () => {
               </div>
             ))}
           </div>
-          <div className="pl-6 md:pl-14 lg:hidden">
+          <div className="pl-6 md:pl-14 pt-[20px] md:pt-0 lg:hidden">
             <button className="mt-4  text-center bg-white w-[250px] font-regola-pro my-7 mx-auto text-[#333333] rounded font-[300] text-[16px] py-2 px-5" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
         </div>

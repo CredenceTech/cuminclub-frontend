@@ -486,6 +486,8 @@ function ReadyToCook() {
                                         addCartData={addCartData}
                                         productPrice={productPrice}
                                         setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
                                     />
                                 ) : (
                                     <ProductSmallCard
@@ -500,6 +502,8 @@ function ReadyToCook() {
                                         addCartData={addCartData}
                                         productPrice={productPrice}
                                         setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
                                     />
                                 );
                             })}

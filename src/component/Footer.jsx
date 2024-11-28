@@ -244,7 +244,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col-reverse md:flex-row justify-between px-8 md:px-16 pb-10">
+        <div className="flex flex-col-reverse md:flex-row justify-between pl-12 pr-16 md:px-16 pb-10">
           <div>
             <div className="flex sm:gap-x-2 gap-x-8  md:gap-x-6 mt-8 md:mt-0">
               <div>
