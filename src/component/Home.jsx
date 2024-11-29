@@ -31,12 +31,18 @@ import imagefooter from '../assets/footer-image.png'
 import heatEat from '../assets/heat-enjoy.jpg'
 import selectMeal from '../assets/select-meal.png'
 import recieveBox from '../assets/receive-box.png'
-import freshHighQuality from '../assets/fresh-high-quality.png'
+import freshHighQuality from '../assets/fresh-high-quality.jpg'
 import authenticMeal from '../assets/authentic-flavors.png'
+import preservativeFreeImg from '../assets/preservative-free.png'
+import qualityControlImg from '../assets/quality-control.jpg'
+import noArtificialAdditives from '../assets/no-artificial-additives.png'
 import noPreservativeWhite from '../assets/no-preservative.svg'
 import headerImage1 from '../assets/header.png'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
+import headerMobileImage1 from '../assets/header-mobile.png'
+import headerMobileImage2 from '../assets/header2-mobile.jpg'
+import headerMobileImage3 from '../assets/header3-mobile.jpg'
 import Tooltip from "./Tooltip";
 import headerMenu1 from "../assets/header-menu1.jpg"
 import headerMenu2 from "../assets/header-menu2.jpg"
@@ -799,37 +805,7 @@ const Home = () => {
     dispatch(addInnerFilterData(list));
   }
 
-  const recipData = [
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-    {
-      title: 'Biryani burrito',
-      image: imagefooter
-    },
-  ]
-
+  
   const buttonTexts = [
     'AUTHENTIC FLAVOURS',
     'FRESH INGREDIENTS',
@@ -848,7 +824,23 @@ const Home = () => {
       title: 'Fresh, High Quality Ingredients',
       description: 'We only use fresh ingredients to make sure your meals are super tasty (and also nutritious).',
       image: freshHighQuality
-    }
+    },
+    {
+      title: 'No Artificial Additives',
+      description: 'Tasty food that won’t empty your wallet. Enjoy great meals at prices that make sense.',
+      image: noArtificialAdditives
+    },
+    {
+      title: 'Rigorous Quality Control',
+      description: 'We check everything to make sure your meal is perfect every time.',
+      image: qualityControlImg
+    },
+    {
+      title: 'Completely Preservative Free',
+      description: 'No preservatives, no worries. Just clean, fresh food.',
+      image: preservativeFreeImg
+    },
+    
   ]
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -1014,21 +1006,21 @@ const Home = () => {
 
   const bannerData = [
     {
-      image: headerImage1,
+      image: isMobile ? headerMobileImage1 : headerImage1,
       title: "Bring the Taste of Home, Anywhere",
       description: "Ready-to-eat comfort food, delivered right at your door.",
       ctaText: "Explore all products",
       navigationLink: "/products"
     },
     {
-      image: headerImage2,
+      image: isMobile ? headerMobileImage2 : headerImage2,
       title: "Real Indian Food, Ready in 2 Minutes",
       description: "Heat, Cook, and Repeat – Get deliciousness served to your plate in minutes.",
       ctaText: "All Ready to Eat Products",
       navigationLink: "/ready-to-eat"
     },
     {
-      image: headerImage3,
+      image: isMobile ? headerMobileImage3 : headerImage3,
       title: "From Kitchen to Table, Cooked in 7 Minutes",
       description: "Delicious meals cooked instantly in 7 minutes. Experience ease on busy days with your favourite protein.",
       ctaText: "All Ready to Cook Products",
