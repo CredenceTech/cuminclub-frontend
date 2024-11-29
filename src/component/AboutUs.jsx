@@ -1,13 +1,14 @@
 import React from 'react'
-import image from '../assets/Rectangle 150.png'
 import team from '../assets/team.png'
 import mission from '../assets/mission.png'
+import ourVision from '../assets/our-vision.jpg'
 import beginin from '../assets/beginin.png'
 import third from '../assets/2021.jpg'
 import four from '../assets/2022.jpg'
 import five from '../assets/2023.jpeg'
 import six from '../assets/2024.jpg'
 import { useState } from 'react';
+import second from '../assets/2020.jpg'
 import { AnimatePresence, motion } from "framer-motion";
 const slides = [
     {
@@ -18,7 +19,7 @@ const slides = [
     },
     {
         year: "2020",
-        image: image,
+        image: second,
         title: "Going Global",
         description: "We celebrated a significant milestone by exporting our very first international container to the USA. This marked the start of our global adventure, with our flavours travelling across borders to meet the needs of food lovers worldwide",
     },
@@ -99,7 +100,7 @@ const AboutUs = () => {
                         "And while we’re at it, we’re also finding ways to be kinder to the planet, ensuring that what we do today leaves a positive mark for tomorrow. It’s not just about what’s on your plate. It’s about creating a better way to eat, live and connect. "
                     ]
                 },
-                image: ""
+                image: ourVision
             });
         }
         setSelectedSection(section);
@@ -184,7 +185,7 @@ const AboutUs = () => {
                         <img
                             src={content.image}
                             alt={content.text.title}
-                            className='w-full h-auto md:h-[711px] transition-opacity duration-500 ease-in-out'
+                            className='w-full h-auto md:h-[711px] transition-opacity duration-500 ease-in-out object-cover'
                         />
                     </div>
 
