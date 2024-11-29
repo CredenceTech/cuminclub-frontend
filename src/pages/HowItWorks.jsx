@@ -3,10 +3,18 @@ import banner from '../assets/bannerHowItWorks.jpg'
 import howitworks1 from '../assets/howitworks1.png'
 import howitworks2 from '../assets/howitworks2.png'
 import map1 from '../assets/map1.png'
+import map2 from '../assets/tradintional-cooking.jpg'
 import map3 from '../assets/map3.png'
-import map4 from '../assets/map4.png'
+import map4 from '../assets/sealing-in-freshness.png'
+import map5 from '../assets/constant-care.png'
 import { AnimatePresence, motion } from "framer-motion";
 import howitworks3 from '../assets/howitworks3.png'
+import busyProfessionalImg from '../assets/busy-professionals.png'
+import studentsImg from '../assets/students.png'
+import healthConciousImg from '../assets/health-concious.png'
+import mealPlannersImg from '../assets/meal-planners.png'
+
+
 export const HowItWorks = () => {
     const swiperContainerRef = useRef(null);
     const [data, setData] = useState(null);
@@ -38,24 +46,25 @@ export const HowItWorks = () => {
     const recipData = [
         {
             title: 'Busy Professionals',
-            desc: 'Quick, wholesome meals that fit into your hectic day.'
+            desc: 'Quick, wholesome meals that fit into your hectic day.',
+            image: busyProfessionalImg
         },
         {
             title: 'Students',
-            desc: "Tasty and easy options for fueling up between classes."
+            desc: "Tasty and easy options for fueling up between classes.",
+            image: studentsImg
         },
         {
             title: 'Health-Conscious',
-            desc: 'Fresh, preservative-free meals you can trust.'
+            desc: 'Fresh, preservative-free meals you can trust.',
+            image: healthConciousImg
         },
         {
             title: 'Meal Planners',
-            desc: 'Effortless meal prep with our flexible subscription service.'
+            desc: 'Effortless meal prep with our flexible subscription service.',
+            image: mealPlannersImg
         },
-        {
-            title: 'Meal Planners',
-            desc: 'Effortless meal prep with our flexible subscription service.'
-        },
+
     ]
     const swiperDta = [
         {
@@ -66,7 +75,7 @@ export const HowItWorks = () => {
         {
             title: 'Traditional Cooking, Just Like Home',
             desc: "Our approach to cooking is simple: Do it the way you’d do it in your own kitchen. We use traditional methods to bring out the natural flavours of each ingredient. Just like your mom’s cooking, every dish is prepared with care and attention to detail, so it tastes as close to homemade as you can get—no preservatives, just pure and delicious flavour.",
-            img: ''
+            img: map2
         },
         {
             title: 'Keeping It Safe and Delicious',
@@ -81,7 +90,7 @@ export const HowItWorks = () => {
         {
             title: 'Constant Care and Attention',
             desc: 'We don’t just pack the meals and call it a day. We’re constantly testing, checking and tasting to make sure every batch meets our high standards. From flavour to texture to safety, you can trust that each meal will deliver the quality and taste you expect—every single time.',
-            img: ""
+            img: map5
         }
     ]
 
@@ -207,14 +216,23 @@ export const HowItWorks = () => {
                     </div>
                     <div className="w-full lg:min-w-3/4 ml-0 md:ml-14 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-x-5">
                         {recipData?.map((item, i) => (
-                            <div key={i} className="relative min-w-[250px] bg-[#C4C4C4] h-[300px] md:h-[362px] md:min-w-[280px]">
-                                <div className="absolute inset-0 bottom-0 z-10 bg-gradient-to-b from-[#00000073]  to-[#00000000]"></div>
-                                <div className="absolute bottom-0 font-regola-pro z-20 left-0  whitespace-normal p-[23px] ">
-                                    <h2 className='font-[500] mb-3 text-[#FFFFFF] text-[21.75px] font-regola-pro leading-[26.1px]'> {item?.title}</h2>
-                                    <p className='font-[300] text-[#FFFFFF] text-[16px] font-regola-pro leading-[18px]'> {item?.desc}</p>
+                            <div
+                                key={i}
+                                className="relative min-w-[250px] bg-[#C4C4C4] h-[300px] md:h-[362px] md:min-w-[280px] bg-cover bg-center"
+                                style={{ backgroundImage: `url(${item?.image})` }}
+                            >
+                                <div className="absolute inset-0 bottom-0 z-10 bg-gradient-to-b from-[#00000073] to-[#00000000]"></div>
+                                <div className="absolute bottom-0 font-regola-pro z-20 left-0 whitespace-normal p-[23px]">
+                                    <h2 className="font-[500] mb-3 text-[#FFFFFF] text-[21.75px] font-regola-pro leading-[26.1px]">
+                                        {item?.title}
+                                    </h2>
+                                    <p className="font-[300] text-[#FFFFFF] text-[16px] font-regola-pro leading-[18px]">
+                                        {item?.desc}
+                                    </p>
                                 </div>
                             </div>
                         ))}
+
                     </div>
                 </div>
             </div>
@@ -231,7 +249,7 @@ export const HowItWorks = () => {
                     {swiperDta?.map((item, i) => (
                         <div key={i} className="relative min-w-[247px] bg-[#C4C4C4] h-[400px] md:h-[569px] md:min-w-[347px]">
                             <div className='absolute inset-0'>
-                                <img src={item?.img} alt="" className='w-full h-[400px] md:h-[569px]' />
+                                <img src={item?.img} alt="" className='w-full h-[400px] md:h-[569px] object-cover' />
                             </div>
                             <div className="absolute bottom-0 bg-gradient-to-b from-[#000000A3]  to-[#D9D9D900] font-regola-pro z-20 left-0  whitespace-normal p-4 pt-10 pr-8">
                                 <h2 className='font-[400] mb-3 text-[#FFFFFF] text-[24px] font-regola-pro leading-[30px]'> {item?.title}</h2>
