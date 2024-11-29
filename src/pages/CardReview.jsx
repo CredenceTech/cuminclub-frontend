@@ -140,19 +140,18 @@ const CardReview = () => {
     }
 
     const validationSchemaForLogin = Yup.object().shape({
-        consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
+        // consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     })
     const validationSchemaForWithoutLogin = Yup.object().shape({
         email: Yup.string().email('Invalid email address').required('Email is required'),
         password: Yup.string().required('Password is required'),
         firstName: Yup.string().required('First Name is required'),
         lastName: Yup.string().required('Last Name is required'),
-        consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
     });
 
-    const validationSchemaForAddMoreAdd = Yup.object().shape({
-        consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
-    });
+    // const validationSchemaForAddMoreAdd = Yup.object().shape({
+    //     consent: Yup.boolean().oneOf([true], 'You need to accept the terms and conditions')
+    // });
 
 
     const initialValuesForAddMoreAdd = {
@@ -233,13 +232,13 @@ const CardReview = () => {
             // Handle form submission logic here
         },
     });
-    const formikForAddMoreAdd = useFormik({
-        initialValues: initialValuesForAddMoreAdd || null,
-        validationSchema: validationSchemaForAddMoreAdd || null,
-        onSubmit: (values) => {
-            console.log('formikForAddMoreAdd submitted with values:', values);
-        },
-    });
+    // const formikForAddMoreAdd = useFormik({
+    //     initialValues: initialValuesForAddMoreAdd || null,
+    //     validationSchema: validationSchemaForAddMoreAdd || null,
+    //     onSubmit: (values) => {
+    //         console.log('formikForAddMoreAdd submitted with values:', values);
+    //     },
+    // });
 
     const createCheckoutURL = async (customerAccessToken) => {
         let lineItemList = [];
@@ -574,12 +573,12 @@ const CardReview = () => {
                                         </p>
                                     </div>
 
-                                    <div className="flex flex-row justify-between">
+                                    {/* <div className="flex flex-row justify-between">
                                         <p className="text-[1.5rem] font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">Shipping</p>
                                         <p className="text-[1.5rem] font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">
                                             {shippingCost === 0 ? "FREE" : `₹${shippingCost}`}
                                         </p>
-                                    </div>
+                                    </div> */}
 
                                     <div className="flex flex-row justify-between mt-3 border-t border-[#333333] pt-3">
                                         <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
@@ -632,7 +631,7 @@ const CardReview = () => {
                                                 <button onClick={() => setIsMoreAddress(true)} type='button' className="text-white text-center w-full lg:w-1/2 bg-[#EB7E01] mb-3 border-0 py-2 px-6 focus:outline-none  hover:bg-[#fa9017] rounded-3xl text-lg"> + Add New Address</button>
                                             </div> */}
 
-                                            <div className="mt-5 mb-6">
+                                            {/* <div className="mt-5 mb-6">
                                                 <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
                                                 <div className='border border-[#333333] rounded-lg'>
                                                     <div
@@ -684,7 +683,7 @@ const CardReview = () => {
                                                     <label htmlFor="consent" className="text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
                                                     <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             {/* {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)} */}
 
 
@@ -767,7 +766,7 @@ const CardReview = () => {
                                                 <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
                                                 {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
                                             </div> */}
-                                            <div className="mt-5 mb-6">
+                                            {/* <div className="mt-5 mb-6">
                                                 <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
                                                 <div className='border border-[#333333] rounded-lg'>
                                                     <div
@@ -819,7 +818,7 @@ const CardReview = () => {
                                                     <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                                 </div>
                                             </div>
-                                            {formikForWitoutLogin.touched.consent && formikForWitoutLogin.errors.consent && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.consent}</label>)}
+                                            {formikForWitoutLogin.touched.consent && formikForWitoutLogin.errors.consent && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.consent}</label>)} */}
                                             <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                         </form>
                                     </> : null
@@ -885,7 +884,7 @@ const CardReview = () => {
                                             </div>
                                         </div> */}
 
-                                        <div className="mt-5 mb-6">
+                                        {/* <div className="mt-5 mb-6">
                                             <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
                                             <div className='border border-[#333333] rounded-lg'>
                                                 <div
@@ -937,7 +936,7 @@ const CardReview = () => {
                                                 <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
                                             </div>
                                         </div>
-                                        {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)}
+                                        {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)} */}
                                         <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                     </form>
                                     : null
