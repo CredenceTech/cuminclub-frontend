@@ -893,7 +893,7 @@ const Home = () => {
     }
   ];
 
-  const tooltipData =[{
+  const tooltipData = [{
     title: "Spice pouch",
     messages: [
       "Blended spices to give your",
@@ -914,7 +914,7 @@ const Home = () => {
       "quick prep."
     ]
   }
-]
+  ]
 
   const totalSlides = testimonials.length;
   const [slidesPerView, setSlidesPerView] = useState(3);
@@ -1719,7 +1719,7 @@ const Home = () => {
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className='md:h-[80px] z-50 md:w-[80px] h-[71px] w-[71px] transition-transform duration-200 md:group-hover:scale-150 md:group-hover:translate-y-4 ml-[10px]'
+                  className={`${item?.node?.title === 'Bundles' ? 'h-[60px] w-[60px]' : 'h-[71px] w-[71px]'} md:h-[80px] z-50 md:w-[80px]  transition-transform duration-200 md:group-hover:scale-150 md:group-hover:translate-y-4 ml-[10px]`}
                 />
               </div>
               <p
