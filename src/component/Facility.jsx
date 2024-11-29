@@ -453,18 +453,18 @@ const Facility = () => {
           {facilityAvailableData.map((item, index) => (
             <div
               key={index}
-              className='w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%-40px)] mb-10'
+              className='w-full md:w-[calc(50%-20px)] lg:w-[calc(33.33%)-20px] xl:w-[calc(33.33%-40px)] mb-10'
             >
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-[347px] h-[243px] object-cover"
+                className="w-[300px] lg:w-[347px] h-[243px] object-cover"
               />
-              <div className='mt-4 w-[60%] relative'>
-                <h2 className='text-[20px] md:text-[26px] font-[400] leading-[24px] md:leading-[31.2px] text-[#000000] font-regola-pro'>
+              <div className='mt-4 w-[60%] md:w-[70%] 2xl:w-[60%] relative'>
+                <h2 className='text-[20px] md:text-[26px] font-[400] leading-[24px] md:leading-[31.2px] text-[#202020] font-regola-pro'>
                   {item.title}
                 </h2>
-                <p className='text-[14px] md:text-[16px] font-[400] leading-[18px] md:leading-[19.2px] text-[#757575] mt-2'>
+                <p className='text-[14px] md:text-[16px] font-[400] leading-[18px] md:leading-[19.2px] font-regola-pro text-[#202020] mt-2'>
                   {item.description}
                 </p>
               </div>
