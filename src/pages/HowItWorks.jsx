@@ -326,7 +326,7 @@ export const HowItWorks = () => {
                                         }}
                                         transition={{ duration: 0.3 }}
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
                                     </motion.svg>
                                 </span>
                             </motion.button>

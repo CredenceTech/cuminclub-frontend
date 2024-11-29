@@ -66,8 +66,8 @@ function ProductDetail() {
     const pickupPostcode = '394421';
     const [isRte, setIsRte] = useState(false)
     const [shaking, setIsShaking] = useState(null);
-    const [initialRating, setInitialRating]=useState(0);
-    const [initialReviewCount, setInitialReviewCount]=useState(0);
+    const [initialRating, setInitialRating] = useState(0);
+    const [initialReviewCount, setInitialReviewCount] = useState(0);
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
@@ -327,8 +327,8 @@ function ProductDetail() {
                     const initialReviewsCountString = response?.product?.metafields?.find(mf => mf && mf.key === "initial_reviews_count")?.value || "0";
                     const initailRating = parseFloat(initialRatingString);
                     const initailReviewsCount = parseInt(initialReviewsCountString, 10);
-                    
-                    setInitialRating(initailRating); 
+
+                    setInitialRating(initailRating);
                     setInitialReviewCount(initailReviewsCount);
 
                     if (rte.value === "true") {
@@ -438,12 +438,12 @@ function ProductDetail() {
         }, 0);
         const averageReviewRating = totalRating / reviews.length;
         const combinedRating = (averageReviewRating + initialRating) / 2;
-        return parseFloat(combinedRating.toFixed(2)); 
+        return parseFloat(combinedRating.toFixed(2));
     };
- 
+
     const averageRating = calculateAverageRating(feedbacks);
 
-  
+
     const getMetafieldData = (key, list) => {
         let metaContent = "";
         if (list) {
@@ -555,9 +555,9 @@ function ProductDetail() {
             setCurrentSlide((prev) => prev - 1);
         }
     };
-  
 
-    const feedbackLength = parseInt(feedbacks?.length || 0, 10); 
+
+    const feedbackLength = parseInt(feedbacks?.length || 0, 10);
     const initialCount = initialReviewCount;
     const totalReviewcounts = feedbackLength + initialCount;
 
@@ -751,7 +751,7 @@ function ProductDetail() {
                                                         }}
                                                         transition={{ duration: 0.3 }}
                                                         xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
                                                     </motion.svg>
                                                 </span>
                                             </motion.button>
@@ -815,7 +815,7 @@ function ProductDetail() {
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
                                         className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[250px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
-                                        }}> {shaking === productData?.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}</button>
+                                        }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Buy Now</button>
@@ -931,13 +931,13 @@ function ProductDetail() {
                                                     {/* next button */}
                                                     <button type='button' onClick={() => { paginate(-1); setPlaying(true) }} className='text-lg h-[35px] md:h-[51px] w-[35px] md:w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
                                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="#636363" />
+                                                            <path fillRule="evenodd" clipRule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="#636363" />
                                                         </svg>
                                                     </button>
                                                     {/* prev button */}
                                                     <button type='button' onClick={() => { paginate(1); setPlaying(true) }} className='text-lg h-[35px] md:h-[51px] w-[35px] md:w-[51px] flex justify-center items-center bg-[#DCDCDC] rounded-full'>
                                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="#636363" />
+                                                            <path fillRule="evenodd" clipRule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="#636363" />
                                                         </svg>
                                                     </button>
                                                 </div>
@@ -1040,12 +1040,12 @@ function ProductDetail() {
                                 <div className='flex gap-3'>
                                     <button type='button' onClick={() => { paginateTestimonial(-1) }} className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="white" />
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M6.77066 1.47219L4.18733 4.05552H13.3029V5.77775H4.18733L6.77066 8.36108L5.55286 9.57887L0.890625 4.91663L5.55286 0.254395L6.77066 1.47219Z" fill="white" />
                                         </svg>
                                     </button>
                                     <button type='button' onClick={() => { paginateTestimonial(1) }} className='w-[53px] h-[53px] flex justify-center items-center bg-[#5F5F5F] rounded-full'>
                                         <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="white" />
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M8.64062 0.254395L13.3029 4.91663L8.64062 9.57887L7.42283 8.36108L10.0062 5.77775H0.890625V4.05552H10.0062L7.42283 1.47219L8.64062 0.254395Z" fill="white" />
                                         </svg>
                                     </button>
                                 </div>
@@ -1083,7 +1083,7 @@ function ProductDetail() {
                                                     <div onClick={(e) => { e.preventDefault(); handleAddToCart(item?.node?.variants.edges[0].node.id) }} className='md:hidden flex absolute -bottom-[4px] right-[10px]'>
                                                         <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
                                                         }
-                                                        }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                                                        }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1103,7 +1103,7 @@ function ProductDetail() {
                                                     <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[37px] w-[37px] bg-[#EBEBEB] text-[#1D1929] rounded`} onClick={() => {
                                                         handleAddToCart(item?.node?.variants.edges[0].node.id)
                                                     }
-                                                    }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                                                    }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
                                                 </div>
                                             </div>
 

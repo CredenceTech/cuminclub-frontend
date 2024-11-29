@@ -31,7 +31,7 @@ const AnnouncementBar = () => {
                 className="text-xl font-bold focus:outline-none hover:text-gray-300"
             >
                 <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.8002 1.1333L1.2002 5.7333L5.80019 10.3333" stroke="white" stroke-width="1.53333" stroke-linecap="square" />
+                    <path d="M5.8002 1.1333L1.2002 5.7333L5.80019 10.3333" stroke="white" strokeWidth="1.53333" strokeLinecap="square" />
                 </svg>
             </button>
 
@@ -46,7 +46,7 @@ const AnnouncementBar = () => {
                 className="text-xl font-bold focus:outline-none hover:text-gray-300"
             >
                 <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9.9668 16.0999L14.5668 11.4999L9.9668 6.8999" stroke="white" stroke-width="1.53333" stroke-linecap="square" />
+                    <path d="M9.9668 16.0999L14.5668 11.4999L9.9668 6.8999" stroke="white" strokeWidth="1.53333" strokeLinecap="square" />
                 </svg>
 
             </button>

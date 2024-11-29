@@ -128,7 +128,7 @@ const RecipeList = () => {
                                 </select>
                                 <div className="absolute inset-y-0 right-0 top-10 flex items-center px-2 pointer-events-none">
                                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
                                     </svg>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@ const RecipeList = () => {
                                 </select>
                                 <div className="absolute inset-y-0 right-0 top-10 flex items-center px-2 pointer-events-none">
                                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
                                     </svg>
 
                                 </div>
@@ -185,28 +185,28 @@ const RecipeList = () => {
                                 />
                                 <div className="md:px-4 md:py-4 px-2 py-4 flex justify-between">
                                     <div className='flex items-center'>
-                                    <h3 className="text-[#333333] font-skillet md:text-[40px] text-[35px] leading-[26px] font-[400]">
-                                        {recipe?.fields?.find(field => field.key === "name")?.value}
-                                    </h3>
+                                        <h3 className="text-[#333333] font-skillet md:text-[40px] text-[35px] leading-[26px] font-[400]">
+                                            {recipe?.fields?.find(field => field.key === "name")?.value}
+                                        </h3>
                                     </div>
                                     <div className="flex items-center text-gray-600">
-                                            <svg
-                                                width="21"
-                                                height="21"
-                                                viewBox="0 0 21 21"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M10.5016 6.99971V11.8997H14.0016M8.40156 0.699707H12.6016M10.5016 3.49971C5.86237 3.49971 2.10156 7.26052 2.10156 11.8997C2.10156 16.5389 5.86237 20.2997 10.5016 20.2997C15.1408 20.2997 18.9016 16.5389 18.9016 11.8997C18.9016 7.26052 15.1408 3.49971 10.5016 3.49971Z"
-                                                    stroke="#1D1929"
-                                                    strokeWidth="1.4"
-                                                />
-                                            </svg>
-                                            <span className="text-[#393939] font-regola-pro text-[24px] leading-[15.6px] font-[300] md:pl-3 pl-1">
-                                                {recipe?.fields?.find(field => field.key === "cook_time")?.value}
-                                            </span>
-                                        </div>
-                                        
+                                        <svg
+                                            width="21"
+                                            height="21"
+                                            viewBox="0 0 21 21"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.5016 6.99971V11.8997H14.0016M8.40156 0.699707H12.6016M10.5016 3.49971C5.86237 3.49971 2.10156 7.26052 2.10156 11.8997C2.10156 16.5389 5.86237 20.2997 10.5016 20.2997C15.1408 20.2997 18.9016 16.5389 18.9016 11.8997C18.9016 7.26052 15.1408 3.49971 10.5016 3.49971Z"
+                                                stroke="#1D1929"
+                                                strokeWidth="1.4"
+                                            />
+                                        </svg>
+                                        <span className="text-[#393939] font-regola-pro text-[24px] leading-[15.6px] font-[300] md:pl-3 pl-1">
+                                            {recipe?.fields?.find(field => field.key === "cook_time")?.value}
+                                        </span>
+                                    </div>
+
                                     {/* <div className='flex justify-between'>
                                         <div className="flex items-center mt-6 text-gray-600">
                                             <svg

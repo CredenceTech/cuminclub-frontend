@@ -236,7 +236,7 @@ export const Footer = () => {
               />
               <button type="button" className="send-button rounded-full flex justify-center items-center absolute right-3 h-[38px] w-[38px] text-2xl bg-[#AA946080]" >
                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10.3996 17.3336L15.5996 12.1336L10.3996 6.93359" stroke="#695118" stroke-width="2.6" stroke-linecap="square" />
+                  <path d="M10.3996 17.3336L15.5996 12.1336L10.3996 6.93359" stroke="#695118" strokeWidth="2.6" strokeLinecap="square" />
                 </svg>
               </button>
             </div>

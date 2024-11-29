@@ -15,10 +15,10 @@ const ProductFliter = () => {
                 const fetchedCategories = result?.collections?.edges || [];
                 const premiumCategory = {
                     node: {
-                        id: 'premium', 
-                        title: 'Premium', 
-                        description: 'Premium category description', 
-                        handle: 'premium' 
+                        id: 'premium',
+                        title: 'Premium',
+                        description: 'Premium category description',
+                        handle: 'premium'
                     }
                 };
                 setCategoryData([...fetchedCategories, premiumCategory]);
@@ -50,7 +50,7 @@ const ProductFliter = () => {
                     value={selectedCategory?.node?.title || ""}
                 >
                     <option className='text-[#333333] font-regola-pro text-[20px] md:text-[22px] w-auto leading-[30.21px] font-[300]' value="" disabled>
-                    Category
+                        Category
                     </option>
                     {categoryData.map(product => (
                         <option
@@ -64,7 +64,7 @@ const ProductFliter = () => {
                 </select>
                 <div className="absolute inset-y-0 right-[-40px] top-3 flex items-center px-2 pointer-events-none">
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" stroke-width="2.4" stroke-linecap="square" />
+                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
                     </svg>
 
                 </div>
