@@ -9,16 +9,17 @@ import apedaImg from '../assets/apeda.png'
 import brecsImg from '../assets/brecs.png'
 import reportTrayImg from '../assets/report-tray.png'
 import leePackImg from '../assets/leepack.png'
-import packingFacilityImg from '../assets/packing-facility.png'
+import packingFacilityImg from '../assets/packing-facility.jpg'
 import testingFacilityImg from '../assets/testing-facility.png'
 import testingLabImg from '../assets/testing-lab.png'
 import kettleFacilityImg from '../assets/kettle-facility.png'
 import processingStepsImg from '../assets/facilityfotter.svg'
 import { AnimatePresence, motion } from "framer-motion";
 import slidingImage2 from '../assets/facility-sliding2.png'
-import slidingImage3 from '../assets/facility-sliding3.png'
+import slidingImage3 from '../assets/facility-sliding3.jpg'
 import { wrap } from "popmotion";
 import { Link } from 'react-router-dom'
+import numberStoryImg from '../assets/numbers-tell-story.jpg'
 const Facility = () => {
 
   const [videoLoaded, setVideoLoaded] = useState(true);
@@ -368,7 +369,9 @@ const Facility = () => {
           </div>
         </div>
 
-        <div className='w-full md:w-1/3  lg:w-[600px] mt-8 md:mt-0 h-[200px] md:h-auto bg-[#D9D9D9] rounded-tl-[8px] rounded-bl-[8px]'>
+        <div className='w-full md:w-1/3  lg:w-[600px] bg-cover mt-8 md:mt-0 h-[200px] md:h-auto bg-[#D9D9D9] rounded-tl-[8px] rounded-bl-[8px]'   style={{
+        backgroundImage: `url(${numberStoryImg})`,
+    }}>
         </div>
       </div>
 
