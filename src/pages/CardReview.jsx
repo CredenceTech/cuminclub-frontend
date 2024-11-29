@@ -500,8 +500,8 @@ const CardReview = () => {
                                         }
                                             alt={line?.node?.merchandise?.product?.title} className='h-[85.1px] w-[85.1px] rounded-lg' />
                                         <div className='ml-4'>
-                                            <h1 className='text-xl md:text-[36px] leading-[36px] font-[400] font-skillet text-[#333333] '>{line?.node?.merchandise?.product?.title}</h1>
-                                            <p className='font-skillet text-[#757575] text-[28px] leading-[28.18px] font-[400]'><span className='text-[20px] leading-[20.1px] '>₹</span> {line?.node?.merchandise?.priceV2?.amount}</p>
+                                            <h1 className='text-xl md:text-[36px] leading-[20px] md:leading-[36px] font-[400] font-skillet text-[#333333] '>{line?.node?.merchandise?.product?.title}</h1>
+                                            <p className='font-skillet text-[#757575] text-[24px] md:text-[28px] leading-[28.18px] font-[400]'><span className='text-[20px] leading-[20.1px] '>₹</span> {line?.node?.merchandise?.priceV2?.amount}</p>
                                             {loading[line.node.merchandise.id] ? <svg width="60" height="60" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#4fa94d" data-testid="three-dots-svg"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" attributeName="fill-opacity" from="1" to="0.3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="0.5" to="0.5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg> :
                                                 <div className="flex gap-2 items-center">
                                                     <button
@@ -554,7 +554,7 @@ const CardReview = () => {
                                             handleRemoveWholeProductFromCart(
                                                 line.node.merchandise.id, line.node.merchandise.product?.sellingPlanGroups?.edges[0]?.node?.sellingPlans?.edges[0]?.node?.id
                                             )
-                                        } type='button' className='text-[#F15E2A] m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]'>Remove</button>
+                                        } type='button' className='text-[#F15E2A] flex flex-col m-0 md:m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]'>Remove</button>
                                     </div>
                                 </div>
                             })}
@@ -568,22 +568,22 @@ const CardReview = () => {
                                 </div> */}
                                 <div className="mt-3">
                                     <div className="flex flex-row justify-between mb-2">
-                                        <p className="text-lg font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
-                                        <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
+                                        <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
+                                        <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
                                             ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0}</span>
                                         </p>
                                     </div>
 
                                     <div className="flex flex-row justify-between">
-                                        <p className="text-lg font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">Shipping</p>
-                                        <p className="text-lg font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">
+                                        <p className="text-[1.5rem] font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">Shipping</p>
+                                        <p className="text-[1.5rem] font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">
                                             {shippingCost === 0 ? "FREE" : `₹${shippingCost}`}
                                         </p>
                                     </div>
 
                                     <div className="flex flex-row justify-between mt-3 border-t border-[#333333] pt-3">
-                                        <p className="text-lg font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
-                                        <p className="text-xl text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
+                                        <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
+                                        <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
                                             ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{(parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0) + shippingCost}</span>
                                         </p>
                                     </div>

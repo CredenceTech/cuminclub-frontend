@@ -893,13 +893,28 @@ const Home = () => {
     }
   ];
 
-  const tooltipData = {
-    title: "Packaging",
+  const tooltipData =[{
+    title: "Spice pouch",
     messages: [
-      "Lorem Ipsum Lorem Ipsum",
-      "Lorem Ipsum Lorem Ipsum"
+      "Blended spices to give your",
+      "curry bold flavors."
     ]
-  };
+  },
+  {
+    title: "Sauce pouch",
+    messages: [
+      "Flavorful base sauce made for",
+      "perfect consistency."
+    ]
+  },
+  {
+    title: "Base pouch",
+    messages: [
+      "Ready-to-use base gravy for",
+      "quick prep."
+    ]
+  }
+]
 
   const totalSlides = testimonials.length;
   const [slidesPerView, setSlidesPerView] = useState(3);
@@ -1915,7 +1930,7 @@ const Home = () => {
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[2]}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -1932,7 +1947,7 @@ const Home = () => {
                   transform: "translate(50%, 50%)",
                 }}
               >
-                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[1]}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -1949,7 +1964,7 @@ const Home = () => {
                   transform: "translate(-50%, 50%)",
                 }}
               >
-                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[0]}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
