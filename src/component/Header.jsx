@@ -367,37 +367,37 @@ const Header = () => {
                   LEARN
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content
-                    onMouseLeave={() => setShowHeaderMain(false)}
-                    className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
-                  >
-                    <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
-                      {learnMenuData.map((menuItem, index) => (
+                  onMouseLeave={() => setShowHeaderMain(false)}
+                  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                >
+                  <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
+                    {learnMenuData.map((menuItem, index) => (
+                      <div
+                        key={index}
+                        className="relative group cursor-pointer overflow-hidden"
+                        onClick={() => onLearnClick(index)}
+                      >
+                        <img
+                          src={menuItem.image}
+                          alt={menuItem.title}
+                          className="w-full header-menu-background-img object-cover group-hover:scale-110 transform transition-transform duration-200"
+                        />
                         <div
-                          key={index}
-                          className="relative group cursor-pointer overflow-hidden"
-                          onClick={() => onLearnClick(index)}
+                          className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
+                          style={{
+                            background:
+                              "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
+                          }}
                         >
-                          <img
-                            src={menuItem.image}
-                            alt={menuItem.title}
-                            className="w-full header-menu-background-img object-cover group-hover:scale-110 transform transition-transform duration-200"
-                          />
-                          <div
-                            className="absolute inset-0 group-hover:opacity-90 transition duration-300 h-[100px]"
-                            style={{
-                              background:
-                                "linear-gradient(180deg, rgba(0, 0, 0, 0.63) 0%, rgba(0, 0, 0, 0) 100%)",
-                            }}
-                          >
-                            <span className="absolute top-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mt-[20px] ml-2">
-                              {menuItem.title}
-                            </span>
-                          </div>
+                          <span className="absolute top-2 left-2 text-white font-[400] font-regola-pro text-[24px] leading-[28.8px] mt-[20px] ml-2">
+                            {menuItem.title}
+                          </span>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
+                  </div>
 
-                  </NavigationMenu.Content>
+                </NavigationMenu.Content>
                 {/* <NavigationMenu.Content className="NavigationMenuContent absolute top-10 bg-green-700 z-50  w-[100vw] h-[500px]">
                     <div className="">
                       <h1>Anukas adjasd;p9erhj</h1>
@@ -577,8 +577,8 @@ const Header = () => {
                   <path
                     d="M2 2L34 34M34 2L2 34"
                     stroke="#231F20"
-                    stroke-width="5"
-                    stroke-linecap="round"
+                    strokeWidth="5"
+                    strokeLinecap="round"
                   />
                 </svg>
 

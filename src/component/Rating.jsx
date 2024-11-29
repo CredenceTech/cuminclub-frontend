@@ -24,7 +24,7 @@ const Rating = ({ rating, text, color = '#EB7E01', emptyColor = '#EB7E01' }) => 
                 }}
             >
                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8.87435 13.0437L4.18735 15.508L5.08268 10.2887L1.29102 6.59267L6.53085 5.83176L8.87435 1.08325L11.2178 5.83176L16.4577 6.59267L12.666 10.2887L13.5613 15.508L8.87435 13.0437Z" stroke={emptyColor} stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M8.87435 13.0437L4.18735 15.508L5.08268 10.2887L1.29102 6.59267L6.53085 5.83176L8.87435 1.08325L11.2178 5.83176L16.4577 6.59267L12.666 10.2887L13.5613 15.508L8.87435 13.0437Z" stroke={emptyColor} strokeWidth="1.08333" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span
                     className='w-5 inset-0'
@@ -43,7 +43,7 @@ const Rating = ({ rating, text, color = '#EB7E01', emptyColor = '#EB7E01' }) => 
     }
     for (let i = 0; i < emptyStars; i++) {
         starElements.push(<span key={i + filledStars} className="w-5 mt-1"><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.87435 13.0437L4.18735 15.508L5.08268 10.2887L1.29102 6.59267L6.53085 5.83176L8.87435 1.08325L11.2178 5.83176L16.4577 6.59267L12.666 10.2887L13.5613 15.508L8.87435 13.0437Z" stroke={emptyColor} stroke-width="1.08333" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M8.87435 13.0437L4.18735 15.508L5.08268 10.2887L1.29102 6.59267L6.53085 5.83176L8.87435 1.08325L11.2178 5.83176L16.4577 6.59267L12.666 10.2887L13.5613 15.508L8.87435 13.0437Z" stroke={emptyColor} strokeWidth="1.08333" strokeLinecap="round" strokeLinejoin="round" />
         </svg></span>);
     }
 

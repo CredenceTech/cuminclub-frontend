@@ -854,38 +854,38 @@ const ReadyToEat = () => {
 
                       return isLong ? (
                         <ProductBigCard
-                            key={product?.id}
-                            product={product}
-                            categoryTag={categoryTag}
-                            productLargeImage={productLargeImage}
-                            productSmallImage={productSmallImage}
-                            shaking={shaking}
-                            setIsShaking={setIsShaking}
-                            cartResponse={cartResponse}
-                            cartDatas={cartDatas}
-                            addCartData={addCartData}
-                            productPrice={productPrice}
-                            setCartResponse={setCartResponse}
-                            setLoading={setLoading}
-                            loading={loading}
+                          key={product?.id}
+                          product={product}
+                          categoryTag={categoryTag}
+                          productLargeImage={productLargeImage}
+                          productSmallImage={productSmallImage}
+                          shaking={shaking}
+                          setIsShaking={setIsShaking}
+                          cartResponse={cartResponse}
+                          cartDatas={cartDatas}
+                          addCartData={addCartData}
+                          productPrice={productPrice}
+                          setCartResponse={setCartResponse}
+                          setLoading={setLoading}
+                          loading={loading}
                         />
-                    ) : (
+                      ) : (
                         <ProductSmallCard
-                            key={product?.id}
-                            product={product}
-                            categoryTag={categoryTag}
-                            productSmallImage={productSmallImage}
-                            shaking={shaking}
-                            setIsShaking={setIsShaking}
-                            cartResponse={cartResponse}
-                            cartDatas={cartDatas}
-                            addCartData={addCartData}
-                            productPrice={productPrice}
-                            setCartResponse={setCartResponse}
-                            setLoading={setLoading}
-                            loading={loading}
+                          key={product?.id}
+                          product={product}
+                          categoryTag={categoryTag}
+                          productSmallImage={productSmallImage}
+                          shaking={shaking}
+                          setIsShaking={setIsShaking}
+                          cartResponse={cartResponse}
+                          cartDatas={cartDatas}
+                          addCartData={addCartData}
+                          productPrice={productPrice}
+                          setCartResponse={setCartResponse}
+                          setLoading={setLoading}
+                          loading={loading}
                         />
-                    );
+                      );
                       // return isLong ? (
                       //   <>
                       //     <div
@@ -920,7 +920,7 @@ const ReadyToEat = () => {
                       //           </p>
                       //         </div>
                       //         <div className="flex gap-2 mt-3">
-                                
+
                       //           <button
                       //             type="button"
                       //             onClick={(e) => {
@@ -1003,7 +1003,7 @@ const ReadyToEat = () => {
                       //                   }}
                       //                   className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]`}
                       //                 >
-                      //                   {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                      //                   {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                       //                 </button>
                       //               )}
 
@@ -1134,7 +1134,7 @@ const ReadyToEat = () => {
                       //                       }}
                       //                       className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
                       //                     >
-                      //                       {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                      //                       {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                       //                     </button>
                       //                   )}
 
@@ -1160,7 +1160,7 @@ const ReadyToEat = () => {
                       //               }
                       //               className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
                       //             >
-                      //               {shaking === product.variants.edges[0].node.id ? <div class="spinner1"></div> : 'ADD TO CART'}
+                      //               {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                       //             </button>
                       //             <button
                       //               onClick={(e) => e.stopPropagation()}

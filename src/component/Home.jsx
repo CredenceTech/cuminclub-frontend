@@ -634,23 +634,23 @@ const Home = () => {
 
   useEffect(() => {
     const getCategory = async () => {
-        try {
-            const result = await graphQLClient.request(getCategoriesQuery);
-            
-            // Filter out categories with the title "Sweets"
-            const filteredCategories = result?.collections?.edges
-                ?.filter(edge => edge.node.title !== "Sweets")
-                ?.slice(0, 4); // Limit to first 4 categories
-            
-            setCategoryData(filteredCategories);
-            // dispatch(addCategoryData(filteredCategories[0])) if needed
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
+      try {
+        const result = await graphQLClient.request(getCategoriesQuery);
+
+        // Filter out categories with the title "Sweets"
+        const filteredCategories = result?.collections?.edges
+          ?.filter(edge => edge.node.title !== "Sweets")
+          ?.slice(0, 4); // Limit to first 4 categories
+
+        setCategoryData(filteredCategories);
+        // dispatch(addCategoryData(filteredCategories[0])) if needed
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     getCategory();
-}, []);
+  }, []);
 
 
   useEffect(() => {
@@ -805,7 +805,7 @@ const Home = () => {
     dispatch(addInnerFilterData(list));
   }
 
-  
+
   const buttonTexts = [
     'AUTHENTIC FLAVOURS',
     'FRESH INGREDIENTS',
@@ -840,7 +840,7 @@ const Home = () => {
       description: 'No preservatives, no worries. Just clean, fresh food.',
       image: preservativeFreeImg
     },
-    
+
   ]
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -1439,7 +1439,7 @@ const Home = () => {
             {/* <div className="relative flex justify-center items-center">
               <button onClick={toggleSearch} className="focus:outline-none">
                 <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke="#FFFFFF" stroke-width="3.02041" />
+                  <path d="M31.6 31.6L23.1429 23.1429M14.6857 27.3714C7.67959 27.3714 2 21.6918 2 14.6857C2 7.67959 7.67959 2 14.6857 2C21.6918 2 27.3714 7.67959 27.3714 14.6857C27.3714 21.6918 21.6918 27.3714 14.6857 27.3714Z" stroke="#FFFFFF" strokeWidth="3.02041" />
                 </svg>
               </button>
               {searchOpen && (
@@ -1532,8 +1532,8 @@ const Home = () => {
                     <path
                       d="M2 2L34 34M34 2L2 34"
                       stroke="#231F20"
-                      stroke-width="5"
-                      stroke-linecap="round"
+                      strokeWidth="5"
+                      strokeLinecap="round"
                     />
                   </svg>
 
@@ -1769,7 +1769,7 @@ const Home = () => {
                         <div onClick={(e) => { e.preventDefault(); handleAddToCart(item?.node?.variants.edges[0].node.id) }} className='md:hidden flex absolute -bottom-[4px] right-[13px]'>
                           <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
                           }
-                          }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                          }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
                         </div>
                       </div>
                     </div>
@@ -1788,7 +1788,7 @@ const Home = () => {
                         <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
                           handleAddToCart(item?.node?.variants.edges[0].node.id)
                         }
-                        }> {shaking === item?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : '+'}</button>
+                        }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
                       </div>
                     </div>
                   </div>
@@ -1805,7 +1805,7 @@ const Home = () => {
                 className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
                 </svg>
 
               </button>
@@ -1815,7 +1815,7 @@ const Home = () => {
                 className="text-lg px-5 py-[14px] bg-[#5F5F5F] text-[#FFFFFF] rounded-full w-50 h-50"
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white" />
                 </svg>
               </button>
             </div>
@@ -2044,7 +2044,7 @@ const Home = () => {
                 }
                 }
               >
-                {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div class="spinner1"></div> : 'Add to cart'}
+                {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
               </button>
             </div>
           </div>
@@ -2172,21 +2172,21 @@ const Home = () => {
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
-                <a onClick={() => { navigate(`/how-it-works`) }} class="link cursor-pointer">
-                  <span class="text-content font-inter">Learn How It Works</span>
-                  <span class="shadow-text font-inter">Learn How It Works</span>
+                <a onClick={() => { navigate(`/how-it-works`) }} className="link cursor-pointer">
+                  <span className="text-content font-inter">Learn How It Works</span>
+                  <span className="shadow-text font-inter">Learn How It Works</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
                     fill="none"
-                    class="arrow-icon"
+                    className="arrow-icon"
                   >
                     <path
                       d="M12 15.5L18 9.5M18 9.5L12 3.5M18 9.5L3 9.5"
                       stroke="#333333"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                     />
                   </svg>
                 </a>
@@ -2434,7 +2434,7 @@ const Home = () => {
                 disabled={currentSlide === 0}
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M6.77066 1.4717L4.18733 4.05503H13.3029V5.77726H4.18733L6.77066 8.36059L5.55286 9.57838L0.890625 4.91615L5.55286 0.253906L6.77066 1.4717Z" fill="white" />
                 </svg>
               </button>
               <button
@@ -2444,7 +2444,7 @@ const Home = () => {
                 disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
               >
                 <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white" />
+                  <path fillRule="evenodd" clipRule="evenodd" d="M8.64062 0.253906L13.3029 4.91615L8.64062 9.57838L7.42283 8.36059L10.0062 5.77726H0.890625V4.05503H10.0062L7.42283 1.4717L8.64062 0.253906Z" fill="white" />
                 </svg>
               </button>
             </div>
