@@ -59,6 +59,14 @@ import UserMenu from '../component/DropdownProfile';
 import aboutUsImg from '../assets/about-us.png'
 import facilityImg from '../assets/facility-menu.png'
 import howItworksImg from '../assets/how-t-works.png'
+import ICONS1 from '../assets/icon/ICONS WHITE-01.png'
+import ICONS2 from '../assets/icon/ICONS WHITE-02.png'
+import ICONS3 from '../assets/icon/ICONS WHITE-03.png'
+import ICONS4 from '../assets/icon/ICONS WHITE-04.png'
+import ICONS11 from '../assets/icon/ICONS-01.png'
+import ICONS22 from '../assets/icon/ICONS-02.png'
+import ICONS33 from '../assets/icon/ICONS-03.png'
+import ICONS44 from '../assets/icon/ICONS-04.png'
 
 const Home = () => {
 
@@ -194,19 +202,24 @@ const Home = () => {
   };
   const reviews = [
     {
-      name: 'Rashmi Bansal',
+      name: ICONS1,
       text: 'Lorem Ipsum ',
-      rating: 4,
+      rating: ICONS11,
     },
     {
-      name: 'John Doe',
+      name: ICONS2,
       text: 'John has ',
-      rating: 5,
+      rating: ICONS22,
     },
     {
-      name: 'Jane Smith',
+      name: ICONS3,
       text: 'The product',
-      rating: 4,
+      rating: ICONS33,
+    },
+    {
+      name: ICONS4,
+      text: 'The product',
+      rating: ICONS44,
     },
   ];
 
@@ -1871,9 +1884,7 @@ const Home = () => {
                   className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
                     } transition-all duration-500 ease-in-out`}
                 >
-                  <Rating rating={reviews[currentReviewIndex]?.rating} text={""} color="#FFFFFF" emptyColor="#FFFFFF" />
-                  <h1 className="text-[#EBEBEB] text-[20px] leading-[24px] pt-3 font-[400] font-regola-pro ">{reviews[currentReviewIndex]?.name}</h1>
-                  <p className="text-[#EBEBEB] text-[14px] leading-[16.8px] pt-1 font-[300] font-regola-pro ">{reviews[currentReviewIndex]?.text}</p>
+                  <img src={reviews[currentReviewIndex]?.name} alt={reviews[currentReviewIndex]?.text} className="w-[100px] h-[100px]" />
                 </div>
               </div>
             </div>
@@ -1895,14 +1906,12 @@ const Home = () => {
               >
                 {slides[currentSlide1].buttonText}
               </button>
-              <div className={`pt-[40px] ${slides[currentSlide1].title === 'Ready to Eat' ? 'flex' : 'hidden'}`}>
+              <div className={`pt-[40px]`}>
                 <div
                   className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
                     } transition-all duration-500 ease-in-out`}
                 >
-                  <Rating rating={reviews[currentReviewIndex]?.rating} text={""} color="#FFFFFF" emptyColor="#FFFFFF" />
-                  <h1 className="text-[#EBEBEB] text-[20px] leading-[24px] pt-3 font-[400] font-regola-pro ">{reviews[currentReviewIndex]?.name}</h1>
-                  <p className="text-[#EBEBEB] text-[14px] leading-[16.8px] pt-1 font-[300] font-regola-pro ">{reviews[currentReviewIndex]?.text}</p>
+                  <img src={reviews[currentReviewIndex]?.name} alt={reviews[currentReviewIndex]?.text} className="w-[80px] h-[80px]" />
                 </div>
               </div>
             </div>
@@ -1989,128 +1998,136 @@ const Home = () => {
             <button className="bg-white text-[#333333] mt-1 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center" onClick={() => { navigate('/ready-to-cook') }}>
               VIEW PRODUCTS
             </button>
+            <div className={`pt-[40px]`}>
+              <div
+                className={`${fadeIn ? 'opacity-0 translate-x-[50px]' : 'opacity-100 translate-x-0'
+                  } transition-all duration-500 ease-in-out`}
+              >
+                <img src={reviews[currentReviewIndex]?.rating} alt={reviews[currentReviewIndex]?.text} className="w-[100px] h-[100px]" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-{!isMobile &&
-      <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
-        <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white text-[60px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[48px] font-[400] sm:title max-w-[262px] md:max-w-full'>
-            Not Sure What to Eat?
-          </p>
-          <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
-            Give it a Spin!
-          </p>
-        </div>
-        <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
-          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
-            style={{ userSelect: 'none' }}>
-            <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
-                event.stopPropagation();
-              }}
-              onMouseMove={handleMouseMoves}
-              onMouseUp={handleMouseUps}
-              onTouchMove={handleSpinTouchMove}
-              onTouchEnd={handleSpinTouchEnd}
-              style={{
-                boxShadow: '0px 4px 22.7px 0px #0000001F inset',
-                position: 'relative',
-              }}
-            >
+      {!isMobile &&
+        <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
+          <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
+            <p className='text-white text-[60px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[48px] font-[400] sm:title max-w-[262px] md:max-w-full'>
+              Not Sure What to Eat?
+            </p>
+            <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
+              Give it a Spin!
+            </p>
+          </div>
+          <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
+            <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
+              style={{ userSelect: 'none' }}>
               <div
-                onClick={(event) => {
+                className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
                   event.stopPropagation();
                 }}
-                className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
+                onMouseMove={handleMouseMoves}
+                onMouseUp={handleMouseUps}
+                onTouchMove={handleSpinTouchMove}
+                onTouchEnd={handleSpinTouchEnd}
                 style={{
-                  position: 'absolute',
-                  left: `${8 + positionX}px`,
-                  cursor: 'grab',
-                  top: '8px',
-                  bottom: '8px',
-                  transition: isDragging ? 'none' : 'left 0.3s ease',
+                  boxShadow: '0px 4px 22.7px 0px #0000001F inset',
+                  position: 'relative',
                 }}
-                onMouseDown={handleMouseDowns}
-                onMouseLeave={handleMouseLeave}
-                onTouchStart={handleSpinTouchStart}
-                onTouchCancel={handleSpinTouchEnd}
-              ></div>
-              <div className="pl-[50px] md:pl-[76px]">
-                <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
-                  {`Drag To Spin >>`}
+              >
+                <div
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
+                  style={{
+                    position: 'absolute',
+                    left: `${8 + positionX}px`,
+                    cursor: 'grab',
+                    top: '8px',
+                    bottom: '8px',
+                    transition: isDragging ? 'none' : 'left 0.3s ease',
+                  }}
+                  onMouseDown={handleMouseDowns}
+                  onMouseLeave={handleMouseLeave}
+                  onTouchStart={handleSpinTouchStart}
+                  onTouchCancel={handleSpinTouchEnd}
+                ></div>
+                <div className="pl-[50px] md:pl-[76px]">
+                  <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                    {`Drag To Spin >>`}
+                  </button>
+                </div>
+              </div>
+              <div className="absolute spin-product-info">
+                <div className="spin-product-info-text md:h-[175px] h-auto">
+                  <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
+                    style={{ textShadow: '0px 4px 9.9px #00000040' }}>
+                    {selecteRandomPro?.node?.title}
+                  </p>
+                  <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
+                    ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
+                  </p>
+                </div>
+                <button
+                  type='button'
+                  className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
+                  onClick={() => {
+                    handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
+                  }
+                  }
+                >
+                  {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
                 </button>
               </div>
             </div>
-            <div className="absolute spin-product-info">
-              <div className="spin-product-info-text md:h-[175px] h-auto">
-                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
-                  style={{ textShadow: '0px 4px 9.9px #00000040' }}>
-                  {selecteRandomPro?.node?.title}
-                </p>
-                <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
-                  ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
-                </p>
-              </div>
-              <button
-                type='button'
-                className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
-                onClick={() => {
-                  handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
-                }
-                }
-              >
-                {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
-              </button>
-            </div>
-          </div>
-          {!isMobile && (
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, rotate: rotation }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
-              >
-                <img
-                  src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
-                  alt="Rotating image"
-                  className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
-                  draggable={false}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
-          {/* For mobile: */}
-          {isMobile && (
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, rotate: rotation }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
-                style={{
-                  position: 'relative',
-                  display: 'block',
-                  left: '35%',
-                  //  transformOrigin: '90% 50%',
-                }}
-              >
-                <img
-                  src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
-                  alt="Rotating image"
-                  className="h-[353px] w-[353px] rounded-full mt-[-50px]"
+            {!isMobile && (
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: rotation }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+                >
+                  <img
+                    src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                    alt="Rotating image"
+                    className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
+                    draggable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            )}
+            {/* For mobile: */}
+            {isMobile && (
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: rotation }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
                   style={{
-                    transition: 'transform 0.8s ease',
+                    position: 'relative',
+                    display: 'block',
+                    left: '35%',
+                    //  transformOrigin: '90% 50%',
                   }}
-                  draggable={false}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
+                >
+                  <img
+                    src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                    alt="Rotating image"
+                    className="h-[353px] w-[353px] rounded-full mt-[-50px]"
+                    style={{
+                      transition: 'transform 0.8s ease',
+                    }}
+                    draggable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            )}
+          </div>
         </div>
-      </div>
-}
+      }
 
 
       {/* <div className='w-full bannerbottom h-[759px] overflow-hidden'>
@@ -2298,124 +2315,124 @@ const Home = () => {
       </div>
 
       {isMobile &&
-      <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
-        <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white text-[60px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[48px] font-[400] sm:title max-w-[262px] md:max-w-full'>
-            Not Sure What to Eat?
-          </p>
-          <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
-            Give it a Spin!
-          </p>
-        </div>
-        <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
-          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
-            style={{ userSelect: 'none' }}>
-            <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
-                event.stopPropagation();
-              }}
-              onMouseMove={handleMouseMoves}
-              onMouseUp={handleMouseUps}
-              onTouchMove={handleSpinTouchMove}
-              onTouchEnd={handleSpinTouchEnd}
-              style={{
-                boxShadow: '0px 4px 22.7px 0px #0000001F inset',
-                position: 'relative',
-              }}
-            >
+        <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
+          <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
+            <p className='text-white text-[60px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[48px] font-[400] sm:title max-w-[262px] md:max-w-full'>
+              Not Sure What to Eat?
+            </p>
+            <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
+              Give it a Spin!
+            </p>
+          </div>
+          <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
+            <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
+              style={{ userSelect: 'none' }}>
               <div
-                onClick={(event) => {
+                className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
                   event.stopPropagation();
                 }}
-                className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
+                onMouseMove={handleMouseMoves}
+                onMouseUp={handleMouseUps}
+                onTouchMove={handleSpinTouchMove}
+                onTouchEnd={handleSpinTouchEnd}
                 style={{
-                  position: 'absolute',
-                  left: `${8 + positionX}px`,
-                  cursor: 'grab',
-                  top: '8px',
-                  bottom: '8px',
-                  transition: isDragging ? 'none' : 'left 0.3s ease',
+                  boxShadow: '0px 4px 22.7px 0px #0000001F inset',
+                  position: 'relative',
                 }}
-                onMouseDown={handleMouseDowns}
-                onMouseLeave={handleMouseLeave}
-                onTouchStart={handleSpinTouchStart}
-                onTouchCancel={handleSpinTouchEnd}
-              ></div>
-              <div className="pl-[50px] md:pl-[76px]">
-                <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
-                  {`Drag To Spin >>`}
+              >
+                <div
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
+                  style={{
+                    position: 'absolute',
+                    left: `${8 + positionX}px`,
+                    cursor: 'grab',
+                    top: '8px',
+                    bottom: '8px',
+                    transition: isDragging ? 'none' : 'left 0.3s ease',
+                  }}
+                  onMouseDown={handleMouseDowns}
+                  onMouseLeave={handleMouseLeave}
+                  onTouchStart={handleSpinTouchStart}
+                  onTouchCancel={handleSpinTouchEnd}
+                ></div>
+                <div className="pl-[50px] md:pl-[76px]">
+                  <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                    {`Drag To Spin >>`}
+                  </button>
+                </div>
+              </div>
+              <div className="absolute spin-product-info">
+                <div className="spin-product-info-text md:h-[175px] h-auto">
+                  <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
+                    style={{ textShadow: '0px 4px 9.9px #00000040' }}>
+                    {selecteRandomPro?.node?.title}
+                  </p>
+                  <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
+                    ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
+                  </p>
+                </div>
+                <button
+                  type='button'
+                  className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
+                  onClick={() => {
+                    handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
+                  }
+                  }
+                >
+                  {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
                 </button>
               </div>
             </div>
-            <div className="absolute spin-product-info">
-              <div className="spin-product-info-text md:h-[175px] h-auto">
-                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
-                  style={{ textShadow: '0px 4px 9.9px #00000040' }}>
-                  {selecteRandomPro?.node?.title}
-                </p>
-                <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
-                  ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
-                </p>
-              </div>
-              <button
-                type='button'
-                className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
-                onClick={() => {
-                  handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
-                }
-                }
-              >
-                {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
-              </button>
-            </div>
-          </div>
-          {!isMobile && (
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, rotate: rotation }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
-              >
-                <img
-                  src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
-                  alt="Rotating image"
-                  className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
-                  draggable={false}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
-          {/* For mobile: */}
-          {isMobile && (
-            <AnimatePresence>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1, rotate: rotation }}
-                exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
-                style={{
-                  position: 'relative',
-                  display: 'block',
-                  left: '35%',
-                  //  transformOrigin: '90% 50%',
-                }}
-              >
-                <img
-                  src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
-                  alt="Rotating image"
-                  className="h-[353px] w-[353px] rounded-full mt-[-50px]"
+            {!isMobile && (
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: rotation }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+                >
+                  <img
+                    src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                    alt="Rotating image"
+                    className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
+                    draggable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            )}
+            {/* For mobile: */}
+            {isMobile && (
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: rotation }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
                   style={{
-                    transition: 'transform 0.8s ease',
+                    position: 'relative',
+                    display: 'block',
+                    left: '35%',
+                    //  transformOrigin: '90% 50%',
                   }}
-                  draggable={false}
-                />
-              </motion.div>
-            </AnimatePresence>
-          )}
+                >
+                  <img
+                    src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                    alt="Rotating image"
+                    className="h-[353px] w-[353px] rounded-full mt-[-50px]"
+                    style={{
+                      transition: 'transform 0.8s ease',
+                    }}
+                    draggable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            )}
+          </div>
         </div>
-      </div>
-}
+      }
 
       <div className="relative bg-center h-[691px] w-full cursor-pointer mb-[-40px]" onMouseDown={handleMouseHold}
         onMouseUp={handleMouseRelease}
