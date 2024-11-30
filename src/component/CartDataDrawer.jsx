@@ -271,7 +271,7 @@ export const CartDataDrawer = ({ onClose }) => {
                             >
 
 
-                                {!cartResponse || cartResponse.cart?.lines?.edges?.length === 0 && <div className="flex flex-col items-center justify-center py-10 text-center font-regola-pro md:text-xl text-lg space-y-4 mt-[150px]">
+                                {!cartResponse || cartResponse.cart?.lines?.edges?.length === 0 || cartResponse === null && <div className="flex flex-col items-center justify-center py-10 text-center font-regola-pro md:text-xl text-lg space-y-4 mt-[150px]">
                                     <p>Your cart is empty</p>
 
                                     <button
@@ -353,8 +353,6 @@ export const CartDataDrawer = ({ onClose }) => {
 
                                 </div>
                                 }
-
-
                             </div>
 
                             <div
