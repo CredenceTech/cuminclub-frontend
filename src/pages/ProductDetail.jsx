@@ -522,6 +522,36 @@ function ProductDetail() {
         };
     }, []);
 
+    function getCategoryColor(categoryTag) {
+        if (categoryTag?.toUpperCase() === "CURRIES") {
+            return "#FB7D36";
+        } else if (categoryTag?.toUpperCase() === "LENTILS") {
+            return "#FBAE36";
+        }
+        else if (categoryTag?.toUpperCase() === "RICE") {
+            return "#279C66";
+        } else if (categoryTag?.toUpperCase() === "SWEETS") {
+            return "#BA7E05";
+        }
+        else {
+            return '#279C66';
+        }
+        return '#279C66';
+    }
+    function getCategoryModified(category) {
+        if (category?.toUpperCase() === "CURRIES") {
+            return "CURRY";
+        } else if (category?.toUpperCase() === "LENTILS") {
+            return "LENTIL";
+        }
+        else if (category?.toUpperCase() === "SWEETS") {
+            return "SWEET";
+        }
+        else {
+            return category;
+        }
+        return category;
+    }
 
     const scrollContainerRef = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -600,9 +630,12 @@ function ProductDetail() {
                                 </h1>
                                 <div className='flex flex-col items-start'>
                                     <button type='button'
-                                        className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
+                                        style={{
+                                            backgroundColor: `${getCategoryColor(productData?.collections?.edges[0]?.node?.title)}`
+                                        }}
+                                        className='font-[400] uppercase md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#FFFFFF]'>{getCategoryModified(productData?.collections?.edges[0]?.node?.title)} </button>
                                     <div className="flex">
-                                        <Rating rating={averageRating} text={`${totalReviewcounts} Reviews`} />
+                                        <Rating rating={averageRating} text={`${totalReviewcounts}`} />
                                     </div>
                                 </div>
                             </div>
@@ -710,14 +743,17 @@ function ProductDetail() {
                                     </h1>
                                     <div className='flex items-center'>
                                         <button type='button'
-                                            className='font-[400] bg-[#FBAE36] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#333333]'>{productData?.collections?.edges[0]?.node?.title} </button>
+                                            style={{
+                                                backgroundColor: `${getCategoryColor(productData?.collections?.edges[0]?.node?.title)}`
+                                            }}
+                                            className='font-[400] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#FFFFFF]'>{getCategoryModified(productData?.collections?.edges[0]?.node?.title)} </button>
                                         <div className="flex ml-4">
-                                            <Rating rating={averageRating} text={`${totalReviewcounts} Reviews`} />
+                                            <Rating rating={averageRating} text={`${totalReviewcounts}`} />
                                         </div>
                                     </div>
                                 </div>
-                                <p className='md:text-[20px] text-[16px] font-[500] font-regola-pro mt-3 md:pl-2 pl-0 text-[#757575]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`}{`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
-                                <p className='md:text-[20px] text-[16px] font-[500] font-regola-pro md:mt-2 mt-1 md:pl-2 pl-0 text-[#757575]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
+                                <p className='md:text-[24px] text-[20px] font-[500] font-skillet mt-3 md:pl-2 pl-0 text-[#333333]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`} {`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
+                                <p className='md:text-[24px] text-[20px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
                                 <p className="md:text-[20px] text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-3 mt-1 md:pl-2 pl-0 text-[#757575]">
                                     {productData?.description}
                                 </p>
@@ -813,9 +849,9 @@ function ProductDetail() {
                                 {!isBulk && <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[250px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
+                                        className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[200px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
-                                        }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}</button>
+                                        }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>
                                     <button
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Buy Now</button>

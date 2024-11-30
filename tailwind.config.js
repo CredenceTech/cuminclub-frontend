@@ -28,7 +28,7 @@ export default {
     },
     screens: {
       ...require('tailwindcss/defaultTheme').screens,
-      'mobile-sm': '400px',
+      'mobile-sm': '415px',
     },
   },
   plugins: [],
