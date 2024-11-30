@@ -33,8 +33,9 @@ import selectMeal from '../assets/select-meal.png'
 import recieveBox from '../assets/receive-box.png'
 import freshHighQuality from '../assets/fresh-high-quality.jpg'
 import authenticMeal from '../assets/authentic-flavors.png'
-import preservativeFreeImg from '../assets/preservative-free.png'
+import preservativeFreeImg from '../assets/preservative-free.jpg'
 import qualityControlImg from '../assets/quality-control.jpg'
+import qualityControlMobileImg from '../assets/quality-control-mobile.jpg'
 import noArtificialAdditives from '../assets/no-artificial-additives.png'
 import noPreservativeWhite from '../assets/no-preservative.svg'
 import headerImage1 from '../assets/header.png'
@@ -333,9 +334,9 @@ const Home = () => {
     if (Math.abs(newX - positionX) > 5) {
       setDragThreshold(true);
     }
-    if (newX >= 0 && newX <= 220) {
+    if (newX >= 0 && newX <= 260) {
       setPositionX(newX);
-      if (newX >= 200) {
+      if (newX >= 240) {
         setRotation((prevRotation) => {
           const newRotation = prevRotation + 360;
           const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
@@ -358,7 +359,7 @@ const Home = () => {
     setPositionX(0);
     setDragThreshold(false)
     const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
-    if (newX < 200) {
+    if (newX < 240) {
       setRotation((prevRotation) => {
         const newRotation = prevRotation + 360;
         const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
@@ -378,9 +379,9 @@ const Home = () => {
     if (Math.abs(newX - positionX) > 5) {
       setDragThreshold(true);
     }
-    if (newX >= 0 && newX <= 145) {
+    if (newX >= 0 && newX <= 190) {
       setPositionX(newX);
-      if (newX >= 135) {
+      if (newX >= 180) {
         setRotation((prevRotation) => {
           const newRotation = prevRotation + 360;
           const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
@@ -833,7 +834,7 @@ const Home = () => {
     {
       title: 'Rigorous Quality Control',
       description: 'We check everything to make sure your meal is perfect every time.',
-      image: qualityControlImg
+      image: isMobile ? qualityControlMobileImg : qualityControlImg
     },
     {
       title: 'Completely Preservative Free',
@@ -1272,7 +1273,7 @@ const Home = () => {
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content
                     onMouseLeave={() => setShowHeaderMain(false)}
-                    className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                    className="NavigationMenuContent absolute left-0 top-8 bg-[#FAFAFAE5] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
                   >
                     <div className={`grid grid-cols-${headerMenuData.length < 5 ? headerMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
                       {headerMenuData.map((menuItem, index) => (
@@ -1310,7 +1311,7 @@ const Home = () => {
                   </NavigationMenu.Trigger>
                   <NavigationMenu.Content
                     onMouseLeave={() => setShowHeaderMain(false)}
-                    className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                    className="NavigationMenuContent absolute left-0 top-8 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-[200px] mr-10 px-10 py-11 rounded-[4px]"
                   >
                     <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
                       {learnMenuData.map((menuItem, index) => (
@@ -1719,7 +1720,7 @@ const Home = () => {
                 <img
                   src={item?.node?.image?.originalSrc}
                   alt=""
-                  className={`${item?.node?.title === 'Bundles' ? 'h-[60px] w-[60px]' : 'h-[71px] w-[71px]'} md:h-[80px] z-50 md:w-[80px]  transition-transform duration-200 md:group-hover:scale-150 md:group-hover:translate-y-4 ml-[10px]`}
+                  className={`${item?.node?.title === 'Bundles' ? 'h-[60px] w-[60px] md:h-[80px] md:w-[75px]' : 'h-[71px] w-[71px]'} md:h-[80px] z-50 md:w-[80px]  transition-transform duration-200 md:group-hover:scale-150 md:group-hover:translate-y-4 ml-[10px]`}
                 />
               </div>
               <p
@@ -1752,10 +1753,10 @@ const Home = () => {
         <div className="w-full">
           <div className="relative">
             {isMobile && !atStart && (
-              <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
+              <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-400 to-transparent pointer-events-none" />
             )}
             {isMobile && (showRightFade || !atEnd) && (
-              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
+              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-400 to-transparent pointer-events-none" ></div>
             )}
             <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
               <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
@@ -1991,10 +1992,10 @@ const Home = () => {
           </div>
         </div>
       </div>
-
+{!isMobile &&
       <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
         <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
-          <p className='text-white text-[40px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[28px] font-[400] sm:title max-w-[200px] md:max-w-full'>
+          <p className='text-white text-[60px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[48px] font-[400] sm:title max-w-[262px] md:max-w-full'>
             Not Sure What to Eat?
           </p>
           <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
@@ -2005,7 +2006,7 @@ const Home = () => {
           <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
             style={{ userSelect: 'none' }}>
             <div
-              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[202px] md:w-[300px] btn-spin' onClick={(event) => {
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
                 event.stopPropagation();
               }}
               onMouseMove={handleMouseMoves}
@@ -2036,8 +2037,8 @@ const Home = () => {
                 onTouchCancel={handleSpinTouchEnd}
               ></div>
               <div className="pl-[50px] md:pl-[76px]">
-                <button className='text-[#B25220] text-[20px] md:text-[36px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
-                  {`Spin >>`}
+                <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                  {`Drag To Spin >>`}
                 </button>
               </div>
             </div>
@@ -2109,6 +2110,7 @@ const Home = () => {
           )}
         </div>
       </div>
+}
 
 
       {/* <div className='w-full bannerbottom h-[759px] overflow-hidden'>
@@ -2295,6 +2297,126 @@ const Home = () => {
         </div>
       </div>
 
+      {isMobile &&
+      <div className='w-full bannerbottom h-[759px] overflow-hidden relative spin-banner-area'>
+        <div className='absolute top-10 left-5 lg:left-[127px] z-20 spin-banner-area-div'>
+          <p className='text-white text-[60px] font-skillet lg:text-[70px] pt-6 lg:leading-[78.27px] leading-[48px] font-[400] sm:title max-w-[262px] md:max-w-full'>
+            Not Sure What to Eat?
+          </p>
+          <p className='text-[#000] text-[30px] lg:text-[51.72px] lg:leading-[62px] leading-[25px] font-regola-pro font-[300] sub-title'>
+            Give it a Spin!
+          </p>
+        </div>
+        <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
+          <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
+            style={{ userSelect: 'none' }}>
+            <div
+              className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
+                event.stopPropagation();
+              }}
+              onMouseMove={handleMouseMoves}
+              onMouseUp={handleMouseUps}
+              onTouchMove={handleSpinTouchMove}
+              onTouchEnd={handleSpinTouchEnd}
+              style={{
+                boxShadow: '0px 4px 22.7px 0px #0000001F inset',
+                position: 'relative',
+              }}
+            >
+              <div
+                onClick={(event) => {
+                  event.stopPropagation();
+                }}
+                className='lg:h-[60px] lg:w-[60px] rounded-full bg-[#FBAE36] h-10 w-10'
+                style={{
+                  position: 'absolute',
+                  left: `${8 + positionX}px`,
+                  cursor: 'grab',
+                  top: '8px',
+                  bottom: '8px',
+                  transition: isDragging ? 'none' : 'left 0.3s ease',
+                }}
+                onMouseDown={handleMouseDowns}
+                onMouseLeave={handleMouseLeave}
+                onTouchStart={handleSpinTouchStart}
+                onTouchCancel={handleSpinTouchEnd}
+              ></div>
+              <div className="pl-[50px] md:pl-[76px]">
+                <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                  {`Drag To Spin >>`}
+                </button>
+              </div>
+            </div>
+            <div className="absolute spin-product-info">
+              <div className="spin-product-info-text md:h-[175px] h-auto">
+                <p className='text-[#FFFFFF] text-lg pr-[50px] lg:text-[42.06px] mt-4 w-[350px] font-[600] leading-[50.47px] font-regola-pro mb-3'
+                  style={{ textShadow: '0px 4px 9.9px #00000040' }}>
+                  {selecteRandomPro?.node?.title}
+                </p>
+                <p className='text-[#FFFFFF] text-lg lg:text-[37.85px] font-[400] leading-[45.42px] font-regola-pro mt-4 mb-3'>
+                  ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
+                </p>
+              </div>
+              <button
+                type='button'
+                className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
+                onClick={() => {
+                  handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
+                }
+                }
+              >
+                {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
+              </button>
+            </div>
+          </div>
+          {!isMobile && (
+            <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1, rotate: rotation }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+              >
+                <img
+                  src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                  alt="Rotating image"
+                  className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
+                  draggable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+          )}
+          {/* For mobile: */}
+          {isMobile && (
+            <AnimatePresence>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1, rotate: rotation }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20, duration: 0.8 }}
+                style={{
+                  position: 'relative',
+                  display: 'block',
+                  left: '35%',
+                  //  transformOrigin: '90% 50%',
+                }}
+              >
+                <img
+                  src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                  alt="Rotating image"
+                  className="h-[353px] w-[353px] rounded-full mt-[-50px]"
+                  style={{
+                    transition: 'transform 0.8s ease',
+                  }}
+                  draggable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+          )}
+        </div>
+      </div>
+}
+
       <div className="relative bg-center h-[691px] w-full cursor-pointer mb-[-40px]" onMouseDown={handleMouseHold}
         onMouseUp={handleMouseRelease}
         onMouseLeave={handleMouseRelease}
@@ -2340,7 +2462,7 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <div className="flavour-options flex flex-row gap-4 items-center z-10 md:mt-80 mt-2 pl-8">
+          <div className="flavour-options flex flex-row gap-12 items-center z-10 md:mt-80 mt-2 pl-[60px]">
             {buttonTexts.map((text, index) => (
               <button
                 key={index}
@@ -2420,7 +2542,7 @@ const Home = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-6 left-4" height="44" viewBox="0 0 58 44" fill="none">
                         <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" className={`fill-current text-[#333333] md:text-white `} fill-opacity="0.45" />
                       </svg>
-                      <p className="font-regola-pro leading-[30px] py-1 pl-[65px] pr-[45px] text-center md:text-start text-[20px] md:text-[24px] font-[500] text-[#333333] md:text-[#FFFFFF]">
+                      <p className="font-regola-pro leading-[30px] py-1 pl-[80px] pr-[60px] text-center md:text-start text-[20px] md:text-[24px] font-[500] text-[#333333] md:text-[#FFFFFF]">
                         {testimonial.text}
                       </p>
                       <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-10 md:bottom-auto md:top-20 right-4" viewBox="0 0 58 44" fill="none">
@@ -2485,10 +2607,10 @@ const Home = () => {
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
           {isMobile && !atrecipeStart && (
-            <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
+            <div className="absolute left-0 top-[170px] h-[360px] w-14 bg-gradient-to-r from-gray-700 to-transparent pointer-events-none" />
           )}
           {isMobile && (showrecipeRightFade || !atrecipeEnd) && (
-            <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
+            <div className="absolute right-0 top-[170px] h-[360px] w-14 bg-gradient-to-l from-gray-700 to-transparent pointer-events-none" ></div>
           )}
           <div ref={recipeContainerRef} className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (

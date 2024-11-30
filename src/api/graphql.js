@@ -1713,3 +1713,65 @@ export const stagedUploadsCreateMutation = `
   }
 `;
 
+export const getCustomerOrders=gql`
+query GetCustomerOrders($customerAccessToken: String!) {
+  customer(customerAccessToken: $customerAccessToken) {
+    orders(first: 100) {
+      edges {
+        node {
+          id
+          processedAt
+          orderNumber
+          financialStatus
+          fulfillmentStatus
+          totalPrice {
+            amount
+            currencyCode
+          }
+          lineItems(first: 100) {
+            edges {
+              node {
+                originalTotalPrice {
+                  amount
+                  currencyCode
+                }
+                quantity
+                title
+                variant {
+                  id
+                  product {
+                    id
+                    handle
+                    metafields(identifiers: [{ namespace: "custom", key: "image_for_home" }]) {
+                      value
+                      key
+                      reference {
+                        ... on MediaImage {
+                          image {
+                            originalSrc
+                            altText
+                          }
+                        }
+                      }
+                    }
+                  }
+                  image {
+                    url
+                  }
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  weight
+                  weightUnit
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+

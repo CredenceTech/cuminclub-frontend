@@ -22,6 +22,21 @@ const ProductSmallCard = ({
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    function getCategoryModified(category){
+        if (category?.toUpperCase() === "CURRIES") {
+            return "CURRY";
+         } else if (category?.toUpperCase() === "LENTILS") {
+            return "LENTIL";
+         }
+       else if (category?.toUpperCase() === "SWEETS") {
+             return "SWEET";
+         }
+         else {
+             return category;
+         }
+         return category;
+    }
+
     const [categoryColor, setCategoryColor] = useState(null);
     useEffect(() => {
         if (categoryTag?.toUpperCase() === "CURRIES") {
@@ -104,7 +119,7 @@ const ProductSmallCard = ({
                                 style={{ backgroundColor: categoryColor }}
                                 className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                             >
-                                {categoryTag}
+                                 {getCategoryModified(categoryTag)}
                             </button>
                             <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
                                 ₹ {Math.floor(productPrice)}
@@ -115,90 +130,8 @@ const ProductSmallCard = ({
                         </p>
                     </div>
                     <div className="flex gap-2 mt-3">
-                        {productQuantity > 0 ? ((loading[product.variants.edges[0].node.id]) ? (
-                            <svg
-                                width="60"
-                                height="60"
-                                viewBox="0 0 120 30"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="#4fa94d"
-                                data-testid="three-dots-svg"
-                            >
-                                <circle cx="15" cy="15" r="15">
-                                    <animate
-                                        attributeName="r"
-                                        from="15"
-                                        to="15"
-                                        begin="0s"
-                                        dur="0.8s"
-                                        values="15;9;15"
-                                        calcMode="linear"
-                                        repeatCount="indefinite"
-                                    />
-                                    <animate
-                                        attributeName="fill-opacity"
-                                        from="1"
-                                        to="1"
-                                        begin="0s"
-                                        dur="0.8s"
-                                        values="1;.5;1"
-                                        calcMode="linear"
-                                        repeatCount="indefinite"
-                                    />
-                                </circle>
-                                <circle
-                                    cx="60"
-                                    cy="15"
-                                    r="9"
-                                    attributeName="fill-opacity"
-                                    from="1"
-                                    to="0.3"
-                                >
-                                    <animate
-                                        attributeName="r"
-                                        from="9"
-                                        to="9"
-                                        begin="0s"
-                                        dur="0.8s"
-                                        values="9;15;9"
-                                        calcMode="linear"
-                                        repeatCount="indefinite"
-                                    />
-                                    <animate
-                                        attributeName="fill-opacity"
-                                        from="0.5"
-                                        to="0.5"
-                                        begin="0s"
-                                        dur="0.8s"
-                                        values=".5;1;.5"
-                                        calcMode="linear"
-                                        repeatCount="indefinite"
-                                    />
-                                </circle>
-                                <circle cx="105" cy="15" r="15">
-                                    <animate
-                                        attributeName="r"
-                                        from="15"
-                                        to="15"
-                                        begin="0s"
-                                        dur="0.8s"
-                                        values="15;9;15"
-                                        calcMode="linear"
-                                        repeatCount="indefinite"
-                                    />
-                                    <animate
-                                        attributeName="fill-opacity"
-                                        from="1"
-                                        to="1"
-                                        begin="0s"
-                                        dur="0.8s"
-                                        values="1;.5;1"
-                                        calcMode="linear"
-                                        repeatCount="indefinite"
-                                    />
-                                </circle>
-                            </svg>
-                        ) : (
+                        {productQuantity > 0 ?                        
+                        (
                             <div className="flex gap-2 items-center">
                                 <button
                                     onClick={(e) => {
@@ -219,9 +152,15 @@ const ProductSmallCard = ({
                                         />
                                     </svg>
                                 </button>
+
+                                {shaking === product.variants.edges[0].node.id ? (
+                                <div className="spinner1"></div>
+                            ) : (
                                 <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
                                     {productQuantity}
                                 </span>
+                            )}
+                               
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -242,7 +181,7 @@ const ProductSmallCard = ({
                                     </svg>
                                 </button>
                             </div>
-                        )
+                        
                         ) : <button
                             type="button"
                             onClick={(e) => {
@@ -291,7 +230,7 @@ const ProductSmallCard = ({
                                         style={{ backgroundColor: categoryColor }}
                                         className=" text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
                                     >
-                                        {categoryTag}
+                                       {getCategoryModified(categoryTag)}
                                     </button>
                                 </div>
                                 <div className="px-3 md:pl-8 pb-2 md:pb-6 p-[20px] md:pt-[120px] bg-gradient-to-b from-primary rounded-b-[0px]  md:rounded-b-3xl to-secondary w-full">
