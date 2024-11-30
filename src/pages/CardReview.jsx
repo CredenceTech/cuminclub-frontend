@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import product from '../assets/Dish-1.jpg'
 import { createCartMutation, getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
-import { addCartData, cartData, selectCartResponse, setCartResponse, } from '../state/cartData';
+import { addCartData, cartData, clearCartData, clearCartResponse, selectCartResponse, setCartResponse, } from '../state/cartData';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingAnimation from "../component/Loader";
 import {
@@ -20,12 +20,13 @@ import { addCustomerAccessToken, addUserId, customerAccessTokenData, userEmails 
 import { filterData } from '../state/selectedCountry';
 import toast from 'react-hot-toast';
 import BlazeSDK from '@juspay/blaze-sdk-web';
+import { useNavigate } from 'react-router-dom';
 
 const CardReview = () => {
     const cartDatas = useSelector(cartData);
     const cartResponse = useSelector(selectCartResponse);
     const [isLoading, setIsLoading] = useState(false);
-
+    const navigate = useNavigate();
     const [coupon, setCoupon] = useState("");
     const [isCouponCodeApply, setIsCouponCodeApply] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
@@ -43,10 +44,16 @@ const CardReview = () => {
 
     const callbackMethod = (response) => {
         console.log('Response from SDK:', response);
-        if(response?.payload?.ctaAction === "trackOrder"){
-            console.log("Invoice")
-            navigate("/Invoices") 
+        
+        if(response?.payload?.methodName==="clearCart"){
+            dispatch(clearCartData());
+            dispatch(clearCartResponse());
         }
+        if (response?.payload?.ctaAction === "shopMore") {
+            navigate("/");
+          } else if (response?.payload?.ctaAction === "trackOrder") {
+            navigate("/Invoices"); 
+          }
     };
 
    
