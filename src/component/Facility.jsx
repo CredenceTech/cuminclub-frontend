@@ -23,7 +23,7 @@ import numberStoryImg from '../assets/numbers-tell-story.jpg'
 const Facility = () => {
 
   const [videoLoaded, setVideoLoaded] = useState(true);
-
+  const mapUrl = "https://www.google.com/maps/dir//instantly+yours/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x3be01537e4ce2d71:0xf7afa0be646cdf60?sa=X&ved=1t:3061&ictx=111";
   const handlePlayClick = () => {
     setVideoLoaded(true);
   };
@@ -117,7 +117,7 @@ const Facility = () => {
             </span>
           </div>
           <Link to={'/business-inquiry'} rel="noopener noreferrer">
-            <button className="flex items-center justify-between h-[50px] md:h-[65px] rounded-[4px] bg-[#EADEC1] px-4 md:px-6">
+            <button className="flex items-center justify-between h-[50px] md:h-[55px] rounded-[4px] bg-[#EADEC1] px-4 md:px-6">
               <span className="font-regola-pro text-[16px] md:text-[24px] font-normal leading-[20px] md:leading-[28.8px] text-left text-[#333333]">
                 Enquire for business
               </span>
@@ -136,14 +136,13 @@ const Facility = () => {
 
       <div className="p-8 lg:px-[60px] lg:pt-[40px] flex flex-wrap md:flex-nowrap">
         <div className="w-full md:w-1/2 relative mapBackgrounImage rounded-[14px] mb-4 md:mb-0 md:mr-6 bg-no-repeat bg-cover bg-center h-[300px] md:h-auto">
-          <div className="absolute bottom-4 left-4 flex flex-col items-start">
+        <div className="absolute z-20 bottom-4 left-4 flex flex-col items-start">
             <p className="font-inter text-[16px] md:text-[36px] font-normal leading-[28.8px] md:leading-[43.57px] text-[#333333]">
               Surat, Gujarat
             </p>
           </div>
-
-          <div className="absolute bottom-4 right-10 flex items-center cursor-pointer">
-            <a href="https://g.co/kgs/bZfmdTz" target="_blank" rel="noopener noreferrer">
+          <div className="absolute bottom-4 right-10 z-[10] flex items-center ">
+            <a href={mapUrl} className='cursor-pointer' target="_blank" rel="noopener noreferrer">
               <button className="flex items-center bg-[#94949491] rounded-[8px] px-4 py-2">
                 <span className="text-[14px] md:text-[18px] font-regola-pro leading-[18px] md:leading-[21.6px] text-[#FAFAFA]">
                   Get Directions
@@ -449,7 +448,7 @@ const Facility = () => {
         <h1 className='text-[26px] md:text-[36px] font-[500] leading-[34px] md:leading-[43.2px] text-[#333333] font-regola-pro text-left'>
           Machineries We are Proud of →
         </h1>
-        <div className='flex flex-wrap gap-[10px]  mt-8'>
+        <div className='flex flex-wrap gap-[10px]  mt-8 ml-0 md:ml-[8%] lg:ml-[10%]'>
           {facilityAvailableData.map((item, index) => (
             <div
               key={index}
@@ -458,9 +457,9 @@ const Facility = () => {
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-[300px] lg:w-[347px] h-[243px] object-cover"
+                className="w-[300px] h-[220px] lg:w-[347px] lg:h-[243px] object-cover"
               />
-              <div className='mt-4 w-[60%] md:w-[70%] 2xl:w-[60%] relative'>
+              <div className='mt-4 w-[60%] md:w-[80%] 2xl:w-[70%] relative'>
                 <h2 className='text-[20px] md:text-[26px] font-[400] leading-[24px] md:leading-[31.2px] text-[#202020] font-regola-pro'>
                   {item.title}
                 </h2>

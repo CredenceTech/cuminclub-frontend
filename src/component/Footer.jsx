@@ -226,7 +226,7 @@ export const Footer = () => {
             </div>
 
           </div>
-          <div className="mt-10 sm:w-[385px] md:mt-0 mr-6">
+          <div className="mt-10 sm:w-[385px] md:mt-0 mr-6 ml-0 md:ml-[24px] 2xl:ml-0">
             <h2 className="sm:text-[24px] text-[16px] leading-[28.8px] font-[600] font-regola-pro text-[#000000] mb-2">Subscribe to our newsletter</h2>
             <div className="relative flex items-center">
               <input
