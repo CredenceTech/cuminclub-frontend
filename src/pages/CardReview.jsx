@@ -44,17 +44,14 @@ const CardReview = () => {
 
     const callbackMethod = (response) => {
         console.log('Response from SDK:', response);
-        
-        if(response?.payload?.methodName==="clearCart"){
-            console.log("cleared")
+        let result=JSON.parse(response)
+        if(result?.payload?.methodName==="clearCart"){
             dispatch(clearCartData());
             dispatch(clearCartResponse());
         }
-        if (response?.payload?.ctaAction === "shopMore") {
-            console.log("Navigating to Home");
+        if (result?.payload?.ctaAction === "shopMore") {
             navigate("/");
-          } else if (response?.payload?.ctaAction === "trackOrder") {
-            console.log("Navigating to Order");
+          } else if (result?.payload?.ctaAction === "trackOrder") {
             navigate("/Invoices"); 
           }
     };
