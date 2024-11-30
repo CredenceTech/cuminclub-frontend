@@ -43,18 +43,13 @@ const CardReview = () => {
 
     const callbackMethod = (response) => {
         console.log('Response from SDK:', response);
-         handleCtaAction(response);
+        if(response?.payload?.ctaAction === "trackOrder"){
+            console.log("Invoice")
+            navigate("/Invoices") 
+        }
     };
 
-    const handleCtaAction = (response) => {
-        if (response?.payload?.ctaAction === "trackOrder") {
-          const newTrackingUrl = "/Invoices"; 
-          if (newTrackingUrl) {
-             navigate(newTrackingUrl) 
-          }
-        }
-      };
-
+   
     useEffect(() => {
         console.log(loginUserCustomerId)
         if (loginUserCustomerId) {
