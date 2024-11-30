@@ -46,6 +46,7 @@ const CardReview = () => {
         console.log('Response from SDK:', response);
         
         if(response?.payload?.methodName==="clearCart"){
+            console.log("cleared")
             dispatch(clearCartData());
             dispatch(clearCartResponse());
         }
