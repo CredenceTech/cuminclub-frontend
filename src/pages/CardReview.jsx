@@ -51,8 +51,10 @@ const CardReview = () => {
             dispatch(clearCartResponse());
         }
         if (response?.payload?.ctaAction === "shopMore") {
+            console.log("Navigating to Home");
             navigate("/");
           } else if (response?.payload?.ctaAction === "trackOrder") {
+            console.log("Navigating to Order");
             navigate("/Invoices"); 
           }
     };
