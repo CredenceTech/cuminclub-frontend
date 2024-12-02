@@ -317,7 +317,7 @@ const Header = () => {
   return (
     <div ref={headerRef}>
       <div
-        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'} ${pathname.includes('product-details') && !isSticky ? 'bg-[#FFFFFF] lg:bg-[#EADEC1] pb-7' : ''}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] px-4 lg:px-10 py-6`}
+        className={`flex w-full justify-between ${pathname === "/" ? 'hidden' : ''} font-sans ${pathname.includes('ready-to-cook') || pathname === "/" || pathname.includes('login') || pathname?.includes('/forgot-password') || pathname.includes('registration') ? '' : 'bg-[#EADEC1]'} ${pathname.includes('product-details') && !isSticky ? 'bg-[#FFFFFF] lg:bg-[#EADEC1] pb-7' : ''}  items-center ${(pathname.includes('recipes') || pathname.includes('ready-to-cook') || pathname?.includes('/forgot-password') || pathname.includes('login') || pathname.includes('registration')) && isSticky ? 'bg-[#EADEC1] ' : 'text-[#FFFFFF]'}  ${isSticky ? 'fixed top-0' : 'absolute'} transition-all duration-300  z-[101] pl-4 lg:px-10 py-6`}
       >
         <div className="lg:gap-3 text-[18px] font-[500] font-regola-pro leading-[21.6px] flex flex-1">
           <NavigationMenu.Root className="NavigationMenuRoot hidden lg:flex ">
@@ -507,7 +507,7 @@ const Header = () => {
             />
           )} */}
         </div>
-        <div className="flex gap-x-6 md:gap-x-8 pl-[20px] pr-3 lg:pr-0 flex-1 justify-end">
+        <div className="flex md:gap-x-8 pl-[4px] pr-[3px] md:pr-3 lg:pr-0 flex-1 justify-end">
           <SearchQuery isSticky={isSticky} />
           <button
             onClick={() => {
@@ -528,7 +528,7 @@ const Header = () => {
               />
             </svg>
 
-            <div className="rounded-full absolute left-6 md:left-[26px] bottom-8 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+            <div className="rounded-full absolute left-5 md:left-[26px] bottom-7 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
               <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
                 {cartDatas !== null ? totalQuantity(cartResponse) : 0}
               </span>

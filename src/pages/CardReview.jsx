@@ -50,16 +50,16 @@ const CardReview = () => {
             dispatch(clearCartResponse());
         }
         if (result?.payload?.ctaAction === "shopMore") {
-            navigate("/", { replace: true }); 
-            BlazeSDK.terminate(); 
+            navigate("/", { replace: true });
+            BlazeSDK.terminate();
             return;
         } else if (result?.payload?.ctaAction === "trackOrder") {
-            navigate("/Invoices", { replace: true }); 
-            BlazeSDK.terminate(); 
+            navigate("/Invoices", { replace: true });
+            BlazeSDK.terminate();
             return;
         }
-        
-        
+
+
 
     };
 
@@ -956,7 +956,7 @@ const CardReview = () => {
                                             </div>
                                         </div>
                                         {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)} */}
-                                        <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
+                                        <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-[40px] font-[300] mt-[20px] leading-[40.36px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                     </form>
                                     : null
                                 }

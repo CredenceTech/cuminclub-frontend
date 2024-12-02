@@ -349,7 +349,7 @@ export const Faqs = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -399,7 +399,7 @@ export const Faqs = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -449,7 +449,7 @@ export const Faqs = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -499,7 +499,7 @@ export const Faqs = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -549,7 +549,7 @@ export const Faqs = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -599,7 +599,7 @@ export const Faqs = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -653,7 +653,7 @@ export const Faqs = () => {
                                                 animate={openCategoryMeals === item.id ? "open" : "closed"}
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                                <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                                 <span>
                                                     <motion.svg width="14"
                                                         height="10"
@@ -696,7 +696,7 @@ export const Faqs = () => {
                                         animate={openCategoryMeals === item.id ? "open" : "closed"}
                                         transition={{ duration: 0.3 }}
                                     >
-                                        <span className="text-[26px] font-[400] leading-[31.2px] font-regola-pro text-[#333333]">{item.question}</span>
+                                        <span className="text-[20px]  md:text-[26px] font-[400] leading-[25.34px]  md:leading-[31.2px] font-regola-pro text-[#333333] text-start">{item.question}</span>
                                         <span>
                                             <motion.svg width="14"
                                                 height="10"
