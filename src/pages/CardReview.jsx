@@ -44,19 +44,19 @@ const CardReview = () => {
 
     const callbackMethod = (response) => {
         console.log('Response from SDK:', response);
-        let result=JSON.parse(response)
-        if(result?.payload?.methodName==="clearCart"){
+        let result = JSON.parse(response)
+        if (result?.payload?.methodName === "clearCart") {
             dispatch(clearCartData());
             dispatch(clearCartResponse());
         }
         if (result?.payload?.ctaAction === "shopMore") {
             navigate("/");
-          } else if (result?.payload?.ctaAction === "trackOrder") {
-            navigate("/Invoices"); 
-          }
+        } else if (result?.payload?.ctaAction === "trackOrder") {
+            navigate("/Invoices");
+        }
     };
 
-   
+
     useEffect(() => {
         console.log(loginUserCustomerId)
         if (loginUserCustomerId) {
@@ -498,8 +498,8 @@ const CardReview = () => {
     return (
         <>
             <div className='bg-[#EFE9DA] '>
-                <div className='px-[45px] min-h-[85vh]'>
-                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-9'>Review your Cart</h1>
+                <div className='px-4 lg:px-[45px] min-h-[85vh]'>
+                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your Cart</h1>
                     <div className='flex flex-col gap-4 md:gap-6 md:flex-row justify-between'>
                         <div className='w-full px-4 md:w-1/2 mb-4'>
                             {cartResponse?.cart?.lines?.edges?.map((line, index) => {
