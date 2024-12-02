@@ -1372,7 +1372,7 @@ const Home = () => {
             </button>
           </div>
 
-          <div className="flex flex-1 justify-center gap-3 z-10 logo">
+          <div className="flex flex-1 justify-center mr-[55px] md:mr-0 mt-2 gap-3 z-10 logo">
             <Link to="/">
               <svg
                 width="143"
@@ -1459,7 +1459,7 @@ const Home = () => {
           )} */}
           </div>
 
-          <div className="flex gap-x-3 md:gap-x-8 flex-1 justify-center md:justify-end md:mr-6 z-[9999]">
+          <div className="flex md:gap-x-8 md:flex-1 justify-center md:justify-end mt-3 md:mr-6 z-[9999]">
             <div >
               <SearchQuery isSticky={isSticky} />
             </div>
@@ -1511,7 +1511,7 @@ const Home = () => {
                 />
               </svg>
 
-              <div className="rounded-full absolute left-6 md:left-[26px] bottom-8 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+              <div className="rounded-full absolute left-6 md:left-[26px] bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
                 <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
                   {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
@@ -1765,7 +1765,7 @@ const Home = () => {
         </div>
         <div className="w-full">
           <div className="relative">
-           
+
             <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
               <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
                 {apiResponse?.map((item, i) => (
@@ -2618,7 +2618,7 @@ const Home = () => {
             </div>
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-         
+
           <div ref={recipeContainerRef} className="w-full lg:min-w-[65%] xl:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">

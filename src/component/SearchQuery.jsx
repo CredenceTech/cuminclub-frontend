@@ -105,7 +105,7 @@ const SearchQuery = ({ isSticky }) => {
             </button>
 
             {searchOpen && (
-                <div ref={modalRef} className={`absolute top-[-25px] md:top-[-30px] md:right-0  ${pathname === "/" ? 'w-[90vw] -right-[63px]' : 'w-[85vw] -right-[73px]'}  md:w-[450px]  h-auto  bg-[#FAFAFAE5] pt-8 pb-8 pr-2 flex flex-col`}>
+                <div ref={modalRef} className={`absolute top-[-25px] md:top-[-30px] md:right-0  ${pathname === "/" ? 'w-[90vw] -right-[30px]' : 'w-[85vw] -right-[25px]'}  md:w-[450px]  h-auto  bg-[#FAFAFAE5] pt-8 pb-8 pr-2 flex flex-col`}>
                     <div className="flex justify-between items-center">
                         <input
                             type="text"
