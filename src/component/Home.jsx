@@ -936,7 +936,7 @@ const Home = () => {
 
   useEffect(() => {
     const updateSlidesPerView = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1280) {
         setSlidesPerView(3);
       } else if (window.innerWidth >= 768) {
         setSlidesPerView(2);
@@ -1879,7 +1879,7 @@ const Home = () => {
               >
                 {slides[0].buttonText}
               </button>
-              <div className="pt-[80px]">
+              <div className="pt-[10px] xl:pt-[80px]">
                 <div
                   className={`${fadeIn ? 'opacity-0 translate-x-[-50px]' : 'opacity-100 translate-x-0'
                     } transition-all duration-500 ease-in-out`}
@@ -1998,7 +1998,7 @@ const Home = () => {
             <button className="bg-white text-[#333333] mt-1 py-2 px-5 rounded font-regola-pro text-[16px] font-light text-center" onClick={() => { navigate('/ready-to-cook') }}>
               VIEW PRODUCTS
             </button>
-            <div className={`pt-[40px]`}>
+            <div className={`pt-[5px] xl:pt-[40px]`}>
               <div
                 className={`${fadeIn ? 'opacity-0 translate-x-[50px]' : 'opacity-100 translate-x-0'
                   } transition-all duration-500 ease-in-out`}
@@ -2019,7 +2019,7 @@ const Home = () => {
               Give it a Spin!
             </p>
           </div>
-          <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-7 lg:ml-auto md:right-[-60px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
+          <div className='relative z-10 flex justify-end items-center mt-10 lg:mt-5 lg:pt-20 xl:pt-7 lg:ml-auto  lg:right-[-180px] xl:right-[-80px] 2xl:right-[-120px] spin-section'>
             <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
               style={{ userSelect: 'none' }}>
               <div
@@ -2092,7 +2092,7 @@ const Home = () => {
                   <img
                     src={selecteRandomPro?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
                     alt="Rotating image"
-                    className="lg:h-[676px] lg:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
+                    className="lg:h-[600px] lg:w-[600px] xl:h-[676px] xl:w-[676px] h-[323px] w-[323px] rounded-full ml-[280px] mt-[-50px] md:ml-0 md:mt-0"
                     draggable={false}
                   />
                 </motion.div>
@@ -2479,7 +2479,7 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <div className="flavour-options flex flex-row gap-12 items-center z-10 md:mt-80 mt-2 pl-[60px]">
+          <div className="flavour-options flex flex-row gap-4 xl:gap-12 items-center z-10 md:mt-80 mt-2 pl-[0px] xl:pl-[60px]">
             {buttonTexts.map((text, index) => (
               <button
                 key={index}
@@ -2548,7 +2548,7 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className={`md:w-[48%] lg:w-[31%] w-[98%] p-3 h-[229px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
+                    className={`md:w-[48%] xl:w-[31%] w-[98%] p-3 h-[229px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
                   >
                     <div className="md:hidden flex justify-center">
                       <Tooltip data={testimonial.typeformMessage} style={`top-0 -left-[70px] px-8`} >
@@ -2608,7 +2608,7 @@ const Home = () => {
 
       <div className='bg-[#EFE9DA] relative mt-12 mb-[-113px]'>
         <div className="relative bg-custom-image-footer flex flex-col justify-start lg:flex-row pt-[20px] pb-[35px] md:pt-0 md:pb-0">
-          <div className="w-full lg:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
+          <div className="w-full lg:w-[35%] xl:w-1/4 p-6 lg:p-14 lg:pt-20 text-section text-white flex flex-col justify-between">
             <div>
               <h2 className="font-[600] text-[36px] leading-[36.72px] text-left font-regola-pro">
                 Explore Our
@@ -2629,7 +2629,7 @@ const Home = () => {
           {isMobile && (showrecipeRightFade || !atrecipeEnd) && (
             <div className="absolute right-0 top-[170px] h-[360px] w-14 bg-gradient-to-l from-gray-700 to-transparent pointer-events-none" ></div>
           )}
-          <div ref={recipeContainerRef} className="w-full lg:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
+          <div ref={recipeContainerRef} className="w-full lg:min-w-[65%] xl:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">
                 {/* Image container */}
