@@ -252,9 +252,9 @@ const ProductBigCard = ({
                                     ₹ {Math.floor(productPrice)}
                                 </p>
                             </div>
-                            <p className="text-[16px] md:leading-[12.73px] leading-4 font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
-                                {windowWidth <= 1600 ? (product.description.length > 100
-                                    ? `${product.description.substring(0, 100)}...`
+                            <p className="text-[16px] xl:leading-[12.73px] 2xl:leading-[18px] leading-[19px] font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
+                                {windowWidth <= 1600 ? (product.description.length > 80
+                                    ? `${product.description.substring(0, 80)}...`
                                     : product.description) : (product.description.length > 80
                                         ? `${product.description.substring(0, 200)}...`
                                         : product.description)}
