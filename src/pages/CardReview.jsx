@@ -50,12 +50,17 @@ const CardReview = () => {
             dispatch(clearCartResponse());
         }
         if (result?.payload?.ctaAction === "shopMore") {
-            navigate("/");
-            BlazeSDK.terminate();
+            navigate("/", { replace: true }); 
+            BlazeSDK.terminate(); 
+            return;
         } else if (result?.payload?.ctaAction === "trackOrder") {
-            navigate("/Invoices");
-            BlazeSDK.terminate();
+            navigate("/Invoices", { replace: true }); 
+            BlazeSDK.terminate(); 
+            return;
         }
+        
+        
+
     };
 
 
