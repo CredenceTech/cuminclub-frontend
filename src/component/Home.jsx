@@ -1288,7 +1288,7 @@ const Home = () => {
                     onMouseLeave={() => setShowHeaderMain(false)}
                     className="NavigationMenuContent absolute left-0 top-8 bg-[#FAFAFAE5] z-1000 w-[94vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
                   >
-                    <div className={`grid grid-cols-${headerMenuData.length < 5 ? headerMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
+                    <div className={`grid grid-cols-${headerMenuData.length < 5 ? headerMenuData.length : 5} gap-4 w-full px-[0px] xl:px-[150px] z-1000`}>
                       {headerMenuData.map((menuItem, index) => (
                         <div
                           key={index}
@@ -1326,7 +1326,7 @@ const Home = () => {
                     onMouseLeave={() => setShowHeaderMain(false)}
                     className="NavigationMenuContent absolute left-0 top-8 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-[200px] mr-10 px-10 py-11 rounded-[4px]"
                   >
-                    <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[150px] z-1000`}>
+                    <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[0px] xl:px-[150px] z-1000`}>
                       {learnMenuData.map((menuItem, index) => (
                         <div
                           key={index}

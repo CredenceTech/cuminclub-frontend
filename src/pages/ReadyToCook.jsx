@@ -348,7 +348,7 @@ function ReadyToCook() {
         <div className="w-full bg-[#EFE9DA] relative -top-[100px]">
             <div className="grid grid-cols-2 lg:grid-cols-3" >
                 <div className="col-span-2 order-last lg:order-first">
-                    <div className="h-[100px] hidden lg:flex lg:h-[357px] bg-[#0F0B05] "><div className="text-[120px] w-full pt-[120px] pl-[120px] font-skillet text-white font-[400] ">Cooking made sexy.</div></div>
+                    <div className="h-[100px] hidden lg:flex lg:h-[357px] bg-[#0F0B05] "><div className="xl:text-[120px] lg:text-[80px] w-full pt-[120px] lg:pl-[90px]  xl:pl-[120px] font-skillet text-white font-[400] ">Cooking made sexy.</div></div>
                     <div className="pt-[20px] lg:pt-[60px] px-[20px] lg:px-[60px]">
                         <div className="grid grid-cols-2 gap-4 md:gap-10">
                             <>
@@ -458,7 +458,7 @@ function ReadyToCook() {
                     >
                         <div
                             ref={productEdgesRef}
-                            className="container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10"
+                            className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                         >
                             {transformedProducts?.slice(1)?.map((product, productIndex) => {
                                 const isLong = isMobile ? ((productIndex >= 4) && (productIndex % 4 === 0)) : ((productIndex >= 4) &&

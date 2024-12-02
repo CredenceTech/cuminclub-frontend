@@ -314,7 +314,7 @@ export const HowItWorks = () => {
                                 }
                                 transition={{ duration: 0.3 }}
                             >
-                                <span className="text-[20px] md:text-[26px] font-[400] leading-[28px] md:leading-[31.2px] font-regola-pro text-[#333333]">{item.title}</span>
+                                <span className="text-[20px] text-left md:text-[26px] font-[400] leading-[28px] md:leading-[31.2px] font-regola-pro text-[#333333]">{item.title}</span>
                                 <span>
                                     <motion.svg width="14"
                                         height="10"
@@ -338,7 +338,7 @@ export const HowItWorks = () => {
                                         exit={{ height: 0, opacity: 0 }}
                                         className="bg-[#F5F5F5] rounded-b-lg overflow-y-scroll px-5 py-2"
                                     >
-                                        <p className="pt-2 text-[18px] font-[400] font-regola-pro text-[#393939] text-left items-start">
+                                        <p className="pt-2 text-[18px] font-[400]  font-regola-pro text-[#393939] text-left items-start">
                                             {item.description}
                                         </p>
                                     </motion.div>
