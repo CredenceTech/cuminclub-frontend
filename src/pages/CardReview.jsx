@@ -51,8 +51,10 @@ const CardReview = () => {
         }
         if (result?.payload?.ctaAction === "shopMore") {
             navigate("/");
+            BlazeSDK.terminate();
         } else if (result?.payload?.ctaAction === "trackOrder") {
             navigate("/Invoices");
+            BlazeSDK.terminate();
         }
     };
 
