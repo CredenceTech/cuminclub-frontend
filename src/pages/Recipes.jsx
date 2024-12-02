@@ -442,8 +442,8 @@ const Recipes = () => {
                     backgroundColor: backgroundColor,
                 }}
             >
-                <div className='grid grid-cols-2 lg:grid-cols-3'>
-                    <div className=" col-span-2 md:col-span-1 pl-[60px]">
+                <div className='grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-3'>
+                    <div className=" col-span-2 md:col-span-1 lg:col-span-2 xl:col-span-1 pl-[60px]">
                         <p className='text-[#FFFFFF] pt-[30px] font-regola-pro font-[300] text-[16px] leading-[12.73px]'>Recipes {">"} {recipe?.fields?.find(field => field.key === "name")?.value}</p>
                         {/* <img src={BiryaniBurrito} className='pb-[150px] h-auto  pt-8' alt="" /> */}
                         <h1 className='pb-[20px] h-[300px] max-w-[278px] font-skillet font-[400] leading-[62.4px] text-[96px] text-[#F4E8DF] pt-8'>{recipe?.fields?.find(field => field.key === "name")?.value}</h1>
@@ -452,7 +452,7 @@ const Recipes = () => {
                             <button className='px-4 rounded py-3 w-[140px] bg-[#EADEC1] text-base font-regola-pro text-[16px] font-[400] leading-[17.17px]' type='button' onClick={handleShareClick} style={{ color: textColor }}>Share Recipe </button>
                         </div>
                     </div>
-                    <div className='col-span-1 lg:col-span-2 hidden md:flex'>
+                    <div className='col-span-1 lg:col-span-3 xl:col-span-2 hidden md:flex'>
                         <img
                             src={recipe?.recipeImageUrl}
                             className='h-[445px] w-full object-cover'
@@ -541,7 +541,7 @@ const Recipes = () => {
                                     </div>
                                 </div>
                                 <div className='pb-5'>
-                                    <img src={item.img} alt="" className='lg:h-[400px] h-full w-full lg:max-w-[600px] border-b border-b-[#C6C6C6] pb-5' />
+                                    <img src={item.img} alt="" className='lg:h-auto xl:h-[400px] h-full w-full lg:max-w-[600px] border-b border-b-[#C6C6C6] pb-5' />
                                 </div>
                             </div>
                         ))}
