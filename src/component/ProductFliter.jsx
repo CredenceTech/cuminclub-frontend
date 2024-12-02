@@ -44,25 +44,25 @@ const ProductFliter = () => {
                 </label> */}
                 <select
                     id="product-select"
-                    className="mt-2 appearance-none bg-[#FAFAFA] text-[#333333] px-4 py-2 font-regola-pro text-[20px] md:text-[22px] leading-[30.21px] rounded-lg font-[300] focus:outline-none w-[160px]"
+                    className="mt-2 appearance-none bg-[#FAFAFA] text-[#333333] px-4 py-1 md:py-2 font-regola-pro text-[18px] md:text-[22px] leading-[30.21px] rounded-lg font-[300] focus:outline-none w-[130px] md:w-[160px]"
                     onChange={handleProductChange}
                     defaultValue=""
                     value={selectedCategory?.node?.title || ""}
                 >
-                    <option className='text-[#333333] font-regola-pro text-[20px] md:text-[22px] w-auto leading-[30.21px] font-[300]' value="" disabled>
+                    <option className='text-[#333333] font-regola-pro text-[18px] md:text-[22px] w-auto leading-[30.21px] font-[300]' value="" disabled>
                         Category
                     </option>
                     {categoryData.map(product => (
                         <option
                             key={product?.node?.id}
                             value={product?.node?.title}
-                            className='text-[#333333] font-regola-pro text-[20px] md:text-[22px] leading-[30.21px] font-[300] '
+                            className='text-[#333333] font-regola-pro text-[18px] md:text-[22px] leading-[30.21px] font-[300] '
                         >
                             {product?.node?.title}
                         </option>
                     ))}
                 </select>
-                <div className="absolute inset-y-0 right-[-40px] top-3 flex items-center px-2 pointer-events-none">
+                <div className="absolute inset-y-0 right-[-5px] md:right-[-40px] top-3 flex items-center px-2 pointer-events-none">
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
                     </svg>
