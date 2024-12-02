@@ -68,7 +68,7 @@ function ProductDetail() {
     const [shaking, setIsShaking] = useState(null);
     const [initialRating, setInitialRating] = useState(0);
     const [initialReviewCount, setInitialReviewCount] = useState(0);
-
+    const section1Ref = useRef(null);
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
         // setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -586,7 +586,9 @@ function ProductDetail() {
         }
     };
 
-
+    const scrollToSection = (ref) => {
+        ref.current.scrollIntoView({ behavior: "smooth" });
+    };
     const feedbackLength = parseInt(feedbacks?.length || 0, 10);
     const initialCount = initialReviewCount;
     const totalReviewcounts = feedbackLength + initialCount;
@@ -634,7 +636,7 @@ function ProductDetail() {
                                             backgroundColor: `${getCategoryColor(productData?.collections?.edges[0]?.node?.title)}`
                                         }}
                                         className='font-[400] uppercase md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#FFFFFF]'>{getCategoryModified(productData?.collections?.edges[0]?.node?.title)} </button>
-                                    <div className="flex">
+                                    <div onClick={() => scrollToSection(section1Ref)} className="flex">
                                         <Rating rating={averageRating} text={`${totalReviewcounts}`} />
                                     </div>
                                 </div>
@@ -747,7 +749,7 @@ function ProductDetail() {
                                                 backgroundColor: `${getCategoryColor(productData?.collections?.edges[0]?.node?.title)}`
                                             }}
                                             className='font-[400] md:text-[14px] text-[12px] md:leading-[18.62px] leading-[14px] tracking-[0.02em] font-regola-pro px-4 py-[6px] rounded-lg text-[#FFFFFF]'>{getCategoryModified(productData?.collections?.edges[0]?.node?.title)} </button>
-                                        <div className="flex ml-4">
+                                        <div onClick={() => scrollToSection(section1Ref)} className="flex ml-4 cursor-pointer">
                                             <Rating rating={averageRating} text={`${totalReviewcounts}`} />
                                         </div>
                                     </div>
@@ -1021,7 +1023,7 @@ function ProductDetail() {
                             </div>
                         </div>
                     } */}
-                    <div className="py-[90px] px-[30px] md:px-[51px]">
+                    <div ref={section1Ref} className="py-[90px] px-[30px] md:px-[51px]">
                         {isAddFeedbackOpen && (
                             <AddFeedback
                                 productId={productData?.id}
