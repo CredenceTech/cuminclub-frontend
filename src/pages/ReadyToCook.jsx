@@ -67,10 +67,12 @@ function ReadyToCook() {
     const [muted, setMuted] = useState(true);
     const [shaking, setIsShaking] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [isIpaid, setIsIpaid] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
+            setIsIpaid(window.innerWidth <= 1280);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -461,7 +463,7 @@ function ReadyToCook() {
                             className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                         >
                             {transformedProducts?.slice(1)?.map((product, productIndex) => {
-                                const isLong = isMobile ? ((productIndex >= 4) && (productIndex % 4 === 0)) : ((productIndex >= 4) &&
+                                const isLong = isIpaid ? ((productIndex >= 4) && (productIndex % 4 === 0)) : ((productIndex >= 4) &&
                                     ((productIndex - 4) % 10 === 0 || (productIndex - 8) % 10 === 0));
 
                                 const productLargeImage =

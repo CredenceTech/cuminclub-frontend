@@ -62,10 +62,12 @@ export const Product = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [shaking, setIsShaking] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [isIpaid, setIsIpaid] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
+            setIsIpaid(window.innerWidth <= 1280);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
@@ -350,11 +352,11 @@ export const Product = () => {
                     >
                         <div
                             ref={productEdgesRef}
-                            className="container mx-auto grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10"
+                            className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                         >
                             {transformedProducts?.map((product, productIndex) => {
                                 // Determine if this is a long product layout
-                                const isLong = isMobile ? (productIndex % 5 === 0) :
+                                const isLong = isIpaid ? (productIndex % 5 === 0) :
                                     ((productIndex % 15 === 0) ||
                                         (productIndex % 15 === 6) ||
                                         (productIndex % 15 === 10));
