@@ -1765,12 +1765,7 @@ const Home = () => {
         </div>
         <div className="w-full">
           <div className="relative">
-            {isMobile && !atStart && (
-              <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
-            )}
-            {isMobile && (showRightFade || !atEnd) && (
-              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
-            )}
+           
             <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
               <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
                 {apiResponse?.map((item, i) => (
@@ -1936,11 +1931,11 @@ const Home = () => {
                 className="absolute"
                 style={{
                   top: "25%",
-                  left: "40%",
+                  left: "55%",
                   transform: "translate(-50%, -50%)",
                 }}
               >
-                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[2]}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[0]}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -1969,12 +1964,12 @@ const Home = () => {
               <div
                 className="absolute"
                 style={{
-                  bottom: "22%",
-                  left: "53%",
+                  bottom: "19%",
+                  left: "50%",
                   transform: "translate(-50%, 50%)",
                 }}
               >
-                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[0]}>
+                <Tooltip message={":sparkles: Coming soon!"} data={tooltipData[2]}>
                   <div className="cursor-pointer img-svg">
                     <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <circle cx="34.3278" cy="33.9938" r="33.6715" fill="#A6A6A6" fillOpacity="0.45" />
@@ -2206,7 +2201,7 @@ const Home = () => {
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
-                <a onClick={() => { navigate(`/how-it-works`) }} className="link cursor-pointer hidden md:flex">
+                <a onClick={() => { navigate(`/how-it-works`) }} className="link cursor-pointer">
                   <span className="text-content font-inter">Learn How It Works</span>
                   <span className="shadow-text font-inter">Learn How It Works</span>
                   <svg
@@ -2623,12 +2618,7 @@ const Home = () => {
             </div>
             <button className="hidden lg:flex bg-white mb-[35px] text-[#333333] py-2 px-8 font-[300] font-regola-pro text-[16px] rounded lg:self-start self-center" onClick={() => { navigate('/recipe-list') }}>View all recipes</button>
           </div>
-          {isMobile && !atrecipeStart && (
-            <div className="absolute left-0 top-[170px] h-[360px] w-14 bg-gradient-to-r from-gray-700 to-transparent pointer-events-none" />
-          )}
-          {isMobile && (showrecipeRightFade || !atrecipeEnd) && (
-            <div className="absolute right-0 top-[170px] h-[360px] w-14 bg-gradient-to-l from-gray-700 to-transparent pointer-events-none" ></div>
-          )}
+         
           <div ref={recipeContainerRef} className="w-full lg:min-w-[65%] xl:min-w-3/4 lg:pb-[100px] lg:pt-20 pl-6 md:pl-14 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide flex gap-x-5">
             {recipeList?.map((recipe) => (
               <div key={recipe?.id} className="relative min-w-[250px] md:min-w-[300px]">

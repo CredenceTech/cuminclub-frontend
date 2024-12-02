@@ -676,6 +676,10 @@ body {
 }
 
 @media (max-width: 768px) {
+  .link{
+    display: none;
+  }
+
   .flavour-options {
     position: absolute;
     top: 0;
