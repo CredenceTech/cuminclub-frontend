@@ -103,6 +103,7 @@ const ProductBigCard = ({
             dispatch,
             setCartResponse,
             setLoading,
+            setIsShaking,
         });
     }
     return (

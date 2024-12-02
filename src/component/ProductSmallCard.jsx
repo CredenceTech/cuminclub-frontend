@@ -93,6 +93,7 @@ const ProductSmallCard = ({
             dispatch,
             setCartResponse,
             setLoading,
+            setIsShaking,
         });
     }
     return (
