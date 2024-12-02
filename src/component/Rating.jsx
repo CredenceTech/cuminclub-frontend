@@ -48,9 +48,9 @@ const Rating = ({ rating, text, color = '#EB7E01', emptyColor = '#EB7E01' }) => 
     }
 
     return (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-row">
             <div className="flex">{starElements}</div>
-            <span className='md:text-[18px] text-[15px] font-[300] font-regola-pro md:pl-2 mt-2 md:mt-0 text-[#757575]'>
+            <span className='md:text-[18px] text-[15px] font-[300] font-regola-pro md:pl-2 pl-2 mt-[2px] md:mt-0 text-[#757575]'>
                 {text}
             </span>
         </div>
