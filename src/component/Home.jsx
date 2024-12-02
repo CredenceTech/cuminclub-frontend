@@ -1766,10 +1766,10 @@ const Home = () => {
         <div className="w-full">
           <div className="relative">
             {isMobile && !atStart && (
-              <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-400 to-transparent pointer-events-none" />
+              <div className="absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-gray-300 to-transparent pointer-events-none" />
             )}
             {isMobile && (showRightFade || !atEnd) && (
-              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-400 to-transparent pointer-events-none" ></div>
+              <div className="absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-gray-300 to-transparent pointer-events-none" ></div>
             )}
             <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
               <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
@@ -2206,7 +2206,7 @@ const Home = () => {
                 <span className="font-regola-pro text-[24px] md:text-[36px] font-semibold leading-[28.8px] md:leading-[41.76px] text-[#333333]">
                   Simple, Transparent, and Delicious
                 </span>
-                <a onClick={() => { navigate(`/how-it-works`) }} className="link cursor-pointer">
+                <a onClick={() => { navigate(`/how-it-works`) }} className="link cursor-pointer hidden md:flex">
                   <span className="text-content font-inter">Learn How It Works</span>
                   <span className="shadow-text font-inter">Learn How It Works</span>
                   <svg

@@ -133,9 +133,9 @@ export const Footer = () => {
                 >
                   Facility
                 </p>
-                <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
+                {/* <p className="text-[16px] cursor-pointer leading-[19.2px] mt-[10px] font-[400] font-regola-pro text-[#333333] uppercase">
                   Sustainability
-                </p>
+                </p> */}
               </div>
             </div>
             <div className="mt-4 md:ml-[30px] md:mt-0 footer-link border-b pb-6 md:pb-0 border-[#333333] md:border-0">
