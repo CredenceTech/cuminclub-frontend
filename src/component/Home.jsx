@@ -327,7 +327,7 @@ const Home = () => {
         );
         setFadeIn(false);
       }, 500);
-    }, 5000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
