@@ -364,9 +364,9 @@ export const CartDataDrawer = ({ onClose }) => {
                                             <p className="text-[26px] font-skillet  lg:text-[30.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                             <p className="text-[28px] text-[#279C66] font-skillet lg:text-[32px] font-[400] leading-[37.5px]">₹ <span className='lg:text-[33px] font-[400] leading-[32px]'>{cartResponse?.cart?.cost?.totalAmount?.amount}</span></p>
                                         </div>
-                                        <p className='text-[#757575] md:text-[18px] font-[500] md:leading-[26.45px] text-[14px] leading-3 text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
+                                        <p className='text-[#757575] md:text-[18px] font-[500] md:leading-[26.45px] text-[16px] leading-[20px] text-start md:text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
 
-                                        <button type='button' className='rounded-lg font-skillet text-2xl font-[300] leading-[40.36px] lg:text-[30px] mt-[20px] bg-gray-900 text-gray-100 w-full py-4' onClick={() => {
+                                        <button type='button' className='rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4' onClick={() => {
                                             navigate('/cardReview');
                                             onClose();
                                         }}
