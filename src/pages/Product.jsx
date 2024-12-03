@@ -366,7 +366,8 @@ export const Product = () => {
                                     product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
                                 const productSmallImage =
                                     product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
-
+                                    const rtc = product?.metafields?.find(mf => mf && mf.key === "rtc").value==="true"? true : false;
+                               
                                 const productPrice = product.priceRange.minVariantPrice.amount;
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
@@ -386,6 +387,7 @@ export const Product = () => {
                                         setCartResponse={setCartResponse}
                                         setLoading={setLoading}
                                         loading={loading}
+                                        rtcCategory={rtc}
                                     />
                                 ) : (
                                     <ProductSmallCard
@@ -402,6 +404,7 @@ export const Product = () => {
                                         setCartResponse={setCartResponse}
                                         setLoading={setLoading}
                                         loading={loading}
+                                        rtcCategory={rtc}
                                     />
                                 );
                             })}

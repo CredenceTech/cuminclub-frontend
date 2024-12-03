@@ -332,7 +332,7 @@ const Header = () => {
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content
                   onMouseLeave={() => setShowHeaderMain(false)}
-                  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]"
+                  className="NavigationMenuContent absolute left-0 top-8 bg-[#FAFAFAE5] z-1000 w-[94vw] mr-10 px-10 py-11 rounded-[4px]"
                 >
                   <div className={`grid grid-cols-${headerMenuData.length < 5 ? headerMenuData.length : 5} gap-4 w-full px-[0px] xl:px-[150px] z-1000`}>
                     {headerMenuData.map((menuItem, index) => (
@@ -368,7 +368,7 @@ const Header = () => {
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content
                   onMouseLeave={() => setShowHeaderMain(false)}
-                  className="NavigationMenuContent absolute left-0 top-12 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-10 mr-10 px-10 py-11 rounded-[4px]"
+                  className="NavigationMenuContent absolute left-[-38px] top-8 bg-[#FAFAFAE5] z-1000 w-[75vw] ml-[12.5vw] px-10 py-11 rounded-[4px]"
                 >
                   <div className={`grid grid-cols-${learnMenuData.length < 5 ? learnMenuData.length : 5} gap-4 w-full px-[0px] xl:px-[150px] z-1000`}>
                     {learnMenuData.map((menuItem, index) => (

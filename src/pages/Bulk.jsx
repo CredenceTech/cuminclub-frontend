@@ -333,7 +333,7 @@ export const Bulk = () => {
     };
     return (
         <div className="w-full bg-[#EFE9DA]">
-            <ProductFliter />
+            <ProductFliter excludeCategories={['Bundles']} />
             <div className="p-[20px] lg:p-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -360,7 +360,7 @@ export const Bulk = () => {
                                     product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
 
                                 const productPrice = product.priceRange.minVariantPrice.amount;
-                                const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
+                                const categoryTag = ''; // Replace with appropriate category if available
 
                                 return <>
                                     <ProductSmallCard

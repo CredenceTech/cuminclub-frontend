@@ -824,7 +824,7 @@ const ReadyToEat = () => {
             </div> */}
 
             {/* <div className="mt-4 overflow-y-auto" style={{ height: '79vh' }} ref={productsContainerRef}> */}
-            <div className=""><ProductFliter /></div>
+            <div className=""><ProductFliter excludeCategories={['Bundles']} /></div>
             <div className="p-[20px] lg:p-[60px]">
 
               <AnimatePresence mode="wait">
