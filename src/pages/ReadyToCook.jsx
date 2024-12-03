@@ -37,6 +37,7 @@ import kormavideo from '../assets/video/Korma-Reel.mp4'
 import ReactPlayer from "react-player";
 import ProductBigCard from "../component/ProductBigCard";
 import ProductSmallCard from "../component/ProductSmallCard";
+import rtcTitleImg from '../assets/rtc-title-img.png'
 
 function ReadyToCook() {
 
@@ -350,7 +351,7 @@ function ReadyToCook() {
         <div className="w-full bg-[#EFE9DA] relative -top-[100px]">
             <div className="grid grid-cols-2 lg:grid-cols-3" >
                 <div className="col-span-2 order-last lg:order-first">
-                    <div className="h-[100px] hidden lg:flex lg:h-[357px] bg-[#0F0B05] "><div className="xl:text-[120px] lg:text-[80px] w-full pt-[120px] lg:pl-[90px]  xl:pl-[120px] font-skillet text-white font-[400] ">Cooking made sexy.</div></div>
+                    <div className="h-[100px] hidden lg:flex lg:h-[357px] bg-[#0F0B05] xl:flex justify-center items-center"><img src={rtcTitleImg} className="xl:h-[100px] xl:mt-[100px] xl:ml-[50px]"/></div>
                     <div className="pt-[20px] lg:pt-[60px] px-[20px] lg:px-[60px]">
                         <div className="grid grid-cols-2 gap-4 md:gap-10">
                             <>

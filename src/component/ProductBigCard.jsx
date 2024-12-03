@@ -18,7 +18,8 @@ const ProductBigCard = ({
     setIsShaking,
     productPrice,
     setLoading,
-    loading
+    loading,
+    rtcCategory 
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -132,6 +133,15 @@ const ProductBigCard = ({
                             >
                                 {getCategoryModified(categoryTag)}
                             </button>
+                            {(rtcCategory===true) && 
+                                  <button
+                                  type="button"
+                                  style={{ backgroundColor: '#000000' }}
+                                  className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                              >
+                                  DIY KIT
+                              </button>
+                            }
                             <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
                                 ₹ {Math.floor(productPrice)}
                             </p>
