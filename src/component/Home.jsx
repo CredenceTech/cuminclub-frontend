@@ -41,7 +41,7 @@ import noPreservativeWhite from '../assets/no-preservative.svg'
 import headerImage1 from '../assets/header.png'
 import headerImage2 from '../assets/header2.png'
 import headerImage3 from '../assets/header3.png'
-import headerMobileImage1 from '../assets/header-mobile.png'
+import headerMobileImage1 from '../assets/header-mobile.jpg'
 import headerMobileImage2 from '../assets/header2-mobile.jpg'
 import headerMobileImage3 from '../assets/header3-mobile.jpg'
 import Tooltip from "./Tooltip";
@@ -372,7 +372,7 @@ const Home = () => {
     setPositionX(0);
     setDragThreshold(false)
     const newX = e.clientX - e.target.parentNode.getBoundingClientRect().left - 30;
-    if (newX < 240) {
+    if (newX < 250) {
       setRotation((prevRotation) => {
         const newRotation = prevRotation + 360;
         const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
@@ -392,9 +392,9 @@ const Home = () => {
     if (Math.abs(newX - positionX) > 5) {
       setDragThreshold(true);
     }
-    if (newX >= 0 && newX <= 190) {
+    if (newX >= 0 && newX <= 200) {
       setPositionX(newX);
-      if (newX >= 180) {
+      if (newX >= 190) {
         setRotation((prevRotation) => {
           const newRotation = prevRotation + 360;
           const selectedIndex = Math.abs(Math.floor(newRotation / 360) % apiResponse.length);
@@ -896,8 +896,8 @@ const Home = () => {
     },
     {
       id: 4,
-      text: "Easy to carry and easy to open! Tasty food!",
-      reviewerName: "Nayan Dubey",
+      text: "Perfect when travelling, it has no peculiar smell that normally comes in ready to eat packets, perfect consistency & taste",
+      reviewerName: "Swati Shah",
       typeform: "Typeform",
       typeformMessage: {
         title: "Pilot",
@@ -2049,7 +2049,7 @@ const Home = () => {
                   onTouchCancel={handleSpinTouchEnd}
                 ></div>
                 <div className="pl-[50px] md:pl-[76px]">
-                  <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                  <button className='text-[#B25220] text-[10px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
                     {`Drag To Spin >>`}
                   </button>
                 </div>
@@ -2323,7 +2323,7 @@ const Home = () => {
             <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
               style={{ userSelect: 'none' }}>
               <div
-                className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
+                className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[260px] md:w-[350px] btn-spin' onClick={(event) => {
                   event.stopPropagation();
                 }}
                 onMouseMove={handleMouseMoves}
@@ -2354,7 +2354,7 @@ const Home = () => {
                   onTouchCancel={handleSpinTouchEnd}
                 ></div>
                 <div className="pl-[50px] md:pl-[76px]">
-                  <button className='text-[#B25220] text-[20px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
+                  <button className='text-[#B25220] text-[18px] md:text-[30px] font-[500] leading-[43.2px] font-regola-pro spin-btn'>
                     {`Drag To Spin >>`}
                   </button>
                 </div>
@@ -2543,7 +2543,7 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className={`md:w-[48%] xl:w-[31%] w-[98%] p-3 h-[229px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
+                    className={`md:w-[48%] xl:w-[31%] w-[98%] p-3 h-[250px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
                   >
                     <div className="md:hidden flex justify-center">
                       <Tooltip data={testimonial.typeformMessage} style={`top-0 -left-[70px] px-8`} >

@@ -119,7 +119,7 @@ const ProductSmallCard = ({
                             {categoryTag && <button
                                 type="button"
                                 style={{ backgroundColor: categoryColor }}
-                                className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                className="flex text-[#FAFAFA] text-[10px] mobile-sm:text-[12px] px-2 mobile-sm:px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                             >
                                 {getCategoryModified(categoryTag)}
                             </button>
@@ -128,7 +128,7 @@ const ProductSmallCard = ({
                                 <button
                                     type="button"
                                     style={{ backgroundColor: '#000000' }}
-                                    className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                    className="flex text-[#FAFAFA] text-[10px] mobile-sm:text-[12px] px-2 mobile-sm:px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                                 >
                                     DIY KIT
                                 </button>
@@ -250,7 +250,7 @@ const ProductSmallCard = ({
                                 className="w-full h-full md:h-full object-cover rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                             />
                             <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
-                                <div className="p-2 md:p-5">
+                                <div className="p-2 md:p-5 flex flex-row gap-2">
                                     {categoryTag && <button
                                         type="button"
                                         style={{ backgroundColor: categoryColor }}
@@ -259,6 +259,15 @@ const ProductSmallCard = ({
                                         {getCategoryModified(categoryTag)}
                                     </button>
                                     }
+                                      {(rtcCategory===true) && 
+                                  <button
+                                  type="button"
+                                  style={{ backgroundColor: '#000000' }}
+                                 className=" text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
+                              >
+                                  DIY KIT
+                              </button>
+                            }
                                 </div>
                                 <div className="px-3 md:pl-8 pb-2 md:pb-6 p-[20px] md:pt-[120px] bg-gradient-to-b from-primary rounded-b-[0px]  md:rounded-b-3xl to-secondary w-full">
                                     <div className="flex flex-row justify-between items-center mb-2 md:mb-5">

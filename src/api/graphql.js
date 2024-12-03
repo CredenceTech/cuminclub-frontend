@@ -1531,6 +1531,8 @@ query productByHandle($handle: String!) {
            { namespace: "custom", key: "premium" },
              { namespace: "custom", key: "initial_star_rating" },
                { namespace: "custom", key: "initial_reviews_count" },
+                { namespace: "custom", key: "bulk_output" },
+                 { namespace: "custom", key: "bulk_application" },
       ]) {
         value
         key
