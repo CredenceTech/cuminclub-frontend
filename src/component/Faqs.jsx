@@ -639,10 +639,10 @@ export const Faqs = () => {
                 <div className="accordion-container text-[#333333]">
                     {subscriptionData.map((section, index) => (
                         <div key={index}>
-                            <h2 className="text-2xl font-bold mb-4 mt-4">{section.title}</h2>
+                            <h2 className="text-[18px] lg:text-[24px] md:leading-[25px] leading-[30.36px] font-regola-pro font-[400] mb-4 mt-4">{section.title}</h2>
                             {section.subtitles ? section.subtitles.map((subtitleSection, subIndex) => (
                                 <div key={subIndex}>
-                                    <h3 className="text-[18px] font-semibold mb-4 mt-4">{subtitleSection.subtitle}</h3>
+                                    <h3 className="text-[18px] font-regola-pro font-[400] mb-4 mt-4">{subtitleSection.subtitle}</h3>
                                     {subtitleSection.questions.map((item) => (
                                         <div key={item.id} className="border-b-2">
                                             <motion.button
