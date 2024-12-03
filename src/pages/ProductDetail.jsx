@@ -754,8 +754,8 @@ function ProductDetail() {
                                         </div>
                                     </div>
                                 </div>
-                                <p className='md:text-[24px] text-[20px] font-[500] font-skillet mt-3 md:pl-2 pl-0 text-[#333333]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`} {`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
-                                <p className='md:text-[24px] text-[20px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
+                                <p className='md:text-[29px] text-[25px] font-[500] font-skillet mt-3 md:pl-2 pl-0 text-[#333333]'>Net weight: {`${productData?.variants.edges[0]?.node.weight}`} {`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
+                                <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
                                 <p className="md:text-[20px] text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-3 mt-1 md:pl-2 pl-0 text-[#757575]">
                                     {productData?.description}
                                 </p>
