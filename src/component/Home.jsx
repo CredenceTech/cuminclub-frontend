@@ -2018,7 +2018,7 @@ const Home = () => {
             <div className='relative right-[-38px] top-[-15px] z-[-1] mt-2 spin-content'
               style={{ userSelect: 'none' }}>
               <div
-                className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[250px] md:w-[350px] btn-spin' onClick={(event) => {
+                className='flex cursor-pointer flex-row py-2 pl-2 pr-10 rounded-full items-center gap-x-3 bg-[#FFFFFF] md:h-[76px] h-auto w-[260px] md:w-[350px] btn-spin' onClick={(event) => {
                   event.stopPropagation();
                 }}
                 onMouseMove={handleMouseMoves}
