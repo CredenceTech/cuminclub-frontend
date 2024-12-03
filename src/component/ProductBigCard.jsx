@@ -129,7 +129,7 @@ const ProductBigCard = ({
                             <button
                                 type="button"
                                 style={{ backgroundColor: categoryColor }}
-                                className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                className="flex text-[#FAFAFA] text-[10px] mobile-sm:text-[12px] px-2 mobile-sm:px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                             >
                                 {getCategoryModified(categoryTag)}
                             </button>
@@ -137,7 +137,7 @@ const ProductBigCard = ({
                                   <button
                                   type="button"
                                   style={{ backgroundColor: '#000000' }}
-                                  className="flex text-[#FAFAFA] text-[12px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                  className="flex text-[#FAFAFA] text-[10px] mobile-sm:text-[12px] px-2 mobile-sm:px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
                               >
                                   DIY KIT
                               </button>
@@ -245,13 +245,25 @@ const ProductBigCard = ({
                                 alt={product.title}
                                 className="w-full h-[290px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200"
                             />
+                            <div className='flex flex-row absolute top-5 w-[400px] left-5 gap-2'>
                             <button
                                 type="button"
                                 style={{ backgroundColor: categoryColor }}
-                                className="text-[18px] leading-[27.08px] absolute top-5 left-5 text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
+                                className="text-[18px] leading-[27.08px]  text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
                             >
                                 {getCategoryModified(categoryTag)}
                             </button>
+                            {(rtcCategory===true) && 
+                                  <button
+                                  type="button"
+                                  style={{ backgroundColor: '#000000' }}
+                                   className="text-[18px] leading-[27.08px]  text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
+                              >
+                                  DIY KIT
+                              </button>
+                            }
+                            </div>
+                           
                         </div>
                         <div className="px-10 py-3">
                             <div className="flex flex-row justify-between pt-[18px] pb-2">
