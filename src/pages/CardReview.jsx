@@ -606,7 +606,7 @@ const CardReview = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <p className='text-[#757575] text-[20px] font-[500] leading-[26.45px] text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
+                                <p className='text-[#757575] text-[16px] md:text-[20px] font-[500] leading-[26.45px] text-start md:text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
                                 {/* <div className="flex mt-8 flex-row text-center gap-y-5 whitespace-nowrap justify-between gap-3">
                                     <div className='h-[80px] w-[220px] rounded-lg bg-[#EFE9DA]'>
                                         <p className='px-5 py-8 text-center font-[400] text-[20px] leading-[24px] font-regola-pro text-[#757575]'>Standard</p>
@@ -706,7 +706,7 @@ const CardReview = () => {
                                             {/* {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)} */}
 
 
-                                            <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
+                                            <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                         </form>
                                     </>
                                     :
@@ -714,7 +714,7 @@ const CardReview = () => {
                                 }
                                 {!isLogin ?
                                     <>
-                                        <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold my-5">Account Details</h2>
+                                        <h2 className="text-[#333333] text-[20px] md:text-[30px] font-regola-pro leading-[33.2px] md:leading-[43.2px] font-[500] md:font-bold my-5">Account Details</h2>
                                         <form onSubmit={formikForWitoutLogin.handleSubmit}>
                                             <div className="relative flex flex-col mb-4">
                                                 <input type="text" placeholder='Email' name="email" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.email} className="w-full lg:w-[70%] bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]   py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
@@ -838,7 +838,7 @@ const CardReview = () => {
                                                 </div>
                                             </div>
                                             {formikForWitoutLogin.touched.consent && formikForWitoutLogin.errors.consent && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.consent}</label>)} */}
-                                            <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-4xl mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
+                                            <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                         </form>
                                     </> : null
                                 }
@@ -956,7 +956,7 @@ const CardReview = () => {
                                             </div>
                                         </div>
                                         {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)} */}
-                                        <button type='submit' className="rounded-lg font-skillet text-2xl lg:text-[40px] font-[300] mt-[20px] leading-[40.36px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
+                                        <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                     </form>
                                     : null
                                 }
