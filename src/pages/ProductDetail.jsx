@@ -250,21 +250,28 @@ function ProductDetail() {
     const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
 
 
-    const fetchRelatedProducts = async (first) => {
+    const fetchRelatedProducts = async (isBulk) => {
         setLoading(true);
+        console.log(isBulk );
         try {
             const result = await graphQLClient.request(getRelatedProducts, {
                 first: 50,
                 sortKey: "TITLE",
-                reverse: false
+                reverse: false,
             });
-
+    
             const products = result?.products?.edges || [];
-            const filteredProducts = products.filter(product => {
+            const filteredProducts = products.filter((product) => {
                 const bulkValue = product.node.bulkMetafield?.value;
-                return bulkValue === null || bulkValue === "false";
+    
+                // Check bulkMetafield value based on isBulk flag
+                if (isBulk) {
+                    return bulkValue === "true";
+                } else {
+                    return bulkValue === null || bulkValue === "false";
+                }
             });
-
+    
             return filteredProducts;
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -273,6 +280,9 @@ function ProductDetail() {
             setLoading(false);
         }
     };
+
+   
+    
 
     const fetchStepsQueyDetails = async (stepId) => {
         try {
@@ -328,7 +338,13 @@ function ProductDetail() {
                     const initailRating = parseFloat(initialRatingString);
                     const initailReviewsCount = parseInt(initialReviewsCountString, 10);
 
-                    response?.product?.metafields?.find(field => field?.key === 'bulk').value==="true" ? setIsBulk(true) : setIsBulk(false);
+                    const bulk=response?.product?.metafields?.find(field => field?.key === 'bulk').value;
+                    if(bulk==="true"){
+                        setIsBulk(true)
+                    }
+                    else{
+                        setIsBulk(false);
+                    }
 
                     setInitialRating(initailRating);
                     setInitialReviewCount(initailReviewsCount);
@@ -392,7 +408,15 @@ function ProductDetail() {
 
                     // Related Products Logic
                     let currentRelatedProducts = response?.product?.relatedProducts?.references?.edges || [];
-                    let relatedAdditionalProducts = await fetchRelatedProducts(6);
+
+                    let relatedAdditionalProducts;
+                    if(bulk==="true"){
+                        relatedAdditionalProducts=  await fetchRelatedProducts(true)
+                    }
+                    else{
+                        relatedAdditionalProducts=  await fetchRelatedProducts(false)
+                    }
+
                     if (currentRelatedProducts.length < 6) {
                         const remainingCount = 6 - currentRelatedProducts.length;
                         const existingProductIds = new Set(currentRelatedProducts.map(product => product.node.id));
@@ -1030,7 +1054,7 @@ function ProductDetail() {
                         </div>
                     } */}
                     
-              
+           {!isBulk &&   
                   <div ref={section1Ref} className="pt-[90px] px-[30px] md:px-[51px]">
                         {isAddFeedbackOpen && (
                             <AddFeedback
@@ -1073,6 +1097,8 @@ function ProductDetail() {
                         </div>
 
                     </div>
+
+                            }
                     
                     {
                         productData?.relatedProducts?.references?.edges &&
