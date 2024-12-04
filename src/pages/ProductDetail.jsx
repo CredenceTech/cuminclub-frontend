@@ -69,6 +69,8 @@ function ProductDetail() {
     const [initialRating, setInitialRating] = useState(0);
     const [initialReviewCount, setInitialReviewCount] = useState(0);
     const section1Ref = useRef(null);
+    const [visibleFeedbackCount, setVisibleFeedbackCount] = useState(3);
+
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
         // setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
@@ -906,7 +908,7 @@ function ProductDetail() {
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Buy Now</button>
                                 </div>
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
-                                    *Suitable for vegetarians, No dairy ingredients useds
+                                    *Suitable for vegetarians, No dairy ingredients used
                                 </p>}
                             </div>
                         </div>
@@ -945,7 +947,7 @@ function ProductDetail() {
 
                                                 className={`md:w-5/6 ${isRte ? 'w-[100%]' : 'w-5/6'} ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
                                             >
-                                                <div className={`relative md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} bg-[#333333] rounded-[11.2px] `}>
+                                                <div className={`relative md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} ${isBulk ? 'hidden' : 'flex'}  bg-[#333333] rounded-[11.2px] `}>
                                                     {steps && <ReactPlayer
                                                         className="bg-cover"
                                                         url={steps[imageIndex]?.video}
@@ -965,23 +967,6 @@ function ProductDetail() {
                                                             },
                                                         }}
                                                     />}
-                                                    {/* {!playing && (
-                                            <div className="absolute inset-0 flex justify-center z-20 items-center">
-                                                <button
-                                                    onClick={handlePlayAgain}
-                                                    className="text-white p-4 rounded-full">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#EFEFEF"><path d="m383-310 267-170-267-170v340Zm97 230q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Zm0-60q142 0 241-99.5T820-480q0-142-99-241t-241-99q-141 0-240.5 99T140-480q0 141 99.5 240.5T480-140Zm0-340Z" /></svg> 
-                                                                               </button>
-                                            </div>
-                                        )} */}
-                                                    {/* <img
-                                            className="w-full h-[505px] rounded-lg"
-                                            src={steps[imageIndex].src}
-                                            alt={steps[imageIndex].alt}
-                                            style={{
-                                                transition: "background-image 1s ease-in-out"
-                                            }}
-                                        /> */}
                                                 </div>
                                                 <div className="flex ">
                                                     <h3
@@ -1001,7 +986,7 @@ function ProductDetail() {
                                             // transition={{ duration: 0.3 }}
                                             className='w-1/6 ml-10 relative'
                                         >
-                                            <div className={`w-[430%] md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden`}>
+                                            <div className={`w-[430%] md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} ${isBulk ? 'hidden' : 'flex'} rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden`}>
                                                 {steps && <ReactPlayer
                                                     className="bg-cover"
                                                     url={steps[nextImageIndex]?.video}
@@ -1087,7 +1072,7 @@ function ProductDetail() {
                                         Your Health is Our Priority
                                     </h2>
                                     <p className="text-[28px] font-[400] leading-[29.04px] text-[#757575] font-skillet">
-                                        Don’t Believe Us, Believe Our Happy Customers
+                                        Don't Believe Us, Believe Our Happy Customers
                                     </p>
                                 </div>
 
@@ -1107,9 +1092,32 @@ function ProductDetail() {
                             </div>
                             <div className="pt-5">
                                 <div className="max-w-4xl mx-auto">
-                                    {feedbacks?.map((review, index) => (
+                                    {feedbacks?.slice(0, visibleFeedbackCount).map((review, index) => (
                                         <ReviewCard key={index} review={review} />
                                     ))}
+                                    {feedbacks?.length > visibleFeedbackCount && (
+                                        <div
+                                            onClick={() => setVisibleFeedbackCount(prev => prev + 3)}
+                                            className="flex items-center space-x-2 cursor-pointer">
+                                            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-4 w-4 text-gray-500"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    strokeWidth={2}
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M19 9l-7 7-7-7"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <span className="text-gray-500 font-regola-pro font-medium">View more</span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
@@ -1196,7 +1204,7 @@ const ReviewCard = ({ review }) => {
         : review?.review?.length < maxLength ? review?.review : `${review?.review.slice(0, maxLength)}...`;
 
     return (
-        <div className="p-3 md:p-6 border-b border-b-slate-600 mb-6 flex space-x-2 md:space-x-4">
+        <div className="p-2 md:p-4 border-b border-b-slate-600  mb-1 md:mb-2 flex space-x-2 md:space-x-4">
             <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-gray-200 flex items-center justify-center">
                 <div className="text-xl font-bold font-regola-pro text-gray-500">
                     {review?.reviewerName[0]}
@@ -1204,12 +1212,12 @@ const ReviewCard = ({ review }) => {
             </div>
             <div className="flex-1">
                 <div className="flex items-center mb-2">
-                    <h3 className="text-left text-[#333333] font-[400] md:text-[24px] font-inter leading-[29px]">{review?.reviewerName}</h3>
+                    <h3 className="text-left text-[#333333] font-[400] md:text-[20px] font-inter leading-[24px]">{review?.reviewerName}</h3>
                 </div>
                 <div className="flex items-center mb-2">
                     <Rating rating={review?.rating} />
                 </div>
-                <p className="font-[400] md:text-[24px] font-inter leading-[29px] text-[#757575] mb-2">{displayContent}</p>
+                <p className="font-[400] md:text-[18px] font-inter leading-[25px] text-[#757575] ">{displayContent}</p>
                 {review?.review?.length > maxLength && (
                     <button
                         onClick={toggleExpand}
