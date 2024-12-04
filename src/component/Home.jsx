@@ -2554,7 +2554,7 @@ const Home = () => {
                       <svg xmlns="http://www.w3.org/2000/svg" width="58" className="absolute top-6 left-4" height="44" viewBox="0 0 58 44" fill="none">
                         <path d="M0 43.7216V32.2159C0 28.7216 0.617898 25.0142 1.85369 21.0938C3.1321 17.1307 4.96449 13.3168 7.35085 9.65199C9.77983 5.9446 12.6989 2.72727 16.108 0L24.2898 6.64773C21.6051 10.483 19.2614 14.4886 17.2585 18.6648C15.2983 22.7983 14.3182 27.2301 14.3182 31.9602V43.7216H0ZM32.7273 43.7216V32.2159C32.7273 28.7216 33.3452 25.0142 34.581 21.0938C35.8594 17.1307 37.6918 13.3168 40.0781 9.65199C42.5071 5.9446 45.4261 2.72727 48.8352 0L57.017 6.64773C54.3324 10.483 51.9886 14.4886 49.9858 18.6648C48.0256 22.7983 47.0455 27.2301 47.0455 31.9602V43.7216H32.7273Z" className={`fill-current text-[#333333] md:text-white `} fill-opacity="0.45" />
                       </svg>
-                      <p className="font-regola-pro leading-[30px] py-1 pl-[80px] pr-[60px] text-center md:text-start text-[20px] md:text-[24px] font-[500] text-[#333333] md:text-[#FFFFFF]">
+                      <p className="font-regola-pro leading-[22px] mobile-sm:leading-[30px] py-1 pl-[70px] mobile-sm:pl-[80px] pr-[60px] text-center md:text-start text-[18px] mobile-sm:text-[20px] md:text-[24px] font-[500] text-[#333333] md:text-[#FFFFFF]">
                         {testimonial.text}
                       </p>
                       <svg xmlns="http://www.w3.org/2000/svg" width="58" height="44" className="absolute bottom-10 md:bottom-auto md:top-20 right-4" viewBox="0 0 58 44" fill="none">
