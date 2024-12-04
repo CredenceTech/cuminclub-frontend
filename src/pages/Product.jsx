@@ -159,10 +159,13 @@ export const Product = () => {
         setSelectedOptions(newSelectedOptions);
     };
 
-    const [transformedProducts, setTransformedProducts] = useState(null);
-
+    const [rtcTrueProducts, setRtcTrueProducts] = useState([]);
+    const [rteTrueProducts, setRteTrueProducts] = useState([]);
     useEffect(() => {
         const apiCall = async () => {
+
+            const rtcTrue = [];
+            const rteTrue = [];
             try {
                 const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
@@ -193,6 +196,24 @@ export const Product = () => {
                             if (selectedCategory?.node?.title === "Premium" && !isPremium) {
                                 return null;
                             }
+                            const metafields = product?.node?.metafields;
+
+                            if (metafields) {
+                                metafields?.forEach((metafield) => {
+                                    if (metafield && metafield.key === "rtc" && metafield.value === "true") {
+                                        rtcTrue.push({
+                                            ...product.node,
+                                            superTitle: category.node.title,
+                                        });
+                                    }
+                                    if (metafield && metafield.key === "rte" && metafield.value === "true") {
+                                        rteTrue.push({
+                                            ...product.node,
+                                            superTitle: category.node.title,
+                                        });
+                                    }
+                                });
+                            }
                             return {
                                 ...product.node,
                                 superTitle: category.node.title,
@@ -201,10 +222,10 @@ export const Product = () => {
                         .filter(product => product !== null)
                 );
 
-
+                setRtcTrueProducts(rtcTrue);
+                setRteTrueProducts(rteTrue);
                 setApiResponse(collections);
                 setRawResponse(collections);
-                setTransformedProducts(transformedProducts);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -212,6 +233,7 @@ export const Product = () => {
 
         apiCall();
     }, [selectedCategory]);
+
 
     const getProductQuantityInCart = (productId) => {
         const productInCart = cartResponse?.cart?.lines?.edges?.find((cartItem) => {
@@ -341,8 +363,8 @@ export const Product = () => {
     return (
 
         <div className="w-full bg-[#EFE9DA]">
-            <ProductFliter />
-            <div className="p-[20px] md:p-[60px]">
+            <ProductFliter excludeCategories={[]} />
+            <div className="px-[20px] md:px-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div
                         initial={{ y: 100, x: -100, opacity: 0 }}
@@ -350,11 +372,12 @@ export const Product = () => {
                         exit={{ y: -100, x: 100, opacity: 0 }}
                         transition={{ duration: 0.4 }}
                     >
+                        <h1 className="text-[24px] py-[20px] container mx-auto leading-[33px] font-[500] font-regola-pro text-[#333333]">Ready to cook</h1>
                         <div
                             ref={productEdgesRef}
                             className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                         >
-                            {transformedProducts?.map((product, productIndex) => {
+                            {rtcTrueProducts?.map((product, productIndex) => {
                                 // Determine if this is a long product layout
                                 const isLong = isIpaid ? (productIndex % 5 === 0) :
                                     ((productIndex % 15 === 0) ||
@@ -366,8 +389,79 @@ export const Product = () => {
                                     product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
                                 const productSmallImage =
                                     product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
-                                    const rtc = product?.metafields?.find(mf => mf && mf.key === "rtc").value==="true"? true : false;
-                               
+                                const rtc = product?.metafields?.find(mf => mf && mf.key === "rtc").value === "true" ? true : false;
+
+                                const productPrice = product.priceRange.minVariantPrice.amount;
+                                const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
+
+                                return isLong ? (
+                                    <ProductBigCard
+                                        key={product?.id}
+                                        product={product}
+                                        categoryTag={categoryTag}
+                                        productLargeImage={productLargeImage}
+                                        productSmallImage={productSmallImage}
+                                        shaking={shaking}
+                                        setIsShaking={setIsShaking}
+                                        cartResponse={cartResponse}
+                                        cartDatas={cartDatas}
+                                        addCartData={addCartData}
+                                        productPrice={productPrice}
+                                        setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
+                                        rtcCategory={rtc}
+                                    />
+                                ) : (
+                                    <ProductSmallCard
+                                        key={product?.id}
+                                        product={product}
+                                        categoryTag={categoryTag}
+                                        productSmallImage={productSmallImage}
+                                        shaking={shaking}
+                                        setIsShaking={setIsShaking}
+                                        cartResponse={cartResponse}
+                                        cartDatas={cartDatas}
+                                        addCartData={addCartData}
+                                        productPrice={productPrice}
+                                        setCartResponse={setCartResponse}
+                                        setLoading={setLoading}
+                                        loading={loading}
+                                        rtcCategory={rtc}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+            <div className="px-[20px] md:px-[60px] md:pb-[60px]">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        initial={{ y: 100, x: -100, opacity: 0 }}
+                        animate={{ y: 0, x: 0, opacity: 1 }}
+                        exit={{ y: -100, x: 100, opacity: 0 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <h1 className="text-[24px] py-[20px] md:pt-[60px] container mx-auto leading-[33px] font-[500] font-regola-pro text-[#333333]">Ready to eat</h1>
+                        <div
+                            ref={productEdgesRef}
+                            className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
+                        >
+                            {rteTrueProducts?.map((product, productIndex) => {
+                                // Determine if this is a long product layout
+                                const isLong = isIpaid ? (productIndex % 5 === 0) :
+                                    ((productIndex % 15 === 0) ||
+                                        (productIndex % 15 === 6) ||
+                                        (productIndex % 15 === 10));
+
+
+                                const productLargeImage =
+                                    product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
+                                const productSmallImage =
+                                    product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
+                                const rtc = product?.metafields?.find(mf => mf && mf.key === "rtc").value === "true" ? true : false;
+
                                 const productPrice = product.priceRange.minVariantPrice.amount;
                                 const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
