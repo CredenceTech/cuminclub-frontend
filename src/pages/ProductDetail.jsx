@@ -247,23 +247,29 @@ function ProductDetail() {
         settestiPage([testiPage + newDirection, newDirection]);
     };
 
+    const containsNONG = (title) => {
+
+        return title?.includes("NONG");
+    };
+
+
     const colors = ['#fbae3666', '#279c6666', '#f15e2a66', '#fbae3666', '#279c6666', '#f15e2a66'];
 
 
     const fetchRelatedProducts = async (isBulk) => {
         setLoading(true);
-        console.log(isBulk );
+        console.log(isBulk);
         try {
             const result = await graphQLClient.request(getRelatedProducts, {
                 first: 50,
                 sortKey: "TITLE",
                 reverse: false,
             });
-    
+
             const products = result?.products?.edges || [];
             const filteredProducts = products.filter((product) => {
                 const bulkValue = product.node.bulkMetafield?.value;
-    
+
                 // Check bulkMetafield value based on isBulk flag
                 if (isBulk) {
                     return bulkValue === "true";
@@ -271,7 +277,7 @@ function ProductDetail() {
                     return bulkValue === null || bulkValue === "false";
                 }
             });
-    
+
             return filteredProducts;
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -281,8 +287,8 @@ function ProductDetail() {
         }
     };
 
-   
-    
+
+
 
     const fetchStepsQueyDetails = async (stepId) => {
         try {
@@ -338,11 +344,11 @@ function ProductDetail() {
                     const initailRating = parseFloat(initialRatingString);
                     const initailReviewsCount = parseInt(initialReviewsCountString, 10);
 
-                    const bulk=response?.product?.metafields?.find(field => field?.key === 'bulk').value;
-                    if(bulk==="true"){
+                    const bulk = response?.product?.metafields?.find(field => field?.key === 'bulk').value;
+                    if (bulk === "true") {
                         setIsBulk(true)
                     }
-                    else{
+                    else {
                         setIsBulk(false);
                     }
 
@@ -410,11 +416,11 @@ function ProductDetail() {
                     let currentRelatedProducts = response?.product?.relatedProducts?.references?.edges || [];
 
                     let relatedAdditionalProducts;
-                    if(bulk==="true"){
-                        relatedAdditionalProducts=  await fetchRelatedProducts(true)
+                    if (bulk === "true") {
+                        relatedAdditionalProducts = await fetchRelatedProducts(true)
                     }
-                    else{
-                        relatedAdditionalProducts=  await fetchRelatedProducts(false)
+                    else {
+                        relatedAdditionalProducts = await fetchRelatedProducts(false)
                     }
 
                     if (currentRelatedProducts.length < 6) {
@@ -656,7 +662,12 @@ function ProductDetail() {
                                     } >
                                     {productData?.title}
                                 </h1>
-                             {!isBulk && <div className='flex flex-col items-start'>
+                                {containsNONG(productData?.title) && <p className="md:text-[20px] pb-1 text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-3 mt-1 md:pl-2 pl-0 text-[#757575]">
+                                    *No Onion No Garlic
+                                </p>
+                                }
+
+                                {!isBulk && <div className='flex flex-col items-start'>
                                     <button type='button'
                                         style={{
                                             backgroundColor: `${getCategoryColor(productData?.collections?.edges[0]?.node?.title)}`
@@ -666,7 +677,7 @@ function ProductDetail() {
                                         <Rating rating={averageRating} text={`${totalReviewcounts}`} />
                                     </div>
                                 </div>
-                                    }
+                                }
                             </div>
                         </div>
                         <div className={`md:w-3/5 w-full pt-1  relative md:pt-8 md:pr-7 gap-x-[40px] flex items-center ${homeImg?.reference?.image?.originalSrc ? 'flex-row' : 'md:flex-row flex-col'} md:h-[650px] h-auto`}>
@@ -770,7 +781,13 @@ function ProductDetail() {
                                         } >
                                         {productData?.title}
                                     </h1>
-                                  {!isBulk &&  <div className='flex items-center'>
+
+                                    {containsNONG(productData?.title) && <p className="md:text-[20px] pb-2 text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-1 mt-1 pl-0 text-[#757575]">
+                                        *No Onion No Garlic
+                                    </p>
+                                    }
+
+                                    {!isBulk && <div className='flex items-center'>
                                         <button type='button'
                                             style={{
                                                 backgroundColor: `${getCategoryColor(productData?.collections?.edges[0]?.node?.title)}`
@@ -780,12 +797,12 @@ function ProductDetail() {
                                             <Rating rating={averageRating} text={`${totalReviewcounts}`} />
                                         </div>
                                     </div>
-                                      }
+                                    }
                                 </div>
                                 <p className={`md:text-[29px] text-[25px] font-[500] font-skillet ${isBulk ? "mt-0" : "mt-3"} md:pl-2 pl-0 text-[#333333]`}>Net weight: {`${productData?.variants.edges[0]?.node.weight}`} {`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
-                              {isBulk &&  <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>Output (Weight + dilution):  {`${getMetafieldData("bulk_output", productData?.metafields) ? getMetafieldData("bulk_output", productData?.metafields) : " N/A" }`}</p> }
+                                {isBulk && <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>Output (Weight + dilution):  {`${getMetafieldData("bulk_output", productData?.metafields) ? getMetafieldData("bulk_output", productData?.metafields) : " N/A"}`}</p>}
                                 <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
-                                  {isBulk &&  <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>Application:  {`${getMetafieldData("bulk_application", productData?.metafields) ? getMetafieldData("bulk_application", productData?.metafields) : " N/A" }`}</p> }
+                                {isBulk && <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>Application:  {`${getMetafieldData("bulk_application", productData?.metafields) ? getMetafieldData("bulk_application", productData?.metafields) : " N/A"}`}</p>}
                                 <p className="md:text-[20px] text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-3 mt-1 md:pl-2 pl-0 text-[#757575]">
                                     {productData?.description}
                                 </p>
@@ -878,7 +895,7 @@ function ProductDetail() {
 
                                 {etd && <div className='ml-2 pt-3'>Will delivered by {dayOfWeek}, {formattedDeliveryDate}</div>} */}
 
-                                 <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
+                                <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
                                     <button
                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
                                         className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[200px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
@@ -1053,53 +1070,53 @@ function ProductDetail() {
                             </div>
                         </div>
                     } */}
-                    
-           {!isBulk &&   
-                  <div ref={section1Ref} className="pt-[90px] px-[30px] md:px-[51px]">
-                        {isAddFeedbackOpen && (
-                            <AddFeedback
-                                productId={productData?.id}
-                                productName={productData?.title}
-                                onClose={closeAddFeedback}
-                            />
-                        )}
-                        
-                        <div className="flex flex-col md:flex-row">
-                            <div className="w-full md:w-1/2">
-                                <h2 className="text-[36px] font-[400] leading-[37.34px] font-skillet text-[#333333]">
-                                    Your Health is Our Priority
-                                </h2>
-                                <p className="text-[28px] font-[400] leading-[29.04px] text-[#757575] font-skillet">
-                                    Don’t Believe Us, Believe Our Happy Customers
-                                </p>
-                            </div>
 
-                            <div className="w-full md:w-1/2 flex  flex-col lg:mr-[60px]">
-                                {/* Quotation Section */}
-                                <div className='inline-flex justify-end  md:-mr-[40px]'>
-                                    <button
-                                        onClick={openAddFeedback}
-                                        className="mt-4 bg-[#EB7E01] text-[#333333] px-4 py-2 rounded font-regola-pro"
-                                    >
-                                        Add Review
-                                    </button>
+                    {!isBulk &&
+                        <div ref={section1Ref} className="pt-[90px] px-[30px] md:px-[51px]">
+                            {isAddFeedbackOpen && (
+                                <AddFeedback
+                                    productId={productData?.id}
+                                    productName={productData?.title}
+                                    onClose={closeAddFeedback}
+                                />
+                            )}
+
+                            <div className="flex flex-col md:flex-row">
+                                <div className="w-full md:w-1/2">
+                                    <h2 className="text-[36px] font-[400] leading-[37.34px] font-skillet text-[#333333]">
+                                        Your Health is Our Priority
+                                    </h2>
+                                    <p className="text-[28px] font-[400] leading-[29.04px] text-[#757575] font-skillet">
+                                        Don’t Believe Us, Believe Our Happy Customers
+                                    </p>
+                                </div>
+
+                                <div className="w-full md:w-1/2 flex  flex-col lg:mr-[60px]">
+                                    {/* Quotation Section */}
+                                    <div className='inline-flex justify-end  md:-mr-[40px]'>
+                                        <button
+                                            onClick={openAddFeedback}
+                                            className="mt-4 bg-[#EB7E01] text-[#333333] px-4 py-2 rounded font-regola-pro"
+                                        >
+                                            Add Review
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div className="pt-5">
+                                <div className="max-w-4xl mx-auto">
+                                    {feedbacks?.map((review, index) => (
+                                        <ReviewCard key={index} review={review} />
+                                    ))}
                                 </div>
                             </div>
 
-
-                        </div>
-                        <div className="pt-5">
-                            <div className="max-w-4xl mx-auto">
-                                {feedbacks?.map((review, index) => (
-                                    <ReviewCard key={index} review={review} />
-                                ))}
-                            </div>
                         </div>
 
-                    </div>
+                    }
 
-                            }
-                    
                     {
                         productData?.relatedProducts?.references?.edges &&
                         <>
