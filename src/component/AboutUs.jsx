@@ -1,6 +1,6 @@
 import React from 'react'
 import team from '../assets/team.png'
-import mission from '../assets/mission.png'
+import mission from '../assets/mission.jpg'
 import ourVision from '../assets/our-vision.jpg'
 import beginin from '../assets/beginin.png'
 import third from '../assets/2021.jpg'
