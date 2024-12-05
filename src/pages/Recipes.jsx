@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll } from "framer-motion";
-import { createCartMutation, getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRecipeDetailsQuery, getRecipeStepsDetailsQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
-import { useLocation, useParams } from 'react-router-dom';
+import { checkoutCreate, createCartMutation, getDownloadPdfQuery, getMediaImageQuery, getProductDetailsQuery, getRecipeDetailsQuery, getRecipeStepsDetailsQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ShareModel from '../component/ShareModel';
 import LoadingAnimation from "../component/Loader";
 import jsPDF from 'jspdf';
@@ -13,6 +13,7 @@ import {
     setCartResponse,
 } from "../state/cartData";
 import { useDispatch, useSelector } from 'react-redux';
+import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 
 const Recipes = () => {
     const location = useLocation();
@@ -33,6 +34,34 @@ const Recipes = () => {
     const dispatch = useDispatch();
     const [activeStep, setActiveStep] = useState(0)
     const stepsContainerRef = useRef(null)
+    const navigate = useNavigate();
+    const [buyNowLoading, setBuyNowLoading] = useState(null)
+    const handleAddToCheckout = async (variantId) => {
+        try {
+            setBuyNowLoading(variantId);
+            const params = {
+                input: {
+                    lineItems: [
+                        {
+                            variantId: variantId,
+                            quantity: 1,
+                        },
+                    ],
+                },
+            };
+            const response = await graphQLClient.request(checkoutCreate, params);
+            if (response?.checkoutCreate?.userErrors?.length > 0) {
+                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+                return;
+            }
+            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            dispatch(addCheckoutData(response));
+            setBuyNowLoading(null)
+            navigate('/cardReview', { state: { isBuyNow: true } });
+        } catch (error) {
+            console.error('Error adding to checkout:', error);
+        }
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -364,38 +393,39 @@ const Recipes = () => {
             } else {
                 addToCart({ merchandiseId: productId, quantity: 1 });
             }
-        }
-
-        const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
-            return cartItem.node.merchandise.id === productId;
-        });
-
-        if (productInCart) {
-            const quantityInCart = productInCart.node.quantity;
-            const cartId = cartDatas?.cartCreate?.cart?.id;
-            const id = productInCart?.node?.id;
-            if (sellingPlanId) {
-                updateCartItem(productId, cartId, {
-                    id: id,
-                    sellingPlanId: sellingPlanId,
-                    quantity: quantityInCart + 1,
-                });
-            } else {
-                updateCartItem(productId, cartId, {
-                    id: id,
-                    quantity: quantityInCart + 1,
-                });
-            }
         } else {
-            const cartId = cartDatas?.cartCreate?.cart?.id;
-            if (sellingPlanId) {
-                updateCart(cartId, {
-                    merchandiseId: productId,
-                    sellingPlanId: sellingPlanId,
-                    quantity: 1,
-                });
+
+            const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
+                return cartItem.node.merchandise.id === productId;
+            });
+
+            if (productInCart) {
+                const quantityInCart = productInCart.node.quantity;
+                const cartId = cartDatas?.cartCreate?.cart?.id;
+                const id = productInCart?.node?.id;
+                if (sellingPlanId) {
+                    updateCartItem(productId, cartId, {
+                        id: id,
+                        sellingPlanId: sellingPlanId,
+                        quantity: quantityInCart + 1,
+                    });
+                } else {
+                    updateCartItem(productId, cartId, {
+                        id: id,
+                        quantity: quantityInCart + 1,
+                    });
+                }
             } else {
-                updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+                const cartId = cartDatas?.cartCreate?.cart?.id;
+                if (sellingPlanId) {
+                    updateCart(cartId, {
+                        merchandiseId: productId,
+                        sellingPlanId: sellingPlanId,
+                        quantity: 1,
+                    });
+                } else {
+                    updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+                }
             }
         }
     };
@@ -408,6 +438,7 @@ const Recipes = () => {
         };
         const response = await graphQLClient.request(createCartMutation, params);
         dispatch(addCartData(response));
+        dispatch(setCartResponse(response.cartCreate))
         setIsShaking(null);
     };
 
@@ -573,13 +604,17 @@ const Recipes = () => {
                                     {productDetails[0]?.description}
                                 </p>
                                 <div className='hidden md:flex gap-x-2 pb-8'>
-                                    <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                    <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? '' : ''} flex justify-center items-center cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
                                         handleAddToCart(productDetails[0]?.variants?.edges[0]?.node?.id)
                                     }} type='button'>
-                                        {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
+                                        {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                     </button>
-                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
-                                        BUY NOW
+                                    <button
+                                        onClick={() =>
+                                            handleAddToCheckout(productDetails[0]?.variants?.edges[0]?.node?.id)
+                                        }
+                                        className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] flex justify-center items-center text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                        {buyNowLoading === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                     </button>
                                 </div>
                             </div>
@@ -589,13 +624,18 @@ const Recipes = () => {
                             {productDetails[0]?.description}
                         </p>
                         <div className='md:hidden flex justify-start items-start gap-10 ml-4'>
-                            <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                            <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? '' : ''} flex justify-center items-center cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
                                 handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
                             }} type='button'>
-                                {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
+                                {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
-                            <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
-                                BUY NOW
+                            <button
+                                onClick={() =>
+                                    handleAddToCheckout(productDetails[0]?.variants?.edges[0]?.node?.id)
+                                }
+                                className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                {buyNowLoading === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
+
                             </button>
                         </div>
                     </div>
@@ -640,13 +680,18 @@ const Recipes = () => {
 
                                                 </div>
                                                 <div className="flex whitespace-nowrap gap-x-2 pb-8">
-                                                    <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? 'animate-shake' : ''} cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                                    <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? '' : ''} flex justify-center items-center cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
                                                         handleAddToCart(product?.variants?.edges[0]?.node?.id);
                                                     }} type='button'>
-                                                        {shaking === product?.variants?.edges[0]?.node?.id ? 'Adding...' : 'ADD TO CART'}
+                                                        {shaking === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                                     </button>
-                                                    <button className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
-                                                        BUY NOW
+                                                    <button
+                                                        onClick={() =>
+                                                            handleAddToCheckout(product?.variants?.edges[0]?.node?.id)
+                                                        }
+                                                        className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
+                                                        {buyNowLoading === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
+
                                                     </button>
                                                 </div>
                                             </div>
