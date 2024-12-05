@@ -115,23 +115,6 @@ const RecipeList = () => {
                     <div className="col-span-1 lg:col-span-2"></div>
                     <div className="col-span-2 lg:col-span-3  pt-4">
                         <div className="flex items-center gap-x-10 ">
-                            <div className='relative w-[100px]'>
-                                {/* <label htmlFor="type-select" className="block">
-                                    <h2 className="text-[#757575] font-regola-pro text-[24px] leading-[30.91px] font-[300]">Type</h2>
-                                </label> */}
-                                <select
-                                    id="type-select"
-                                    className="mt-2 appearance-none  w-[100px] bg-[#FAFAFA] text-[#333333] font-regola-pro  text-[20px] md:text-[22px] leading-[24.21px] font-[300] focus:outline-none" >
-                                    <option className='text-[#333333] w-auto font-regola-pro text-[20px] md:text-[22px] leading-[30.21px] font-[300]' value="" disabled selected>
-                                    Type
-                                    </option>
-                                </select>
-                                <div className="absolute inset-y-0 right-0 top-[8px] flex items-center px-2 pointer-events-none">
-                                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M1.99961 2.5999L6.79961 7.3999L11.5996 2.5999" stroke="#1D1929" strokeWidth="2.4" strokeLinecap="square" />
-                                    </svg>
-                                </div>
-                            </div>
                             <div className={`relative `}
                                 style={{
                                     width: selectedProduct ? `auto` : '100px',
