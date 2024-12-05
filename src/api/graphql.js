@@ -458,7 +458,7 @@ export const createCartMutation = gql`
           key
           value
         }
-        estimatedCost {
+        cost {
           totalAmount {
             amount
             currencyCode

@@ -45,33 +45,24 @@ const CardReview = () => {
 
 
     const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
-    console.log(isBuyNow);
+
     const checkoutResponse = useSelector(selectCheckoutResponse);
     const cancelOrder = () => {
         dispatch(clearCheckoutData())
         dispatch(clearCheckoutResponse())
     }
-
-
-
-
-
-
-
-
-
     const callbackMethod = (response) => {
         console.log('Response from SDK:', response);
         let result = JSON.parse(response)
         if (result?.payload?.methodName === "clearCart") {
-            if(checkoutResponse!==null){
+            if (checkoutResponse !== null) {
                 dispatch(clearCheckoutData());
                 dispatch(clearCheckoutResponse());
-            }else{
-            dispatch(clearCartData());
-            dispatch(clearCartResponse());
+            } else {
+                dispatch(clearCartData());
+                dispatch(clearCartResponse());
             }
-           
+
         }
         if (result?.payload?.ctaAction === "shopMore") {
             navigate("/", { replace: true });
@@ -121,7 +112,7 @@ const CardReview = () => {
 
 
     const handleRemoveFromCart = (productId, sellingPlanId) => {
-        // setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
+        setLoading((prevLoading) => ({ ...prevLoading, [productId]: true }));
         const productInCart = cartResponse.cart.lines.edges.find(cartItem => {
             return cartItem.node.merchandise.id === productId;
         });
@@ -610,7 +601,7 @@ const CardReview = () => {
         <>
             <div className='bg-[#EFE9DA] '>
                 <div className='px-4 lg:px-[45px] min-h-[85vh]'>
-                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your {isBuyNow===true ? "Order" : "Cart"}</h1>
+                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your {isBuyNow === true ? "Order" : "Cart"}</h1>
                     <div className='flex flex-col gap-4 md:gap-6 md:flex-row justify-between'>
                         <div className='w-full px-4 md:w-1/2 mb-4'>
                             {(isBuyNow === true && checkoutResponse !== null) && (<div className="flex flex-row items-center">
