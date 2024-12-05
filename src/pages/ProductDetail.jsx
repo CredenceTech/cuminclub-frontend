@@ -747,12 +747,12 @@ function ProductDetail() {
                                     ))}
                                 </div>
 
-                                <div className={`${homeImg?.reference?.image?.originalSrc ? 'flex' : 'hidden md:flex'} md:flex-col flex-row md:justify-start justify-center gap-y-4 gap-3 -right-[55px] md:absolute unset bottom-0 mt-4`}>
+                                <div className={` ${productData?.images?.edges.length <= 4 ? 'hidden' : 'flex'} md:flex-col flex-row md:justify-start justify-center gap-y-4 gap-3 -right-[55px] md:absolute unset bottom-0 mt-4`}>
                                     {/* Conditional Rendering for Previous Slide Button */}
                                     {isMobile && !homeImg?.reference?.image?.originalSrc ? (
                                         <button
                                             onClick={prevRightSlide}
-                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            className={`p-2 bg-[#1c1515ae] text-white rounded-full ${homeImg?.reference?.image?.originalSrc ? 'flex' : 'hidden'}`}
                                             disabled={currentSlide === 0}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
@@ -765,7 +765,7 @@ function ProductDetail() {
                                         // Previous Slide Button
                                         <button
                                             onClick={prevSlide}
-                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            className={`p-2 bg-[#1c1515ae] text-white rounded-full`}
                                             disabled={currentSlide === 0}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
@@ -778,7 +778,7 @@ function ProductDetail() {
                                     {isMobile && !homeImg?.reference?.image?.originalSrc ? (
                                         <button
                                             onClick={nextleftSlide}
-                                            className="p-2 bg-[#1c1515ae] text-white rounded-full"
+                                            className={`p-2 bg-[#1c1515ae] text-white rounded-full ${homeImg?.reference?.image?.originalSrc ? 'flex' : 'hidden'}`}
                                             disabled={currentSlide >= Math.ceil(totalSlides - slidesPerView)}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
@@ -856,7 +856,7 @@ function ProductDetail() {
                                                 }
                                                 transition={{ duration: 0.3 }}
                                             >
-                                                <span className="md:text-[22px] text-[16px] font-[400] md:leading-[23px] leading-[16px] font-regola-pro text-[#393939]">{item.title}</span>
+                                                <span className="text-[22px] font-[400] leading-[23px] font-skillet text-[#393939]">{item.title}</span>
                                                 <span>
                                                     <motion.svg width="14"
                                                         height="10"
