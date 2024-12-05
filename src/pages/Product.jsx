@@ -372,7 +372,7 @@ export const Product = () => {
                         exit={{ y: -100, x: 100, opacity: 0 }}
                         transition={{ duration: 0.4 }}
                     >
-                        <h1 className="text-[24px] py-[20px] container mx-auto leading-[33px] font-[500] font-regola-pro text-[#333333]">Ready to cook</h1>
+                        <h1 className="text-[30px] md:text-[42px] py-[20px] container mx-auto leading-[33px] font-[500] font-skillet text-[#333333]">Ready to cook</h1>
                         <div
                             ref={productEdgesRef}
                             className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
@@ -443,7 +443,7 @@ export const Product = () => {
                         exit={{ y: -100, x: 100, opacity: 0 }}
                         transition={{ duration: 0.4 }}
                     >
-                        <h1 className="text-[24px] py-[20px] md:pt-[60px] container mx-auto leading-[33px] font-[500] font-regola-pro text-[#333333]">Ready to eat</h1>
+                        <h1 className="text-[30px] md:text-[42px] py-[20px] md:pt-[60px] container mx-auto leading-[33px] font-[500] font-skillet text-[#333333]">Ready to eat</h1>
                         <div
                             ref={productEdgesRef}
                             className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
