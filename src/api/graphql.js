@@ -74,6 +74,18 @@ export const logoutMutation = gql`
         }
     `;
 
+export const forgotPasswordMutation = gql`
+    mutation ForgotPassword($email: String!) {
+      customerRecover(email: $email) {
+        customerUserErrors {
+          code
+          message
+        }
+      }
+    }
+  `;
+
+
 export const getAllProductsQuery = gql`
 {
   products(first: 100, reverse: true) {
@@ -129,16 +141,17 @@ export const getAllProductsQuery = gql`
 export const getProductCollectionsQuery = gql`
 query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
   collections(first: $first, reverse: $reverse, query: $query) {
-    edges {
+   edges {
       node {
         title
         id
         description
-        products(first: 15) {
+        products(first: 250) {
           edges {
             node {
               id
               title
+              handle
               description
               tags
               priceRange {
@@ -163,9 +176,24 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
               metafields(identifiers: [
                 { namespace: "custom", key: "spice_level" },
                 { namespace: "custom", key: "small_descriptions" },
+                { namespace: "custom", key: "product_large_card_image" },
+                { namespace: "custom", key: "product_small_card_image" },
+                { namespace: "custom", key: "image_for_home" },
+                { namespace: "custom", key: "rte" },
+                { namespace: "custom", key: "rtc" },
+                { namespace: "custom", key: "bulk" },
+                  { namespace: "custom", key: "premium" },
               ]) {
                 value
                 key
+                reference {
+                    ... on MediaImage {
+                    image {
+                        originalSrc
+                        altText
+                    }
+                    }
+                }
               }
               featuredImage {
                 altText
@@ -379,11 +407,50 @@ export const createCartMutation = gql`
           edges {
             node {
               id
-              merchandise {
-                ... on ProductVariant {
-                  id
+               quantity
+             estimatedCost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                 weight
+                product {
+                id
+                  title
+                  featuredImage {
+                    altText
+                    url
+                  }
+                  handle
+                   metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
+                }
+                priceV2 {
+                  amount
+                  currencyCode
                 }
               }
+            }
             }
           }
         }
@@ -440,13 +507,29 @@ mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
             merchandise {
               ... on ProductVariant {
                 id
+                 weight
                 product {
+                  id
                   title
                   featuredImage {
                     altText
                     url
                   }
                   handle
+                  metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
                 }
                 priceV2 {
                   amount
@@ -490,11 +573,49 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
                 node{
                   id
                     quantity
-                    merchandise{
-                        ... on ProductVariant {   						
-                            id
-                        }
-                    }
+                   estimatedCost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+            merchandise {
+              ... on ProductVariant {
+                id
+                 weight
+                product {
+                  id
+                  title
+                  featuredImage {
+                    altText
+                    url
+                  }
+                  handle
+                  metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
+                }
+                priceV2 {
+                  amount
+                  currencyCode
+                }
+              }
+            }
                 }
             }
         }
@@ -573,6 +694,20 @@ export const getCartQuery = gql`
                     }
                     }
                   handle
+                  metafields(identifiers: [
+      { namespace: "custom", key: "image_for_home" }
+    ]) {
+      value
+      key
+      reference {
+        ... on MediaImage {  
+          image {
+            originalSrc
+            altText
+          }
+        }
+      }
+    }
                 }
                 priceV2 {
                   amount
@@ -825,6 +960,15 @@ query getPageByHandle($handle: String!) {
 	}
 }`;
 
+export const getPageCancellationPolicyQuery = gql`
+query getPageByHandle($handle: String!) {
+	page(handle: $handle) {
+		id
+		title
+        body
+	}
+}`;
+
 export const getPageRefundQuery = gql`
 query getShopPolicies {
 	shop {
@@ -1037,4 +1181,670 @@ export const customerEmailMarketingConsentUpdateMutation = gql`
       }
     }
   }
+`;
+
+export const getCategoriesQuery = gql`
+{
+   collections (first: 5){
+        edges {
+            node {
+                id
+                title
+                description
+                 image  {
+                        id
+                        altText
+                        originalSrc
+                        }
+                handle
+            }
+        }
+    }
+}
+`;
+
+export const getRecipeListQuery = gql`
+  query GetRecipeList($first: Int!) {
+    metaobjects(first: $first, type: "recipes") {
+      edges {
+        node {
+          id
+          type
+          handle
+          fields {
+            key
+            value
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const getRecipeDetailsQuery = gql`
+  query getRecipeDetails($handle: String!) {
+    metaobject(handle: { handle: $handle, type: "recipes" }) {
+      id
+      type
+      handle
+      fields {
+        key
+        value
+      }
+    }
+  }
+`;
+
+export const getRecipeStepsDetailsQuery = gql`
+  query getRecipeDetails($id: ID!) {
+    metaobject(id: $id) {
+      id
+      type
+      handle
+      fields {
+        key
+        value
+      }
+    }
+  }
+`;
+
+
+export const getMediaImageQuery = gql`
+  query getMediaImage($id: ID!) {
+    node(id: $id) {
+      ... on MediaImage {
+        id
+        alt
+        mediaContentType
+        image {
+          url
+        }
+      }
+    }
+  }
+`;
+
+
+export const getDownloadPdfQuery = gql`
+query getFileDetails($id: ID!) {
+  node(id: $id) {
+    ... on GenericFile {
+      id
+      alt
+      url
+    }
+  }
+}`;
+
+
+export const getproductListQuery = gql`
+query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean!) {
+  products(first: $first, sortKey: $sortKey, reverse: $reverse) {
+    edges {
+      node {
+        id
+        title
+      }
+    }
+  }
+}
+`;
+
+export const getProductDetailsQuery = gql`
+query GetProductDetails($id: ID!) {
+  product(id: $id) {
+    id
+    title
+    description
+    onlineStoreUrl
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images(first: 10) {
+      edges {
+        node {
+          altText
+          src
+        }
+      }
+    }
+    handle
+    variants(first: 10) {
+      edges {
+        node {
+          id
+          weight
+          weightUnit
+        }
+      }
+    }
+    metafields(identifiers: [
+      { namespace: "custom", key: "spice_level" },
+      { namespace: "custom", key: "how_to_prepare" },
+      { namespace: "custom", key: "nutrition_facts" },
+      { namespace: "custom", key: "ingredient" },
+      { namespace: "custom", key: "component_reference" }
+    ]) {
+      value
+      key
+    }
+  }
+}
+`;
+
+export const getProductDetailFull = gql`
+query getProductData($id: ID!) {
+    product(id: $id) {
+      id
+      title
+      description
+      collections(first: 1) {
+      edges {
+        node {
+          title
+        }
+      }
+    }
+      onlineStoreUrl
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 10) {
+        edges {
+          node {
+            altText
+            src
+          }
+        }
+      }
+      handle
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
+      metafields(identifiers: [
+        { namespace: "custom", key: "spice_level" },
+        { namespace: "custom", key: "how_to_prepare" },
+        { namespace: "custom", key: "nutrition_facts" },
+        { namespace: "custom", key: "ingredient" },
+        { namespace: "custom", key: "component_reference" },
+        { namespace: "custom", key: "rte" },
+        { namespace: "custom", key: "rtc" },
+        { namespace: "custom", key: "product_background_color" },
+        { namespace: "custom", key: "product_text_color" },
+        { namespace: "custom", key: "product_large_card_image" },
+        { namespace: "custom", key: "product_small_card_image" },
+        { namespace: "custom", key: "image_for_home" },
+        { namespace: "custom", key: "add_product_steps" },
+        { namespace: "shopify--discovery--product_recommendation", key: "related_products" }
+         { namespace: "custom", key: "add_feedbacks" },
+         { namespace: "custom", key: "bulk" },
+           { namespace: "custom", key: "premium" },
+      ]) {
+        value
+        key
+        reference {
+          ... on MediaImage {
+            image {
+              originalSrc
+              altText
+            }
+          }
+        }
+      }
+      relatedProducts: metafield(namespace: "shopify--discovery--product_recommendation", key: "related_products") {
+        value
+        references(first: 10) {
+          edges {
+            node {
+              ... on Product {
+                id
+                title
+                description
+                onlineStoreUrl
+                priceRange {
+                  minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+                metafield(namespace: "custom", key: "image_for_home") {
+                  value
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        originalSrc
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+`;
+
+export const getStepDetails = gql`
+  query getStepDetails($id: ID!) {
+    metaobject(id: $id) {
+      id
+      type
+      handle
+      fields {
+        key
+        value
+        reference {
+          ... on Video {
+            sources {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const getFeedbackDetails = gql`
+  query getFeedbackDetails($id: ID!) {
+  metaobject(id: $id) {
+    id
+    fields {
+      key
+      value
+  }
+  }
+  }
+`;
+
+export const getProductDetailByHandle = gql`
+query productByHandle($handle: String!) {
+    product(handle: $handle) {
+      id
+      title
+      handle
+      description
+      collections(first: 1) {
+      edges {
+        node {
+          title
+        }
+      }
+    }
+      onlineStoreUrl
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 10) {
+        edges {
+          node {
+            altText
+            src
+          }
+        }
+      }
+      handle
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
+      metafields(identifiers: [
+        { namespace: "custom", key: "spice_level" },
+        { namespace: "custom", key: "how_to_prepare" },
+        { namespace: "custom", key: "nutrition_facts" },
+        { namespace: "custom", key: "ingredient" },
+        { namespace: "custom", key: "component_reference" },
+        { namespace: "custom", key: "rte" },
+        { namespace: "custom", key: "rtc" },
+        { namespace: "custom", key: "product_background_color" },
+        { namespace: "custom", key: "product_text_color" },
+        { namespace: "custom", key: "product_large_card_image" },
+        { namespace: "custom", key: "product_small_card_image" },
+        { namespace: "custom", key: "image_for_home" },
+        { namespace: "custom", key: "add_product_steps" },
+        { namespace: "shopify--discovery--product_recommendation", key: "related_products" }
+         { namespace: "custom", key: "add_feedbacks" },
+         { namespace: "custom", key: "bulk" },
+           { namespace: "custom", key: "premium" },
+             { namespace: "custom", key: "initial_star_rating" },
+               { namespace: "custom", key: "initial_reviews_count" },
+                { namespace: "custom", key: "bulk_output" },
+                 { namespace: "custom", key: "bulk_application" },
+      ]) {
+        value
+        key
+        reference {
+          ... on MediaImage {
+            image {
+              originalSrc
+              altText
+            }
+          }
+        }
+      }
+      relatedProducts: metafield(namespace: "shopify--discovery--product_recommendation", key: "related_products") {
+        value
+        references(first: 10) {
+          edges {
+            node {
+              ... on Product {
+                id
+                title
+                description
+                handle
+                onlineStoreUrl
+                priceRange {
+                  minVariantPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+                   variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
+                metafield(namespace: "custom", key: "image_for_home") {
+                  value
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        originalSrc
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
+export const getRelatedProducts = gql`
+  query GetProducts($first: Int!, $sortKey: ProductSortKeys!, $reverse: Boolean!) {
+    products(first: $first, sortKey: $sortKey, reverse: $reverse) {
+      edges {
+        node {
+          id
+          title
+          description
+          handle
+          onlineStoreUrl
+           variants(first: 10) {
+        edges {
+          node {
+            id
+            weight
+            weightUnit
+          }
+        }
+      }
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+        bulkMetafield: metafield(namespace: "custom", key: "bulk") {
+          value
+        }
+          metafield(namespace: "custom", key: "image_for_home") {
+            value
+            reference {
+              ... on MediaImage {
+                image {
+                  originalSrc
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
+export const queryProductWithKeyword = gql`
+query SearchProductsAndCollections($keyword: String!)
+{
+  # Search Products by keyword
+  products(first: 10, query: $keyword) {
+    edges {
+      node {
+       id
+    title
+    handle
+    description
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 1) {
+          edges {
+            node {
+              src
+              altText
+            }
+          }
+        }
+      }
+    }
+  }
+  metaobjects(type: "recipes", first: 10) {
+    edges {
+      node {
+        id
+        handle
+         fields {
+            reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+            value
+            key
+          }
+    }
+  }
+}
+}
+`
+export const queryCustomer = gql`
+query getCustomer($customerAccessToken: String!) {
+  customer(customerAccessToken: $customerAccessToken) {
+    firstName
+    lastName
+    email
+    acceptsMarketing
+    phone
+  }
+}
+`;
+
+
+export const stagedUploadsCreateMutation = `
+  mutation StagedUploadsCreate($input: [StagedUploadInput!]!) {
+    stagedUploadsCreate(input: $input) {
+    stagedTargets {
+      url
+      resourceUrl
+      parameters {
+        name
+        value
+      }
+    }
+  }
+  }
+`;
+
+export const getCustomerOrders=gql`
+query GetCustomerOrders($customerAccessToken: String!) {
+  customer(customerAccessToken: $customerAccessToken) {
+    orders(first: 100) {
+      edges {
+        node {
+          id
+          processedAt
+          orderNumber
+          financialStatus
+          fulfillmentStatus
+          totalPrice {
+            amount
+            currencyCode
+          }
+          lineItems(first: 100) {
+            edges {
+              node {
+                originalTotalPrice {
+                  amount
+                  currencyCode
+                }
+                quantity
+                title
+                variant {
+                  id
+                  product {
+                    id
+                    handle
+                    metafields(identifiers: [{ namespace: "custom", key: "image_for_home" }]) {
+                      value
+                      key
+                      reference {
+                        ... on MediaImage {
+                          image {
+                            originalSrc
+                            altText
+                          }
+                        }
+                      }
+                    }
+                  }
+                  image {
+                    url
+                  }
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  weight
+                  weightUnit
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export const checkoutCreate=gql`
+mutation checkoutCreate($input: CheckoutCreateInput!) {
+  checkoutCreate(input: $input) {
+    checkout {
+      id
+      totalPrice {
+        amount
+        currencyCode
+      }
+      lineItems(first: 10) {
+        edges {
+          node {
+            id
+            quantity
+            unitPrice {
+              amount
+              currencyCode
+            }
+            title
+            variant {
+              id
+              weight
+              weightUnit
+              image {
+                url
+                altText
+              }
+              product {
+                id
+                title
+                featuredImage {
+                  altText
+                  url
+                }
+                handle
+                metafields(
+                  identifiers: [
+                    { namespace: "custom", key: "image_for_home" }
+                  ]
+                ) {
+                  value
+                  key
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        originalSrc
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+              priceV2 {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+    queueToken
+    userErrors {
+      field
+      message
+    }
+  }
+}
+
 `;

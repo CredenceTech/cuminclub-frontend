@@ -7,14 +7,14 @@ const MealCard = ({ item, selected, setSelected, buttonTrigger }) => {
 
     return (
         <div onClick={() => {
-            if(buttonTrigger){
-               dispatch(addMeal(item))
+            if (buttonTrigger) {
+                dispatch(addMeal(item))
             }
             setSelected(item)
-        }} className={`p-3 ${item?.id === selected?.id ? "bg-[#53940F]" : 'bg-white border border-[#53940F]'}  cursor-pointer rounded-lg flex items-center justify-center`}>
+        }} className={`pb-16 pt-5 px-10 whitespace-nowrap bg-[#FBAE36] transform transition-transform duration-300 hover:scale-110 cursor-pointer rounded-xl`}>
             <div className="w-full">
-                <p className={`text-3xl ${item?.id === selected?.id ? "text-[#fff]" : 'text-[#53940F]'} text-center `}> {item?.noMeal}</p>
-                <p className={`text-base ${item?.id === selected?.id ? "text-[#fff]" : 'text-[#53940F]'} text-center -m-1 `}>{item?.price}<strike className="pl-2 text-gray-300">{item?.discountPrice}</strike></p>
+                <p className={`text-3xl lg:text-5xl ${item?.id === selected?.id ? "text-[#53940F]" : 'text-[#FFF]'} font-skillet text-center `}> {item?.noMeal}</p>
+                <p className={`text-lg font-skillet  text-[#333333] text-center -m-1 `}>{item?.price}</p>
             </div>
         </div>
     )

@@ -45,17 +45,17 @@ const ProductDetail = () => {
     }
   };
 
-  useEffect(() => {
-    getCartData();
-  }, [cartDatas]);
+  // useEffect(() => {
+  //   getCartData();
+  // }, [cartDatas]);
 
-  const getCartData = async () => {
-    const params = {
-      cartId: cartDatas?.cartCreate?.cart?.id,
-    };
-    const response = await graphQLClient.request(getCartQuery, params);
-    dispatch(setCartResponse(response));
-  };
+  // const getCartData = async () => {
+  //   const params = {
+  //     cartId: cartDatas?.cartCreate?.cart?.id,
+  //   };
+  //   const response = await graphQLClient.request(getCartQuery, params);
+  //   dispatch(setCartResponse(response));
+  // };
 
   useEffect(() => {
     scrollToImage(currentImage);
@@ -166,7 +166,7 @@ const ProductDetail = () => {
       } else {
         addToCart({ merchandiseId: productId, quantity: 1 });
       }
-    }
+    }else{
 
     const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
       return cartItem.node.merchandise.id === productId;
@@ -205,6 +205,7 @@ const ProductDetail = () => {
         updateCart(cartId, { merchandiseId: productId, quantity: 1 });
       }
     }
+  }
   };
 
   const handleRemoveFromCart = (productId, sellingPlanId) => {
@@ -248,6 +249,7 @@ const ProductDetail = () => {
     };
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response));
+    dispatch(setCartResponse(response.cartCreate))
     setLoading((prevLoading) => ({
       ...prevLoading,
       [cartItems.merchandiseId]: false,

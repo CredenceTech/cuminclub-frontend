@@ -66,7 +66,7 @@ const Subscription = () => {
 
     useEffect(() => {
         const body = {
-            email: userEmail,
+            email: userEmail?.email,
             limit: 10
         }
 
@@ -99,7 +99,7 @@ const Subscription = () => {
             setHoldDay(0);
             const body = {
                 // email: userDetail?.customer?.email,
-                email: userEmail,
+                email: userEmail?.email,
                 limit: 10
             }
             if (userEmail) {
@@ -112,7 +112,7 @@ const Subscription = () => {
         if (resumeRespo?.success) {
             toast.success(resumeRespo?.message)
             const body = {
-                email: userEmail,
+                email: userEmail?.email,
                 limit: 10
             }
             if (userEmail) {

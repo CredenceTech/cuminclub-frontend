@@ -128,3 +128,771 @@ body {
   background-blend-mode: overlay;
   min-height: 100%;
 }
+
+.bannerback {
+  background-image: url(./assets/header.png);
+  background-size: cover;
+  background-position: center;
+  /* background-repeat: no-repeat; */
+}
+
+.bannerbottom {
+  background-image: url(./assets/landingbanner.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.black-text-shadow {
+  text-shadow: 5px 5px 10px #020202a2, 0 0 1em rgb(15, 15, 16), 0 0 0.2em rgb(26, 26, 28);
+}
+
+.underlineHeader {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #188f0a;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.bg-custom-image-footer {
+  /* background-image: url('./assets/footer-upper-image.png'); */
+  background-color: #F79E1B;
+}
+
+.bg-custom-image-middle1 {
+  background-image: url('./assets/middle1-image1.png');
+}
+
+.bg-custom-image-middle2 {
+  background-image: url('./assets/middle-image2.png');
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 61px;
+  background: rgba(199, 88, 1, 0.4);
+  transform-origin: 0%;
+}
+
+
+.animate-instant {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.animate-instant:active {
+  transform: scale(0.98);
+}
+
+.backdropBackgroundCss {
+  /* background: rgba(255, 255, 255, 0.); */
+  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(25px);
+  /* border: 1px solid rgba(255, 255, 255, 0.35); */
+}
+
+.mapBackgrounImage {
+  background-image: url('./assets/maps.png');
+}
+
+.bg-active {
+  animation: expand 3s linear forwards;
+}
+
+.bg-inactive-reverse {
+  animation: contract 5s linear forwards;
+}
+
+.bg-inactive {
+  width: 0%;
+}
+
+@keyframes expand {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes contract {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
+  }
+}
+
+
+.coverImage {
+  background: linear-gradient(180deg, #E9EEED 0%, #DDDFE3 100%);
+
+}
+
+.coverImage .rtcimg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #333333;
+  position: relative;
+  overflow: hidden;
+}
+
+.text-content {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.shadow-text {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  opacity: 0;
+  color: #333333;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.arrow-icon {
+  margin-left: 8px;
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.link:hover .text-content {
+  transform: translateY(-20px);
+  opacity: 0.5;
+}
+
+.link:hover .shadow-text {
+  transform: translateY(-20px);
+  opacity: 1;
+}
+
+.link:hover .arrow-icon {
+  transform: translateX(20px);
+  opacity: 1;
+}
+
+
+
+.how-it-works-banner {
+  background-image: url('../src/assets/bannerHowItWorks.jpg');
+  background-position: 72% 28%;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+
+
+
+.spinner {
+  width: 11.2px;
+  height: 11.2px;
+  border-radius: 11.1px;
+  box-shadow: 28px 0px 0 0 rgba(39, 156, 102, 0.2),
+    22.7px 16.5px 0 0 rgba(39, 156, 102, 0.4),
+    8.68px 26.6px 0 0 rgba(39, 156, 102, 0.6),
+    -8.68px 26.6px 0 0 rgba(39, 156, 102, 0.8),
+    -22.7px 16.5px 0 0 #279c66;
+  animation: spinner-b87k6z 1s infinite linear;
+}
+
+@keyframes spinner-b87k6z {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+/* Slide in and out animations */
+@keyframes slideInNext {
+  0% {
+    transform: translateX(70%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutPrevious {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+/* Animation classes for next image */
+.slide-in-next {
+  animation: slideInNext 0.5s ease-in-out;
+}
+
+/* Animation classes for previous image */
+.slide-out-previous {
+  animation: slideOutPrevious 0.5s ease-in-out;
+}
+
+/* 02-10-2024 (Design CSS) */
+
+.spin-banner-area .title {
+  font-size: 78px;
+}
+
+.spin-banner-area .sub-title {
+  font-size: 50px;
+  color: #3c3c3c;
+  margin-top: -12px;
+}
+
+.spin-banner-area .spin-btn {
+  font-weight: 600;
+  margin-top: -5px;
+  margin-left: 5px;
+}
+
+.spin-banner-area .cart-btn {
+  font-weight: 600;
+}
+
+.testimonial-navigation button {
+  width: 50px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* #root{
+  overflow-x: hidden;
+} */
+
+/* .footer{
+    margin-top: -113px;
+  } */
+
+@media(max-width:767.98px) {
+  .coverImage .rtcimg {
+    margin-top: 30px;
+    width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .coverImage {
+    padding-bottom: 40px;
+  }
+}
+
+@media(max-width:575px) {
+  .btn-hamburger svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .btn-hamburger {
+    margin-left: 30px;
+  }
+
+  .logo svg {
+    width: 100px;
+    height: 50px;
+  }
+
+  .banner-text p {
+    display: none;
+  }
+
+
+  .banner-text {
+    height: auto;
+    padding-top: 210px;
+    padding-bottom: 5px;
+  }
+
+  .product-box {
+    height: auto;
+    padding: 15px 8px;
+  }
+
+  .product-box p {
+    font-size: 31.44px;
+    padding-left: 10px;
+  }
+
+  .section-title svg {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .section-title p {
+    padding: 0 0 0 10px;
+    line-height: 26px;
+  }
+
+  .product-slider {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .info-section {
+    padding: 30px;
+    text-align: center;
+  }
+
+  .spin-banner-area-div {
+    position: relative;
+    top: 0;
+  }
+
+  .spin-banner-area .sub-title {
+    margin-top: 10px;
+    font-size: 34px;
+    line-height: 34px;
+    font-weight: 400;
+  }
+
+  .spin-banner-area .title {
+    font-size: 51px;
+    padding: 0;
+    font-weight: 700;
+  }
+
+  .spin-content {
+    display: flex;
+    flex-direction: column-reverse;
+    position: unset;
+  }
+
+  .spin-section {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .spin-product-info {
+    position: unset;
+  }
+
+  .spin-product-info-text p:first-child {
+    font-size: 26px;
+    line-height: 26px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .spin-product-info-text p:last-child {
+    font-size: 23px;
+    line-height: 23px;
+    padding: 0;
+    margin: 5px 0 0;
+  }
+
+  .spin-product-info .cart-btn {
+    background-color: white;
+    color: #231F20;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .btn-spin {
+    margin-top: 35px;
+  }
+
+  .spin-banner-area {
+    height: auto;
+    padding: 30px 0;
+  }
+
+  .process-section-title {
+    align-items: start;
+    gap: 10px;
+  }
+
+  /* .flavour-options {
+    display: none;
+  }
+
+  .flavour-options-title,
+  .flavour-options-title-text {
+    padding: 0;
+  }
+
+  .flavour-options-title-text-content {
+    margin-left: 0;
+    margin-top: 10px;
+  } */
+
+  .footer-content {
+    padding: 40px 48px 24px;
+  }
+
+  .footer-link h2 {
+    font-size: 20px;
+  }
+
+  .input-box {
+    width: 100%;
+    padding: 13px;
+    font-size: 16px;
+    line-height: 16px;
+  }
+
+  .send-button {
+    position: absolute;
+    right: 13px;
+    width: 30px;
+    height: 30px;
+
+  }
+
+  .footer-bottom-link a {
+    text-decoration: none;
+    border-bottom: 0;
+    font-size: 14px;
+  }
+
+  .img-svg svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .product-buttons {
+    width: 50%;
+  }
+}
+
+.other-page {
+  overflow: hidden;
+}
+
+.spin-on-scroll {
+  transition: transform 0s ease-out;
+  will-change: transform;
+}
+
+
+.home-page-background-img {
+  height: 522px;
+}
+
+@media (min-width: 1800px) {
+  .home-page-background-img {
+    height: 650px;
+  }
+}
+
+@media (min-width: 2000px) {
+  .home-page-background-img {
+    height: 800px;
+  }
+}
+
+.header-menu-background-img {
+  height: 320px;
+}
+
+@media (min-width: 1800px) {
+  .header-menu-background-img {
+    height: 440px;
+  }
+
+  .how-it-works-banner {
+    background-position: 78% 22%;
+  }
+}
+
+@media (min-width: 2000px) {
+  .header-menu-background-img {
+    height: 540px;
+  }
+
+  .how-it-works-banner {
+    background-position: 80% 20%;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.loginbackgraound {
+  background-image: url(./assets/login_bg_img.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  top: -100px
+}
+
+@media (max-width: 768px) {
+  .link{
+    display: none;
+  }
+
+  .flavour-options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    justify-content: center;
+    gap: 5px;
+    z-index: 20;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+  }
+
+  .flavour-options button {
+    height: 4px;
+    padding: 0;
+    width: calc(100% / 5);
+    font-size: 10px;
+    background-color: white;
+  }
+
+  .flavour-button-text {
+    visibility: hidden;
+  }
+
+  .spin-banner-area-div {
+    position: relative;
+    top: 0;
+  }
+
+  .spin-banner-area .sub-title {
+    margin-top: 10px;
+    font-size: 34px;
+    line-height: 34px;
+    font-weight: 400;
+  }
+
+  .spin-banner-area .title {
+    font-size: 51px;
+    padding: 0;
+    font-weight: 700;
+  }
+
+  .spin-content {
+    display: flex;
+    flex-direction: column-reverse;
+    position: unset;
+  }
+
+  .spin-section {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .spin-product-info {
+    position: unset;
+  }
+
+  .spin-product-info-text p:first-child {
+    font-size: 26px;
+    line-height: 26px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .spin-product-info-text p:last-child {
+    font-size: 23px;
+    line-height: 23px;
+    padding: 0;
+    margin: 5px 0 0;
+  }
+
+  .spin-product-info .cart-btn {
+    background-color: white;
+    color: #231F20;
+    font-size: 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+
+  .btn-spin {
+    margin-top: 35px;
+  }
+
+  .spin-banner-area {
+    height: auto;
+    padding: 30px 0;
+  }
+
+}
+
+@media (max-width: 500px) {
+  .spin-image {
+    margin-left: 200px;
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  75% {
+    transform: translateX(-5px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+.file-upload-container {
+  display: flex;
+  flex-direction: column;
+  /* Stack label and input in a column */
+  gap: 8px;
+  /* Optional: adds spacing between the label and input */
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  /* Optional: adds space below the label */
+}
+
+input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.spinner1 {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 3px solid;
+  border-color: #bcbcc1;
+  border-right-color: #29292b;
+  animation: spinner1-d3wgkg 1s infinite linear;
+}
+
+@keyframes spinner1-d3wgkg {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (min-width: 768px) {
+  .product-detail-spin-home {
+    width: 553px;
+    height: 553px;
+    margin-top: 0px;
+    left: -64px;
+  }
+
+  .product-detail-spin-home-img {
+    width: 553px;
+    height: 553px;
+    max-width: 100%;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .product-detail-spin-home {
+    width: 80%;
+    height: auto;
+    margin-top: -15%;
+    left: -38%;
+    max-width: 180%;
+  }
+
+  .product-detail-spin-home-img {
+    width: 520px;
+    height: 520px;
+    max-width: 180%;
+  }
+}
+
+
+@media (max-width: 550px) {
+  .product-detail-spin-home {
+    width: 80%;
+    height: auto;
+    margin-top: -31%;
+    left: -48%;
+    max-width: 180%;
+  }
+
+  .product-detail-spin-home-img {
+    width: 500px;
+    height: 500px;
+    max-width: 180%;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .product-detail-spin-home-img {
+    width: 420px;
+    height: 420px;
+    max-width: 180%;
+  }
+}

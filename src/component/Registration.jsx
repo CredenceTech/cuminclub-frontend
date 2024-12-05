@@ -68,16 +68,10 @@ function Registration() {
 
   return (
     <div
-      style={{
-        display: "flex",
-        height: "89.9vh",
-        width: "100%",
-      }}
+      className="flex loginbackgraound relative pb-[80px]"
     >
       <div
         style={{
-          backgroundImage: "url('/login_bg_img.jpg')",
-          height: "89.9vh",
           width: "50%",
         }}
         className="hidden lg:block"
@@ -86,16 +80,15 @@ function Registration() {
         <div className="" >
           <LoadingAnimation />
         </div> : null}
-      <div className="flex items-center flex-col justify-center flex-1 text-[#53940F] bg-[#f4efea] w-full">
-        <h2
-          style={{ fontFamily: "Gela" }}
-          className="font-bold text-2xl italic md:text-4xl lg:text-5xl text-center"
-        >
+        <div className="flex items-center flex-col justify-center flex-1 text-[#53940F] mt-2 w-full">
+        <div className="bg-[#EADEC1] w-full md:mr-[120px] mt-[120px] rounded-lg p-9">
+          <h2
+            className="font-[400] text-[37.24px] font-skillet text-[#333333] leading-[37.58px] "
+          >
           Registration
         </h2>
         <form className="flex flex-col mt-5" onSubmit={formik.handleSubmit}>
-          <div className="flex gap-10 my-2 items-center justify-between">
-            <label className="text-xl font-medium" htmlFor="firstName">First Name*</label>
+          
             <div>
               <input
                 id="firstName"
@@ -106,7 +99,7 @@ function Registration() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={
-                  `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.firstName && formik.errors.firstName
+                  `border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.firstName && formik.errors.firstName
                     ? "border-red-500"
                     : ""
                   }`
@@ -116,10 +109,9 @@ function Registration() {
                 <div className="text-red-500 ml-5 text-sm">{formik.errors.firstName}</div>
               )}
             </div>
-          </div>
-          <div className="flex gap-10 my-2 items-center justify-between">
-            <label className="text-xl font-medium" htmlFor="lastName">Last Name*</label>
-            <div>
+          
+        
+            <div className="mt-4">
               <input
                 id="lastName"
                 name="lastName"
@@ -129,7 +121,7 @@ function Registration() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={
-                  `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.lastName && formik.errors.lastName
+                  `border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.lastName && formik.errors.lastName
                     ? "border-red-500"
                     : ""
                   }`
@@ -139,10 +131,9 @@ function Registration() {
                 <div className="text-red-500 ml-5 text-sm">{formik.errors.lastName}</div>
               )}
             </div>
-          </div>
-          <div className="flex gap-10 my-2 items-center justify-between">
-            <label className="text-xl font-medium" htmlFor="email">Email*</label>
-            <div>
+        
+       
+            <div className="mt-4">
               <input
                 id="email"
                 name="email"
@@ -152,7 +143,7 @@ function Registration() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={
-                  `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.email && formik.errors.email
+                  `border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.firstName && formik.errors.firstName
                     ? "border-red-500"
                     : ""
                   }`
@@ -162,10 +153,9 @@ function Registration() {
                 <div className="text-red-500  ml-5 text-sm">{formik.errors.email}</div>
               )}
             </div>
-          </div>
-          <div className="flex gap-10 items-center my-2 justify-between">
-            <label className="text-xl font-medium" htmlFor="password">Password*</label>
-            <div>
+          
+         
+            <div className="mt-4">
               <input
                 id="password"
                 name="password"
@@ -175,7 +165,7 @@ function Registration() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={
-                  `border border-[#53940F] focus:outline-none outline: none bg-white rounded-full focus:ring-[#53940F] py-3 px-5 ${formik.touched.password && formik.errors.password
+                  `border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.password && formik.errors.password
                     ? "border-red-500"
                     : ""
                   }`
@@ -185,7 +175,7 @@ function Registration() {
                 <div className="text-red-500 ml-5 text-sm">{formik.errors.password}</div>
               )}
             </div>
-          </div>
+        
           {/* <div className="flex items-center gap-5">
             <input
               id="acceptMarketing"
@@ -199,13 +189,14 @@ function Registration() {
             <label className="text-xl" htmlFor="acceptMarketing">Accept Marketing</label>
           </div> */}
           {isError && <div className="my-5 text-xl text-[#E91D24]">{isError}</div>}
-          <button type="submit" className="mt-5 border border-[#53940F] rounded-full py-2.5 text-xl px-5 bg-[#53940F] text-white">
+          <button type="submit" className="mt-10 border border-[#53940F] rounded-[15.1px] py-4 text-[40px] font-[400] px-5 bg-[#000000E8] leading-[40.36px] font-skillet text-[#FAFAFA]">
             Register
           </button>
         </form>
 
-        <div className="my-5 text-xl">Already have an account? <Link to="/login" className="underline font-semibold text-[#E91D24]">Login</Link></div>
+        <div className="my-5 text-xl text-[#2A2A2A] font-regola-pro">Already have an account? <Link to="/login" className="underline font-semibold text-[#2A2A2A] font-regola-pro">Login</Link></div>
       </div>
+    </div>
     </div>
   );
 }

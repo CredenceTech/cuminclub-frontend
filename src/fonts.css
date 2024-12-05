@@ -1,0 +1,34 @@
+@font-face {
+  font-family: 'SkilletCondensed';
+  src: url('/public/Skillet-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FuturaPTMedium';
+  src: url('/Futura Medium.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FuturaBold';
+  src: url('/public/Futura-CondensedExtraBold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'RegulaPro';
+  src: url('/Regola\ Pro\ Book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'InterFont';
+  src: url('/Inter-VariableFont_opsz\,wght.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -5,3 +5,10 @@ export const totalQuantity = (cartResponse) => {
      );
    }
  
+
+   export const totalQuantityInDraftOrder = (draftOrderResponse) => {
+    return draftOrderResponse?.draftOrder?.lineItems?.edges?.reduce(
+       (accumulator, draftOrderItem) => accumulator + draftOrderItem?.node?.quantity,
+       0
+     );
+   }
