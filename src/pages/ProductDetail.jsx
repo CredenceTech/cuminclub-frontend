@@ -71,33 +71,33 @@ function ProductDetail() {
     const [initialReviewCount, setInitialReviewCount] = useState(0);
     const section1Ref = useRef(null);
     const [visibleFeedbackCount, setVisibleFeedbackCount] = useState(3);
-    const [buyNowLoading, setBuyNowLoading]=useState(null)
+    const [buyNowLoading, setBuyNowLoading] = useState(null)
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
-          const params = {
-            input: {
-              lineItems: [
-                {
-                  variantId: variantId,
-                  quantity: 1,
+            const params = {
+                input: {
+                    lineItems: [
+                        {
+                            variantId: variantId,
+                            quantity: 1,
+                        },
+                    ],
                 },
-              ],
-            },
-          };
-          const response = await graphQLClient.request(checkoutCreate, params);
-          if (response?.checkoutCreate?.userErrors?.length > 0) {
-            console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-            return; 
-          }
-          dispatch(setCheckoutResponse(response?.checkoutCreate));
-          dispatch(addCheckoutData(response));
-          setBuyNowLoading(null)
-          navigate('/cardReview', { state: { isBuyNow: true } });
+            };
+            const response = await graphQLClient.request(checkoutCreate, params);
+            if (response?.checkoutCreate?.userErrors?.length > 0) {
+                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+                return;
+            }
+            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            dispatch(addCheckoutData(response));
+            setBuyNowLoading(null)
+            navigate('/cardReview', { state: { isBuyNow: true } });
         } catch (error) {
-          console.error('Error adding to checkout:', error);
+            console.error('Error adding to checkout:', error);
         }
-      };
+    };
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
@@ -112,41 +112,41 @@ function ProductDetail() {
             } else {
                 addToCart({ merchandiseId: productId, quantity: 1 });
             }
-        }else{
-
-        const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
-            return cartItem.node.merchandise.id === productId;
-        });
-
-        if (productInCart) {
-            const quantityInCart = productInCart.node.quantity;
-            const cartId = cartDatas?.cartCreate?.cart?.id;
-            const id = productInCart?.node?.id;
-            if (sellingPlanId) {
-                updateCartItem(productId, cartId, {
-                    id: id,
-                    sellingPlanId: sellingPlanId,
-                    quantity: quantityInCart + 1,
-                });
-            } else {
-                updateCartItem(productId, cartId, {
-                    id: id,
-                    quantity: quantityInCart + 1,
-                });
-            }
         } else {
-            const cartId = cartDatas?.cartCreate?.cart?.id;
-            if (sellingPlanId) {
-                updateCart(cartId, {
-                    merchandiseId: productId,
-                    sellingPlanId: sellingPlanId,
-                    quantity: 1,
-                });
+
+            const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
+                return cartItem.node.merchandise.id === productId;
+            });
+
+            if (productInCart) {
+                const quantityInCart = productInCart.node.quantity;
+                const cartId = cartDatas?.cartCreate?.cart?.id;
+                const id = productInCart?.node?.id;
+                if (sellingPlanId) {
+                    updateCartItem(productId, cartId, {
+                        id: id,
+                        sellingPlanId: sellingPlanId,
+                        quantity: quantityInCart + 1,
+                    });
+                } else {
+                    updateCartItem(productId, cartId, {
+                        id: id,
+                        quantity: quantityInCart + 1,
+                    });
+                }
             } else {
-                updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+                const cartId = cartDatas?.cartCreate?.cart?.id;
+                if (sellingPlanId) {
+                    updateCart(cartId, {
+                        merchandiseId: productId,
+                        sellingPlanId: sellingPlanId,
+                        quantity: 1,
+                    });
+                } else {
+                    updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+                }
             }
         }
-    }
     };
 
 
@@ -413,7 +413,7 @@ function ProductDetail() {
 
                                 return {
                                     id: step?.metaobject?.id,
-                                    description: JSON.parse(descriptionField?.value)?.children[0]?.children[0]?.value || '',
+                                    description: descriptionField?.value,
                                     video: videoField?.reference?.sources[0]?.url,
                                     ref: refField ? refField.value : '',
                                     time: timeField ? timeField.value : ''
@@ -934,13 +934,13 @@ function ProductDetail() {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
                                         }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>
                                     <button
-                                      onClick={()=>
-                                        handleAddToCheckout(productData?.variants.edges[0].node.id)
-                                      }
+                                        onClick={() =>
+                                            handleAddToCheckout(productData?.variants.edges[0].node.id)
+                                        }
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] flex justify-center items-center rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>
-                                              {buyNowLoading === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                        </button>
+                                        {buyNowLoading === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                    </button>
                                 </div>
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                                     *Suitable for vegetarians, No dairy ingredients used
@@ -1007,9 +1007,11 @@ function ProductDetail() {
                                                     <h3
                                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#FFFFFF82'}` }}
                                                         className="md:text-[104px] pt-4 md:pt-0 text-[64px] md:p-3 p-2 md:mt-0 mt-0 md:mt-4 md:pr-8 pr-4 font-[500] font-regola-pro md:leading-[125px] leading-[64px] mb-4">{imageIndex + 1}</h3>
-                                                    {steps && <p className="text-[15px] md:text-[24px] font-[500] leading-[20px] md:leading-[31px] font-regola-pro w-5/6 pt-4 md:pt-8 text-[#FFFFFF]">{steps[imageIndex]?.description?.length > 140
-                                                        ? `${steps[imageIndex].description.slice(0, 130)}...`
-                                                        : steps[imageIndex].description}</p>}
+                                                    {steps &&
+                                                        // <p className="text-[15px] md:text-[24px] font-[500] leading-[20px] md:leading-[31px] font-regola-pro w-5/6 pt-4 md:pt-8 text-[#FFFFFF]">{steps[imageIndex]?.description?.length > 140
+                                                        //     ? `${steps[imageIndex].description.slice(0, 130)}...`
+                                                        //     : steps[imageIndex].description}</p>
+                                                        <DescriptionRenderer description={steps[imageIndex].description} />}
                                                 </div>
                                             </motion.div>
                                         </AnimatePresence>
@@ -1262,6 +1264,37 @@ const ReviewCard = ({ review }) => {
                     </button>
                 )}
             </div>
+        </div>
+    );
+};
+
+const DescriptionRenderer = ({ description }) => {
+    const parsedDescription = JSON.parse(description);
+
+    const renderContent = (children) => {
+        return children?.map((child, index) => {
+            if (child?.type === "text") {
+                let content = child?.value;
+
+                if (child?.bold) content = <strong key={index}>{content}</strong>;
+                if (child?.italic) content = <em key={index}>{content}</em>;
+
+                return content;
+            } else if (child?.type === "paragraph") {
+                return (
+                    <p key={index} >
+                        {renderContent(child?.children)}
+                    </p>
+                );
+            }
+
+            return null;
+        });
+    };
+
+    return (
+        <div className="text-[15px] md:text-[24px] font-[500] leading-[20px] md:leading-[31px] font-regola-pro w-5/6 pt-4 md:pt-8 text-[#FFFFFF]">
+            {renderContent(parsedDescription?.children)}
         </div>
     );
 };
