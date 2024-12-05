@@ -407,6 +407,7 @@ export const createCartMutation = gql`
           edges {
             node {
               id
+               quantity
              estimatedCost {
               subtotalAmount {
                 amount
@@ -1777,3 +1778,73 @@ query GetCustomerOrders($customerAccessToken: String!) {
 }
 `;
 
+export const checkoutCreate=gql`
+mutation checkoutCreate($input: CheckoutCreateInput!) {
+  checkoutCreate(input: $input) {
+    checkout {
+      id
+      totalPrice {
+        amount
+        currencyCode
+      }
+      lineItems(first: 10) {
+        edges {
+          node {
+            id
+            quantity
+            unitPrice {
+              amount
+              currencyCode
+            }
+            title
+            variant {
+              id
+              weight
+              weightUnit
+              image {
+                url
+                altText
+              }
+              product {
+                id
+                title
+                featuredImage {
+                  altText
+                  url
+                }
+                handle
+                metafields(
+                  identifiers: [
+                    { namespace: "custom", key: "image_for_home" }
+                  ]
+                ) {
+                  value
+                  key
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        originalSrc
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+              priceV2 {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+    queueToken
+    userErrors {
+      field
+      message
+    }
+  }
+}
+
+`;

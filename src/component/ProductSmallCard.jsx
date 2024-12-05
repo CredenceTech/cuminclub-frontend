@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, } from 'react-redux';
 import { handleAddToCart, handleRemoveFromCart } from '../../utils/cartUtils';
 import { selectCartResponse } from '../state/cartData';
+import { checkoutCreate, graphQLClient } from '../api/graphql';
+import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 
 const ProductSmallCard = ({
     product,
@@ -22,7 +24,35 @@ const ProductSmallCard = ({
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [buyNowLoading, setBuyNowLoading]=useState(null)
 
+    const handleAddToCheckout = async (variantId) => {
+        try {
+            setBuyNowLoading(variantId);
+          const params = {
+            input: {
+              lineItems: [
+                {
+                  variantId: variantId,
+                  quantity: 1,
+                },
+              ],
+            },
+          };
+          const response = await graphQLClient.request(checkoutCreate, params);
+          if (response?.checkoutCreate?.userErrors?.length > 0) {
+            console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            return; 
+          }
+          dispatch(setCheckoutResponse(response?.checkoutCreate));
+          dispatch(addCheckoutData(response));
+          setBuyNowLoading(null)
+          navigate('/cardReview', { state: { isBuyNow: true } });
+        } catch (error) {
+          console.error('Error adding to checkout:', error);
+        }
+      };
+      
     function getCategoryModified(category) {
         if (category?.toUpperCase() === "CURRIES") {
             return "CURRY";
@@ -292,11 +322,13 @@ const ProductSmallCard = ({
                                             {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                         </button>
                                         <button
-                                            onClick={(e) => e.stopPropagation()}
+                                            onClick={(e) => {e.stopPropagation()
+                                                handleAddToCheckout(product.variants.edges[0].node.id)
+                                            }}
                                             type="button"
-                                            className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
+                                            className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
                                         >
-                                            BUY NOW
+                                          {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                         </button>
                                     </div>
                                 </div>
@@ -316,11 +348,14 @@ const ProductSmallCard = ({
                                 {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
                             <button
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => {e.stopPropagation()
+                                    handleAddToCheckout(product.variants.edges[0].node.id)
+                                }
+                                }
                                 type="button"
                                 className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
                             >
-                                BUY NOW
+                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                             </button>
                         </div>
                     </motion.div>

@@ -423,6 +423,7 @@ const Home = () => {
         addToCart({ merchandiseId: productId, quantity: 1 });
       }
     }
+    else{
 
     const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
       return cartItem.node.merchandise.id === productId;
@@ -445,6 +446,7 @@ const Home = () => {
         updateCart(cartId, { merchandiseId: productId, quantity: 1 });
       }
     }
+  }
   };
 
   const addToCart = async (cartItems) => {
@@ -457,6 +459,7 @@ const Home = () => {
     }
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response))
+    dispatch(setCartResponse(response.cartCreate))
     setIsShaking(null)
     // setLoading((prevLoading) => ({
     //     ...prevLoading,

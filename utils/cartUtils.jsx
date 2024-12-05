@@ -18,9 +18,9 @@ export const handleAddToCart = async ({
         const newCartItem = sellingPlanId
             ? { merchandiseId: productId, sellingPlanId, quantity: 1 }
             : { merchandiseId: productId, quantity: 1 };
-        await addToCart(newCartItem, dispatch, addCartData, setIsShaking, setLoading, productId);
+        await addToCart(newCartItem, dispatch, addCartData, setIsShaking, setLoading, productId, setCartResponse);
         return;
-    }
+    }else{
 
     const productInCart = cartResponse?.cart?.lines?.edges.find(
         (cartItem) => cartItem.node.merchandise.id === productId
@@ -44,6 +44,7 @@ export const handleAddToCart = async ({
 
         await updateCart(cartId, newCartItem, dispatch, setCartResponse, setIsShaking, setLoading, productId );
     }
+}
 };
 
 export const handleRemoveFromCart = async ({
@@ -76,12 +77,13 @@ export const handleRemoveFromCart = async ({
     }
 };
 
-export const addToCart = async (cartItem, dispatch, addCartData, setIsShaking, setLoading, productId) => {
+export const addToCart = async (cartItem, dispatch, addCartData, setIsShaking, setLoading, productId, setCartResponse) => {
     const params = {
         cartInput: { lines: [cartItem] },
     };
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response));
+    dispatch(setCartResponse(response.cartCreate))
     setIsShaking(null);
     setLoading((prevLoading) => ({ ...prevLoading, [productId]: false }));
 };

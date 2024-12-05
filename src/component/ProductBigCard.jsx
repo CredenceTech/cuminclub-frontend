@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, } from 'react-redux';
 import { handleAddToCart, handleRemoveFromCart } from '../../utils/cartUtils';
+import { checkoutCreate, graphQLClient } from '../api/graphql';
+import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 
 
 const ProductBigCard = ({
@@ -23,6 +25,34 @@ const ProductBigCard = ({
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [buyNowLoading, setBuyNowLoading]=useState(null)
+    const handleAddToCheckout = async (variantId) => {
+        try {
+            setBuyNowLoading(variantId);
+          const params = {
+            input: {
+              lineItems: [
+                {
+                  variantId: variantId,
+                  quantity: 1,
+                },
+              ],
+            },
+          };
+          const response = await graphQLClient.request(checkoutCreate, params);
+          if (response?.checkoutCreate?.userErrors?.length > 0) {
+            console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            return; 
+          }
+          dispatch(setCheckoutResponse(response?.checkoutCreate));
+          dispatch(addCheckoutData(response));
+          setBuyNowLoading(null)
+          navigate('/cardReview', { state: { isBuyNow: true } });
+        } catch (error) {
+          console.error('Error adding to checkout:', error);
+        }
+      };
+
     const [categoryColor, setCategoryColor] = useState(null);
     function getCategoryModified(category){
         if (category?.toUpperCase() === "CURRIES") {
@@ -299,11 +329,14 @@ const ProductBigCard = ({
                                     )}
                                 </button>
                                 <button
-                                    onClick={(e) => e.stopPropagation()}
+                                    onClick={(e) =>{ e.stopPropagation()
+                                        handleAddToCheckout(product.variants.edges[0].node.id)
+                                    }
+                                    }
                                     type="button"
-                                    className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                    className="bg-[#26965C] text-[#FAFAFA] px-2 flex justify-center items-center rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
                                 >
-                                    BUY NOW
+                                     {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                 </button>
                             </div>
                         </div>

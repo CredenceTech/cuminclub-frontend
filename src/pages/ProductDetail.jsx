@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle, getRelatedProducts, createCartMutation, updateCartItemMutation, updateCartMutation } from '../api/graphql';
+import { getProductCollectionsQuery, getProductDetailQuery, getProductRecommendedQuery, getProductDetailsQuery, graphQLClient, getProductDetailFull, getStepDetails, getFeedbackDetails, getProductDetailByHandle, getRelatedProducts, createCartMutation, updateCartItemMutation, updateCartMutation, checkoutCreate } from '../api/graphql';
 import Rating from '../component/Rating';
 import middleImg from '../assets/middle1-image1.png'
 import AddFeedback from '../component/AddFeedback';
@@ -10,6 +10,7 @@ import { wrap } from "popmotion";
 import ReactPlayer from 'react-player';
 import LoadingAnimation from '../component/Loader';
 import { addCartData, cartData, selectCartResponse, setCartResponse } from '../state/cartData';
+import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 
 const variants = {
     enter: (direction) => {
@@ -70,6 +71,33 @@ function ProductDetail() {
     const [initialReviewCount, setInitialReviewCount] = useState(0);
     const section1Ref = useRef(null);
     const [visibleFeedbackCount, setVisibleFeedbackCount] = useState(3);
+    const [buyNowLoading, setBuyNowLoading]=useState(null)
+    const handleAddToCheckout = async (variantId) => {
+        try {
+            setBuyNowLoading(variantId);
+          const params = {
+            input: {
+              lineItems: [
+                {
+                  variantId: variantId,
+                  quantity: 1,
+                },
+              ],
+            },
+          };
+          const response = await graphQLClient.request(checkoutCreate, params);
+          if (response?.checkoutCreate?.userErrors?.length > 0) {
+            console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            return; 
+          }
+          dispatch(setCheckoutResponse(response?.checkoutCreate));
+          dispatch(addCheckoutData(response));
+          setBuyNowLoading(null)
+          navigate('/cardReview', { state: { isBuyNow: true } });
+        } catch (error) {
+          console.error('Error adding to checkout:', error);
+        }
+      };
 
     const handleAddToCart = (productId, sellingPlanId) => {
         setIsShaking(productId)
@@ -84,7 +112,7 @@ function ProductDetail() {
             } else {
                 addToCart({ merchandiseId: productId, quantity: 1 });
             }
-        }
+        }else{
 
         const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
             return cartItem.node.merchandise.id === productId;
@@ -118,6 +146,7 @@ function ProductDetail() {
                 updateCart(cartId, { merchandiseId: productId, quantity: 1 });
             }
         }
+    }
     };
 
 
@@ -131,6 +160,7 @@ function ProductDetail() {
         const response = await graphQLClient.request(createCartMutation, params);
         // setIsLoading(false);
         dispatch(addCartData(response));
+        dispatch(setCartResponse(response.cartCreate))
         setIsShaking(null)
         // setLoading((prevLoading) => ({
         //     ...prevLoading,
@@ -904,8 +934,13 @@ function ProductDetail() {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
                                         }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>
                                     <button
+                                      onClick={()=>
+                                        handleAddToCheckout(productData?.variants.edges[0].node.id)
+                                      }
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
-                                        className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>Buy Now</button>
+                                        className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] flex justify-center items-center rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>
+                                              {buyNowLoading === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                        </button>
                                 </div>
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                                     *Suitable for vegetarians, No dairy ingredients used

@@ -20,10 +20,12 @@ import { addCustomerAccessToken, addUserId, customerAccessTokenData, userEmails 
 import { filterData } from '../state/selectedCountry';
 import toast from 'react-hot-toast';
 import BlazeSDK from '@juspay/blaze-sdk-web';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clearCheckoutData, clearCheckoutResponse, selectCheckoutResponse } from '../state/checkoutData';
 
 const CardReview = () => {
     const cartDatas = useSelector(cartData);
+    const location = useLocation();
     const cartResponse = useSelector(selectCartResponse);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -39,15 +41,37 @@ const CardReview = () => {
     const [loading, setLoading] = useState({});
     const userEmail = useSelector(userEmails);
     const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
-
     const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
+
+
+    const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
+    console.log(isBuyNow);
+    const checkoutResponse = useSelector(selectCheckoutResponse);
+    const cancelOrder = () => {
+        dispatch(clearCheckoutData())
+        dispatch(clearCheckoutResponse())
+    }
+
+
+
+
+
+
+
+
 
     const callbackMethod = (response) => {
         console.log('Response from SDK:', response);
         let result = JSON.parse(response)
         if (result?.payload?.methodName === "clearCart") {
+            if(isBuyNow===true){
+                dispatch(clearCheckoutData());
+                dispatch(clearCheckoutResponse());
+            }else{
             dispatch(clearCartData());
             dispatch(clearCartResponse());
+            }
+           
         }
         if (result?.payload?.ctaAction === "shopMore") {
             navigate("/", { replace: true });
@@ -333,83 +357,163 @@ const CardReview = () => {
             return;
         }
         const cart = cartResponse?.cart;
-
+        const checkout = checkoutResponse?.checkout;
+        let processPayload;
         console.log(cart);
-        const processPayload = createSDKPayload({
-            "action": "startCheckout",
-            "cart":
-            {
-                "token": cart.id.split('Cart/')[1],
-                "note": "",
-                "attributes": {},
-                "original_total_price": cart.cost.totalAmount.amount * 100,
-                "total_price": cart.cost.totalAmount.amount * 100,
-                "total_discount": 0,
-                "total_weight": parseInt(calculateTotalWeight(cart.lines)),
-                "item_count": parseInt(calculateTotalQuantity(cart.lines)),
-                "items": cart.lines.edges.map(edge => {
-                    const product = edge.node.merchandise.product;
-                    const variant = edge.node.merchandise;
-                    const quantity = edge.node.quantity;
-                    const price = variant.priceV2.amount * 100;
+        if (isBuyNow === true) {
+            processPayload = createSDKPayload({
+                "action": "startCheckout",
+                "cart":
+                {
+                    "token": checkout.id.split('Checkout/')[1],
+                    "note": "",
+                    "attributes": {},
+                    "original_total_price": checkout?.totalPrice?.amount * 100,
+                    "total_price": checkout?.totalPrice?.amount * 100,
+                    "total_discount": 0,
+                    "total_weight": parseInt(checkout?.lineItems?.edges[0]?.node?.variant.weight),
+                    "item_count": 1,
+                    "items": checkout?.lineItems.edges.map(edge => {
+                        const product = edge?.node?.variant?.product;
+                        const variant = edge.node.variant;
+                        const quantity = edge.node.quantity;
+                        const price = variant.priceV2.amount * 100;
 
-                    return {
-                        "id": parseInt(variant.id.split("/").pop()),
-                        "properties": {},
-                        "quantity": quantity,
-                        "variant_id": parseInt(variant.id.split("/").pop()),
-                        "key": `${variant.id.split("/").pop()}:${new URLSearchParams(cart.id.split('?')[1]).get('key')}`,
-                        "title": product.title,
-                        "price": price,
-                        "original_price": price,
-                        "presentment_price": parseInt(variant.priceV2.amount),
-                        "discounted_price": price,
-                        "line_price": price * quantity,
-                        "original_line_price": price * quantity,
-                        "total_discount": 0,
-                        "discounts": [],
-                        "sku": "",
-                        "grams": variant.weight,
-                        "vendor": "Instanly Yours",
-                        "taxable": true,
-                        "product_id": parseInt(product.id.split("/").pop()),
-                        "product_has_only_default_variant": true,
-                        "gift_card": false,
-                        "final_price": price,
-                        "final_line_price": price * quantity,
-                        "url": `/products/${product.handle}?variant=${variant.id.split("/").pop()}`,
-                        "featured_image": {
-                            "aspect_ratio": 1,
-                            "alt": product.featuredImage.altText || product.title,
-                            "height": 2000,
-                            "url": product.featuredImage.url,
-                            "width": 2000
-                        },
-                        "image": product.featuredImage.url,
-                        "handle": product.handle,
-                        "requires_shipping": true,
-                        "product_type": "",
-                        "product_title": product.title,
-                        "product_description": "",
-                        "variant_title": null,
-                        "variant_options": ["Default Title"],
-                        "options_with_values": [
-                            {
-                                "name": "Title",
-                                "value": "Default Title"
-                            }
-                        ],
-                        "line_level_discount_allocations": [],
-                        "line_level_total_discount": 0,
-                        "has_components": false
-                    };
-                }),
-                "requires_shipping": true,
-                "currency": cart.cost.totalAmount.currencyCode,
-                "items_subtotal_price": cart.cost.subtotalAmount.amount * 100,
-                "cart_level_discount_applications": []
-            },
-        });
+                        return {
+                            "id": parseInt(variant.id.split("/").pop()),
+                            "properties": {},
+                            "quantity": quantity,
+                            "variant_id": parseInt(variant.id.split("/").pop()),
+                            "key": `${variant.id.split("/").pop()}:${new URLSearchParams(checkout.id.split('?')[1]).get('key')}`,
+                            "title": product.title,
+                            "price": price,
+                            "original_price": price,
+                            "presentment_price": parseInt(variant.priceV2.amount),
+                            "discounted_price": price,
+                            "line_price": price * quantity,
+                            "original_line_price": price * quantity,
+                            "total_discount": 0,
+                            "discounts": [],
+                            "sku": "",
+                            "grams": variant.weight,
+                            "vendor": "Instanly Yours",
+                            "taxable": true,
+                            "product_id": parseInt(product.id.split("/").pop()),
+                            "product_has_only_default_variant": true,
+                            "gift_card": false,
+                            "final_price": price,
+                            "final_line_price": price * quantity,
+                            "url": `/products/${product.handle}?variant=${variant.id.split("/").pop()}`,
+                            "featured_image": {
+                                "aspect_ratio": 1,
+                                "alt": product.featuredImage.altText || product.title,
+                                "height": 2000,
+                                "url": product.metafields[0].reference.image.originalSrc,
+                                "width": 2000
+                            },
+                            "image": product.metafields[0].reference.image.originalSrc,
+                            "handle": product.handle,
+                            "requires_shipping": true,
+                            "product_type": "",
+                            "product_title": product.title,
+                            "product_description": "",
+                            "variant_title": null,
+                            "variant_options": ["Default Title"],
+                            "options_with_values": [
+                                {
+                                    "name": "Title",
+                                    "value": "Default Title"
+                                }
+                            ],
+                            "line_level_discount_allocations": [],
+                            "line_level_total_discount": 0,
+                            "has_components": false
+                        };
+                    }),
+                    "requires_shipping": true,
+                    "currency": checkout.totalPrice.currencyCode,
+                    "items_subtotal_price": checkout.totalPrice.amount * 100,
+                    "cart_level_discount_applications": []
+                },
+            });
+        }
+        else {
+            processPayload = createSDKPayload({
+                "action": "startCheckout",
+                "cart":
+                {
+                    "token": cart.id.split('Cart/')[1],
+                    "note": "",
+                    "attributes": {},
+                    "original_total_price": cart.cost.totalAmount.amount * 100,
+                    "total_price": cart.cost.totalAmount.amount * 100,
+                    "total_discount": 0,
+                    "total_weight": parseInt(calculateTotalWeight(cart.lines)),
+                    "item_count": parseInt(calculateTotalQuantity(cart.lines)),
+                    "items": cart.lines.edges.map(edge => {
+                        const product = edge.node.merchandise.product;
+                        const variant = edge.node.merchandise;
+                        const quantity = edge.node.quantity;
+                        const price = variant.priceV2.amount * 100;
+
+                        return {
+                            "id": parseInt(variant.id.split("/").pop()),
+                            "properties": {},
+                            "quantity": quantity,
+                            "variant_id": parseInt(variant.id.split("/").pop()),
+                            "key": `${variant.id.split("/").pop()}:${new URLSearchParams(cart.id.split('?')[1]).get('key')}`,
+                            "title": product.title,
+                            "price": price,
+                            "original_price": price,
+                            "presentment_price": parseInt(variant.priceV2.amount),
+                            "discounted_price": price,
+                            "line_price": price * quantity,
+                            "original_line_price": price * quantity,
+                            "total_discount": 0,
+                            "discounts": [],
+                            "sku": "",
+                            "grams": variant.weight,
+                            "vendor": "Instanly Yours",
+                            "taxable": true,
+                            "product_id": parseInt(product.id.split("/").pop()),
+                            "product_has_only_default_variant": true,
+                            "gift_card": false,
+                            "final_price": price,
+                            "final_line_price": price * quantity,
+                            "url": `/products/${product.handle}?variant=${variant.id.split("/").pop()}`,
+                            "featured_image": {
+                                "aspect_ratio": 1,
+                                "alt": product.featuredImage.altText || product.title,
+                                "height": 2000,
+                                "url": product.metafields[0].reference.image.originalSrc,
+                                "width": 2000
+                            },
+                            "image": product.metafields[0].reference.image.originalSrc,
+                            "handle": product.handle,
+                            "requires_shipping": true,
+                            "product_type": "",
+                            "product_title": product.title,
+                            "product_description": "",
+                            "variant_title": null,
+                            "variant_options": ["Default Title"],
+                            "options_with_values": [
+                                {
+                                    "name": "Title",
+                                    "value": "Default Title"
+                                }
+                            ],
+                            "line_level_discount_allocations": [],
+                            "line_level_total_discount": 0,
+                            "has_components": false
+                        };
+                    }),
+                    "requires_shipping": true,
+                    "currency": cart.cost.totalAmount.currencyCode,
+                    "items_subtotal_price": cart.cost.subtotalAmount.amount * 100,
+                    "cart_level_discount_applications": []
+                },
+            });
+        }
 
         console.log('Processing payment with payload:', processPayload);
 
@@ -506,10 +610,42 @@ const CardReview = () => {
         <>
             <div className='bg-[#EFE9DA] '>
                 <div className='px-4 lg:px-[45px] min-h-[85vh]'>
-                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your Cart</h1>
+                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your {isBuyNow===true ? "Order" : "Cart"}</h1>
                     <div className='flex flex-col gap-4 md:gap-6 md:flex-row justify-between'>
                         <div className='w-full px-4 md:w-1/2 mb-4'>
-                            {cartResponse?.cart?.lines?.edges?.map((line, index) => {
+                            {(isBuyNow === true && checkoutResponse !== null) && (<div className="flex flex-row items-center">
+                                <img
+                                    src={
+                                        checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
+                                            (metafield) => metafield && metafield.key === "image_for_home"
+                                        )?.reference?.image?.originalSrc
+                                    }
+                                    alt={
+                                        checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.title
+                                    }
+                                    className="h-[85.1px] w-[85.1px] rounded-lg"
+                                />
+                                <div className="ml-4">
+                                    <h1 className="text-xl md:text-[36px] leading-[20px] md:leading-[36px] font-[400] font-skillet text-[#333333]">
+                                        {checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.title}
+                                    </h1>
+                                    <p className="font-skillet text-[#757575] text-[24px] md:text-[28px] leading-[28.18px] font-[400]">
+                                        <span className="text-[20px] leading-[20.1px]">₹</span>{" "}
+                                        {checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount}
+                                    </p>
+                                </div>
+                                <div>
+                                    <button
+                                        onClick={() => cancelOrder()}
+                                        type="button"
+                                        className="text-[#F15E2A] flex flex-col m-0 md:m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>)}
+
+                            {(isBuyNow !== true) && cartResponse?.cart?.lines?.edges?.map((line, index) => {
                                 return <div key={index} className='flex  items-center justify-between py-3 lg:mr-24 border-b-[0.99px] border-[#A3A3A3]'>
                                     <div className='flex flex-row items-center'>
                                         <img src={
@@ -577,6 +713,7 @@ const CardReview = () => {
                                 </div>
                             })}
 
+
                         </div>
                         <div className='bg-[#EFE9DA]  w-full md:w-1/2 mb-10'>
                             <div className='bg-[#EADEC1] p-8 rounded-2xl'>
@@ -584,28 +721,39 @@ const CardReview = () => {
                                     <p className="  font-skillet  lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">Subtotal</p>
                                     <p className="text-lg font-skillet lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">₹ <span className='lg:text-[32px] font-[400] leading-[32.5px]'>803.6</span></p>
                                 </div> */}
-                                <div className="mt-3">
+                                {(isBuyNow !== true) &&
+                                    <div className="mt-3">
+                                        <div className="flex flex-row justify-between mb-2">
+                                            <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
+                                            <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
+                                                ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0}</span>
+                                            </p>
+                                        </div>
+
+                                        <div className="flex flex-row justify-between mt-3 border-t border-[#333333] pt-3">
+                                            <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
+                                            <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
+                                                ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{(parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0) + shippingCost}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+
+                                {(isBuyNow === true) && <div className="mt-3">
                                     <div className="flex flex-row justify-between mb-2">
                                         <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
                                         <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
-                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0}</span>
+                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(checkoutResponse?.checkout?.totalPrice?.amount) || 0}</span>
                                         </p>
                                     </div>
-
-                                    {/* <div className="flex flex-row justify-between">
-                                        <p className="text-[1.5rem] font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">Shipping</p>
-                                        <p className="text-[1.5rem] font-skillet lg:text-[28px] font-[400] leading-[30px] text-[#333333]">
-                                            {shippingCost === 0 ? "FREE" : `₹${shippingCost}`}
-                                        </p>
-                                    </div> */}
 
                                     <div className="flex flex-row justify-between mt-3 border-t border-[#333333] pt-3">
                                         <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                         <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
-                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{(parseInt(cartResponse?.cart?.cost?.totalAmount?.amount) || 0) + shippingCost}</span>
+                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{(parseInt(checkoutResponse?.checkout?.totalPrice?.amount) || 0)}</span>
                                         </p>
                                     </div>
-                                </div>
+                                </div>}
                                 <p className='text-[#757575] text-[16px] md:text-[20px] font-[500] leading-[26.45px] text-start md:text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
                                 {/* <div className="flex mt-8 flex-row text-center gap-y-5 whitespace-nowrap justify-between gap-3">
                                     <div className='h-[80px] w-[220px] rounded-lg bg-[#EFE9DA]'>
