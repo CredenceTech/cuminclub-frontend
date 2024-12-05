@@ -64,7 +64,7 @@ const CardReview = () => {
         console.log('Response from SDK:', response);
         let result = JSON.parse(response)
         if (result?.payload?.methodName === "clearCart") {
-            if(isBuyNow===true){
+            if(checkoutResponse!==null){
                 dispatch(clearCheckoutData());
                 dispatch(clearCheckoutResponse());
             }else{
