@@ -6,6 +6,7 @@ import DataNotFound from "./DataNotFound";
 import { getCustomerOrders, graphQLClient } from "../api/graphql";
 import ProductsModal from "./ProductsModal";
 import AddOrderConcernForm from "./AddOrderConcernForm";
+import { useNavigate } from "react-router-dom";
 
 const Invoices = () => {
   const loginUserCustomerId = useSelector(customerAccessTokenData);
@@ -13,6 +14,15 @@ const Invoices = () => {
   const [modalData, setModalData] = useState(null);
   const [isAddConcernOpen, setIsAddConcernOpen] = useState(false);
   const [orderId, setOrderId] = useState(null);
+
+  const navigate = useNavigate();
+  
+  useEffect(()=>{
+       if(!loginUserCustomerId){
+           navigate("/login");
+       }
+  },[loginUserCustomerId])
+
 
   const openAddConcern = (id) => {
     setOrderId(id);
