@@ -501,7 +501,10 @@ function ProductDetail() {
             return acc + (isNaN(rating) ? 5 : rating);
         }, 0);
         const averageReviewRating = totalRating / reviews.length;
-        const combinedRating = (averageReviewRating + initialRating) / 2;
+        const combinedRating =
+        initialRating > 0
+            ? (averageReviewRating + initialRating) / 2
+            : averageReviewRating;
         return parseFloat(combinedRating.toFixed(2));
     };
 
