@@ -80,10 +80,6 @@ const CardReview = () => {
 
 
     useEffect(() => {
-        console.log(loginUserCustomerId)
-        if (loginUserCustomerId) {
-            setIsLogin(true)
-            getCustomerDetail();
             const sdkPayload = createSDKPayload({
                 merchantId: 'instantly',
                 environment: 'release',
@@ -92,6 +88,13 @@ const CardReview = () => {
 
             console.log('Initiating Blaze SDK with payload:', sdkPayload);
             BlazeSDK.initiate(sdkPayload, callbackMethod);
+        
+    }, [])
+
+    useEffect(()=>{
+        if (loginUserCustomerId) {
+            setIsLogin(true)
+            getCustomerDetail();
         }
     }, [loginUserCustomerId])
 
@@ -306,7 +309,6 @@ const CardReview = () => {
         const cart = cartResponse?.cart;
         const checkout = checkoutResponse?.checkout;
         let processPayload;
-        console.log(cart);
         if (isBuyNow === true) {
             processPayload = createSDKPayload({
                 "action": "startCheckout",
