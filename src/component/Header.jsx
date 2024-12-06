@@ -528,7 +528,7 @@ const Header = () => {
               />
             </svg>
 
-            <div className="rounded-full absolute left-5 md:left-[26px] bottom-7 md:bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+            <div className="rounded-full absolute left-5 md:left-[26px] bottom-7 md:bottom-7 h-6 w-6 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
               <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
                 {cartDatas !== null ? totalQuantity(cartResponse) : 0}
               </span>
