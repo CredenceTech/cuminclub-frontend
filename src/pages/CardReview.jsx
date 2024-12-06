@@ -80,10 +80,6 @@ const CardReview = () => {
 
 
     useEffect(() => {
-        console.log(loginUserCustomerId)
-        if (loginUserCustomerId) {
-            setIsLogin(true)
-            getCustomerDetail();
             const sdkPayload = createSDKPayload({
                 merchantId: 'instantly',
                 environment: 'release',
@@ -92,6 +88,13 @@ const CardReview = () => {
 
             console.log('Initiating Blaze SDK with payload:', sdkPayload);
             BlazeSDK.initiate(sdkPayload, callbackMethod);
+        
+    }, [])
+
+    useEffect(()=>{
+        if (loginUserCustomerId) {
+            setIsLogin(true)
+            getCustomerDetail();
         }
     }, [loginUserCustomerId])
 
@@ -275,48 +278,8 @@ const CardReview = () => {
     // });
 
     const createCheckoutURL = async (customerAccessToken) => {
-        let lineItemList = [];
-        console.log("cartResponse?.cart?.lines?.edges", cartResponse?.cart?.lines?.edges);
-        cartResponse?.cart?.lines?.edges.map((data) => {
-            let lineItem = {
-                variantId: data?.node?.merchandise?.id,
-                quantity: data?.node?.quantity,
-            }
-            lineItemList.push(lineItem);
-        });
-        const params = {
-            lineItems: lineItemList,
-        };
-        console.log("params", params);
-        const response = await graphQLClient.request(createCheckoutURLMutation, params);
-        setIsLoading(false);
-        if (response && response.checkoutCreate) {
-            let checkoutId = response.checkoutCreate.checkout.id;
-            if (checkoutId)
-                checkoutConnectWithCustomer(checkoutId, customerAccessToken);
-        }
+        continuePayment();
     }
-
-
-    const checkoutConnectWithCustomer = async (checkoutId, customerAccessToken) => {
-
-        const params = {
-            checkoutId: checkoutId,
-            customerAccessToken: customerAccessToken,
-        };
-        setIsLoading(true);
-        const response = await graphQLClient.request(checkoutConnectWithCustomerMutation, params);
-        setIsLoading(false);
-        if (response && response.checkoutCustomerAssociateV2) {
-            const updatedBody = {
-                checkoutUrlId: checkoutId,
-            };
-            console.log(updatedBody)
-            continuePayment(updatedBody);
-        }
-    }
-
-
 
     function createSDKPayload(data) {
         return {
@@ -343,14 +306,9 @@ const CardReview = () => {
 
     function processPayment(payload) {
         console.log(cartResponse);
-        if (!payload.checkoutId) {
-            console.error('Checkout ID is missing');
-            return;
-        }
         const cart = cartResponse?.cart;
         const checkout = checkoutResponse?.checkout;
         let processPayload;
-        console.log(cart);
         if (isBuyNow === true) {
             processPayload = createSDKPayload({
                 "action": "startCheckout",
@@ -518,12 +476,10 @@ const CardReview = () => {
     }
 
 
-    const continuePayment = async (addressBody) => {
+    const continuePayment = async () => {
         setIsLoading(true);
         const payload = {
             email: userEmail?.email,
-            // currency: filterDatas.currency_code.toLowerCase(),
-            checkoutId: addressBody.checkoutUrlId
         }
 
         initiatePayment(payload);
@@ -746,360 +702,12 @@ const CardReview = () => {
                                     </div>
                                 </div>}
                                 <p className='text-[#757575] text-[16px] md:text-[20px] font-[500] leading-[26.45px] text-start md:text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
-                                {/* <div className="flex mt-8 flex-row text-center gap-y-5 whitespace-nowrap justify-between gap-3">
-                                    <div className='h-[80px] w-[220px] rounded-lg bg-[#EFE9DA]'>
-                                        <p className='px-5 py-8 text-center font-[400] text-[20px] leading-[24px] font-regola-pro text-[#757575]'>Standard</p>
-                                    </div>
-                                    <div className='h-[80px] w-[220px] rounded-lg bg-[#EFE9DA]'>
-                                        <p className='px-5 py-8 text-center font-[400] text-[20px] leading-[24px] font-regola-pro text-[#757575]'>Express</p>
-                                    </div>
-                                    <div className='h-[80px] w-[220px] rounded-lg bg-[#EFE9DA]'>
-                                        <p className='px-5 py-8 text-center font-[400] text-[20px] leading-[24px] font-regola-pro text-[#757575]'>Bulk</p>
-                                    </div>
-                                </div> */}
-
-
-                                {isLogin && !isMoreAddress ?
-                                    <>
+                               
                                         {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2> */}
                                         <form onSubmit={formikForLogin.handleSubmit}>
-                                            {/* {userDetail?.customer?.addresses?.edges.map((address, i) => (
-                                                <div onClick={() => { setAddress(address?.node) }} className="flex w-full flex-row items-start my-2 " key={i}>
-                                                    <input
-                                                        type="radio"
-                                                        id={`address${i + 1}`}
-                                                        name="address"
-                                                        value={`${address?.node?.id}`}
-                                                        onChange={formikForLogin.handleChange}
-                                                        checked={formikForLogin.values.address === `${address?.node?.id}`}
-                                                        className="bg-[#EFE9DA] mt-2 rounded border outline-none mr-2"
-                                                    />
-                                                    <div className='pl-3'>
-                                                        <label htmlFor={`address${i + 1}`} className="text-[20px] font-regola-pro leading-[22.8px] font-[400] text-[#757575]">
-                                                            {`${address?.node?.address1}   ${address?.node?.city} ${address?.node?.province}
-                                                              ${address?.node?.zip}`}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            {formikForLogin.touched.address && formikForLogin.errors.address && (<label className="text-sm text-red-500">{formikForLogin.errors.address}</label>)} */}
-
-
-                                            {/* <div className='flex justify-center items-center pt-3'>
-                                                <button onClick={() => setIsMoreAddress(true)} type='button' className="text-white text-center w-full lg:w-1/2 bg-[#EB7E01] mb-3 border-0 py-2 px-6 focus:outline-none  hover:bg-[#fa9017] rounded-3xl text-lg"> + Add New Address</button>
-                                            </div> */}
-
-                                            {/* <div className="mt-5 mb-6">
-                                                <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
-                                                <div className='border border-[#333333] rounded-lg'>
-                                                    <div
-                                                        className={`flex items-center rounded-t-lg justify-between p-3 cursor-pointer ${shippingMethod === "prepaidStandard" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
-                                                        onClick={() => setShippingMethod("prepaidStandard")} // Update state on click
-                                                    >
-                                                        <input
-                                                            type="radio"
-                                                            id="prepaidStandard"
-                                                            name="shippingMethod"
-                                                            value="prepaidStandard"
-                                                            checked={shippingMethod === "prepaidStandard"}
-                                                            className="mr-3"
-                                                        />
-                                                        <label htmlFor="prepaidStandard" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
-                                                            <span>Prepaid Standard (4-10 Business Days)</span>
-                                                            <span>FREE</span>
-                                                        </label>
-                                                    </div>
-                                                    <div
-                                                        className={`flex items-center justify-between p-3 rounded-b-lg cursor-pointer ${shippingMethod === "expressShipping" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
-                                                        onClick={() => setShippingMethod("expressShipping")}
-                                                    >
-                                                        <input
-                                                            type="radio"
-                                                            id="expressShipping"
-                                                            name="shippingMethod"
-                                                            value="expressShipping"
-                                                            checked={shippingMethod === "expressShipping"}
-                                                            className="mr-3"
-                                                        />
-                                                        <label htmlFor="expressShipping" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
-                                                            <div className="flex flex-col">
-                                                                <span>Express Shipping</span>
-                                                                <span className="text-[14px] text-[#757575]">(Prepaid Order Only)</span>
-                                                            </div>
-                                                            <span className="text-right">₹150</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                {shippingMethod === '' && (
-                                                    <label className="text-sm text-red-500">Please select a shipping method</label>
-                                                )}
-                                            </div>
-
-                                            <div className="relative flex flex-row items-start mb-2 ">
-                                                <input type="checkbox" id="consent" name="consent" onChange={formikForLogin.handleChange} value={formikForLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
-                                                <div className='pl-3'>
-                                                    <label htmlFor="consent" className="text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
-                                                    <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
-                                                </div>
-                                            </div> */}
-                                            {/* {formikForLogin.touched.consent && formikForLogin.errors.consent && (<label className="text-sm text-red-500">{formikForLogin.errors.consent}</label>)} */}
-
-
                                             <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
                                         </form>
-                                    </>
-                                    :
-                                    null
-                                }
-                                {!isLogin ?
-                                    <>
-                                        <h2 className="text-[#333333] text-[20px] md:text-[30px] font-regola-pro leading-[33.2px] md:leading-[43.2px] font-[500] md:font-bold my-5">Account Details</h2>
-                                        <form onSubmit={formikForWitoutLogin.handleSubmit}>
-                                            <div className="relative flex flex-col mb-4">
-                                                <input type="text" placeholder='Email' name="email" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.email} className="w-full lg:w-[70%] bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]   py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForWitoutLogin.touched.email && formikForWitoutLogin.errors.email && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.email}</label>)}
-                                            </div>
-                                            <div className="relative flex flex-col mb-4">
-                                                <input type="password" placeholder='Password' name="password" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.password} className="w-full lg:w-[70%] bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForWitoutLogin.touched.password && formikForWitoutLogin.errors.password && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.password}</label>)}
-                                            </div>
-                                            <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                                <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                    <input type="text" placeholder='First Name' name="firstName" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.firstName && formikForWitoutLogin.errors.firstName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.firstName}</label>)}
-                                                </div>
-                                                <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                    <input type="text" placeholder='Last Name' name="lastName" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.lastName} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.lastName && formikForWitoutLogin.errors.lastName && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName}</label>)}
-                                                </div>
-                                            </div>
-                                            {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-4">Shipping Address</h2>
-                                            <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                                <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                    <input type="text" placeholder='First Name' name="firstName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.firstName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.firstName1 && formikForWitoutLogin.errors.firstName1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.firstName1}</label>)}
-                                                </div>
-                                                <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                    <input type="text" placeholder='Last Name' name="lastName1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.lastName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.lastName1 && formikForWitoutLogin.errors.lastName1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.lastName1}</label>)}
-                                                </div>
-                                            </div> */}
-                                            {/* <div className="relative flex flex-col mb-4">
-                                                <input type="text" placeholder='Shipping Address' name="address1" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.address1} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForWitoutLogin.touched.address1 && formikForWitoutLogin.errors.address1 && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.address1}</label>)}
-                                            </div> */}
-                                            {/* <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                                <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                    <select
-                                                        name="province"
-                                                        onChange={formikForWitoutLogin.handleChange}
-                                                        value={formikForWitoutLogin.values.province}
-                                                        className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro text-[20px] py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out"
-                                                    >
-                                                        <option value="" disabled>Select State</option>
-                                                        {statesOfIndia.map((state, index) => (
-                                                            <option key={index} value={state.name}>{state.name}</option>
-                                                        ))}
-                                                    </select>
-                                                    {formikForWitoutLogin.touched.province && formikForWitoutLogin.errors.province && (
-                                                        <label className="text-sm text-red-500">{formikForWitoutLogin.errors.province}</label>
-                                                    )}
-                                                </div>
-                                                <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                    <input type="text" placeholder='City' name="city" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.city} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.city && formikForWitoutLogin.errors.city && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.city}</label>)}
-                                                </div>
-                                            </div>
-                                            <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                                <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                    <input type="text" placeholder='Zip Code' name="zip" onChange={formikForWitoutLogin.handleChange} value={formikForLogin.values.zip} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.zip && formikForWitoutLogin.errors.zip && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.zip}</label>)}
-                                                </div>
-                                                <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                    <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                    {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
-                                                </div>
-                                            </div> */}
-                                            {/* <div className="relative flex flex-col mb-4">
-                                                <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForWitoutLogin.touched.phoneNumber && formikForWitoutLogin.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.phoneNumber}</label>)}
-                                            </div> */}
-                                            {/* <div className="mt-5 mb-6">
-                                                <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
-                                                <div className='border border-[#333333] rounded-lg'>
-                                                    <div
-                                                        className={`flex items-center rounded-t-lg justify-between p-3 cursor-pointer ${shippingMethod === "prepaidStandard" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
-                                                        onClick={() => setShippingMethod("prepaidStandard")} // Update state on click
-                                                    >
-                                                        <input
-                                                            type="radio"
-                                                            id="prepaidStandard"
-                                                            name="shippingMethod"
-                                                            value="prepaidStandard"
-                                                            checked={shippingMethod === "prepaidStandard"}
-                                                            className="mr-3"
-                                                        />
-                                                        <label htmlFor="prepaidStandard" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
-                                                            <span>Prepaid Standard (4-10 Business Days)</span>
-                                                            <span>FREE</span>
-                                                        </label>
-                                                    </div>
-                                                    <div
-                                                        className={`flex items-center justify-between p-3 rounded-b-lg cursor-pointer ${shippingMethod === "expressShipping" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
-                                                        onClick={() => setShippingMethod("expressShipping")}
-                                                    >
-                                                        <input
-                                                            type="radio"
-                                                            id="expressShipping"
-                                                            name="shippingMethod"
-                                                            value="expressShipping"
-                                                            checked={shippingMethod === "expressShipping"}
-                                                            className="mr-3"
-                                                        />
-                                                        <label htmlFor="expressShipping" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
-                                                            <div className="flex flex-col">
-                                                                <span>Express Shipping</span>
-                                                                <span className="text-[14px] text-[#757575]">(Prepaid Order Only)</span>
-                                                            </div>
-                                                            <span className="text-right">₹150</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                {shippingMethod === '' && (
-                                                    <label className="text-sm text-red-500">Please select a shipping method</label>
-                                                )}
-                                            </div>
-                                            <div className="relative flex flex-row items-start mb-2">
-                                                <input type="checkbox" id="consent" name="consent" onChange={formikForWitoutLogin.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
-                                                <div className='pl-3'>
-                                                    <label htmlFor="consent" className=" text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
-                                                    <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
-                                                </div>
-                                            </div>
-                                            {formikForWitoutLogin.touched.consent && formikForWitoutLogin.errors.consent && (<label className="text-sm text-red-500">{formikForWitoutLogin.errors.consent}</label>)} */}
-                                            <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
-                                        </form>
-                                    </> : null
-                                }
-                                {isMoreAddress && isLogin ?
-                                    <form onSubmit={formikForAddMoreAdd.handleSubmit}>
-                                        {/* <div className="flex items-center mt-4 mb-2">
-                                            {userDetail?.customer?.addresses?.edges.length > 0 && <span title='Go back' className='mr-5 cursor-pointer' onClick={() => { setIsMoreAddress(false) }}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="mb-4 w-6 h-6">
-                                                    <path fill="#333333" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
-                                                </svg>
-                                            </span>}
-                                            <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-4 mr-2">Shipping Address</h2>
-                                        </div>
-                                        <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                            <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                <input type="text" placeholder='First Name' name="firstName1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.firstName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.firstName1 && formikForAddMoreAdd.errors.firstName1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.firstName1}</label>)}
-                                            </div>
-                                            <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                <input type="text" placeholder='Last Name' name="lastName1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.lastName1} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.lastName1 && formikForAddMoreAdd.errors.lastName1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.lastName1}</label>)}
-                                            </div>
-                                        </div>
-                                        <div className="relative flex flex-col mb-4">
-                                            <input type="text" placeholder='Shipping Address' name="address1" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.address1} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                            {formikForAddMoreAdd.touched.address1 && formikForAddMoreAdd.errors.address1 && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.address1}</label>)}
-                                        </div>
-                                        <div className="relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                          
-                                            <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                               
-                                                <select
-                                                    name="province"
-                                                    onChange={formikForAddMoreAdd.handleChange}
-                                                    value={formikForAddMoreAdd.values.province}
-                                                    className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro text-[20px] py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out"
-                                                >
-                                                    <option value="" disabled>Select State</option>
-                                                    {statesOfIndia.map((state, index) => (
-                                                        <option key={index} value={state.name}>{state.name}</option>
-                                                    ))}
-                                                </select>
-
-                                               
-                                                {formikForAddMoreAdd.touched.province && formikForAddMoreAdd.errors.province && (
-                                                    <label className="text-sm text-red-500">{formikForAddMoreAdd.errors.province}</label>
-                                                )}
-                                            </div>
-                                            <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                <input type="text" placeholder='City' name="city" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.city} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.city && formikForAddMoreAdd.errors.city && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.city}</label>)}
-                                            </div>
-                                        </div>
-                                        <div className=" relative flex flex-row  md:flex-col lg:flex-row gap-2 mb-1">
-                                            <div className="w-1/2 md:w-full lg:w-1/2 flex flex-col relative mb-4">
-                                                <input type="text" placeholder='Zip Code' name="zip" onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.zip} className="w-full  bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.zip && formikForAddMoreAdd.errors.zip && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.zip}</label>)}
-                                            </div>
-                                            <div className="w-1/2 md:w-full lg:w-1/2 relative flex flex-col mb-4">
-                                                <input type="text" placeholder='Phone Number' name='phoneNumber' onChange={formikForAddMoreAdd.handleChange} value={formikForAddMoreAdd.values.phoneNumber} className="w-full bg-[#EFE9DA] rounded-[10px] outline-none text-[#757575] font-[400] font-regola-pro  text-[20px]  py-3 px-4 leading-[24px] transition-colors duration-200 ease-in-out" />
-                                                {formikForAddMoreAdd.touched.phoneNumber && formikForAddMoreAdd.errors.phoneNumber && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.phoneNumber}</label>)}
-                                            </div>
-                                        </div> */}
-
-                                        {/* <div className="mt-5 mb-6">
-                                            <h3 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5">Shipping Method</h3>
-                                            <div className='border border-[#333333] rounded-lg'>
-                                                <div
-                                                    className={`flex items-center rounded-t-lg justify-between p-3 cursor-pointer ${shippingMethod === "prepaidStandard" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
-                                                    onClick={() => setShippingMethod("prepaidStandard")} // Update state on click
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        id="prepaidStandard"
-                                                        name="shippingMethod"
-                                                        value="prepaidStandard"
-                                                        checked={shippingMethod === "prepaidStandard"}
-                                                        className="mr-3"
-                                                    />
-                                                    <label htmlFor="prepaidStandard" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
-                                                        <span>Prepaid Standard (4-10 Business Days)</span>
-                                                        <span>FREE</span>
-                                                    </label>
-                                                </div>
-                                                <div
-                                                    className={`flex items-center justify-between p-3 rounded-b-lg cursor-pointer ${shippingMethod === "expressShipping" ? "bg-[#2B2B2B] text-white" : "bg-[#EFE9DA] text-[#757575]"}`}
-                                                    onClick={() => setShippingMethod("expressShipping")}
-                                                >
-                                                    <input
-                                                        type="radio"
-                                                        id="expressShipping"
-                                                        name="shippingMethod"
-                                                        value="expressShipping"
-                                                        checked={shippingMethod === "expressShipping"}
-                                                        className="mr-3"
-                                                    />
-                                                    <label htmlFor="expressShipping" className="flex justify-between w-full text-[18px] font-regola-pro font-[400]">
-                                                        <div className="flex flex-col">
-                                                            <span>Express Shipping</span>
-                                                            <span className="text-[14px] text-[#757575]">(Prepaid Order Only)</span>
-                                                        </div>
-                                                        <span className="text-right">₹150</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            {shippingMethod === '' && (
-                                                <label className="text-sm text-red-500">Please select a shipping method</label>
-                                            )}
-                                        </div>
-                                        <div className="relative flex flex-row items-start mb-2">
-                                            <input type="checkbox" id="consent" name="consent" onChange={formikForAddMoreAdd.handleChange} value={formikForWitoutLogin.values.consent} className="bg-[#EFE9DA] mt-2 rounded border  outline-none  " />
-                                            <div className='pl-3'>
-                                                <label htmlFor="consent" className="text-[#2B2B2B] font-[300] text-[18px] font-regola-pro leading-[20.8px] ">I would like to receive order tracking updates, promotions, and special offers through text.*</label>
-                                                <p className="text-[#757575] font-[300] text-[18px] font-regola-pro leading-[20.8px] mt-3">*Consent is not a condition to purchase. Msg & data rates may apply. Msg frequency varies.</p>
-                                            </div>
-                                        </div>
-                                        {formikForAddMoreAdd.touched.consent && formikForAddMoreAdd.errors.consent && (<label className="text-sm text-red-500">{formikForAddMoreAdd.errors.consent}</label>)} */}
-                                        <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
-                                    </form>
-                                    : null
-                                }
-
+                                  
                                 {/* <button type='button' className='rounded-lg font-skillet text-2xl lg:text-4xl mt-[110px] bg-gray-900 text-gray-100 w-full py-4'>Checkout</button> */}
                             </div>
                         </div>
