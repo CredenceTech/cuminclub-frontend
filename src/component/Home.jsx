@@ -423,30 +423,30 @@ const Home = () => {
         addToCart({ merchandiseId: productId, quantity: 1 });
       }
     }
-    else{
+    else {
 
-    const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
-      return cartItem.node.merchandise.id === productId;
-    });
+      const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+        return cartItem.node.merchandise.id === productId;
+      });
 
-    if (productInCart) {
-      const quantityInCart = productInCart.node.quantity;
-      const cartId = cartDatas?.cartCreate?.cart?.id
-      const id = productInCart?.node?.id
-      if (sellingPlanId) {
-        updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
+      if (productInCart) {
+        const quantityInCart = productInCart.node.quantity;
+        const cartId = cartDatas?.cartCreate?.cart?.id
+        const id = productInCart?.node?.id
+        if (sellingPlanId) {
+          updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
+        } else {
+          updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
+        }
       } else {
-        updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
-      }
-    } else {
-      const cartId = cartDatas?.cartCreate?.cart?.id
-      if (sellingPlanId) {
-        updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
-      } else {
-        updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+        const cartId = cartDatas?.cartCreate?.cart?.id
+        if (sellingPlanId) {
+          updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+        } else {
+          updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+        }
       }
     }
-  }
   };
 
   const addToCart = async (cartItems) => {
@@ -1769,59 +1769,91 @@ const Home = () => {
         <div className="w-full">
           <div className="relative">
 
-            <div ref={swiperContainerRef} className='product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer'>
-              <div className='flex flex-row justify-around  md:justify-start md:mx-5 lg:mx-10  gap-x-2 gap-y-4'>
+            <div
+              ref={swiperContainerRef}
+              className="product-slider pt-9 pb-14 overflow-x-auto scrollbar-hide lg:ml-[90px] ml-[10px] cursor-pointer"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
+              <div className="flex flex-row justify-around md:justify-start md:mx-5 lg:mx-10 gap-x-2 gap-y-4 min-w-max">
                 {apiResponse?.map((item, i) => (
-                  <div key={i} className='flex flex-col justify-start pr-4 pl-4'>
+                  <div key={i} className="flex flex-col justify-start pr-4 pl-4">
                     <div
                       style={{ background: `${colors[i % colors.length]}` }}
-                      className='relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
+                      className="relative flex justify-center items-center rounded-2xl w-[110px] h-[151px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible"
                     >
                       <div
-                        className='w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
+                        className="w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill"
                         style={{
                           position: 'absolute',
                           top: '51%',
                           left: '50%',
                           transform: 'translate(-50%, -50%)',
-                          borderRadius: '50%'
+                          borderRadius: '50%',
                         }}
                       >
                         <img
-                          src={item?.node?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc}
+                          src={item?.node?.metafields?.find(
+                            (metafield) => metafield && metafield.key === 'image_for_home'
+                          )?.reference?.image?.originalSrc}
                           alt=""
-                          onClick={() => { navigate(`/product-details/${item?.node?.handle}`) }}
+                          onClick={() => {
+                            navigate(`/product-details/${item?.node?.handle}`);
+                          }}
                           className="rounded-full object-cover"
                         />
-                        <div onClick={(e) => { e.preventDefault(); handleAddToCart(item?.node?.variants.edges[0].node.id) }} className='md:hidden flex absolute -bottom-[4px] right-[13px]'>
-                          <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
-                          }
-                          }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
+                        <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleAddToCart(item?.node?.variants.edges[0].node.id);
+                          }}
+                          className="md:hidden flex absolute -bottom-[4px] right-[13px]"
+                        >
+                          <button
+                            type="button"
+                            className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
+                              } flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
+                            onClick={() => { }}
+                          >
+                            {shaking === item?.node?.variants.edges[0].node.id ? (
+                              <div className="spinner1"></div>
+                            ) : (
+                              '+'
+                            )}
+                          </button>
                         </div>
                       </div>
                     </div>
-                    <div
-                      className='flex justify-between items-start'
-                    >
+                    <div className="flex justify-between items-start">
                       <div>
-                        <p className='text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]'>
+                        <p className="text-[#231F20] text-base font-regola-pro md:text-[20px] font-bold leading-[24px] pt-4 max-w-[140px]">
                           {item?.node?.title}
                         </p>
-                        <p className='text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro'>
+                        <p className="text-[#757575] text-[18px] font-bold leading-[21.6px] pt-1 font-regola-pro">
                           ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
                         </p>
                       </div>
-                      <div className='hidden md:flex h-auto pt-4'>
-                        <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
-                          handleAddToCart(item?.node?.variants.edges[0].node.id)
-                        }
-                        }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
+                      <div className="hidden md:flex h-auto pt-4">
+                        <button
+                          type="button"
+                          className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
+                            } flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
+                          onClick={() => {
+                            handleAddToCart(item?.node?.variants.edges[0].node.id);
+                          }}
+                        >
+                          {shaking === item?.node?.variants.edges[0].node.id ? (
+                            <div className="spinner1"></div>
+                          ) : (
+                            '+'
+                          )}
+                        </button>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+
           </div>
 
           {/* <div className="flex md:hidden justify-end pr-4">
