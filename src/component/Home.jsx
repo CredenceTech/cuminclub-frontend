@@ -1514,7 +1514,7 @@ const Home = () => {
                 />
               </svg>
 
-              <div className="rounded-full absolute left-6 md:left-[26px] bottom-7 h-8 w-8 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
+              <div className="rounded-full absolute left-6 md:left-[26px] bottom-7 h-6 w-6 md:h-7 md:w-7 flex items-center justify-center bg-[#279C66]">
                 <span style={{ fontSize: 15 }} className="font-[500] font-regola-pro pr-[2px]">
                   {cartDatas !== null ? totalQuantity(cartResponse) : 0}
                 </span>
@@ -1536,7 +1536,7 @@ const Home = () => {
             ) : null}
           </div>
         </div>
-
+        <div className={`${isSticky ? 'flex' : 'hidden'} h-[95px] md:h-[106px]`}></div>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: "-100%" }}
