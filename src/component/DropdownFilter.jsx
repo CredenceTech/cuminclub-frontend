@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../../utils/Transition';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMeal, selectMealItems } from '../state/mealdata';
+import { clearDraftOrderData, clearDraftOrderResponse } from '../state/draftOrder';
 
 function DropdownFilter({
   align,
@@ -138,7 +139,11 @@ function DropdownFilter({
         <div ref={dropdown}>
           <ul className="m-2">
             {data?.map((item) => (
-              <li onClick={() => { dispatch(addMeal(item)) }} key={item?.id} className={`py-1 px-3 cursor-pointer ${selectedMealData?.id === item?.id ? 'opacity-50' : ''} `}>
+              <li onClick={() => {
+                  dispatch(clearDraftOrderData());
+                  dispatch(clearDraftOrderResponse());  
+                  dispatch(addMeal(item))  
+               }} key={item?.id} className={`py-1 px-3 cursor-pointer ${selectedMealData?.id === item?.id ? 'opacity-50' : ''} `}>
                 <p className='text-[#231F20] text-xl font-skillet '>{item?.noMeal} <span className='font-regola-pro font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66]'>{item?.price}</span></p>
               </li>
             ))}

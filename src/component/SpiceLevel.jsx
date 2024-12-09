@@ -8,30 +8,11 @@ import {draftOrderData, selectDraftOrderResponse, setDraftOrderResponse} from '.
 
 const SpiceLevel = () => {
     const dispatch = useDispatch();
+    const [images, setImages] = useState([]);
     const selectedMealData = useSelector(selectMealItems);
-    const cartDatas = useSelector(cartData);
-    const cartResponse = useSelector(selectCartResponse);
     const draftOrderDatas = useSelector(draftOrderData);
     const draftOrderResponse=useSelector(selectDraftOrderResponse)
-
-    const [images, setImages] = useState([]);
-
-    // useEffect(() => {
-    //     if (cartDatas !== null) {
-    //         getCartData();
-    //     }
-    // }, [cartDatas]);
-
-    // const getCartData = async () => {
-    //     const params = {
-    //         cartId: cartDatas?.cartCreate?.cart?.id,
-    //     };
-    //     const response = await graphQLClient.request(getCartQuery, params);
-    //     dispatch(setCartResponse(response));
-    // };
-
     const total = draftOrderDatas !== null ? totalQuantityInDraftOrder(draftOrderResponse) : 0;
-
     const filledStars = Math.min(Math.max(0, Math.round(total)), selectedMealData?.no);
     const emptyStars = Math.max(0, +selectedMealData?.no - filledStars);
 

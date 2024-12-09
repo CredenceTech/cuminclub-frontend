@@ -655,11 +655,11 @@ const Recipes = () => {
                                 {productDetails.map((product, index) => (
                                     <div key={index} className="flex-none w-full md:w-1/2">
                                         <div className="flex border-r border-gray-300 pr-4">
-                                            <div className="hidden lg:flex md:w-1/2">
+                                            <div className="hidden lg:flex md:w-1/2 md:h-[450px]">
                                                 <img
                                                     src={product?.image}
                                                     alt={product?.title}
-                                                    className="w-auto h-[300px] md:h-[400px]"
+                                                    className="w-auto h-[300px] md:h-auto"
                                                 />
                                             </div>
                                             <div className="w-full lg:w-1/2 whitespace-normal flex flex-col justify-between md:pl-4">

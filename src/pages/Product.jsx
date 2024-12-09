@@ -377,8 +377,12 @@ export const Product = () => {
                             ref={productEdgesRef}
                             className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                         >
-                            {rtcTrueProducts?.map((product, productIndex) => {
-                                // Determine if this is a long product layout
+                            {rtcTrueProducts?.sort((a, b) => {
+                                const orderA = parseInt(a?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                                const orderB = parseInt(b?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                                return orderA - orderB; // Ascending order
+                            })?.map((product, productIndex) => {
+
                                 const isLong = isIpaid ? (productIndex % 5 === 0) :
                                     ((productIndex % 15 === 0) ||
                                         (productIndex % 15 === 6) ||
@@ -448,60 +452,65 @@ export const Product = () => {
                             ref={productEdgesRef}
                             className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                         >
-                            {rteTrueProducts?.map((product, productIndex) => {
-                                // Determine if this is a long product layout
-                                const isLong = isIpaid ? (productIndex % 5 === 0) :
-                                    ((productIndex % 15 === 0) ||
-                                        (productIndex % 15 === 6) ||
-                                        (productIndex % 15 === 10));
+                            {rteTrueProducts?.sort((a, b) => {
+                                const orderA = parseInt(a?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                                const orderB = parseInt(b?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                                return orderA - orderB; // Ascending order
+                            })
+                                ?.map((product, productIndex) => {
+
+                                    const isLong = isIpaid ? (productIndex % 5 === 0) :
+                                        ((productIndex % 15 === 0) ||
+                                            (productIndex % 15 === 6) ||
+                                            (productIndex % 15 === 10));
 
 
-                                const productLargeImage =
-                                    product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
-                                const productSmallImage =
-                                    product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
-                                const rtc = product?.metafields?.find(mf => mf && mf.key === "rtc").value === "true" ? true : false;
+                                    const productLargeImage =
+                                        product?.metafields?.find((mf) => mf?.key === 'product_large_card_image')?.reference?.image?.originalSrc;
+                                    const productSmallImage =
+                                        product?.metafields?.find((mf) => mf?.key === 'product_small_card_image')?.reference?.image?.originalSrc;
+                                    const rtc = product?.metafields?.find(mf => mf && mf.key === "rtc").value === "true" ? true : false;
 
-                                const productPrice = product.priceRange.minVariantPrice.amount;
-                                const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
+                                    const productPrice = product.priceRange.minVariantPrice.amount;
+                                    const categoryTag = product.superTitle || 'Lentils'; // Replace with appropriate category if available
 
-                                return isLong ? (
-                                    <ProductBigCard
-                                        key={product?.id}
-                                        product={product}
-                                        categoryTag={categoryTag}
-                                        productLargeImage={productLargeImage}
-                                        productSmallImage={productSmallImage}
-                                        shaking={shaking}
-                                        setIsShaking={setIsShaking}
-                                        cartResponse={cartResponse}
-                                        cartDatas={cartDatas}
-                                        addCartData={addCartData}
-                                        productPrice={productPrice}
-                                        setCartResponse={setCartResponse}
-                                        setLoading={setLoading}
-                                        loading={loading}
-                                        rtcCategory={rtc}
-                                    />
-                                ) : (
-                                    <ProductSmallCard
-                                        key={product?.id}
-                                        product={product}
-                                        categoryTag={categoryTag}
-                                        productSmallImage={productSmallImage}
-                                        shaking={shaking}
-                                        setIsShaking={setIsShaking}
-                                        cartResponse={cartResponse}
-                                        cartDatas={cartDatas}
-                                        addCartData={addCartData}
-                                        productPrice={productPrice}
-                                        setCartResponse={setCartResponse}
-                                        setLoading={setLoading}
-                                        loading={loading}
-                                        rtcCategory={rtc}
-                                    />
-                                );
-                            })}
+                                    return isLong ? (
+                                        <ProductBigCard
+                                            key={product?.id}
+                                            product={product}
+                                            categoryTag={categoryTag}
+                                            productLargeImage={productLargeImage}
+                                            productSmallImage={productSmallImage}
+                                            shaking={shaking}
+                                            setIsShaking={setIsShaking}
+                                            cartResponse={cartResponse}
+                                            cartDatas={cartDatas}
+                                            addCartData={addCartData}
+                                            productPrice={productPrice}
+                                            setCartResponse={setCartResponse}
+                                            setLoading={setLoading}
+                                            loading={loading}
+                                            rtcCategory={rtc}
+                                        />
+                                    ) : (
+                                        <ProductSmallCard
+                                            key={product?.id}
+                                            product={product}
+                                            categoryTag={categoryTag}
+                                            productSmallImage={productSmallImage}
+                                            shaking={shaking}
+                                            setIsShaking={setIsShaking}
+                                            cartResponse={cartResponse}
+                                            cartDatas={cartDatas}
+                                            addCartData={addCartData}
+                                            productPrice={productPrice}
+                                            setCartResponse={setCartResponse}
+                                            setLoading={setLoading}
+                                            loading={loading}
+                                            rtcCategory={rtc}
+                                        />
+                                    );
+                                })}
                         </div>
                     </motion.div>
                 </AnimatePresence>

@@ -19,7 +19,23 @@ const RecipeList = () => {
                     sortKey: 'TITLE',
                     reverse: false
                 });
-                const productData = products.edges.map(edge => edge.node);
+                const productData = products.edges.map((product) => {
+                    const isRTC = product?.node?.metafields?.find(
+                      (mf) => mf && mf.key === "rtc"
+                    );
+                  
+                    if (isRTC?.value === "true") {
+                      return {
+                        id: product?.node?.id,
+                        title: `${product.node.title} (DIY KIT)`
+                      };
+                    }
+                  
+                    return {
+                      id: product?.node?.id,
+                      title: product?.node?.title
+                    };
+                  });
                 setProductList(productData);
             } catch (error) {
                 console.error('Error fetching product list:', error);
@@ -129,7 +145,7 @@ const RecipeList = () => {
                                     onChange={handleProductChange}
                                     defaultValue=""
                                     style={{
-                                        width: selectedProduct ? `auto` : '100px',
+                                        width: selectedProduct ? `auto` : '150px',
                                     }}
                                 >
                                     <option className='text-[#333333] font-regola-pro  text-[20px] md:text-[22px] w-auto leading-[30.21px] font-[300]' value="" disabled>
