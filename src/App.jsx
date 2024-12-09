@@ -37,6 +37,7 @@ import MyProfile from "./component/MyProfile";
 import { Faqs } from "./component/Faqs";
 import { BusinessInquiryForm } from "./component/BusinessInquiryForm";
 import { AddInfluencersForm } from "./component/AddInfluencersForm";
+import { Bundle } from "./component/Bundle";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
             <Route path="/faqs" element={<Faqs/>}/>
             <Route path="/business-inquiry" element={<BusinessInquiryForm/>}/>
             <Route path="/influencers" element={<AddInfluencersForm/>}/>
+            <Route path="/bundles" element={<Bundle/>}/>
           </Routes>
         </div>
         <Footer />
