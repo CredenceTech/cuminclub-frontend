@@ -838,7 +838,11 @@ const ReadyToEat = () => {
                     ref={productEdgesRef}
                     className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                   >
-                    {transformedProducts?.map((product, productIndex) => {
+                    {transformedProducts?.sort((a, b) => {
+                                const orderA = parseInt(a?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                                const orderB = parseInt(b?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                                return orderA - orderB; // Ascending order
+                            })?.map((product, productIndex) => {
                       // Determine if this is a long product layout
                       const isLong = isIpaid ? (productIndex % 5 === 0) :
                         ((productIndex % 15 === 0) ||
