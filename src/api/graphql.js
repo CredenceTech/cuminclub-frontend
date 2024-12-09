@@ -88,52 +88,73 @@ export const forgotPasswordMutation = gql`
 
 export const getAllProductsQuery = gql`
 {
-  products(first: 100, reverse: true) {
-    edges {
-      node {
-        id
-        title
-        description
-        onlineStoreUrl
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-        featuredImage {
-            altText
-            url
-        }
-        handle
-        variants(first: 10){
-            edges {
-                node {
+   products(first: 250) {
+          edges {
+            node {
+              id
+              title
+              handle
+              description
+              tags
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              sellingPlanGroups(first: 5) {
+                edges {
+                    node {
+                    sellingPlans(first: 5) {
+                        edges {
+                        node {
+                            id
+                        }
+                        }
+                    }
+                    }
+                }
+                }
+              metafields(identifiers: [
+                { namespace: "custom", key: "spice_level" },
+                { namespace: "custom", key: "small_descriptions" },
+                { namespace: "custom", key: "product_large_card_image" },
+                { namespace: "custom", key: "product_small_card_image" },
+                { namespace: "custom", key: "image_for_home" },
+                { namespace: "custom", key: "rte" },
+                { namespace: "custom", key: "rtc" },
+                { namespace: "custom", key: "bulk" },
+                  { namespace: "custom", key: "premium" },
+                    { namespace: "custom", key: "is_fan_favorite" },
+                      { namespace: "custom", key: "display_order" },
+              ]) {
+                value
+                key
+                reference {
+                    ... on MediaImage {
+                    image {
+                        originalSrc
+                        altText
+                    }
+                    }
+                }
+              }
+              featuredImage {
+                altText
+                url
+              }
+              variants(first: 1) {
+                edges {
+                  node {
                     id
                     weight
                     weightUnit
+                  }
                 }
+              }
             }
+          }
         }
-        metafields(identifiers: 
-            [
-                {namespace: "custom", key: "spice_level"},
-                {namespace: "custom", key: "small_descriptions"},
-            ]) {
-            value
-            key
-        }
-        images(first: 5) {
-            edges {
-                node {
-                    originalSrc
-                    altText
-                }
-            }
-        }
-      }
-    }
-  }
   }
   `;
 
@@ -183,6 +204,8 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
                 { namespace: "custom", key: "rtc" },
                 { namespace: "custom", key: "bulk" },
                   { namespace: "custom", key: "premium" },
+                    { namespace: "custom", key: "is_fan_favorite" },
+                      { namespace: "custom", key: "display_order" },
               ]) {
                 value
                 key
@@ -1285,6 +1308,15 @@ query getProducts($first: Int!, $sortKey: ProductSortKeys, $reverse: Boolean!) {
       node {
         id
         title
+          metafields(identifiers: [
+                { namespace: "custom", key: "rte" },
+                { namespace: "custom", key: "rtc" },
+                { namespace: "custom", key: "bulk" },
+                      { namespace: "custom", key: "display_order" },
+              ]) {
+                value
+                key
+              }
       }
     }
   }

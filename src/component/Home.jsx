@@ -15,7 +15,7 @@ import {
   setCartResponse,
 } from "../state/cartData";
 import { CartDataDrawer } from "./CartDataDrawer";
-import { createCartMutation, getCartQuery, getCategoriesQuery, getMediaImageQuery, getProductCollectionsQuery, getRecipeListQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
+import { createCartMutation, getAllProductsQuery, getCartQuery, getCategoriesQuery, getMediaImageQuery, getProductCollectionsQuery, getRecipeListQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from "../api/graphql";
 import { selectMealItems } from "../state/mealdata";
 import { useLocation } from "react-router-dom";
 import { totalQuantity } from "../utils";
@@ -75,6 +75,7 @@ const Home = () => {
   const [selectedCountry, setSelectedCountry] = React.useState(null);
   const [showHeaderMain, setShowHeaderMain] = React.useState(false);
   const [apiResponse, setApiResponse] = useState(null);
+  const [fanFavorites, setFanFavorites] = useState(null);
   const [selecteRandomPro, setSelecteRandomPro] = useState(null);
   const [rawResonse, setRawResponse] = useState(null);
   const isCartOpen = useSelector(cartIsOpen);
@@ -178,7 +179,16 @@ const Home = () => {
     };
   }, []);
 
-
+  const customOrder = [
+    "Dal Makhani",
+    "Rajma Masala",
+    "Paneer Butter Masala",
+    "Pav Bhaji",
+    "Korma Curry",
+    "Gulab Jamun",
+    "Punjabi Chole",
+    "Sambhar"
+  ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -673,35 +683,34 @@ const Home = () => {
   useEffect(() => {
     const apiCall = async () => {
       try {
-        const result = await graphQLClient.request(getProductCollectionsQuery, {
-          first: 1,
-          reverse: false,
-          query: "",
-        });
+        const result = await graphQLClient.request(getAllProductsQuery);
 
-        const collections = result;
-
-        const bundleIndex = collections.collections.edges.findIndex(
-          (item) => item.node.title === "Bundles"
-        );
-
-        if (bundleIndex !== -1) {
-          const bundleItem = collections.collections.edges.splice(
-            bundleIndex,
-            1
-          )[0];
-          collections.collections.edges.push(bundleItem);
-        }
-
-        const products = collections?.collections?.edges[0]?.node?.products?.edges || [];
+        console.log(result)
+        const products = result?.products?.edges || [];
 
         const filteredProducts = products.filter((product) => {
-          const bulkMetafield = product.node.metafields.find(mf => mf && mf.key === "bulk");
-          return bulkMetafield.value !== "true";
+          const bulkMetafield = product?.node?.metafields?.find(mf => mf && mf.key === "bulk");
+          return bulkMetafield?.value !== "true";
         });
+        const fanFavorites = products
+        ?.filter((product) => {
+          const isFanFavorite = product?.node?.metafields?.find(
+            (mf) => mf && mf.key === "is_fan_favorite"
+          );
+          return isFanFavorite?.value === "true";
+        })
+        .sort((a, b) => {
+          const titleA = a.node?.title?.trim() || ""; 
+          const titleB = b.node?.title?.trim() || "";
+          const indexA = customOrder.indexOf(titleA);
+          const indexB = customOrder.indexOf(titleB);
+          return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
+        });
+      
         setApiResponse(filteredProducts.splice(1, 10));
-        setSelecteRandomPro(filteredProducts[0]);
-        setRawResponse(collections);
+        setFanFavorites(fanFavorites);
+        setSelecteRandomPro(filteredProducts[1]);
+        setRawResponse(result?.products);
       } catch (error) {
         // Handle errors here
         console.error("Error fetching data:", error);
@@ -1775,7 +1784,7 @@ const Home = () => {
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
               <div className="flex flex-row justify-around md:justify-start md:mx-5 lg:mx-10 gap-x-2 gap-y-4 min-w-max">
-                {apiResponse?.map((item, i) => (
+                {fanFavorites?.map((item, i) => (
                   <div key={i} className="flex flex-col justify-start pr-4 pl-4">
                     <div
                       style={{ background: `${colors[i % colors.length]}` }}
