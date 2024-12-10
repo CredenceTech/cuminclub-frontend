@@ -127,7 +127,7 @@ function DropdownFilter({
       <Transition
         show={dropdownOpen}
         tag="div"
-        className={`origin-top-right z-[100] absolute top-full -left-6  w-full bg-[#EADEC1]  rounded-lg shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'md:left-auto md:right-0' : 'md:left-0 md:right-auto'
+        className={`origin-top-right z-[100] absolute top-full  w-full bg-[#EADEC1]  rounded-lg shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'md:left-auto right-0' : 'md:left-0 md:right-auto'
           }`}
         enter="transition ease-out duration-200 transform"
         enterStart="opacity-0 -translate-y-2"
@@ -140,10 +140,10 @@ function DropdownFilter({
           <ul className="m-2">
             {data?.map((item) => (
               <li onClick={() => {
-                  dispatch(clearDraftOrderData());
-                  dispatch(clearDraftOrderResponse());  
-                  dispatch(addMeal(item))  
-               }} key={item?.id} className={`py-1 px-3 cursor-pointer ${selectedMealData?.id === item?.id ? 'opacity-50' : ''} `}>
+                dispatch(clearDraftOrderData());
+                dispatch(clearDraftOrderResponse());
+                dispatch(addMeal(item))
+              }} key={item?.id} className={`py-1 px-3 cursor-pointer ${selectedMealData?.id === item?.id ? 'opacity-50' : ''} `}>
                 <p className='text-[#231F20] text-xl font-skillet '>{item?.noMeal} <span className='font-regola-pro font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66]'>{item?.price}</span></p>
               </li>
             ))}
