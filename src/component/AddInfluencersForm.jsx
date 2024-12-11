@@ -192,20 +192,20 @@ export const AddInfluencersForm = () => {
     return (
         <div className="flex h-full ">
             <div className="w-full p-[40px] md:m-10 font-regola-pro bg-[#EADEC1] shadow">
-                <h2 className="text-[37.24px] leading-[37.58px] font-semibold text-[#2A2A2A] mb-4 font-skillet">
+                <h2 className="text-[40.24px] leading-[37.58px] text-[#2A2A2A] mb-4 font-skillet">
                     Influencers
                 </h2>
                 <form onSubmit={formik.handleSubmit}>
                     <div className='flex flex-col lg:flex-row gap-x-6'>
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="name">Your name <span className="text-red-500">*</span></label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="name">Your name <span className="text-red-500">*</span></label>
                             <input
                                 id="name"
                                 type="text"
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.name && formik.errors.name ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] px-5 py-3 ${formik.touched.name && formik.errors.name ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.name && formik.errors.name ? (
                                 <div className="text-red-500 text-sm font-regola-pro">{formik.errors.name}</div>
@@ -213,14 +213,14 @@ export const AddInfluencersForm = () => {
                         </div>
 
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="email">Email address <span className="text-red-500">*</span></label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="email">Email address <span className="text-red-500">*</span></label>
                             <input
                                 id="email"
                                 type="email"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.email && formik.errors.email ? (
                                 <div className="text-red-500 text-sm font-regola-pro">{formik.errors.email}</div>
@@ -229,20 +229,20 @@ export const AddInfluencersForm = () => {
                     </div>
                     <div className='flex flex-col lg:flex-row gap-x-6'>
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="phone">Phone number</label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="phone">Phone number</label>
                             <input
                                 id="phone"
                                 type="text"
                                 value={formik.values.phone}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.phone && formik.errors.phone ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.phone && formik.errors.phone ? 'border-red-500' : ''}`}
                             />
 
                         </div>
 
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="socialMedia">Which social media platform do you have the highest reach on? <span className="text-red-500">*</span></label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="socialMedia">Which social media platform do you have the highest reach on? <span className="text-red-500">*</span></label>
                             <select
                                 id="socialMedia"
                                 value={formik.values.socialMedia}
@@ -251,7 +251,7 @@ export const AddInfluencersForm = () => {
                                     setSocialMedia(e.target.value); // Update the socialMedia state
                                 }}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.socialMedia && formik.errors.socialMedia ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.socialMedia && formik.errors.socialMedia ? 'border-red-500' : ''}`}
                             >
                                 <option value="">Choose</option>
                                 {socialMediaOptions.map((option) => (
@@ -270,14 +270,14 @@ export const AddInfluencersForm = () => {
                     {/* Show this field only if "Other" is selected */}
                     {formik.values.socialMedia === 'Other' && (
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="otherSocialMedia">Please Specify Other Social Media <span className="text-red-500">*</span></label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="otherSocialMedia">Please Specify Other Social Media <span className="text-red-500">*</span></label>
                             <input
                                 id="otherSocialMedia"
                                 type="text"
                                 value={formik.values.otherSocialMedia}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.otherSocialMedia && formik.errors.otherSocialMedia ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.otherSocialMedia && formik.errors.otherSocialMedia ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.otherSocialMedia && formik.errors.otherSocialMedia ? (
                                 <div className="text-red-500 text-sm font-regola-pro">{formik.errors.otherSocialMedia}</div>
@@ -286,14 +286,14 @@ export const AddInfluencersForm = () => {
                     )}
                     <div className='flex flex-col lg:flex-row gap-x-6'>
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="socialMediaUrl">Social Media URL <span className="text-red-500">*</span></label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="socialMediaUrl">Social Media URL <span className="text-red-500">*</span></label>
                             <input
                                 id="socialMediaUrl"
                                 type="url"
                                 value={formik.values.socialMediaUrl}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.socialMediaUrl && formik.errors.socialMediaUrl ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.socialMediaUrl && formik.errors.socialMediaUrl ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.socialMediaUrl && formik.errors.socialMediaUrl ? (
                                 <div className="text-red-500 text-sm font-regola-pro">{formik.errors.socialMediaUrl}</div>
@@ -301,7 +301,7 @@ export const AddInfluencersForm = () => {
                         </div>
 
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="contentType">Content Type</label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="contentType">Content Type</label>
                             <select
                                 id="contentType"
                                 value={formik.values.contentType}
@@ -310,7 +310,7 @@ export const AddInfluencersForm = () => {
                                     setContentType(e.target.value); // Update the contentType state
                                 }}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.contentType && formik.errors.contentType ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.contentType && formik.errors.contentType ? 'border-red-500' : ''}`}
                             >
                                 <option value="">Choose</option>
                                 {contentTypeOptions.map((option) => (
@@ -326,14 +326,14 @@ export const AddInfluencersForm = () => {
                     {/* Show this field only if "Other" is selected */}
                     {formik.values.contentType === 'Other' && (
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="otherContentType">Please Specify Other Content Type</label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="otherContentType">Please Specify Other Content Type</label>
                             <input
                                 id="otherContentType"
                                 type="text"
                                 value={formik.values.otherContentType}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.otherContentType && formik.errors.otherContentType ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.otherContentType && formik.errors.otherContentType ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.otherContentType && formik.errors.otherContentType ? (
                                 <div className="text-red-500 text-sm font-regola-pro">{formik.errors.otherContentType}</div>
@@ -342,7 +342,7 @@ export const AddInfluencersForm = () => {
                     )}
                     <div className='flex flex-col lg:flex-row gap-x-6'>
                         <div className='w-full lg:w-1/2  pt-4'>
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="aboutInfluencer">Anything else that you would like us to know?</label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="aboutInfluencer">Anything else that you would like us to know?</label>
                             <textarea
                                 id="aboutInfluencer"
                                 name="aboutInfluencer"
@@ -350,13 +350,13 @@ export const AddInfluencersForm = () => {
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 rows="4"
-                                className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.aboutInfluencer && formik.errors.aboutInfluencer ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-5 py-3 ${formik.touched.aboutInfluencer && formik.errors.aboutInfluencer ? 'border-red-500' : ''}`}
                             />
 
                         </div>
 
                         <div className="file-upload-container pt-4 w-full lg:w-1/2">
-                            <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="mediaFile">Anything you would like to send us?</label>
+                            <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="mediaFile">Anything you would like to send us?</label>
                             <input
                                 id="mediaFile"
                                 name="mediaFile"
@@ -367,14 +367,14 @@ export const AddInfluencersForm = () => {
                     </div>
 
                     <div className='w-full lg:w-1/2  pt-4'>
-                        <label className='text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="rateCard">Could you provide your rate card? (e.g., INR X for an Instagram story, INR X for a static Instagram post, INR X for a dedicated YouTube video) <span className="text-red-500">*</span></label>
+                        <label className='text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ' htmlFor="rateCard">Could you provide your rate card? (e.g., INR X for an Instagram story, INR X for a static Instagram post, INR X for a dedicated YouTube video) <span className="text-red-500">*</span></label>
                         <textarea
                             id="rateCard"
                             name="rateCard"
                             value={formik.values.rateCard}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-5 ${formik.touched.rateCard && formik.errors.rateCard ? 'border-red-500' : ''}`}
+                            className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] px-5 py-3 ${formik.touched.rateCard && formik.errors.rateCard ? 'border-red-500' : ''}`}
                         />
                         {formik.touched.rateCard && formik.errors.rateCard ? (
                             <div className="text-red-500 text-sm font-regola-pro">{formik.errors.rateCard}</div>

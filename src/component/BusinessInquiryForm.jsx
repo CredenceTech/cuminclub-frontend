@@ -284,13 +284,13 @@ export const BusinessInquiryForm = () => {
     return (
         <div className="flex h-full ">
             <div className="w-full p-[40px] md:m-10 font-regola-pro bg-[#EADEC1] shadow">
-                <h2 className="text-[37.24px] leading-[37.58px] font-semibold text-[#2A2A2A] mb-4 font-skillet">
+                <h2 className="text-[40.24px] leading-[37.58px] text-[#2A2A2A] mb-4 font-skillet">
                     Get in touch
                 </h2>
                 <form className="space-y-4" onSubmit={formik.handleSubmit}>
                     <div className="relative flex flex-col lg:flex-row gap-2 mb-1">
                         <div className="w-full lg:w-1/2 relative flex flex-col">
-                            <label htmlFor="name" className="text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
+                            <label htmlFor="name" className="text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
                                 Name <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -298,7 +298,7 @@ export const BusinessInquiryForm = () => {
                                 value={formik.values.name}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur} // Add onBlur for validation
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.name && formik.errors.name ? 'border-red-500' : ''} focus:outline-none`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.name && formik.errors.name ? 'border-red-500' : ''} focus:outline-none`}
 
                             />
                             {formik.touched.name && formik.errors.name ? (
@@ -308,7 +308,7 @@ export const BusinessInquiryForm = () => {
 
                         {/* Email */}
                         <div className="w-full lg:w-1/2 relative flex flex-col">
-                            <label htmlFor="email" className="text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
+                            <label htmlFor="email" className="text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
                                 Email <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -317,7 +317,7 @@ export const BusinessInquiryForm = () => {
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur} // Add onBlur for validation
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''} focus:outline-none`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''} focus:outline-none`}
 
                             />
                             {formik.touched.email && formik.errors.email ? (
@@ -329,7 +329,7 @@ export const BusinessInquiryForm = () => {
                     {/* Phone */}
                     <div className="relative flex flex-col lg:flex-row gap-2 mb-1">
                         <div className="w-full lg:w-1/2 relative flex flex-col">
-                            <label htmlFor="phone" className="text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
+                            <label htmlFor="phone" className="text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
                                 Phone
                             </label>
                             <input
@@ -337,12 +337,12 @@ export const BusinessInquiryForm = () => {
                                 value={formik.values.phone}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur} // Add onBlur for validation
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3`}
 
                             />
                         </div>
                         <div className="w-full lg:w-1/2 relative flex flex-col">
-                            <label htmlFor="reason" className="text-[20px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
+                            <label htmlFor="reason" className="text-[16px] font-[400] leading-[24px] text-[#2A2A2A] font-regola-pro ">
                                 What's the reason for getting in touch? <span className="text-red-500">*</span>
                             </label>
                             <select
@@ -351,7 +351,7 @@ export const BusinessInquiryForm = () => {
                                 value={formik.values.reason}
                                 onChange={handleReasonChange}
                                 onBlur={formik.handleBlur} // Add onBlur for validation
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.reason && formik.errors.reason ? 'border-red-500' : ''} focus:outline-none`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.reason && formik.errors.reason ? 'border-red-500' : ''} focus:outline-none`}
                             >
                                 <option value="">Choose</option>
                                 {reasons.map((reason, index) => (
@@ -372,7 +372,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="customerSupportReason"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Select a reason below <span className="text-red-500">*</span>
                                     </label>
@@ -381,7 +381,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.customerSupportReason}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur} // Adding onBlur for validation
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.customerSupportReason && formik.errors.customerSupportReason ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.customerSupportReason && formik.errors.customerSupportReason ? 'border-red-500' : ''}`}
                                     >
                                         <option value="">Choose</option>
                                         {customerSupportReasons.map((reason, index) => (
@@ -399,7 +399,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="customerSupportQuery"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Please describe your query/concern <span className="text-red-500">*</span>
                                     </label>
@@ -409,7 +409,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.customerSupportQuery}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur} // Adding onBlur for validation
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.customerSupportQuery && formik.errors.customerSupportQuery ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.customerSupportQuery && formik.errors.customerSupportQuery ? 'border-red-500' : ''}`}
                                     />
                                     {formik.touched.customerSupportQuery && formik.errors.customerSupportQuery ? (
                                         <div className="text-red-500 text-sm">{formik.errors.customerSupportQuery}</div>
@@ -426,7 +426,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="carrySupplyCompanyName"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Your Company <span className="text-red-500">*</span>
                                     </label>
@@ -436,7 +436,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.carrySupplyCompanyName}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.carrySupplyCompanyName && formik.errors.carrySupplyCompanyName ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.carrySupplyCompanyName && formik.errors.carrySupplyCompanyName ? 'border-red-500' : ''}`}
                                     />
                                     {formik.touched.carrySupplyCompanyName && formik.errors.carrySupplyCompanyName && (
                                         <div className="text-red-500 text-sm">{formik.errors.carrySupplyCompanyName}</div>
@@ -446,7 +446,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="carrySupplyRole"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Role at the Company
                                     </label>
@@ -456,7 +456,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.carrySupplyRole}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3`}
                                     />
                                 </div>
                             </div>
@@ -465,7 +465,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="industryExperience"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Industry Experience
                                     </label>
@@ -474,7 +474,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.industryExperience}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3`}
                                     >
                                         <option value="">Choose</option>
                                         {industryExperienceOptions.map((option, index) => (
@@ -489,7 +489,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="businessType"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Please select your type of business <span className="text-red-500">*</span>
                                     </label>
@@ -498,7 +498,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.businessType}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.businessType && formik.errors.businessType ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.businessType && formik.errors.businessType ? 'border-red-500' : ''}`}
                                     >
                                         <option value="">Choose</option>
                                         {businessTypes.map((type, index) => (
@@ -515,7 +515,7 @@ export const BusinessInquiryForm = () => {
                             <div>
                                 <label
                                     htmlFor="carrySupplyDescription"
-                                    className="block text-gray-700 font-medium mb-1"
+                                    className="block text-gray-700 font-medium mb-1 text-[16px]"
                                 >
                                     Describe your interest
                                 </label>
@@ -525,7 +525,7 @@ export const BusinessInquiryForm = () => {
                                     value={formik.values.carrySupplyDescription}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5`}
+                                    className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3`}
                                 />
                             </div>
                         </>
@@ -541,7 +541,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="businessInquiryCompanyName"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Your Company <span className="text-red-500">*</span>
                                     </label>
@@ -551,7 +551,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.businessInquiryCompanyName}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.businessInquiryCompanyName && formik.errors.businessInquiryCompanyName ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.businessInquiryCompanyName && formik.errors.businessInquiryCompanyName ? 'border-red-500' : ''}`}
                                     />
                                     {formik.touched.businessInquiryCompanyName && formik.errors.businessInquiryCompanyName && (
                                         <div className="text-red-500 text-sm">{formik.errors.businessInquiryCompanyName}</div>
@@ -562,7 +562,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="businessInquiryRole"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Role at the Company
                                     </label>
@@ -572,7 +572,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.businessInquiryRole}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3`}
                                     />
                                 </div>
                             </div>
@@ -582,7 +582,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="businessInquiryType"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         What is the inquiry <span className="text-red-500">*</span>
                                     </label>
@@ -591,7 +591,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.businessInquiryType}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5  ${formik.touched.businessInquiryType && formik.errors.businessInquiryType ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3  ${formik.touched.businessInquiryType && formik.errors.businessInquiryType ? 'border-red-500' : ''}`}
                                     >
                                         <option value="">Choose</option>
                                         {businessInquiryTypes.map((type, index) => (
@@ -609,7 +609,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="businessInquiryDescription"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Please describe your inquiry
                                     </label>
@@ -619,7 +619,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.businessInquiryDescription}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3`}
                                     />
                                 </div>
                             </div>
@@ -631,7 +631,7 @@ export const BusinessInquiryForm = () => {
                         <div>
                             <label
                                 htmlFor="feedbackMessage"
-                                className="block text-gray-700 font-medium mb-1"
+                                className="block text-gray-700 font-medium mb-1 text-[16px]"
                             >
                                 We appreciate any feedback or suggestions and would love to hear from you! Please mention your feedback or suggestions below. <span className="text-red-500">*</span>
                             </label>
@@ -641,7 +641,7 @@ export const BusinessInquiryForm = () => {
                                 value={formik.values.feedbackMessage}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.feedbackMessage && formik.errors.feedbackMessage ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.feedbackMessage && formik.errors.feedbackMessage ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.feedbackMessage && formik.errors.feedbackMessage && (
                                 <div className="text-red-500 text-sm">{formik.errors.feedbackMessage}</div>
@@ -654,7 +654,7 @@ export const BusinessInquiryForm = () => {
                         <div>
                             <label
                                 htmlFor="supplierVendorDescription"
-                                className="block text-gray-700 font-medium mb-1"
+                                className="block text-gray-700 font-medium mb-1 text-[16px]"
                             >
                                 Please mention your business and the products you would be interested in supplying to Instantly Yours <span className="text-red-500">*</span>
                             </label>
@@ -664,7 +664,7 @@ export const BusinessInquiryForm = () => {
                                 value={formik.values.supplierVendorDescription}
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.supplierVendorDescription && formik.errors.supplierVendorDescription ? 'border-red-500' : ''}`}
+                                className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.supplierVendorDescription && formik.errors.supplierVendorDescription ? 'border-red-500' : ''}`}
                             />
                             {formik.touched.supplierVendorDescription && formik.errors.supplierVendorDescription && (
                                 <div className="text-red-500 text-sm">{formik.errors.supplierVendorDescription}</div>
@@ -680,7 +680,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="otherReason"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Select a reason below <span className="text-red-500">*</span>
                                     </label>
@@ -689,7 +689,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.otherReason}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.otherReason && formik.errors.otherReason ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.otherReason && formik.errors.otherReason ? 'border-red-500' : ''}`}
                                     >
                                         <option value="">Choose</option>
                                         {otherReasons.map((reason, index) => (
@@ -706,7 +706,7 @@ export const BusinessInquiryForm = () => {
                                 <div className="w-full lg:w-1/2 relative flex flex-col">
                                     <label
                                         htmlFor="otherInquiryDescription"
-                                        className="block text-gray-700 font-medium mb-1"
+                                        className="block text-gray-700 font-medium mb-1 text-[16px]"
                                     >
                                         Please describe your query/concern <span className="text-red-500">*</span>
                                     </label>
@@ -716,7 +716,7 @@ export const BusinessInquiryForm = () => {
                                         value={formik.values.otherInquiryDescription}
                                         onChange={formik.handleChange}
                                         onBlur={formik.handleBlur}
-                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px] p-4  lg:p-5 ${formik.touched.otherInquiryDescription && formik.errors.otherInquiryDescription ? 'border-red-500' : ''}`}
+                                        className={`border border-[#EFE9DA] font-[400] placeholder:text-[#757575] text-[#757575] text-[20px] leading-[24px] font-regola-pro w-full focus:outline-none bg-[#EFE9DA] rounded-[15px]  px-4 py-4 lg:px-5 lg:py-3 ${formik.touched.otherInquiryDescription && formik.errors.otherInquiryDescription ? 'border-red-500' : ''}`}
                                     />
                                     {formik.touched.otherInquiryDescription && formik.errors.otherInquiryDescription && (
                                         <div className="text-red-500 text-sm">{formik.errors.otherInquiryDescription}</div>
