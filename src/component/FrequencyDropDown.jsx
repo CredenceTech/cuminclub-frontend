@@ -81,7 +81,7 @@ function FrequencyDropDown({
             <Transition
                 show={dropdownOpen}
                 tag="div"
-                className={`origin-top-right z-[100] absolute top-full -left-6  w-full bg-[#EADEC1]  rounded-lg shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'md:left-auto md:right-0' : 'md:left-0 md:right-auto'
+                className={`origin-top-right z-[100] absolute top-full  w-full bg-[#EADEC1]  rounded-lg shadow-lg overflow-hidden mt-1 ${align === 'right' ? 'md:left-auto right-0' : 'md:left-0 md:right-auto'
                     }`}
                 enter="transition ease-out duration-200 transform"
                 enterStart="opacity-0 -translate-y-2"
