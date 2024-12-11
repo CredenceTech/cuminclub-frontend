@@ -948,7 +948,7 @@ const Home = () => {
 
   useEffect(() => {
     const updateSlidesPerView = () => {
-      if (window.innerWidth >= 1280) {
+      if (window.innerWidth >= 1536) {
         setSlidesPerView(3);
       } else if (window.innerWidth >= 768) {
         setSlidesPerView(2);
@@ -2587,7 +2587,7 @@ const Home = () => {
                 return (
                   <div
                     key={testimonial.id}
-                    className={`md:w-[48%] xl:w-[31%] w-[98%] p-3 h-[250px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
+                    className={`md:w-[48%] 2xl:w-[31%] w-[98%] p-3 h-[250px] ${index % 2 === 0 ? 'bg-transparent md:bg-[#FAA634]' : 'bg-transparent md:bg-[#FB7D36]'} flex-shrink-0 mx-[1.1%] rounded-[11.06px] flex flex-col relative`}
                   >
                     <div className="md:hidden flex justify-center">
                       <Tooltip data={testimonial.typeformMessage} style={`top-0 -left-[70px] px-8`} >
