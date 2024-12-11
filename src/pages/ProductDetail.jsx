@@ -502,9 +502,9 @@ function ProductDetail() {
         }, 0);
         const averageReviewRating = totalRating / reviews.length;
         const combinedRating =
-        initialRating > 0
-            ? (averageReviewRating + initialRating) / 2
-            : averageReviewRating;
+            initialRating > 0
+                ? (averageReviewRating + initialRating) / 2
+                : averageReviewRating;
         return parseFloat(combinedRating.toFixed(2));
     };
 
@@ -672,7 +672,7 @@ function ProductDetail() {
         return weightUnitSymbols[weightUnit] || weightUnit;
     };
 
-    const leftPositions = ['left-[0px]', 'left-[30px]', 'left-[20px]', 'left-[0px]'];
+    const leftPositions = ['left-[0px]', 'left-[30px]', 'left-[20px]', 'left-[0px]', 'left-[0px]'];
 
     return (
         <div className='bg-white other-page'>
@@ -973,17 +973,18 @@ function ProductDetail() {
                                         <AnimatePresence initial={false} custom={direction}>
                                             <motion.div
                                                 key={page}
-                                                // custom={direction}
-                                                // variants={variants}
-                                                // initial="enter"
-                                                // animate="center"
-                                                // exit="exit"
-                                                // transition={{
-                                                //     x: { type: "spring", stiffness: 300, damping: 30 },
-                                                //     opacity: { duration: 0.2 }
-                                                // }}
-
                                                 className={`md:w-5/6 ${isRte ? 'w-[100%]' : 'w-5/6'} ${direction === 1 ? 'slide-out-previous' : 'slide-in-next'}`}
+                                                drag="x"
+                                                dragConstraints={{ left: 0, right: 0 }}
+                                                onDragEnd={(event, info) => {
+                                                    const swipe = swipePower(info.offset.x, info.velocity.x);
+                                                    if (swipe < -swipeConfidenceThreshold) {
+                                                        paginate(1);
+                                                    }
+                                                    else if (swipe > swipeConfidenceThreshold) {
+                                                        paginate(-1);
+                                                    }
+                                                }}
                                             >
                                                 <div className={`relative md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} ${isBulk ? 'hidden' : 'flex'}  bg-[#333333] rounded-[11.2px] `}>
                                                     {steps && <ReactPlayer
@@ -1010,21 +1011,24 @@ function ProductDetail() {
                                                     <h3
                                                         style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#FFFFFF82'}` }}
                                                         className="md:text-[104px] pt-4 md:pt-0 text-[64px] md:p-3 p-2 md:mt-0 mt-0 md:mt-4 md:pr-8 pr-4 font-[500] font-regola-pro md:leading-[125px] leading-[64px] mb-4">{imageIndex + 1}</h3>
-                                                    {steps &&
-                                                        // <p className="text-[15px] md:text-[24px] font-[500] leading-[20px] md:leading-[31px] font-regola-pro w-5/6 pt-4 md:pt-8 text-[#FFFFFF]">{steps[imageIndex]?.description?.length > 140
-                                                        //     ? `${steps[imageIndex].description.slice(0, 130)}...`
-                                                        //     : steps[imageIndex].description}</p>
-                                                        <DescriptionRenderer description={steps[imageIndex].description} />}
+                                                    {steps && <DescriptionRenderer description={steps[imageIndex].description} />}
                                                 </div>
                                             </motion.div>
                                         </AnimatePresence>
                                         <motion.div
                                             key={previousIndex}
-                                            // initial={{ opacity: 0, x: 100 }}
-                                            // animate={{ opacity: 1, x: 0 }}
-                                            // exit={{ opacity: 0, x: -100 }}
-                                            // transition={{ duration: 0.3 }}
                                             className='w-1/6 ml-10 relative'
+                                            drag="x"
+                                            dragConstraints={{ left: 0, right: 0 }}
+                                            onDragEnd={(event, info) => {
+                                                const swipe = swipePower(info.offset.x, info.velocity.x);
+                                                if (swipe < -swipeConfidenceThreshold) {
+                                                    paginate(1);
+                                                }
+                                                else if (swipe > swipeConfidenceThreshold) {
+                                                    paginate(-1);
+                                                }
+                                            }}
                                         >
                                             <div className={`w-[430%] md:h-[505px] ${isRte ? 'h-[600px]' : 'h-[200px]'} ${isBulk ? 'hidden' : 'flex'} rounded-tl-[11.2px]  rounded-bl-[11.2px] bg-black   relative -left-[10%] overflow-hidden`}>
                                                 {steps && <ReactPlayer
@@ -1055,19 +1059,7 @@ function ProductDetail() {
                                         </motion.div>
                                     </div>
                                 </div>
-
-
                             </div>
-
-                            {/* Navigation Buttons */}
-                            {/* <div className="absolute bottom-4 right-4 flex space-x-2 lg:static lg:flex lg:justify-end">
-                        <button className="bg-gray-300 hover:bg-gray-400 p-2 rounded-full">
-                            ←
-                        </button>
-                        <button className="bg-gray-300 hover:bg-gray-400 p-2 rounded-full">
-                            →
-                        </button>
-                    </div> */}
                         </div>
                     </section >
                     {/* {
