@@ -535,7 +535,7 @@ function ProductDetail() {
 
     const accordianData = [
         {
-            title: "Ingredient",
+            title: "Ingredients",
             description: getMetafieldData("ingredient", productData?.metafields),
             id: 1,
         },
