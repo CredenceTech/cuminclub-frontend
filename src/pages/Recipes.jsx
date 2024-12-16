@@ -655,26 +655,26 @@ const Recipes = () => {
                                 {productDetails.map((product, index) => (
                                     <div key={index} className="flex-none w-full md:w-1/2">
                                         <div className="flex border-r border-gray-300 pr-4">
-                                            <div className="hidden lg:flex md:w-1/2 md:h-[450px]">
+                                            <div className="hidden xl:flex md:w-1/2 xl:max-h-[450px]">
                                                 <img
                                                     src={product?.image}
                                                     alt={product?.title}
-                                                    className="w-auto h-[300px] md:h-auto"
+                                                    className="w-auto h-[300px] xl:h-auto"
                                                 />
                                             </div>
-                                            <div className="w-full lg:w-1/2 whitespace-normal flex flex-col justify-between md:pl-4">
+                                            <div className="w-full xl:w-1/2 whitespace-normal flex flex-col justify-between md:pl-4">
                                                 <div>
                                                     <h1 className="text-[#333333] font-skillet text-[48px] font-[400] leading-[48.43px]">
                                                         {product?.title}
                                                     </h1>
-                                                    <div className='lg:hidden py-4 flex'>
+                                                    <div className='xl:hidden py-4 flex max-h-[450px]'>
                                                         <img
                                                             src={product.image}
                                                             alt=""
-                                                            className='w-auto h-[300px] lg:h-[450px]'
+                                                            className='w-auto h-auto xl:h-[450px]'
                                                         />
                                                     </div>
-                                                    <p className="text-[16px] font-regola-pro font-[400] leading-[17.17px] mb-4 md:mb-0 h-[160px] md:h-auto">
+                                                    <p className="text-[16px] font-regola-pro font-[400] leading-[17.17px] mb-4 pb-4 md:mb-0 h-[160px] md:h-auto">
                                                         {product?.description}
                                                     </p>
 
