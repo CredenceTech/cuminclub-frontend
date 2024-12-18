@@ -672,7 +672,7 @@ function ProductDetail() {
         return weightUnitSymbols[weightUnit] || weightUnit;
     };
 
-    const leftPositions = ['left-[0px]', 'left-[30px]', 'left-[20px]', 'left-[0px]', 'left-[0px]'];
+    const leftPositions = ['left-[0px]', 'left-[25px]', 'left-[18px]', 'left-[0px]', 'left-[0px]'];
 
     return (
         <div className='bg-white other-page'>
@@ -727,7 +727,7 @@ function ProductDetail() {
                                 />
                             </div>
 
-                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-20px] w-[25%]' : 'w-full md:w-auto'} gap-y-2`}>
+                            <div className={`flex md:h-full h-auto flex-col relative ${homeImg?.reference?.image?.originalSrc ? 'md:-left-10 left-[-20px] w-[25%] mobile-sm:w-[30%] md:w-[25%] mobile-sm:pr-5 md:pr-0' : 'w-full md:w-auto'} gap-y-2`}>
                                 {/* <div className='flex relative  flex-col gap-y-2'> */}
                                 <div ref={scrollContainerRef} className={`flex ${homeImg?.reference?.image?.originalSrc ? 'flex-col  md:h-[600px] h-[400px] overflow-x-auto w-[115%] md:w-full' : 'md:flex-col  md:h-[600px] h-auto flex-row overflow-x-scroll w-[100%] md:w-auto ml-[1%] md:ml-0'} scrollbar-hide`}>
                                     {productData?.images?.edges?.map((item, i) => (
