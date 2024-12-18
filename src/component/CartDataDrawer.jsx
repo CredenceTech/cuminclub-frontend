@@ -367,7 +367,13 @@ export const CartDataDrawer = ({ onClose }) => {
                                         <p className='text-[#757575] md:text-[18px] font-[500] md:leading-[26.45px] text-[16px] leading-[20px] text-start md:text-end font-regola-pro mt-0'>Tax included and shipping calculated at checkout</p>
 
                                         <button type='button' className='rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4' onClick={() => {
-                                            navigate('/cardReview');
+                                             fbq('track', 'InitiateCheckout', {
+                                                content_ids: cartResponse.cart?.lines?.edges.map(line => line.node.merchandise.product.id.split("/").pop()),
+                                                content_type: 'product_group',
+                                                value: cartResponse?.cart?.cost?.totalAmount?.amount,
+                                                currency: 'INR',
+                                            });
+                                           navigate('/cardReview');
                                             onClose();
                                         }}
                                         >Checkout</button>

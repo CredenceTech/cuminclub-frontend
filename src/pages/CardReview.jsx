@@ -46,6 +46,26 @@ const CardReview = () => {
 
     const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
 
+    useEffect(()=>{
+     if(isBuyNow===true){
+        fbq('track', 'InitiateCheckout', {
+            content_ids: checkoutResponse?.checkout?.lineItems?.edges[0]?.node.variant.id.split("/").pop(),
+            content_type: 'product',
+            value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+            currency: 'INR',
+        });
+     }
+     else{
+        fbq('track', 'InitiateCheckout', {
+            content_ids: cartResponse.cart?.lines?.edges.map(line => line.node.merchandise.product.id.split("/").pop()),
+            content_type: 'product_group',
+            value: cartResponse?.cart?.cost?.totalAmount?.amount,
+            currency: 'INR',
+        });
+     }
+
+    }, [])
+
     const checkoutResponse = useSelector(selectCheckoutResponse);
     const cancelOrder = () => {
         dispatch(clearCheckoutData())
@@ -77,6 +97,7 @@ const CardReview = () => {
 
 
     };
+
 
 
     useEffect(() => {

@@ -219,6 +219,13 @@ const ProductSmallCard = ({
 
                                     <button
                                         onClick={(e) => {
+                                            fbq('track', 'AddToCart', {
+                                                content_name: product.title,
+                                                content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                content_type: 'product',
+                                                value: product.priceRange?.minVariantPrice?.amount, 
+                                                currency: 'INR', 
+                                              });
                                             e.stopPropagation();
                                             handleAdd(product.variants.edges[0].node.id);
                                         }}
@@ -242,6 +249,13 @@ const ProductSmallCard = ({
                                 type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    fbq('track', 'AddToCart', {
+                                        content_name: product.title,
+                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                        content_type: 'product',
+                                        value: product.priceRange?.minVariantPrice?.amount, 
+                                        currency: 'INR', 
+                                      });
                                     handleAdd(product.variants.edges[0].node.id);
                                 }}
                                 className={`${shaking === product.variants.edges[0].node.id ? '' : ''
@@ -314,6 +328,13 @@ const ProductSmallCard = ({
                                             type="button"
                                             onClick={(e) => {
                                                 e.stopPropagation();
+                                                fbq('track', 'AddToCart', {
+                                                    content_name: product.title,
+                                                    content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                    content_type: 'product',
+                                                    value: product.priceRange?.minVariantPrice?.amount, 
+                                                    currency: 'INR', 
+                                                  });
                                                 handleAdd(product.variants.edges[0].node.id)
                                             }
                                             }
@@ -323,6 +344,13 @@ const ProductSmallCard = ({
                                         </button>
                                         <button
                                             onClick={(e) => {e.stopPropagation()
+                                                fbq('track', 'InitiateCheckout', {
+                                                    content_name: product.title,
+                                                    content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                    content_type: 'product',
+                                                    value: product.priceRange?.minVariantPrice?.amount, 
+                                                    currency: 'INR', 
+                                                  });
                                                 handleAddToCheckout(product.variants.edges[0].node.id)
                                             }}
                                             type="button"
@@ -340,6 +368,13 @@ const ProductSmallCard = ({
                                 type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    fbq('track', 'AddToCart', {
+                                        content_name: product.title,
+                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                        content_type: 'product',
+                                        value: product.priceRange?.minVariantPrice?.amount, 
+                                        currency: 'INR', 
+                                      });
                                     handleAdd(product.variants.edges[0].node.id)
                                 }
                                 }
@@ -349,6 +384,13 @@ const ProductSmallCard = ({
                             </button>
                             <button
                                 onClick={(e) => {e.stopPropagation()
+                                    fbq('track', 'InitiateCheckout', {
+                                        content_name: product.title,
+                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                        content_type: 'product',
+                                        value: product.priceRange?.minVariantPrice?.amount, 
+                                        currency: 'INR', 
+                                      });
                                     handleAddToCheckout(product.variants.edges[0].node.id)
                                 }
                                 }
