@@ -605,14 +605,29 @@ const Recipes = () => {
                                 </p>
                                 <div className='hidden md:flex gap-x-2 pb-8'>
                                     <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? '' : ''} flex justify-center items-center cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
-                                        handleAddToCart(productDetails[0]?.variants?.edges[0]?.node?.id)
+                                        fbq('track', 'AddToCart', {
+                                            content_name: productDetails[0].title,
+                                            content_ids: [productDetails[0].variants.edges[0].node.id.split("/").pop()],
+                                            content_type: 'product',
+                                            value: productDetails[0].priceRange?.minVariantPrice?.amount, 
+                                            currency: 'INR', 
+                                          });
+                                       handleAddToCart(productDetails[0]?.variants?.edges[0]?.node?.id)
                                     }} type='button'>
                                         {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                     </button>
                                     <button
-                                        onClick={() =>
+                                        onClick={() =>{
+                                            fbq('track', 'InitiateCheckout', {
+                                                content_name: productDetails[0].title,
+                                                content_ids: [productDetails[0].variants.edges[0].node.id.split("/").pop()],
+                                                content_type: 'product',
+                                                value: productDetails[0].priceRange?.minVariantPrice?.amount, 
+                                                currency: 'INR', 
+                                              });
                                             handleAddToCheckout(productDetails[0]?.variants?.edges[0]?.node?.id)
                                         }
+                                    }
                                         className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] flex justify-center items-center text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
                                         {buyNowLoading === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                     </button>
@@ -625,14 +640,29 @@ const Recipes = () => {
                         </p>
                         <div className='md:hidden flex justify-start items-start gap-10 ml-4'>
                             <button className={`${shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? '' : ''} flex justify-center items-center cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
-                                handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
+                                 fbq('track', 'AddToCart', {
+                                    content_name: productDetails[0].title,
+                                    content_ids: [productDetails[0].variants.edges[0].node.id.split("/").pop()],
+                                    content_type: 'product',
+                                    value: productDetails[0].priceRange?.minVariantPrice?.amount, 
+                                    currency: 'INR', 
+                                  });
+                               handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
                             }} type='button'>
                                 {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
                             <button
-                                onClick={() =>
+                                onClick={() =>{
+                                    fbq('track', 'InitiateCheckout', {
+                                        content_name: productDetails[0].title,
+                                        content_ids: [productDetails[0].variants.edges[0].node.id.split("/").pop()],
+                                        content_type: 'product',
+                                        value: productDetails[0].priceRange?.minVariantPrice?.amount, 
+                                        currency: 'INR', 
+                                      });
                                     handleAddToCheckout(productDetails[0]?.variants?.edges[0]?.node?.id)
                                 }
+                            }
                                 className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
                                 {buyNowLoading === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
 
@@ -681,14 +711,29 @@ const Recipes = () => {
                                                 </div>
                                                 <div className="flex whitespace-nowrap gap-x-2 pb-8">
                                                     <button className={`${shaking === product?.variants?.edges[0]?.node?.id ? '' : ''} flex justify-center items-center cursor-pointer px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf`} onClick={() => {
+                                                         fbq('track', 'AddToCart', {
+                                                            content_name: product.title,
+                                                            content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                            content_type: 'product',
+                                                            value: product.priceRange?.minVariantPrice?.amount, 
+                                                            currency: 'INR', 
+                                                          });
                                                         handleAddToCart(product?.variants?.edges[0]?.node?.id);
                                                     }} type='button'>
                                                         {shaking === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                                     </button>
                                                     <button
-                                                        onClick={() =>
+                                                        onClick={() =>{
+                                                            fbq('track', 'InitiateCheckout', {
+                                                                content_name: product.title,
+                                                                content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                                content_type: 'product',
+                                                                value: product.priceRange?.minVariantPrice?.amount, 
+                                                                currency: 'INR', 
+                                                              });
                                                             handleAddToCheckout(product?.variants?.edges[0]?.node?.id)
                                                         }
+                                                    }
                                                         className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
                                                         {buyNowLoading === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
 
