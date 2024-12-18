@@ -1813,6 +1813,13 @@ const Home = () => {
                         <div
                           onClick={(e) => {
                             e.preventDefault();
+                            fbq('track', 'AddToCart', {
+                              content_name: item?.node?.title,
+                              content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
+                              content_type: 'product',
+                              value: item?.node?.priceRange?.minVariantPrice?.amount, 
+                              currency: 'INR', 
+                            });
                             handleAddToCart(item?.node?.variants.edges[0].node.id);
                           }}
                           className="md:hidden flex absolute -bottom-[4px] right-[13px]"
@@ -1847,6 +1854,13 @@ const Home = () => {
                           className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
                             } flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
                           onClick={() => {
+                            fbq('track', 'AddToCart', {
+                              content_name: item?.node?.title,
+                              content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
+                              content_type: 'product',
+                              value: item?.node?.priceRange?.minVariantPrice?.amount, 
+                              currency: 'INR', 
+                            });
                             handleAddToCart(item?.node?.variants.edges[0].node.id);
                           }}
                         >
@@ -2112,6 +2126,13 @@ const Home = () => {
                   type='button'
                   className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
                   onClick={() => {
+                    fbq('track', 'AddToCart', {
+                      content_name: selecteRandomPro?.node?.title,
+                      content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
+                      content_type: 'product',
+                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount, 
+                      currency: 'INR', 
+                    });
                     handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                   }
                   }
@@ -2417,6 +2438,13 @@ const Home = () => {
                   type='button'
                   className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
                   onClick={() => {
+                    fbq('track', 'AddToCart', {
+                      content_name: selecteRandomPro?.node?.title,
+                      content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
+                      content_type: 'product',
+                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount, 
+                      currency: 'INR', 
+                    });
                     handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                   }
                   }
