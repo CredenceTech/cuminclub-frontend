@@ -134,8 +134,8 @@ const Facility = () => {
         </div>
       </div>
 
-      <div className="p-8 lg:px-[60px] lg:pt-[40px] flex flex-wrap md:flex-nowrap">
-        <div className="w-full lg:w-5/12 relative mapBackgrounImage rounded-[14px] mb-4 md:mb-0 md:mr-6 bg-no-repeat bg-cover bg-center h-[300px] md:h-auto">
+      <div className="p-8 lg:px-[60px] lg:pt-[40px] flex flex-wrap-reverse xl:flex-nowrap">
+        <div className="w-full xl:w-5/12 shrink-0 relative mapBackgrounImage rounded-[14px] mb-4 md:mb-0 md:mr-6 bg-no-repeat bg-cover bg-center h-[300px] md:h-[500px] xl:h-auto">
           <div className="absolute z-20 bottom-4 left-4 flex flex-col items-start">
             <p className="font-inter text-[16px] md:text-[36px] font-normal leading-[28.8px] md:leading-[43.57px] text-[#333333]">
               Surat, Gujarat
@@ -155,7 +155,7 @@ const Facility = () => {
           </div>
         </div>
 
-        <div className="w-full lg:w-7/12 flex flex-col pl-3">
+        <div className="w-full xl:w-7/12 flex flex-col pb-3 xl:pb-0 ">
           <h1 className="font-inter text-[24px] md:text-[32px] font-normal leading-[28.8px] md:leading-[38.73px] text-[#333333] mb-4">
             We’re From the Heart of Gujarat!
           </h1>

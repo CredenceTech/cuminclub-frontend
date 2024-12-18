@@ -149,7 +149,7 @@ const Recipes = () => {
 
                             return {
                                 id: step.metaobject.id,
-                                description: JSON.parse(descriptionField?.value)?.children[0]?.children[0]?.value || '',
+                                description: descriptionField?.value || '',
                                 img: stepImageUrl,
                                 ref: refField ? refField.value : '',
                                 time: time ? time.value : ''
@@ -568,7 +568,7 @@ const Recipes = () => {
                                 <div className='flex mb-5'>
                                     <p className='text-[64px] leading-[64.58px] font-[400] text-[#e9bc9982] font-skillet'>{item.id}</p>
                                     <div className='pl-[30px]'>
-                                        <p className='text-[20px] leading-[24px] pb-4 font-regola-pro font-[400] text-[#333333]'>{item.text}</p>
+                                        <RenderDescription data={item.text} />
                                     </div>
                                 </div>
                                 <div className='pb-5'>
@@ -712,5 +712,41 @@ const Recipes = () => {
         </div>
     )
 }
+
+const RenderDescription = ({ data }) => {
+    const parsedValue = JSON.parse(data);
+
+    const renderContent = (node) => {
+        if (node?.type === "text") {
+            return node?.value;
+        } else if (node?.type === "heading") {
+            const HeadingTag = `h${node.level || 1}`;
+            return (
+                <HeadingTag
+                    key={Math.random()}
+                    className="text-[20px] leading-[24px] pb-2 font-regola-pro font-[600] text-[#333333]"
+                >
+                    {node?.children?.map((child, index) => renderContent(child))}
+                </HeadingTag>
+            );
+        } else if (node?.type === "paragraph") {
+            return (
+                <p
+                    key={Math.random()}
+                    className="text-[18px] leading-[22px] pb-4 font-regola-pro font-[300] text-[#333333]"
+                >
+                    {node?.children?.map((child, index) => renderContent(child))}
+                </p>
+            );
+        }
+        return null;
+    };
+
+    return (
+        <div>
+            {parsedValue?.children?.map((node, index) => renderContent(node))}
+        </div>
+    );
+};
 
 export default Recipes
