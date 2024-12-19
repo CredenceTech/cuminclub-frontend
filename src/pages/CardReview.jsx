@@ -54,6 +54,11 @@ const CardReview = () => {
             value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
             currency: 'INR',
         });
+        gtag('event', 'conversion', {
+            'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+            'value': checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+            'currency': 'INR'
+        });
      }
      else{
         fbq('track', 'InitiateCheckout', {
@@ -61,6 +66,11 @@ const CardReview = () => {
             content_type: 'product_group',
             value: cartResponse?.cart?.cost?.totalAmount?.amount,
             currency: 'INR',
+        });
+        gtag('event', 'conversion', {
+            'send_to':  'AW-16743837274/zisbCK38h_gZENrcirA-',
+            'value': cartResponse?.cart?.cost?.totalAmount?.amount,
+            'currency': 'INR'
         });
      }
 

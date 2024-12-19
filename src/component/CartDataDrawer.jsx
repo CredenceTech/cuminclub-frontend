@@ -373,6 +373,11 @@ export const CartDataDrawer = ({ onClose }) => {
                                                 value: cartResponse?.cart?.cost?.totalAmount?.amount,
                                                 currency: 'INR',
                                             });
+                                            gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                'value':  cartResponse?.cart?.cost?.totalAmount?.amount,
+                                                'currency': 'INR'
+                                            });
                                            navigate('/cardReview');
                                             onClose();
                                         }}
