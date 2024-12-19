@@ -226,6 +226,11 @@ const ProductSmallCard = ({
                                                 value: product.priceRange?.minVariantPrice?.amount, 
                                                 currency: 'INR', 
                                               });
+                                              gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                'value': product.priceRange?.minVariantPrice?.amount,
+                                                'currency': 'INR'
+                                            });
                                             e.stopPropagation();
                                             handleAdd(product.variants.edges[0].node.id);
                                         }}
@@ -256,6 +261,11 @@ const ProductSmallCard = ({
                                         value: product.priceRange?.minVariantPrice?.amount, 
                                         currency: 'INR', 
                                       });
+                                      gtag('event', 'conversion', {
+                                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                        'value': product.priceRange?.minVariantPrice?.amount,
+                                        'currency': 'INR'
+                                    });
                                     handleAdd(product.variants.edges[0].node.id);
                                 }}
                                 className={`${shaking === product.variants.edges[0].node.id ? '' : ''
@@ -335,6 +345,11 @@ const ProductSmallCard = ({
                                                     value: product.priceRange?.minVariantPrice?.amount, 
                                                     currency: 'INR', 
                                                   });
+                                                  gtag('event', 'conversion', {
+                                                    'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                    'value': product.priceRange?.minVariantPrice?.amount,
+                                                    'currency': 'INR'
+                                                });
                                                 handleAdd(product.variants.edges[0].node.id)
                                             }
                                             }
@@ -351,6 +366,11 @@ const ProductSmallCard = ({
                                                     value: product.priceRange?.minVariantPrice?.amount, 
                                                     currency: 'INR', 
                                                   });
+                                                  gtag('event', 'conversion', {
+                                                    'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                    'value': product.priceRange?.minVariantPrice?.amount,
+                                                    'currency': 'INR'
+                                                });
                                                 handleAddToCheckout(product.variants.edges[0].node.id)
                                             }}
                                             type="button"
@@ -375,6 +395,11 @@ const ProductSmallCard = ({
                                         value: product.priceRange?.minVariantPrice?.amount, 
                                         currency: 'INR', 
                                       });
+                                      gtag('event', 'conversion', {
+                                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                        'value': product.priceRange?.minVariantPrice?.amount,
+                                        'currency': 'INR'
+                                    });
                                     handleAdd(product.variants.edges[0].node.id)
                                 }
                                 }
@@ -391,6 +416,11 @@ const ProductSmallCard = ({
                                         value: product.priceRange?.minVariantPrice?.amount, 
                                         currency: 'INR', 
                                       });
+                                      gtag('event', 'conversion', {
+                                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                        'value': product.priceRange?.minVariantPrice?.amount,
+                                        'currency': 'INR'
+                                    });
                                     handleAddToCheckout(product.variants.edges[0].node.id)
                                 }
                                 }

@@ -1820,6 +1820,11 @@ const Home = () => {
                               value: item?.node?.priceRange?.minVariantPrice?.amount, 
                               currency: 'INR', 
                             });
+                            gtag('event', 'conversion', {
+                              'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                              'value': item?.node?.priceRange?.minVariantPrice?.amount,
+                              'currency': 'INR'
+                          });
                             handleAddToCart(item?.node?.variants.edges[0].node.id);
                           }}
                           className="md:hidden flex absolute -bottom-[4px] right-[13px]"
@@ -1861,6 +1866,11 @@ const Home = () => {
                               value: item?.node?.priceRange?.minVariantPrice?.amount, 
                               currency: 'INR', 
                             });
+                            gtag('event', 'conversion', {
+                              'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                              'value': item?.node?.priceRange?.minVariantPrice?.amount,
+                              'currency': 'INR'
+                          });
                             handleAddToCart(item?.node?.variants.edges[0].node.id);
                           }}
                         >
@@ -2133,6 +2143,11 @@ const Home = () => {
                       value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount, 
                       currency: 'INR', 
                     });
+                    gtag('event', 'conversion', {
+                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                      'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                      'currency': 'INR'
+                  });
                     handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                   }
                   }
@@ -2445,6 +2460,11 @@ const Home = () => {
                       value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount, 
                       currency: 'INR', 
                     });
+                    gtag('event', 'conversion', {
+                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                      'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                      'currency': 'INR'
+                  });
                     handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                   }
                   }
