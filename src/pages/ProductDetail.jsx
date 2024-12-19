@@ -951,6 +951,11 @@ function ProductDetail() {
                                                 value: productData?.priceRange?.minVariantPrice?.amount, 
                                                 currency: 'INR', 
                                               });
+                                              gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                'value': productData.priceRange?.minVariantPrice?.amount,
+                                                'currency': 'INR'
+                                            });
                                             handleAddToCart(productData?.variants.edges[0].node.id)
                                         }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>
                                     <button
@@ -962,6 +967,11 @@ function ProductDetail() {
                                                 value: productData?.priceRange?.minVariantPrice?.amount, 
                                                 currency: 'INR', 
                                               });
+                                              gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                'value': productData.priceRange?.minVariantPrice?.amount,
+                                                'currency': 'INR'
+                                            });
                                             handleAddToCheckout(productData?.variants.edges[0].node.id)
                                         }
                                     }
@@ -1218,6 +1228,11 @@ function ProductDetail() {
                                                             value: item?.node?.priceRange?.minVariantPrice?.amount, 
                                                             currency: 'INR', 
                                                           });
+                                                          gtag('event', 'conversion', {
+                                                            'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                            'value': item?.node?.priceRange?.minVariantPrice?.amount,
+                                                            'currency': 'INR'
+                                                        });
                                                         handleAddToCart(item?.node?.variants.edges[0].node.id) }} className='md:hidden flex absolute -bottom-[4px] right-[10px]'>
                                                         <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
                                                         }
@@ -1246,6 +1261,11 @@ function ProductDetail() {
                                                             value: item?.node?.priceRange?.minVariantPrice?.amount, 
                                                             currency: 'INR', 
                                                           });
+                                                          gtag('event', 'conversion', {
+                                                            'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                            'value': item?.node?.priceRange?.minVariantPrice?.amount,
+                                                            'currency': 'INR'
+                                                        });
                                                       handleAddToCart(item?.node?.variants.edges[0].node.id)
                                                     }
                                                     }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>

@@ -612,6 +612,11 @@ const Recipes = () => {
                                             value: productDetails[0].priceRange?.minVariantPrice?.amount, 
                                             currency: 'INR', 
                                           });
+                                          gtag('event', 'conversion', {
+                                            'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                            'value': productDetails[0].priceRange?.minVariantPrice?.amount,
+                                            'currency': 'INR'
+                                        });
                                        handleAddToCart(productDetails[0]?.variants?.edges[0]?.node?.id)
                                     }} type='button'>
                                         {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
@@ -625,6 +630,11 @@ const Recipes = () => {
                                                 value: productDetails[0].priceRange?.minVariantPrice?.amount, 
                                                 currency: 'INR', 
                                               });
+                                              gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                'value': productDetails[0].priceRange?.minVariantPrice?.amount, 
+                                                'currency': 'INR'
+                                            });
                                             handleAddToCheckout(productDetails[0]?.variants?.edges[0]?.node?.id)
                                         }
                                     }
@@ -647,6 +657,11 @@ const Recipes = () => {
                                     value: productDetails[0].priceRange?.minVariantPrice?.amount, 
                                     currency: 'INR', 
                                   });
+                                  gtag('event', 'conversion', {
+                                    'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                    'value': productDetails[0].priceRange?.minVariantPrice?.amount,
+                                    'currency': 'INR'
+                                });
                                handleAddToCart(productDetails[0]?.variants?.edges[0]?.node.id);
                             }} type='button'>
                                 {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
@@ -660,6 +675,11 @@ const Recipes = () => {
                                         value: productDetails[0].priceRange?.minVariantPrice?.amount, 
                                         currency: 'INR', 
                                       });
+                                      gtag('event', 'conversion', {
+                                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                        'value': productDetails[0].priceRange?.minVariantPrice?.amount, 
+                                        'currency': 'INR'
+                                    });
                                     handleAddToCheckout(productDetails[0]?.variants?.edges[0]?.node?.id)
                                 }
                             }
@@ -718,6 +738,11 @@ const Recipes = () => {
                                                             value: product.priceRange?.minVariantPrice?.amount, 
                                                             currency: 'INR', 
                                                           });
+                                                          gtag('event', 'conversion', {
+                                                            'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                            'value': product.priceRange?.minVariantPrice?.amount,
+                                                            'currency': 'INR'
+                                                        });
                                                         handleAddToCart(product?.variants?.edges[0]?.node?.id);
                                                     }} type='button'>
                                                         {shaking === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
@@ -731,6 +756,11 @@ const Recipes = () => {
                                                                 value: product.priceRange?.minVariantPrice?.amount, 
                                                                 currency: 'INR', 
                                                               });
+                                                              gtag('event', 'conversion', {
+                                                                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                                'value': product.priceRange?.minVariantPrice?.amount,
+                                                                'currency': 'INR'
+                                                            });
                                                             handleAddToCheckout(product?.variants?.edges[0]?.node?.id)
                                                         }
                                                     }
