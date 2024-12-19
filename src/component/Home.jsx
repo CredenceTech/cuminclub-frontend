@@ -693,20 +693,20 @@ const Home = () => {
           return bulkMetafield?.value !== "true";
         });
         const fanFavorites = products
-        ?.filter((product) => {
-          const isFanFavorite = product?.node?.metafields?.find(
-            (mf) => mf && mf.key === "is_fan_favorite"
-          );
-          return isFanFavorite?.value === "true";
-        })
-        .sort((a, b) => {
-          const titleA = a.node?.title?.trim() || ""; 
-          const titleB = b.node?.title?.trim() || "";
-          const indexA = customOrder.indexOf(titleA);
-          const indexB = customOrder.indexOf(titleB);
-          return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
-        });
-      
+          ?.filter((product) => {
+            const isFanFavorite = product?.node?.metafields?.find(
+              (mf) => mf && mf.key === "is_fan_favorite"
+            );
+            return isFanFavorite?.value === "true";
+          })
+          .sort((a, b) => {
+            const titleA = a.node?.title?.trim() || "";
+            const titleB = b.node?.title?.trim() || "";
+            const indexA = customOrder.indexOf(titleA);
+            const indexB = customOrder.indexOf(titleB);
+            return (indexA === -1 ? Infinity : indexA) - (indexB === -1 ? Infinity : indexB);
+          });
+
         setApiResponse(filteredProducts.splice(1, 10));
         setFanFavorites(fanFavorites);
         setSelecteRandomPro(filteredProducts[1]);
@@ -1708,8 +1708,8 @@ const Home = () => {
           </motion.div>
         )}
         {isDrawerOpen && <CartDataDrawer onClose={closeCartDrawer} />}
-        <div className="relative w-full h-auto px-4 md:px-8 z-10 mt-5 md:w-[50%]" >
-          <div className="ml-8 mr-[35px] md:mr-0 md:ml-10 banner-text">
+        <div className="relative w-full h-auto px-4 md:px-8 z-10 mt-10 md:mt-5 md:w-[50%]" >
+          <div className="ml-2 mr-[35px] md:mr-0 md:ml-10 banner-text">
             <h1 className={`font-skillet text-[35px] lg:text-[44px] font-[400] sm:leading-[44.4px] leading-[34.4px] ${currentIndex === 0 ? 'text-[#FFFFFF]'
               : currentIndex === 2 ? 'text-[#dfdfdf]'
                 : 'text-white'
@@ -1720,7 +1720,7 @@ const Home = () => {
               {bannerData[currentIndex].description}
             </p>
           </div>
-          <div className="flex subscribe-button pt-4 ml-8">
+          <div className="flex subscribe-button pt-4 ml-2 md:ml-8">
             <Link to={bannerData[currentIndex].navigationLink} className='flex flex-row py-[10px] md:py-2 px-4 md:px-4 rounded-[8px] items-center gap-x-3 bg-[#EFE9DA]'>
               <button className="text-[#231F20] font-regola-pro font-[400] text-[16px] md:text-[20px] leading-[24px] py-1">{bannerData[currentIndex].ctaText}</button>
               <svg width="15" height="11" viewBox="0 0 25 21" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1817,14 +1817,14 @@ const Home = () => {
                               content_name: item?.node?.title,
                               content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
                               content_type: 'product',
-                              value: item?.node?.priceRange?.minVariantPrice?.amount, 
-                              currency: 'INR', 
+                              value: item?.node?.priceRange?.minVariantPrice?.amount,
+                              currency: 'INR',
                             });
                             gtag('event', 'conversion', {
                               'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                               'value': item?.node?.priceRange?.minVariantPrice?.amount,
                               'currency': 'INR'
-                          });
+                            });
                             handleAddToCart(item?.node?.variants.edges[0].node.id);
                           }}
                           className="md:hidden flex absolute -bottom-[4px] right-[13px]"
@@ -1863,14 +1863,14 @@ const Home = () => {
                               content_name: item?.node?.title,
                               content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
                               content_type: 'product',
-                              value: item?.node?.priceRange?.minVariantPrice?.amount, 
-                              currency: 'INR', 
+                              value: item?.node?.priceRange?.minVariantPrice?.amount,
+                              currency: 'INR',
                             });
                             gtag('event', 'conversion', {
                               'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                               'value': item?.node?.priceRange?.minVariantPrice?.amount,
                               'currency': 'INR'
-                          });
+                            });
                             handleAddToCart(item?.node?.variants.edges[0].node.id);
                           }}
                         >
@@ -2140,14 +2140,14 @@ const Home = () => {
                       content_name: selecteRandomPro?.node?.title,
                       content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
                       content_type: 'product',
-                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount, 
-                      currency: 'INR', 
+                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                      currency: 'INR',
                     });
                     gtag('event', 'conversion', {
                       'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                       'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
                       'currency': 'INR'
-                  });
+                    });
                     handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                   }
                   }
@@ -2457,14 +2457,14 @@ const Home = () => {
                       content_name: selecteRandomPro?.node?.title,
                       content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
                       content_type: 'product',
-                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount, 
-                      currency: 'INR', 
+                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                      currency: 'INR',
                     });
                     gtag('event', 'conversion', {
                       'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                       'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
                       'currency': 'INR'
-                  });
+                    });
                     handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
                   }
                   }
