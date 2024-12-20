@@ -229,7 +229,7 @@ export const Bundle = () => {
     };
 
     apiCall();
-  }, [selectedCategory, issubscribe]);
+  }, [selectedCategory]);
 
 
   const handleAddToCart = (productId, sellingPlanId) => {
@@ -320,8 +320,7 @@ export const Bundle = () => {
         (selectedMealData?.no === draftOrderResponse?.draftOrder?.lineItems?.edges.reduce(
           (total, edge) => total + edge.node.quantity,
           0
-        ) || 0) && issubscribe
-      ) {
+        ) || 0)) {
         if (bundleDataResponse?.productId === undefined && bundleDataResponse === null) {
           setShowModel(true);
           setIsLoading(true); // Start loading
@@ -364,7 +363,7 @@ export const Bundle = () => {
     };
 
     fetchData();
-  }, [draftOrderResponse, selectedMealData, issubscribe]);
+  }, [draftOrderResponse, selectedMealData]);
 
   const handleAddToDraftOrder = (productId) => {
     const maxQuantity = selectedMealData.no;
@@ -561,67 +560,48 @@ export const Bundle = () => {
 
   return (
     <div className="min-h-[75vh] w-full bg-[#EFE9DA]">
-      <div className="border-b-2 border-b-[#cfc19f]">
-        <div className="flex flex-row justify-around pt-6">
-          <div onClick={() => { dispatch(subscribeClose()); }} className="px-16 relative cursor-pointer ">
-            <p className="text-base font-regola-pro lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]" >BUY NOW </p>
-            {!issubscribe ? (
-              <motion.div className="underlineHeader" layoutId="underline" />
-            ) : null}
-          </div>
-          <div onClick={() => { dispatch(subscribeOpen()); }} className="px-16 relative cursor-pointer">
-            <p className="text-base font-regola-pro lg:text-[30px] lg:leading-[23.88px] py-3 font-[800] text-[#333333]">SUBSCRIBE </p>
-            {issubscribe ? (
-              <motion.div className="underlineHeader" layoutId="underline" />
-            ) : null}
-          </div>
-        </div>
-      </div>
-
-      {issubscribe ?
-        <>
-          <AnimatePresence mode="wait">
-            <motion.div
-              // key={selectedTab ? selectedTab.label : "empty"}
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className={`py-3 bg-[#FBAE36] w-full flex gap-x-4 flex-col lg:flex-row lg:justify-between lg:items-center lg:h-[108px]`}>
-                <div className="ml-4 lg:w-1/2 lg:ml-10 whitespace-nowrap">
-                  <div className="flex flex-col md:flex-row gap-x-6">
-                    <div>
-                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
-                      <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
-                    </div>
-                    <div >
-                      <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Frequency</h3>
-                      <FrequencyDropDown align="right" setDropdownOpen={setFrequentlyOpen} dropdownOpen={frequentlyOpen} />
-                    </div>
+      <>
+        <AnimatePresence mode="wait">
+          <motion.div
+            // key={selectedTab ? selectedTab.label : "empty"}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <div className={`py-3 bg-[#FBAE36] w-full flex gap-x-4 flex-col lg:flex-row lg:justify-between lg:items-center lg:h-[108px]`}>
+              <div className="ml-4 lg:w-1/2 lg:ml-10 whitespace-nowrap">
+                <div className="flex flex-col md:flex-row gap-x-6">
+                  <div>
+                    <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
+                    <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
                   </div>
-
+                  <div >
+                    <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Frequency</h3>
+                    <FrequencyDropDown align="right" setDropdownOpen={setFrequentlyOpen} dropdownOpen={frequentlyOpen} />
+                  </div>
                 </div>
-                <div className="flex lg:hidden flex-row gap-x-2 px-4 py-2">
+
+              </div>
+              <div className="flex lg:hidden flex-row gap-x-2 px-4 py-2">
+                <p className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Fill your box 📦</p>
+              </div>
+              <div className="flex w-full pl-4 lg:pl-0  lg:w-1/2 overflow-x-auto lg:overscroll-none lg:whitespace-nowrap flex-row items-center ">
+                <div className="lg:flex hidden flex-row items-center gap-x-2 mr-10">
                   <p className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Fill your box 📦</p>
                 </div>
-                <div className="flex w-full pl-4 lg:pl-0  lg:w-1/2 overflow-x-auto lg:overscroll-none lg:whitespace-nowrap flex-row items-center ">
-                  <div className="lg:flex hidden flex-row items-center gap-x-2 mr-10">
-                    <p className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Fill your box 📦</p>
-                  </div>
-                  <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
-                    <SpiceLevel />
-                  </div>
-                  <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-[78px] w-[55px]">
-                    <img src={cardIcon} alt="" className="w-8 h-8" />
-                  </div>
+                <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
+                  <SpiceLevel />
+                </div>
+                <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-[78px] w-[55px]">
+                  <img src={cardIcon} alt="" className="w-8 h-8" />
                 </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
-        </>
-        : ''}
+      </>
 
       <div className=""><ProductFliter excludeCategories={['Bundles']} /></div>
       <div className="p-[20px] lg:p-[60px]">
@@ -688,41 +668,18 @@ export const Bundle = () => {
                         </div>
                         <div className="flex gap-2 mt-3">
 
-                          {issubscribe ? (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                              }}
-                              className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
-                            >
-                              {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                fbq('track', 'AddToCart', {
-                                  content_name: product.title,
-                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                  content_type: 'product',
-                                  value: product.priceRange?.minVariantPrice?.amount,
-                                  currency: 'INR',
-                                });
-                                gtag('event', 'conversion', {
-                                  'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                  'value': product.priceRange?.minVariantPrice?.amount,
-                                  'currency': 'INR'
-                                });
-                                handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
-                              }}
-                              className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
-                            >
-                              {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                            </button>
-                          )}
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                            }}
+                            className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
+                          >
+                            {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                          </button>
+
                           {/* <button
                             onClick={(e) => e.stopPropagation()}
                             type="button"
@@ -759,9 +716,7 @@ export const Bundle = () => {
                               <p className="font-skillet font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
                                 {product.title}
                               </p>
-                              {!issubscribe && <p className="font-skillet whitespace-nowrap font-[400] uppercase text-[#333333] text-[36px] leading-[28.65px]">
-                                ₹ {Math.floor(productPrice)}
-                              </p>}
+
                             </div>
                             <p className="text-[16px] md:leading-[12.73px] leading-4 font-[500] font-regola-pro text-[#757575] pt-2 pb-3">
                               {product.description.length > 80
@@ -770,41 +725,18 @@ export const Bundle = () => {
                             </p>
 
                             <div className="flex gap-x-2 md:gap-x-4 mt-1">
-                              {issubscribe ? (
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
-                                  }}
-                                  className="border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
-                                >
-                                  {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    fbq('track', 'AddToCart', {
-                                      content_name: product.title,
-                                      content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                      content_type: 'product',
-                                      value: product.priceRange?.minVariantPrice?.amount,
-                                      currency: 'INR',
-                                    });
-                                    gtag('event', 'conversion', {
-                                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                      'value': product.priceRange?.minVariantPrice?.amount,
-                                      'currency': 'INR'
-                                    });
-                                    handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO CART"
-                                  }}
-                                  className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]`}
-                                >
-                                  {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                                </button>
-                              )}
+
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
+                                }}
+                                className="border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                              >
+                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                              </button>
+
 
                               <button
                                 onClick={(e) => {
@@ -869,41 +801,18 @@ export const Bundle = () => {
                           </p>
                         </div>
                         <div className="flex gap-2 mt-3">
-                          {issubscribe ? (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                              }}
-                              className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
-                            >
-                              {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                fbq('track', 'AddToCart', {
-                                  content_name: product.title,
-                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                  content_type: 'product',
-                                  value: product.priceRange?.minVariantPrice?.amount,
-                                  currency: 'INR',
-                                });
-                                gtag('event', 'conversion', {
-                                  'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                  'value': product.priceRange?.minVariantPrice?.amount,
-                                  'currency': 'INR'
-                                });
-                                handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
-                              }}
-                              className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
-                            >
-                              {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                            </button>
-                          )}
+
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                            }}
+                            className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
+                          >
+                            {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                          </button>
+
                           {/* <button
                             onClick={(e) => e.stopPropagation()}
                             type="button"
@@ -943,46 +852,20 @@ export const Bundle = () => {
                                   <p className="font-skillet font-[400] text-[#FAFAFA] text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase max-w-[80%]">
                                     {product.title}
                                   </p>
-                                  {!issubscribe && <p className="font-skillet font-[400] text-[#FAFAFA]   text-[16px] leading-3 md:text-[36px] md:leading-[28.65px] uppercase">
-                                    ₹ {Math.floor(productPrice)}
-                                  </p>}
+
                                 </div>
                                 <div className="hidden md:flex md:flex-row md:gap-4">
-                                  {issubscribe ? (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                                      }}
-                                      className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                    >
-                                      {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                                    </button>
-                                  ) : (
-                                    <button
-                                      type="button"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        fbq('track', 'AddToCart', {
-                                          content_name: product.title,
-                                          content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                          content_type: 'product',
-                                          value: product.priceRange?.minVariantPrice?.amount,
-                                          currency: 'INR',
-                                        });
-                                        gtag('event', 'conversion', {
-                                          'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                          'value': product.priceRange?.minVariantPrice?.amount,
-                                          'currency': 'INR'
-                                        });
-                                        handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
-                                      }}
-                                      className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
-                                    >
-                                      {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                                    </button>
-                                  )}
+
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                                    }}
+                                    className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                  >
+                                    {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                                  </button>
 
 
                                   <button
