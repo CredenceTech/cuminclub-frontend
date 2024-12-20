@@ -46,33 +46,33 @@ const CardReview = () => {
 
     const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
 
-    useEffect(()=>{
-     if(isBuyNow===true){
-        fbq('track', 'InitiateCheckout', {
-            content_ids: checkoutResponse?.checkout?.lineItems?.edges[0]?.node.variant.id.split("/").pop(),
-            content_type: 'product',
-            value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
-            currency: 'INR',
-        });
-        gtag('event', 'conversion', {
-            'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-            'value': checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
-            'currency': 'INR'
-        });
-     }
-     else{
-        fbq('track', 'InitiateCheckout', {
-            content_ids: cartResponse.cart?.lines?.edges.map(line => line.node.merchandise.product.id.split("/").pop()),
-            content_type: 'product_group',
-            value: cartResponse?.cart?.cost?.totalAmount?.amount,
-            currency: 'INR',
-        });
-        gtag('event', 'conversion', {
-            'send_to':  'AW-16743837274/zisbCK38h_gZENrcirA-',
-            'value': cartResponse?.cart?.cost?.totalAmount?.amount,
-            'currency': 'INR'
-        });
-     }
+    useEffect(() => {
+        if (isBuyNow === true) {
+            fbq('track', 'InitiateCheckout', {
+                content_ids: checkoutResponse?.checkout?.lineItems?.edges[0]?.node.variant.id.split("/").pop(),
+                content_type: 'product',
+                value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+                currency: 'INR',
+            });
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                'value': checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+                'currency': 'INR'
+            });
+        }
+        else {
+            fbq('track', 'InitiateCheckout', {
+                content_ids: cartResponse.cart?.lines?.edges.map(line => line.node.merchandise.product.id.split("/").pop()),
+                content_type: 'product_group',
+                value: cartResponse?.cart?.cost?.totalAmount?.amount,
+                currency: 'INR',
+            });
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                'value': cartResponse?.cart?.cost?.totalAmount?.amount,
+                'currency': 'INR'
+            });
+        }
 
     }, [])
 
@@ -111,18 +111,18 @@ const CardReview = () => {
 
 
     useEffect(() => {
-            const sdkPayload = createSDKPayload({
-                merchantId: 'instantly',
-                environment: 'release',
-                shopUrl: 'https://76ac20-2.myshopify.com'
-            });
+        const sdkPayload = createSDKPayload({
+            merchantId: 'instantly',
+            environment: 'release',
+            shopUrl: 'https://76ac20-2.myshopify.com'
+        });
 
-            console.log('Initiating Blaze SDK with payload:', sdkPayload);
-            BlazeSDK.initiate(sdkPayload, callbackMethod);
-        
+        console.log('Initiating Blaze SDK with payload:', sdkPayload);
+        BlazeSDK.initiate(sdkPayload, callbackMethod);
+
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (loginUserCustomerId) {
             setIsLogin(true)
             getCustomerDetail();
@@ -386,7 +386,7 @@ const CardReview = () => {
                             "url": `/products/${product.handle}?variant=${variant.id.split("/").pop()}`,
                             "featured_image": {
                                 "aspect_ratio": 1,
-                                "alt": product.featuredImage.altText || product.title,
+                                "alt": product.title,
                                 "height": 2000,
                                 "url": product.metafields[0].reference.image.originalSrc,
                                 "width": 2000
@@ -463,7 +463,7 @@ const CardReview = () => {
                             "url": `/products/${product.handle}?variant=${variant.id.split("/").pop()}`,
                             "featured_image": {
                                 "aspect_ratio": 1,
-                                "alt": product.featuredImage.altText || product.title,
+                                "alt": product.title,
                                 "height": 2000,
                                 "url": product.metafields[0].reference.image.originalSrc,
                                 "width": 2000
@@ -733,12 +733,12 @@ const CardReview = () => {
                                     </div>
                                 </div>}
                                 <p className='text-[#757575] text-[16px] md:text-[20px] font-[500] leading-[26.45px] text-start md:text-end font-regola-pro'>Tax included and shipping calculated at checkout</p>
-                               
-                                        {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2> */}
-                                        <form onSubmit={formikForLogin.handleSubmit}>
-                                            <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
-                                        </form>
-                                  
+
+                                {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2> */}
+                                <form onSubmit={formikForLogin.handleSubmit}>
+                                    <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
+                                </form>
+
                                 {/* <button type='button' className='rounded-lg font-skillet text-2xl lg:text-4xl mt-[110px] bg-gray-900 text-gray-100 w-full py-4'>Checkout</button> */}
                             </div>
                         </div>
