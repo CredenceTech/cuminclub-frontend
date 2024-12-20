@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
+  checkoutCreate,
   createCartMutation,
   getProductCollectionsQuery,
   graphQLClient,
@@ -28,6 +29,9 @@ import ProductFliter from "../component/ProductFliter";
 import { draftOrderData, selectDraftOrderResponse, setDraftOrderResponse } from "../state/draftOrder";
 import { addDraftOrderData } from "../state/draftOrder";
 import toast from 'react-hot-toast';
+import { addBundleData, bundleData, clearBundleData, clearBundleResponse, selectBundleResponse, setBundleResponse } from "../state/bundleData";
+import LoadingAnimation from "./Loader";
+import { addCheckoutData, setCheckoutResponse } from "../state/checkoutData";
 
 export const Bundle = () => {
   const [apiResponse, setApiResponse] = useState(null);
@@ -59,6 +63,36 @@ export const Bundle = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isIpaid, setIsIpaid] = useState(false);
   const selectedMealData = useSelector(selectMealItems);
+  const bundleDatas = useSelector(bundleData);
+  const bundleDataResponse = useSelector(selectBundleResponse);
+
+  const [buyNowLoading, setBuyNowLoading] = useState(null)
+  const handleAddToCheckout = async (variantId) => {
+    try {
+      setBuyNowLoading(variantId);
+      const params = {
+        input: {
+          lineItems: [
+            {
+              variantId: variantId,
+              quantity: 1,
+            },
+          ],
+        },
+      };
+      const response = await graphQLClient.request(checkoutCreate, params);
+      if (response?.checkoutCreate?.userErrors?.length > 0) {
+        console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+        return;
+      }
+      dispatch(setCheckoutResponse(response?.checkoutCreate));
+      dispatch(addCheckoutData(response));
+      setBuyNowLoading(null)
+      navigate('/cardReview', { state: { isBuyNow: true } });
+    } catch (error) {
+      console.error('Error adding to checkout:', error);
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -281,13 +315,56 @@ export const Bundle = () => {
   };
 
   useEffect(() => {
-    if (selectedMealData?.no === draftOrderResponse?.draftOrder?.lineItems?.edges.reduce(
-      (total, edge) => total + edge.node.quantity,
-      0
-    ) || 0) {
-      setShowModel(true);
-    }
-  }, [draftOrderResponse])
+    const fetchData = async () => {
+      if (
+        (selectedMealData?.no === draftOrderResponse?.draftOrder?.lineItems?.edges.reduce(
+          (total, edge) => total + edge.node.quantity,
+          0
+        ) || 0) && issubscribe
+      ) {
+        if (bundleDataResponse?.productId === undefined && bundleDataResponse === null) {
+          setShowModel(true);
+          setIsLoading(true); // Start loading
+
+          try {
+            const params = {
+              metaobjectArray: draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item) => ({
+                id: item?.node?.variant?.product?.id,
+                quantity: item?.node?.quantity,
+                title: `${item?.node?.title} - ${item?.node?.quantity}`,
+              })),
+              productTitle: `${selectedMealData?.no} Meals`,
+              productPrice: `${selectedMealData?.price}`,
+            };
+
+            const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/bundle-products`;
+
+            const response = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(params),
+            });
+
+            if (!response.ok) {
+              throw new Error("Failed to fetch bundle products");
+            }
+
+            const data = await response.json();
+            dispatch(addBundleData(data));
+            dispatch(setBundleResponse(data));
+          } catch (error) {
+            console.error("Error fetching bundle products:", error);
+          } finally {
+            setIsLoading(false); // End loading
+          }
+        }
+      }
+    };
+
+    fetchData();
+  }, [draftOrderResponse, selectedMealData, issubscribe]);
 
   const handleAddToDraftOrder = (productId) => {
     const maxQuantity = selectedMealData.no;
@@ -403,27 +480,64 @@ export const Bundle = () => {
   };
 
 
-  const handleRemoveToDraftOrder = (productId) => {
-    let lineItemsArray = draftOrderResponse?.draftOrder?.lineItems?.edges.map((edge) => ({
-      variantId: edge.node.variant.id,
-      quantity: edge.node.quantity,
-    })) || [];
+  const handleRemoveToDraftOrder = async (productId) => {
+    try {
+      if (bundleDataResponse?.productId !== undefined && bundleDataResponse) {
+        setIsLoading(true); // Start loading before the API call
 
-    const productIndex = lineItemsArray.findIndex(item => item.variantId === productId);
-    const draftOrderId = draftOrderItem?.draftOrderCreate?.draftOrder?.id;
+        const params = {
+          productId: bundleDataResponse?.productId,
+        };
 
-    if (productIndex !== -1) {
-      if (lineItemsArray[productIndex].quantity > 1) {
-        lineItemsArray[productIndex].quantity -= 1;
-      } else {
-        lineItemsArray.splice(productIndex, 1);
+        const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/delete-product`;
+
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to delete the product.");
+        }
+
+        const data = await response.json();
+        console.log("Product deleted:", data);
+        dispatch(clearBundleData());
+        dispatch(clearBundleResponse());
       }
-    } else {
-      console.log("Product not found in the draft order.");
-    }
-    updateDraftOrder(draftOrderId, lineItemsArray);
 
-  }
+      let lineItemsArray =
+        draftOrderResponse?.draftOrder?.lineItems?.edges.map((edge) => ({
+          variantId: edge.node.variant.id,
+          quantity: edge.node.quantity,
+        })) || [];
+
+      const productIndex = lineItemsArray.findIndex(
+        (item) => item.variantId === productId
+      );
+      const draftOrderId = draftOrderItem?.draftOrderCreate?.draftOrder?.id;
+
+      if (productIndex !== -1) {
+        if (lineItemsArray[productIndex].quantity > 1) {
+          lineItemsArray[productIndex].quantity -= 1;
+        } else {
+          lineItemsArray.splice(productIndex, 1);
+        }
+      } else {
+        console.log("Product not found in the draft order.");
+      }
+
+      updateDraftOrder(draftOrderId, lineItemsArray);
+    } catch (error) {
+      console.error("Error removing product from draft order:", error);
+    } finally {
+      setIsLoading(false); // End loading after the API call
+    }
+  };
+
 
 
   const updateDraftOrder = async (draftOrderId, draftOrderItems) => {
@@ -590,6 +704,18 @@ export const Bundle = () => {
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
+                                fbq('track', 'AddToCart', {
+                                  content_name: product.title,
+                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                  content_type: 'product',
+                                  value: product.priceRange?.minVariantPrice?.amount,
+                                  currency: 'INR',
+                                });
+                                gtag('event', 'conversion', {
+                                  'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                  'value': product.priceRange?.minVariantPrice?.amount,
+                                  'currency': 'INR'
+                                });
                                 handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
                               }}
                               className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
@@ -660,6 +786,18 @@ export const Bundle = () => {
                                   type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
+                                    fbq('track', 'AddToCart', {
+                                      content_name: product.title,
+                                      content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                      content_type: 'product',
+                                      value: product.priceRange?.minVariantPrice?.amount,
+                                      currency: 'INR',
+                                    });
+                                    gtag('event', 'conversion', {
+                                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                      'value': product.priceRange?.minVariantPrice?.amount,
+                                      'currency': 'INR'
+                                    });
                                     handleAddToCart(product.variants.edges[0].node.id); // Function for "ADD TO CART"
                                   }}
                                   className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]`}
@@ -669,11 +807,27 @@ export const Bundle = () => {
                               )}
 
                               <button
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  fbq('track', 'InitiateCheckout', {
+                                    content_name: product.title,
+                                    content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                    content_type: 'product',
+                                    value: product.priceRange?.minVariantPrice?.amount,
+                                    currency: 'INR',
+                                  });
+                                  gtag('event', 'conversion', {
+                                    'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                    'value': product.priceRange?.minVariantPrice?.amount,
+                                    'currency': 'INR'
+                                  });
+                                  handleAddToCheckout(product.variants.edges[0].node.id)
+                                }
+                                }
                                 type="button"
-                                className="bg-[#26965C] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                className="bg-[#26965C] text-[#FAFAFA] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
                               >
-                                BUY NOW
+                                {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                               </button>
                             </div>
                           </div>
@@ -731,6 +885,18 @@ export const Bundle = () => {
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
+                                fbq('track', 'AddToCart', {
+                                  content_name: product.title,
+                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                  content_type: 'product',
+                                  value: product.priceRange?.minVariantPrice?.amount,
+                                  currency: 'INR',
+                                });
+                                gtag('event', 'conversion', {
+                                  'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                  'value': product.priceRange?.minVariantPrice?.amount,
+                                  'currency': 'INR'
+                                });
                                 handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
                               }}
                               className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]`}
@@ -798,6 +964,18 @@ export const Bundle = () => {
                                       type="button"
                                       onClick={(e) => {
                                         e.stopPropagation();
+                                        fbq('track', 'AddToCart', {
+                                          content_name: product.title,
+                                          content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                          content_type: 'product',
+                                          value: product.priceRange?.minVariantPrice?.amount,
+                                          currency: 'INR',
+                                        });
+                                        gtag('event', 'conversion', {
+                                          'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                          'value': product.priceRange?.minVariantPrice?.amount,
+                                          'currency': 'INR'
+                                        });
                                         handleAddToCart(product.variants.edges[0].node.id); // Function for Add to Cart
                                       }}
                                       className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]`}
@@ -808,11 +986,27 @@ export const Bundle = () => {
 
 
                                   <button
-                                    onClick={(e) => e.stopPropagation()}
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      fbq('track', 'InitiateCheckout', {
+                                        content_name: product.title,
+                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                        content_type: 'product',
+                                        value: product.priceRange?.minVariantPrice?.amount,
+                                        currency: 'INR',
+                                      });
+                                      gtag('event', 'conversion', {
+                                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                        'value': product.priceRange?.minVariantPrice?.amount,
+                                        'currency': 'INR'
+                                      });
+                                      handleAddToCheckout(product.variants.edges[0].node.id)
+                                    }
+                                    }
                                     type="button"
-                                    className="bg-[#279C66] mt-2 md:mt-0 text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                    className="bg-[#279C66] mt-2 md:mt-0 flex justify-center items-center text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                   >
-                                    BUY NOW
+                                    {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                   </button>
                                 </div>
                               </div>
@@ -823,6 +1017,18 @@ export const Bundle = () => {
                               type="button"
                               onClick={(e) => {
                                 e.stopPropagation();
+                                fbq('track', 'AddToCart', {
+                                  content_name: product.title,
+                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                  content_type: 'product',
+                                  value: product.priceRange?.minVariantPrice?.amount,
+                                  currency: 'INR',
+                                });
+                                gtag('event', 'conversion', {
+                                  'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                  'value': product.priceRange?.minVariantPrice?.amount,
+                                  'currency': 'INR'
+                                });
                                 handleAddToCart(product.variants.edges[0].node.id)
                               }
                               }
@@ -831,11 +1037,27 @@ export const Bundle = () => {
                               {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
                             <button
-                              onClick={(e) => e.stopPropagation()}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                fbq('track', 'InitiateCheckout', {
+                                  content_name: product.title,
+                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                  content_type: 'product',
+                                  value: product.priceRange?.minVariantPrice?.amount,
+                                  currency: 'INR',
+                                });
+                                gtag('event', 'conversion', {
+                                  'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                  'value': product.priceRange?.minVariantPrice?.amount,
+                                  'currency': 'INR'
+                                });
+                                handleAddToCheckout(product.variants.edges[0].node.id)
+                              }
+                              }
                               type="button"
-                              className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
+                              className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
                             >
-                              BUY NOW
+                              {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                             </button>
                           </div>
                         </motion.div>
@@ -890,8 +1112,46 @@ export const Bundle = () => {
                 <div className="flex justify-between">
                   <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-regola-pro text-[24.5px] leading-[32px]">₹</span>510</h1>
                   <div className="flex flex-col md:flex-row md:gap-4">
-                    <button type="button" className="bg-[#f1663ccc] w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">Add to cart</button>
-                    <button type="button" onClick={() => { setShowModel(false) }} className="bg-[#000000E8] w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">Checkout</button>
+                    <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
+                      onClick={() => {
+                        handleAddToCart(bundleDataResponse?.variantId);
+                        fbq('track', 'AddToCart', {
+                          content_name: `${selectedMealData?.no} Meals`,
+                          content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                          content_type: 'product',
+                          value: selectedMealData?.price,
+                          currency: 'INR',
+                        });
+                        gtag('event', 'conversion', {
+                          'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                          'value': selectedMealData?.price,
+                          'currency': 'INR'
+                        });
+                      }}
+                    >
+                      {shaking === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Add to cart'}
+                    </button>
+                    <button type="button" onClick={(e) => {
+                      e.stopPropagation()
+                      fbq('track', 'InitiateCheckout', {
+                        content_name: `${selectedMealData?.no} Meals`,
+                        content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                        content_type: 'product',
+                        value: selectedMealData?.price,
+                        currency: 'INR',
+                      });
+                      gtag('event', 'conversion', {
+                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                        'value': selectedMealData?.price,
+                        'currency': 'INR'
+                      });
+                      handleAddToCheckout(bundleDataResponse?.variantId)
+                      setShowModel(false)
+                    }
+                    } className="bg-[#000000E8] w-[122px] text-center flex justify-center items-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">
+
+                      {buyNowLoading === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Checkout'}
+                    </button>
                   </div>
                 </div>
 
@@ -901,6 +1161,7 @@ export const Bundle = () => {
           :
           ''
       }
+      {isLoading && <LoadingAnimation />}
     </div>
 
   )

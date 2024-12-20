@@ -11,10 +11,11 @@ import selectedCategory from './selectedCategory';
 import subscribe from './subscribeData'
 import draftOrder from './draftOrder'
 import checkoutData from './checkoutData';
+import bundleData from './bundleData'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cartData', 'user', 'selectedCountry', 'mealData', 'subscribe', 'draftOrder', 'checkoutData'],
+  whitelist: ['cartData', 'user', 'selectedCountry', 'mealData', 'subscribe', 'draftOrder', 'checkoutData', 'bundleData'],
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
@@ -27,7 +28,8 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   selectedCategory: selectedCategory,
   subscribe: subscribe,
   draftOrder: draftOrder,
-  checkoutData: checkoutData
+  checkoutData: checkoutData,
+  bundleData: bundleData
 }));
 
 export const store = configureStore({

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
 import { cartIsOpen, openCart } from "../state/cart";
 import { useDispatch, useSelector } from "react-redux";
+import QuinnWrapper from "@quinninc/react";
 import { CartDrawer } from "./CartComponent";
 import Rating from "./Rating";
 import {
@@ -109,6 +110,8 @@ const Home = () => {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
   const [showRightFade, setShowRightFade] = useState(false);
+
+
 
   useEffect(() => {
     const updateFadeState = () => {
@@ -1737,7 +1740,14 @@ const Home = () => {
           categoryData?.map((item, i) => (
             <div
               key={item?.node?.id}
-              onClick={() => { dispatch(addCategoryData(item)); navigate('/products'); }}
+              onClick={() => {
+                if (item?.node?.title === 'Bundles') {
+                  navigate('/bundles');
+                } else {
+                  dispatch(addCategoryData(item));
+                  navigate('/products');
+                }
+              }}
               style={{ background: `${colorCategory[i]}` }}
               className={`product-box group relative p-4 w-[50vw] md:w-[25vw] h-[120px] flex items-center cursor-pointer overflow-visible transition-transform duration-200`}
             >
@@ -1913,6 +1923,25 @@ const Home = () => {
             </div>
           </div> */}
         </div>
+      </div>
+
+      <div>
+        {/* Basic Card Widget */}
+        <QuinnWrapper
+          shopName="instantlyyours.in"
+          target="quinn-cards-widget"
+          widgetType="cards"
+          shopType="general"
+        />
+      </div>
+      <div>
+        {/* Basic Card Widget */}
+        <QuinnWrapper
+          shopName="instantlyyours.in"
+          target="quinn-story-widget"
+          widgetType="story"
+          shopType="general"
+        />
       </div>
 
       <div className="bg-[#EFE9DA] sm:mt-0 mt-10">
