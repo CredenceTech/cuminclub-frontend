@@ -76,6 +76,33 @@ const CardReview = () => {
 
     }, [])
 
+    const handlePurchasePixel = () => {
+        if (isBuyNow === true) {
+            fbq('track', 'Purchase', {
+                value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+                currency: 'INR',
+            });
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16743837274/g336COLsjPgZENrcirA-',
+                'value': checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+                'currency': 'INR',
+                'transaction_id': ''
+            });
+        }
+        else {
+            fbq('track', 'Purchase', {
+                value: cartResponse?.cart?.cost?.totalAmount?.amount,
+                currency: 'INR',
+            });
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16743837274/g336COLsjPgZENrcirA-',
+                'value': cartResponse?.cart?.cost?.totalAmount?.amount,
+                'currency': 'INR',
+                'transaction_id': ''
+            });
+        }
+    }
+
     const checkoutResponse = useSelector(selectCheckoutResponse);
     const cancelOrder = () => {
         dispatch(clearCheckoutData())
@@ -736,7 +763,7 @@ const CardReview = () => {
 
                                 {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2> */}
                                 <form onSubmit={formikForLogin.handleSubmit}>
-                                    <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4">Checkout</button>
+                                    <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4" onClick={handlePurchasePixel()}>Checkout</button>
                                 </form>
 
                                 {/* <button type='button' className='rounded-lg font-skillet text-2xl lg:text-4xl mt-[110px] bg-gray-900 text-gray-100 w-full py-4'>Checkout</button> */}
