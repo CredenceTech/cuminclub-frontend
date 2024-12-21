@@ -199,7 +199,7 @@ export const BusinessInquiryForm = () => {
                 { key: 'customer_phone', value: values.phone },
                 { key: 'reason_for_getting_in_touch', value: selectedReason },
             ];
-            if (selectedReason === 'Customer Support') {
+            if (selectedReason === 'Customer support') {
                 fields.push(
                     { key: 'customer_support_reason', value: values.customerSupportReason },
                     { key: 'customer_support_query', value: values.customerSupportQuery },
