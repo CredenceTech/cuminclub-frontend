@@ -4,34 +4,30 @@ import { selectMealItems } from '../state/mealdata';
 import { cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 import { getCartQuery, graphQLClient } from '../api/graphql';
 import { totalQuantity, totalQuantityInDraftOrder } from '../utils';
-import {draftOrderData, selectDraftOrderResponse, setDraftOrderResponse} from '../state/draftOrder';
+import { draftOrderData, selectDraftOrderResponse, setDraftOrderResponse } from '../state/draftOrder';
 
 const SpiceLevel = () => {
     const dispatch = useDispatch();
     const [images, setImages] = useState([]);
     const selectedMealData = useSelector(selectMealItems);
     const draftOrderDatas = useSelector(draftOrderData);
-    const draftOrderResponse=useSelector(selectDraftOrderResponse)
+    const draftOrderResponse = useSelector(selectDraftOrderResponse)
     const total = draftOrderDatas !== null ? totalQuantityInDraftOrder(draftOrderResponse) : 0;
     const filledStars = Math.min(Math.max(0, Math.round(total)), selectedMealData?.no);
     const emptyStars = Math.max(0, +selectedMealData?.no - filledStars);
 
     useEffect(() => {
-        console.log(draftOrderResponse)
         handleAddImage();
     }, [draftOrderResponse]);
 
     const handleAddImage = () => {
         const newImages = [];
-        console.log(draftOrderDatas);
         if (draftOrderDatas) {
-            console.log(draftOrderResponse);
             draftOrderResponse?.draftOrder?.lineItems?.edges?.forEach((item) => {
                 if (item && item?.node?.quantity) {
                     for (let index = 0; index < item?.node?.quantity; index++) {
                         const imageUrl = item?.node?.variant?.product?.metafields?.edges?.find(edge => edge.node.key === "image_for_home")
-                        ?.node?.reference?.image?.originalSrc;
-                        console.log(imageUrl);
+                            ?.node?.reference?.image?.originalSrc;
                         if (imageUrl) {
                             newImages.push(imageUrl);
                         }
@@ -44,7 +40,6 @@ const SpiceLevel = () => {
 
     const starElements = [];
 
-    console.log(images)
 
     for (let i = 0; i < filledStars; i++) {
         starElements.push(
