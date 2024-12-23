@@ -314,6 +314,7 @@ export const Bundle = () => {
     setIsShaking(null);
   };
 
+
   useEffect(() => {
     const fetchData = async () => {
       if (
@@ -503,7 +504,6 @@ export const Bundle = () => {
         }
 
         const data = await response.json();
-        console.log("Product deleted:", data);
         dispatch(clearBundleData());
         dispatch(clearBundleResponse());
       }
@@ -576,10 +576,10 @@ export const Bundle = () => {
                     <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
                     <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
                   </div>
-                  <div >
+                  {/* <div >
                     <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Frequency</h3>
                     <FrequencyDropDown align="right" setDropdownOpen={setFrequentlyOpen} dropdownOpen={frequentlyOpen} />
-                  </div>
+                  </div> */}
                 </div>
 
               </div>
@@ -958,7 +958,7 @@ export const Bundle = () => {
           <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
             <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-full md:w-[500px] bg-[#EADEC1] gap-2 h-full relative top-[95px] md:top-[100px] }`}>
               <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your monthly box</h1>
-              <div className="p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
+              <div className="p-[20px] md:p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
                 {draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item, index) => {
                   const productId = item?.node?.variant?.id;
                   const quantity = item?.node?.quantity || 0;
@@ -971,8 +971,8 @@ export const Bundle = () => {
                       <div key={`${index}-${i}`} className='flex items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
                         <div className='flex flex-row'>
                           <img src={imageUrl} alt={title} className='h-[58px] w-[58px] rounded-lg' />
-                          <div className='ml-4'>
-                            <h1 className='text-xl md:text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333]'>
+                          <div className='ml-4 mt-4'>
+                            <h1 className='text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333]'>
                               {title}
                             </h1>
                           </div>
@@ -991,10 +991,10 @@ export const Bundle = () => {
                   );
                 })}
               </div>
-              <div className="fixed bottom-0 bg-[#EADEC1]  px-[40px] py-8 shadow-[0px_-3px_5px_#0000002E] w-full md:w-[500px] z-[500] ">
+              <div className="fixed bottom-0 bg-[#EADEC1] px-[20px] md:px-[40px] py-4 md:py-8 shadow-[0px_-3px_5px_#0000002E] w-full md:w-[500px] z-[500] ">
                 <div className="flex justify-between">
-                  <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-regola-pro text-[24.5px] leading-[32px]">₹</span>510</h1>
-                  <div className="flex flex-col md:flex-row md:gap-4">
+                  <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-regola-pro text-[24.5px] leading-[32px]">₹</span>{selectedMealData?.price}</h1>
+                  <div className="flex flex-col md:flex-row gap-2 md:gap-4">
                     <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
                       onClick={() => {
                         handleAddToCart(bundleDataResponse?.variantId);
