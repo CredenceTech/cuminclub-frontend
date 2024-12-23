@@ -26,7 +26,7 @@ import { categoryrData } from "../state/selectedCategory";
 import { isSubscribe, subscribeClose, subscribeOpen, } from "../state/subscribeData";
 import FrequencyDropDown from "../component/FrequencyDropDown";
 import ProductFliter from "../component/ProductFliter";
-import { draftOrderData, selectDraftOrderResponse, setDraftOrderResponse } from "../state/draftOrder";
+import { clearDraftOrderData, clearDraftOrderResponse, draftOrderData, selectDraftOrderResponse, setDraftOrderResponse } from "../state/draftOrder";
 import { addDraftOrderData } from "../state/draftOrder";
 import toast from 'react-hot-toast';
 import { addBundleData, bundleData, clearBundleData, clearBundleResponse, selectBundleResponse, setBundleResponse } from "../state/bundleData";
@@ -288,6 +288,9 @@ export const Bundle = () => {
     };
     const response = await graphQLClient.request(createCartMutation, params);
     dispatch(addCartData(response));
+    setShowModel(false);
+    dispatch(clearDraftOrderData());
+    dispatch(clearDraftOrderResponse());
     setIsShaking(null);
   };
 
@@ -302,6 +305,9 @@ export const Bundle = () => {
     );
     dispatch(setCartResponse(response.cartLinesUpdate));
     setIsShaking(null);
+    setShowModel(false);
+    dispatch(clearDraftOrderData());
+    dispatch(clearDraftOrderResponse());
   };
 
   const updateCart = async (cartId, cartItem) => {
@@ -312,6 +318,9 @@ export const Bundle = () => {
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
     setIsShaking(null);
+    setShowModel(false);
+    dispatch(clearDraftOrderData());
+    dispatch(clearDraftOrderResponse());
   };
 
 
