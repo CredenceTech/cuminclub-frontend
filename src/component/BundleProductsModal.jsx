@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const ProductsModal = ({ data, onClose }) => {
+const BundleProductsModal = ({ data, onClose }) => {
   const modalRef = React.useRef();
 
   const handleClickOutside = (event) => {
@@ -9,6 +9,8 @@ const ProductsModal = ({ data, onClose }) => {
       onClose();
     }
   };
+
+  console.log(data?.items)
 
   React.useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -22,7 +24,7 @@ const ProductsModal = ({ data, onClose }) => {
       <div ref={modalRef} className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">{data?.status}</h2>
+          <h2 className="text-xl font-bold">Bundle Products</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 focus:outline-none"
@@ -33,22 +35,20 @@ const ProductsModal = ({ data, onClose }) => {
 
         {/* Item List */}
         <div className="space-y-4">
-          {data?.items?.edges?.map((item, index) => (
+          {data?.map((item, index) => (
             <div key={index} className="border-b pb-4 mb-4 flex">
                <div className="w-1/3">
                 <img
-                  src={item?.node?.variant.product.metafields.find(
-                    (metafield) => metafield.key === 'image_for_home'
-                  ).reference.image.originalSrc || "placeholder.jpg"}
-                  alt={item.name || "Item Image"}
+                  src={item?.image}
+                  alt={item?.title || "Item Image"}
                   className="w-[80px] h-[80px] object-cover rounded-md"
                 />
               </div>
               <div className="w-[50%]">
-                <p className="text-lg font-bold">{item?.node?.title}</p>
+                <p className="text-lg font-bold">{item?.title}</p>
               </div>
               <div className="w-[17%]">
-                <p className="text-lg font-bold"> x {item?.node?.quantity}</p>
+                <p className="text-lg font-bold"> x {item?.quantity}</p>
               </div>
             </div>
           ))}
@@ -69,4 +69,4 @@ const ProductsModal = ({ data, onClose }) => {
   );
 };
 
-export default ProductsModal;
+export default BundleProductsModal;
