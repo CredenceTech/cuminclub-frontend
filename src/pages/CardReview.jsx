@@ -55,12 +55,9 @@ const CardReview = () => {
     };
 
     useEffect(() => {
-        if (isBuyNow === true) {
-            setIsLoading(true);
+        if(isBuyNow===true){
             updateCheckoutResponseWithRelatedProducts();
-        }
-        else {
-            setIsLoading(true);
+        }else{
             updateCartResponseWithRelatedProducts();
         }
     }, [])
@@ -107,7 +104,6 @@ const CardReview = () => {
                 lineItem.node.relatedProducts = relatedProducts.filter((product) => product !== null);
             }
         }
-        setIsLoading(false);
 
     };
 
@@ -141,16 +137,9 @@ const CardReview = () => {
                 lineItem.node.relatedProducts = relatedProducts.filter((product) => product !== null);
             }
         }
-        setIsLoading(false);
 
     };
 
-
-
-
-
-
-    console.log(checkoutResponse)
 
     // useEffect(() => {
     //     if (isBuyNow === true) {
