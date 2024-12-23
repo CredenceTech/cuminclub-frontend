@@ -455,6 +455,8 @@ export const createCartMutation = gql`
                   handle
                    metafields(identifiers: [
       { namespace: "custom", key: "image_for_home" }
+       { namespace: "custom", key: "bundle_product" }
+       
     ]) {
       value
       key
@@ -541,6 +543,7 @@ mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
                   handle
                   metafields(identifiers: [
       { namespace: "custom", key: "image_for_home" }
+         { namespace: "custom", key: "bundle_product" }
     ]) {
       value
       key
@@ -620,6 +623,7 @@ mutation addCartLines($cartId: ID!, $lines: [CartLineInput!]!) {
                   handle
                   metafields(identifiers: [
       { namespace: "custom", key: "image_for_home" }
+         { namespace: "custom", key: "bundle_product" }
     ]) {
       value
       key
@@ -899,10 +903,19 @@ export const getProductDetailQuery = gql`
         { namespace: "custom", key: "how_to_prepare" },
         { namespace: "custom", key: "nutrition_facts" },
         { namespace: "custom", key: "ingredient" },
-        {namespace: "custom", key: "component_reference"}
+        {namespace: "custom", key: "component_reference"},
+         { namespace: "custom", key: "image_for_home" }
       ]) {
         value
         key
+         reference {
+          ... on MediaImage {
+            image {
+              originalSrc
+              altText
+            }
+          }
+        }
       }
     }
   }
@@ -1359,7 +1372,8 @@ query GetProductDetails($id: ID!) {
       { namespace: "custom", key: "how_to_prepare" },
       { namespace: "custom", key: "nutrition_facts" },
       { namespace: "custom", key: "ingredient" },
-      { namespace: "custom", key: "component_reference" }
+      { namespace: "custom", key: "component_reference" },
+         { namespace: "custom", key: "bundle_product" }
     ]) {
       value
       key
@@ -1848,6 +1862,7 @@ mutation checkoutCreate($input: CheckoutCreateInput!) {
                 metafields(
                   identifiers: [
                     { namespace: "custom", key: "image_for_home" }
+                       { namespace: "custom", key: "bundle_product" }
                   ]
                 ) {
                   value
@@ -1879,4 +1894,16 @@ mutation checkoutCreate($input: CheckoutCreateInput!) {
   }
 }
 
+`;
+
+export const getBundleProductDetails = gql`
+  query getBundleProductDetails($id: ID!) {
+  metaobject(id: $id) {
+    id
+    fields {
+      key
+      value
+  }
+  }
+  }
 `;

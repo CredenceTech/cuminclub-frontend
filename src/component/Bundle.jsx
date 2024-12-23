@@ -88,6 +88,10 @@ export const Bundle = () => {
       dispatch(setCheckoutResponse(response?.checkoutCreate));
       dispatch(addCheckoutData(response));
       setBuyNowLoading(null)
+      dispatch(clearDraftOrderData());
+      dispatch(clearDraftOrderResponse());
+      dispatch(clearBundleData());
+      dispatch(clearBundleResponse());
       navigate('/cardReview', { state: { isBuyNow: true } });
     } catch (error) {
       console.error('Error adding to checkout:', error);
@@ -291,6 +295,8 @@ export const Bundle = () => {
     setShowModel(false);
     dispatch(clearDraftOrderData());
     dispatch(clearDraftOrderResponse());
+    dispatch(clearBundleData());
+    dispatch(clearBundleResponse());
     setIsShaking(null);
   };
 
@@ -308,6 +314,8 @@ export const Bundle = () => {
     setShowModel(false);
     dispatch(clearDraftOrderData());
     dispatch(clearDraftOrderResponse());
+    dispatch(clearBundleData());
+    dispatch(clearBundleResponse());
   };
 
   const updateCart = async (cartId, cartItem) => {
@@ -319,8 +327,11 @@ export const Bundle = () => {
     dispatch(setCartResponse(response.cartLinesAdd));
     setIsShaking(null);
     setShowModel(false);
+
     dispatch(clearDraftOrderData());
     dispatch(clearDraftOrderResponse());
+    dispatch(clearBundleData());
+    dispatch(clearBundleResponse());
   };
 
 
