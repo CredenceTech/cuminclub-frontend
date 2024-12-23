@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import product from '../assets/Dish-1.jpg'
-import { createCartMutation, getCartQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
+import { createCartMutation, getBundleProductDetails, getCartQuery, getProductDetailQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
 import { addCartData, cartData, clearCartData, clearCartResponse, selectCartResponse, setCartResponse, } from '../state/cartData';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingAnimation from "../component/Loader";
@@ -22,6 +22,7 @@ import toast from 'react-hot-toast';
 import BlazeSDK from '@juspay/blaze-sdk-web';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { clearCheckoutData, clearCheckoutResponse, selectCheckoutResponse } from '../state/checkoutData';
+import BundleProductsModal from '../component/BundleProductsModal';
 
 const CardReview = () => {
     const cartDatas = useSelector(cartData);
@@ -43,9 +44,113 @@ const CardReview = () => {
     const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
     const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
     const checkoutResponse = useSelector(selectCheckoutResponse);
-
-
     const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
+    const [bundleModalData, setBundleModalData] = useState(null)
+    const openBundleModal = (data) => {
+        setBundleModalData(data);
+    };
+
+    const closeBundleModal = () => {
+        setBundleModalData(null);
+    };
+
+    useEffect(() => {
+        if (isBuyNow === true) {
+            setIsLoading(true);
+            updateCheckoutResponseWithRelatedProducts();
+        }
+        else {
+            setIsLoading(true);
+            updateCartResponseWithRelatedProducts();
+        }
+    }, [])
+
+    const fetchBundleProductDetails = async (bundleProductIds) => {
+        const response = await graphQLClient.request(getBundleProductDetails, { id: bundleProductIds });
+        return response?.metaobject;
+
+    };
+
+    const fetchProductDetails = async (productId) => {
+        const response = await graphQLClient.request(getProductDetailQuery, { productId: productId });
+        return response.product;
+    };
+
+    const updateCartResponseWithRelatedProducts = async () => {
+
+        if (!cartResponse?.cart?.lines?.edges) return;
+
+        for (const lineItem of cartResponse.cart.lines.edges) {
+            const metafields = lineItem?.node?.merchandise?.product?.metafields || [];
+            const bundleProductMetafield = metafields?.find((field) => field?.key === "bundle_product")?.value;
+
+            if (bundleProductMetafield) {
+                const relatedProducts = await Promise.all(
+                    JSON.parse(bundleProductMetafield).map(async (metaobjectId) => {
+                        const bundleMetaObject = await fetchBundleProductDetails(metaobjectId);
+                        const productField = bundleMetaObject.fields.find((field) => field.key === "product");
+                        const quantityField = bundleMetaObject.fields.find((field) => field.key === "quantity");
+                        if (productField) {
+                            const productDetails = await fetchProductDetails(productField.value);
+                            return {
+                                quantity: parseInt(quantityField?.value) || 1,
+                                title: productDetails.title,
+                                image: productDetails?.metafields?.find(
+                                    (metafield) => metafield && metafield.key === 'image_for_home'
+                                )?.reference?.image?.originalSrc,
+                            };
+                        }
+                        return null;
+                    })
+                );
+
+                lineItem.node.relatedProducts = relatedProducts.filter((product) => product !== null);
+            }
+        }
+        setIsLoading(false);
+
+    };
+
+    const updateCheckoutResponseWithRelatedProducts = async () => {
+        if (!checkoutResponse?.checkout?.lineItems?.edges) return;
+
+        for (const lineItem of checkoutResponse?.checkout?.lineItems?.edges) {
+            const metafields = lineItem?.node?.variant?.product?.metafields || [];
+            const bundleProductMetafield = metafields?.find((field) => field?.key === "bundle_product")?.value;
+
+            if (bundleProductMetafield) {
+                const relatedProducts = await Promise.all(
+                    JSON.parse(bundleProductMetafield).map(async (metaobjectId) => {
+                        const bundleMetaObject = await fetchBundleProductDetails(metaobjectId);
+                        const productField = bundleMetaObject.fields.find((field) => field.key === "product");
+                        const quantityField = bundleMetaObject.fields.find((field) => field.key === "quantity");
+                        if (productField) {
+                            const productDetails = await fetchProductDetails(productField.value);
+                            return {
+                                quantity: parseInt(quantityField?.value) || 1,
+                                title: productDetails.title,
+                                image: productDetails?.metafields?.find(
+                                    (metafield) => metafield && metafield.key === 'image_for_home'
+                                )?.reference?.image?.originalSrc,
+                            };
+                        }
+                        return null;
+                    })
+                );
+
+                lineItem.node.relatedProducts = relatedProducts.filter((product) => product !== null);
+            }
+        }
+        setIsLoading(false);
+
+    };
+
+
+
+
+
+
+    console.log(checkoutResponse)
 
     // useEffect(() => {
     //     if (isBuyNow === true) {
@@ -109,7 +214,6 @@ const CardReview = () => {
         dispatch(clearCheckoutResponse())
     }
     const callbackMethod = (response) => {
-        console.log('Response from SDK:', response);
         let result = JSON.parse(response)
         if (result?.payload?.methodName === "clearCart") {
             if (checkoutResponse !== null) {
@@ -280,7 +384,6 @@ const CardReview = () => {
         initialValues: initialValuesByLoginForWithoutLogin || null,
         validationSchema: validationSchemaForWithoutLogin || null,
         onSubmit: async (values) => {
-            console.log('formikForWitoutLogin submitted with values:', values);
             const body = {
                 firstName: values.firstName,
                 lastName: values.lastName,
@@ -363,7 +466,6 @@ const CardReview = () => {
     }
 
     function processPayment(payload) {
-        console.log(cartResponse);
         const cart = cartResponse?.cart;
         const checkout = checkoutResponse?.checkout;
         let processPayload;
@@ -589,6 +691,7 @@ const CardReview = () => {
                 updateCart(cartId, { merchandiseId: productId, quantity: 1 });
             }
         }
+        updateCartResponseWithRelatedProducts();
     };
 
     const addToCart = async (cartItems) => {
@@ -638,6 +741,10 @@ const CardReview = () => {
                                         <span className="text-[20px] leading-[20.1px]">₹</span>{" "}
                                         {checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount}
                                     </p>
+                                    {(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.relatedProducts) && <p onClick={() => openBundleModal(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.relatedProducts)} className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700">
+                                        view products
+                                    </p>
+                                    }
                                 </div>
                                 <div>
                                     <button
@@ -706,6 +813,10 @@ const CardReview = () => {
                                                     </button>
                                                 </div>
                                             }
+                                            {(line?.node?.relatedProducts) && <p className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700" onClick={() => openBundleModal(line?.node?.relatedProducts)}>
+                                                view products
+                                            </p>
+                                            }
                                         </div>
                                     </div>
                                     <div>
@@ -772,6 +883,7 @@ const CardReview = () => {
                     </div>
                 </div>
             </div>
+            {bundleModalData && <BundleProductsModal data={bundleModalData} onClose={closeBundleModal} />}
             {isLoading && <LoadingAnimation />}
         </>
     )
