@@ -42,39 +42,40 @@ const CardReview = () => {
     const userEmail = useSelector(userEmails);
     const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
     const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
+    const checkoutResponse = useSelector(selectCheckoutResponse);
 
 
     const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
 
-    useEffect(() => {
-        if (isBuyNow === true) {
-            fbq('track', 'InitiateCheckout', {
-                content_ids: checkoutResponse?.checkout?.lineItems?.edges[0]?.node.variant.id.split("/").pop(),
-                content_type: 'product',
-                value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
-                currency: 'INR',
-            });
-            gtag('event', 'conversion', {
-                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                'value': checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
-                'currency': 'INR'
-            });
-        }
-        else {
-            fbq('track', 'InitiateCheckout', {
-                content_ids: cartResponse.cart?.lines?.edges.map(line => line.node.merchandise.product.id.split("/").pop()),
-                content_type: 'product_group',
-                value: cartResponse?.cart?.cost?.totalAmount?.amount,
-                currency: 'INR',
-            });
-            gtag('event', 'conversion', {
-                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                'value': cartResponse?.cart?.cost?.totalAmount?.amount,
-                'currency': 'INR'
-            });
-        }
+    // useEffect(() => {
+    //     if (isBuyNow === true) {
+    //         fbq('track', 'InitiateCheckout', {
+    //             content_ids: checkoutResponse?.checkout?.lineItems?.edges[0]?.node.variant.id.split("/").pop(),
+    //             content_type: 'product',
+    //             value: checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+    //             currency: 'INR',
+    //         });
+    //         gtag('event', 'conversion', {
+    //             'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+    //             'value': checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount,
+    //             'currency': 'INR'
+    //         });
+    //     }
+    //     else {
+    //         fbq('track', 'InitiateCheckout', {
+    //             content_ids: cartResponse.cart?.lines?.edges.map(line => line.node.merchandise.product.id.split("/").pop()),
+    //             content_type: 'product_group',
+    //             value: cartResponse?.cart?.cost?.totalAmount?.amount,
+    //             currency: 'INR',
+    //         });
+    //         gtag('event', 'conversion', {
+    //             'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+    //             'value': cartResponse?.cart?.cost?.totalAmount?.amount,
+    //             'currency': 'INR'
+    //         });
+    //     }
 
-    }, [])
+    // }, [isBuyNow, checkoutResponse, cartResponse])
 
     const handlePurchasePixel = () => {
         if (isBuyNow === true) {
@@ -101,9 +102,8 @@ const CardReview = () => {
                 'transaction_id': ''
             });
         }
-    }
+    };
 
-    const checkoutResponse = useSelector(selectCheckoutResponse);
     const cancelOrder = () => {
         dispatch(clearCheckoutData())
         dispatch(clearCheckoutResponse())
@@ -763,7 +763,7 @@ const CardReview = () => {
 
                                 {/* <h2 className="text-[#333333] text-[28px] md:text-[30px] font-regola-pro leading-[43.2px] font-bold mb-2 mt-5 ">Account Details</h2> */}
                                 <form onSubmit={formikForLogin.handleSubmit}>
-                                    <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4" onClick={handlePurchasePixel()}>Checkout</button>
+                                    <button type='submit' className="rounded-lg font-skillet text-[24px] md:text-4xl font-[300] leading-[30px] md:font-[700] md:leading-[50px] mt-[20px] bg-[#000000] text-gray-100 w-full py-4" onClick={handlePurchasePixel}>Checkout</button>
                                 </form>
 
                                 {/* <button type='button' className='rounded-lg font-skillet text-2xl lg:text-4xl mt-[110px] bg-gray-900 text-gray-100 w-full py-4'>Checkout</button> */}
