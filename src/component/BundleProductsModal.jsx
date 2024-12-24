@@ -87,54 +87,46 @@ const BundleProductsModal = ({ data, onClose }) => {
     };
   }, []);
 
-  return ReactDOM.createPortal(
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 z-[500] flex justify-center items-center"
-      role="dialog"
-      aria-modal="true"
-    >
-      <div ref={modalRef} className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Bundle Products</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 focus:outline-none"
-            aria-label="Close Modal"
-          >
-            ✖
-          </button>
-        </div>
+  return (
+    <div ref={modalRef} className="pt-3 md:pt-6 w-full pr-[100px]">
+      {/* <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">Bundle Products</h2>
+        <button
+          onClick={onClose}
+          className="text-gray-500 hover:text-gray-700 focus:outline-none"
+          aria-label="Close Modal"
+        >
+          ✖
+        </button>
+      </div> */}
 
-        {/* Content */}
-        {loading ? (
-          <div className="text-center text-gray-500">Loading...</div>
-        ) : error ? (
-          <div className="text-center text-red-500">{error}</div>
-        ) : (
-          <div className="space-y-4">
-            {bundleData?.map((item, index) => (
-              <div key={index} className="border-b pb-4 mb-4 flex">
-                <div className="w-1/3">
-                  <img
-                    src={item?.image || "/placeholder.png"}
-                    alt={item?.title || "Item Image"}
-                    className="w-[80px] h-[80px] object-cover rounded-md"
-                  />
-                </div>
-                <div className="w-[50%]">
+      {/* Content */}
+      {loading ? (
+        <div className="text-center text-gray-500">Loading...</div>
+      ) : error ? (
+        <div className="text-center text-red-500">{error}</div>
+      ) : (
+        <div className="space-y-4 w-[100%]">
+          {bundleData?.map((item, index) => (
+            <div key={index} className="w-full flex justify-between  border-b-[0.99px] border-[#A3A3A3] pb-2">
+              <div className="flex gap-x-8">
+                <img
+                  src={item?.image || "/placeholder.png"}
+                  alt={item?.title || "Item Image"}
+                  className="w-[80px] h-[80px] object-cover rounded-md"
+                />
+                <div className="">
                   <p className="text-lg font-bold">{item?.title || "Unknown Product"}</p>
                 </div>
-                <div className="w-[17%]">
-                  <p className="text-lg font-bold">x {item?.quantity}</p>
-                </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>,
-    document.body
+              <div className="pr-[40px]">
+                <p className="text-lg font-bold">x {item?.quantity}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 
