@@ -17,33 +17,37 @@ const RecipeList = () => {
                 const { products } = await graphQLClient.request(getproductListQuery, {
                     first: 250,
                     sortKey: 'TITLE',
-                    reverse: false
+                    reverse: false,
                 });
-                const productData = products.edges.map((product) => {
-                    const isRTC = product?.node?.metafields?.find(
-                      (mf) => mf && mf.key === "rtc"
-                    );
-                  
-                    if (isRTC?.value === "true") {
-                      return {
-                        id: product?.node?.id,
-                        title: `${product.node.title} (DIY KIT)`
-                      };
-                    }
-                  
-                    return {
-                      id: product?.node?.id,
-                      title: product?.node?.title
-                    };
-                  });
+
+                const productData = products.edges
+                    .map((product) => {
+                        const rtcMetafield = product?.node?.metafields?.find(
+                            (mf) => mf && mf.key === "rtc"
+                        );
+                        if (rtcMetafield?.value !== null && rtcMetafield?.value !== undefined) {
+                            return {
+                                id: product?.node?.id,
+                                title: rtcMetafield.value === "true"
+                                    ? `${product.node.title} (DIY KIT)`
+                                    : product.node.title,
+                            };
+                        }
+
+                        return null;
+                    })
+                    .filter(Boolean);
+
                 setProductList(productData);
             } catch (error) {
-                console.error('Error fetching product list:', error);
+                console.error("Error fetching product list:", error);
             }
         };
 
         fetchProducts();
     }, []);
+
+
 
     useEffect(() => {
         const apiCall = async () => {
@@ -149,7 +153,7 @@ const RecipeList = () => {
                                     }}
                                 >
                                     <option className='text-[#333333] font-regola-pro  text-[20px] md:text-[22px] w-auto leading-[30.21px] font-[300]' value="" disabled>
-                                    Products
+                                        Products
                                     </option>
                                     {productList.map(product => (
                                         <option
