@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import product from '../assets/Dish-1.jpg'
-import { createCartMutation, getBundleProductDetails, getCartQuery, getProductDetailQuery, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
+import { createCartMutation, graphQLClient, updateCartItemMutation, updateCartMutation } from '../api/graphql';
 import { addCartData, cartData, clearCartData, clearCartResponse, selectCartResponse, setCartResponse, } from '../state/cartData';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingAnimation from "../component/Loader";
@@ -8,9 +8,6 @@ import {
     fetchCustomerInfoQuery,
     registerAccountMutation,
     signInMutation,
-    createAddressMutation,
-    createCheckoutURLMutation,
-    checkoutConnectWithCustomerMutation,
 } from "../api/graphql";
 import plus from "../assets/cross.svg"
 import OrderProduct from '../component/OrderProduct'
@@ -53,93 +50,6 @@ const CardReview = () => {
     const closeBundleModal = () => {
         setBundleModalData(null);
     };
-
-    useEffect(() => {
-        if(isBuyNow===true){
-            updateCheckoutResponseWithRelatedProducts();
-        }else{
-            updateCartResponseWithRelatedProducts();
-        }
-    }, [])
-
-    const fetchBundleProductDetails = async (bundleProductIds) => {
-        const response = await graphQLClient.request(getBundleProductDetails, { id: bundleProductIds });
-        return response?.metaobject;
-
-    };
-
-    const fetchProductDetails = async (productId) => {
-        const response = await graphQLClient.request(getProductDetailQuery, { productId: productId });
-        return response.product;
-    };
-
-    const updateCartResponseWithRelatedProducts = async () => {
-
-        if (!cartResponse?.cart?.lines?.edges) return;
-
-        for (const lineItem of cartResponse.cart.lines.edges) {
-            const metafields = lineItem?.node?.merchandise?.product?.metafields || [];
-            const bundleProductMetafield = metafields?.find((field) => field?.key === "bundle_product")?.value;
-
-            if (bundleProductMetafield) {
-                const relatedProducts = await Promise.all(
-                    JSON.parse(bundleProductMetafield).map(async (metaobjectId) => {
-                        const bundleMetaObject = await fetchBundleProductDetails(metaobjectId);
-                        const productField = bundleMetaObject.fields.find((field) => field.key === "product");
-                        const quantityField = bundleMetaObject.fields.find((field) => field.key === "quantity");
-                        if (productField) {
-                            const productDetails = await fetchProductDetails(productField.value);
-                            return {
-                                quantity: parseInt(quantityField?.value) || 1,
-                                title: productDetails.title,
-                                image: productDetails?.metafields?.find(
-                                    (metafield) => metafield && metafield.key === 'image_for_home'
-                                )?.reference?.image?.originalSrc,
-                            };
-                        }
-                        return null;
-                    })
-                );
-
-                lineItem.node.relatedProducts = relatedProducts.filter((product) => product !== null);
-            }
-        }
-
-    };
-
-    const updateCheckoutResponseWithRelatedProducts = async () => {
-        if (!checkoutResponse?.checkout?.lineItems?.edges) return;
-
-        for (const lineItem of checkoutResponse?.checkout?.lineItems?.edges) {
-            const metafields = lineItem?.node?.variant?.product?.metafields || [];
-            const bundleProductMetafield = metafields?.find((field) => field?.key === "bundle_product")?.value;
-
-            if (bundleProductMetafield) {
-                const relatedProducts = await Promise.all(
-                    JSON.parse(bundleProductMetafield).map(async (metaobjectId) => {
-                        const bundleMetaObject = await fetchBundleProductDetails(metaobjectId);
-                        const productField = bundleMetaObject.fields.find((field) => field.key === "product");
-                        const quantityField = bundleMetaObject.fields.find((field) => field.key === "quantity");
-                        if (productField) {
-                            const productDetails = await fetchProductDetails(productField.value);
-                            return {
-                                quantity: parseInt(quantityField?.value) || 1,
-                                title: productDetails.title,
-                                image: productDetails?.metafields?.find(
-                                    (metafield) => metafield && metafield.key === 'image_for_home'
-                                )?.reference?.image?.originalSrc,
-                            };
-                        }
-                        return null;
-                    })
-                );
-
-                lineItem.node.relatedProducts = relatedProducts.filter((product) => product !== null);
-            }
-        }
-
-    };
-
 
     // useEffect(() => {
     //     if (isBuyNow === true) {
@@ -730,9 +640,13 @@ const CardReview = () => {
                                         <span className="text-[20px] leading-[20.1px]">₹</span>{" "}
                                         {checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount}
                                     </p>
-                                    {(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.relatedProducts) && <p onClick={() => openBundleModal(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.relatedProducts)} className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700">
-                                        view products
-                                    </p>
+                                    {(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
+                                        (metafield) => metafield && metafield.key === "bundle_product"
+                                    )?.value) && <p onClick={() => openBundleModal(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
+                                        (metafield) => metafield && metafield.key === "bundle_product"
+                                    )?.value)} className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700">
+                                            view products
+                                        </p>
                                     }
                                 </div>
                                 <div>
@@ -802,9 +716,11 @@ const CardReview = () => {
                                                     </button>
                                                 </div>
                                             }
-                                            {(line?.node?.relatedProducts) && <p className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700" onClick={() => openBundleModal(line?.node?.relatedProducts)}>
-                                                view products
-                                            </p>
+                                            {(line?.node?.merchandise?.product
+                                                ?.metafields?.find(metafield => metafield && metafield.key === "bundle_product")?.value) && <p className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700" onClick={() => openBundleModal(line?.node?.merchandise?.product
+                                                    ?.metafields?.find(metafield => metafield && metafield.key === "bundle_product")?.value)}>
+                                                    view products
+                                                </p>
                                             }
                                         </div>
                                     </div>
