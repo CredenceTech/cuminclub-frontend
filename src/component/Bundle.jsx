@@ -212,14 +212,15 @@ export const Bundle = () => {
         const transformedProducts = collections.collections.edges.flatMap(category =>
           category.node.products.edges
             .map(product => {
-              const bulk = product.node.metafields.find(mf => mf && mf.key === "bulk");
-              if (bulk?.value === "true") {
-                return null;
+              const rte = product.node.metafields.find(mf => mf && mf.key === "rte");
+              const shouldInclude = rte?.value === "true";
+              if (shouldInclude) {
+                return {
+                  ...product.node,
+                  superTitle: category.node.title,
+                };
               }
-              return {
-                ...product.node,
-                superTitle: category.node.title,
-              };
+              return null;
             })
             .filter(product => product !== null)
         );
