@@ -424,7 +424,10 @@ function ProductDetail() {
                                 return {
                                     id: step?.metaobject?.id,
                                     description: descriptionField?.value,
-                                    video: videoField?.reference?.sources[0]?.url,
+                                    video: videoField?.reference?.sources[0]?.url.replace(
+                                        "https://instantlyyours.in/cdn/shop/",
+                                        "https://76ac20-2.myshopify.com/cdn/shop/"
+                                      ),
                                     ref: refField ? refField.value : '',
                                     time: timeField ? timeField.value : ''
                                 };
