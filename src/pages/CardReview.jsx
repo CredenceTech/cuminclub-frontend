@@ -756,7 +756,7 @@ const CardReview = () => {
                                             } type='button' className='text-[#F15E2A] flex flex-col m-0 md:m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]'>Remove</button>
                                         </div>
                                     </div>
-                                    <div className='lg:ml-24'>
+                                    <div className='xl:ml-24'>
                                         {(line?.node?.merchandise?.product?.metafields?.find(metafield => metafield && metafield.key === "bundle_product")?.value) && (isSelectedModel === index) && bundleModalData && <BundleProductsModal data={bundleModalData} onClose={closeBundleModal} />}
                                     </div>
                                 </div>

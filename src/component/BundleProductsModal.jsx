@@ -88,7 +88,7 @@ const BundleProductsModal = ({ data, onClose }) => {
   }, []);
 
   return (
-    <div ref={modalRef} className="pt-3 md:pt-6 w-full pr-[100px]">
+    <div ref={modalRef} className="pt-3 md:pt-6 w-full">
       {/* <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Bundle Products</h2>
         <button
@@ -109,18 +109,18 @@ const BundleProductsModal = ({ data, onClose }) => {
         <div className="space-y-4 w-[100%]">
           {bundleData?.map((item, index) => (
             <div key={index} className="w-full flex justify-between  border-b-[0.99px] border-[#A3A3A3] pb-2">
-              <div className="flex gap-x-8">
+              <div className="flex gap-x-3 lg:gap-x-8">
                 <img
                   src={item?.image || "/placeholder.png"}
                   alt={item?.title || "Item Image"}
                   className="w-[80px] h-[80px] object-cover rounded-md"
                 />
                 <div className="">
-                  <p className="text-lg font-bold">{item?.title || "Unknown Product"}</p>
+                  <p className="text-lg font-regola-pro font-bold">{item?.title || "Unknown Product"}</p>
                 </div>
               </div>
-              <div className="pr-[40px]">
-                <p className="text-lg font-bold">x {item?.quantity}</p>
+              <div className="lg:pr-[40px]">
+                <p className="text-lg font-regola-pro font-bold">x {item?.quantity}</p>
               </div>
             </div>
           ))}
