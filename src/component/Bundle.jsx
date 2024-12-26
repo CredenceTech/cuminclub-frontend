@@ -238,102 +238,103 @@ export const Bundle = () => {
 
 
   const handleAddToCart = (productId, sellingPlanId) => {
-    setIsShaking(productId);
+    console.log("testt")
+    setIsShaking(productId)
     if (cartDatas === null) {
       if (sellingPlanId) {
-        addToCart({
-          merchandiseId: productId,
-          sellingPlanId: sellingPlanId,
-          quantity: 1,
-        });
+        addToCart({ merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
       } else {
         addToCart({ merchandiseId: productId, quantity: 1 });
       }
     }
+    else {
 
-    const productInCart = cartResponse?.cart?.lines?.edges.find((cartItem) => {
-      return cartItem.node.merchandise.id === productId;
-    });
+      const productInCart = cartResponse?.cart?.lines?.edges.find(cartItem => {
+        return cartItem.node.merchandise.id === productId;
+      });
 
-    if (productInCart) {
-      const quantityInCart = productInCart.node.quantity;
-      const cartId = cartDatas?.cartCreate?.cart?.id;
-      const id = productInCart?.node?.id;
-      if (sellingPlanId) {
-        updateCartItem(productId, cartId, {
-          id: id,
-          sellingPlanId: sellingPlanId,
-          quantity: quantityInCart + 1,
-        });
+      if (productInCart) {
+        const quantityInCart = productInCart.node.quantity;
+        const cartId = cartDatas?.cartCreate?.cart?.id
+        const id = productInCart?.node?.id
+        if (sellingPlanId) {
+          updateCartItem(cartId, { id: id, sellingPlanId: sellingPlanId, quantity: quantityInCart + 1 }, productId);
+        } else {
+          updateCartItem(cartId, { id: id, quantity: quantityInCart + 1 }, productId);
+        }
       } else {
-        updateCartItem(productId, cartId, {
-          id: id,
-          quantity: quantityInCart + 1,
-        });
-      }
-    } else {
-      const cartId = cartDatas?.cartCreate?.cart?.id;
-      if (sellingPlanId) {
-        updateCart(cartId, {
-          merchandiseId: productId,
-          sellingPlanId: sellingPlanId,
-          quantity: 1,
-        });
-      } else {
-        updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+        const cartId = cartDatas?.cartCreate?.cart?.id
+        if (sellingPlanId) {
+          updateCart(cartId, { merchandiseId: productId, sellingPlanId: sellingPlanId, quantity: 1 });
+        } else {
+          updateCart(cartId, { merchandiseId: productId, quantity: 1 });
+        }
       }
     }
   };
 
   const addToCart = async (cartItems) => {
     const params = {
-      cartInput: {
-        lines: [cartItems],
-      },
-    };
+      "cartInput": {
+        "lines": [
+          cartItems
+        ]
+      }
+    }
     const response = await graphQLClient.request(createCartMutation, params);
-    dispatch(addCartData(response));
+    dispatch(addCartData(response))
+    dispatch(setCartResponse(response.cartCreate))
     setShowModel(false);
     dispatch(clearDraftOrderData());
     dispatch(clearDraftOrderResponse());
     dispatch(clearBundleData());
     dispatch(clearBundleResponse());
-    setIsShaking(null);
-  };
+    setIsShaking(null)
+    // setLoading((prevLoading) => ({
+    //     ...prevLoading,
+    //     [cartItems.merchandiseId]: false,
+    // }));
+  }
 
-  const updateCartItem = async (a, cartId, cartItem) => {
+  const updateCartItem = async (cartId, cartItem, id) => {
     const params = {
-      cartId: cartId,
-      lines: cartItem,
-    };
-    const response = await graphQLClient.request(
-      updateCartItemMutation,
-      params
-    );
+      "cartId": cartId,
+      "lines": cartItem
+    }
+    const response = await graphQLClient.request(updateCartItemMutation, params);
     dispatch(setCartResponse(response.cartLinesUpdate));
-    setIsShaking(null);
     setShowModel(false);
     dispatch(clearDraftOrderData());
     dispatch(clearDraftOrderResponse());
     dispatch(clearBundleData());
     dispatch(clearBundleResponse());
-  };
+    setIsShaking(null);
+    // setLoading((prevLoading) => ({
+    //     ...prevLoading,
+    //     [id]: false,
+    // }));
+  }
 
   const updateCart = async (cartId, cartItem) => {
     const params = {
-      cartId: cartId,
-      lines: [cartItem],
-    };
+      "cartId": cartId,
+      "lines": [
+        cartItem
+      ]
+    }
     const response = await graphQLClient.request(updateCartMutation, params);
     dispatch(setCartResponse(response.cartLinesAdd));
-    setIsShaking(null);
     setShowModel(false);
-
     dispatch(clearDraftOrderData());
     dispatch(clearDraftOrderResponse());
     dispatch(clearBundleData());
     dispatch(clearBundleResponse());
-  };
+    setIsShaking(null);
+    // setLoading((prevLoading) => ({
+    //     ...prevLoading,
+    //     [cartItem.merchandiseId]: false,
+    // }));
+  }
 
 
   useEffect(() => {
@@ -857,7 +858,7 @@ export const Bundle = () => {
                             <img
                               src={productSmallImage}
                               alt={product.title}
-                              className="w-full h-full  rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
+                              className="w-full h-full object-cover rounded-t-3xl rounded-b-[0px]  md:rounded-3xl group-hover:scale-110 transform transition-transform duration-200"
                             />
                             <div className="absolute top-0 left-0 w-full flex flex-col justify-between h-full">
                               <div className="p-2 md:p-5">

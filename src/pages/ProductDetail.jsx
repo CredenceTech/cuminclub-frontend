@@ -11,6 +11,7 @@ import ReactPlayer from 'react-player';
 import LoadingAnimation from '../component/Loader';
 import { addCartData, cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
+import { Analytics } from '@shopify/hydrogen';
 
 const variants = {
     enter: (direction) => {
@@ -72,6 +73,7 @@ function ProductDetail() {
     const section1Ref = useRef(null);
     const [visibleFeedbackCount, setVisibleFeedbackCount] = useState(3);
     const [buyNowLoading, setBuyNowLoading] = useState(null)
+    const [analyticsData, setAnalyticsData] = useState(null);;
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
@@ -369,6 +371,12 @@ function ProductDetail() {
 
                     setProductData(response?.product);
                     const product = response?.product;
+                    const data = [{
+                        id: product.id,
+                        title: product.title,
+                        handle: product.handle
+                    }]
+                    setAnalyticsData(data)
                     if (product) {
                         fbq('track', 'ViewContent', {
                             content_name: product.title,
@@ -427,7 +435,7 @@ function ProductDetail() {
                                     video: videoField?.reference?.sources[0]?.url.replace(
                                         "https://instantlyyours.in/cdn/shop/",
                                         "https://76ac20-2.myshopify.com/cdn/shop/"
-                                      ),
+                                    ),
                                     ref: refField ? refField.value : '',
                                     time: timeField ? timeField.value : ''
                                 };
@@ -689,7 +697,7 @@ function ProductDetail() {
 
     return (
         <div className='bg-white other-page'>
-
+            <Analytics.ProductView data={analyticsData} />
             {!loading ?
                 <>
                     <div className="flex md:flex-row flex-col pb-10">
@@ -951,10 +959,10 @@ function ProductDetail() {
                                                 content_name: productData?.title,
                                                 content_ids: [productData?.variants.edges[0].node.id.split("/").pop()],
                                                 content_type: 'product',
-                                                value: productData?.priceRange?.minVariantPrice?.amount, 
-                                                currency: 'INR', 
-                                              });
-                                              gtag('event', 'conversion', {
+                                                value: productData?.priceRange?.minVariantPrice?.amount,
+                                                currency: 'INR',
+                                            });
+                                            gtag('event', 'conversion', {
                                                 'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                                 'value': productData.priceRange?.minVariantPrice?.amount,
                                                 'currency': 'INR'
@@ -962,22 +970,22 @@ function ProductDetail() {
                                             handleAddToCart(productData?.variants.edges[0].node.id)
                                         }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>
                                     <button
-                                        onClick={() =>{
+                                        onClick={() => {
                                             fbq('track', 'InitiateCheckout', {
                                                 content_name: productData?.title,
                                                 content_ids: [productData?.variants.edges[0].node.id.split("/").pop()],
                                                 content_type: 'product',
-                                                value: productData?.priceRange?.minVariantPrice?.amount, 
-                                                currency: 'INR', 
-                                              });
-                                              gtag('event', 'conversion', {
+                                                value: productData?.priceRange?.minVariantPrice?.amount,
+                                                currency: 'INR',
+                                            });
+                                            gtag('event', 'conversion', {
                                                 'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
                                                 'value': productData.priceRange?.minVariantPrice?.amount,
                                                 'currency': 'INR'
                                             });
                                             handleAddToCheckout(productData?.variants.edges[0].node.id)
                                         }
-                                    }
+                                        }
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] flex justify-center items-center rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>
                                         {buyNowLoading === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
@@ -1223,20 +1231,22 @@ function ProductDetail() {
                                                         alt=""
                                                         className="rounded-full object-cover"
                                                     />
-                                                    <div onClick={(e) => { e.preventDefault();
-                                                           fbq('track', 'AddToCart', {
+                                                    <div onClick={(e) => {
+                                                        e.preventDefault();
+                                                        fbq('track', 'AddToCart', {
                                                             content_name: item?.node?.title,
                                                             content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
                                                             content_type: 'product',
-                                                            value: item?.node?.priceRange?.minVariantPrice?.amount, 
-                                                            currency: 'INR', 
-                                                          });
-                                                          gtag('event', 'conversion', {
+                                                            value: item?.node?.priceRange?.minVariantPrice?.amount,
+                                                            currency: 'INR',
+                                                        });
+                                                        gtag('event', 'conversion', {
                                                             'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                                             'value': item?.node?.priceRange?.minVariantPrice?.amount,
                                                             'currency': 'INR'
                                                         });
-                                                        handleAddToCart(item?.node?.variants.edges[0].node.id) }} className='md:hidden flex absolute -bottom-[4px] right-[10px]'>
+                                                        handleAddToCart(item?.node?.variants.edges[0].node.id)
+                                                    }} className='md:hidden flex absolute -bottom-[4px] right-[10px]'>
                                                         <button type='button' className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''} flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`} onClick={() => {
                                                         }
                                                         }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
@@ -1261,15 +1271,15 @@ function ProductDetail() {
                                                             content_name: item?.node?.title,
                                                             content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
                                                             content_type: 'product',
-                                                            value: item?.node?.priceRange?.minVariantPrice?.amount, 
-                                                            currency: 'INR', 
-                                                          });
-                                                          gtag('event', 'conversion', {
+                                                            value: item?.node?.priceRange?.minVariantPrice?.amount,
+                                                            currency: 'INR',
+                                                        });
+                                                        gtag('event', 'conversion', {
                                                             'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                                             'value': item?.node?.priceRange?.minVariantPrice?.amount,
                                                             'currency': 'INR'
                                                         });
-                                                      handleAddToCart(item?.node?.variants.edges[0].node.id)
+                                                        handleAddToCart(item?.node?.variants.edges[0].node.id)
                                                     }
                                                     }> {shaking === item?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : '+'}</button>
                                                 </div>
