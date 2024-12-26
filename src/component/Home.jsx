@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import food from '../assets/food.png';
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, unstable_HistoryRouter, useNavigate } from "react-router-dom";
@@ -111,7 +111,30 @@ const Home = () => {
   const [atEnd, setAtEnd] = useState(false);
   const [showRightFade, setShowRightFade] = useState(false);
 
-
+  useEffect(() => {
+    window.addEventListener("onquinnevents", (e) => {
+      const { eventName, data } = e.detail;
+      switch (eventName) {
+        case "quinn_add_to_cart":
+          if (data?.cartCreate !== undefined) {
+            dispatch(addCartData(data));
+            dispatch(setCartResponse(data.cartCreate));
+          }
+          else if (data?.cartLinesUpdate) {
+            dispatch(setCartResponse(data.cartLinesUpdate));
+          }
+          else {
+            dispatch(setCartResponse(data.cartLinesAdd));
+          }
+          console.log(data);
+          break;
+        case "cart_button_clicked":
+          navigate('/cardReview')
+          console.log("quinn cart button clicked");
+          break;
+      }
+    });
+  }, [])
 
   useEffect(() => {
     const updateFadeState = () => {
@@ -428,6 +451,7 @@ const Home = () => {
 
 
   const handleAddToCart = (productId, sellingPlanId) => {
+    console.log("testt")
     setIsShaking(productId)
     if (cartDatas === null) {
       if (sellingPlanId) {
@@ -1925,7 +1949,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div>
+      <div className="pb-[20px]">
         {/* Basic Card Widget */}
         <QuinnWrapper
           shopName="instantlyyours.in"
@@ -1934,7 +1958,8 @@ const Home = () => {
           shopType="general"
         />
       </div>
-      <div>
+
+      <div className="pb-[40px]">
         {/* Basic Card Widget */}
         <QuinnWrapper
           shopName="instantlyyours.in"

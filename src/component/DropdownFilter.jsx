@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Transition from '../../utils/Transition';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMeal, selectMealItems } from '../state/mealdata';
-import { clearDraftOrderData, clearDraftOrderResponse } from '../state/draftOrder';
+import { clearDraftOrderData, clearDraftOrderResponse, selectDraftOrderResponse } from '../state/draftOrder';
 import { clearBundleData, clearBundleResponse } from '../state/bundleData';
 
 function DropdownFilter({
@@ -15,6 +15,25 @@ function DropdownFilter({
   const dropdown = useRef(null);
   const dispatch = useDispatch();
   const selectedMealData = useSelector(selectMealItems);
+  const draftOrderResponse = useSelector(selectDraftOrderResponse);
+
+  const handleClearData = (item) => {
+
+
+    let currentTotalQuantity =
+      draftOrderResponse?.draftOrder?.lineItems?.edges.reduce(
+        (total, edge) => total + edge.node.quantity,
+        0
+      ) || 0;
+    if ((currentTotalQuantity === selectedMealData?.no) && currentTotalQuantity < item) {
+      dispatch(clearDraftOrderData());
+      dispatch(clearDraftOrderResponse());
+      dispatch(clearBundleData());
+      dispatch(clearBundleResponse());
+    } else {
+      console.log("Condition Not Met: No Action Taken");
+    }
+  }
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -141,11 +160,8 @@ function DropdownFilter({
           <ul className="m-2">
             {data?.map((item) => (
               <li onClick={() => {
-                dispatch(clearDraftOrderData());
-                dispatch(clearDraftOrderResponse());
-                dispatch(clearBundleData());
-                dispatch(clearBundleResponse());
-                dispatch(addMeal(item))
+                handleClearData(item?.no)
+                dispatch(addMeal(item));
               }} key={item?.id} className={`py-1 px-3 cursor-pointer ${selectedMealData?.id === item?.id ? 'opacity-50' : ''} `}>
                 <p className='text-[#231F20] text-xl font-skillet '>{item?.noMeal} <span className='font-regola-pro font-[700] text-[16px] leading-[21.6px] text-[#279C66]'> @ ₹</span><span className='text-[#279C66]'>{item?.price}</span></p>
               </li>
