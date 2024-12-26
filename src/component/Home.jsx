@@ -116,11 +116,11 @@ const Home = () => {
       const { eventName, data } = e.detail;
       switch (eventName) {
         case "quinn_add_to_cart":
-          if (data?.cartCreate !== undefined) {
+          if (data?.cartCreate && data?.cartCreate !== undefined) {
             dispatch(addCartData(data));
             dispatch(setCartResponse(data.cartCreate));
           }
-          else if (data?.cartLinesUpdate) {
+          else if (data?.cartLinesUpdate && data?.cartLinesUpdate !==undefined) {
             dispatch(setCartResponse(data.cartLinesUpdate));
           }
           else {
