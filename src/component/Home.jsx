@@ -130,6 +130,7 @@ const Home = () => {
           break;
         case "cart_button_clicked":
           navigate('/cardReview')
+          window.Quinn.functions.CLOSE_OVERLAY();
           console.log("quinn cart button clicked");
           break;
       }
