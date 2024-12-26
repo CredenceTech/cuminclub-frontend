@@ -113,14 +113,14 @@ const BundleProductsModal = ({ data, onClose }) => {
                 <img
                   src={item?.image || "/placeholder.png"}
                   alt={item?.title || "Item Image"}
-                  className="w-[80px] h-[80px] object-cover rounded-md"
+                  className="w-[60px] h-[60px] md:w-[70px] md:h-[70px] object-cover rounded-md"
                 />
                 <div className="">
-                  <p className="text-lg font-regola-pro font-bold">{item?.title || "Unknown Product"}</p>
+                  <p className="text-[14px] leading-4 md:text-[18px] md:leading-7 font-regola-pro font-bold">{item?.title || "Unknown Product"}</p>
                 </div>
               </div>
               <div className="lg:pr-[40px]">
-                <p className="text-lg font-regola-pro font-bold">x {item?.quantity}</p>
+                <p className="text-[14px] leading-4 md:text-[18px] md:leading-7 whitespace-nowrap font-regola-pro font-bold">x {item?.quantity}</p>
               </div>
             </div>
           ))}

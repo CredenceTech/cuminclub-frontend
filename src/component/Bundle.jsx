@@ -979,7 +979,7 @@ export const Bundle = () => {
         showModel ?
           <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
             <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-[90%] md:w-[500px] bg-[#EADEC1] gap-2 h-full relative top-[0] md:top-[100px] }`}>
-              <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your monthly box</h1>
+              <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your box</h1>
               <div className="p-[20px] md:p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
                 {draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item, index) => {
                   const productId = item?.node?.variant?.id;

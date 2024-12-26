@@ -25,7 +25,7 @@ function DropdownFilter({
         (total, edge) => total + edge.node.quantity,
         0
       ) || 0;
-    if ((currentTotalQuantity === selectedMealData?.no) && currentTotalQuantity < item) {
+    if (((currentTotalQuantity === selectedMealData?.no) && currentTotalQuantity < item) || (currentTotalQuantity > item)) {
       dispatch(clearDraftOrderData());
       dispatch(clearDraftOrderResponse());
       dispatch(clearBundleData());
