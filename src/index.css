@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'RegulaPro';
+  src: url('/Regola\ Pro\ Book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 .borderInMeal {
   border: 2px dashed #80BC42;
@@ -895,4 +902,8 @@ input[type="file"] {
     height: 420px;
     max-width: 180%;
   }
+}
+
+[class^="quinn"] * {
+  font-family: 'RegulaPro', sans-serif;
 }

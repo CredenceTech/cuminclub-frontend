@@ -219,6 +219,14 @@ const ProductSmallCard = ({
 
                                     <button
                                         onClick={(e) => {
+                                            if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                                window.shopifyAnalytics.track('product_added_to_cart', {
+                                                    product_id: product.variants.edges[0].node.id,
+                                                    title: product.title,
+                                                    price: product.priceRange?.minVariantPrice?.amount,
+                                                    currency: 'INR',
+                                                });
+                                            }
                                             fbq('track', 'AddToCart', {
                                                 content_name: product.title,
                                                 content_ids: [product.variants.edges[0].node.id.split("/").pop()],
@@ -254,6 +262,14 @@ const ProductSmallCard = ({
                                 type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                        window.shopifyAnalytics.track('product_added_to_cart', {
+                                            product_id: product.variants.edges[0].node.id,
+                                            title: product.title,
+                                            price: product.priceRange?.minVariantPrice?.amount,
+                                            currency: 'INR',
+                                        });
+                                    }
                                     fbq('track', 'AddToCart', {
                                         content_name: product.title,
                                         content_ids: [product.variants.edges[0].node.id.split("/").pop()],
@@ -338,6 +354,14 @@ const ProductSmallCard = ({
                                             type="button"
                                             onClick={(e) => {
                                                 e.stopPropagation();
+                                                if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                                    window.shopifyAnalytics.track('product_added_to_cart', {
+                                                        product_id: product.variants.edges[0].node.id,
+                                                        title: product.title,
+                                                        price: product.priceRange?.minVariantPrice?.amount,
+                                                        currency: 'INR',
+                                                    });
+                                                }
                                                 fbq('track', 'AddToCart', {
                                                     content_name: product.title,
                                                     content_ids: [product.variants.edges[0].node.id.split("/").pop()],
@@ -388,6 +412,14 @@ const ProductSmallCard = ({
                                 type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                        window.shopifyAnalytics.track('product_added_to_cart', {
+                                            product_id: product.variants.edges[0].node.id,
+                                            title: product.title,
+                                            price: product.priceRange?.minVariantPrice?.amount,
+                                            currency: 'INR',
+                                        });
+                                    }
                                     fbq('track', 'AddToCart', {
                                         content_name: product.title,
                                         content_ids: [product.variants.edges[0].node.id.split("/").pop()],
