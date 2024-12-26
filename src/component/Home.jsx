@@ -100,7 +100,7 @@ const Home = () => {
   const [recipeList, setRecipeList] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [positionX, setPositionX] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const [shaking, setIsShaking] = useState(null);
   const swiperContainerRef = useRef(null);
   const recipeContainerRef = useRef(null);
