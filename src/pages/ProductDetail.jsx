@@ -297,7 +297,7 @@ function ProductDetail() {
             const result = await graphQLClient.request(getRelatedProducts, {
                 first: 50,
                 sortKey: "TITLE",
-                reverse: false,
+                reverse: true,
             });
 
             const products = result?.products?.edges || [];
