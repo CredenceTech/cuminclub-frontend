@@ -167,9 +167,9 @@ export const Product = () => {
             const rtcTrue = [];
             const rteTrue = [];
             try {
-                const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
+                const query = selectedCategory?.node?.title === "All" ? '' : selectedCategory?.node?.title || '';
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
-                    first: 15,
+                    first: 5,
                     reverse: false,
                     query: query,
                 });
@@ -363,7 +363,7 @@ export const Product = () => {
     return (
 
         <div className="w-full bg-[#EFE9DA]">
-            <ProductFliter excludeCategories={[]} />
+            <ProductFliter excludeCategories={['Bundles']} />
             <div className="px-[20px] md:px-[60px]">
                 <AnimatePresence mode="wait">
                     <motion.div

@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @font-face {
   font-family: 'RegulaPro';
   src: url('/Regola\ Pro\ Book.otf') format('opentype');
@@ -902,6 +903,11 @@ input[type="file"] {
     height: 420px;
     max-width: 180%;
   }
+}
+
+[class^="quinn"] .svelte-1rxewty {
+  font-family: 'RegulaPro', sans-serif;
+  font-size: 18px !important;
 }
 
 [class^="quinn"] * {

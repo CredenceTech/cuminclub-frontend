@@ -18,8 +18,8 @@ const ProductFliter = ({ excludeCategories = [] }) => {
                 const filteredCategories = fetchedCategories.filter(
                     category => !excludeCategories.includes(category.node.title)
                 );
-
-                setCategoryData(filteredCategories);
+                const allCategory = { node: { id: '', title: 'All' } };
+                setCategoryData([allCategory, ...filteredCategories]);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
