@@ -187,10 +187,10 @@ export const Bundle = () => {
   useEffect(() => {
     const apiCall = async () => {
       try {
-        const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
+        const query = selectedCategory?.node?.title === "All" ? '' : selectedCategory?.node?.title || '';
 
         const result = await graphQLClient.request(getProductCollectionsQuery, {
-          first: 15,
+          first: 5,
           reverse: false,
           query: query,
         });

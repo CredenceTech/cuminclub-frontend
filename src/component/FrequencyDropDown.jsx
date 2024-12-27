@@ -12,7 +12,7 @@ function FrequencyDropDown({
     const [selectedFreqently, setSelectedFreqently] = useState({
         id: 1,
         title: "Weekly",
-        price: "510",
+        price: "599",
         discountPrice: "2510.12/meal",
         no: 6,
     })
@@ -41,21 +41,21 @@ function FrequencyDropDown({
         {
             id: 1,
             title: "Weekly",
-            price: "510",
+            price: "599",
             discountPrice: "2510.12/meal",
             no: 6,
         },
         {
             id: 2,
             title: "Bi-Weekly",
-            price: "1020",
+            price: "1149",
             discountPrice: "1110.12/meal",
             no: 12,
         },
         {
             id: 3,
             title: "Monthly",
-            price: "1530",
+            price: "1699",
             discountPrice: "1110.12/meal",
             no: 18,
         },
