@@ -74,7 +74,7 @@ const ReadyToEat = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      setIsIpaid(window.innerWidth <=1280)
+      setIsIpaid(window.innerWidth <= 1280)
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -170,10 +170,10 @@ const ReadyToEat = () => {
   useEffect(() => {
     const apiCall = async () => {
       try {
-        const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
+        const query = selectedCategory?.node?.title === "All" ? '' : selectedCategory?.node?.title || '';
 
         const result = await graphQLClient.request(getProductCollectionsQuery, {
-          first: 15,
+          first: 5,
           reverse: false,
           query: query,
         });
@@ -839,10 +839,10 @@ const ReadyToEat = () => {
                     className="container mx-auto grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-10"
                   >
                     {transformedProducts?.sort((a, b) => {
-                                const orderA = parseInt(a?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
-                                const orderB = parseInt(b?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
-                                return orderA - orderB; // Ascending order
-                            })?.map((product, productIndex) => {
+                      const orderA = parseInt(a?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                      const orderB = parseInt(b?.metafields?.find((mf) => mf?.key === 'display_order')?.value || 0, 10);
+                      return orderA - orderB; // Ascending order
+                    })?.map((product, productIndex) => {
                       // Determine if this is a long product layout
                       const isLong = isIpaid ? (productIndex % 5 === 0) :
                         ((productIndex % 15 === 0) ||

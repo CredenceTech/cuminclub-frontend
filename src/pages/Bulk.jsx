@@ -147,9 +147,9 @@ export const Bulk = () => {
         const apiCall = async () => {
             setLoading(true);
             try {
-                const query = selectedCategory?.node?.title === "Premium" ? '' : selectedCategory?.node?.title || '';
+                const query = selectedCategory?.node?.title === "All" ? '' : selectedCategory?.node?.title || '';
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
-                    first: 15,
+                    first: 5,
                     reverse: false,
                     query: query,
                 });

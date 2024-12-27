@@ -168,7 +168,7 @@ function ReadyToCook() {
         const apiCall = async () => {
             try {
                 const result = await graphQLClient.request(getProductCollectionsQuery, {
-                    first: 15,
+                    first: 5,
                     reverse: false,
                     query: '',
                 });

@@ -6,7 +6,7 @@ const mealSlice = createSlice({
     selectedItems: {
       id: 2,
       noMeal: "12 Meals",
-      price: "1020",
+      price: "1149",
       discountPrice: "2510.12/meal",
       no: 12,
       subscriptionType: [

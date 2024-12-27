@@ -59,7 +59,7 @@ function DropdownFilter({
     {
       id: 1,
       noMeal: "6 Meals",
-      price: "510",
+      price: "599",
       discountPrice: "2510.12/meal",
       no: 6,
       subscriptionType: [
@@ -82,7 +82,7 @@ function DropdownFilter({
     {
       id: 2,
       noMeal: "12 Meals",
-      price: "1020",
+      price: "1149",
       discountPrice: "1110.12/meal",
       no: 12,
       subscriptionType: [
@@ -105,7 +105,7 @@ function DropdownFilter({
     {
       id: 3,
       noMeal: "18 Meals",
-      price: "1530",
+      price: "1699",
       discountPrice: "1110.12/meal",
       no: 18,
       subscriptionType: [
