@@ -41,7 +41,8 @@ const CardReview = () => {
     const [shippingMethod, setShippingMethod] = useState('prepaidStandard');
     const shippingCost = shippingMethod === 'expressShipping' ? 150 : 0;
     const checkoutResponse = useSelector(selectCheckoutResponse);
-    const isBuyNow = location?.state?.isBuyNow ? location?.state?.isBuyNow : false;
+    const queryParams = new URLSearchParams(location.search);
+    const isBuyNow = queryParams.get("isBuyNow");
     const [bundleModalData, setBundleModalData] = useState(null);
     const [isSelectedModel, setIsSelectedModel] = useState(null);
     const openBundleModal = (data) => {
@@ -389,7 +390,7 @@ const CardReview = () => {
         const cart = cartResponse?.cart;
         const checkout = checkoutResponse?.checkout;
         let processPayload;
-        if (isBuyNow === true) {
+        if (isBuyNow) {
             processPayload = createSDKPayload({
                 "action": "startCheckout",
                 "cart":
@@ -465,6 +466,7 @@ const CardReview = () => {
                     "cart_level_discount_applications": []
                 },
             });
+            console.log("ttttttttt", processPayload);
         }
         else {
             processPayload = createSDKPayload({
@@ -638,10 +640,10 @@ const CardReview = () => {
         <>
             <div className='bg-[#EFE9DA] '>
                 <div className='px-4 lg:px-[45px] min-h-[85vh]'>
-                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your {isBuyNow === true ? "Order" : "Cart"}</h1>
+                    <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your {isBuyNow ? "Order" : "Cart"}</h1>
                     <div className='flex flex-col gap-4 md:gap-6 md:flex-row justify-between'>
                         <div className='w-full px-4 md:w-1/2 mb-4'>
-                            {(isBuyNow === true && checkoutResponse !== null) && (<div className="flex flex-row items-center">
+                            {(isBuyNow && checkoutResponse !== null) && (<div className="flex flex-row items-center">
                                 <img
                                     src={
                                         checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
@@ -681,7 +683,7 @@ const CardReview = () => {
                                 </div>
                             </div>)}
 
-                            {(isBuyNow !== true) && cartResponse?.cart?.lines?.edges?.map((line, index) => {
+                            {(!isBuyNow) && cartResponse?.cart?.lines?.edges?.map((line, index) => {
                                 return <div className='py-3 lg:mr-24 border-b-[0.99px] border-[#A3A3A3]'>
                                     <div key={index} className='flex  items-center justify-between '>
                                         <div className='flex flex-row items-center'>
@@ -770,7 +772,7 @@ const CardReview = () => {
                                     <p className="  font-skillet  lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">Subtotal</p>
                                     <p className="text-lg font-skillet lg:text-[24px] font-[400] leading-[24.5px] text-[#333333]">₹ <span className='lg:text-[32px] font-[400] leading-[32.5px]'>803.6</span></p>
                                 </div> */}
-                                {(isBuyNow !== true) &&
+                                {(!isBuyNow) &&
                                     <div className="mt-3">
                                         <div className="flex flex-row justify-between mb-2">
                                             <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
@@ -788,7 +790,7 @@ const CardReview = () => {
                                     </div>
                                 }
 
-                                {(isBuyNow === true) && <div className="mt-3">
+                                {(isBuyNow) && <div className="mt-3">
                                     <div className="flex flex-row justify-between mb-2">
                                         <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
                                         <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">

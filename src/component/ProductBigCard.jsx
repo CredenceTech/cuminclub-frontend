@@ -21,52 +21,52 @@ const ProductBigCard = ({
     productPrice,
     setLoading,
     loading,
-    rtcCategory 
+    rtcCategory
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [buyNowLoading, setBuyNowLoading]=useState(null)
+    const [buyNowLoading, setBuyNowLoading] = useState(null)
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
-          const params = {
-            input: {
-              lineItems: [
-                {
-                  variantId: variantId,
-                  quantity: 1,
+            const params = {
+                input: {
+                    lineItems: [
+                        {
+                            variantId: variantId,
+                            quantity: 1,
+                        },
+                    ],
                 },
-              ],
-            },
-          };
-          const response = await graphQLClient.request(checkoutCreate, params);
-          if (response?.checkoutCreate?.userErrors?.length > 0) {
-            console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-            return; 
-          }
-          dispatch(setCheckoutResponse(response?.checkoutCreate));
-          dispatch(addCheckoutData(response));
-          setBuyNowLoading(null)
-          navigate('/cardReview', { state: { isBuyNow: true } });
+            };
+            const response = await graphQLClient.request(checkoutCreate, params);
+            if (response?.checkoutCreate?.userErrors?.length > 0) {
+                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+                return;
+            }
+            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            dispatch(addCheckoutData(response));
+            setBuyNowLoading(null)
+            navigate('/cardReview?isBuyNow=true');
         } catch (error) {
-          console.error('Error adding to checkout:', error);
+            console.error('Error adding to checkout:', error);
         }
-      };
+    };
 
     const [categoryColor, setCategoryColor] = useState(null);
-    function getCategoryModified(category){
+    function getCategoryModified(category) {
         if (category?.toUpperCase() === "CURRIES") {
             return "CURRY";
-         } else if (category?.toUpperCase() === "LENTILS") {
+        } else if (category?.toUpperCase() === "LENTILS") {
             return "LENTIL";
-         }
-       else if (category?.toUpperCase() === "SWEETS") {
-             return "SWEET";
-         }
-         else {
-             return category;
-         }
-         return category;
+        }
+        else if (category?.toUpperCase() === "SWEETS") {
+            return "SWEET";
+        }
+        else {
+            return category;
+        }
+        return category;
     }
     useEffect(() => {
         if (categoryTag?.toUpperCase() === "CURRIES") {
@@ -163,14 +163,14 @@ const ProductBigCard = ({
                             >
                                 {getCategoryModified(categoryTag)}
                             </button>
-                            {(rtcCategory===true) && 
-                                  <button
-                                  type="button"
-                                  style={{ backgroundColor: '#000000' }}
-                                  className="flex text-[#FAFAFA] text-[10px] mobile-sm:text-[12px] px-2 mobile-sm:px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
-                              >
-                                  DIY KIT
-                              </button>
+                            {(rtcCategory === true) &&
+                                <button
+                                    type="button"
+                                    style={{ backgroundColor: '#000000' }}
+                                    className="flex text-[#FAFAFA] text-[10px] mobile-sm:text-[12px] px-2 mobile-sm:px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600] mb-3"
+                                >
+                                    DIY KIT
+                                </button>
                             }
                             <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
                                 ₹ {Math.floor(productPrice)}
@@ -203,12 +203,12 @@ const ProductBigCard = ({
                                     </svg>
                                 </button>
                                 {shaking === product.variants.edges[0].node.id ? (
-                                <div className="spinner1"></div>
-                            ) : (
-                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                    {productQuantity}
-                                </span>
-                            )}
+                                    <div className="spinner1"></div>
+                                ) : (
+                                    <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                        {productQuantity}
+                                    </span>
+                                )}
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -224,10 +224,10 @@ const ProductBigCard = ({
                                             content_name: product.title,
                                             content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                             content_type: 'product',
-                                            value: product.priceRange?.minVariantPrice?.amount, 
-                                            currency: 'INR', 
-                                          });
-                                          gtag('event', 'conversion', {
+                                            value: product.priceRange?.minVariantPrice?.amount,
+                                            currency: 'INR',
+                                        });
+                                        gtag('event', 'conversion', {
                                             'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                             'value': product.priceRange?.minVariantPrice?.amount,
                                             'currency': 'INR'
@@ -249,7 +249,7 @@ const ProductBigCard = ({
                                     </svg>
                                 </button>
                             </div>
-                      
+
                         ) : <button
                             type="button"
                             onClick={(e) => {
@@ -266,10 +266,10 @@ const ProductBigCard = ({
                                     content_name: product.title,
                                     content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                     content_type: 'product',
-                                    value: product.priceRange?.minVariantPrice?.amount, 
-                                    currency: 'INR', 
-                                  });
-                                  gtag('event', 'conversion', {
+                                    value: product.priceRange?.minVariantPrice?.amount,
+                                    currency: 'INR',
+                                });
+                                gtag('event', 'conversion', {
                                     'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                     'value': product.priceRange?.minVariantPrice?.amount,
                                     'currency': 'INR'
@@ -316,24 +316,24 @@ const ProductBigCard = ({
                                 className="w-full h-[290px] rounded-t-3xl object-cover group-hover:scale-110 transform transition-transform duration-200"
                             />
                             <div className='flex flex-row absolute top-5 w-[400px] left-5 gap-2'>
-                            <button
-                                type="button"
-                                style={{ backgroundColor: categoryColor }}
-                                className="text-[18px] leading-[27.08px]  text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
-                            >
-                                {getCategoryModified(categoryTag)}
-                            </button>
-                            {(rtcCategory===true) && 
-                                  <button
-                                  type="button"
-                                  style={{ backgroundColor: '#000000' }}
-                                   className="text-[18px] leading-[27.08px]  text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
-                              >
-                                  DIY KIT
-                              </button>
-                            }
+                                <button
+                                    type="button"
+                                    style={{ backgroundColor: categoryColor }}
+                                    className="text-[18px] leading-[27.08px]  text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
+                                >
+                                    {getCategoryModified(categoryTag)}
+                                </button>
+                                {(rtcCategory === true) &&
+                                    <button
+                                        type="button"
+                                        style={{ backgroundColor: '#000000' }}
+                                        className="text-[18px] leading-[27.08px]  text-[#FFFFFF] uppercase px-3 rounded-[10px] py-[4px] tracking-[0.12em] font-regola-pro font-[600]"
+                                    >
+                                        DIY KIT
+                                    </button>
+                                }
                             </div>
-                           
+
                         </div>
                         <div className="px-10 py-3">
                             <div className="flex flex-row justify-between pt-[18px] pb-2">
@@ -369,10 +369,10 @@ const ProductBigCard = ({
                                             content_name: product.title,
                                             content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                             content_type: 'product',
-                                            value: product.priceRange?.minVariantPrice?.amount, 
-                                            currency: 'INR', 
-                                          });
-                                          gtag('event', 'conversion', {
+                                            value: product.priceRange?.minVariantPrice?.amount,
+                                            currency: 'INR',
+                                        });
+                                        gtag('event', 'conversion', {
                                             'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                             'value': product.priceRange?.minVariantPrice?.amount,
                                             'currency': 'INR'
@@ -389,15 +389,16 @@ const ProductBigCard = ({
                                     )}
                                 </button>
                                 <button
-                                    onClick={(e) =>{ e.stopPropagation()
+                                    onClick={(e) => {
+                                        e.stopPropagation()
                                         fbq('track', 'InitiateCheckout', {
                                             content_name: product.title,
                                             content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                             content_type: 'product',
-                                            value: product.priceRange?.minVariantPrice?.amount, 
-                                            currency: 'INR', 
-                                          });
-                                          gtag('event', 'conversion', {
+                                            value: product.priceRange?.minVariantPrice?.amount,
+                                            currency: 'INR',
+                                        });
+                                        gtag('event', 'conversion', {
                                             'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
                                             'value': product.priceRange?.minVariantPrice?.amount,
                                             'currency': 'INR'
@@ -408,7 +409,7 @@ const ProductBigCard = ({
                                     type="button"
                                     className="bg-[#26965C] text-[#FAFAFA] px-2 flex justify-center items-center rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
                                 >
-                                     {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                    {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                 </button>
                             </div>
                         </div>

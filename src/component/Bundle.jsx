@@ -55,7 +55,6 @@ export const Bundle = () => {
   const [frequentlyOpen, setFrequentlyOpen] = useState(false);
   const [showModel, setShowModel] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const issubscribe = useSelector(isSubscribe);
   const [transformedProducts, setTransformedProducts] = useState(null);
   const draftOrderItem = useSelector(draftOrderData);
   const draftOrderResponse = useSelector(selectDraftOrderResponse);
@@ -63,7 +62,6 @@ export const Bundle = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isIpaid, setIsIpaid] = useState(false);
   const selectedMealData = useSelector(selectMealItems);
-  const bundleDatas = useSelector(bundleData);
   const bundleDataResponse = useSelector(selectBundleResponse);
 
   const [buyNowLoading, setBuyNowLoading] = useState(null)
@@ -92,7 +90,7 @@ export const Bundle = () => {
       dispatch(clearDraftOrderResponse());
       dispatch(clearBundleData());
       dispatch(clearBundleResponse());
-      navigate('/cardReview', { state: { isBuyNow: true } });
+      navigate('/cardReview?isBuyNow=true');
     } catch (error) {
       console.error('Error adding to checkout:', error);
     }
@@ -661,7 +659,7 @@ export const Bundle = () => {
                       key={product.id + 123}
                       className="flex md:hidden group cursor-pointer col-span-2 border-b-2 border-[#CCCCCC] px-2 pt-2 pb-[24px]"
                       onClick={() => {
-                        navigate(`/product-details/${product.handle}`);
+                        navigate(`/product-details/${product.handle}?isBundle=true`);
                       }}
                     >
                       <div className="w-2/5 relative flex justify-center items-center overflow-hidden">
@@ -712,7 +710,7 @@ export const Bundle = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="hidden md:grid col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}`) }} key={product.id}>
+                    <div className="hidden md:grid col-span-2 bg-[#EADEC1] rounded-3xl cursor-pointer group overflow-hidden" onClick={() => { navigate(`/product-details/${product.handle}?isBundle=true`) }} key={product.id}>
                       <AnimatePresence mode="popLayout">
                         <motion.div
                           initial={{ y: 500, opacity: 0 }}
@@ -795,7 +793,7 @@ export const Bundle = () => {
                       key={product.id + 1000}
                       className="flex md:hidden group cursor-pointer col-span-2 border-b-2 border-[#CCCCCC]  px-2 pt-2 pb-[24px]"
                       onClick={() => {
-                        navigate(`/product-details/${product.handle}`);
+                        navigate(`/product-details/${product.handle}?isBundle=true`);
                       }}
                     >
                       <div className="w-2/5 relative flex justify-center items-center overflow-hidden">
@@ -845,7 +843,7 @@ export const Bundle = () => {
                         </div>
                       </div>
                     </div>
-                    <div key={product.id} className="hidden md:flex bg-[#EADEC1] md:col-span-1 rounded-3xl cursor-pointer group" onClick={() => { navigate(`/product-details/${product.handle}`) }}>
+                    <div key={product.id} className="hidden md:flex bg-[#EADEC1] md:col-span-1 rounded-3xl cursor-pointer group" onClick={() => { navigate(`/product-details/${product.handle}?isBundle=true`) }}>
                       <AnimatePresence mode="wait">
                         <motion.div
                           initial={{ y: 500, x: -500, opacity: 0 }}
