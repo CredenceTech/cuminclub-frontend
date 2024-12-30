@@ -24,35 +24,35 @@ const ProductSmallCard = ({
 }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [buyNowLoading, setBuyNowLoading]=useState(null)
+    const [buyNowLoading, setBuyNowLoading] = useState(null)
 
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
-          const params = {
-            input: {
-              lineItems: [
-                {
-                  variantId: variantId,
-                  quantity: 1,
+            const params = {
+                input: {
+                    lineItems: [
+                        {
+                            variantId: variantId,
+                            quantity: 1,
+                        },
+                    ],
                 },
-              ],
-            },
-          };
-          const response = await graphQLClient.request(checkoutCreate, params);
-          if (response?.checkoutCreate?.userErrors?.length > 0) {
-            console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-            return; 
-          }
-          dispatch(setCheckoutResponse(response?.checkoutCreate));
-          dispatch(addCheckoutData(response));
-          setBuyNowLoading(null)
-          navigate('/cardReview', { state: { isBuyNow: true } });
+            };
+            const response = await graphQLClient.request(checkoutCreate, params);
+            if (response?.checkoutCreate?.userErrors?.length > 0) {
+                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+                return;
+            }
+            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            dispatch(addCheckoutData(response));
+            setBuyNowLoading(null)
+            navigate('/cardReview?isBuyNow=true');
         } catch (error) {
-          console.error('Error adding to checkout:', error);
+            console.error('Error adding to checkout:', error);
         }
-      };
-      
+    };
+
     function getCategoryModified(category) {
         if (category?.toUpperCase() === "CURRIES") {
             return "CURRY";
@@ -173,17 +173,17 @@ const ProductSmallCard = ({
                         </p>
                         }
 
-                        {!categoryTag && 
-                           <div className='flex flex-row justify-between'>
-                            <p className="font-skillet font-[400] text-[#333333] text-[24px] leading-5 uppercase">
-                            {product.title}
-                        </p>
-                        <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
-                                ₹ {Math.floor(productPrice)}
-                            </p>
+                        {!categoryTag &&
+                            <div className='flex flex-row justify-between'>
+                                <p className="font-skillet font-[400] text-[#333333] text-[24px] leading-5 uppercase">
+                                    {product.title}
+                                </p>
+                                <p className="font-skillet flex font-[400] text-[#333333] text-[24px] leading-5 uppercase">
+                                    ₹ {Math.floor(productPrice)}
+                                </p>
                             </div>
                         }
-                         
+
                     </div>
                     <div className="flex gap-2 mt-3">
                         {productQuantity > 0 ?
@@ -231,10 +231,10 @@ const ProductSmallCard = ({
                                                 content_name: product.title,
                                                 content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                                 content_type: 'product',
-                                                value: product.priceRange?.minVariantPrice?.amount, 
-                                                currency: 'INR', 
-                                              });
-                                              gtag('event', 'conversion', {
+                                                value: product.priceRange?.minVariantPrice?.amount,
+                                                currency: 'INR',
+                                            });
+                                            gtag('event', 'conversion', {
                                                 'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                                 'value': product.priceRange?.minVariantPrice?.amount,
                                                 'currency': 'INR'
@@ -274,10 +274,10 @@ const ProductSmallCard = ({
                                         content_name: product.title,
                                         content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                         content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount, 
-                                        currency: 'INR', 
-                                      });
-                                      gtag('event', 'conversion', {
+                                        value: product.priceRange?.minVariantPrice?.amount,
+                                        currency: 'INR',
+                                    });
+                                    gtag('event', 'conversion', {
                                         'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                         'value': product.priceRange?.minVariantPrice?.amount,
                                         'currency': 'INR'
@@ -329,15 +329,15 @@ const ProductSmallCard = ({
                                         {getCategoryModified(categoryTag)}
                                     </button>
                                     }
-                                      {(rtcCategory===true) && 
-                                  <button
-                                  type="button"
-                                  style={{ backgroundColor: '#000000' }}
-                                 className=" text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
-                              >
-                                  DIY KIT
-                              </button>
-                            }
+                                    {(rtcCategory === true) &&
+                                        <button
+                                            type="button"
+                                            style={{ backgroundColor: '#000000' }}
+                                            className=" text-[#FAFAFA] text-[12px] md:text-[18px] md:leading-[27.08px] px-3 tracking-[0.12em] uppercase rounded-[10px] py-[4px] font-regola-pro font-[600]"
+                                        >
+                                            DIY KIT
+                                        </button>
+                                    }
                                 </div>
                                 <div className="px-3 md:pl-8 pb-2 md:pb-6 p-[20px] md:pt-[120px] bg-gradient-to-b from-primary rounded-b-[0px]  md:rounded-b-3xl to-secondary w-full">
                                     <div className="flex flex-row justify-between items-center mb-2 md:mb-5">
@@ -366,10 +366,10 @@ const ProductSmallCard = ({
                                                     content_name: product.title,
                                                     content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                                     content_type: 'product',
-                                                    value: product.priceRange?.minVariantPrice?.amount, 
-                                                    currency: 'INR', 
-                                                  });
-                                                  gtag('event', 'conversion', {
+                                                    value: product.priceRange?.minVariantPrice?.amount,
+                                                    currency: 'INR',
+                                                });
+                                                gtag('event', 'conversion', {
                                                     'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                                     'value': product.priceRange?.minVariantPrice?.amount,
                                                     'currency': 'INR'
@@ -382,15 +382,16 @@ const ProductSmallCard = ({
                                             {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                         </button>
                                         <button
-                                            onClick={(e) => {e.stopPropagation()
+                                            onClick={(e) => {
+                                                e.stopPropagation()
                                                 fbq('track', 'InitiateCheckout', {
                                                     content_name: product.title,
                                                     content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                                     content_type: 'product',
-                                                    value: product.priceRange?.minVariantPrice?.amount, 
-                                                    currency: 'INR', 
-                                                  });
-                                                  gtag('event', 'conversion', {
+                                                    value: product.priceRange?.minVariantPrice?.amount,
+                                                    currency: 'INR',
+                                                });
+                                                gtag('event', 'conversion', {
                                                     'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
                                                     'value': product.priceRange?.minVariantPrice?.amount,
                                                     'currency': 'INR'
@@ -400,7 +401,7 @@ const ProductSmallCard = ({
                                             type="button"
                                             className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
                                         >
-                                          {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                            {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
                                         </button>
                                     </div>
                                 </div>
@@ -424,10 +425,10 @@ const ProductSmallCard = ({
                                         content_name: product.title,
                                         content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                         content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount, 
-                                        currency: 'INR', 
-                                      });
-                                      gtag('event', 'conversion', {
+                                        value: product.priceRange?.minVariantPrice?.amount,
+                                        currency: 'INR',
+                                    });
+                                    gtag('event', 'conversion', {
                                         'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
                                         'value': product.priceRange?.minVariantPrice?.amount,
                                         'currency': 'INR'
@@ -440,15 +441,16 @@ const ProductSmallCard = ({
                                 {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
                             <button
-                                onClick={(e) => {e.stopPropagation()
+                                onClick={(e) => {
+                                    e.stopPropagation()
                                     fbq('track', 'InitiateCheckout', {
                                         content_name: product.title,
                                         content_ids: [product.variants.edges[0].node.id.split("/").pop()],
                                         content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount, 
-                                        currency: 'INR', 
-                                      });
-                                      gtag('event', 'conversion', {
+                                        value: product.priceRange?.minVariantPrice?.amount,
+                                        currency: 'INR',
+                                    });
+                                    gtag('event', 'conversion', {
                                         'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
                                         'value': product.priceRange?.minVariantPrice?.amount,
                                         'currency': 'INR'
