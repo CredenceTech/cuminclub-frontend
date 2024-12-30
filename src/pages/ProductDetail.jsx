@@ -12,27 +12,12 @@ import LoadingAnimation from '../component/Loader';
 import { addCartData, cartData, selectCartResponse, setCartResponse } from '../state/cartData';
 import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 import { Analytics } from '@shopify/hydrogen';
-
-const variants = {
-    enter: (direction) => {
-        return {
-            x: direction > 0 ? 1000 : -1000,
-            opacity: 0
-        };
-    },
-    center: {
-        zIndex: 1,
-        x: 0,
-        opacity: 1
-    },
-    exit: (direction) => {
-        return {
-            zIndex: 0,
-            x: direction < 0 ? 1000 : -1000,
-            opacity: 0
-        };
-    }
-};
+import SpiceLevel from '../component/SpiceLevel';
+import { addDraftOrderData, clearDraftOrderData, clearDraftOrderResponse, draftOrderData, selectDraftOrderResponse, setDraftOrderResponse } from '../state/draftOrder';
+import { addBundleData, clearBundleData, clearBundleResponse, selectBundleResponse, setBundleResponse } from '../state/bundleData';
+import { selectMealItems } from '../state/mealdata';
+import FilterButton from '../component/DropdownFilter';
+import cardIcon from '../assets/cartnew.png';
 
 const swipeConfidenceThreshold = 10000;
 const swipePower = (offset, velocity) => {
@@ -58,6 +43,8 @@ function ProductDetail() {
     const previousIndex = currentIndex === 0 ? steps?.length - 1 : currentIndex - 1;
     const [relatedProducts, setRelatedProducts] = useState(null)
     const { handle } = useParams();
+    const queryParams = new URLSearchParams(location.search);
+    const isBundle = queryParams.get("isBundle");
     const [isAddFeedbackOpen, setIsAddFeedbackOpen] = useState(false);
     const [deliveryPostcode, setDeliveryPostcode] = useState('');
     const [etd, setEtd] = useState(null);
@@ -73,7 +60,258 @@ function ProductDetail() {
     const section1Ref = useRef(null);
     const [visibleFeedbackCount, setVisibleFeedbackCount] = useState(3);
     const [buyNowLoading, setBuyNowLoading] = useState(null)
-    const [analyticsData, setAnalyticsData] = useState(null);;
+    const [analyticsData, setAnalyticsData] = useState(null);
+    const [showModel, setShowModel] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const draftOrderItem = useSelector(draftOrderData);
+    const draftOrderResponse = useSelector(selectDraftOrderResponse);
+    const selectedMealData = useSelector(selectMealItems);
+    const bundleDataResponse = useSelector(selectBundleResponse);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (
+                (selectedMealData?.no === draftOrderResponse?.draftOrder?.lineItems?.edges.reduce(
+                    (total, edge) => total + edge.node.quantity,
+                    0
+                ) || 0)) {
+                if (bundleDataResponse?.productId === undefined && bundleDataResponse === null) {
+                    setShowModel(true);
+                    setLoading(true); // Start loading
+
+                    try {
+                        const params = {
+                            metaobjectArray: draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item) => ({
+                                id: item?.node?.variant?.product?.id,
+                                quantity: item?.node?.quantity,
+                                title: `${item?.node?.title} - ${item?.node?.quantity}`,
+                            })),
+                            productTitle: `${selectedMealData?.no} Meals`,
+                            productPrice: `${selectedMealData?.price}`,
+                        };
+
+                        const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/bundle-products`;
+
+                        const response = await fetch(url, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(params),
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("Failed to fetch bundle products");
+                        }
+
+                        const data = await response.json();
+                        dispatch(addBundleData(data));
+                        dispatch(setBundleResponse(data));
+                    } catch (error) {
+                        console.error("Error fetching bundle products:", error);
+                    } finally {
+                        setLoading(false); // End loading
+                    }
+                }
+            }
+        };
+
+        fetchData();
+    }, [draftOrderResponse, selectedMealData]);
+
+    const handleAddToDraftOrder = (productId) => {
+        const maxQuantity = selectedMealData.no;
+        let currentTotalQuantity =
+            draftOrderResponse?.draftOrder?.lineItems?.edges.reduce(
+                (total, edge) => total + edge.node.quantity,
+                0
+            ) || 0;
+        if (currentTotalQuantity >= maxQuantity) {
+            toast.custom((t) => (
+                <div
+                    className={`${t.visible ? 'animate-enter' : 'animate-leave'
+                        }  rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 `}
+                >
+                    <div className="m-4">
+                        <div className="bg-white shadow-md flex flex-row gap-x-3 rounded px-4 py-2" role="alert">
+                            <div className="flex items-center mb-2">
+                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <div>
+                                    <p className="text-gray-700 font-regola-pro">Cannot add more items.</p>
+                                    <p className="text-gray-700 font-regola-pro">Reached the maximum quantity limit.</p>
+                                </div>
+                            </div>
+                            <button onClick={() => toast.dismiss(t.id)} className="text-gray-600 hover:text-gray-900 transition duration-300" aria-label="Close">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ))
+            return;
+        }
+
+        setIsShaking(productId);
+
+        if (draftOrderItem === null) {
+            if (currentTotalQuantity + 1 > maxQuantity) {
+                toast.custom((t) => (
+                    <div
+                        className={`${t.visible ? 'animate-enter' : 'animate-leave'
+                            }  rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 `}
+                    >
+                        <div className="m-4">
+                            <div className="bg-white shadow-md flex flex-row gap-x-3 rounded px-4 py-2" role="alert">
+                                <div className="flex items-center mb-2">
+                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <div>
+                                        <p className="text-gray-700 font-regola-pro">Cannot add more items.</p>
+                                        <p className="text-gray-700 font-regola-pro">Reached the maximum quantity limit.</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => toast.dismiss(t.id)} className="text-gray-600 hover:text-gray-900 transition duration-300" aria-label="Close">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                ))
+                return;
+            }
+            addToDraftOrder({ variantId: productId, quantity: 1 });
+        } else {
+            let lineItemsArray =
+                draftOrderResponse?.draftOrder?.lineItems?.edges.map((edge) => ({
+                    variantId: edge.node.variant.id,
+                    quantity: edge.node.quantity,
+                })) || [];
+
+            const productIndex = lineItemsArray.findIndex(
+                (item) => item.variantId === productId
+            );
+            const draftOrderId = draftOrderItem?.draftOrderCreate?.draftOrder?.id;
+
+            if (productIndex !== -1) {
+                if (currentTotalQuantity + 1 > maxQuantity) {
+                    toast.error("Cannot increase quantity. Exceeds the maximum quantity limit.");
+                    return;
+                }
+                lineItemsArray[productIndex].quantity += 1;
+            } else {
+                if (currentTotalQuantity + 1 > maxQuantity) {
+                    toast.error("Cannot add this item. Exceeds the maximum quantity limit.");
+                    return;
+                }
+                lineItemsArray.push({ variantId: productId, quantity: 1 });
+            }
+
+            updateDraftOrder(draftOrderId, lineItemsArray);
+        }
+    };
+
+
+    const addToDraftOrder = async (draftOrderItems) => {
+        const params = {
+            lineItems: [draftOrderItems],
+        };
+
+        const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/create-draft-order`;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(params),
+        });
+
+        const data = await response.json();
+
+        dispatch(addDraftOrderData(data?.data?.data));
+        dispatch(setDraftOrderResponse(data?.data?.data?.draftOrderCreate))
+        setIsShaking(null);
+    };
+
+
+    const handleRemoveToDraftOrder = async (productId) => {
+        try {
+            if (bundleDataResponse?.productId !== undefined && bundleDataResponse) {
+                setLoading(true); // Start loading before the API call
+
+                const params = {
+                    productId: bundleDataResponse?.productId,
+                };
+
+                const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/delete-product`;
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(params),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to delete the product.");
+                }
+
+                const data = await response.json();
+                dispatch(clearBundleData());
+                dispatch(clearBundleResponse());
+            }
+
+            let lineItemsArray =
+                draftOrderResponse?.draftOrder?.lineItems?.edges.map((edge) => ({
+                    variantId: edge.node.variant.id,
+                    quantity: edge.node.quantity,
+                })) || [];
+
+            const productIndex = lineItemsArray.findIndex(
+                (item) => item.variantId === productId
+            );
+            const draftOrderId = draftOrderItem?.draftOrderCreate?.draftOrder?.id;
+
+            if (productIndex !== -1) {
+                if (lineItemsArray[productIndex].quantity > 1) {
+                    lineItemsArray[productIndex].quantity -= 1;
+                } else {
+                    lineItemsArray.splice(productIndex, 1);
+                }
+            } else {
+                console.log("Product not found in the draft order.");
+            }
+
+            updateDraftOrder(draftOrderId, lineItemsArray);
+        } catch (error) {
+            console.error("Error removing product from draft order:", error);
+        } finally {
+            setLoading(false); // End loading after the API call
+        }
+    };
+
+
+
+    const updateDraftOrder = async (draftOrderId, draftOrderItems) => {
+        const params = {
+            draftOrderId: draftOrderId,
+            lineItems: draftOrderItems
+        };
+        const url = `${import.meta.env.VITE_SHOPIFY_API_URL_LOCAL}/update-draft-order`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(params),
+        });
+        const data = await response.json();
+        dispatch(setDraftOrderResponse(data?.data?.data?.draftOrderUpdate))
+        setIsShaking(null);
+    };
+
+
+
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
@@ -95,7 +333,13 @@ function ProductDetail() {
             dispatch(setCheckoutResponse(response?.checkoutCreate));
             dispatch(addCheckoutData(response));
             setBuyNowLoading(null)
-            navigate('/cardReview', { state: { isBuyNow: true } });
+            if (isBundle) {
+                dispatch(clearDraftOrderData());
+                dispatch(clearDraftOrderResponse());
+                dispatch(clearBundleData());
+                dispatch(clearBundleResponse());
+            }
+            navigate('/cardReview?isBuyNow=true');
         } catch (error) {
             console.error('Error adding to checkout:', error);
         }
@@ -163,6 +407,13 @@ function ProductDetail() {
         // setIsLoading(false);
         dispatch(addCartData(response));
         dispatch(setCartResponse(response.cartCreate))
+        if (isBundle) {
+            setShowModel(false);
+            dispatch(clearDraftOrderData());
+            dispatch(clearDraftOrderResponse());
+            dispatch(clearBundleData());
+            dispatch(clearBundleResponse());
+        }
         setIsShaking(null)
         // setLoading((prevLoading) => ({
         //     ...prevLoading,
@@ -182,6 +433,13 @@ function ProductDetail() {
         );
         // setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesUpdate));
+        if (isBundle) {
+            setShowModel(false);
+            dispatch(clearDraftOrderData());
+            dispatch(clearDraftOrderResponse());
+            dispatch(clearBundleData());
+            dispatch(clearBundleResponse());
+        }
         // setLoading((prevLoading) => ({
         //     ...prevLoading,
         //     [a]: false,
@@ -198,6 +456,13 @@ function ProductDetail() {
         const response = await graphQLClient.request(updateCartMutation, params);
         // setIsLoading(false);
         dispatch(setCartResponse(response.cartLinesAdd));
+        if (isBundle) {
+            setShowModel(false);
+            dispatch(clearDraftOrderData());
+            dispatch(clearDraftOrderResponse());
+            dispatch(clearBundleData());
+            dispatch(clearBundleResponse());
+        }
         // setLoading((prevLoading) => ({
         //     ...prevLoading,
         //     [cartItem.merchandiseId]: false,
@@ -295,7 +560,7 @@ function ProductDetail() {
         console.log(isBulk);
         try {
             const result = await graphQLClient.request(getRelatedProducts, {
-                first: 50,
+                first: 34,
                 sortKey: "TITLE",
                 reverse: true,
             });
@@ -697,9 +962,46 @@ function ProductDetail() {
 
     return (
         <div className='bg-white other-page'>
+
             <Analytics.ProductView data={analyticsData} />
             {!loading ?
+
                 <>
+                    {isBundle && <>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                initial={{ y: 10, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -10, opacity: 0 }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                <div className={`py-3 mt-3 bg-[#FBAE36] w-full flex gap-x-4 flex-col lg:flex-row lg:justify-between lg:items-center lg:h-[108px]`}>
+                                    <div className="ml-4 lg:w-1/2 lg:ml-10 whitespace-nowrap">
+                                        <div className="flex flex-col md:flex-row gap-x-6">
+                                            <div>
+                                                <h3 className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Meal Package</h3>
+                                                <FilterButton align="right" setDropdownOpen={setDropdownOpen} dropdownOpen={dropdownOpen} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="flex lg:hidden flex-row gap-x-2 px-4 py-2">
+                                        <p className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Fill your box 📦</p>
+                                    </div>
+                                    <div className="flex w-full pl-4 lg:pl-0  lg:w-1/2 overflow-x-auto lg:overscroll-none lg:whitespace-nowrap flex-row items-center ">
+                                        <div className="lg:flex hidden flex-row items-center gap-x-2 mr-10">
+                                            <p className="text-[#231F20] font-skillet text-2xl lg:text-[32px] lg:leading-[32.29px] font-[400]">Fill your box 📦</p>
+                                        </div>
+                                        <div className="flex flex-row items-center overflow-x-auto flex-1 whitespace-nowrap  scrollbar-hide">
+                                            <SpiceLevel />
+                                        </div>
+                                        <div aria-haspopup="true" aria-expanded={showModel} onClick={() => { setShowModel(!showModel) }} className="bg-[#f1663c] flex justify-center items-center rounded-tl-md rounded-bl-md h-[78px] w-[55px]">
+                                            <img src={cardIcon} alt="" className="w-8 h-8" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </>}
                     <div className="flex md:flex-row flex-col pb-10">
                         <div className={`${homeImg?.reference?.image?.originalSrc ? 'flex' : 'flex'} mt-3 flex-row md:hidden`} >
                             <div className={`ml-6 mr-4 -mt-2 ${homeImg?.reference?.image?.originalSrc ? 'hidden' : 'flex'} `}>
@@ -857,7 +1159,7 @@ function ProductDetail() {
                                 </div>
                                 <p className={`md:text-[29px] text-[25px] font-[500] font-skillet ${isBulk ? "mt-0" : "mt-3"} md:pl-2 pl-0 text-[#333333]`}>Net weight: {`${productData?.variants.edges[0]?.node.weight}`} {`${getWeightSymbol(productData?.variants.edges[0]?.node.weightUnit)}`}</p>
                                 {isBulk && <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>Output (Weight + dilution):  {`${getMetafieldData("bulk_output", productData?.metafields) ? getMetafieldData("bulk_output", productData?.metafields) : " N/A"}`}</p>}
-                                <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>
+                                {!isBundle && <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>{`₹ ${productData?.priceRange?.minVariantPrice?.amount || 0}`}</p>}
                                 {isBulk && <p className='md:text-[29px] text-[25px] font-[500] font-skillet  md:pl-2 pl-0 text-[#333333]'>Application:  {`${getMetafieldData("bulk_application", productData?.metafields) ? getMetafieldData("bulk_application", productData?.metafields) : " N/A"}`}</p>}
                                 <p className="md:text-[20px] text-[16px] font-[400] font-regola-pro md:leading-[24px] leading-[20px] md:mt-3 mt-1 md:pl-2 pl-0 text-[#757575]">
                                     {productData?.description}
@@ -952,23 +1254,44 @@ function ProductDetail() {
                                 {etd && <div className='ml-2 pt-3'>Will delivered by {dayOfWeek}, {formattedDeliveryDate}</div>} */}
 
                                 <div className='flex md:pl-2 pl-0 flex-row gap-x-5 md:pt-4 pt-2'>
-                                    <button
-                                        style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
-                                        className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[200px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
-                                            fbq('track', 'AddToCart', {
-                                                content_name: productData?.title,
-                                                content_ids: [productData?.variants.edges[0].node.id.split("/").pop()],
-                                                content_type: 'product',
-                                                value: productData?.priceRange?.minVariantPrice?.amount,
-                                                currency: 'INR',
-                                            });
-                                            gtag('event', 'conversion', {
-                                                'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                                'value': productData.priceRange?.minVariantPrice?.amount,
-                                                'currency': 'INR'
-                                            });
-                                            handleAddToCart(productData?.variants.edges[0].node.id)
-                                        }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>
+                                    {!isBundle &&
+                                        <button
+                                            style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
+                                            className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[200px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
+                                                fbq('track', 'AddToCart', {
+                                                    content_name: productData?.title,
+                                                    content_ids: [productData?.variants.edges[0].node.id.split("/").pop()],
+                                                    content_type: 'product',
+                                                    value: productData?.priceRange?.minVariantPrice?.amount,
+                                                    currency: 'INR',
+                                                });
+                                                gtag('event', 'conversion', {
+                                                    'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                    'value': productData.priceRange?.minVariantPrice?.amount,
+                                                    'currency': 'INR'
+                                                });
+                                                handleAddToCart(productData?.variants.edges[0].node.id)
+                                            }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Cart'}</button>}
+
+                                    {isBundle &&
+                                        <button
+                                            style={{ color: `${getMetafieldData("product_text_color", productData?.metafields) ? getMetafieldData("product_text_color", productData?.metafields) : '#EB7E01'}` }}
+                                            className={` ${shaking === productData?.variants.edges[0].node.id ? '' : ''} product-buttons px-2 md:px-8 py-3 md:w-[200px] flex justify-center items-center bg-[#EDEDED] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] rounded md:text-[22.8px] text-[16px]' type='button`} onClick={() => {
+                                                fbq('track', 'AddToCart', {
+                                                    content_name: productData?.title,
+                                                    content_ids: [productData?.variants.edges[0].node.id.split("/").pop()],
+                                                    content_type: 'product',
+                                                    value: productData?.priceRange?.minVariantPrice?.amount,
+                                                    currency: 'INR',
+                                                });
+                                                gtag('event', 'conversion', {
+                                                    'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                    'value': productData.priceRange?.minVariantPrice?.amount,
+                                                    'currency': 'INR'
+                                                });
+                                                handleAddToDraftOrder(productData?.variants.edges[0].node.id)
+                                            }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Box'}</button>}
+
                                     <button
                                         onClick={() => {
                                             fbq('track', 'InitiateCheckout', {
@@ -1216,7 +1539,7 @@ function ProductDetail() {
                                                 className='relative flex justify-center items-center rounded-2xl w-[110px] mobile-sm:w-[130px] h-[151px] mobile-sm:h-[161px] sm:w-[150px] sm:h-[180px] md:w-[170px] md:h-[201px] overflow-visible'
                                             >
                                                 <div
-                                                    className='w-[140px] h-[140px] mobile-sm:w-[150px] mobile-sm:h-[150px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill'
+                                                    className='w-[140px] h-[140px] mobile-sm:w-[150px] mobile-sm:h-[150px] sm:w-[160px] sm:h-[160px] md:w-[191px] md:h-[195.62px] object-fill cursor-pointer'
                                                     style={{
                                                         position: 'absolute',
                                                         top: '51%',
@@ -1294,7 +1617,99 @@ function ProductDetail() {
                     }
                 </> : <LoadingAnimation />
             }
+            {
+                showModel ?
+                    <div onClick={() => { setShowModel(false) }} className={`fixed inset-0 bg-transparent h-full w-full flex items-center justify-end z-[200] `}>
+                        <div onClick={e => { e.stopPropagation() }} className={`flex  flex-col w-[90%] md:w-[500px] bg-[#EADEC1] gap-2 h-full relative top-[0] md:top-[100px] }`}>
+                            <h1 className="text-[27px] font-[400] leading-[27.55px] font-skillet p-[40px] pt-[20px] pb-0">Review your box</h1>
+                            <div className="p-[20px] md:p-[40px] pt-5 h-[65vh] pb-32 overflow-x-scroll">
+                                {draftOrderResponse?.draftOrder?.lineItems?.edges?.map((item, index) => {
+                                    const productId = item?.node?.variant?.id;
+                                    const quantity = item?.node?.quantity || 0;
+                                    const title = item?.node?.variant?.product?.title || "Product Title";
+                                    const imageUrl = item?.node?.variant?.product?.metafields?.edges?.find(edge => edge.node.key === "image_for_home")
+                                        ?.node?.reference?.image?.originalSrc || '';
+
+                                    return (
+                                        Array.from({ length: quantity }).map((_, i) => (
+                                            <div key={`${index}-${i}`} className='flex items-end justify-between pb-2 pt-1 border-b-[0.67px] border-[#A3A3A3]'>
+                                                <div className='flex flex-row'>
+                                                    <img src={imageUrl} alt={title} className='h-[58px] w-[58px] rounded-lg' />
+                                                    <div className='ml-4 mt-4'>
+                                                        <h1 className='text-[16px] font-regola-pro font-[700] leading-[21.7px] text-[#333333]'>
+                                                            {title}
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <button
+                                                        type='button'
+                                                        className='text-[#FAFAFA] bg-[#f2673d9b] px-5 py-2 font-regola-pro font-[500] text-[13px] leading-[17px] rounded-lg'
+                                                        onClick={() => handleRemoveToDraftOrder(productId)}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))
+                                    );
+                                })}
+                            </div>
+                            <div className="fixed bottom-0 bg-[#EADEC1] px-[20px] md:px-[40px] py-4 md:py-8 shadow-[0px_-3px_5px_#0000002E] w-[90%] md:w-[500px] z-[500] ">
+                                <div className="flex justify-between">
+                                    <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-regola-pro text-[24.5px] leading-[32px]">₹</span>{selectedMealData?.price}</h1>
+                                    <div className="flex flex-col md:flex-row gap-2 md:gap-4">
+                                        <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
+                                            onClick={() => {
+                                                handleAddToCart(bundleDataResponse?.variantId);
+                                                fbq('track', 'AddToCart', {
+                                                    content_name: `${selectedMealData?.no} Meals`,
+                                                    content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                                                    content_type: 'product',
+                                                    value: selectedMealData?.price,
+                                                    currency: 'INR',
+                                                });
+                                                gtag('event', 'conversion', {
+                                                    'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                    'value': selectedMealData?.price,
+                                                    'currency': 'INR'
+                                                });
+                                            }}
+                                        >
+                                            {shaking === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Add to cart'}
+                                        </button>
+                                        <button type="button" onClick={(e) => {
+                                            e.stopPropagation()
+                                            fbq('track', 'InitiateCheckout', {
+                                                content_name: `${selectedMealData?.no} Meals`,
+                                                content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                                                content_type: 'product',
+                                                value: selectedMealData?.price,
+                                                currency: 'INR',
+                                            });
+                                            gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                'value': selectedMealData?.price,
+                                                'currency': 'INR'
+                                            });
+                                            handleAddToCheckout(bundleDataResponse?.variantId)
+                                            setShowModel(false)
+                                        }
+                                        } className="bg-[#000000E8] w-[122px] text-center flex justify-center items-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">
+
+                                            {buyNowLoading === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Checkout'}
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    :
+                    ''
+            }
         </div >
+
     )
 }
 
