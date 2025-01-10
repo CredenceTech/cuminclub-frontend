@@ -388,7 +388,7 @@ const ProductBigCard = ({
                                         'ADD TO CART'
                                     )}
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={(e) => {
                                         e.stopPropagation()
                                         fbq('track', 'InitiateCheckout', {
@@ -410,7 +410,7 @@ const ProductBigCard = ({
                                     className="bg-[#26965C] text-[#FAFAFA] px-2 flex justify-center items-center rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
                                 >
                                     {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                </button>
+                                </button> */}
                             </div>
                         </div>
                     </motion.div>
