@@ -315,22 +315,33 @@ function ProductDetail() {
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
+            // const params = {
+            //     input: {
+            //         lineItems: [
+            //             {
+            //                 variantId: variantId,
+            //                 quantity: 1,
+            //             },
+            //         ],
+            //     },
+            // };
             const params = {
-                input: {
-                    lineItems: [
+                "cartInput": {
+                    "lines": [
                         {
-                            variantId: variantId,
+                            merchandiseId: variantId,
                             quantity: 1,
-                        },
-                    ],
-                },
-            };
-            const response = await graphQLClient.request(checkoutCreate, params);
-            if (response?.checkoutCreate?.userErrors?.length > 0) {
-                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-                return;
+                        }
+                    ]
+                }
             }
-            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            // const response = await graphQLClient.request(checkoutCreate, params);
+            const response = await graphQLClient.request(createCartMutation, params);
+            // if (response?.checkoutCreate?.userErrors?.length > 0) {
+            //     console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            //     return;
+            // }
+            dispatch(setCheckoutResponse(response?.cartCreate));
             dispatch(addCheckoutData(response));
             setBuyNowLoading(null)
             if (isBundle) {
@@ -1292,7 +1303,7 @@ function ProductDetail() {
                                                 handleAddToDraftOrder(productData?.variants.edges[0].node.id)
                                             }}> {shaking === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add To Box'}</button>}
 
-                                    {/* <button
+                                    <button
                                         onClick={() => {
                                             fbq('track', 'InitiateCheckout', {
                                                 content_name: productData?.title,
@@ -1312,7 +1323,7 @@ function ProductDetail() {
                                         style={{ backgroundColor: `${getMetafieldData("product_background_color", productData?.metafields) ? getMetafieldData("product_background_color", productData?.metafields) : '#FBAE36'}` }}
                                         className='product-buttons px-8 py-3 bg-[#FEB14E] font-[600] font-regola-pro md:leading-[24.47px] leading-[16px] flex justify-center items-center rounded md:text-[22.8px] text-[16px] text-[#FFFFFF]' type='button'>
                                         {buyNowLoading === productData?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                    </button> */}
+                                    </button>
                                 </div>
                                 {isBulk && <p className="text-[16px] font-[400] font-regola-pro leading-[17.8px] mt-6 pl-2 text-[#393939]">
                                     *Suitable for vegetarians, No dairy ingredients used

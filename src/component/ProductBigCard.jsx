@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, } from 'react-redux';
 import { handleAddToCart, handleRemoveFromCart } from '../../utils/cartUtils';
-import { checkoutCreate, graphQLClient } from '../api/graphql';
+import { checkoutCreate, createCartMutation, graphQLClient } from '../api/graphql';
 import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 
 
@@ -29,22 +29,33 @@ const ProductBigCard = ({
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
+            // const params = {
+            //     input: {
+            //         lineItems: [
+            //             {
+            //                 variantId: variantId,
+            //                 quantity: 1,
+            //             },
+            //         ],
+            //     },
+            // };
             const params = {
-                input: {
-                    lineItems: [
-                        {
-                            variantId: variantId,
-                            quantity: 1,
-                        },
-                    ],
-                },
-            };
-            const response = await graphQLClient.request(checkoutCreate, params);
-            if (response?.checkoutCreate?.userErrors?.length > 0) {
-                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-                return;
-            }
-            dispatch(setCheckoutResponse(response?.checkoutCreate));
+                "cartInput": {
+                  "lines": [
+                   {
+                    merchandiseId: variantId,
+                    quantity: 1,
+                   }
+                  ]
+                }
+              }
+            // const response = await graphQLClient.request(checkoutCreate, params);
+            const response = await graphQLClient.request(createCartMutation, params);
+            // if (response?.checkoutCreate?.userErrors?.length > 0) {
+            //     console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            //     return;
+            // }
+            dispatch(setCheckoutResponse(response?.cartCreate));
             dispatch(addCheckoutData(response));
             setBuyNowLoading(null)
             navigate('/cardReview?isBuyNow=true');
@@ -388,7 +399,7 @@ const ProductBigCard = ({
                                         'ADD TO CART'
                                     )}
                                 </button>
-                                {/* <button
+                                <button
                                     onClick={(e) => {
                                         e.stopPropagation()
                                         fbq('track', 'InitiateCheckout', {
@@ -410,7 +421,7 @@ const ProductBigCard = ({
                                     className="bg-[#26965C] text-[#FAFAFA] px-2 flex justify-center items-center rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
                                 >
                                     {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                </button> */}
+                                </button>
                             </div>
                         </div>
                     </motion.div>
