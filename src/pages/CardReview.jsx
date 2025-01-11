@@ -388,24 +388,24 @@ const CardReview = () => {
 
     function processPayment(payload) {
         const cart = cartResponse?.cart;
-        const checkout = checkoutResponse?.checkout;
+        const checkout = checkoutResponse?.cart;
         let processPayload;
         if (isBuyNow) {
             processPayload = createSDKPayload({
                 "action": "startCheckout",
                 "cart":
                 {
-                    "token": checkout.id.split('Checkout/')[1],
+                    "token": checkout.id.split('Cart/')[1],
                     "note": "",
                     "attributes": {},
-                    "original_total_price": checkout?.totalPrice?.amount * 100,
-                    "total_price": checkout?.totalPrice?.amount * 100,
+                    "original_total_price": checkout.cost.totalAmount.amount * 100,
+                    "total_price": checkout.cost.totalAmount.amount * 100,
                     "total_discount": 0,
-                    "total_weight": parseInt(checkout?.lineItems?.edges[0]?.node?.variant.weight),
-                    "item_count": 1,
-                    "items": checkout?.lineItems.edges.map(edge => {
-                        const product = edge?.node?.variant?.product;
-                        const variant = edge.node.variant;
+                    "total_weight": parseInt(calculateTotalWeight(checkout.lines)),
+                    "item_count": parseInt(calculateTotalQuantity(checkout.lines)),
+                    "items": checkout.lines.edges.map(edge => {
+                        const product = edge.node.merchandise.product;
+                        const variant = edge.node.merchandise;
                         const quantity = edge.node.quantity;
                         const price = variant.priceV2.amount * 100;
 
@@ -461,8 +461,8 @@ const CardReview = () => {
                         };
                     }),
                     "requires_shipping": true,
-                    "currency": checkout.totalPrice.currencyCode,
-                    "items_subtotal_price": checkout.totalPrice.amount * 100,
+                    "currency": checkout.cost.totalAmount.currencyCode,
+                    "items_subtotal_price": checkout.cost.subtotalAmount.amount * 100,
                     "cart_level_discount_applications": []
                 },
             });
@@ -643,45 +643,51 @@ const CardReview = () => {
                     <h1 className='text-2xl md:text-[54px] leading-[54px] font-[400] p-4 font-skillet text-[#231F20] pt-5 lg:pt-9'>Review your {isBuyNow ? "Order" : "Cart"}</h1>
                     <div className='flex flex-col gap-4 md:gap-6 md:flex-row justify-between'>
                         <div className='w-full px-4 md:w-1/2 mb-4'>
-                            {(isBuyNow && checkoutResponse !== null) && (<div className="flex flex-row items-center">
-                                <img
-                                    src={
-                                        checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
-                                            (metafield) => metafield && metafield.key === "image_for_home"
-                                        )?.reference?.image?.originalSrc
-                                    }
-                                    alt={
-                                        checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.title
-                                    }
-                                    className="h-[85.1px] w-[85.1px] rounded-lg"
-                                />
-                                <div className="ml-4">
-                                    <h1 className="text-xl md:text-[36px] leading-[20px] md:leading-[36px] font-[400] font-skillet text-[#333333]">
-                                        {checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.title}
-                                    </h1>
-                                    <p className="font-skillet text-[#757575] text-[24px] md:text-[28px] leading-[28.18px] font-[400]">
-                                        <span className="text-[20px] leading-[20.1px]">₹</span>{" "}
-                                        {checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.priceV2?.amount}
-                                    </p>
-                                    {(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
-                                        (metafield) => metafield && metafield.key === "bundle_product"
-                                    )?.value) && <p onClick={() => openBundleModal(checkoutResponse?.checkout?.lineItems?.edges[0]?.node?.variant?.product?.metafields?.find(
-                                        (metafield) => metafield && metafield.key === "bundle_product"
-                                    )?.value)} className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700">
-                                            view products
-                                        </p>
-                                    }
-                                </div>
-                                <div>
-                                    <button
-                                        onClick={() => cancelOrder()}
-                                        type="button"
-                                        className="text-[#F15E2A] flex flex-col m-0 md:m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>)}
+                            {(isBuyNow && checkoutResponse !== null) && (
+                                <div className='flex flex-col'>
+                                    <div className="flex flex-row items-center">
+                                        <img
+                                            src={
+                                                checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.product
+                                                    ?.metafields?.find(metafield => metafield && metafield.key === "image_for_home")?.reference?.image?.originalSrc
+                                            }
+                                            alt={
+                                                checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.product?.title
+                                            }
+                                            className="h-[85.1px] w-[85.1px] rounded-lg"
+                                        />
+                                        <div className="ml-4">
+                                            <h1 className="text-xl md:text-[36px] leading-[20px] md:leading-[36px] font-[400] font-skillet text-[#333333]">
+                                                {checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.product?.title}
+                                            </h1>
+                                            <p className="font-skillet text-[#757575] text-[24px] md:text-[28px] leading-[28.18px] font-[400]">
+                                                <span className="text-[20px] leading-[20.1px]">₹</span>{" "}
+                                                {checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.priceV2?.amount}
+                                            </p>
+                                            {(checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.product?.metafields?.find(
+                                                (metafield) => metafield && metafield.key === "bundle_product"
+                                            )?.value) && <p onClick={() => openBundleModal(checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.product?.metafields?.find(
+                                                (metafield) => metafield && metafield.key === "bundle_product"
+                                            )?.value)} className="font-regola-pro text-[#333333] cursor-pointer text-[18px] md:text-[20px] leading-[28.18px] font-[400] underline hover:text-gray-700">
+                                                    view products
+                                                </p>
+                                            }
+                                        </div>
+                                        <div>
+                                            <button
+                                                onClick={() => cancelOrder()}
+                                                type="button"
+                                                className="text-[#F15E2A] flex flex-col m-0 md:m-7 font-regola-pro font-[500] text-xl border-b border-b-[#F15E2A]"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div className='ml-24'>
+                                        {(checkoutResponse?.cart?.lines?.edges[0]?.node?.merchandise?.product?.metafields?.find(metafield => metafield && metafield.key === "bundle_product")?.value) && bundleModalData && <BundleProductsModal data={bundleModalData} onClose={closeBundleModal} />}
+                                    </div>
+                                </div>)}
 
                             {(!isBuyNow) && cartResponse?.cart?.lines?.edges?.map((line, index) => {
                                 return <div className='py-3 lg:mr-24 border-b-[0.99px] border-[#A3A3A3]'>
@@ -794,14 +800,14 @@ const CardReview = () => {
                                     <div className="flex flex-row justify-between mb-2">
                                         <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Amount</p>
                                         <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
-                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(checkoutResponse?.checkout?.totalPrice?.amount) || 0}</span>
+                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(checkoutResponse?.cart?.cost?.totalAmount?.amount) || 0}</span>
                                         </p>
                                     </div>
 
                                     <div className="flex flex-row justify-between mt-3 border-t border-[#333333] pt-3">
                                         <p className="text-[1.5rem] font-skillet lg:text-[37.34px] font-[400] leading-[37.45px] text-[#333333]">Total</p>
                                         <p className="text-[1.5rem] text-[#279C66] font-skillet lg:text-[37px] font-[400] leading-[37.5px]">
-                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{(parseInt(checkoutResponse?.checkout?.totalPrice?.amount) || 0)}</span>
+                                            ₹ <span className='lg:text-[52px] font-[400] leading-[52.5px]'>{parseInt(checkoutResponse?.cart?.cost?.totalAmount?.amount) || 0}</span>
                                         </p>
                                     </div>
                                 </div>}
