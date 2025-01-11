@@ -39,22 +39,33 @@ const Recipes = () => {
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
+            // const params = {
+            //     input: {
+            //         lineItems: [
+            //             {
+            //                 variantId: variantId,
+            //                 quantity: 1,
+            //             },
+            //         ],
+            //     },
+            // };
             const params = {
-                input: {
-                    lineItems: [
+                "cartInput": {
+                    "lines": [
                         {
-                            variantId: variantId,
+                            merchandiseId: variantId,
                             quantity: 1,
-                        },
-                    ],
-                },
-            };
-            const response = await graphQLClient.request(checkoutCreate, params);
-            if (response?.checkoutCreate?.userErrors?.length > 0) {
-                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-                return;
+                        }
+                    ]
+                }
             }
-            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            // const response = await graphQLClient.request(checkoutCreate, params);
+            const response = await graphQLClient.request(createCartMutation, params);
+            // if (response?.checkoutCreate?.userErrors?.length > 0) {
+            //     console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            //     return;
+            // }
+            dispatch(setCheckoutResponse(response?.cartCreate));
             dispatch(addCheckoutData(response));
             setBuyNowLoading(null)
             navigate('/cardReview?isBuyNow=true');
@@ -621,7 +632,7 @@ const Recipes = () => {
                                     }} type='button'>
                                         {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                     </button>
-                                    {/* <button
+                                    <button
                                         onClick={() => {
                                             fbq('track', 'InitiateCheckout', {
                                                 content_name: productDetails[0].title,
@@ -640,7 +651,7 @@ const Recipes = () => {
                                         }
                                         className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] flex justify-center items-center text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
                                         {buyNowLoading === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                    </button> */}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -666,7 +677,7 @@ const Recipes = () => {
                             }} type='button'>
                                 {shaking === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
-                            {/* <button
+                            <button
                                 onClick={() => {
                                     fbq('track', 'InitiateCheckout', {
                                         content_name: productDetails[0].title,
@@ -686,7 +697,7 @@ const Recipes = () => {
                                 className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
                                 {buyNowLoading === productDetails[0]?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
 
-                            </button> */}
+                            </button>
                         </div>
                     </div>
                 ) : productDetails && productDetails.length > 1 ? (
@@ -747,7 +758,7 @@ const Recipes = () => {
                                                     }} type='button'>
                                                         {shaking === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                                     </button>
-                                                    {/* <button
+                                                    <button
                                                         onClick={() => {
                                                             fbq('track', 'InitiateCheckout', {
                                                                 content_name: product.title,
@@ -767,7 +778,7 @@ const Recipes = () => {
                                                         className='px-4 rounded py-2 w-[140px] text-center bg-[#231F20] text-[16px] font-[400] text-[#FFFFFF] hide-for-pdf cursor-pointer' type='button'>
                                                         {buyNowLoading === product?.variants?.edges[0]?.node?.id ? <div className="spinner1"></div> : 'BUY NOW'}
 
-                                                    </button> */}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

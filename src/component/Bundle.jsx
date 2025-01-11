@@ -68,22 +68,33 @@ export const Bundle = () => {
   const handleAddToCheckout = async (variantId) => {
     try {
       setBuyNowLoading(variantId);
+      // const params = {
+      //     input: {
+      //         lineItems: [
+      //             {
+      //                 variantId: variantId,
+      //                 quantity: 1,
+      //             },
+      //         ],
+      //     },
+      // };
       const params = {
-        input: {
-          lineItems: [
+        "cartInput": {
+          "lines": [
             {
-              variantId: variantId,
+              merchandiseId: variantId,
               quantity: 1,
-            },
-          ],
-        },
-      };
-      const response = await graphQLClient.request(checkoutCreate, params);
-      if (response?.checkoutCreate?.userErrors?.length > 0) {
-        console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-        return;
+            }
+          ]
+        }
       }
-      dispatch(setCheckoutResponse(response?.checkoutCreate));
+      // const response = await graphQLClient.request(checkoutCreate, params);
+      const response = await graphQLClient.request(createCartMutation, params);
+      // if (response?.checkoutCreate?.userErrors?.length > 0) {
+      //     console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+      //     return;
+      // }
+      dispatch(setCheckoutResponse(response?.cartCreate));
       dispatch(addCheckoutData(response));
       setBuyNowLoading(null)
       dispatch(clearDraftOrderData());
@@ -758,7 +769,7 @@ export const Bundle = () => {
                               </button>
 
 
-                              {/* <button
+                              <button
                                 onClick={(e) => {
                                   e.stopPropagation()
                                   fbq('track', 'InitiateCheckout', {
@@ -780,7 +791,7 @@ export const Bundle = () => {
                                 className="bg-[#26965C] text-[#FAFAFA] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
                               >
                                 {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                              </button> */}
+                              </button>
                             </div>
                           </div>
                         </motion.div>
@@ -888,7 +899,7 @@ export const Bundle = () => {
                                   </button>
 
 
-                                  {/* <button
+                                  <button
                                     onClick={(e) => {
                                       e.stopPropagation()
                                       fbq('track', 'InitiateCheckout', {
@@ -910,7 +921,7 @@ export const Bundle = () => {
                                     className="bg-[#279C66] mt-2 md:mt-0 flex justify-center items-center text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
                                   >
                                     {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                  </button> */}
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -939,7 +950,7 @@ export const Bundle = () => {
                             >
                               {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
-                            {/* <button
+                            <button
                               onClick={(e) => {
                                 e.stopPropagation()
                                 fbq('track', 'InitiateCheckout', {
@@ -961,7 +972,7 @@ export const Bundle = () => {
                               className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
                             >
                               {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                            </button> */}
+                            </button>
                           </div>
                         </motion.div>
                       </AnimatePresence>

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, } from 'react-redux';
 import { handleAddToCart, handleRemoveFromCart } from '../../utils/cartUtils';
 import { selectCartResponse } from '../state/cartData';
-import { checkoutCreate, graphQLClient } from '../api/graphql';
+import { checkoutCreate, createCartMutation, graphQLClient } from '../api/graphql';
 import { addCheckoutData, setCheckoutResponse } from '../state/checkoutData';
 
 const ProductSmallCard = ({
@@ -29,22 +29,33 @@ const ProductSmallCard = ({
     const handleAddToCheckout = async (variantId) => {
         try {
             setBuyNowLoading(variantId);
+            // const params = {
+            //     input: {
+            //         lineItems: [
+            //             {
+            //                 variantId: variantId,
+            //                 quantity: 1,
+            //             },
+            //         ],
+            //     },
+            // };
             const params = {
-                input: {
-                    lineItems: [
+                "cartInput": {
+                    "lines": [
                         {
-                            variantId: variantId,
+                            merchandiseId: variantId,
                             quantity: 1,
-                        },
-                    ],
-                },
-            };
-            const response = await graphQLClient.request(checkoutCreate, params);
-            if (response?.checkoutCreate?.userErrors?.length > 0) {
-                console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
-                return;
+                        }
+                    ]
+                }
             }
-            dispatch(setCheckoutResponse(response?.checkoutCreate));
+            // const response = await graphQLClient.request(checkoutCreate, params);
+            const response = await graphQLClient.request(createCartMutation, params);
+            // if (response?.checkoutCreate?.userErrors?.length > 0) {
+            //     console.error('GraphQL user errors:', response.checkoutCreate.userErrors);
+            //     return;
+            // }
+            dispatch(setCheckoutResponse(response?.cartCreate));
             dispatch(addCheckoutData(response));
             setBuyNowLoading(null)
             navigate('/cardReview?isBuyNow=true');
@@ -381,7 +392,7 @@ const ProductSmallCard = ({
                                         >
                                             {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                                         </button>
-                                        {/* <button
+                                        <button
                                             onClick={(e) => {
                                                 e.stopPropagation()
                                                 fbq('track', 'InitiateCheckout', {
@@ -402,7 +413,7 @@ const ProductSmallCard = ({
                                             className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
                                         >
                                             {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                        </button> */}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +451,7 @@ const ProductSmallCard = ({
                             >
                                 {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
                             </button>
-                            {/* <button
+                            <button
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     fbq('track', 'InitiateCheckout', {
@@ -462,7 +473,7 @@ const ProductSmallCard = ({
                                 className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
                             >
                                 {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                            </button> */}
+                            </button>
                         </div>
                     </motion.div>
                 </AnimatePresence>
