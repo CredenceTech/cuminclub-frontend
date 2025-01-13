@@ -699,17 +699,22 @@ export const Bundle = () => {
                         </div>
                         <div className="flex gap-2 mt-3">
 
-
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                            }}
-                            className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
-                          >
-                            {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                          </button>
+                          {product?.variants.edges[0].node.availableForSale ? (
+                            <>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                                }}
+                                className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
+                              >
+                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                              </button>
+                            </>
+                          ) : (
+                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                          )}
 
                           {/* <button
                             onClick={(e) => e.stopPropagation()}
@@ -756,42 +761,47 @@ export const Bundle = () => {
                             </p>
 
                             <div className="flex gap-x-2 md:gap-x-4 mt-1">
+                              {product?.variants.edges[0].node.availableForSale ? (
+                                <>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
+                                    }}
+                                    className="border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                  >
+                                    {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                                  </button>
 
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleAddToDraftOrder(product.variants.edges[0].node.id); // Function for "ADD TO BOX"
-                                }}
-                                className="border-2 border-[#333333] w-[150px] flex justify-center items-center text-[#333333] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
-                              >
-                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                              </button>
 
-
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation()
-                                  fbq('track', 'InitiateCheckout', {
-                                    content_name: product.title,
-                                    content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                    content_type: 'product',
-                                    value: product.priceRange?.minVariantPrice?.amount,
-                                    currency: 'INR',
-                                  });
-                                  gtag('event', 'conversion', {
-                                    'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                                    'value': product.priceRange?.minVariantPrice?.amount,
-                                    'currency': 'INR'
-                                  });
-                                  handleAddToCheckout(product.variants.edges[0].node.id)
-                                }
-                                }
-                                type="button"
-                                className="bg-[#26965C] text-[#FAFAFA] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
-                              >
-                                {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                              </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      fbq('track', 'InitiateCheckout', {
+                                        content_name: product.title,
+                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                        content_type: 'product',
+                                        value: product.priceRange?.minVariantPrice?.amount,
+                                        currency: 'INR',
+                                      });
+                                      gtag('event', 'conversion', {
+                                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                        'value': product.priceRange?.minVariantPrice?.amount,
+                                        'currency': 'INR'
+                                      });
+                                      handleAddToCheckout(product.variants.edges[0].node.id)
+                                    }
+                                    }
+                                    type="button"
+                                    className="bg-[#26965C] text-[#FAFAFA] flex justify-center items-center px-2 rounded-lg pt-[4px] pb-[4px] whitespace-nowrap font-regola-pro text-[14px] md:text-[16px] font-[600] leading-4 md:leading-[21.28px] tracking-[0.12em]"
+                                  >
+                                    {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                  </button>
+                                </>
+                              ) : (
+                                <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                              )}
                             </div>
                           </div>
                         </motion.div>
@@ -832,17 +842,23 @@ export const Bundle = () => {
                           </p>
                         </div>
                         <div className="flex gap-2 mt-3">
+                          {product?.variants.edges[0].node.availableForSale ? (
+                            <>
 
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                            }}
-                            className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
-                          >
-                            {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                          </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                                }}
+                                className="bg-[#279C66] text-[#FAFAFA] w-full flex justify-center items-center text-[12px]  rounded-lg pt-[4px] pb-[4px] font-regola-pro font-[600]"
+                              >
+                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                              </button>
+                            </>
+                          ) : (
+                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                          )}
 
                           {/* <button
                             onClick={(e) => e.stopPropagation()}
@@ -886,93 +902,104 @@ export const Bundle = () => {
 
                                 </div>
                                 <div className="hidden md:flex md:flex-row md:gap-4">
+                                  {product?.variants.edges[0].node.availableForSale ? (
+                                    <>
 
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
-                                    }}
-                                    className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                  >
-                                    {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
-                                  </button>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleAddToDraftOrder(product.variants.edges[0].node.id); // Different function for Add to Box
+                                        }}
+                                        className="border-2 border-[#FAFAFA] text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                      >
+                                        {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO BOX'}
+                                      </button>
 
-
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation()
-                                      fbq('track', 'InitiateCheckout', {
-                                        content_name: product.title,
-                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                        content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount,
-                                        currency: 'INR',
-                                      });
-                                      gtag('event', 'conversion', {
-                                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                                        'value': product.priceRange?.minVariantPrice?.amount,
-                                        'currency': 'INR'
-                                      });
-                                      handleAddToCheckout(product.variants.edges[0].node.id)
-                                    }
-                                    }
-                                    type="button"
-                                    className="bg-[#279C66] mt-2 md:mt-0 flex justify-center items-center text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
-                                  >
-                                    {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                  </button>
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation()
+                                          fbq('track', 'InitiateCheckout', {
+                                            content_name: product.title,
+                                            content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                            content_type: 'product',
+                                            value: product.priceRange?.minVariantPrice?.amount,
+                                            currency: 'INR',
+                                          });
+                                          gtag('event', 'conversion', {
+                                            'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                            'value': product.priceRange?.minVariantPrice?.amount,
+                                            'currency': 'INR'
+                                          });
+                                          handleAddToCheckout(product.variants.edges[0].node.id)
+                                        }
+                                        }
+                                        type="button"
+                                        className="bg-[#279C66] mt-2 md:mt-0 flex justify-center items-center text-[#FAFAFA] px-2 rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[16px] font-[600] leading-[21.28px] tracking-[0.12em]"
+                                      >
+                                        {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                                  )}
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className="mt-3 mb-3 gap-1 md:hidden flex justify-center items-center flex-row ">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                fbq('track', 'AddToCart', {
-                                  content_name: product.title,
-                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                  content_type: 'product',
-                                  value: product.priceRange?.minVariantPrice?.amount,
-                                  currency: 'INR',
-                                });
-                                gtag('event', 'conversion', {
-                                  'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                  'value': product.priceRange?.minVariantPrice?.amount,
-                                  'currency': 'INR'
-                                });
-                                handleAddToCart(product.variants.edges[0].node.id)
-                              }
-                              }
-                              className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
-                            >
-                              {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                            </button>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                fbq('track', 'InitiateCheckout', {
-                                  content_name: product.title,
-                                  content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                  content_type: 'product',
-                                  value: product.priceRange?.minVariantPrice?.amount,
-                                  currency: 'INR',
-                                });
-                                gtag('event', 'conversion', {
-                                  'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                                  'value': product.priceRange?.minVariantPrice?.amount,
-                                  'currency': 'INR'
-                                });
-                                handleAddToCheckout(product.variants.edges[0].node.id)
-                              }
-                              }
-                              type="button"
-                              className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
-                            >
-                              {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                            </button>
+                            {product?.variants.edges[0].node.availableForSale ? (
+                              <>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    fbq('track', 'AddToCart', {
+                                      content_name: product.title,
+                                      content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                      content_type: 'product',
+                                      value: product.priceRange?.minVariantPrice?.amount,
+                                      currency: 'INR',
+                                    });
+                                    gtag('event', 'conversion', {
+                                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                      'value': product.priceRange?.minVariantPrice?.amount,
+                                      'currency': 'INR'
+                                    });
+                                    handleAddToCart(product.variants.edges[0].node.id)
+                                  }
+                                  }
+                                  className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
+                                >
+                                  {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
+                                </button>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    fbq('track', 'InitiateCheckout', {
+                                      content_name: product.title,
+                                      content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                      content_type: 'product',
+                                      value: product.priceRange?.minVariantPrice?.amount,
+                                      currency: 'INR',
+                                    });
+                                    gtag('event', 'conversion', {
+                                      'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                      'value': product.priceRange?.minVariantPrice?.amount,
+                                      'currency': 'INR'
+                                    });
+                                    handleAddToCheckout(product.variants.edges[0].node.id)
+                                  }
+                                  }
+                                  type="button"
+                                  className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
+                                >
+                                  {buyNowLoading === product?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                </button>
+                              </>
+                            ) : (
+                              <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                            )}
                           </div>
                         </motion.div>
                       </AnimatePresence>
@@ -1026,46 +1053,47 @@ export const Bundle = () => {
                 <div className="flex justify-between">
                   <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-regola-pro text-[24.5px] leading-[32px]">₹</span>{selectedMealData?.price}</h1>
                   <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                    <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
-                      onClick={() => {
-                        handleAddToCart(bundleDataResponse?.variantId);
-                        fbq('track', 'AddToCart', {
-                          content_name: `${selectedMealData?.no} Meals`,
-                          content_ids: [bundleDataResponse?.variantId.split("/").pop()],
-                          content_type: 'product',
-                          value: selectedMealData?.price,
-                          currency: 'INR',
-                        });
-                        gtag('event', 'conversion', {
-                          'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                          'value': selectedMealData?.price,
-                          'currency': 'INR'
-                        });
-                      }}
-                    >
-                      {shaking === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Add to cart'}
-                    </button>
-                    <button type="button" onClick={(e) => {
-                      e.stopPropagation()
-                      fbq('track', 'InitiateCheckout', {
-                        content_name: `${selectedMealData?.no} Meals`,
-                        content_ids: [bundleDataResponse?.variantId.split("/").pop()],
-                        content_type: 'product',
-                        value: selectedMealData?.price,
-                        currency: 'INR',
-                      });
-                      gtag('event', 'conversion', {
-                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                        'value': selectedMealData?.price,
-                        'currency': 'INR'
-                      });
-                      handleAddToCheckout(bundleDataResponse?.variantId)
-                      setShowModel(false)
-                    }
-                    } className="bg-[#000000E8] w-[122px] text-center flex justify-center items-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">
+          
+                        <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
+                          onClick={() => {
+                            handleAddToCart(bundleDataResponse?.variantId);
+                            fbq('track', 'AddToCart', {
+                              content_name: `${selectedMealData?.no} Meals`,
+                              content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                              content_type: 'product',
+                              value: selectedMealData?.price,
+                              currency: 'INR',
+                            });
+                            gtag('event', 'conversion', {
+                              'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                              'value': selectedMealData?.price,
+                              'currency': 'INR'
+                            });
+                          }}
+                        >
+                          {shaking === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Add to cart'}
+                        </button>
+                        <button type="button" onClick={(e) => {
+                          e.stopPropagation()
+                          fbq('track', 'InitiateCheckout', {
+                            content_name: `${selectedMealData?.no} Meals`,
+                            content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                            content_type: 'product',
+                            value: selectedMealData?.price,
+                            currency: 'INR',
+                          });
+                          gtag('event', 'conversion', {
+                            'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                            'value': selectedMealData?.price,
+                            'currency': 'INR'
+                          });
+                          handleAddToCheckout(bundleDataResponse?.variantId)
+                          setShowModel(false)
+                        }
+                        } className="bg-[#000000E8] w-[122px] text-center flex justify-center items-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">
 
-                      {buyNowLoading === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Checkout'}
-                    </button>
+                          {buyNowLoading === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Checkout'}
+                        </button>
                   </div>
                 </div>
 

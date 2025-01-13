@@ -197,39 +197,84 @@ const ProductSmallCard = ({
 
                     </div>
                     <div className="flex gap-2 mt-3">
-                        {productQuantity > 0 ?
-                            (
-                                <div className="flex gap-2 items-center">
-                                    <button
+                        {product?.variants.edges[0].node.availableForSale ? (
+                            <>
+                                {productQuantity > 0 ?
+                                    (
+                                        <div className="flex gap-2 items-center">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleRemove(product.variants.edges[0].node.id);
+                                                }}
+                                            >
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    viewBox="0 0 18 18"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
+                                                        fill="#333333"
+                                                    />
+                                                </svg>
+                                            </button>
+
+                                            {shaking === product.variants.edges[0].node.id ? (
+                                                <div className="spinner1"></div>
+                                            ) : (
+                                                <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
+                                                    {productQuantity}
+                                                </span>
+                                            )}
+
+                                            <button
+                                                onClick={(e) => {
+                                                    if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                                        window.shopifyAnalytics.track('product_added_to_cart', {
+                                                            product_id: product.variants.edges[0].node.id,
+                                                            title: product.title,
+                                                            price: product.priceRange?.minVariantPrice?.amount,
+                                                            currency: 'INR',
+                                                        });
+                                                    }
+                                                    fbq('track', 'AddToCart', {
+                                                        content_name: product.title,
+                                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                        content_type: 'product',
+                                                        value: product.priceRange?.minVariantPrice?.amount,
+                                                        currency: 'INR',
+                                                    });
+                                                    gtag('event', 'conversion', {
+                                                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                        'value': product.priceRange?.minVariantPrice?.amount,
+                                                        'currency': 'INR'
+                                                    });
+                                                    e.stopPropagation();
+                                                    handleAdd(product.variants.edges[0].node.id);
+                                                }}
+                                            >
+                                                <svg
+                                                    width="18"
+                                                    height="18"
+                                                    viewBox="0 0 18 18"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
+                                                        fill="#333333"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        </div>
+
+                                    ) : <button
+                                        type="button"
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            handleRemove(product.variants.edges[0].node.id);
-                                        }}
-                                    >
-                                        <svg
-                                            width="18"
-                                            height="18"
-                                            viewBox="0 0 18 18"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M9 18C6.61305 18 4.32387 17.0518 2.63604 15.364C0.948211 13.6761 0 11.3869 0 9C0 6.61305 0.948211 4.32387 2.63604 2.63604C4.32387 0.948211 6.61305 0 9 0C11.3869 0 13.6761 0.948211 15.364 2.63604C17.0518 4.32387 18 6.61305 18 9C18 11.3869 17.0518 13.6761 15.364 15.364C13.6761 17.0518 11.3869 18 9 18ZM9 16.2C10.9096 16.2 12.7409 15.4414 14.0912 14.0912C15.4414 12.7409 16.2 10.9096 16.2 9C16.2 7.09044 15.4414 5.25909 14.0912 3.90883C12.7409 2.55857 10.9096 1.8 9 1.8C7.09044 1.8 5.25909 2.55857 3.90883 3.90883C2.55857 5.25909 1.8 7.09044 1.8 9C1.8 10.9096 2.55857 12.7409 3.90883 14.0912C5.25909 15.4414 7.09044 16.2 9 16.2ZM13.5 8.1V9.9H4.5V8.1H13.5Z"
-                                                fill="#333333"
-                                            />
-                                        </svg>
-                                    </button>
-
-                                    {shaking === product.variants.edges[0].node.id ? (
-                                        <div className="spinner1"></div>
-                                    ) : (
-                                        <span className="border-2 rounded-lg border-[#333333] px-3 py-0.5">
-                                            {productQuantity}
-                                        </span>
-                                    )}
-
-                                    <button
-                                        onClick={(e) => {
                                             if (typeof window !== 'undefined' && window.shopifyAnalytics) {
                                                 window.shopifyAnalytics.track('product_added_to_cart', {
                                                     product_id: product.variants.edges[0].node.id,
@@ -250,60 +295,21 @@ const ProductSmallCard = ({
                                                 'value': product.priceRange?.minVariantPrice?.amount,
                                                 'currency': 'INR'
                                             });
-                                            e.stopPropagation();
                                             handleAdd(product.variants.edges[0].node.id);
                                         }}
+                                        className={`${shaking === product.variants.edges[0].node.id ? '' : ''
+                                            } bg-[#279C66] text-[#FAFAFA] w-full rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] flex font-[700] items-center justify-center`}
                                     >
-                                        <svg
-                                            width="18"
-                                            height="18"
-                                            viewBox="0 0 18 18"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="M9 0C4.03754 0 0 4.03754 0 9C0 13.9625 4.03754 18 9 18C13.9625 18 18 13.9625 18 9C18 4.03754 13.9625 0 9 0ZM9 1.38462C13.2141 1.38462 16.6154 4.78592 16.6154 9C16.6154 13.2141 13.2141 16.6154 9 16.6154C4.78592 16.6154 1.38462 13.2141 1.38462 9C1.38462 4.78592 4.78592 1.38462 9 1.38462ZM8.30769 4.84615V8.30769H4.84615V9.69231H8.30769V13.1538H9.69231V9.69231H13.1538V8.30769H9.69231V4.84615H8.30769Z"
-                                                fill="#333333"
-                                            />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                            ) : <button
-                                type="button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (typeof window !== 'undefined' && window.shopifyAnalytics) {
-                                        window.shopifyAnalytics.track('product_added_to_cart', {
-                                            product_id: product.variants.edges[0].node.id,
-                                            title: product.title,
-                                            price: product.priceRange?.minVariantPrice?.amount,
-                                            currency: 'INR',
-                                        });
-                                    }
-                                    fbq('track', 'AddToCart', {
-                                        content_name: product.title,
-                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                        content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount,
-                                        currency: 'INR',
-                                    });
-                                    gtag('event', 'conversion', {
-                                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                        'value': product.priceRange?.minVariantPrice?.amount,
-                                        'currency': 'INR'
-                                    });
-                                    handleAdd(product.variants.edges[0].node.id);
-                                }}
-                                className={`${shaking === product.variants.edges[0].node.id ? '' : ''
-                                    } bg-[#279C66] text-[#FAFAFA] w-full rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] flex font-[700] items-center justify-center`}
-                            >
-                                {shaking === product.variants.edges[0].node.id ? (
-                                    <div className="spinner1"></div>
-                                ) : (
-                                    'ADD TO CART'
-                                )}
-                            </button>}
+                                        {shaking === product.variants.edges[0].node.id ? (
+                                            <div className="spinner1"></div>
+                                        ) : (
+                                            'ADD TO CART'
+                                        )}
+                                    </button>}
+                            </>
+                        ) : (
+                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                        )}
 
                         {/* <button
                             onClick={(e) => e.stopPropagation()}
@@ -361,119 +367,131 @@ const ProductSmallCard = ({
                                     </div>
 
                                     <div className="hidden md:flex md:flex-row md:gap-4">
-                                        <button
-                                            type="button"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                if (typeof window !== 'undefined' && window.shopifyAnalytics) {
-                                                    window.shopifyAnalytics.track('product_added_to_cart', {
-                                                        product_id: product.variants.edges[0].node.id,
-                                                        title: product.title,
-                                                        price: product.priceRange?.minVariantPrice?.amount,
-                                                        currency: 'INR',
-                                                    });
-                                                }
-                                                fbq('track', 'AddToCart', {
-                                                    content_name: product.title,
-                                                    content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                                    content_type: 'product',
-                                                    value: product.priceRange?.minVariantPrice?.amount,
-                                                    currency: 'INR',
-                                                });
-                                                gtag('event', 'conversion', {
-                                                    'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                                    'value': product.priceRange?.minVariantPrice?.amount,
-                                                    'currency': 'INR'
-                                                });
-                                                handleAdd(product.variants.edges[0].node.id)
-                                            }
-                                            }
-                                            className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center md:px-2 px-[2px] text-[12px] leading-1 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em]`}
-                                        >
-                                            {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                                        </button>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                fbq('track', 'InitiateCheckout', {
-                                                    content_name: product.title,
-                                                    content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                                    content_type: 'product',
-                                                    value: product.priceRange?.minVariantPrice?.amount,
-                                                    currency: 'INR',
-                                                });
-                                                gtag('event', 'conversion', {
-                                                    'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                                                    'value': product.priceRange?.minVariantPrice?.amount,
-                                                    'currency': 'INR'
-                                                });
-                                                handleAddToCheckout(product.variants.edges[0].node.id)
-                                            }}
-                                            type="button"
-                                            className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
-                                        >
-                                            {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                                        </button>
+                                        {product?.variants.edges[0].node.availableForSale ? (
+                                            <>
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                                            window.shopifyAnalytics.track('product_added_to_cart', {
+                                                                product_id: product.variants.edges[0].node.id,
+                                                                title: product.title,
+                                                                price: product.priceRange?.minVariantPrice?.amount,
+                                                                currency: 'INR',
+                                                            });
+                                                        }
+                                                        fbq('track', 'AddToCart', {
+                                                            content_name: product.title,
+                                                            content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                            content_type: 'product',
+                                                            value: product.priceRange?.minVariantPrice?.amount,
+                                                            currency: 'INR',
+                                                        });
+                                                        gtag('event', 'conversion', {
+                                                            'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                            'value': product.priceRange?.minVariantPrice?.amount,
+                                                            'currency': 'INR'
+                                                        });
+                                                        handleAdd(product.variants.edges[0].node.id)
+                                                    }
+                                                    }
+                                                    className={` ${shaking === product.variants.edges[0].node.id ? '' : ''} border-2 border-[#FAFAFA] text-[#FAFAFA] md:w-[150px] flex justify-center items-center md:px-2 px-[2px] text-[12px] leading-1 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em]`}
+                                                >
+                                                    {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        fbq('track', 'InitiateCheckout', {
+                                                            content_name: product.title,
+                                                            content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                            content_type: 'product',
+                                                            value: product.priceRange?.minVariantPrice?.amount,
+                                                            currency: 'INR',
+                                                        });
+                                                        gtag('event', 'conversion', {
+                                                            'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                            'value': product.priceRange?.minVariantPrice?.amount,
+                                                            'currency': 'INR'
+                                                        });
+                                                        handleAddToCheckout(product.variants.edges[0].node.id)
+                                                    }}
+                                                    type="button"
+                                                    className="bg-[#279C66] text-[#FAFAFA] flex justify-center items-center md:px-2 px-[2px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[12px] leading-1 md:text-[16px] font-[600] md:leading-[21.28px] tracking-[0.12em] mt-2 md:mt-0"
+                                                >
+                                                    {buyNowLoading === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className="mt-3 mb-3 gap-1 md:hidden flex justify-center items-center flex-row ">
-                            <button
-                                type="button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (typeof window !== 'undefined' && window.shopifyAnalytics) {
-                                        window.shopifyAnalytics.track('product_added_to_cart', {
-                                            product_id: product.variants.edges[0].node.id,
-                                            title: product.title,
-                                            price: product.priceRange?.minVariantPrice?.amount,
-                                            currency: 'INR',
-                                        });
-                                    }
-                                    fbq('track', 'AddToCart', {
-                                        content_name: product.title,
-                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                        content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount,
-                                        currency: 'INR',
-                                    });
-                                    gtag('event', 'conversion', {
-                                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                                        'value': product.priceRange?.minVariantPrice?.amount,
-                                        'currency': 'INR'
-                                    });
-                                    handleAdd(product.variants.edges[0].node.id)
-                                }
-                                }
-                                className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
-                            >
-                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
-                            </button>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    fbq('track', 'InitiateCheckout', {
-                                        content_name: product.title,
-                                        content_ids: [product.variants.edges[0].node.id.split("/").pop()],
-                                        content_type: 'product',
-                                        value: product.priceRange?.minVariantPrice?.amount,
-                                        currency: 'INR',
-                                    });
-                                    gtag('event', 'conversion', {
-                                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                                        'value': product.priceRange?.minVariantPrice?.amount,
-                                        'currency': 'INR'
-                                    });
-                                    handleAddToCheckout(product.variants.edges[0].node.id)
-                                }
-                                }
-                                type="button"
-                                className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
-                            >
-                                {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
-                            </button>
+                            {product?.variants.edges[0].node.availableForSale ? (
+                                <>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (typeof window !== 'undefined' && window.shopifyAnalytics) {
+                                                window.shopifyAnalytics.track('product_added_to_cart', {
+                                                    product_id: product.variants.edges[0].node.id,
+                                                    title: product.title,
+                                                    price: product.priceRange?.minVariantPrice?.amount,
+                                                    currency: 'INR',
+                                                });
+                                            }
+                                            fbq('track', 'AddToCart', {
+                                                content_name: product.title,
+                                                content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                content_type: 'product',
+                                                value: product.priceRange?.minVariantPrice?.amount,
+                                                currency: 'INR',
+                                            });
+                                            gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                                'value': product.priceRange?.minVariantPrice?.amount,
+                                                'currency': 'INR'
+                                            });
+                                            handleAdd(product.variants.edges[0].node.id)
+                                        }
+                                        }
+                                        className={` ${shaking === product.variants.edges[0].node.id ? '' : ''}  border-2 border-[#333333] text-[#333333] md:w-[150px] flex justify-center items-center md:px-2 px-[8px] text-[10px] leading-3 rounded-lg pt-[4px] pb-[4px] font-regola-pro md:text-[16px] font-[600] md:leading-[21.28px] `}
+                                    >
+                                        {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'ADD TO CART'}
+                                    </button>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            fbq('track', 'InitiateCheckout', {
+                                                content_name: product.title,
+                                                content_ids: [product.variants.edges[0].node.id.split("/").pop()],
+                                                content_type: 'product',
+                                                value: product.priceRange?.minVariantPrice?.amount,
+                                                currency: 'INR',
+                                            });
+                                            gtag('event', 'conversion', {
+                                                'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                                                'value': product.priceRange?.minVariantPrice?.amount,
+                                                'currency': 'INR'
+                                            });
+                                            handleAddToCheckout(product.variants.edges[0].node.id)
+                                        }
+                                        }
+                                        type="button"
+                                        className="bg-[#279C66] text-[#FAFAFA] md:px-2 px-[8px] rounded-lg pt-[4px] pb-[4px] font-regola-pro text-[10px] leading-4 md:text-[16px] font-[600] md:leading-[21.28px]"
+                                    >
+                                        {shaking === product.variants.edges[0].node.id ? <div className="spinner1"></div> : 'BUY NOW'}
+                                    </button>
+                                </>
+                            ) : (
+                                <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                            )}
                         </div>
                     </motion.div>
                 </AnimatePresence>
