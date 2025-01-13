@@ -1847,38 +1847,40 @@ const Home = () => {
                           }}
                           className="rounded-full object-cover"
                         />
-                        <div
-                          onClick={(e) => {
-                            e.preventDefault();
-                            fbq('track', 'AddToCart', {
-                              content_name: item?.node?.title,
-                              content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
-                              content_type: 'product',
-                              value: item?.node?.priceRange?.minVariantPrice?.amount,
-                              currency: 'INR',
-                            });
-                            gtag('event', 'conversion', {
-                              'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                              'value': item?.node?.priceRange?.minVariantPrice?.amount,
-                              'currency': 'INR'
-                            });
-                            handleAddToCart(item?.node?.variants.edges[0].node.id);
-                          }}
-                          className="md:hidden flex absolute -bottom-[4px] right-[13px]"
-                        >
-                          <button
-                            type="button"
-                            className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
-                              } flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
-                            onClick={() => { }}
+                        {item?.node?.variants?.edges[0]?.node?.availableForSale && (
+
+                          <div
+                            onClick={(e) => {
+                              e.preventDefault();
+                              fbq('track', 'AddToCart', {
+                                content_name: item?.node?.title,
+                                content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
+                                content_type: 'product',
+                                value: item?.node?.priceRange?.minVariantPrice?.amount,
+                                currency: 'INR',
+                              });
+                              gtag('event', 'conversion', {
+                                'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                'value': item?.node?.priceRange?.minVariantPrice?.amount,
+                                'currency': 'INR'
+                              });
+                              handleAddToCart(item?.node?.variants.edges[0].node.id);
+                            }}
+                            className="md:hidden flex absolute -bottom-[4px] right-[13px]"
                           >
-                            {shaking === item?.node?.variants.edges[0].node.id ? (
-                              <div className="spinner1"></div>
-                            ) : (
-                              '+'
-                            )}
-                          </button>
-                        </div>
+                            <button
+                              type="button"
+                              className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
+                                } flex justify-center items-center text-[30px] h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
+                              onClick={() => { }}
+                            >
+                              {shaking === item?.node?.variants.edges[0].node.id ? (
+                                <div className="spinner1"></div>
+                              ) : (
+                                '+'
+                              )}
+                            </button>
+                          </div>)}
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
@@ -1890,35 +1892,40 @@ const Home = () => {
                           ₹ {item?.node?.priceRange?.minVariantPrice?.amount}
                         </p>
                       </div>
-                      <div className="hidden md:flex h-auto pt-4">
-                        <button
-                          type="button"
-                          className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
-                            } flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
-                          onClick={() => {
-                            fbq('track', 'AddToCart', {
-                              content_name: item?.node?.title,
-                              content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
-                              content_type: 'product',
-                              value: item?.node?.priceRange?.minVariantPrice?.amount,
-                              currency: 'INR',
-                            });
-                            gtag('event', 'conversion', {
-                              'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                              'value': item?.node?.priceRange?.minVariantPrice?.amount,
-                              'currency': 'INR'
-                            });
-                            handleAddToCart(item?.node?.variants.edges[0].node.id);
-                          }}
-                        >
-                          {shaking === item?.node?.variants.edges[0].node.id ? (
-                            <div className="spinner1"></div>
-                          ) : (
-                            '+'
-                          )}
-                        </button>
-                      </div>
+                      {item?.node?.variants.edges[0].node.availableForSale && (
+                        <div className="hidden md:flex h-auto pt-4">
+
+                          <button
+                            type="button"
+                            className={`${shaking === item?.node?.variants.edges[0].node.id ? '' : ''
+                              } flex justify-center items-center text-lg h-[30px] w-[30px] bg-[#FFFFFF] text-[#333333] rounded`}
+                            onClick={() => {
+                              fbq('track', 'AddToCart', {
+                                content_name: item?.node?.title,
+                                content_ids: [item?.node?.variants.edges[0].node.id.split("/").pop()],
+                                content_type: 'product',
+                                value: item?.node?.priceRange?.minVariantPrice?.amount,
+                                currency: 'INR',
+                              });
+                              gtag('event', 'conversion', {
+                                'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                                'value': item?.node?.priceRange?.minVariantPrice?.amount,
+                                'currency': 'INR'
+                              });
+                              handleAddToCart(item?.node?.variants.edges[0].node.id);
+                            }}
+                          >
+                            {shaking === item?.node?.variants.edges[0].node.id ? (
+                              <div className="spinner1"></div>
+                            ) : (
+                              '+'
+                            )}
+                          </button>
+                        </div>)}
                     </div>
+                    {!item?.node?.variants.edges[0].node.availableForSale && (
+                      <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                    )}
                   </div>
                 ))}
               </div>
@@ -2043,7 +2050,9 @@ const Home = () => {
                   <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>6 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹1699</span></p>
                 </div>
                 <div className="flex mt-4 pl-[30px] md:pl-[50px] lg:pl-[70px] ">
-                  <button className="bg-[#fff] rounded-lg text-[#231F20] py-[10px] px-[30px] text-[20px] leading-[28.8px] font-inter font-[500] ">
+                  <button className="bg-[#fff] rounded-lg text-[#231F20] py-[10px] px-[30px] text-[20px] leading-[28.8px] font-inter font-[500] " onClick={()=> {
+                      navigate('/bundles');
+                  }}>
                     Shop Bundles
                   </button>
                 </div>
@@ -2275,28 +2284,34 @@ const Home = () => {
                     ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
                   </p>
                 </div>
-                <button
-                  type='button'
-                  className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
-                  onClick={() => {
-                    fbq('track', 'AddToCart', {
-                      content_name: selecteRandomPro?.node?.title,
-                      content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
-                      content_type: 'product',
-                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
-                      currency: 'INR',
-                    });
-                    gtag('event', 'conversion', {
-                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                      'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
-                      'currency': 'INR'
-                    });
-                    handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
-                  }
-                  }
-                >
-                  {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
-                </button>
+                {selecteRandomPro?.node?.variants.edges[0].node.availableForSale && (
+                  <button
+                    type='button'
+                    className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
+                    onClick={() => {
+                      fbq('track', 'AddToCart', {
+                        content_name: selecteRandomPro?.node?.title,
+                        content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
+                        content_type: 'product',
+                        value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                        currency: 'INR',
+                      });
+                      gtag('event', 'conversion', {
+                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                        'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                        'currency': 'INR'
+                      });
+                      handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
+                    }
+                    }
+                  >
+                    {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
+                  </button>)}
+
+                {!selecteRandomPro?.node?.variants.edges[0].node.availableForSale && (
+                  <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                )}
+
               </div>
             </div>
             {!isMobile && (
@@ -2592,28 +2607,32 @@ const Home = () => {
                     ₹ {selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount}
                   </p>
                 </div>
-                <button
-                  type='button'
-                  className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
-                  onClick={() => {
-                    fbq('track', 'AddToCart', {
-                      content_name: selecteRandomPro?.node?.title,
-                      content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
-                      content_type: 'product',
-                      value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
-                      currency: 'INR',
-                    });
-                    gtag('event', 'conversion', {
-                      'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                      'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
-                      'currency': 'INR'
-                    });
-                    handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
-                  }
-                  }
-                >
-                  {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
-                </button>
+                {selecteRandomPro?.node?.variants.edges[0].node.availableForSale && (
+                  <button
+                    type='button'
+                    className={`${shaking === selecteRandomPro?.node?.variants?.edges[0].node.id ? '' : ''} flex justify-center items-center w-auto md:w-[202px] bg-[#FFFFFF] mt-2 rounded-[8px] py-1 px-4 text-[#231F20] h-auto md:h-[49px] lg:text-[24px] font-[500] leading-[28.8px] font-regola-pro cart-btn`}
+                    onClick={() => {
+                      fbq('track', 'AddToCart', {
+                        content_name: selecteRandomPro?.node?.title,
+                        content_ids: [selecteRandomPro?.node?.variants?.edges[0].node.id.split("/").pop()],
+                        content_type: 'product',
+                        value: selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                        currency: 'INR',
+                      });
+                      gtag('event', 'conversion', {
+                        'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                        'value': selecteRandomPro?.node?.priceRange?.minVariantPrice?.amount,
+                        'currency': 'INR'
+                      });
+                      handleAddToCart(selecteRandomPro?.node?.variants?.edges[0].node.id)
+                    }
+                    }
+                  >
+                    {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
+                  </button>)}
+                {!selecteRandomPro?.node?.variants.edges[0].node.availableForSale && (
+                  <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                )}
               </div>
             </div>
             {!isMobile && (

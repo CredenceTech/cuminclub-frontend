@@ -146,6 +146,7 @@ export const getAllProductsQuery = gql`
               variants(first: 1) {
                 edges {
                   node {
+                   availableForSale
                     id
                     weight
                     weightUnit
@@ -226,6 +227,7 @@ query GetCollections($first: Int!, $reverse: Boolean!, $query: String!) {
                 edges {
                   node {
                     id
+                    availableForSale
                     weight
                     weightUnit
                   }
@@ -880,6 +882,7 @@ export const getProductDetailQuery = gql`
         edges {
           node {
             id
+            availableForSale
             weight
             weightUnit
           }
@@ -931,6 +934,7 @@ export const getProductRecommendedQuery = gql`
         edges {
           cursor
           node {
+              availableForSale
               product {
                   id
                   handle
@@ -1362,6 +1366,7 @@ query GetProductDetails($id: ID!) {
       edges {
         node {
           id
+          availableForSale
           weight
           weightUnit
         }
@@ -1415,6 +1420,7 @@ query getProductData($id: ID!) {
         edges {
           node {
             id
+            availableForSale
             weight
             weightUnit
           }
@@ -1554,6 +1560,7 @@ query productByHandle($handle: String!) {
           node {
             id
             weight
+            availableForSale
             weightUnit
           }
         }
@@ -1613,6 +1620,7 @@ query productByHandle($handle: String!) {
         edges {
           node {
             id
+            availableForSale
             weight
             weightUnit
           }
@@ -1653,6 +1661,7 @@ export const getRelatedProducts = gql`
         edges {
           node {
             id
+            availableForSale
             weight
             weightUnit
           }
