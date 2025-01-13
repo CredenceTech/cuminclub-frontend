@@ -12,7 +12,8 @@ export default {
         'futura': ['FuturaPTMedium', 'sans-serif'],
         'futuraBold': ['FuturaBold', 'sans-serif'],
         'regola-pro': ['RegulaPro', 'sans-serif'],
-        'inter': ['InterFont', 'sans-serif']
+        'inter': ['InterFont', 'sans-serif'],
+        'DeliusUnicase': ['DeliusUnicase', 'sans-serif']
       },
       backgroundImage: theme => ({
         'gradient-to-b': 'linear-gradient(to top, var(--tw-gradient-stops))',
