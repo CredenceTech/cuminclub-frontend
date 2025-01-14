@@ -713,7 +713,7 @@ export const Bundle = () => {
                               </button>
                             </>
                           ) : (
-                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                            <p className="text-red-500  font-regola-pro text-lg">Currently, Out of stock.</p>
                           )}
 
                           {/* <button
@@ -800,7 +800,7 @@ export const Bundle = () => {
                                   </button>
                                 </>
                               ) : (
-                                <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                                <p className="text-red-500  font-regola-pro text-lg">Currently, Out of stock.</p>
                               )}
                             </div>
                           </div>
@@ -857,7 +857,7 @@ export const Bundle = () => {
                               </button>
                             </>
                           ) : (
-                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                            <p className="text-red-500  font-regola-pro text-lg">Currently, Out of stock.</p>
                           )}
 
                           {/* <button
@@ -941,7 +941,7 @@ export const Bundle = () => {
                                       </button>
                                     </>
                                   ) : (
-                                    <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                                    <p className="text-red-500  font-regola-pro text-lg">Currently, Out of stock.</p>
                                   )}
                                 </div>
                               </div>
@@ -998,7 +998,7 @@ export const Bundle = () => {
                                 </button>
                               </>
                             ) : (
-                              <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                              <p className="text-red-500  font-regola-pro text-lg">Currently, Out of stock.</p>
                             )}
                           </div>
                         </motion.div>
@@ -1053,47 +1053,47 @@ export const Bundle = () => {
                 <div className="flex justify-between">
                   <h1 className="font-[400] text-[32.5px] leading-[33px] text-[#000000] font-skillet"><span className="font-[700] font-regola-pro text-[24.5px] leading-[32px]">₹</span>{selectedMealData?.price}</h1>
                   <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-          
-                        <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
-                          onClick={() => {
-                            handleAddToCart(bundleDataResponse?.variantId);
-                            fbq('track', 'AddToCart', {
-                              content_name: `${selectedMealData?.no} Meals`,
-                              content_ids: [bundleDataResponse?.variantId.split("/").pop()],
-                              content_type: 'product',
-                              value: selectedMealData?.price,
-                              currency: 'INR',
-                            });
-                            gtag('event', 'conversion', {
-                              'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
-                              'value': selectedMealData?.price,
-                              'currency': 'INR'
-                            });
-                          }}
-                        >
-                          {shaking === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Add to cart'}
-                        </button>
-                        <button type="button" onClick={(e) => {
-                          e.stopPropagation()
-                          fbq('track', 'InitiateCheckout', {
-                            content_name: `${selectedMealData?.no} Meals`,
-                            content_ids: [bundleDataResponse?.variantId.split("/").pop()],
-                            content_type: 'product',
-                            value: selectedMealData?.price,
-                            currency: 'INR',
-                          });
-                          gtag('event', 'conversion', {
-                            'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
-                            'value': selectedMealData?.price,
-                            'currency': 'INR'
-                          });
-                          handleAddToCheckout(bundleDataResponse?.variantId)
-                          setShowModel(false)
-                        }
-                        } className="bg-[#000000E8] w-[122px] text-center flex justify-center items-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">
 
-                          {buyNowLoading === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Checkout'}
-                        </button>
+                    <button type="button" className="bg-[#f1663ccc] flex justify-center items-center w-[122px] text-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet"
+                      onClick={() => {
+                        handleAddToCart(bundleDataResponse?.variantId);
+                        fbq('track', 'AddToCart', {
+                          content_name: `${selectedMealData?.no} Meals`,
+                          content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                          content_type: 'product',
+                          value: selectedMealData?.price,
+                          currency: 'INR',
+                        });
+                        gtag('event', 'conversion', {
+                          'send_to': 'AW-16743837274/42HaCKu4_PcZENrcirA-',
+                          'value': selectedMealData?.price,
+                          'currency': 'INR'
+                        });
+                      }}
+                    >
+                      {shaking === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Add to cart'}
+                    </button>
+                    <button type="button" onClick={(e) => {
+                      e.stopPropagation()
+                      fbq('track', 'InitiateCheckout', {
+                        content_name: `${selectedMealData?.no} Meals`,
+                        content_ids: [bundleDataResponse?.variantId.split("/").pop()],
+                        content_type: 'product',
+                        value: selectedMealData?.price,
+                        currency: 'INR',
+                      });
+                      gtag('event', 'conversion', {
+                        'send_to': 'AW-16743837274/zisbCK38h_gZENrcirA-',
+                        'value': selectedMealData?.price,
+                        'currency': 'INR'
+                      });
+                      handleAddToCheckout(bundleDataResponse?.variantId)
+                      setShowModel(false)
+                    }
+                    } className="bg-[#000000E8] w-[122px] text-center flex justify-center items-center text-[#FAFAFA] px-2 text-[22px] leading-[22px] font-[400] rounded-lg  font-skillet">
+
+                      {buyNowLoading === bundleDataResponse?.variantId ? <div className="spinner1"></div> : 'Checkout'}
+                    </button>
                   </div>
                 </div>
 

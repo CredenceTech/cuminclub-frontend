@@ -1368,7 +1368,7 @@ function ProductDetail() {
                                             </button>
                                         </>
                                     ) : (
-                                        <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                                        <p className="text-red-500 font-regola-pro text-lg">Currently, Out of stock.</p>
                                     )}
                                 </div>
 
@@ -1670,7 +1670,7 @@ function ProductDetail() {
                                             </div>
 
                                             {!item?.node?.variants.edges[0].node.availableForSale && (
-                                                <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                                                <p className="text-red-500 text-lg font-regola-pro max-w-[140px] leading-6">Currently, Out of stock.</p>
                                             )}
 
                                         </div>
