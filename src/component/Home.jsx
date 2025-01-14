@@ -1924,7 +1924,7 @@ const Home = () => {
                         </div>)}
                     </div>
                     {!item?.node?.variants.edges[0].node.availableForSale && (
-                      <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                      <p className="text-red-500 text-lg max-w-[140px] font-regola-pro leading-6">Currently, Out of stock.</p>
                     )}
                   </div>
                 ))}
@@ -2012,7 +2012,7 @@ const Home = () => {
                     <path d="M18.4691 12.3335L12.2782 18.5245L12.4221 18.6685L18.6131 12.4775L18.4691 12.3335Z" fill="#F15E2A" />
                     <path d="M12.422 12.3339L12.278 12.4779L18.469 18.6689L18.613 18.5249L12.422 12.3339Z" fill="#F15E2A" />
                   </svg>
-                  <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>12 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹599</span></p>
+                  <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>6 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹599</span></p>
                 </div>
                 <div className="flex items-center gap-x-4 py-3">
                   <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2030,7 +2030,7 @@ const Home = () => {
                     <path d="M18.4691 12.3335L12.2782 18.5245L12.4221 18.6685L18.6131 12.4775L18.4691 12.3335Z" fill="#F15E2A" />
                     <path d="M12.422 12.3339L12.278 12.4779L18.469 18.6689L18.613 18.5249L12.422 12.3339Z" fill="#F15E2A" />
                   </svg>
-                  <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>18 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹1199</span></p>
+                  <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>12 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹1199</span></p>
                 </div> <div className="flex items-center gap-x-4 pb-3">
                   <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19.0774 19.1318L15.446 30.9467L11.8149 19.1318L0 15.5007L11.8149 11.8693L15.446 0.0546875L19.0774 11.8693L30.892 15.5007L19.0774 19.1318Z" fill="#F15E2A" />
@@ -2047,11 +2047,11 @@ const Home = () => {
                     <path d="M18.4691 12.3335L12.2782 18.5245L12.4221 18.6685L18.6131 12.4775L18.4691 12.3335Z" fill="#F15E2A" />
                     <path d="M12.422 12.3339L12.278 12.4779L18.469 18.6689L18.613 18.5249L12.422 12.3339Z" fill="#F15E2A" />
                   </svg>
-                  <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>6 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹1699</span></p>
+                  <p className='text-[#fff] font-skillet px-1 text-[28px] leading-[28.25px] lg:text-[36px] md:leading-[36.32px] font-[400]'>18 Meals <span className="text-[#26965C] font-DeliusUnicase text-[24px] leading-[30.79px] font-[700] lg:text-[36px] md:leading-[45.07px] md:font-[400]">@</span> <span className="text-[#26965C] text-[28px] leading-[28.25px] lg:text-[36px] lg:leading-[36.32px]">₹1699</span></p>
                 </div>
                 <div className="flex mt-4 pl-[30px] md:pl-[50px] lg:pl-[70px] ">
-                  <button className="bg-[#fff] rounded-lg text-[#231F20] py-[10px] px-[30px] text-[20px] leading-[28.8px] font-inter font-[500] " onClick={()=> {
-                      navigate('/bundles');
+                  <button className="bg-[#fff] rounded-lg text-[#231F20] py-[10px] px-[30px] text-[20px] leading-[28.8px] font-inter font-[500] " onClick={() => {
+                    navigate('/bundles');
                   }}>
                     Shop Bundles
                   </button>
@@ -2309,7 +2309,7 @@ const Home = () => {
                   </button>)}
 
                 {!selecteRandomPro?.node?.variants.edges[0].node.availableForSale && (
-                  <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                  <p className="text-red-500 text-lg max-w-[140px] font-regola-pro leading-6">Currently, Out of stock.</p>
                 )}
 
               </div>
@@ -2631,7 +2631,7 @@ const Home = () => {
                     {shaking === selecteRandomPro?.node?.variants.edges[0].node.id ? <div className="spinner1"></div> : 'Add to cart'}
                   </button>)}
                 {!selecteRandomPro?.node?.variants.edges[0].node.availableForSale && (
-                  <p className="text-red-500 text-lg max-w-[140px] leading-6">Currently, Out of stock.</p>
+                  <p className="text-red-500 text-lg max-w-[140px] font-regola-pro leading-6">Currently, Out of stock.</p>
                 )}
               </div>
             </div>

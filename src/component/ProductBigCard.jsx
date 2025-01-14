@@ -300,7 +300,7 @@ const ProductBigCard = ({
                                 </button>}
                             </>
                         ) : (
-                            <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                            <p className="text-red-500 font-regola-pro text-lg">Currently, Out of stock.</p>
                         )}
 
                         {/* <button
@@ -432,7 +432,7 @@ const ProductBigCard = ({
                                         </button>
                                     </>
                                 ) : (
-                                    <p className="text-red-500 text-lg">Currently, Out of stock.</p>
+                                    <p className="text-red-500 font-regola-pro text-lg">Currently, Out of stock.</p>
                                 )}
                             </div>
                         </div>
