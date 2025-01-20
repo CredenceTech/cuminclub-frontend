@@ -181,6 +181,10 @@ const CardReview = () => {
         }
     }, [loginUserCustomerId])
 
+    useEffect(() => {
+        createCheckoutURL(loginUserCustomerId);
+    }, [])
+
     const getCustomerDetail = async () => {
         setIsLoading(true);
         const body = {
