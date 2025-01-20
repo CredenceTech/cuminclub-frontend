@@ -409,7 +409,7 @@ export const CartDataDrawer = ({ onClose }) => {
                                             navigate('/cardReview');
                                             onClose();
                                         }}
-                                        >Checkout</button>
+                                        >Buy Now</button>
 
                                     </div>
                                 }
