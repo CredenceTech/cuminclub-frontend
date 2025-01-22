@@ -3,8 +3,7 @@ import React, { useState } from "react";
 const AnnouncementBar = () => {
     const announcements = [
         'Free Dessert on ₹899+ Orders! Code: FREETREAT',
-        'Free Shipping on ₹299+ | Code: FREESHIP',
-        '10% Off on ₹499+ Orders! | Code: LAUNCH10',
+        'Free Shipping on ₹299+ | Code: FREESHIP'
     ];
 
     const [currentAnnouncement, setCurrentAnnouncement] = useState(0);
